@@ -2,8 +2,6 @@
 
 /**
  * Description of protection_helper
- *
- * @author Warman Suganda
  */
 class hprotection {
 
@@ -15,7 +13,7 @@ class hprotection {
             }
         } else {
             if (self::status_login()) {
-                redirect('kms_dashboard');
+                redirect('dashboard');
                 exit;
             }
         }

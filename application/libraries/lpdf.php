@@ -1,10 +1,5 @@
 <?php
 
-/**
- * Description of lpdf
- *
- * @author Warman Suganda
- */
 class lpdf {
 
     private $judul;

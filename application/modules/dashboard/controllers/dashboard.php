@@ -4,11 +4,6 @@ if (!defined("BASEPATH")) {
     exit("No direct script access allowed");
 }
 
-/**
- * @module Meeting Management (Dashboard)
- * @author  Warman Suganda
- * @created at 17 Mar 2014
- */
 class dashboard extends MX_Controller {
 
     private $_title = 'Dashboard';

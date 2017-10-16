@@ -1,12 +1,13 @@
 <?php
 
 /**
- * @module jabatan
+ * @module Menu
  */
 class menu_model extends CI_Model {
 
     public function __construct() {
         parent::__construct();
+		$this->laccess->check(array('user_management/menu'));
     }
 
     private $_table1 = "m_menu";
@@ -98,10 +99,15 @@ class menu_model extends CI_Model {
 
     private function _parsing_menu($parent_id, $temp, $module) {
         if (isset($temp[$parent_id])) {
+			$aksi = '';
             foreach ($temp[$parent_id] as $row) {
                 $id = $row->menu_id;
-                $aksi = anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
-                $aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
+				// Validasi User Role Menu Edit
+				if ($this->laccess->otoritas('edit', false, 'user_management/menu'))
+					$aksi = anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
+				// Validasi User Role Menu Edit
+                if ($this->laccess->otoritas('delete', false, 'user_management/menu'))
+					$aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
 
                 $flag = anchor(null, '<i class="icon-chevron-down"></i>');
                 $title = '<a style="color:#0072c6;font-weight:bold;">' . $row->menu_nama . '</a>';
@@ -119,8 +125,8 @@ class menu_model extends CI_Model {
                     'menu_urutan' => $row->menu_urutan,
                     'aksi' => $aksi
                 );
-
                 $this->_parsing_menu($row->menu_id, $temp, $module);
+				$aksi = '';
             }
         }
     }

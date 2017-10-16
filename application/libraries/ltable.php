@@ -1,10 +1,5 @@
 <?php
 
-/*
- * @author : Warman Suganda
- * @lastupdate : 11/03/2014 
- */
-
 class ltable {
 
     private $id;

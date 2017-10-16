@@ -13,34 +13,7 @@
                              <div style="margin-bottom: 10px;">
                                  <div><h4>Selamat Datang, <?php echo $this->session->userdata('user_name') . '.'; ?></h4></div>
                              </div>
-							<div class="alert alert-danger" >
-								 <div>
-									<h5 style="text-decoration: underline;margin-bottom: 5px;font-weight: bold;" >PIC Yang belum Laporan Hari ini</h5>
-								 </div>
-								 <div >
-									<?php echo isset($picbelumlaporan) ? $picbelumlaporan : ""; ?>
-								 </div>
-							 </div>
-							 <div class="alert alert-success" >
-								 <div>
-									<h5 style="text-decoration: underline;margin-bottom: 5px;font-weight: bold;" >PIC Yang sudah Laporan Hari ini</h5>
-								 </div>
-								 <div >
-									<?php echo isset($picsudahlaporan) ? $picsudahlaporan : ""; ?>
-								 </div>
-							 </div>
-							 <div class="alert alert-warning" >
-								 <div>
-									<h5 style="text-decoration: underline;margin-bottom: 5px;font-weight: bold;" >Data yang belum di Verifikasi</h5>
-								 </div>
-								 <div >
-									<?php echo isset($belumverifikasi) ? $belumverifikasi : ""; ?>
-								 </div>
-							 </div>
-							 <!--<div class="alert alert-default">
-								<div id="chart" style="min-width: 310px; height: 400px; margin: 0 auto">
-								</div>
-							 </div>-->
+							
                            </div>
                          </div>  
                      </div>

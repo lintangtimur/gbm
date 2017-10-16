@@ -1,10 +1,5 @@
 <?php
 
-/**
- * Description of lexcel
- *
- * @author Warman Suganda
- */
 require_once FCPATH . 'assets/plugin/phpexcel/PHPExcel.php';
 
 class lexcel extends PHPExcel {

@@ -85,7 +85,6 @@ class laccess {
                 $url = $modul;
             }
 			
-			
             if (isset($this->role[$url][$id]) && $this->role[$url][$id] == 't') {
                 $otoritas = true;
             } else {

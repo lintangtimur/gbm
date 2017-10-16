@@ -14,7 +14,9 @@ class menu extends MX_Controller {
 
     public function __construct() {
         parent::__construct();
-
+		// Init Otorisasi Modul Akses 
+		$this->laccess->check(array('user_management/menu'));
+		
         // Protection
         hprotection::login();
 
@@ -28,10 +30,14 @@ class menu extends MX_Controller {
 
         // Memanggil plugin JS menu
         $this->asset->set_plugin(array('crud', 'select2'));
-
-        $data['button_group'] = array(
+		$btn = array();
+		//Validasi Otorisasi Tambah / Add
+		if ($this->laccess->otoritas('add', false, 'user_management/menu'))
+		$btn = array(
             anchor(null, '<i class="icon-plus"></i> Tambah Data', array('class' => 'btn yellow', 'id' => 'button-add', 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($this->_module . '/add')))
         );
+		
+        $data['button_group'] = $btn;
 
         $data['parent_options'] = $this->menu_model->options('--Pilih Parent--', array('m_menu.kms_menu_id' => NULL));
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $this->_title;
