@@ -1,0 +1,68 @@
+.pagination{
+    zoom:1;
+    margin: 5px 0;
+    border: 1px solid #dedede;
+    padding: 2px;
+}
+.pagination table{
+    float:left;
+    height:30px;
+}
+.pagination-btn-separator{
+    float:left;
+    height:24px;
+    border-left:1px solid #ccc;
+    border-right:1px solid #fff;
+    margin:3px 1px;
+}
+.pagination-num{
+    border:1px solid #ccc;
+    margin:0 2px;
+}
+.pagination-page-list{
+    margin:0px 6px;
+}
+.pagination-info{
+    float:right;
+    padding-right:6px;
+    padding-top:6px;
+    font-size:11px;
+}
+
+.pagination input[type=text] {
+    padding: 2px;
+    height: 24px;
+    text-align: center;
+}
+.pagination span{
+    font-size:12px;
+}
+
+a[icon=pagination-first]{
+    background:url('images/pagination_first.gif') no-repeat;
+}
+a[icon=pagination-prev]{
+    background:url('images/pagination_prev.gif') no-repeat;
+}
+a[icon=pagination-next]{
+    background:url('images/pagination_next.gif') no-repeat;
+}
+a[icon=pagination-last]{
+    background:url('images/pagination_last.gif') no-repeat;
+}
+a[icon=pagination-load]{
+    background:url('images/refresh.png') no-repeat;
+}
+a[icon=pagination-loading]{
+    background:url('images/pagination_loading.gif') no-repeat;
+}
+
+.pagination a {
+    padding: 0;
+    margin: 0 2px;
+    border: 1px solid #dedede;
+    width: 24px;
+    height: 24px;
+    display: block;
+    background-position: center center;
+}

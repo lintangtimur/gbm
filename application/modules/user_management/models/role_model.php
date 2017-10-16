@@ -1,0 +1,133 @@
+<?php
+
+/**
+ * @module role management
+ */
+class role_model extends CI_Model {
+
+    public function __construct() {
+        parent::__construct();
+    }
+
+    private $_table1 = "role";
+    private $_table2 = "m_otoritas_menu";
+
+    private function _key($key) { //unit ID
+        if (!is_array($key)) {
+            $key = array('roles_id' => $key);
+        }
+        return $key;
+    }
+
+    public function data($key = '') {
+        $this->db->from($this->_table1);
+        if (!empty($key) || is_array($key))
+            $this->db->where_condition($this->_key($key));
+        return $this->db;
+    }
+
+    public function save_as_new($data, $temp) {
+        $this->db->trans_begin();
+        $save_id = $this->db->set_id($this->_table1, 'roles_id', 'no_prefix', 3);
+        $this->db->insert($this->_table1, $data);
+        $this->save_otoritas($save_id, $temp);
+
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return FALSE;
+        } else {
+            $this->db->trans_commit();
+            return TRUE;
+        }
+    }
+
+    public function save_otoritas($save_id, $temp) {
+        $this->db->delete($this->_table2, array('roles_id' => $save_id));
+        foreach ($temp as $key => $val) {
+            $data_otoritas = array();
+            $data_otoritas['roles_id'] = $save_id;
+            $data_otoritas['menu_id'] = $key;
+            $data_otoritas['is_view'] = isset($val['is_view']) ? 't' : 'f';
+            $data_otoritas['is_add'] = isset($val['is_add']) ? 't' : 'f';
+            $data_otoritas['is_edit'] = isset($val['is_edit']) ? 't' : 'f';
+            $data_otoritas['is_delete'] = isset($val['is_delete']) ? 't' : 'f';
+            $data_otoritas['is_export'] = isset($val['is_export']) ? 't' : 'f';
+            $data_otoritas['is_import'] = isset($val['is_import']) ? 't' : 'f';
+            $data_otoritas['is_approve'] = isset($val['is_approve']) ? 't' : 'f';
+            $this->db->insert($this->_table2, $data_otoritas);
+        }
+    }
+
+    public function save($data, $key, $temp) {
+        $this->db->trans_begin();
+        $this->db->update($this->_table1, $data, $this->_key($key));
+        $this->save_otoritas($key, $temp);
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return FALSE;
+        } else {
+            $this->db->trans_commit();
+            return TRUE;
+        }
+    }
+
+    public function delete($key) {
+        $this->db->trans_begin();
+        $this->db->delete($this->_table1, $this->_key($key));
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return FALSE;
+        } else {
+            $this->db->trans_commit();
+            return TRUE;
+        }
+    }
+
+    public function data_table($module = '', $limit = 20, $offset = 1) {
+        $filter = array();
+        $kata_kunci = $this->input->post('kata_kunci');
+        if (!empty($kata_kunci))
+            $filter[$this->_table1 . ".roles_nama LIKE '%{$kata_kunci}%' "] = NULL;
+        $total = $this->data($filter)->count_all_results();
+        $this->db->limit($limit, ($offset * $limit) - $limit);
+        $record = $this->data($filter)->get();
+        $rows = array();
+        $no = $offset;
+        foreach ($record->result() as $row) {
+            $id = $row->roles_id;
+            $aksi = '';
+            if ($this->laccess->otoritas('edit')) {
+                $aksi .= anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
+            }
+            if ($this->laccess->otoritas('delete')) {
+                $aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
+            }
+            $rows[$no] = array(
+                'no' => $no,
+                'roles_nama' => $row->roles_nama,
+                'roles_keterangan' => $row->roles_keterangan,
+                'aksi' => !empty($aksi) ? $aksi : '<i class="icon-lock denied-color" title="Acces Denied"></i>'
+            );
+            $no++;
+        }
+        return array('total' => $total, 'rows' => $rows);
+    }
+
+    public function options($default = '--Pilih Otoritas Data--') {
+        $option = array();
+        $list = $this->data()->get();
+
+        if (!empty($default))
+            $option[''] = $default;
+
+        foreach ($list->result() as $row) {
+            $option[$row->roles_id] = $row->roles_nama;
+        }
+
+        return $option;
+    }
+
+}
+
+/* End of file role_model.php */
+/* Location: ./application/modules/unit/models/role_model.php */

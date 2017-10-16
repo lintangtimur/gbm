@@ -1,0 +1,17 @@
+nbproject
+application/config/config.php
+application/**/config.php
+application/**/database.php
+application/config/database.php
+./application/config/database.php
+desktop.ini
+log.txt
+_sql
+_bak
+kms.phpproj
+kms.intellisense.cache
+kms.sln
+kms.puo
+kms.suo
+.httpd.conf
+
