@@ -10,12 +10,12 @@
         <div class="control-group">
             <label for="password" class="control-label">Nama Role <span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_input('roles_nama', !empty($default->roles_nama) ? $default->roles_nama : '', 'class="span6"'); ?>
+                <?php echo form_input('roles_nama', !empty($default->ROLES_NAMA) ? $default->ROLES_NAMA : '', 'class="span6"'); ?>
             </div>
             <br>
             <label for="password" class="control-label">Keterangan : </label>
             <div class="controls">
-                <?php echo form_input('roles_keterangan', !empty($default->roles_keterangan) ? $default->roles_keterangan : '', 'class="span6"'); ?>
+                <?php echo form_input('roles_keterangan', !empty($default->ROLES_KETERANGAN) ? $default->ROLES_KETERANGAN : '', 'class="span6"'); ?>
             </div>
         </div><br>
         <div class="well-content" id="content_table">
@@ -28,8 +28,8 @@
                         <th>Add</th>
                         <th>Edit</th>
                         <th>Delete</th>
-                        <th>Export</th>
-                        <th>Import</th>
+                        <!--<th>Export</th>
+                        <th>Import</th>-->
                         <th>Approve</th>
                     </tr>
                 </thead>
@@ -43,8 +43,8 @@
                         <td align="center"><?php echo form_checkbox('is_add[]', $menu_id, isset($otoritas_menu[$menu_id]['is_add']) && $otoritas_menu[$menu_id]['is_add'] == 't' ? TRUE : FALSE, 'class="cb_select cb_select_row_' . $menu_id . '"'); ?></td>
                         <td align="center"><?php echo form_checkbox('is_edit[]', $menu_id, isset($otoritas_menu[$menu_id]['is_edit']) && $otoritas_menu[$menu_id]['is_edit'] == 't' ? TRUE : FALSE, 'class="cb_select cb_select_row_' . $menu_id . '"'); ?></td>
                         <td align="center"><?php echo form_checkbox('is_delete[]', $menu_id, isset($otoritas_menu[$menu_id]['is_delete']) && $otoritas_menu[$menu_id]['is_delete'] == 't' ? TRUE : FALSE, 'class="cb_select cb_select_row_' . $menu_id . '"'); ?></td>
-                        <td align="center"><?php echo form_checkbox('is_export[]', $menu_id, isset($otoritas_menu[$menu_id]['is_export']) && $otoritas_menu[$menu_id]['is_export'] == 't' ? TRUE : FALSE, 'class="cb_select cb_select_row_' . $menu_id . '"'); ?></td>
-                        <td align="center"><?php echo form_checkbox('is_import[]', $menu_id, isset($otoritas_menu[$menu_id]['is_import']) && $otoritas_menu[$menu_id]['is_import'] == 't' ? TRUE : FALSE, 'class="cb_select cb_select_row_' . $menu_id . '"'); ?></td>
+                        <!--<td align="center"><?php //echo form_checkbox('is_export[]', $menu_id, isset($otoritas_menu[$menu_id]['is_export']) && $otoritas_menu[$menu_id]['is_export'] == 't' ? TRUE : FALSE, 'class="cb_select cb_select_row_' . $menu_id . '"'); ?></td>
+                        <td align="center"><?php //echo form_checkbox('is_import[]', $menu_id, isset($otoritas_menu[$menu_id]['is_import']) && $otoritas_menu[$menu_id]['is_import'] == 't' ? TRUE : FALSE, 'class="cb_select cb_select_row_' . $menu_id . '"'); ?></td>-->
                         <td align="center"><?php echo form_checkbox('is_approve[]', $menu_id, isset($otoritas_menu[$menu_id]['is_approve']) && $otoritas_menu[$menu_id]['is_approve'] == 't' ? TRUE : FALSE, 'class="cb_select cb_select_row_' . $menu_id . '"'); ?></td>
                     </tr>
                 <?php endforeach; ?>			

@@ -21,26 +21,44 @@ USE `gbm_new`;
 DROP TABLE IF EXISTS `data_kontrak_transportir`;
 
 CREATE TABLE `data_kontrak_transportir` (
-  `ID_KONTRAK_TRANS` int(11) NOT NULL AUTO_INCREMENT,
-  `ID_TRANSPORTIR` int(11) NOT NULL,
+  `ID_KONTRAK_TRANS` int(11) NOT NULL,
+  `ID_TRANSPORTIR` varchar(20) NOT NULL,
   `KD_KONTRAK_TRANS` varchar(50) DEFAULT NULL,
   `TGL_KONTRAK_TRANS` date DEFAULT NULL,
   `NILAI_KONTRAK_TRANS` int(11) DEFAULT NULL,
-  `KET_KONTRAK_TRANS` varchar(150) DEFAULT NULL,
+  `KET_KONTRAK_TRANS` varchar(200) DEFAULT NULL,
   `PATH_KONTRAK_TRANS` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`ID_KONTRAK_TRANS`),
-  KEY `FK_RELATIONSHIP_15` (`ID_TRANSPORTIR`),
-  CONSTRAINT `FK_RELATIONSHIP_15` FOREIGN KEY (`ID_TRANSPORTIR`) REFERENCES `master_transportir` (`ID_TRANSPORTIR`)
+  KEY `FK_RELATIONSHIP_13` (`ID_TRANSPORTIR`),
+  CONSTRAINT `FK_RELATIONSHIP_13` FOREIGN KEY (`ID_TRANSPORTIR`) REFERENCES `master_transportir` (`ID_TRANSPORTIR`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `data_kontrak_transportir` */
+
+/*Table structure for table `det_kontrak_trans` */
+
+DROP TABLE IF EXISTS `det_kontrak_trans`;
+
+CREATE TABLE `det_kontrak_trans` (
+  `ID_KONTRAK_TRANS` int(11) NOT NULL,
+  `ID_DET_KONTRAK_TRANS` int(11) NOT NULL,
+  `SLOC` varchar(4) NOT NULL,
+  `TYPE_KONTRAK_TRANS` char(1) DEFAULT NULL,
+  `HARGA_KONTRAK_TRANS` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ID_KONTRAK_TRANS`,`ID_DET_KONTRAK_TRANS`),
+  KEY `FK_RELATIONSHIP_15` (`SLOC`),
+  CONSTRAINT `FK_RELATIONSHIP_14` FOREIGN KEY (`ID_KONTRAK_TRANS`) REFERENCES `data_kontrak_transportir` (`ID_KONTRAK_TRANS`),
+  CONSTRAINT `FK_RELATIONSHIP_15` FOREIGN KEY (`SLOC`) REFERENCES `master_level4` (`SLOC`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `det_kontrak_trans` */
 
 /*Table structure for table `detail_jalur_pasokan` */
 
 DROP TABLE IF EXISTS `detail_jalur_pasokan`;
 
 CREATE TABLE `detail_jalur_pasokan` (
-  `ID_DEPO` int(11) NOT NULL AUTO_INCREMENT,
+  `ID_DEPO` varchar(20) NOT NULL,
   `SLOC` varchar(4) NOT NULL,
   `ID_JALUR_PASOKAN` int(11) NOT NULL,
   PRIMARY KEY (`ID_DEPO`,`SLOC`,`ID_JALUR_PASOKAN`),
@@ -51,32 +69,76 @@ CREATE TABLE `detail_jalur_pasokan` (
 
 /*Data for the table `detail_jalur_pasokan` */
 
-/*Table structure for table `id_det_kontrak_trans` */
+/*Table structure for table `m_menu` */
 
-DROP TABLE IF EXISTS `id_det_kontrak_trans`;
+DROP TABLE IF EXISTS `m_menu`;
 
-CREATE TABLE `id_det_kontrak_trans` (
-  `ID_KONTRAK_TRANS` int(11) NOT NULL AUTO_INCREMENT,
-  `ID_DET_KONTRAK_TRANS` int(11) NOT NULL,
-  `SLOC` varchar(4) NOT NULL,
-  `TYPE_TRANS` char(1) DEFAULT NULL,
-  `HARGA_TRANS` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID_KONTRAK_TRANS`,`ID_DET_KONTRAK_TRANS`),
-  KEY `FK_RELATIONSHIP_16` (`SLOC`),
-  CONSTRAINT `FK_RELATIONSHIP_14` FOREIGN KEY (`ID_KONTRAK_TRANS`) REFERENCES `data_kontrak_transportir` (`ID_KONTRAK_TRANS`),
-  CONSTRAINT `FK_RELATIONSHIP_16` FOREIGN KEY (`SLOC`) REFERENCES `master_level4` (`SLOC`)
+CREATE TABLE `m_menu` (
+  `MENU_ID` char(3) NOT NULL,
+  `M_M_MENU_ID` char(3) DEFAULT NULL,
+  `MENU_NAMA` varchar(100) DEFAULT NULL,
+  `MENU_URL` varchar(100) DEFAULT NULL,
+  `MENU_KETERANGAN` varchar(100) DEFAULT NULL,
+  `MENU_ICON` varchar(50) DEFAULT NULL,
+  `MENU_URUTAN` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*Data for the table `id_det_kontrak_trans` */
+/*Data for the table `m_menu` */
+
+insert  into `m_menu`(`MENU_ID`,`M_M_MENU_ID`,`MENU_NAMA`,`MENU_URL`,`MENU_KETERANGAN`,`MENU_ICON`,`MENU_URUTAN`) values ('1',NULL,'User Management','#',NULL,'icon-cogs',1),('2','1','Role Management','user_management/role','','',2),('3','1','menu Management','user_management/menu',NULL,NULL,1),('4','1','User','user_management/user',NULL,NULL,3),('001',NULL,'Master','#','','icon-bar-chart',1);
+
+/*Table structure for table `m_otoritas_menu` */
+
+DROP TABLE IF EXISTS `m_otoritas_menu`;
+
+CREATE TABLE `m_otoritas_menu` (
+  `ROLES_ID` char(3) NOT NULL,
+  `MENU_ID` int(11) NOT NULL,
+  `IS_VIEW` char(1) DEFAULT NULL,
+  `IS_ADD` char(1) DEFAULT NULL,
+  `IS_EDIT` char(1) DEFAULT NULL,
+  `IS_DELETE` char(1) DEFAULT NULL,
+  `IS_APPROVE` char(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `m_otoritas_menu` */
+
+insert  into `m_otoritas_menu`(`ROLES_ID`,`MENU_ID`,`IS_VIEW`,`IS_ADD`,`IS_EDIT`,`IS_DELETE`,`IS_APPROVE`) values ('1',1,'t','t','t','t','t'),('1',3,'t','t','t','t','t'),('1',2,'t','t','t','t','t'),('1',1,'t','t','t','t','t'),('1',5,'t','t','t','t','t');
+
+/*Table structure for table `m_user` */
+
+DROP TABLE IF EXISTS `m_user`;
+
+CREATE TABLE `m_user` (
+  `ID_USER` int(11) NOT NULL,
+  `ROLES_ID` char(3) NOT NULL,
+  `KD_USER` varchar(20) DEFAULT NULL,
+  `NAMA_USER` varchar(50) DEFAULT NULL,
+  `USERNAME` varchar(100) NOT NULL,
+  `PWD_USER` varchar(100) NOT NULL,
+  `EMAIL_USER` varchar(50) DEFAULT NULL,
+  `LEVEL_USER` char(1) DEFAULT NULL,
+  `ISAKTIF_USER` char(1) DEFAULT NULL,
+  `CD_USER` date DEFAULT NULL,
+  `CD_BY_USER` varchar(100) DEFAULT NULL,
+  `UD_USER` date DEFAULT NULL,
+  PRIMARY KEY (`ID_USER`),
+  KEY `FK_RELATIONSHIP_16` (`ROLES_ID`),
+  CONSTRAINT `FK_RELATIONSHIP_16` FOREIGN KEY (`ROLES_ID`) REFERENCES `roles` (`ROLES_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `m_user` */
+
+insert  into `m_user`(`ID_USER`,`ROLES_ID`,`KD_USER`,`NAMA_USER`,`USERNAME`,`PWD_USER`,`EMAIL_USER`,`LEVEL_USER`,`ISAKTIF_USER`,`CD_USER`,`CD_BY_USER`,`UD_USER`) values (1,'1',NULL,'Adit','admin','admin',NULL,NULL,'1',NULL,NULL,NULL);
 
 /*Table structure for table `master_depo` */
 
 DROP TABLE IF EXISTS `master_depo`;
 
 CREATE TABLE `master_depo` (
-  `ID_DEPO` int(11) NOT NULL AUTO_INCREMENT,
+  `ID_DEPO` varchar(20) NOT NULL,
   `SLOC` varchar(4) NOT NULL,
-  `ID_VENDOR` int(11) NOT NULL,
+  `ID_VENDOR` varchar(20) NOT NULL,
   `NAMA_DEPO` varchar(150) DEFAULT NULL,
   `LAT_DEPO` varchar(100) DEFAULT NULL,
   `LOT_DEPO` varchar(100) DEFAULT NULL,
@@ -90,35 +152,6 @@ CREATE TABLE `master_depo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `master_depo` */
-
-/*Table structure for table `master_jenis_bahan_bakar` */
-
-DROP TABLE IF EXISTS `master_jenis_bahan_bakar`;
-
-CREATE TABLE `master_jenis_bahan_bakar` (
-  `ID_JNS_BHN_BKR` int(11) NOT NULL AUTO_INCREMENT,
-  `KODE_JNS_BHN_BKR` varchar(20) DEFAULT NULL,
-  `NAMA_JNS_BHN_BKR` varchar(50) DEFAULT NULL,
-  `KET_JNS_BHN_BKR` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`ID_JNS_BHN_BKR`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-/*Data for the table `master_jenis_bahan_bakar` */
-
-/*Table structure for table `master_kurs` */
-
-DROP TABLE IF EXISTS `master_kurs`;
-
-CREATE TABLE `master_kurs` (
-  `ID_KURS` int(11) NOT NULL AUTO_INCREMENT,
-  `TGL_KURS` date DEFAULT NULL,
-  `BELI_KURS` int(11) DEFAULT NULL,
-  `JUAL_KURS` int(11) DEFAULT NULL,
-  `AVG_KURS` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID_KURS`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-/*Data for the table `master_kurs` */
 
 /*Table structure for table `master_level1` */
 
@@ -208,16 +241,13 @@ DROP TABLE IF EXISTS `master_tangki`;
 
 CREATE TABLE `master_tangki` (
   `ID_TANGKI` varchar(4) NOT NULL,
-  `ID_JNS_BHN_BKR` int(11) NOT NULL,
   `PLANT` varchar(4) DEFAULT NULL,
   `STORE_SLOC` varchar(4) DEFAULT NULL,
   `SLOC` varchar(4) DEFAULT NULL,
   `NAMA_TANGKI` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`ID_TANGKI`),
-  KEY `FK_RELATIONSHIP_13` (`ID_JNS_BHN_BKR`),
   KEY `FK_RELATIONSHIP_7` (`PLANT`,`STORE_SLOC`),
   KEY `FK_RELATIONSHIP_9` (`SLOC`),
-  CONSTRAINT `FK_RELATIONSHIP_13` FOREIGN KEY (`ID_JNS_BHN_BKR`) REFERENCES `master_jenis_bahan_bakar` (`ID_JNS_BHN_BKR`),
   CONSTRAINT `FK_RELATIONSHIP_7` FOREIGN KEY (`PLANT`, `STORE_SLOC`) REFERENCES `master_level3` (`PLANT`, `STORE_SLOC`),
   CONSTRAINT `FK_RELATIONSHIP_9` FOREIGN KEY (`SLOC`) REFERENCES `master_level4` (`SLOC`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -229,7 +259,7 @@ CREATE TABLE `master_tangki` (
 DROP TABLE IF EXISTS `master_transportir`;
 
 CREATE TABLE `master_transportir` (
-  `ID_TRANSPORTIR` int(11) NOT NULL AUTO_INCREMENT,
+  `ID_TRANSPORTIR` varchar(20) NOT NULL,
   `KD_TRANSPORTIR` varchar(50) DEFAULT NULL,
   `NAMA_TRANSPORTIR` varchar(50) DEFAULT NULL,
   `KET_TRANSPORTIR` varchar(150) DEFAULT NULL,
@@ -243,13 +273,43 @@ CREATE TABLE `master_transportir` (
 DROP TABLE IF EXISTS `master_vendor`;
 
 CREATE TABLE `master_vendor` (
-  `ID_VENDOR` int(11) NOT NULL AUTO_INCREMENT,
+  `ID_VENDOR` varchar(20) NOT NULL,
   `KODE_VENDOR` varchar(50) NOT NULL,
   `NAMA_VENDOR` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`ID_VENDOR`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `master_vendor` */
+
+/*Table structure for table `roles` */
+
+DROP TABLE IF EXISTS `roles`;
+
+CREATE TABLE `roles` (
+  `ROLES_ID` char(3) NOT NULL,
+  `ROLES_NAMA` varchar(50) DEFAULT NULL,
+  `ROLES_KETERANGAN` varchar(100) DEFAULT NULL,
+  `CD_ROLES` date DEFAULT NULL,
+  `UP_ROLES` date DEFAULT NULL,
+  PRIMARY KEY (`ROLES_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `roles` */
+
+insert  into `roles`(`ROLES_ID`,`ROLES_NAMA`,`ROLES_KETERANGAN`,`CD_ROLES`,`UP_ROLES`) values ('1','Administrator','',NULL,NULL);
+
+/*Table structure for table `setting` */
+
+DROP TABLE IF EXISTS `setting`;
+
+CREATE TABLE `setting` (
+  `VALUE` varchar(100) DEFAULT NULL,
+  `SETTING` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `setting` */
+
+insert  into `setting`(`VALUE`,`SETTING`) values ('GBM PT. PLN (Persero)','nama_aplikasi'),('PT. PLN ','companyname');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

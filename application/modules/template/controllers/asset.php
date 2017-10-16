@@ -158,7 +158,10 @@ class asset extends MX_Controller {
 			'upload' => array(
 				'js' => array('library/file_upload/jquery.uploadfile','library/file_upload/jquery.uploadfile.min'),
 				'css' => array('library/file_upload/uploadfile')
-					)
+					),
+			'hadi' => array(
+				'js' => array('custom/hadi')
+			)
 				
         );
     }

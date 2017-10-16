@@ -9,7 +9,7 @@ class role_model extends CI_Model {
         parent::__construct();
     }
 
-    private $_table1 = "role";
+    private $_table1 = "roles";
     private $_table2 = "m_otoritas_menu";
 
     private function _key($key) { //unit ID
@@ -51,8 +51,8 @@ class role_model extends CI_Model {
             $data_otoritas['is_add'] = isset($val['is_add']) ? 't' : 'f';
             $data_otoritas['is_edit'] = isset($val['is_edit']) ? 't' : 'f';
             $data_otoritas['is_delete'] = isset($val['is_delete']) ? 't' : 'f';
-            $data_otoritas['is_export'] = isset($val['is_export']) ? 't' : 'f';
-            $data_otoritas['is_import'] = isset($val['is_import']) ? 't' : 'f';
+            // $data_otoritas['is_export'] = isset($val['is_export']) ? 't' : 'f';
+            // $data_otoritas['is_import'] = isset($val['is_import']) ? 't' : 'f';
             $data_otoritas['is_approve'] = isset($val['is_approve']) ? 't' : 'f';
             $this->db->insert($this->_table2, $data_otoritas);
         }
@@ -94,7 +94,7 @@ class role_model extends CI_Model {
         $rows = array();
         $no = $offset;
         foreach ($record->result() as $row) {
-            $id = $row->roles_id;
+            $id = $row->ROLES_ID;
             $aksi = '';
             if ($this->laccess->otoritas('edit')) {
                 $aksi .= anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
@@ -104,8 +104,8 @@ class role_model extends CI_Model {
             }
             $rows[$no] = array(
                 'no' => $no,
-                'roles_nama' => $row->roles_nama,
-                'roles_keterangan' => $row->roles_keterangan,
+                'roles_nama' => $row->ROLES_NAMA,
+                'roles_keterangan' => $row->ROLES_KETERANGAN,
                 'aksi' => !empty($aksi) ? $aksi : '<i class="icon-lock denied-color" title="Acces Denied"></i>'
             );
             $no++;

@@ -54,14 +54,12 @@ class role extends MX_Controller {
                 $data['default'] = $role->get()->row();
                 $data_otoritas = $this->otoritas_menu_model->data(array('roles_id' => $id))->get();
                 foreach ($data_otoritas->result() as $dt_otoritas) {
-                    $otoritas[$dt_otoritas->menu_id] = array
-                        ('is_view' => $dt_otoritas->is_view,
-                        'is_add' => $dt_otoritas->is_add,
-                        'is_edit' => $dt_otoritas->is_edit,
-                        'is_delete' => $dt_otoritas->is_delete,
-                        'is_export' => $dt_otoritas->is_export,
-                        'is_import' => $dt_otoritas->is_import,
-                        // 'is_approve' => $dt_otoritas->is_approve
+                    $otoritas[$dt_otoritas->MENU_ID] = array
+                        ('is_view' => $dt_otoritas->IS_VIEW,
+                        'is_add' => $dt_otoritas->IS_ADD,
+                        'is_edit' => $dt_otoritas->IS_EDIT,
+                        'is_delete' => $dt_otoritas->IS_DELETE,
+                        'is_approve' => $dt_otoritas->IS_APPROVE
                     );
                 }
             }
@@ -117,9 +115,9 @@ class role extends MX_Controller {
                 $is_add = $this->input->post('is_add');
                 $is_edit = $this->input->post('is_edit');
                 $is_delete = $this->input->post('is_delete');
-                $is_export = $this->input->post('is_export');
-                $is_import = $this->input->post('is_import');
-                // $is_approve = $this->input->post('is_approve');
+                // $is_export = $this->input->post('is_export');
+                // $is_import = $this->input->post('is_import');
+                $is_approve = $this->input->post('is_approve');
 
                 if (is_array($is_view) && count($is_view) > 0) {
                     foreach ($is_view as $val) {
@@ -141,21 +139,21 @@ class role extends MX_Controller {
                         $temp[$val]['is_delete'] = 't';
                     }
                 }
-                if (is_array($is_export) && count($is_export) > 0) {
-                    foreach ($is_export as $val) {
-                        $temp[$val]['is_export'] = 't';
-                    }
-                }
-                if (is_array($is_import) && count($is_import) > 0) {
-                    foreach ($is_import as $val) {
-                        $temp[$val]['is_import'] = 't';
-                    }
-                }
-                // if (is_array($is_approve) && count($is_approve) > 0) {
-                    // foreach ($is_approve as $val) {
-                        // $temp[$val]['is_approve'] = 't';
+                // if (is_array($is_export) && count($is_export) > 0) {
+                    // foreach ($is_export as $val) {
+                        // $temp[$val]['is_export'] = 't';
                     // }
                 // }
+                // if (is_array($is_import) && count($is_import) > 0) {
+                    // foreach ($is_import as $val) {
+                        // $temp[$val]['is_import'] = 't';
+                    // }
+                // }
+                if (is_array($is_approve) && count($is_approve) > 0) {
+                    foreach ($is_approve as $val) {
+                        $temp[$val]['is_approve'] = 't';
+                    }
+                }
 
                 if ($id == '') {
                     if ($this->role_model->save_as_new($data, $temp)) {

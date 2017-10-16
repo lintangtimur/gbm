@@ -37,19 +37,19 @@ class login extends MX_Controller {
             $password = $this->input->post('password');
 
             $filter = array();
-            $filter['user_username'] = $username;
-            $filter['user_password'] = $password;//$this->user_model->encrypt($password);
+            $filter['USERNAME`'] = $username;
+            $filter['PWD_USER'] = $password;//$this->user_model->encrypt($password);
             $data_user = $this->user_model->data($filter)->get();
 
             if ($data_user->num_rows() > 0) {
                 $user = $data_user->row();
-				if($user->user_status=='t'){
+				if($user->ISAKTIF_USER=='1'){
                 $login_status = true;
                     $info_login = array(
                         'login_status' => TRUE,
-                        'user_id' => $user->user_id,
-                        'roles_id' => $user->roles_id,
-                        'user_name' => $user->user_nama
+                        'user_id' => $user->ID_USER,
+                        'roles_id' => $user->ROLES_ID,
+                        'user_name' => $user->NAMA_USER
                     );
                 
                 $this->session->set_userdata($info_login);

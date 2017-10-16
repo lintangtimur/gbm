@@ -5,9 +5,10 @@
  */
 class menu_model extends CI_Model {
 
+	private $_modul = 'user_management/menu';
     public function __construct() {
         parent::__construct();
-		$this->laccess->check(array('user_management/menu'));
+		$this->laccess->check(array($this->_modul));
     }
 
     private $_table1 = "m_menu";
@@ -15,7 +16,7 @@ class menu_model extends CI_Model {
 
     private function _key($key) {
         if (!is_array($key)) {
-            $key = array('menu_id' => $key);
+            $key = array('MENU_ID' => $key);
         }
         return $key;
     }
@@ -35,7 +36,7 @@ class menu_model extends CI_Model {
 
         $this->db->trans_begin(); //transaksi = ketika semua proses sudah dilakukan di commit
 
-        $this->db->set_id($this->_table1, 'menu_id', 'no_prefix', 3); //set id handle auto increment -table -field
+        $this->db->set_id($this->_table1, 'MENU_ID', 'no_prefix', 3); //set id handle auto increment -table -field
 
         $this->db->insert($this->_table1, $data);
         if ($this->db->trans_status() === FALSE) {
@@ -86,7 +87,7 @@ class menu_model extends CI_Model {
 
         $temp = array();
         foreach ($record->result() as $value) {
-            $parent_id = $value->kms_menu_id;
+            $parent_id = $value->M_M_MENU_ID;
             $parent = !empty($parent_id) ? $parent_id : 0;
             $temp[$parent][] = $value;
         }
@@ -101,31 +102,31 @@ class menu_model extends CI_Model {
         if (isset($temp[$parent_id])) {
 			$aksi = '';
             foreach ($temp[$parent_id] as $row) {
-                $id = $row->menu_id;
+                $id = $row->MENU_ID;
 				// Validasi User Role Menu Edit
-				if ($this->laccess->otoritas('edit', false, 'user_management/menu'))
+				if ($this->laccess->otoritas('edit', false, $this->_modul))
 					$aksi = anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
 				// Validasi User Role Menu Edit
-                if ($this->laccess->otoritas('delete', false, 'user_management/menu'))
+                if ($this->laccess->otoritas('delete', false, $this->_modul))
 					$aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
 
                 $flag = anchor(null, '<i class="icon-chevron-down"></i>');
-                $title = '<a style="color:#0072c6;font-weight:bold;">' . $row->menu_nama . '</a>';
+                $title = '<a style="color:#0072c6;font-weight:bold;">' . $row->MENU_NAMA . '</a>';
                 if ($parent_id > 0) {
                     $flag = anchor(null, '<i class="icon-menu"></i>');
-                    $title = $row->menu_nama;
+                    $title = $row->MENU_NAMA;
                 }
 
                 $this->_rows[$id] = array(
                     'menu_flag' => $flag,
-                    'menu_icon' => !empty($row->menu_icon) ? "<i class='{$row->menu_icon}'></i>" : '-',
+                    'menu_icon' => !empty($row->MENU_ICON) ? "<i class='{$row->MENU_ICON}'></i>" : '-',
                     'menu_nama' => $title,
-                    'menu_url' => $row->menu_url,
-                    'menu_keterangan' => $row->menu_keterangan,
-                    'menu_urutan' => $row->menu_urutan,
+                    'menu_url' => $row->MENU_URL,
+                    'menu_keterangan' => $row->MENU_KETERANGAN,
+                    'menu_urutan' => $row->MENU_URUTAN,
                     'aksi' => $aksi
                 );
-                $this->_parsing_menu($row->menu_id, $temp, $module);
+                $this->_parsing_menu($row->MENU_ID, $temp, $module);
 				$aksi = '';
             }
         }
@@ -146,7 +147,7 @@ class menu_model extends CI_Model {
         }
 
         foreach ($list->result() as $row) {
-            $option[$row->menu_id] = $row->menu_nama;
+            $option[$row->MENU_ID] = $row->MENU_NAMA;
         }
         return $option;
     }

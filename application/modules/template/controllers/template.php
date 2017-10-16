@@ -32,7 +32,7 @@ class template extends MX_Controller {
 		$arr_setting = array();
 		foreach($dparam->result() as $row){
 			
-			$arr_setting[$row->setting]=$row->value;
+			$arr_setting[$row->SETTING]=$row->VALUE;
 				
 		}
         $data['app_parameter'] = $arr_setting;//$this->template_model->parameter();
@@ -60,9 +60,10 @@ class template extends MX_Controller {
 		$arr_setting = array();
 		foreach($dparam->result() as $row){
 			
-			$arr_setting[$row->setting]=$row->value;
+			$arr_setting[$row->SETTING]=$row->VALUE;
 				
 		}
+		
         $data['app_parameter'] = $arr_setting;
 
         $this->load->view("admin", $data);
@@ -77,15 +78,17 @@ class template extends MX_Controller {
 
         $record = $this->template_model->data_menu($roles_id)->get();
         $data = $record->result();
+		// print_r($data);
+		// die;
         $temp_menu = array();
         foreach ($data as $value) {
             $pos = '';
-
-            $parent_id = $value->kms_menu_id;
+		
+            $parent_id = $value->M_M_MENU_ID;
             $parent = !empty($parent_id) ? $parent_id : 0;
 
             $com_segment = $segment1 . '/' . $segment2;
-            $menu_url = $value->menu_url;
+            $menu_url = $value->MENU_URL;
             $explode_url = explode('/', $menu_url);
             $e1 = isset($explode_url[0]) ? $explode_url[0] : '';
             $e2 = isset($explode_url[1]) ? $explode_url[1] : '';
@@ -96,17 +99,17 @@ class template extends MX_Controller {
             }
 
             $temp_menu[$parent][] = (object) array(
-                        'kd_menu' => $value->menu_id,
+                        'kd_menu' => $value->MENU_ID,
                         'kd_parent' => $parent_id,
-                        'nama_menu' => $value->menu_nama,
-                        'url' => $value->menu_url,
-                        'icon' => $value->menu_icon,
+                        'nama_menu' => $value->MENU_NAMA,
+                        'url' => $value->MENU_URL,
+                        'icon' => $value->MENU_ICON,
                         'pos' => $pos
             );
         }
-
+	
         $menu = '<ul class="main">';
-
+		
         if (isset($temp_menu[0])) {
             foreach ($temp_menu[0] as $group) {
                 $expand = '';

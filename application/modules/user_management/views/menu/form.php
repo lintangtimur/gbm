@@ -16,7 +16,7 @@
          <div class="control-group">
             <label for="password" class="control-label">Parent Menu : </label>
             <div class="controls">
-                <?php echo form_dropdown('kms_menu_id', $parent_options, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class="span6"'); ?>
+                <?php echo form_dropdown('parent_id', $parent_options, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class="span6"'); ?>
             </div>
         </div>
         <div class="control-group">

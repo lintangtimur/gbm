@@ -10,11 +10,11 @@ class user_model extends CI_Model {
         parent::__construct();
     }
 
-    private $_table1 = 'user_webadmin';
+    private $_table1 = 'm_user';
 
     private function _key($key) {
         if (!is_array($key)) {
-            $key = array('user_id' => $key);
+            $key = array('ID_USER' => $key);
         }
         return $key;
     }

@@ -29,7 +29,7 @@ class menu extends MX_Controller {
         $this->load->module("template/asset");
 
         // Memanggil plugin JS menu
-        $this->asset->set_plugin(array('crud', 'select2'));
+        $this->asset->set_plugin(array('crud', 'select2', 'hadi'));
 		$btn = array();
 		//Validasi Otorisasi Tambah / Add
 		if ($this->laccess->otoritas('add', false, 'user_management/menu'))
@@ -39,7 +39,7 @@ class menu extends MX_Controller {
 		
         $data['button_group'] = $btn;
 
-        $data['parent_options'] = $this->menu_model->options('--Pilih Parent--', array('m_menu.kms_menu_id' => NULL));
+        $data['parent_options'] = $this->menu_model->options('--Pilih Parent--', array('m_menu.M_M_MENU_ID' => NULL));
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $this->_title;
         $data['page_content'] = $this->_module . '/main';
         $data['data_sources'] = base_url($this->_module . '/load');
@@ -56,7 +56,7 @@ class menu extends MX_Controller {
             $data['default'] = $loker->get()->row();
         }
 
-        $data['parent_options'] = $this->menu_model->options('--Pilih Parent--', array('m_menu.kms_menu_id' => NULL));
+        $data['parent_options'] = $this->menu_model->options('--Pilih Parent--', array('m_menu.M_M_MENU_ID' => NULL));
 
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses');
@@ -75,7 +75,7 @@ class menu extends MX_Controller {
         $icon = anchor(null, '<i class="icon-th"></i>');
 
         $table = new stdClass();
-        $table->id = 'menu_id';
+        $table->id = 'MENU_ID';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
         $table->align = array('menu_flag' => 'center', 'menu_icon' => 'center', 'menu_urutan' => 'center', 'aksi' => 'center');
         $table->page = $page;
@@ -97,22 +97,22 @@ class menu extends MX_Controller {
 
     public function proses() {
         $this->form_validation->set_rules('menu_nama', 'Nama', 'trim|required|max_length[50]');
-        $this->form_validation->set_rules('kms_menu_id', 'Parent');
+        $this->form_validation->set_rules('M_M_MENU_ID', 'Parent');
         $this->form_validation->set_rules('menu_url', 'URL', 'trim|required|max_length[50]');
         $this->form_validation->set_rules('menu_keterangan', 'Keterangan', 'trim|max_length[250]');
         $this->form_validation->set_rules('menu_urutan', 'Urutan', 'trim|required|integer|max_length[3]');
         if ($this->form_validation->run($this)) {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
             $id = $this->input->post('id');
-            $parent_id = $this->input->post('kms_menu_id');
+            $parent_id = $this->input->post('parent_id');
 
             $menu = array();
-            $menu['menu_nama'] = $this->input->post('menu_nama');
-            $menu['kms_menu_id'] = !empty($parent_id) ? $parent_id : NULL;
-            $menu['menu_url'] = $this->input->post('menu_url');
-            $menu['menu_keterangan'] = $this->input->post('menu_keterangan');
-            $menu['menu_urutan'] = $this->input->post('menu_urutan');
-            $menu['menu_icon'] = $this->input->post('menu_icon');
+            $menu['MENU_NAMA'] = $this->input->post('menu_nama');
+            $menu['M_M_MENU_ID'] = !empty($parent_id) ? $parent_id : NULL;
+            $menu['MENU_URL'] = $this->input->post('menu_url');
+            $menu['MENU_KETERANGAN'] = $this->input->post('menu_keterangan');
+            $menu['MENU_URUTAN'] = $this->input->post('menu_urutan');
+            $menu['MENU_ICON'] = $this->input->post('menu_icon');
 
             if ($id == '') {
                 if ($this->menu_model->save_as_new($menu)) {

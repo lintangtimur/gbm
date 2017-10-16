@@ -38,12 +38,11 @@ class laccess {
             if ($roles->num_rows() > 0) {
                 $otoritas = $roles->row();
                 $this->role[$url] = array(
-                    'view' => $otoritas->is_view,
-                    'add' => $otoritas->is_add,
-                    'edit' => $otoritas->is_edit,
-                    'delete' => $otoritas->is_delete,
-                    'import' => $otoritas->is_import,
-                    'export' => $otoritas->is_export
+                    'view' => $otoritas->IS_VIEW,
+                    'add' => $otoritas->IS_ADD,
+                    'edit' => $otoritas->IS_EDIT,
+                    'delete' => $otoritas->IS_DELETE,
+                    'approve' => $otoritas->IS_APPROVE
                 );
             } else {
                 redirect('dashboard');
@@ -57,13 +56,11 @@ class laccess {
                 if ($roles->num_rows() > 0) {
                     $otoritas = $roles->row();
                     $this->role[$url] = array(
-                        'view' => $otoritas->is_view,
-                        'add' => $otoritas->is_add,
-                        'edit' => $otoritas->is_edit,
-                        'delete' => $otoritas->is_delete,
-                        'approve' => $otoritas->is_approve,
-                        'import' => $otoritas->is_import,
-                        'export' => $otoritas->is_export
+                       'view' => $otoritas->IS_VIEW,
+						'add' => $otoritas->IS_ADD,
+						'edit' => $otoritas->IS_EDIT,
+						'delete' => $otoritas->IS_DELETE,
+						'approve' => $otoritas->IS_APPROVE
                     );
                 }
             }
