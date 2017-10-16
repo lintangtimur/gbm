@@ -1,0 +1,9 @@
+INSERT INTO `m_menu` (`MENU_ID`, `M_M_MENU_ID`, `MENU_NAMA`, `MENU_URL`, `MENU_KETERANGAN`, `MENU_ICON`, `MENU_URUTAN`) VALUES ('1', NULL, 'User Management', '#', NULL, 'icon-cogs', 1);
+INSERT INTO `m_menu` (`MENU_ID`, `M_M_MENU_ID`, `MENU_NAMA`, `MENU_URL`, `MENU_KETERANGAN`, `MENU_ICON`, `MENU_URUTAN`) VALUES ('2', '1', 'Role Management', 'user_management/role', '', '', 2);
+INSERT INTO `m_menu` (`MENU_ID`, `M_M_MENU_ID`, `MENU_NAMA`, `MENU_URL`, `MENU_KETERANGAN`, `MENU_ICON`, `MENU_URUTAN`) VALUES ('3', '1', 'menu Management', 'user_management/menu', NULL, NULL, 1);
+INSERT INTO `m_menu` (`MENU_ID`, `M_M_MENU_ID`, `MENU_NAMA`, `MENU_URL`, `MENU_KETERANGAN`, `MENU_ICON`, `MENU_URUTAN`) VALUES ('4', '1', 'User', 'user_management/user', NULL, NULL, 3);
+INSERT INTO `m_menu` (`MENU_ID`, `M_M_MENU_ID`, `MENU_NAMA`, `MENU_URL`, `MENU_KETERANGAN`, `MENU_ICON`, `MENU_URUTAN`) VALUES ('001', NULL, 'Master', '#', '', 'icon-bar-chart', 1);
+INSERT INTO `m_menu` (`MENU_ID`, `M_M_MENU_ID`, `MENU_NAMA`, `MENU_URL`, `MENU_KETERANGAN`, `MENU_ICON`, `MENU_URUTAN`) VALUES ('005', '001', 'Master Level 1', 'master/master_level1', '-', 'icon-folder-close-alt', 1);
+INSERT INTO `m_menu` (`MENU_ID`, `M_M_MENU_ID`, `MENU_NAMA`, `MENU_URL`, `MENU_KETERANGAN`, `MENU_ICON`, `MENU_URUTAN`) VALUES ('005', '001', 'Master Level 2', 'master/master_level2', '-', 'icon-folder-close-alt', 2);
+INSERT INTO `m_menu` (`MENU_ID`, `M_M_MENU_ID`, `MENU_NAMA`, `MENU_URL`, `MENU_KETERANGAN`, `MENU_ICON`, `MENU_URUTAN`) VALUES ('005', '001', 'Master Level 3', 'master/master_level3', '-', 'icon-folder-close-alt', 3);
+INSERT INTO `m_menu` (`MENU_ID`, `M_M_MENU_ID`, `MENU_NAMA`, `MENU_URL`, `MENU_KETERANGAN`, `MENU_ICON`, `MENU_URUTAN`) VALUES ('005', '001', 'Master Level 4', 'master/master_level4', '-', 'icon-folder-close-alt', 4);
