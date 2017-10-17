@@ -4,13 +4,13 @@ if (!defined("BASEPATH"))
     exit("No direct script access allowed");
 
 /**
- * @module Master Pemasok
+ * @module Master Transportir
  */
-class pemasok extends MX_Controller {
+class jenis_bahan_bakar extends MX_Controller {
 
-    private $_title = 'Master Pemasok';
+    private $_title = 'Master Jenis Bahan Bakar';
     private $_limit = 10;
-    private $_module = 'master/pemasok';
+    private $_module = 'master/jenis_bahan_bakar';
 
     public function __construct() {
         parent::__construct();
@@ -19,7 +19,7 @@ class pemasok extends MX_Controller {
         hprotection::login();
 
         /* Load Global Model */
-        $this->load->model('pemasok_model');
+        $this->load->model('jenis_bahan_bakar_model');
     }
 
     public function index() {
@@ -39,13 +39,14 @@ class pemasok extends MX_Controller {
     }
 
     public function add($id = '') {
-        $page_title = 'Tambah Pemasok';
+        $page_title = 'Tambah Jenis Bahan Bakar';
         $data['id'] = $id;
         if ($id != '') {
-            $page_title = 'Edit Pemasok';
-            $pemasok = $this->pemasok_model->data($id);
-            $data['default'] = $pemasok->get()->row();
+            $page_title = 'Edit Jenis Bahan Bakar';
+            $bhn_bakar = $this->jenis_bahan_bakar_model->data($id);
+            $data['default'] = $bhn_bakar->get()->row();
         }
+        $data['parent_options'] = $this->jenis_bahan_bakar_model->options();
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses');
         $this->load->view($this->_module . '/form', $data);
@@ -56,20 +57,19 @@ class pemasok extends MX_Controller {
     }
 
     public function load($page = 1) {
-        $data_table = $this->pemasok_model->data_table($this->_module, $this->_limit, $page);
+        $data_table = $this->jenis_bahan_bakar_model->data_table($this->_module, $this->_limit, $page);
         $this->load->library("ltable");
         $table = new stdClass();
-        $table->id = 'ID_PEMASOK';
+        $table->id = 'ID_JNS_BHN_BKR';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('ID_PEMASOK' => 'center','KODE_PEMASOK' => 'center', 'NAMA_PEMASOK' => 'center', 'aksi' => 'center');
+        $table->align = array('ID_JNS_BHN_BKR' => 'center','KODE_JNS_BHN_BKR' => 'center', 'NAMA_JNS_BHN_BKR' => 'center', 'aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
         $table->jumlah_kolom = 5;
         $table->header[] = array(
             "No", 1, 1,
-            "Kode Pemasok", 1, 1,
-            "Nama Pemasok", 1, 1,
-            "Status", 1, 1,
+            "Kode Bahan Bakar", 1, 1,
+            "Jenis Bahan Bakar", 1, 1,
             "Aksi", 1, 1
         );
         $table->total = $data_table['total'];
@@ -79,27 +79,21 @@ class pemasok extends MX_Controller {
     }
 
     public function proses() {
-        $this->form_validation->set_rules('NAMA_PEMASOK', 'Nama Pemasok', 'trim|required|max_length[50]');
-        $this->form_validation->set_rules('KODE_PEMASOK', 'Kode Pemasok', 'trim|required|max_length[50]');
+        $this->form_validation->set_rules('KODE_JNS_BHN_BKR', 'Kode Bahn Bakar','NAMA_JNS_BHN_BKR', 'Jenis Bahan Bakar', 'trim|required|max_length[50]');
         if ($this->form_validation->run($this)) {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
             $id = $this->input->post('id');
 
             $data = array();
-            $data['KODE_PEMASOK'] = $this->input->post('KODE_PEMASOK');
-            $data['NAMA_PEMASOK'] = $this->input->post('NAMA_PEMASOK');
-            $data['ISAKTIF_PEMASOK'] = $this->input->post('ISAKTIF_PEMASOK');
-            $data['CD_BY_PEMASOK'] = $this->session->userdata('user_name');
+            $data['KODE_JNS_BHN_BKR'] = $this->input->post('KODE_JNS_BHN_BKR');
+            $data['NAMA_JNS_BHN_BKR'] = $this->input->post('NAMA_JNS_BHN_BKR');
 
             if ($id == '') {
-                $data['CD_PEMASOK'] = date("Y/m/d");
-                $data['UD_PEMASOK'] = date("Y/m/d");
-                if ($this->pemasok_model->save_as_new($data)) {
+                if ($this->jenis_bahan_bakar_model->save_as_new($data)) {
                     $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
                 }
             } else {
-                $data['UD_PEMASOK'] = date("Y/m/d");
-                if ($this->pemasok_model->save($data, $id)) {
+                if ($this->jenis_bahan_bakar_model->save($data, $id)) {
                     $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
                 }
             }
@@ -112,7 +106,7 @@ class pemasok extends MX_Controller {
     public function delete($id) {
         $message = array(false, 'Proses gagal', 'Proses hapus data gagal.', '');
 
-        if ($this->pemasok_model->delete($id)) {
+        if ($this->jenis_bahan_bakar_model->delete($id)) {
             $message = array(true, 'Proses Berhasil', 'Proses hapus data berhasil.', '#content_table');
         }
         echo json_encode($message);
@@ -120,5 +114,5 @@ class pemasok extends MX_Controller {
 
 }
 
-/* End of file pemasok.php */
-/* Location: ./application/modules/pemasok/controllers/pemasoj.php */
+/* End of file transportir.php */
+/* Location: ./application/modules/transportir/controllers/pemasoj.php */

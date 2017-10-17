@@ -1,20 +1,20 @@
 <?php
 	
 	/**
-		 * @module Master Pemasok
+		 * @module Master Transportir
 		* @author  Hadiha
 	*/
-	class pemasok_model extends CI_Model {
+	class jenis_bahan_bakar_model extends CI_Model {
 		
 		public function __construct() {
 			parent::__construct();
 		}
 		
-		private $_table1 = "master_pemasok"; //nama table setelah mom_
+		private $_table1 = "m_jns_bhn_bkr"; //nama table setelah mom_
 		
 		private function _key($key) { //unit ID
 			if (!is_array($key)) {
-				$key = array('ID_PEMASOK' => $key);
+				$key = array('ID_JNS_BHN_BKR' => $key);
 			}
 			return $key;
 		}
@@ -30,7 +30,7 @@
 		
 		public function save_as_new($data) {
 			$this->db->trans_begin();
-			$this->db->set_id($this->_table1, 'ID_PEMASOK', 'no_prefix', 3);
+			$this->db->set_id($this->_table1, 'ID_JNS_BHN_BKR', 'no_prefix', 3);
 			$this->db->insert($this->_table1, $data);
 			
 			if ($this->db->trans_status() === FALSE) {
@@ -75,7 +75,7 @@
 			$kata_kunci = $this->input->post('kata_kunci');
 			
 			if (!empty($kata_kunci))
-            $filter[$this->_table1 . ".NAMA_PEMASOK LIKE '%{$kata_kunci}%' "] = NULL;
+            $filter[$this->_table1 . ".NAMA_JNS_BHN_BKR LIKE '%{$kata_kunci}%' "] = NULL;
 			$total = $this->data($filter)->count_all_results();
 			$this->db->limit($limit, ($offset * $limit) - $limit);
 			$record = $this->data($filter)->get();
@@ -83,21 +83,34 @@
 			$rows = array();
 			$aksi = '';
 			foreach ($record->result() as $row) {
-				$id = $row->ID_PEMASOK;
+				$id = $row->ID_JNS_BHN_BKR;
 				// if ($this->laccess->otoritas('edit')) {
 				$aksi = anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
 				// }
 				$aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
 				$rows[$id] = array(
-                'number' => $no++,
-                'id_pemasok' => $row->KODE_PEMASOK,
-                'nama_pemasok' => $row->NAMA_PEMASOK,
-                'isaktif_pemasok' => $row->ISAKTIF_PEMASOK ? 'AKTIF':'TIDAK AKTIF',
+                'no' => $no++,
+                'kode_bhn_bkr' => $row->KODE_JNS_BHN_BKR,
+                'nama_bhn_bkr' => $row->NAMA_JNS_BHN_BKR,
                 'aksi' => $aksi
 				);
 			}
 			
 			return array('total' => $total, 'rows' => $rows);
+		}
+		
+		public function options($default = '--Pilih Unit Kerja--') {
+			$option = array();
+			$list = $this->data()->get();
+			
+			if (!empty($default))
+            $option[''] = $default;
+			
+			foreach ($list->result() as $row) {
+				$option[$row->ID_JNS_BHN_BKR] = $row->NAMA_JNS_BHN_BKR;
+			}
+			
+			return $option;
 		}
 		
 	}

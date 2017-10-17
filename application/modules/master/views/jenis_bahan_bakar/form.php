@@ -8,22 +8,17 @@
         echo form_open_multipart($form_action, array('id' => 'finput', 'class' => 'form-horizontal'), $hidden_form);
         ?>
         <div class="control-group">
-            <label for="password" class="control-label">Kode Pemasok <span class="required">*</span> : </label>
+            <label for="password" class="control-label">Kode Jenis Bahan Bakar <span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_input('KODE_PEMASOK', !empty($default->KODE_PEMASOK) ? $default->KODE_PEMASOK : '', 'class="span6"'); ?>
+                <?php echo form_input('KODE_JNS_BHN_BKR', !empty($default->KODE_JNS_BHN_BKR) ? $default->KODE_JNS_BHN_BKR : '', 'class="span6"'); ?>
             </div>
         </div>
         <div class="control-group">
-            <label for="password" class="control-label">Nama Pemasok <span class="required">*</span> : </label>
+            <label for="password" class="control-label">Jenis Bahan Bakar <span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_input('NAMA_PEMASOK', !empty($default->NAMA_PEMASOK) ? $default->NAMA_PEMASOK : '', 'class="span6"'); ?>
+                <?php echo form_input('NAMA_JNS_BHN_BKR', !empty($default->NAMA_JNS_BHN_BKR) ? $default->NAMA_JNS_BHN_BKR : '', 'class="span6"'); ?>
             </div>
-        </div>
-        <div class="control-group">
-            <label for="password" class="control-label">Aktif <span class="required">*</span> : </label>
-            <div class="controls">
-            <?php echo form_checkbox('ISAKTIF_PEMASOK', '1', !empty($default->ISAKTIF_PEMASOK) ? $default->ISAKTIF_PEMASOK : '' ); ?>
-            </div>
+
         </div>
         <div class="form-actions">
             <?php echo anchor(null, '<i class="icon-save"></i> Simpan', array('id' => 'button-save', 'class' => 'blue btn', 'onclick' => "simpan_data(this.id, '#finput', '#button-back')")); ?>
