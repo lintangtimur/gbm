@@ -78,8 +78,7 @@ class template extends MX_Controller {
 
         $record = $this->template_model->data_menu($roles_id)->get();
         $data = $record->result();
-		// print_r($data);
-		// die;
+		
         $temp_menu = array();
         foreach ($data as $value) {
             $pos = '';
@@ -110,10 +109,12 @@ class template extends MX_Controller {
 	
         $menu = '<ul class="main">';
 		
+		$cuk = 0;
         if (isset($temp_menu[0])) {
             foreach ($temp_menu[0] as $group) {
                 $expand = '';
                 $actived = '';
+				
                 if ($active_group == $group->kd_menu) {
                     $expand = ' class="expand" id="current" ';
                     $actived = 'class="active navAct"';
@@ -145,15 +146,17 @@ class template extends MX_Controller {
                         }
                     }
                     $menu .= '  </ul>';
+					
                 } else {
                     $menu .= '  <a ' . $expand . ' href="' . $this->set_url($group->url) . '" style="cursor:pointer;"><i class="' . $group->icon . '"></i> ' . $group->nama_menu . '</a>';
+					break;
                 }
-
                 $menu .= '</li>';
+				
             }
         }
-
         $menu .= '</ul>';
+		
         return $menu;
     }
 
