@@ -10,37 +10,37 @@
         <div class="control-group">
             <label for="password" class="control-label">Nama Menu <span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_input('menu_nama', !empty($default->menu_nama) ? $default->menu_nama : '', 'class="span6"'); ?>
+                <?php echo form_input('menu_nama', !empty($default->MENU_NAMA) ? $default->MENU_NAMA : '', 'class="span6"'); ?>
             </div>
         </div>
          <div class="control-group">
             <label for="password" class="control-label">Parent Menu : </label>
             <div class="controls">
-                <?php echo form_dropdown('parent_id', $parent_options, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class="span6"'); ?>
+                <?php echo form_dropdown('parent_id', $parent_options, !empty($default->M_M_MENU_ID) ? $default->M_M_MENU_ID : '', 'class="span6"'); ?>
             </div>
         </div>
         <div class="control-group">
             <label for="password" class="control-label">Set URL <span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_input('menu_url', !empty($default->menu_url) ? $default->menu_url : '', 'class="span6"'); ?>
+                <?php echo form_input('menu_url', !empty($default->MENU_URL) ? $default->MENU_URL : '', 'class="span6"'); ?>
             </div>
         </div>
         <div class="control-group">
             <label for="password" class="control-label">Keterangan : </label>
             <div class="controls">
-                <?php echo form_input('menu_keterangan', !empty($default->menu_keterangan) ? $default->menu_keterangan : '', 'class="span6"'); ?>
+                <?php echo form_input('menu_keterangan', !empty($default->MENU_KETERANGAN) ? $default->MENU_KETERANGAN : '', 'class="span6"'); ?>
             </div>
         </div>
         <div class="control-group">
             <label for="password" class="control-label">Urutan <span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_input('menu_urutan', !empty($default->menu_urutan) ? $default->menu_urutan : '', 'class="span2"'); ?>
+                <?php echo form_input('menu_urutan', !empty($default->MENU_URUTAN) ? $default->MENU_URUTAN : '', 'class="span2"'); ?>
             </div>
         </div>
         <div class="control-group">
-            <label for="password" class="control-label">Icon : <?php echo !empty($default->menu_icon) ? $default->menu_icon : ''; ?></label>
+            <label for="password" class="control-label">Icon : <?php echo !empty($default->MENU_ICON) ? $default->MENU_ICON : ''; ?></label>
             <div class="controls">
-                <?php echo form_dropdown('menu_icon', hgenerator::font_awesome(), !empty($default->menu_icon) ? $default->menu_icon : '', 'id="sico" class="select2-me input-xlarge"'); ?>
+                <?php echo form_dropdown('menu_icon', hgenerator::font_awesome(), !empty($default->MENU_ICON) ? $default->MENU_ICON : '', 'id="sico" class="select2-me input-xlarge"'); ?>
             </div>
         </div>
         <div class="form-actions">
