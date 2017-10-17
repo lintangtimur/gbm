@@ -20,7 +20,6 @@ class master_level1 extends MX_Controller {
 
         /* Load Global Model */
         $this->load->model('master_level1_model','tbl_get');
-        $this->load->model('master_regional_model','tbl_get_regional');
     }
 
     public function index() {
@@ -47,7 +46,7 @@ class master_level1 extends MX_Controller {
             $get_data = $this->tbl_get->data($id);
             $data['default'] = $get_data->get()->row();
         }
-        $data['reg_options'] = $this->tbl_get_regional->options();
+        $data['reg_options'] = $this->tbl_get->options_reg();
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses');
         $this->load->view($this->_module . '/form', $data);
