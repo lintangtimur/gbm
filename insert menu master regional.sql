@@ -1,0 +1,1 @@
+INSERT INTO `m_menu` (`MENU_ID`, `M_M_MENU_ID`, `MENU_NAMA`, `MENU_URL`, `MENU_KETERANGAN`, `MENU_ICON`, `MENU_URUTAN`) VALUES ('005', '001', 'Master Regional', 'master/master_regional', '-', 'icon-folder-close-alt', 0);

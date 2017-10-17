@@ -19,9 +19,7 @@ class master_level2 extends MX_Controller {
         hprotection::login();
 
         /* Load Global Model */
-        $this->load->model('master_level2_model','tbl_get');
-        $this->load->model('master_level1_model','tbl_get_level1');
-    }
+        $this->load->model('master_level2_model','tbl_get');    }
 
     public function index() {
         // Load Modules
@@ -46,8 +44,14 @@ class master_level2 extends MX_Controller {
             $page_title = 'Edit '.$this->_title;
             $get_data = $this->tbl_get->data($id);
             $data['default'] = $get_data->get()->row();
+
+            $data['reg_options'] = $this->tbl_get->options_reg();
+            $data['lv1_options'] = $this->tbl_get->options_lv1($default = '--Pilih Level 1--', $data['default']->ID_REGIONAL, $jenis=1);  
+        } else {
+         $data['reg_options'] = $this->tbl_get->options_reg();
+         $data['lv1_options'] = $this->tbl_get->options_lv1($default = '--Pilih Level 1--', '-', $jenis=1);            
         }
-        $data['lv1_options'] = $this->tbl_get_level1->options();
+
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses');
         $this->load->view($this->_module . '/form', $data);
@@ -62,15 +66,16 @@ class master_level2 extends MX_Controller {
         $this->load->library("ltable");
         $table = new stdClass();
         $table->id = 'PLANT';
-        $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('NO' => 'center', 'LEVEL2' => 'left', 'PLANT' => 'center', 'LEVEL1' => 'left', 'aksi' => 'center');
+        $table->style = "table table-striped table-bordered table-hover datatable dataTable"; 
+        $table->align = array('NO' => 'center', 'LEVEL2' => 'left', 'PLANT' => 'center', 'NAMA_REGIONAL' => 'left', 'LEVEL1' => 'left', 'aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
-        $table->jumlah_kolom = 5;
+        $table->jumlah_kolom = 6;
         $table->header[] = array(
             "No", 1, 1,
             "Level 2", 1, 1,
             "Kode Plant", 1, 1,
+            "Regional", 1, 1,
             "Level 1", 1, 1,
             "Aksi", 1, 1
         );
@@ -81,9 +86,10 @@ class master_level2 extends MX_Controller {
     }
 
     public function proses() {
+        $this->form_validation->set_rules('ID_REGIONAL', 'Regional','required');
+        $this->form_validation->set_rules('COCODE', 'Level 1','required');
         $this->form_validation->set_rules('LEVEL2', 'Level 2', 'trim|required|max_length[50]');
         $this->form_validation->set_rules('PLANT', 'Kode Plant', 'trim|required|max_length[50]');
-        $this->form_validation->set_rules('COCODE', 'Level 1','required');
         if ($this->form_validation->run($this)) {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
             $id = $this->input->post('id');
@@ -117,6 +123,10 @@ class master_level2 extends MX_Controller {
         echo json_encode($message);
     }
 
+    public function get_options_lv1($key=null) {
+        $message = $this->tbl_get->options_lv1($default = '--Pilih Level 1--', $key, $jenis=0);
+        echo json_encode($message);
+    }
 }
 
 /* End of file master_level1.php */

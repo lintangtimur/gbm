@@ -22,9 +22,10 @@ class master_level2_model extends CI_Model {
     }
 
     public function data($key = '') {
-        $this->db->select('a.*, b.LEVEL1 ');
+        $this->db->select('a.*, b.LEVEL1, c.ID_REGIONAL, c.NAMA_REGIONAL');
         $this->db->from($this->_table1.' a');
         $this->db->join('master_level1 b', 'b.COCODE = a.COCODE','left');
+        $this->db->join('master_regional c', 'c.ID_REGIONAL = b.ID_REGIONAL','left');
 
         if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
@@ -93,6 +94,7 @@ class master_level2_model extends CI_Model {
                 'NO' => $no++,
                 'LEVEL2' => $row->LEVEL2,
                 'PLANT' => $row->PLANT,
+                'NAMA_REGIONAL' => $row->NAMA_REGIONAL,
                 'LEVEL1' => $row->LEVEL1,
                 'aksi' => $aksi
             );
@@ -101,26 +103,46 @@ class master_level2_model extends CI_Model {
         return array('total' => $total, 'rows' => $rows);
     }
 
-    public function options($default = '--Pilih Level 2--', $key = 'all') {
+    public function options_reg($default = '--Pilih Regional--', $key = 'all') {
         $option = array();
 
-        if ($key == 'all') {
-            $list = $this->data()->get();
-        } else {
-            $list = $this->data($this->_key($key))->get();
-        }
-        // array($this->_table1.'.kms_menu_id' => NULL
+        $this->db->from('master_regional');
+        if ($key != 'all'){
+            $this->db->where('ID_REGIONAL',$key);
+        }   
+        $list = $this->db->get(); 
 
         if (!empty($default)) {
             $option[''] = $default;
         }
 
         foreach ($list->result() as $row) {
-            $option[$row->PLANT] = $row->LEVEL2;
+            $option[$row->ID_REGIONAL] = $row->NAMA_REGIONAL;
         }
         return $option;
     }
 
+    public function options_lv1($default = '--Pilih Level 1--', $key = 'all', $jenis=0) {
+        $this->db->from('master_level1');
+        if ($key != 'all'){
+            $this->db->where('ID_REGIONAL',$key);
+        }    
+        if ($jenis==0){
+            return $this->db->get()->result(); 
+        } else {
+            $option = array();
+            $list = $this->db->get(); 
+
+            if (!empty($default)) {
+                $option[''] = $default;
+            }
+
+            foreach ($list->result() as $row) {
+                $option[$row->COCODE] = $row->LEVEL1;
+            }
+            return $option;    
+        }
+    }
 }
 
 /* End of file master_level1_model.php */

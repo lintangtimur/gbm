@@ -8,21 +8,15 @@
         echo form_open_multipart($form_action, array('id' => 'finput', 'class' => 'form-horizontal'), $hidden_form);
         ?>   
         <div class="control-group">
-            <label for="password" class="control-label">Regional <span class="required">*</span> : </label>
+            <label for="password" class="control-label">ID Regional <span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_dropdown('ID_REGIONAL', $reg_options, !empty($default->ID_REGIONAL) ? $default->ID_REGIONAL : '', 'class="span6"'); ?>
-            </div>
-        </div> 
-        <div class="control-group">
-            <label for="password" class="control-label">Level 1 <span class="required">*</span> : </label>
-            <div class="controls">
-                <?php echo form_input('LEVEL1', !empty($default->LEVEL1) ? $default->LEVEL1 : '', 'class="span6"'); ?>
+                <?php echo form_input('ID_REGIONAL', !empty($default->ID_REGIONAL) ? $default->ID_REGIONAL : '', 'class="span6"'); ?>
             </div>
         </div>
         <div class="control-group">
-            <label for="password" class="control-label">Company Code <span class="required">*</span> : </label>
+            <label for="password" class="control-label">Nama Regional <span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_input('COCODE', !empty($default->COCODE) ? $default->COCODE : '', 'class="span6"'); ?>
+                <?php echo form_input('NAMA_REGIONAL', !empty($default->NAMA_REGIONAL) ? $default->NAMA_REGIONAL : '', 'class="span6"'); ?>
             </div>
         </div>    
         <div class="form-actions">

@@ -81,9 +81,9 @@ class master_level1 extends MX_Controller {
     }
 
     public function proses() {
+        $this->form_validation->set_rules('ID_REGIONAL', 'Regional','required');
         $this->form_validation->set_rules('LEVEL1', 'Level 1', 'trim|required|max_length[50]');
         $this->form_validation->set_rules('COCODE', 'Company Code', 'trim|required|max_length[50]');
-        $this->form_validation->set_rules('ID_REGIONAL', 'Regional','required');
         if ($this->form_validation->run($this)) {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
             $id = $this->input->post('id');
@@ -116,7 +116,6 @@ class master_level1 extends MX_Controller {
         }
         echo json_encode($message);
     }
-
 }
 
 /* End of file master_level1.php */

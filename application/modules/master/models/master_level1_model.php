@@ -121,6 +121,27 @@ class master_level1_model extends CI_Model {
         return $option;
     }
 
+    public function options_regional($default = '--Pilih Regional--', $key = 'all') {
+        $option = array();
+
+        if ($key == 'all') {
+            $list = $this->data()->get();
+        } else {
+            $list = $this->data($this->_key($key))->get();
+        }
+        // array($this->_table1.'.kms_menu_id' => NULL
+
+        if (!empty($default)) {
+            $option[''] = $default;
+        }
+
+        foreach ($list->result() as $row) {
+            $option[$row->ID_REGIONAL] = $row->NAMA_REGIONAL;
+        }
+        return $option;
+    }
+     
+
 }
 
 /* End of file master_level1_model.php */

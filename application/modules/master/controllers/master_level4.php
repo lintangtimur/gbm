@@ -20,8 +20,6 @@ class master_level4 extends MX_Controller {
 
         /* Load Global Model */
         $this->load->model('master_level4_model','tbl_get');
-        $this->load->model('master_level3_model','tbl_get_level3');
-        $this->load->model('master_level2_model','tbl_get_level2');
     }
 
     public function index() {
@@ -43,13 +41,21 @@ class master_level4 extends MX_Controller {
     public function add($id = '') {
         $page_title = 'Tambah '.$this->_title;
         $data['id'] = $id;
+        $lv1 = '-';
+        $lv2 = '-';
+        $lv3 = '-';
         if ($id != '') {
             $page_title = 'Edit '.$this->_title;
             $get_data = $this->tbl_get->data($id);
             $data['default'] = $get_data->get()->row();
+            $lv1 = $data['default']->ID_REGIONAL; 
+            $lv2 = $data['default']->COCODE;
+            $lv3 = $data['default']->PLANT;
         }
-        $data['lv2_options'] = $this->tbl_get_level2->options();
-        $data['lv3_options'] = $this->tbl_get_level3->options();
+        $data['reg_options'] = $this->tbl_get->options_reg();
+        $data['lv1_options'] = $this->tbl_get->options_lv1('--Pilih Level 1--', $lv1, 1); 
+        $data['lv2_options'] = $this->tbl_get->options_lv2('--Pilih Level 2--', $lv2, 1); 
+        $data['lv3_options'] = $this->tbl_get->options_lv3('--Pilih Level 3--', $lv3, 1);  
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses');
         $this->load->view($this->_module . '/form', $data);
@@ -65,15 +71,17 @@ class master_level4 extends MX_Controller {
         $table = new stdClass();
         $table->id = 'SLOC';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable"; 
-        $table->align = array('NO' => 'center', 'LEVEL4' => 'left', 'SLOC' => 'center', 'DESCRIPTION_LVL4' => 'left', 'LEVEL2' => 'left', 'LEVEL3' => 'left','aksi' => 'center');
+        $table->align = array('NO' => 'center', 'LEVEL4' => 'left', 'SLOC' => 'center', 'DESCRIPTION_LVL4' => 'left', 'NAMA_REGIONAL' => 'left', 'LEVEL1' => 'left', 'LEVEL2' => 'left', 'LEVEL3' => 'left', 'aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
-        $table->jumlah_kolom = 6;
+        $table->jumlah_kolom = 9;
         $table->header[] = array(
             "No", 1, 1,
             "Level 4", 1, 1,
             "Sloc", 1, 1,
             "Alamat", 1, 1,
+            "Regional", 1, 1,
+            "Level 1", 1, 1,
             "Level 2", 1, 1,
             "Level 3", 1, 1,
             "Aksi", 1, 1
@@ -85,6 +93,10 @@ class master_level4 extends MX_Controller {
     }
 
     public function proses() {
+        $this->form_validation->set_rules('ID_REGIONAL', 'Regional','required');
+        $this->form_validation->set_rules('COCODE', 'Level 1','required');
+        $this->form_validation->set_rules('PLANT', 'Level 2', 'required');
+        $this->form_validation->set_rules('STORE_SLOC', 'Level 3', 'required');
         $this->form_validation->set_rules('LEVEL4', 'Level 4', 'trim|required|max_length[50]');
         $this->form_validation->set_rules('SLOC', 'Sloc', 'trim|required|max_length[50]');
         if ($this->form_validation->run($this)) {
@@ -121,6 +133,21 @@ class master_level4 extends MX_Controller {
         if ($this->tbl_get->delete($id)) {
             $message = array(true, 'Proses Berhasil', 'Proses hapus data berhasil.', '#content_table');
         }
+        echo json_encode($message);
+    }
+
+    public function get_options_lv1($key=null) {
+        $message = $this->tbl_get->options_lv1('--Pilih Level 1--', $key, 0);
+        echo json_encode($message);
+    }
+
+    public function get_options_lv2($key=null) {
+        $message = $this->tbl_get->options_lv2('--Pilih Level 2--', $key, 0);
+        echo json_encode($message);
+    }
+
+    public function get_options_lv3($key=null) {
+        $message = $this->tbl_get->options_lv3('--Pilih Level 3--', $key, 0);
         echo json_encode($message);
     }
 

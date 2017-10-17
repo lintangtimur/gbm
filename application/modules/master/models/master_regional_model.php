@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @module UNIT KERJA
- * @author  Nike Yulistia Angreni
- * @created at 17 Maret 2014
- * @modified at 17 Maret 2014
+ * @module MASTER
+ * @author  CF
+ * @created at 17 November 2017
+ * @modified at 17 November 2017
  */
 class master_regional_model extends CI_Model {
 
@@ -96,28 +96,7 @@ class master_regional_model extends CI_Model {
         }
 
         return array('total' => $total, 'rows' => $rows);
-    }
-
-    public function options($default = '--Pilih Regional--', $key = 'all') {
-        $option = array();
-
-        if ($key == 'all') {
-            $list = $this->data()->get();
-        } else {
-            $list = $this->data($this->_key($key))->get();
-        }
-        // array($this->_table1.'.kms_menu_id' => NULL
-
-        if (!empty($default)) {
-            $option[''] = $default;
-        }
-
-        foreach ($list->result() as $row) {
-            $option[$row->ID_REGIONAL] = $row->NAMA_REGIONAL;
-        }
-        return $option;
-    }
-	 
+    }	 
 }
 
 /* End of file master_level1_model.php */
