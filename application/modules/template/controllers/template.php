@@ -149,7 +149,7 @@ class template extends MX_Controller {
 					
                 } else {
                     $menu .= '  <a ' . $expand . ' href="' . $this->set_url($group->url) . '" style="cursor:pointer;"><i class="' . $group->icon . '"></i> ' . $group->nama_menu . '</a>';
-					break;
+					// break;
                 }
                 $menu .= '</li>';
 				
