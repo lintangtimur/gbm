@@ -101,35 +101,14 @@ class master_level1_model extends CI_Model {
         return array('total' => $total, 'rows' => $rows);
     }
 
-    public function options($default = '--Pilih Level 1--', $key = 'all') {
+    public function options_reg($default = '--Pilih Regional--', $key = 'all') {
         $option = array();
 
-        if ($key == 'all') {
-            $list = $this->data()->get();
-        } else {
-            $list = $this->data($this->_key($key))->get();
-        }
-        // array($this->_table1.'.kms_menu_id' => NULL
-
-        if (!empty($default)) {
-            $option[''] = $default;
-        }
-
-        foreach ($list->result() as $row) {
-            $option[$row->COCODE] = $row->LEVEL1;
-        }
-        return $option;
-    }
-
-    public function options_regional($default = '--Pilih Regional--', $key = 'all') {
-        $option = array();
-
-        if ($key == 'all') {
-            $list = $this->data()->get();
-        } else {
-            $list = $this->data($this->_key($key))->get();
-        }
-        // array($this->_table1.'.kms_menu_id' => NULL
+        $this->db->from('master_regional');
+        if ($key != 'all'){
+            $this->db->where('ID_REGIONAL',$key);
+        }   
+        $list = $this->db->get(); 
 
         if (!empty($default)) {
             $option[''] = $default;

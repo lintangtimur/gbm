@@ -78,7 +78,7 @@ class master_regional extends MX_Controller {
     }
 
     public function proses() {
-        $this->form_validation->set_rules('ID_REGIONAL', 'ID Regional','required');
+        $this->form_validation->set_rules('ID_REGIONAL', 'ID Regional','trim|required|max_length[2]');
         $this->form_validation->set_rules('NAMA_REGIONAL', 'Nama Regional', 'trim|required|max_length[50]');
         if ($this->form_validation->run($this)) {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
