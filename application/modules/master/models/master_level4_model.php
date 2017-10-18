@@ -22,10 +22,12 @@ class master_level4_model extends CI_Model {
     }
 
     public function data($key = '') {
-        $this->db->select('a.*, b.LEVEL3, c.LEVEL2');
+        $this->db->select('a.*, b.LEVEL3, c.PLANT, c.LEVEL2, d.COCODE, d.LEVEL1, e.ID_REGIONAL, e.NAMA_REGIONAL');
         $this->db->from($this->_table1.' a');
         $this->db->join('master_level3 b', 'b.STORE_SLOC = a.STORE_SLOC','left');
         $this->db->join('master_level2 c', 'c.PLANT = a.PLANT','left');
+        $this->db->join('master_level1 d', 'd.COCODE = c.COCODE','left');
+        $this->db->join('master_regional e', 'e.ID_REGIONAL = d.ID_REGIONAL','left');
 
         if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
@@ -95,8 +97,11 @@ class master_level4_model extends CI_Model {
                 'LEVEL4' => $row->LEVEL4,
                 'SLOC' => $row->SLOC,
                 'DESCRIPTION_LVL4' => $row->DESCRIPTION_LVL4,
+                'NAMA_REGIONAL' => $row->NAMA_REGIONAL,
+                'LEVEL1' => $row->LEVEL1,
                 'LEVEL2' => $row->LEVEL2,
                 'LEVEL3' => $row->LEVEL3,
+
                 'aksi' => $aksi
             );
         }
@@ -104,26 +109,90 @@ class master_level4_model extends CI_Model {
         return array('total' => $total, 'rows' => $rows);
     }
 
-    public function options($default = '--Pilih Level 4--', $key = 'all') {
+    public function options_reg($default = '--Pilih Regional--', $key = 'all') {
         $option = array();
 
-        if ($key == 'all') {
-            $list = $this->data()->get();
-        } else {
-            $list = $this->data($this->_key($key))->get();
-        }
-        // array($this->_table1.'.kms_menu_id' => NULL
+        $this->db->from('master_regional');
+        if ($key != 'all'){
+            $this->db->where('ID_REGIONAL',$key);
+        }   
+        $list = $this->db->get(); 
 
         if (!empty($default)) {
             $option[''] = $default;
         }
 
         foreach ($list->result() as $row) {
-            $option[$row->SLOC] = $row->LEVEL4;
+            $option[$row->ID_REGIONAL] = $row->NAMA_REGIONAL;
         }
         return $option;
     }
 
+    public function options_lv1($default = '--Pilih Level 1--', $key = 'all', $jenis=0) {
+        $this->db->from('master_level1');
+        if ($key != 'all'){
+            $this->db->where('ID_REGIONAL',$key);
+        }    
+        if ($jenis==0){
+            return $this->db->get()->result(); 
+        } else {
+            $option = array();
+            $list = $this->db->get(); 
+
+            if (!empty($default)) {
+                $option[''] = $default;
+            }
+
+            foreach ($list->result() as $row) {
+                $option[$row->COCODE] = $row->LEVEL1;
+            }
+            return $option;    
+        }
+    }
+
+    public function options_lv2($default = '--Pilih Level 2--', $key = 'all', $jenis=0) {
+        $this->db->from('master_level2');
+        if ($key != 'all'){
+            $this->db->where('COCODE',$key);
+        }    
+        if ($jenis==0){
+            return $this->db->get()->result(); 
+        } else {
+            $option = array();
+            $list = $this->db->get(); 
+
+            if (!empty($default)) {
+                $option[''] = $default;
+            }
+
+            foreach ($list->result() as $row) {
+                $option[$row->PLANT] = $row->LEVEL2;
+            }
+            return $option;    
+        }
+    }
+
+    public function options_lv3($default = '--Pilih Level 3--', $key = 'all', $jenis=0) {
+        $this->db->from('master_level3');
+        if ($key != 'all'){
+            $this->db->where('PLANT',$key);
+        }    
+        if ($jenis==0){
+            return $this->db->get()->result(); 
+        } else {
+            $option = array();
+            $list = $this->db->get(); 
+
+            if (!empty($default)) {
+                $option[''] = $default;
+            }
+
+            foreach ($list->result() as $row) {
+                $option[$row->STORE_SLOC] = $row->LEVEL3;
+            }
+            return $option;    
+        }
+    }
 }
 
 /* End of file master_level1_model.php */

@@ -48,5 +48,6 @@
         $('#button-filter').click(function() {
             load_table('#content_table', 1, '#ffilter');
         });
+
     });
 </script>

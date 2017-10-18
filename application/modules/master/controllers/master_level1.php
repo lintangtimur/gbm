@@ -20,7 +20,6 @@ class master_level1 extends MX_Controller {
 
         /* Load Global Model */
         $this->load->model('master_level1_model','tbl_get');
-        $this->load->model('master_regional_model','tbl_get_regional');
     }
 
     public function index() {
@@ -47,7 +46,7 @@ class master_level1 extends MX_Controller {
             $get_data = $this->tbl_get->data($id);
             $data['default'] = $get_data->get()->row();
         }
-        $data['reg_options'] = $this->tbl_get_regional->options();
+        $data['reg_options'] = $this->tbl_get->options_reg();
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses');
         $this->load->view($this->_module . '/form', $data);
@@ -81,9 +80,9 @@ class master_level1 extends MX_Controller {
     }
 
     public function proses() {
+        $this->form_validation->set_rules('ID_REGIONAL', 'Regional','required');
         $this->form_validation->set_rules('LEVEL1', 'Level 1', 'trim|required|max_length[50]');
         $this->form_validation->set_rules('COCODE', 'Company Code', 'trim|required|max_length[50]');
-        $this->form_validation->set_rules('ID_REGIONAL', 'Regional','required');
         if ($this->form_validation->run($this)) {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
             $id = $this->input->post('id');
@@ -116,7 +115,6 @@ class master_level1 extends MX_Controller {
         }
         echo json_encode($message);
     }
-
 }
 
 /* End of file master_level1.php */

@@ -1,40 +1,42 @@
 <?php
 
+
 /**
- * @module MASTER
- * @author  CF
- * @created at 17 November 2017
- * @modified at 17 November 2017
+ * @module MASTER TRANSPORTIR
+ * @author  RAKHMAT WIJAYANTO
+ * @created at 17 OKTOBER 2017
+ * @modified at 17 OKTOBER 2017
  */
-class master_level1_model extends CI_Model {
+class depo_model extends CI_Model {
 
     public function __construct() {
         parent::__construct();
     }
 
-    private $_table1 = "master_level1"; //nama table setelah mom_
+    private $_table1 = "master_depo"; //nama table setelah mom_
 
     private function _key($key) { //unit ID
         if (!is_array($key)) {
-            $key = array('COCODE' => $key);
+            $key = array('ID_DEPO' => $key);
         }
         return $key;
     }
 
     public function data($key = '') {
-        $this->db->select('a.*, b.NAMA_REGIONAL ');
+        $this->db->select('a.*, b.NAMA_VENDOR');
         $this->db->from($this->_table1.' a');
-        $this->db->join('master_regional b', 'b.ID_REGIONAL = a.ID_REGIONAL','left');
+        $this->db->join('master_vendor b', 'b.ID_VENDOR = a.ID_VENDOR', 'left');
 
         if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
 
         return $this->db;
+
     }
 
     public function save_as_new($data) {
         $this->db->trans_begin();
-        // $this->db->set_id($this->_table1, 'ID_WILAYAH', 'no_prefix', 3);
+        $this->db->set_id($this->_table1, 'ID_DEPO', 'no_prefix', 3);
         $this->db->insert($this->_table1, $data);
 
         if ($this->db->trans_status() === FALSE) {
@@ -79,21 +81,24 @@ class master_level1_model extends CI_Model {
         $kata_kunci = $this->input->post('kata_kunci');
 
         if (!empty($kata_kunci))
-            $filter["a.COCODE LIKE '%{$kata_kunci}%' OR a.LEVEL1 LIKE '%{$kata_kunci}%' " ] = NULL;
+            $filter[$this->_table1 . ".NAMA_DEPO LIKE '%{$kata_kunci}%' "] = NULL;
         $total = $this->data($filter)->count_all_results();
 		$this->db->limit($limit, ($offset * $limit) - $limit);
         $record = $this->data($filter)->get();
 		$no=(($offset-1) * $limit) +1;
         $rows = array();
         foreach ($record->result() as $row) {
-            $id = $row->COCODE;
+            $id = $row->ID_DEPO;
             $aksi = anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
             $aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
             $rows[$id] = array(
-                'NO' => $no++,
-                'LEVEL1' => $row->LEVEL1,
-                'COCODE' => $row->COCODE,
-                'NAMA_REGIONAL' => $row->NAMA_REGIONAL,
+                'ID_DEPO' => $no++,
+                'SLOC' => $row->SLOC,
+                'NAMA_VENDOR' => $row->NAMA_VENDOR,
+                'NAMA_DEPO' => $row->NAMA_DEPO,
+                'LAT_DEPO' => $row->LAT_DEPO,
+                'LOT_DEPO' => $row->LOT_DEPO,
+                'ALAMAT_DEPO' => $row->NAMA_DEPO,
                 'aksi' => $aksi
             );
         }
@@ -101,13 +106,10 @@ class master_level1_model extends CI_Model {
         return array('total' => $total, 'rows' => $rows);
     }
 
-    public function options_reg($default = '--Pilih Regional--', $key = 'all') {
+    public function options_lv4($default = '--Pilih Level 4--') {
+        $this->db->from('master_level4');
+    
         $option = array();
-
-        $this->db->from('master_regional');
-        if ($key != 'all'){
-            $this->db->where('ID_REGIONAL',$key);
-        }   
         $list = $this->db->get(); 
 
         if (!empty($default)) {
@@ -115,13 +117,31 @@ class master_level1_model extends CI_Model {
         }
 
         foreach ($list->result() as $row) {
-            $option[$row->ID_REGIONAL] = $row->NAMA_REGIONAL;
+            $option[$row->SLOC] = $row->LEVEL4;
         }
-        return $option;
+        return $option;    
+        
     }
-     
+    public function options_vendor($default = '--Pilih Vendor--') {
+        $this->db->from('master_vendor');
+    
+        $option = array();
+        $list = $this->db->get(); 
+
+        if (!empty($default)) {
+            $option[''] = $default;
+        }
+
+        foreach ($list->result() as $row) {
+            $option[$row->ID_VENDOR] = $row->NAMA_VENDOR;
+        }
+        return $option;    
+        
+    }
+	 
+
 
 }
 
-/* End of file master_level1_model.php */
-/* Location: ./application/modules/unit/models/master_level1_model.php */
+/* End of file unit_model.php */
+/* Location: ./application/modules/unit/models/unit_model.php */

@@ -1,4 +1,11 @@
-<div class="row-fluid">
+<!-- 
+/**
+ * @module MASTER TRANSPORTIR
+ * @author  RAKHMAT WIJAYANTO
+ * @created at 17 OKTOBER 2017
+ * @modified at 17 OKTOBER 2017
+ */ -->
+ <div class="row-fluid">
     <div class="box-title">
         <?php echo (isset($page_title)) ? $page_title : 'Untitle'; ?>
     </div>
@@ -8,21 +15,21 @@
         echo form_open_multipart($form_action, array('id' => 'finput', 'class' => 'form-horizontal'), $hidden_form);
         ?>
         <div class="control-group">
-            <label for="password" class="control-label">Kode Pemasok <span class="required">*</span> : </label>
+            <label for="password" class="control-label">Kode Transportir <span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_input('KODE_PEMASOK', !empty($default->KODE_PEMASOK) ? $default->KODE_PEMASOK : '', 'class="span6"'); ?>
+                <?php echo form_input('KD_TRANSPORTIR', !empty($default->KD_TRANSPORTIR) ? $default->KD_TRANSPORTIR : '', 'class="span6"'); ?>
             </div>
         </div>
         <div class="control-group">
-            <label for="password" class="control-label">Nama Pemasok <span class="required">*</span> : </label>
+            <label for="password" class="control-label">Nama Transportir <span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_input('NAMA_PEMASOK', !empty($default->NAMA_PEMASOK) ? $default->NAMA_PEMASOK : '', 'class="span6"'); ?>
+                <?php echo form_input('NAMA_TRANSPORTIR', !empty($default->NAMA_TRANSPORTIR) ? $default->NAMA_TRANSPORTIR : '', 'class="span6"'); ?>
             </div>
         </div>
         <div class="control-group">
-            <label for="password" class="control-label">Aktif <span class="required">*</span> : </label>
+            <label for="password" class="control-label">Ket Transportir</span> : </label>
             <div class="controls">
-            <?php echo form_checkbox('ISAKTIF_PEMASOK', '1', !empty($default->ISAKTIF_PEMASOK) ? $default->ISAKTIF_PEMASOK : '' ); ?>
+                <?php echo form_input('KET_TRANSPORTIR', !empty($default->KET_TRANSPORTIR) ? $default->KET_TRANSPORTIR : '', 'class="span6"'); ?>
             </div>
         </div>
         <div class="form-actions">

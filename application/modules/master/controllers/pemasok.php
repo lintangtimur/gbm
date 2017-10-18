@@ -46,7 +46,6 @@ class pemasok extends MX_Controller {
             $pemasok = $this->pemasok_model->data($id);
             $data['default'] = $pemasok->get()->row();
         }
-        $data['parent_options'] = $this->pemasok_model->options();
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses');
         $this->load->view($this->_module . '/form', $data);
@@ -60,16 +59,17 @@ class pemasok extends MX_Controller {
         $data_table = $this->pemasok_model->data_table($this->_module, $this->_limit, $page);
         $this->load->library("ltable");
         $table = new stdClass();
-        $table->id = 'ID_VENDOR';
+        $table->id = 'ID_PEMASOK';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('ID_VENDOR' => 'center','KODE_VENDOR' => 'center', 'NAMA_VENDOR' => 'center', 'aksi' => 'center');
+        $table->align = array('ID_PEMASOK' => 'center','KODE_PEMASOK' => 'center', 'NAMA_PEMASOK' => 'center', 'aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
-        $table->jumlah_kolom = 4;
+        $table->jumlah_kolom = 5;
         $table->header[] = array(
             "No", 1, 1,
             "Kode Pemasok", 1, 1,
             "Nama Pemasok", 1, 1,
+            "Status", 1, 1,
             "Aksi", 1, 1
         );
         $table->total = $data_table['total'];
@@ -79,20 +79,26 @@ class pemasok extends MX_Controller {
     }
 
     public function proses() {
-        $this->form_validation->set_rules('NAMA_VENDOR', 'Nama Pemasok', 'trim|required|max_length[50]');
+        $this->form_validation->set_rules('NAMA_PEMASOK', 'Nama Pemasok', 'trim|required|max_length[50]');
+        $this->form_validation->set_rules('KODE_PEMASOK', 'Kode Pemasok', 'trim|required|max_length[50]');
         if ($this->form_validation->run($this)) {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
             $id = $this->input->post('id');
 
             $data = array();
-            $data['KODE_VENDOR'] = $this->input->post('KODE_VENDOR');
-            $data['NAMA_VENDOR'] = $this->input->post('NAMA_VENDOR');
+            $data['KODE_PEMASOK'] = $this->input->post('KODE_PEMASOK');
+            $data['NAMA_PEMASOK'] = $this->input->post('NAMA_PEMASOK');
+            $data['ISAKTIF_PEMASOK'] = $this->input->post('ISAKTIF_PEMASOK');
+            $data['CD_BY_PEMASOK'] = $this->session->userdata('user_name');
 
             if ($id == '') {
+                $data['CD_PEMASOK'] = date("Y/m/d");
+                $data['UD_PEMASOK'] = date("Y/m/d");
                 if ($this->pemasok_model->save_as_new($data)) {
                     $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
                 }
             } else {
+                $data['UD_PEMASOK'] = date("Y/m/d");
                 if ($this->pemasok_model->save($data, $id)) {
                     $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
                 }

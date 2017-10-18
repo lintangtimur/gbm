@@ -1,16 +1,23 @@
 <?php
 
+/**
+ * @module MASTER TRANSPORTIR
+ * @author  RAKHMAT WIJAYANTO
+ * @created at 17 OKTOBER 2017
+ * @modified at 17 OKTOBER 2017
+ */
+
 if (!defined("BASEPATH"))
     exit("No direct script access allowed");
 
 /**
- * @module master_level3
+ * @module Master Wilayah
  */
-class master_level3 extends MX_Controller {
+class depo extends MX_Controller {
 
-    private $_title = 'Master Level 3';
+    private $_title = 'Master Depo / Depot';
     private $_limit = 10;
-    private $_module = 'master/master_level3';
+    private $_module = 'master/depo';
 
     public function __construct() {
         parent::__construct();
@@ -19,7 +26,7 @@ class master_level3 extends MX_Controller {
         hprotection::login();
 
         /* Load Global Model */
-        $this->load->model('master_level3_model','tbl_get');
+        $this->load->model('depo_model', 'tbl_get');
     }
 
     public function index() {
@@ -41,20 +48,13 @@ class master_level3 extends MX_Controller {
     public function add($id = '') {
         $page_title = 'Tambah '.$this->_title;
         $data['id'] = $id;
-        $lv1 = '-';
-        $lv2 = '-';
         if ($id != '') {
-            $page_title = 'Edit '.$this->_title;
-            $get_data = $this->tbl_get->data($id);
-            $data['default'] = $get_data->get()->row();
-            $lv1 = $data['default']->ID_REGIONAL; 
-            $lv2 = $data['default']->COCODE;
-        } 
-
-        $data['reg_options'] = $this->tbl_get->options_reg();
-        $data['lv1_options'] = $this->tbl_get->options_lv1('--Pilih Level 1--', $lv1, 1); 
-        $data['lv2_options'] = $this->tbl_get->options_lv2('--Pilih Level 2--', $lv2, 1);     
-
+            $page_title = 'Edit Depo / Depot';
+            $get_tbl = $this->tbl_get->data($id);
+            $data['default'] = $get_tbl->get()->row();
+        }
+        $data['parent_options'] = $this->tbl_get->options_vendor();
+        $data['parent_options_sloc']= $this->tbl_get->options_lv4();
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses');
         $this->load->view($this->_module . '/form', $data);
@@ -68,19 +68,19 @@ class master_level3 extends MX_Controller {
         $data_table = $this->tbl_get->data_table($this->_module, $this->_limit, $page);
         $this->load->library("ltable");
         $table = new stdClass();
-        $table->id = 'PLANT';
+        $table->id = 'ID_DEPO';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('NO' => 'center', 'LEVEL3' => 'left', 'STORE_SLOC' => 'center', 'NAMA_REGIONAL' => 'left', 'LEVEL1' => 'left', 'LEVEL2' => 'left', 'aksi' => 'center');
+        $table->align = array('ID_DEPO' => 'center', 'SLOC' => 'center', 'NAMA_VENDOR' => 'center', 'NAMA_DEPO' => 'center', 'LAT' => 'center', 'LOT' => 'center', 'ALAMAT_DEPO' => 'center', 'aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
         $table->jumlah_kolom = 7;
         $table->header[] = array(
             "No", 1, 1,
-            "Level 3", 1, 1,
-            "Store Sloc", 1, 1,
-            "Regional", 1, 1,
-            "Level 1", 1, 1,
-            "Level 2", 1, 1,
+            "SLOC", 1, 1,
+            "Nama Vendor", 1, 1,
+            "Nama Depo", 1, 1,
+            "LAT", 1, 1,
+            "LOT", 1, 1,
             "Aksi", 1, 1
         );
         $table->total = $data_table['total'];
@@ -90,19 +90,21 @@ class master_level3 extends MX_Controller {
     }
 
     public function proses() {
-        $this->form_validation->set_rules('ID_REGIONAL', 'Regional','required');
-        $this->form_validation->set_rules('COCODE', 'Level 1','required');
-        $this->form_validation->set_rules('PLANT', 'Level 2', 'required');
-        $this->form_validation->set_rules('LEVEL3', 'Level 3', 'trim|required|max_length[50]');
-        $this->form_validation->set_rules('STORE_SLOC', 'Store Sloc', 'trim|required|max_length[50]');
+        $this->form_validation->set_rules('SLOC', 'SLOC', 'trim|required|max_length[50]');
+        $this->form_validation->set_rules('ID_VENDOR', 'ID_VENDOR', 'required');
         if ($this->form_validation->run($this)) {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
             $id = $this->input->post('id');
 
             $data = array();
-            $data['LEVEL3'] = $this->input->post('LEVEL3');
-            $data['STORE_SLOC'] = $this->input->post('STORE_SLOC');
-            $data['PLANT'] = $this->input->post('PLANT');
+            $data['SLOC'] = $this->input->post('SLOC');
+            $data['ID_VENDOR'] = $this->input->post('ID_VENDOR');
+            $data['NAMA_DEPO'] = $this->input->post('NAMA_DEPO');
+            $data['LAT_DEPO'] = $this->input->post('LAT_DEPO');
+            $data['LOT_DEPO'] = $this->input->post('LOT_DEPO');
+            $data['ALAMAT_DEPO'] = $this->input->post('ALAMAT_DEPO');
+            
+
 
             if ($id == '') {
                 if ($this->tbl_get->save_as_new($data)) {
@@ -118,7 +120,6 @@ class master_level3 extends MX_Controller {
         }
         echo json_encode($message, true);
     }
-
     public function delete($id) {
         $message = array(false, 'Proses gagal', 'Proses hapus data gagal.', '');
 
@@ -128,17 +129,7 @@ class master_level3 extends MX_Controller {
         echo json_encode($message);
     }
 
-    public function get_options_lv1($key=null) {
-        $message = $this->tbl_get->options_lv1('--Pilih Level 1--', $key, 0);
-        echo json_encode($message);
-    }
-
-    public function get_options_lv2($key=null) {
-        $message = $this->tbl_get->options_lv2('--Pilih Level 2--', $key, 0);
-        echo json_encode($message);
-    }
-
 }
 
-/* End of file master_level1.php */
-/* Location: ./application/modules/wilayah/controllers/master_level1.php */
+/* End of file wilayah.php */
+/* Location: ./application/modules/wilayah/controllers/wilayah.php */

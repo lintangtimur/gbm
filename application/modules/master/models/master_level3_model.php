@@ -22,9 +22,12 @@ class master_level3_model extends CI_Model {
     }
 
     public function data($key = '') {
-        $this->db->select('a.*, b.LEVEL2 ');
+        $this->db->select('a.*, b.LEVEL2, c.COCODE, c.LEVEL1, d.ID_REGIONAL, d.NAMA_REGIONAL');
         $this->db->from($this->_table1.' a');
         $this->db->join('master_level2 b', 'b.PLANT = a.PLANT','left');
+        $this->db->join('master_level1 c', 'c.COCODE = b.COCODE','left');
+        $this->db->join('master_regional d', 'd.ID_REGIONAL = c.ID_REGIONAL','left');
+
 
         if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
@@ -93,6 +96,8 @@ class master_level3_model extends CI_Model {
                 'NO' => $no++,
                 'LEVEL3' => $row->LEVEL3,
                 'STORE_SLOC' => $row->STORE_SLOC,
+                'NAMA_REGIONAL' => $row->NAMA_REGIONAL,
+                'LEVEL1' => $row->LEVEL1,
                 'LEVEL2' => $row->LEVEL2,
                 'aksi' => $aksi
             );
@@ -101,24 +106,67 @@ class master_level3_model extends CI_Model {
         return array('total' => $total, 'rows' => $rows);
     }
 
-    public function options($default = '--Pilih Level 2--', $key = 'all') {
+    public function options_reg($default = '--Pilih Regional--', $key = 'all') {
         $option = array();
 
-        if ($key == 'all') {
-            $list = $this->data()->get();
-        } else {
-            $list = $this->data($this->_key($key))->get();
-        }
-        // array($this->_table1.'.kms_menu_id' => NULL
+        $this->db->from('master_regional');
+        if ($key != 'all'){
+            $this->db->where('ID_REGIONAL',$key);
+        }   
+        $list = $this->db->get(); 
 
         if (!empty($default)) {
             $option[''] = $default;
         }
 
         foreach ($list->result() as $row) {
-            $option[$row->STORE_SLOC] = $row->LEVEL3;
+            $option[$row->ID_REGIONAL] = $row->NAMA_REGIONAL;
         }
         return $option;
+    }
+
+    public function options_lv1($default = '--Pilih Level 1--', $key = 'all', $jenis=0) {
+        $this->db->from('master_level1');
+        if ($key != 'all'){
+            $this->db->where('ID_REGIONAL',$key);
+        }    
+        if ($jenis==0){
+            return $this->db->get()->result(); 
+        } else {
+            $option = array();
+            $list = $this->db->get(); 
+
+            if (!empty($default)) {
+                $option[''] = $default;
+            }
+
+            foreach ($list->result() as $row) {
+                $option[$row->COCODE] = $row->LEVEL1;
+            }
+            return $option;    
+        }
+    }
+
+    public function options_lv2($default = '--Pilih Level 2--', $key = 'all', $jenis=0) {
+        $this->db->from('master_level2');
+        if ($key != 'all'){
+            $this->db->where('COCODE',$key);
+        }    
+        if ($jenis==0){
+            return $this->db->get()->result(); 
+        } else {
+            $option = array();
+            $list = $this->db->get(); 
+
+            if (!empty($default)) {
+                $option[''] = $default;
+            }
+
+            foreach ($list->result() as $row) {
+                $option[$row->PLANT] = $row->LEVEL2;
+            }
+            return $option;    
+        }
     }
 
 }
