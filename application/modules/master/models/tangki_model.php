@@ -13,6 +13,7 @@
 		private $_table2 = "master_level4"; //nama table setelah mom_
 		private $_table3 = "m_jns_bhn_bkr"; //nama table setelah mom_
 		private $_table4 = "master_tera"; //nama table setelah mom_
+		private $_table5 = "det_tera_tangki"; //nama table setelah mom_
 		
 		private function _key($key) { //unit ID
 			if (!is_array($key)) {
@@ -36,6 +37,21 @@
 			$this->db->trans_begin();
 			$this->db->set_id($this->_table1, 'ID_TANGKI', 'no_prefix', 3);
 			$this->db->insert($this->_table1, $data);
+			
+			if ($this->db->trans_status() === FALSE) {
+				$this->db->trans_rollback();
+				return FALSE;
+				} else {
+				$this->db->trans_commit();
+				return TRUE;
+			}
+		}
+
+
+		public function save_as_new2($tera) {
+			$this->db->trans_begin();
+			// $this->db->set_id($this->_table1, 'ID_DET_TERA', 'no_prefix', 1);
+			$this->db->insert($this->_table5, $tera);
 			
 			if ($this->db->trans_status() === FALSE) {
 				$this->db->trans_rollback();
