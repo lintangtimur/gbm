@@ -60,7 +60,7 @@
                                 </div>
                             </div>
                              <div class="control-group">
-                                <label for="password" class="control-label">Tanggal Tera<span class="required">*</span> : </label>
+                                <label for="password" class="control-label">Tanggal Akhir Tera<span class="required">*</span> : </label>
                                 <div class="controls">
                                 <?php $attributes = 'id="TGL_TERA" placeholder=""'; echo form_input('TGL_TERA', set_value('TGL_TERA'), $attributes); ?>
                                 </div>

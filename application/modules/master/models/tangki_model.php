@@ -35,7 +35,7 @@
 		
 		public function save_as_new($data) {
 			$this->db->trans_begin();
-			$this->db->set_id($this->_table1, 'ID_TANGKI', 'no_prefix', 3);
+			$this->db->set_id($this->_table1, 'ID_TANGKI', 'no_prefix', 4);
 			$this->db->insert($this->_table1, $data);
 			
 			if ($this->db->trans_status() === FALSE) {
@@ -49,8 +49,11 @@
 
 
 		public function save_as_new2($tera) {
+			// $this->db->set_id($this->_table5, 'ID_DET_TERA', 'no_prefix', 5);
+			$id = $this->db->set_id($this->_table1, 'ID_TANGKI', 'no_prefix', 4);
+			$tera['ID_TANGKI'] = $id;
 			$this->db->trans_begin();
-			// $this->db->set_id($this->_table1, 'ID_DET_TERA', 'no_prefix', 1);
+			// $this->db->set_id($this->_table1, 'ID_DET_TERA', 'no_prefix', );
 			$this->db->insert($this->_table5, $tera);
 			
 			if ($this->db->trans_status() === FALSE) {
