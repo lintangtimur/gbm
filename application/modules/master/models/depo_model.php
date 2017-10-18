@@ -23,9 +23,9 @@ class depo_model extends CI_Model {
     }
 
     public function data($key = '') {
-        $this->db->select('a.*, b.NAMA_VENDOR');
+        $this->db->select('a.*, b.NAMA_PEMASOK');
         $this->db->from($this->_table1.' a');
-        $this->db->join('master_vendor b', 'b.ID_VENDOR = a.ID_VENDOR', 'left');
+        $this->db->join('master_pemasok b', 'b.ID_PEMASOK = a.ID_PEMASOK', 'left');
 
         if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
@@ -93,8 +93,7 @@ class depo_model extends CI_Model {
             $aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
             $rows[$id] = array(
                 'ID_DEPO' => $no++,
-                'SLOC' => $row->SLOC,
-                'NAMA_VENDOR' => $row->NAMA_VENDOR,
+                'NAMA_PEMASOK' => $row->NAMA_PEMASOK,
                 'NAMA_DEPO' => $row->NAMA_DEPO,
                 'LAT_DEPO' => $row->LAT_DEPO,
                 'LOT_DEPO' => $row->LOT_DEPO,
@@ -106,8 +105,8 @@ class depo_model extends CI_Model {
         return array('total' => $total, 'rows' => $rows);
     }
 
-    public function options_lv4($default = '--Pilih Level 4--') {
-        $this->db->from('master_level4');
+    public function options_pemasok($default = '--Pilih Pemasok--') {
+        $this->db->from('master_pemasok');
     
         $option = array();
         $list = $this->db->get(); 
@@ -117,23 +116,7 @@ class depo_model extends CI_Model {
         }
 
         foreach ($list->result() as $row) {
-            $option[$row->SLOC] = $row->LEVEL4;
-        }
-        return $option;    
-        
-    }
-    public function options_vendor($default = '--Pilih Vendor--') {
-        $this->db->from('master_vendor');
-    
-        $option = array();
-        $list = $this->db->get(); 
-
-        if (!empty($default)) {
-            $option[''] = $default;
-        }
-
-        foreach ($list->result() as $row) {
-            $option[$row->ID_VENDOR] = $row->NAMA_VENDOR;
+            $option[$row->ID_PEMASOK] = $row->NAMA_PEMASOK;
         }
         return $option;    
         

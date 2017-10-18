@@ -15,15 +15,9 @@
         echo form_open_multipart($form_action, array('id' => 'finput', 'class' => 'form-horizontal'), $hidden_form);
         ?>
         <div class="control-group">
-            <label for="password" class="control-label">SLOC <span class="required">*</span> : </label>
+            <label for="password" class="control-label">Pilih Pemasok <span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_dropdown('SLOC', $parent_options_sloc, !empty($default->SLOC) ? $default->SLOC : '', 'class="span6"'); ?>
-            </div>
-        </div>
-        <div class="control-group">
-            <label for="password" class="control-label">Pilih Vendor <span class="required">*</span> : </label>
-            <div class="controls">
-               <?php echo form_dropdown('ID_VENDOR', $parent_options, !empty($default->ID_VENDOR) ? $default->ID_VENDOR : '', 'class="span6"'); ?>
+               <?php echo form_dropdown('ID_PEMASOK', $parent_options, !empty($default->ID_PEMASOK) ? $default->ID_PEMASOK : '', 'class="span6"'); ?>
             </div>
         </div>
         <div class="control-group">
