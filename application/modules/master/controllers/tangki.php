@@ -84,7 +84,12 @@ class tangki extends MX_Controller {
     }
 
     public function proses() {
-        $this->form_validation->set_rules('unit_pembangkit', 'Unit Pembangkit', 'trim|required|max_length[50]');
+        $this->form_validation->set_rules('unit_pembangkit', 'Unit Pembangkit', 'trim|required');
+        $this->form_validation->set_rules('jenis_bbm', 'Jenis Bahan Bakar', 'trim|required');
+        $this->form_validation->set_rules('TERA', 'Tera', 'trim|required');
+        $this->form_validation->set_rules('KAPASITAS', 'Kapasitas', 'trim|required|numeric');
+        $this->form_validation->set_rules('DEAD_STOCK', 'Dead Stok', 'trim|required|numeric');
+        $this->form_validation->set_rules('STOCK_EFEKTIF', 'Stock Efektif', 'trim|required|numeric');
         if ($this->form_validation->run($this)) {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
             $id = $this->input->post('id');
@@ -96,12 +101,20 @@ class tangki extends MX_Controller {
             $data['VOLUME_TANGKI'] = $this->input->post('KAPASITAS');
             $data['DEADSTOCK_TANGKI'] = $this->input->post('DEAD_STOCK');
             $data['STOCKEFEKTIF_TANGKI'] = $this->input->post('STOCK_EFEKTIF');
-            // $tera['TGL_TERA'] = $this->input->post('TGL_TERA');
+            $data['UD_BY_TANGKI'] = $this->session->userdata('user_name');
+            $tera['TGL_DET_TERA'] = $this->input->post('TGL_TERA');
+            $tera['CD_DET_TERA'] = date("Y/m/d");
+            $tera['UD_DET_TERA'] = date("Y/m/d");
+            $tera['CD_BY_DET_TERA'] = $this->session->userdata('user_name');
+            $tera['ID_TERA'] = $this->input->post('TERA');
             // $data['FILE_UPLOAD'] = $this->input->post('FILE_UPLOAD');
 
             if ($id == '') {
                 $data['CD_TANGKI'] = date("Y/m/d");
                 $data['UD_TANGKI'] = date("Y/m/d");
+                if ($this->tangki_model->save_as_new2($tera)) {
+                    $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
+                }
                 if ($this->tangki_model->save_as_new($data)) {
                     $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
                 }
