@@ -228,7 +228,7 @@ CREATE TABLE `m_menu` (
 
 /*Data for the table `m_menu` */
 
-insert  into `m_menu`(`MENU_ID`,`M_M_MENU_ID`,`MENU_NAMA`,`MENU_URL`,`MENU_KETERANGAN`,`MENU_ICON`,`MENU_URUTAN`) values ('001',NULL,'Dashboard','#',NULL,NULL,1),('002',NULL,'User Management','#',NULL,NULL,NULL),('003','002','Menu Management','user_management/menu',NULL,NULL,NULL),('004','002','Role Management','user_management/role',NULL,NULL,NULL);
+insert  into `m_menu`(`MENU_ID`,`M_M_MENU_ID`,`MENU_NAMA`,`MENU_URL`,`MENU_KETERANGAN`,`MENU_ICON`,`MENU_URUTAN`) values ('001',NULL,'Dashboard','#','','icon-dashboard',1),('002',NULL,'User Management','#','','icon-barcode',3),('003','002','Menu Management','user_management/menu','','',1),('004','002','Role Management','user_management/role','','',2),('005','002','User','user_management/user','','',3),('006',NULL,'Data Transaksi','#','','icon-globe',2),('007','006','Stock Opname','data_transaksi/stockopname','','icon-credit-card',1);
 
 /*Table structure for table `m_otoritas_menu` */
 
@@ -251,7 +251,7 @@ CREATE TABLE `m_otoritas_menu` (
 
 /*Data for the table `m_otoritas_menu` */
 
-insert  into `m_otoritas_menu`(`ROLES_ID`,`MENU_ID`,`IS_VIEW`,`IS_ADD`,`IS_EDIT`,`IS_DELETE`,`IS_APPROVE`,`UD_OTORITAS`) values ('001','002','t','t','t','t','t','0000-00-00'),('001','003','t','t','t','t','t','0000-00-00'),('001','004','t','t','t','t','t','0000-00-00');
+insert  into `m_otoritas_menu`(`ROLES_ID`,`MENU_ID`,`IS_VIEW`,`IS_ADD`,`IS_EDIT`,`IS_DELETE`,`IS_APPROVE`,`UD_OTORITAS`) values ('001','002','t','t','t','t','t',NULL),('001','003','t','t','t','t','t',NULL),('001','004','t','t','t','t','t',NULL),('001','005','t','t','t','t','t',NULL),('001','006','t','t','t','t','t',NULL),('001','007','t','t','t','t','t',NULL);
 
 /*Table structure for table `m_user` */
 
@@ -278,7 +278,7 @@ CREATE TABLE `m_user` (
 
 /*Data for the table `m_user` */
 
-insert  into `m_user`(`ID_USER`,`ROLES_ID`,`KD_USER`,`NAMA_USER`,`USERNAME`,`PWD_USER`,`EMAIL_USER`,`LEVEL_USER`,`KODE_LEVEL`,`ISAKTIF_USER`,`CD_USER`,`CD_BY_USER`,`UD_USER`) values (1,'001','xxxx','Aditya','admin','admin','admin','0','0','1',NULL,NULL,NULL);
+insert  into `m_user`(`ID_USER`,`ROLES_ID`,`KD_USER`,`NAMA_USER`,`USERNAME`,`PWD_USER`,`EMAIL_USER`,`LEVEL_USER`,`KODE_LEVEL`,`ISAKTIF_USER`,`CD_USER`,`CD_BY_USER`,`UD_USER`) values (1,'001','xxxx','Adityass','admin','admin','admin','0','0','1',NULL,NULL,NULL),(2,'001','22222','Aditssss','stafflevel2','d9b1d7db4cd6e70935368a1efb10e377','andhambe@yahoo.comsss','1','321','0','2017-10-18','Aditya-0','2017-10-18');
 
 /*Table structure for table `master_depo` */
 
@@ -320,6 +320,8 @@ CREATE TABLE `master_level1` (
 
 /*Data for the table `master_level1` */
 
+insert  into `master_level1`(`COCODE`,`ID_REGIONAL`,`LEVEL1`,`DESCRIPTION_LVL1`,`IS_AKTIF_LVL1`) values ('321','1','Level 1',NULL,NULL);
+
 /*Table structure for table `master_level2` */
 
 DROP TABLE IF EXISTS `master_level2`;
@@ -337,6 +339,8 @@ CREATE TABLE `master_level2` (
 
 /*Data for the table `master_level2` */
 
+insert  into `master_level2`(`PLANT`,`COCODE`,`LEVEL2`,`DESCRIPTION_LVL2`,`IS_AKTIF_LVL2`) values ('1','321','Level 2',NULL,NULL);
+
 /*Table structure for table `master_level3` */
 
 DROP TABLE IF EXISTS `master_level3`;
@@ -352,6 +356,8 @@ CREATE TABLE `master_level3` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `master_level3` */
+
+insert  into `master_level3`(`PLANT`,`STORE_SLOC`,`LEVEL3`,`DESCRIPTION_LVL3`,`IS_AKTIF_LVL3`) values ('1','24234','Level 3',NULL,NULL);
 
 /*Table structure for table `master_level4` */
 
@@ -372,6 +378,8 @@ CREATE TABLE `master_level4` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `master_level4` */
+
+insert  into `master_level4`(`SLOC`,`PLANT`,`STORE_SLOC`,`LEVEL4`,`DESCRIPTION_LVL4`,`IS_AKTI_LVL4`,`LAT_LVL4`,`LOT_LVL4`) values ('34234','1','24234','Level 4',NULL,NULL,NULL,NULL);
 
 /*Table structure for table `master_pemasok` */
 
@@ -401,6 +409,8 @@ CREATE TABLE `master_regional` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `master_regional` */
+
+insert  into `master_regional`(`ID_REGIONAL`,`NAMA_REGIONAL`) values ('1','Wilayah');
 
 /*Table structure for table `master_tangki` */
 
@@ -472,7 +482,7 @@ CREATE TABLE `roles` (
 
 /*Data for the table `roles` */
 
-insert  into `roles`(`ROLES_ID`,`ROLES_NAMA`,`ROLES_KETERANGAN`,`CD_ROLES`,`UP_ROLES`,`LEVEL_ROLES`) values ('001','Administrator',NULL,NULL,NULL,'0');
+insert  into `roles`(`ROLES_ID`,`ROLES_NAMA`,`ROLES_KETERANGAN`,`CD_ROLES`,`UP_ROLES`,`LEVEL_ROLES`) values ('001','Administrator','',NULL,NULL,'0');
 
 /*Table structure for table `setting` */
 
@@ -486,6 +496,82 @@ CREATE TABLE `setting` (
 /*Data for the table `setting` */
 
 insert  into `setting`(`VALUE`,`SETTING`) values ('GBM (Gas Bahan bakar Minyak)','nama_aplikasi');
+
+/* Function  structure for function  `SPLIT_STR` */
+
+/*!50003 DROP FUNCTION IF EXISTS `SPLIT_STR` */;
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` FUNCTION `SPLIT_STR`(`X` VARCHAR(255), `delim` VARCHAR(12), `pos` INT) RETURNS varchar(255) CHARSET latin1
+RETURN REPLACE(SUBSTRING(SUBSTRING_INDEX(X, delim, pos),
+       LENGTH(SUBSTRING_INDEX(X, delim, pos -1)) + 1),
+       delim, '') */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `save_user` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `save_user` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `save_user`(in p_role_id char(30), in p_kd_user varchar(20), in p_nama_user varchar(50),
+    in p_username varchar(100), in p_pwd varchar(100), in p_email varchar(50), in p_level char(1), in p_kode_level varchar(50),
+    in p_isaktif char(10), in p_cd_user varchar(100), IN p_id_user varchar(20))
+BEGIN
+	declare _count int default 0;
+	DECLARE `_rollback` BOOL DEFAULT 0;
+	DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
+	START TRANSACTION;
+	
+	select count(*) into _count 
+	from m_user where USERNAME =  p_username;
+	if _count = 1 and p_id_user = '' then
+		select 'RC00' as RCDB, 'Username is Exist' as PESANDB from dual;
+	else
+		if p_id_user = '' then
+			select count(*) into _count
+			from m_user;
+			
+			insert into m_user (id_user, `ROLES_ID`, `KD_USER`, `NAMA_USER`, `USERNAME`, `PWD_USER`, `EMAIL_USER`,
+			`LEVEL_USER`, `KODE_LEVEL`, `ISAKTIF_USER`, `CD_USER`, `CD_BY_USER`)
+			values ((_count + 1), p_role_id, p_kd_user, p_nama_user, p_username, md5(p_pwd), p_email, p_level, p_kode_level,
+			p_isaktif, curdate(), p_cd_user);
+			IF `_rollback` THEN
+				ROLLBACK;
+				SELECT 'RC00' AS RCDB, 'GAGAL SIMPAN DATA' AS PESANDB
+				from DUAL;
+			ELSE
+				COMMIT;
+				SELECT 'RC01' AS RCDB, 'User Berhasil disimpan' AS PESANDB
+				FROM DUAL;
+			END IF;	
+		ELSE
+			UPDATE m_user
+			set ROLES_ID = p_role_id,
+			KD_USER = p_kd_user,
+			NAMA_USER = p_nama_user ,
+			PWD_USER = md5(p_pwd) ,
+			EMAIL_USER =  p_email,
+			`LEVEL_USER` = p_level ,
+			`KODE_LEVEL` = p_kode_level,
+			`ISAKTIF_USER` = p_isaktif,
+			`UD_USER` = curdate()
+			where `ID_USER` = p_id_user;
+			
+			IF `_rollback` THEN
+				ROLLBACK;
+				SELECT 'RC00' AS RCDB, 'GAGAL UPDATE DATA' AS PESANDB
+				FROM DUAL;
+			ELSE
+				COMMIT;
+				SELECT 'RC01' AS RCDB, 'User Berhasil dirubah' AS PESANDB
+				FROM DUAL;
+			END IF;	
+		END IF;
+	end if;
+	
+    END */$$
+DELIMITER ;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

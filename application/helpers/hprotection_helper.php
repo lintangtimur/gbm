@@ -13,7 +13,7 @@ class hprotection {
             }
         } else {
             if (self::status_login()) {
-                redirect('dashboards');
+                redirect('dashboard');
                 exit;
             }
         }

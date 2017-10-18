@@ -193,17 +193,17 @@ class user extends MX_Controller {
         $check = array();
             $user = $this->user_model->data($id);
             $data['default'] = $user->get()->row();
-        $data_keahlian = $this->user_model->datakeahlian(array('user_id' => $id))->get();
-            foreach ($data_keahlian->result() as $dt_keahlian) {
-                $check[$dt_keahlian->keahlian_id] = array(
-                    'is_add' => $dt_keahlian->keahlian_id
-                );
-            }
-		$data['list_menu'] = $this->kompetensi_model->array_keahlian();
+        $data_keahlian = array();//$this->user_model->datakeahlian(array('user_id' => $id))->get();
+            // foreach ($data_keahlian->result() as $dt_keahlian) {
+                // $check[$dt_keahlian->keahlian_id] = array(
+                    // 'is_add' => $dt_keahlian->keahlian_id
+                // );
+            // }
+		$data['list_menu'] =  array();//$this->kompetensi_model->array_keahlian();
 		$data['cek_menu'] = $check;
-        $data['role_options'] = $this->role_model->options();
-        $data['loker_options'] = $this->loker_model->options();
-        $data['unit_options'] = $this->unit_model->options();
+        $data['role_options'] =  array();//$this->role_model->options();
+        $data['loker_options'] =  array();//$this->loker_model->options();
+        $data['unit_options'] =  array();//$this->unit_model->options();
         echo Modules::run("template/admin", $data);
     }
 
@@ -260,43 +260,15 @@ class user extends MX_Controller {
     }
 	
 	public function proses_profil() {
-        $this->form_validation->set_rules('user_nama', 'Name', 'trim|required|min_length[5]|max_length[30]');
-      
-        $this->form_validation->set_rules('loker_id', 'Loker Kerja', 'trim|required');
-        $this->form_validation->set_rules('unit_id', 'Unit Kerja', 'trim|required');
-        
-		
-		$temp_usernip = $this->input->post('temp_user_nip');
-        $new_usernip = $this->input->post('user_nip');
-        
-        if ($temp_usernip != $new_usernip) {
-            $this->form_validation->set_rules('user_nip', 'NIP', 'trim|required|max_length[30]|is_unique[user.user_nip]');
-        } else {
-            $this->form_validation->set_rules('user_nip', 'NIP', 'trim|required|max_length[30]');
-        }
-		
+        $this->form_validation->set_rules('user_nama', 'Nama', 'trim|required|min_length[5]|max_length[30]');
         $this->load->library('encrypt');
         if ($this->form_validation->run($this)) {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
             $id = $this->input->post('id');
 
             $user = array();
-            $user['user_nama'] = $this->input->post('user_nama');
-            $user['user_nip'] = $this->input->post('user_nip');
-            $user['loker_id'] = $this->input->post('loker_id');
-            $user['unit_id'] = $this->input->post('unit_id');
-            
-            
+            $user['nama_user'] = $this->input->post('user_nama');
                 if ($this->user_model->save($user, $id)) {
-					$this->user_model->delete_mapping($id);
-					foreach($this->input->post('is_add') as $value)
-					{
-						$data2=array(
-							'keahlian_id' => $value,
-							'user_id'=> $id
-						);						
-						$this->user_model->save_mapping($data2);
-					}
                     $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', base_url());
                 }
             
