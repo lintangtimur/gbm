@@ -8,7 +8,7 @@ if (!defined("BASEPATH"))
  */
 class user extends MX_Controller {
 
-    private $_title = 'User Web Admin';
+    private $_title = 'User Web';
     private $_module = 'user_management/user';
     private $_limit = 10;
 
@@ -18,12 +18,11 @@ class user extends MX_Controller {
         /* Load Global Model */
         $this->load->model('user_model');
         $this->load->model('role_model');
-        $this->load->model('loker_model');
-        $this->load->model('unit_model');
-        $this->load->model('user_model');
-		// $this->load->model('kms_master/kompetensi_model');
+		$this->load->model('master_level_model');
         // Protection
         hprotection::login();
+		$this->laccess->check();
+        $this->laccess->otoritas('view', true);
     }
 
     public function index() {
@@ -33,9 +32,12 @@ class user extends MX_Controller {
         // Memanggil plugin JS Crud
         $this->asset->set_plugin(array('crud'));
 
-        $data['button_group'] = array(
-            anchor(null, '<i class="icon-plus"></i> Tambah Data', array('class' => 'btn yellow', 'id' => 'button-add', 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($this->_module . '/add')))
-        );
+		$data['button_group'] = array();
+		if ($this->laccess->otoritas('add')) {
+			$data['button_group'] = array(
+				anchor(null, '<i class="icon-plus"></i> Tambah Data', array('class' => 'btn yellow', 'id' => 'button-add', 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($this->_module . '/add')))
+			);
+		}
 
         $data['role_options'] = $this->role_model->options();
 
@@ -49,17 +51,23 @@ class user extends MX_Controller {
     public function add($id = '') {
         $page_title = 'Tambah Data';
         $data['id'] = $id;
+		$data['role_options'] =$this->role_model->options();
+		$data['default'] = array();
+		$data['bindlevel'] = array();
+		$data['disabled'] = '';
         if ($id != '') {
             $page_title = 'Edit Data';
-            $user = $this->user_model->data($id);
-            $data['default'] = $user->get()->row();
+            $user = $this->user_model->data($id)->get()->result();
+            $data['default'] = $user[0];
+			$data['bindlevel'] = array($user[0]->KODE_LEVEL => $user[0]->KODE_LEVEL);
+			$data['disabled'] = 'readonly';
         }
-        $data['role_options'] = $this->role_model->options();
-        $data['loker_options'] = $this->loker_model->options();
-        $data['unit_options'] = $this->unit_model->options();
+        $data['loker_options'] = array();//$this->loker_model->options();
+        $data['unit_options'] = array();//$this->unit_model->options();
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses');
-
+		$data['loadlevel'] = base_url($this->_module). '/load_level/';
+		
         $this->load->view($this->_module . '/form', $data);
     }
 
@@ -93,48 +101,43 @@ class user extends MX_Controller {
     }
 
     public function proses() {
-        $this->form_validation->set_rules('user_nama', 'Name', 'trim|required|min_length[5]|max_length[30]');
-        $this->form_validation->set_rules('role_id', 'Role', 'trim|required');
-        $this->form_validation->set_rules('loker_id', 'Loker Kerja', 'trim|required');
-        $this->form_validation->set_rules('unit_id', 'Unit Kerja', 'trim|required');
-        
-        $temp_username = $this->input->post('temp_user_username');
-        $new_username = $this->input->post('user_username');
-        
-        if ($temp_username != $new_username) {
-            $this->form_validation->set_rules('user_username', 'Username', 'trim|required|min_length[5]|max_length[30]|is_unique[user.user_username]');
-        } else {
-            $this->form_validation->set_rules('user_username', 'Username', 'trim|required|min_length[5]|max_length[30]');
-        }
-        
-        $this->load->library('encrypt');
-        if ($this->form_validation->run($this)) {
-            $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
-            $id = $this->input->post('id');
-
-            $user = array();
-            $user['user_nama'] = $this->input->post('user_nama');
-            $user['user_nip'] = $this->input->post('user_nip');
-            $user['user_username'] = $this->input->post('user_username');
-            $user['loker_id'] = $this->input->post('loker_id');
-            $user['unit_id'] = $this->input->post('unit_id');
-            $user['roles_id'] = $this->input->post('role_id');
-            $user['user_status'] = $this->input->post('user_status');
-            
-            if ($id == '') {
-                $user['user_password'] = md5($this->input->post('user_username'));
-                if ($this->user_model->save_as_new($user)) {
-                    $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
-                }
-            } else {
-                if ($this->user_model->save($user, $id)) {
-                    $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
-                }
-            }
-        } else {
-            $message = array(false, 'Proses gagal', validation_errors(), '');
-        }
-        echo json_encode($message, true);
+		if ($this->laccess->otoritas('add') || $this->laccess->otoritas('edit')) {
+			$this->form_validation->set_rules('nama_user', 'Nama User', 'trim|required|max_length[50]');
+			$this->form_validation->set_rules('email_user', 'Email User', 'trim|required|max_length[50]|valid_email');
+			$this->form_validation->set_rules('level_user', 'Level User', 'required');
+			$this->form_validation->set_rules('kode_level', 'Kode Level', 'required');
+			$this->form_validation->set_rules('user_username', 'Username', 'trim|required|max_length[100]');
+			$this->form_validation->set_rules('password', 'Password', 'trim|required|max_length[100]');
+			$this->form_validation->set_rules('role_id', 'Role User', 'trim|required');
+			$this->form_validation->set_rules('user_status', 'Status user', 'trim|required');
+			
+			$this->load->library('encrypt');
+			if ($this->form_validation->run($this)) {
+				$id = $this->input->post('id');
+				$roleid = $this->input->post("role_id");
+				$kduser = $this->input->post("kode_user");
+				$nama = $this->input->post("nama_user");
+				$username = $this->input->post("user_username");
+				$pwd = $this->input->post("password");
+				$email = $this->input->post("email_user");
+				$level = $this->input->post("level_user");
+				$kodelevel = $this->input->post("kode_level");
+				$isaktif = $this->input->post("user_status");
+				
+				$data = $this->user_model->save_as_new($roleid, $kduser, $nama, $username, $pwd, $email, $level, $kodelevel, $isaktif, $id)->row();
+				$rc = $data->RCDB;
+				if($rc == "RC00"){
+					$message = array(false, 'Proses gagal', $data->PESANDB, '');
+				}else{
+					$message = array(true, 'Proses Berhasil', $data->PESANDB, '#content_table');
+				}
+			} else {
+				$message = array(false, 'Proses gagal', validation_errors(), '');
+			}
+			echo json_encode($message, true);
+		}else{
+			$this->laccess->redirect();
+		}
     }
 
     public function delete($id) {
@@ -256,7 +259,6 @@ class user extends MX_Controller {
         }
     }
 	
-	
 	public function proses_profil() {
         $this->form_validation->set_rules('user_nama', 'Name', 'trim|required|min_length[5]|max_length[30]');
       
@@ -304,7 +306,11 @@ class user extends MX_Controller {
         echo json_encode($message, true);
     }
 	
-	
+	public function load_level($id = ''){
+		$data = $this->master_level_model->load_option($id);
+		echo json_encode($data);
+		// return $data;
+	}
 	
 }
 

@@ -113,7 +113,7 @@ class role_model extends CI_Model {
         return array('total' => $total, 'rows' => $rows);
     }
 
-    public function options($default = '--Pilih Otoritas Data--') {
+    public function options($default = '--Pilih Role User--') {
         $option = array();
         $list = $this->data()->get();
 
@@ -121,7 +121,7 @@ class role_model extends CI_Model {
             $option[''] = $default;
 
         foreach ($list->result() as $row) {
-            $option[$row->roles_id] = $row->roles_nama;
+            $option[$row->ROLES_ID] = $row->ROLES_NAMA;
         }
 
         return $option;

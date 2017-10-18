@@ -140,7 +140,6 @@ class menu_model extends CI_Model {
         } else {
             $list = $this->data($this->_key($key))->get();
         }
-        // array($this->_table1.'.kms_menu_id' => NULL
 
         if (!empty($default)) {
             $option[''] = $default;

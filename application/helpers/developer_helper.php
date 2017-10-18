@@ -244,63 +244,10 @@ var_dump($argument);
 
 function lihatArray( $ar, $text = "")
     {
-        /* by tri@solmit
-        fungsi untuk melihat isi dan struktur array. 
-        $ar == input array
-        $text == text judul yg akan ditampilkan
-        */
         if (!empty($text)) { echo "<b>$text :</b>"; }
         echo "<pre>";
         print_r($ar); 
         echo "</pre>";
 
     }
-if ( !function_exists('arr_static_status'))
-{
-	function arr_static_status(){
-		$strHtml = '';
-		$strHtml = '<select name="status" class="span15" id= "status">';
-		$strHtml .= '<option value="" selected="selected">--All Status--</option>';
-		$strHtml .= '<option value="D">Draft</option>';
-		$strHtml .= '<option value="P">Publish</option>';
-		// $strHtml .= '<option value="N">Reject</option>';
-                $strHtml .= '<option value="O">Verifikasi</option>';
-		$strHtml .= '</select>';
-		return $strHtml;
-	}
-	
-	function arr_aljab(){
-		$strHtml = '';
-		$strHtml = '<select name="aljab" class="span15" id= "status">';
-		$strHtml .= '<option value="" selected="selected">--All--</option>';
-		$strHtml .= '<option value="A">A</option>';
-		$strHtml .= '<option value="B">B</option>';
-		$strHtml .= '<option value="C">C</option>';
-		$strHtml .= '<option value="D">D</option>';
-		$strHtml .= '<option value="E">E</option>';
-		$strHtml .= '<option value="F">F</option>';
-		$strHtml .= '<option value="G">G</option>';
-		$strHtml .= '<option value="H">H</option>';
-		$strHtml .= '<option value="I">I</option>';
-		$strHtml .= '<option value="J">J</option>';
-		$strHtml .= '<option value="K">K</option>';
-		$strHtml .= '<option value="L">L</option>';
-		$strHtml .= '<option value="M">M</option>';
-		$strHtml .= '<option value="N">N</option>';
-		$strHtml .= '<option value="O">O</option>';
-		$strHtml .= '<option value="P">P</option>';
-		$strHtml .= '<option value="Q">Q</option>';
-		$strHtml .= '<option value="R">R</option>';
-		$strHtml .= '<option value="S">S</option>';
-		$strHtml .= '<option value="T">T</option>';
-		$strHtml .= '<option value="U">U</option>';
-		$strHtml .= '<option value="V">V</option>';
-		$strHtml .= '<option value="W">W</option>';
-		$strHtml .= '<option value="X">X</option>';
-		$strHtml .= '<option value="Y">Y</option>';
-		$strHtml .= '<option value="Z">Z</option>';
-		$strHtml .= '</select>';
-		return $strHtml;
-	}
-	
-}
+

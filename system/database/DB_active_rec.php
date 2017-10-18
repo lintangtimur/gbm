@@ -1821,7 +1821,6 @@ class CI_DB_active_record extends CI_DB_driver {
 
     /**
      * Where Condition 
-     * Author : Warman Suganda
      * Description :
      *      + Default all AND,
      *      $condition = array(

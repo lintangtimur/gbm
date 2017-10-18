@@ -38,7 +38,7 @@ class login extends MX_Controller {
 
             $filter = array();
             $filter['USERNAME`'] = $username;
-            $filter['PWD_USER'] = $password;//$this->user_model->encrypt($password);
+            $filter['PWD_USER'] = md5($password);//$this->user_model->encrypt($password);
             $data_user = $this->user_model->data($filter)->get();
 
             if ($data_user->num_rows() > 0) {
@@ -49,7 +49,9 @@ class login extends MX_Controller {
                         'login_status' => TRUE,
                         'user_id' => $user->ID_USER,
                         'roles_id' => $user->ROLES_ID,
-                        'user_name' => $user->NAMA_USER
+                        'user_name' => $user->NAMA_USER,
+						'level_user' => $user->LEVEL_USER,
+						'kode_level' =>$user->KODE_LEVEL
                     );
                 
                 $this->session->set_userdata($info_login);

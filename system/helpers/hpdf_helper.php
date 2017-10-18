@@ -3,7 +3,6 @@
 /**
  * Description of hpdf
  *
- * @author Warman Suganda
  */
 define('_MPDF_PROGRBAR_TITLE', 'Cetak PDF');
 define('_MPDF_PROGRBAR_HEADING', 'Proses cetak PDF sedang berlangsung, silahkan tunggu...');

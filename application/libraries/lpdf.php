@@ -37,8 +37,8 @@ class lpdf {
         $pdf->cacheTables = true;
         $pdf->packTableData = true;
 
-        $nama_klient = 'PT. Solmit Bangun Indonesia';
-        $nama_aplikasi = 'Framework';
+        $nama_klient = 'PT. Indonesia Comnet Plus';
+        $nama_aplikasi = 'GBM';
 
         $pdf->StartProgressBarOutput(2);
         $pdf->SetHeader($nama_klient . ' || ');
