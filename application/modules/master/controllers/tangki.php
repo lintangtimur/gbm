@@ -46,8 +46,8 @@ class tangki extends MX_Controller {
             $tangki = $this->tangki_model->data($id);
             $data['default'] = $tangki->get()->row();
         }
-        $data['unit_pembangkit'] = $this->tangki_model->option_pembangkit();
-        $data['jenis_bbm'] = $this->tangki_model->option_jenisbbm();
+        $data['unit_pembangkit'] = $this->tangki_model->option_pembangkit('--Pilih Unit Pembangkit--', array('master_tangki.SLOC' => NULL));
+        $data['jenis_bbm'] = $this->tangki_model->option_jenisbbm('--Pilih Jenis BBM--', array('master_tangki.ID_JNS_BHN_BKR' => NULL));
         $data['tera'] = $this->tangki_model->option_tera();
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses');
@@ -96,7 +96,7 @@ class tangki extends MX_Controller {
             $data['VOLUME_TANGKI'] = $this->input->post('KAPASITAS');
             $data['DEADSTOCK_TANGKI'] = $this->input->post('DEAD_STOCK');
             $data['STOCKEFEKTIF_TANGKI'] = $this->input->post('STOCK_EFEKTIF');
-            // $data['tgltera'] = $this->input->post('tgltera');
+            // $tera['TGL_TERA'] = $this->input->post('TGL_TERA');
             // $data['FILE_UPLOAD'] = $this->input->post('FILE_UPLOAD');
 
             if ($id == '') {
