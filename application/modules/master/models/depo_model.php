@@ -13,7 +13,7 @@ class depo_model extends CI_Model {
         parent::__construct();
     }
 
-    private $_table1 = "master_depo"; //nama table setelah mom_
+    private $_table1 = "MASTER_DEPO"; //nama table setelah mom_
 
     private function _key($key) { //unit ID
         if (!is_array($key)) {
@@ -25,7 +25,7 @@ class depo_model extends CI_Model {
     public function data($key = '') {
         $this->db->select('a.*, b.NAMA_PEMASOK');
         $this->db->from($this->_table1.' a');
-        $this->db->join('master_pemasok b', 'b.ID_PEMASOK = a.ID_PEMASOK', 'left');
+        $this->db->join('MASTER_PEMASOK b', 'b.ID_PEMASOK = a.ID_PEMASOK', 'left');
 
         if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
@@ -106,7 +106,7 @@ class depo_model extends CI_Model {
     }
 
     public function options_pemasok($default = '--Pilih Pemasok--') {
-        $this->db->from('master_pemasok');
+        $this->db->from('MASTER_PEMASOK');
     
         $option = array();
         $list = $this->db->get(); 
