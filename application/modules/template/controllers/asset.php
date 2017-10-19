@@ -171,9 +171,10 @@ class asset extends MX_Controller {
             'js'=> array('library/jui/jquery-ui')
             ),
             "file-upload" => array(
-            'js'=> array('library/file-upload/componentspreloaders.min', 'library/file-upload/forms_file_upload.min')
+            'js'=> array('library/file-upload/dropify'),
+            'css'=> array('library/file-upload/dropify')
             )
-	);
+	   );
     }
 	
 

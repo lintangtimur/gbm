@@ -24,8 +24,6 @@
                          <div class="panel-body">
                              <div class="col-md-6">
                                 <div class="panel panel-default">
-                                <div class="panel-heading">
-                                </div>
                                 <div class="panel-body">
                                     <h4 style="margin-top: 2em;">Add to archive mail from:</h4>
                                    <input class ="datepicker" type="text" />
