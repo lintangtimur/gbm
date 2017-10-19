@@ -30,7 +30,7 @@
 		
 		public function save_as_new($data) {
 			$this->db->trans_begin();
-			$this->db->set_id($this->_table1, 'ID_PEMASOK', 'no_prefix', 3);
+			$this->db->set_id($this->_table1, 'ID_PEMASOK', 'no_prefix', 20);
 			$this->db->insert($this->_table1, $data);
 			
 			if ($this->db->trans_status() === FALSE) {

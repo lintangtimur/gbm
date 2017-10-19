@@ -35,7 +35,7 @@
 		
 		public function save_as_new($data) {
 			$this->db->trans_begin();
-			$this->db->set_id($this->_table1, 'ID_TANGKI', 'no_prefix', 4);
+			$id = $this->db->set_id($this->_table1, 'ID_TANGKI', 'no_prefix', 4);
 			$this->db->insert($this->_table1, $data);
 			
 			if ($this->db->trans_status() === FALSE) {
@@ -43,17 +43,25 @@
 				return FALSE;
 				} else {
 				$this->db->trans_commit();
+				$this->save_as_new2($id);
 				return TRUE;
 			}
 		}
 
 
-		public function save_as_new2($tera) {
-			// $this->db->set_id($this->_table5, 'ID_DET_TERA', 'no_prefix', 5);
-			$id = $this->db->set_id($this->_table1, 'ID_TANGKI', 'no_prefix', 4);
+		public function save_as_new2($id) {
 			$tera['ID_TANGKI'] = $id;
+			$tera['TGL_DET_TERA'] = $this->input->post('TGL_TERA');
+            $tera['CD_DET_TERA'] = date("Y/m/d");
+            $tera['UD_DET_TERA'] = date("Y/m/d");
+            $tera['CD_BY_DET_TERA'] = $this->session->userdata('user_name');
+            $tera['ID_TERA'] = $this->input->post('TERA');
+            $tera['ISAKTIF_DET_TERA'] = $this->input->post('STATUS');
+            $tera['PATH_DET_TERA'] = $this->input->post('FILE_UPLOAD');
+
 			$this->db->trans_begin();
-			// $this->db->set_id($this->_table1, 'ID_DET_TERA', 'no_prefix', );
+			$this->db->set_id($this->_table5, 'ID_DET_TERA', 'no_prefix', 5);
+			// $id = $this->db->set_id($this->_table1, 'ID_TANGKI', 'no_prefix', 4);
 			$this->db->insert($this->_table5, $tera);
 			
 			if ($this->db->trans_status() === FALSE) {
@@ -82,6 +90,7 @@
 		public function delete($key) {
 			$this->db->trans_begin();
 			
+			$this->db->delete($this->_table5, $this->_key($key));
 			$this->db->delete($this->_table1, $this->_key($key));
 			
 			if ($this->db->trans_status() === FALSE) {

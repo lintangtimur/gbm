@@ -103,18 +103,10 @@ class tangki extends MX_Controller {
             $data['STOCKEFEKTIF_TANGKI'] = $this->input->post('STOCK_EFEKTIF');
             $data['UD_BY_TANGKI'] = $this->session->userdata('user_name');
             $tera['TGL_DET_TERA'] = $this->input->post('TGL_TERA');
-            $tera['CD_DET_TERA'] = date("Y/m/d");
-            $tera['UD_DET_TERA'] = date("Y/m/d");
-            $tera['CD_BY_DET_TERA'] = $this->session->userdata('user_name');
-            $tera['ID_TERA'] = $this->input->post('TERA');
-            // $data['FILE_UPLOAD'] = $this->input->post('FILE_UPLOAD');
-
+           
             if ($id == '') {
                 $data['CD_TANGKI'] = date("Y/m/d");
                 $data['UD_TANGKI'] = date("Y/m/d");
-                if ($this->tangki_model->save_as_new2($tera)) {
-                    $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
-                }
                 if ($this->tangki_model->save_as_new($data)) {
                     $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
                 }
