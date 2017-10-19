@@ -32,12 +32,13 @@ class perhitungan_harga extends MX_Controller {
     public function index() {
         // Load Modules
         $this->load->module("template/asset");
+        $this->asset->set_plugin(array('bootstrap-rakhmat'));
 
         // Memanggil plugin JS Crud
         $this->asset->set_plugin(array('crud'));
 
         $data['button_group'] = array(
-            anchor(null, '<i class="icon-plus"></i> Tambah Data', array('class' => 'btn yellow', 'id' => 'button-add', 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($this->_module . '/add')))
+            anchor(null, '<i class="icon-plus"></i> Tambah Data', array('class' => 'btn yellow', 'id' => 'button-add', 'onclick' => 'load_form(this.id)', 'data-source' => base_url($this->_module . '/add')))
         );
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $this->_title;
         $data['page_content'] = $this->_module . '/main';

@@ -14,14 +14,14 @@
     <div class="widgets_area">
         <div class="row-fluid">
             <div class="span6">
-                <div class="well-content no-search">
+                <div id ="index-content" class="well-content no-search">
 
                     <div class="well">
-                        <div class="pull-left">
+                        <div class="content_table">
                             <?php echo hgenerator::render_button_group($button_group); ?>
                         </div>
                     </div>
-                    <div class="well">
+                    <div class="content_table">
                         <div class="well-content clearfix">
                             <?php echo form_open_multipart('', array('id' => 'ffilter')); ?>
                             <table>
@@ -41,7 +41,7 @@
                     <div id="content_table" data-source="<?php echo $data_sources; ?>" data-filter="#ffilter"></div>
                     <div>&nbsp;</div>
                 </div>
-                <div id="form-content" class="modal fade modal-xlarge"></div>
+                <div id="form-content" class="well-content"></div>
             </div>
         </div>
     </div>

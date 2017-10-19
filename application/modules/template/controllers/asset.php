@@ -146,7 +146,7 @@ class asset extends MX_Controller {
                 'css' => array('library/aciTree/aciTree', 'library/aciTree/demo')
             ),
             'highchart' => array(
-                'js' => array('library/highchart/js/highcharts', 'library/highchart/js/modules/exporting', 'library/highchart/js/graph')
+                'js' => array('library/highchart/js/highcharts', 'library/highchart/js/modules/exporting')
             ),
 			'raty' => array(
 				'js' => array('library/raty/jquery.raty','library/raty/jquery.raty.min'),
@@ -161,7 +161,11 @@ class asset extends MX_Controller {
 					),
 			'hadi' => array(
 				'js' => array('custom/hadi')
-			)
+			        ),
+            "bootstrap-rakhmat" => array(
+                'css'=> array('bootstrap-rakhmat/bootstrap'),
+                'js'=> array('bootstrap-rakhmat/bootstrap')
+            )
 				
         );
     }

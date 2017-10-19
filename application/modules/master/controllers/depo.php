@@ -69,7 +69,7 @@ class depo extends MX_Controller {
         $table = new stdClass();
         $table->id = 'ID_DEPO';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('ID_DEPO' => 'center', 'NAMA_PEMASOK' => 'center', 'NAMA_DEPO' => 'center', 'LAT' => 'center', 'LOT' => 'center', 'ALAMAT_DEPO' => 'center', 'aksi' => 'center');
+        $table->align = array('ID_DEPO' => 'center', 'NAMA_PEMASOK' => 'center', 'NAMA_DEPO' => 'center', 'LAT_DEPO' => 'center', 'LOT_DEPO' => 'center', 'ALAMAT_DEPO' => 'center', 'aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
         $table->jumlah_kolom = 6;
