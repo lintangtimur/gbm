@@ -65,10 +65,10 @@ class kontrak_transportir extends MX_Controller {
         $table = new stdClass();
         $table->id = 'ID_KONTRAK_TRANS';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('ID_KONTRAK_TRANS' => 'center','ID_TRANSPORTIR' => 'center', 'aksi' => 'center');
+        $table->align = array('no_kontrak' => 'center','nama_transportir' => 'center','periode' => 'center','nilai_kontrak' => 'center','keterangan' => 'center', 'aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
-        $table->jumlah_kolom = 7;
+        $table->jumlah_kolom = 6;
         $table->header[] = array(
             "No Kontrak", 1, 1,
             "Transportir", 1, 1,

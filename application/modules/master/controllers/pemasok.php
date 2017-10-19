@@ -61,7 +61,7 @@ class pemasok extends MX_Controller {
         $table = new stdClass();
         $table->id = 'ID_PEMASOK';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('ID_PEMASOK' => 'center','KODE_PEMASOK' => 'center', 'NAMA_PEMASOK' => 'center', 'aksi' => 'center');
+        $table->align = array('number' => 'center','id_pemasok' => 'center', 'nama_pemasok' => 'center', 'isaktif_pemasok' => 'center', 'aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
         $table->jumlah_kolom = 5;

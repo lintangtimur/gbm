@@ -103,6 +103,7 @@
 <script type="text/javascript">
 $(function() {
     $("#TGLKONTRAK").datepicker();
+    $('#TGLKONTRAK').datepicker('option', 'dateFormat', 'yy-mm-dd');
 });
 </script>
 <script type="text/javascript">
