@@ -36,9 +36,9 @@ class grafik extends MX_Controller {
         // Memanggil plugin JS Crud
         $this->asset->set_plugin(array('highchart'));
         $this->asset->set_plugin(array('jquery'));
-        //$this->asset->set_plugin(array('bootstrap-rakhmat'));
+        $this->asset->set_plugin(array('bootstrap-rakhmat'));
 
-       // print_r($this->asset); die;
+        //print_r($this->asset); die;
 
         // $data['button_group'] = array(
         //     anchor(null, '<i class="icon-plus"></i> Tambah Data', array('class' => 'btn yellow', 'id' => 'button-add', 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($this->_module . '/add')))

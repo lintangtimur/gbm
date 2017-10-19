@@ -115,7 +115,7 @@
 
 <script type="text/javascript">
 $(function() {
-    $("#TGL_TERA").datepicker();
+    $("#TGL_TERA").datepicker({format: 'yyyy-mm-dd', autoclose:true});
 });
 </script>
 <script type="text/javascript">
