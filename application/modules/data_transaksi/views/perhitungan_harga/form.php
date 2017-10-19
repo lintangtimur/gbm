@@ -5,7 +5,7 @@
  * @created at 17 OKTOBER 2017
  * @modified at 17 OKTOBER 2017
  */ -->
-<!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 <div class="row-fluid">
     <div class="box-title">
@@ -28,7 +28,7 @@
                                 </div>
                                 <div class="panel-body">
                                     <h4 style="margin-top: 2em;">Add to archive mail from:</h4>
-                                   <input id="datepicker" type="text" />
+                                   <input class ="datepicker" type="text" />
                                 </div>
                              </div>
                              </div>
@@ -53,7 +53,7 @@
             
         }
 
-    $( "#datepicker" ).datepicker({
+    $( ".datepicker" ).datepicker({
         showButtonPanel: true
     });
    

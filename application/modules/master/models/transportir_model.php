@@ -12,7 +12,7 @@ class transportir_model extends CI_Model {
         parent::__construct();
     }
 
-    private $_table1 = "master_transportir"; //nama table setelah mom_
+    private $_table1 = "MASTER_TRANSPORTIR"; //nama table setelah mom_
 
     private function _key($key) { //unit ID
         if (!is_array($key)) {

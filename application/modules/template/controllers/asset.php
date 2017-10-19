@@ -169,7 +169,7 @@ class asset extends MX_Controller {
             "jui" => array(
             'css'=> array('library/jui/jquery-ui'),
             'js'=> array('library/jui/jquery-ui')
-			)
+            )
 	);
     }
 	
