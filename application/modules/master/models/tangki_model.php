@@ -56,7 +56,8 @@
             $tera['UD_DET_TERA'] = date("Y/m/d");
             $tera['CD_BY_DET_TERA'] = $this->session->userdata('user_name');
             $tera['ID_TERA'] = $this->input->post('TERA');
-            $data['FILE_UPLOAD'] = $this->input->post('FILE_UPLOAD');
+            $tera['ISAKTIF_DET_TERA'] = $this->input->post('STATUS');
+            $tera['PATH_DET_TERA'] = $this->input->post('FILE_UPLOAD');
 
 			$this->db->trans_begin();
 			$this->db->set_id($this->_table5, 'ID_DET_TERA', 'no_prefix', 5);
@@ -89,6 +90,7 @@
 		public function delete($key) {
 			$this->db->trans_begin();
 			
+			$this->db->delete($this->_table5, $this->_key($key));
 			$this->db->delete($this->_table1, $this->_key($key));
 			
 			if ($this->db->trans_status() === FALSE) {
