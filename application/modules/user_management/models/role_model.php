@@ -28,7 +28,7 @@ class role_model extends CI_Model {
 
     public function save_as_new($data, $temp) {
         $this->db->trans_begin();
-        $save_id = $this->db->set_id($this->_table1, 'roles_id', 'no_prefix', 3);
+        $save_id = $this->db->set_id($this->_table1, 'ROLES_ID', 'no_prefix', 2);
         $this->db->insert($this->_table1, $data);
         $this->save_otoritas($save_id, $temp);
 
