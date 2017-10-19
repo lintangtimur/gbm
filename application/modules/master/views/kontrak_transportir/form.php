@@ -116,7 +116,8 @@
 
 <script type="text/javascript">
 $(function() {
-    $("#TGLKONTRAK").datepicker();
+    // $("#TGLKONTRAK").datepicker();
+    $("#TGLKONTRAK").datepicker({format: 'yyyy-mm-dd', autoclose:true});
 });
 </script>
 <script type="text/javascript">
