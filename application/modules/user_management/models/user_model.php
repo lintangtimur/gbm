@@ -24,16 +24,16 @@ class user_model extends CI_Model {
     public function data($key = '') {
         $this->db->select("a.*, b.ROLES_NAMA, (CASE 
 		WHEN a.LEVEL_USER = '0' THEN 'SGBM'
-		WHEN a.LEVEL_USER = 'R' THEN (SELECT c.NAMA_REGIONAL FROM master_regional c 
+		WHEN a.LEVEL_USER = 'R' THEN (SELECT c.NAMA_REGIONAL FROM MASTER_REGIONAL c 
 						WHERE c.ID_REGIONAL = a.KODE_LEVEL)
-		WHEN a.LEVEL_USER = '1' THEN (SELECT c.LEVEL1 FROM master_level1 c 
+		WHEN a.LEVEL_USER = '1' THEN (SELECT c.LEVEL1 FROM MASTER_LEVEL1 c 
 						WHERE c.COCODE = a.KODE_LEVEL)
-		WHEN a.LEVEL_USER = '2' THEN (SELECT c.LEVEL2 FROM master_level2 c 
+		WHEN a.LEVEL_USER = '2' THEN (SELECT c.LEVEL2 FROM MASTER_LEVEL2 c 
 						WHERE c.PLANT = a.KODE_LEVEL)
-		WHEN a.LEVEL_USER = '3' THEN (SELECT c.LEVEL3 FROM master_level3 c 
+		WHEN a.LEVEL_USER = '3' THEN (SELECT c.LEVEL3 FROM MASTER_LEVEL3 c 
 						WHERE c.PLANT = (SELECT SPLIT_STR(a.KODE_LEVEL, ';', 1))
-						AND c.STORE_SLOC = (SELECT SPLIT_STR(a.KODE_LEVEL, ';', 2)))
-		WHEN a.LEVEL_USER = '4' THEN (SELECT c.LEVEL4 FROM master_level4 c 
+						AND c.STOR_SLOC = (SELECT SPLIT_STR(a.KODE_LEVEL, ';', 2)))
+		WHEN a.LEVEL_USER = '4' THEN (SELECT c.LEVEL4 FROM MASTER_LEVEL4 c 
 						WHERE c.PLANT = a.KODE_LEVEL) END) as LOKER_NAMA ", false);
         $this->db->from($this->_table1 . ' a ');
         $this->db->join($this->_table2 . ' b', 'b.ROLES_ID = a.ROLES_ID');

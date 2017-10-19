@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v11.11 (64 bit)
-MySQL - 5.6.21 : Database - gbm_new
+MySQL - 5.6.26 : Database - gbm_new_dev
 *********************************************************************
 */
 
@@ -12,15 +12,15 @@ MySQL - 5.6.21 : Database - gbm_new
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`gbm_new` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`gbm_new_dev` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
-USE `gbm_new`;
+USE `gbm_new_dev`;
 
-/*Table structure for table `adendum_kontrak_pemasok` */
+/*Table structure for table `ADENDUM_KONTRAK_PEMASOK` */
 
-DROP TABLE IF EXISTS `adendum_kontrak_pemasok`;
+DROP TABLE IF EXISTS `ADENDUM_KONTRAK_PEMASOK`;
 
-CREATE TABLE `adendum_kontrak_pemasok` (
+CREATE TABLE `ADENDUM_KONTRAK_PEMASOK` (
   `ID_ADENDUM_PEMASOK` varchar(5) NOT NULL,
   `ID_KONTRAK_PEMASOK` varchar(5) NOT NULL,
   `NO_ADENDUM_PEMASOK` varchar(20) DEFAULT NULL,
@@ -42,16 +42,16 @@ CREATE TABLE `adendum_kontrak_pemasok` (
   `UD_ADENDUM_PEMASOK` date DEFAULT NULL,
   PRIMARY KEY (`ID_ADENDUM_PEMASOK`),
   KEY `FK_RELATIONSHIP_25` (`ID_KONTRAK_PEMASOK`),
-  CONSTRAINT `FK_RELATIONSHIP_25` FOREIGN KEY (`ID_KONTRAK_PEMASOK`) REFERENCES `data_kontrak_pemasok` (`ID_KONTRAK_PEMASOK`)
+  CONSTRAINT `FK_RELATIONSHIP_25` FOREIGN KEY (`ID_KONTRAK_PEMASOK`) REFERENCES `DATA_KONTRAK_PEMASOK` (`ID_KONTRAK_PEMASOK`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*Data for the table `adendum_kontrak_pemasok` */
+/*Data for the table `ADENDUM_KONTRAK_PEMASOK` */
 
-/*Table structure for table `data_kontrak_pemasok` */
+/*Table structure for table `DATA_KONTRAK_PEMASOK` */
 
-DROP TABLE IF EXISTS `data_kontrak_pemasok`;
+DROP TABLE IF EXISTS `DATA_KONTRAK_PEMASOK`;
 
-CREATE TABLE `data_kontrak_pemasok` (
+CREATE TABLE `DATA_KONTRAK_PEMASOK` (
   `ID_KONTRAK_PEMASOK` varchar(5) NOT NULL,
   `NOPJBBM_KONTRAK_PEMASOK` varchar(20) DEFAULT NULL,
   `TGL_KONTRAK_PEMASOK` date DEFAULT NULL,
@@ -74,13 +74,13 @@ CREATE TABLE `data_kontrak_pemasok` (
   PRIMARY KEY (`ID_KONTRAK_PEMASOK`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*Data for the table `data_kontrak_pemasok` */
+/*Data for the table `DATA_KONTRAK_PEMASOK` */
 
-/*Table structure for table `data_kontrak_transportir` */
+/*Table structure for table `DATA_KONTRAK_TRANSPORTIR` */
 
-DROP TABLE IF EXISTS `data_kontrak_transportir`;
+DROP TABLE IF EXISTS `DATA_KONTRAK_TRANSPORTIR`;
 
-CREATE TABLE `data_kontrak_transportir` (
+CREATE TABLE `DATA_KONTRAK_TRANSPORTIR` (
   `ID_KONTRAK_TRANS` int(11) NOT NULL,
   `ID_TRANSPORTIR` varchar(20) NOT NULL,
   `KD_KONTRAK_TRANS` varchar(50) DEFAULT NULL,
@@ -90,16 +90,78 @@ CREATE TABLE `data_kontrak_transportir` (
   `PATH_KONTRAK_TRANS` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`ID_KONTRAK_TRANS`),
   KEY `FK_RELATIONSHIP_13` (`ID_TRANSPORTIR`),
-  CONSTRAINT `FK_RELATIONSHIP_13` FOREIGN KEY (`ID_TRANSPORTIR`) REFERENCES `master_transportir` (`ID_TRANSPORTIR`)
+  CONSTRAINT `FK_RELATIONSHIP_13` FOREIGN KEY (`ID_TRANSPORTIR`) REFERENCES `MASTER_TRANSPORTIR` (`ID_TRANSPORTIR`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*Data for the table `data_kontrak_transportir` */
+/*Data for the table `DATA_KONTRAK_TRANSPORTIR` */
 
-/*Table structure for table `det_kontrak_trans` */
+/*Table structure for table `DATA_SETTING` */
 
-DROP TABLE IF EXISTS `det_kontrak_trans`;
+DROP TABLE IF EXISTS `DATA_SETTING`;
 
-CREATE TABLE `det_kontrak_trans` (
+CREATE TABLE `DATA_SETTING` (
+  `KEY_SETTING` varchar(50) DEFAULT NULL,
+  `VALUE_SETTING` varchar(50) DEFAULT NULL,
+  `NAME_SETTING` varchar(50) DEFAULT NULL,
+  `KET_SETTING` varchar(200) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `DATA_SETTING` */
+
+insert  into `DATA_SETTING`(`KEY_SETTING`,`VALUE_SETTING`,`NAME_SETTING`,`KET_SETTING`) values ('STATUS_AKTIF','1','Aktif',NULL),('STATUS_AKTIF','0','Tidak Aktif',NULL),('LEVEL_GROUP','0','Pusat',NULL),('LEVEL_GROUP','R','Regional',NULL),('LEVEL_GROUP','1','Level 1','Wilayah'),('LEVEL_GROUP','2','Level 2','Rayon'),('LEVEL_GROUP','3','Level 3','Sektor'),('LEVEL_GROUP','4','Level 4','Pembangkit'),('STATUS_APPROVE','0','Belum Dikirim','User level 3/4 Baru Insert'),('STATUS_APPROVE','1','Belum Disetujui','User Level 3/4 Klik Button Kirim'),('STATUS_APPROVE','2','Disetujui','User level 2 Melakukan Approval'),('STATUS_APPROVE','3','Ditolak','User Level 2 Menolak Approval dan status kembali lagi menjadi 0'),('JENIS_PENERIMAAN','1','TUG 3/4','Penerimaan Dari Unit Lain'),('JENIS_PENERIMAAN','2','DO','Penerimaan dari Pemasok');
+
+/*Table structure for table `DETAIL_JALUR_PASOKAN` */
+
+DROP TABLE IF EXISTS `DETAIL_JALUR_PASOKAN`;
+
+CREATE TABLE `DETAIL_JALUR_PASOKAN` (
+  `ID_DEPO` varchar(20) NOT NULL,
+  `SLOC` varchar(10) NOT NULL,
+  `ID_JALUR_PASOKAN` varchar(5) NOT NULL,
+  `CD_JALUR_PASOKAN` date DEFAULT NULL,
+  `UD_JALUR_PASOKAN` date DEFAULT NULL,
+  `UD_BY_JALUR_PASOKAN` varchar(100) DEFAULT NULL,
+  `ISAKTIF_JALUR_PASOKAN` char(1) DEFAULT NULL,
+  PRIMARY KEY (`ID_DEPO`,`SLOC`,`ID_JALUR_PASOKAN`),
+  KEY `FK_RELATIONSHIP_12` (`SLOC`),
+  CONSTRAINT `FK_RELATIONSHIP_11` FOREIGN KEY (`ID_DEPO`) REFERENCES `MASTER_DEPO` (`ID_DEPO`),
+  CONSTRAINT `FK_RELATIONSHIP_12` FOREIGN KEY (`SLOC`) REFERENCES `MASTER_LEVEL4` (`SLOC`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `DETAIL_JALUR_PASOKAN` */
+
+/*Table structure for table `DETIL_PERSEDIAAN` */
+
+DROP TABLE IF EXISTS `DETIL_PERSEDIAAN`;
+
+CREATE TABLE `DETIL_PERSEDIAAN` (
+  `ID_PEMAKAIAN` varchar(40) NOT NULL,
+  `ID_PENERIMAAN` varchar(10) NOT NULL,
+  `ID_MUTASI_PERSEDIAAN` varchar(5) NOT NULL,
+  `ID_STOCKOPNAME` char(5) NOT NULL,
+  `SLOC` varchar(10) NOT NULL,
+  `ID_JNS_BHN_BKR` varchar(5) NOT NULL,
+  KEY `FK_RELATIONSHIP_43` (`ID_MUTASI_PERSEDIAAN`),
+  KEY `FK_RELATIONSHIP_44` (`ID_STOCKOPNAME`),
+  KEY `FK_RELATIONSHIP_45` (`ID_PENERIMAAN`),
+  KEY `FK_RELATIONSHIP_46` (`ID_JNS_BHN_BKR`),
+  KEY `FK_RELATIONSHIP_54` (`SLOC`),
+  KEY `FK_RELATIONSHIP_57` (`ID_PEMAKAIAN`),
+  CONSTRAINT `FK_RELATIONSHIP_43` FOREIGN KEY (`ID_MUTASI_PERSEDIAAN`) REFERENCES `REKAP_MUTASI_PERSEDIAAN` (`ID_MUTASI_PERSEDIAAN`),
+  CONSTRAINT `FK_RELATIONSHIP_44` FOREIGN KEY (`ID_STOCKOPNAME`) REFERENCES `STOCK_OPNAME` (`ID_STOCKOPNAME`),
+  CONSTRAINT `FK_RELATIONSHIP_45` FOREIGN KEY (`ID_PENERIMAAN`) REFERENCES `MUTASI_PENERIMAAN` (`ID_PENERIMAAN`),
+  CONSTRAINT `FK_RELATIONSHIP_46` FOREIGN KEY (`ID_JNS_BHN_BKR`) REFERENCES `M_JNS_BHN_BKR` (`ID_JNS_BHN_BKR`),
+  CONSTRAINT `FK_RELATIONSHIP_54` FOREIGN KEY (`SLOC`) REFERENCES `MASTER_LEVEL4` (`SLOC`),
+  CONSTRAINT `FK_RELATIONSHIP_57` FOREIGN KEY (`ID_PEMAKAIAN`) REFERENCES `MUTASI_PEMAKAIAN` (`ID_PEMAKAIAN`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `DETIL_PERSEDIAAN` */
+
+/*Table structure for table `DET_KONTRAK_TRANS` */
+
+DROP TABLE IF EXISTS `DET_KONTRAK_TRANS`;
+
+CREATE TABLE `DET_KONTRAK_TRANS` (
   `ID_KONTRAK_TRANS` int(11) NOT NULL,
   `SLOC` varchar(10) NOT NULL,
   `ID_DEPO` varchar(20) NOT NULL,
@@ -112,60 +174,40 @@ CREATE TABLE `det_kontrak_trans` (
   PRIMARY KEY (`ID_KONTRAK_TRANS`,`SLOC`,`ID_DEPO`,`ID_DET_KONTRAK_TRANS`),
   KEY `FK_RELATIONSHIP_15` (`SLOC`),
   KEY `FK_RELATIONSHIP_23` (`ID_DEPO`),
-  CONSTRAINT `FK_RELATIONSHIP_14` FOREIGN KEY (`ID_KONTRAK_TRANS`) REFERENCES `data_kontrak_transportir` (`ID_KONTRAK_TRANS`),
-  CONSTRAINT `FK_RELATIONSHIP_15` FOREIGN KEY (`SLOC`) REFERENCES `master_level4` (`SLOC`),
-  CONSTRAINT `FK_RELATIONSHIP_23` FOREIGN KEY (`ID_DEPO`) REFERENCES `master_depo` (`ID_DEPO`)
+  CONSTRAINT `FK_RELATIONSHIP_14` FOREIGN KEY (`ID_KONTRAK_TRANS`) REFERENCES `DATA_KONTRAK_TRANSPORTIR` (`ID_KONTRAK_TRANS`),
+  CONSTRAINT `FK_RELATIONSHIP_15` FOREIGN KEY (`SLOC`) REFERENCES `MASTER_LEVEL4` (`SLOC`),
+  CONSTRAINT `FK_RELATIONSHIP_23` FOREIGN KEY (`ID_DEPO`) REFERENCES `MASTER_DEPO` (`ID_DEPO`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*Data for the table `det_kontrak_trans` */
+/*Data for the table `DET_KONTRAK_TRANS` */
 
-/*Table structure for table `det_tera_tangki` */
+/*Table structure for table `DET_TERA_TANGKI` */
 
-DROP TABLE IF EXISTS `det_tera_tangki`;
+DROP TABLE IF EXISTS `DET_TERA_TANGKI`;
 
-CREATE TABLE `det_tera_tangki` (
+CREATE TABLE `DET_TERA_TANGKI` (
   `ID_TANGKI` varchar(4) NOT NULL,
   `ID_TERA` varchar(5) NOT NULL,
   `ID_DET_TERA` varchar(5) NOT NULL,
   `PATH_DET_TERA` varchar(100) DEFAULT NULL,
   `TGL_DET_TERA` date DEFAULT NULL,
   `ISAKTIF_DET_TERA` char(1) DEFAULT NULL,
-  `CD_BY_DET_TERA` date DEFAULT NULL,
-  `CD_DET_TERA` varchar(100) DEFAULT NULL,
+  `CD_BY_DET_TERA` varchar(100) DEFAULT NULL,
+  `CD_DET_TERA` date DEFAULT NULL,
   `UD_DET_TERA` date DEFAULT NULL,
   PRIMARY KEY (`ID_TANGKI`,`ID_TERA`,`ID_DET_TERA`),
-  KEY `FK_RELATIONSHIP_22` (`ID_TERA`),
-  CONSTRAINT `FK_RELATIONSHIP_21` FOREIGN KEY (`ID_TANGKI`) REFERENCES `master_tangki` (`ID_TANGKI`),
-  CONSTRAINT `FK_RELATIONSHIP_22` FOREIGN KEY (`ID_TERA`) REFERENCES `master_tera` (`ID_TERA`)
+  KEY `FK_RELATIONSHIP_68` (`ID_TERA`),
+  CONSTRAINT `FK_RELATIONSHIP_64` FOREIGN KEY (`ID_TANGKI`) REFERENCES `MASTER_TANGKI` (`ID_TANGKI`),
+  CONSTRAINT `FK_RELATIONSHIP_68` FOREIGN KEY (`ID_TERA`) REFERENCES `MASTER_TERA` (`ID_TERA`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*Data for the table `det_tera_tangki` */
+/*Data for the table `DET_TERA_TANGKI` */
 
-/*Table structure for table `detail_jalur_pasokan` */
+/*Table structure for table `DOC_KONTRAK_PEMASOK` */
 
-DROP TABLE IF EXISTS `detail_jalur_pasokan`;
+DROP TABLE IF EXISTS `DOC_KONTRAK_PEMASOK`;
 
-CREATE TABLE `detail_jalur_pasokan` (
-  `ID_DEPO` varchar(20) NOT NULL,
-  `SLOC` varchar(10) NOT NULL,
-  `ID_JALUR_PASOKAN` varchar(5) NOT NULL,
-  `CD_JALUR_PASOKAN` date DEFAULT NULL,
-  `UD_JALUR_PASOKAN` date DEFAULT NULL,
-  `UD_BY_JALUR_PASOKAN` varchar(100) DEFAULT NULL,
-  `ISAKTIF_JALUR_PASOKAN` char(1) DEFAULT NULL,
-  PRIMARY KEY (`ID_DEPO`,`SLOC`,`ID_JALUR_PASOKAN`),
-  KEY `FK_RELATIONSHIP_12` (`SLOC`),
-  CONSTRAINT `FK_RELATIONSHIP_11` FOREIGN KEY (`ID_DEPO`) REFERENCES `master_depo` (`ID_DEPO`),
-  CONSTRAINT `FK_RELATIONSHIP_12` FOREIGN KEY (`SLOC`) REFERENCES `master_level4` (`SLOC`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-/*Data for the table `detail_jalur_pasokan` */
-
-/*Table structure for table `doc_kontrak_pemasok` */
-
-DROP TABLE IF EXISTS `doc_kontrak_pemasok`;
-
-CREATE TABLE `doc_kontrak_pemasok` (
+CREATE TABLE `DOC_KONTRAK_PEMASOK` (
   `ID_DOC_PEMASOK` char(5) NOT NULL,
   `ID_KONTRAK_PEMASOK` varchar(5) NOT NULL,
   `PATH_DOC_PEMASOK` varchar(100) DEFAULT NULL,
@@ -173,16 +215,45 @@ CREATE TABLE `doc_kontrak_pemasok` (
   `CD_BY_DOC_PEMASOK` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`ID_DOC_PEMASOK`),
   KEY `FK_RELATIONSHIP_24` (`ID_KONTRAK_PEMASOK`),
-  CONSTRAINT `FK_RELATIONSHIP_24` FOREIGN KEY (`ID_KONTRAK_PEMASOK`) REFERENCES `data_kontrak_pemasok` (`ID_KONTRAK_PEMASOK`)
+  CONSTRAINT `FK_RELATIONSHIP_24` FOREIGN KEY (`ID_KONTRAK_PEMASOK`) REFERENCES `DATA_KONTRAK_PEMASOK` (`ID_KONTRAK_PEMASOK`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*Data for the table `doc_kontrak_pemasok` */
+/*Data for the table `DOC_KONTRAK_PEMASOK` */
 
-/*Table structure for table `file_adendum_kontrak_pemasok` */
+/*Table structure for table `DUMMY_GRAFIK` */
 
-DROP TABLE IF EXISTS `file_adendum_kontrak_pemasok`;
+DROP TABLE IF EXISTS `DUMMY_GRAFIK`;
 
-CREATE TABLE `file_adendum_kontrak_pemasok` (
+CREATE TABLE `DUMMY_GRAFIK` (
+  `PERIODE` int(11) DEFAULT NULL,
+  `TYPE` varchar(90) DEFAULT NULL,
+  `BLTH` varchar(180) DEFAULT NULL,
+  `SULFUR` varchar(180) DEFAULT NULL,
+  `ALPHAHSD` varchar(180) DEFAULT NULL,
+  `ALPHAMFO` varchar(180) DEFAULT NULL,
+  `TANGGAL` datetime DEFAULT NULL,
+  `AWAL` datetime DEFAULT NULL,
+  `AKHIR` datetime DEFAULT NULL,
+  `HARGA` varchar(450) DEFAULT NULL,
+  `FOB1` varchar(450) DEFAULT NULL,
+  `FOB2` varchar(450) DEFAULT NULL,
+  `RMOPSHSD` varchar(180) DEFAULT NULL,
+  `RMOPSMFO` varchar(180) DEFAULT NULL,
+  `HSDPPN` varchar(180) DEFAULT NULL,
+  `HSDNOPPN` varchar(180) DEFAULT NULL,
+  `MFOPPN` varchar(180) DEFAULT NULL,
+  `MFONOPPN` varchar(180) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `DUMMY_GRAFIK` */
+
+insert  into `DUMMY_GRAFIK`(`PERIODE`,`TYPE`,`BLTH`,`SULFUR`,`ALPHAHSD`,`ALPHAMFO`,`TANGGAL`,`AWAL`,`AKHIR`,`HARGA`,`FOB1`,`FOB2`,`RMOPSHSD`,`RMOPSMFO`,`HSDPPN`,`HSDNOPPN`,`MFOPPN`,`MFONOPPN`) values (NULL,NULL,'January 2017','0.9827','107','109.50','2017-09-27 03:27:30','2016-10-28 00:00:00','2016-10-28 00:00:00','12983','829464','4071715','60.76','286.41','5742','5220','4337','3942'),(NULL,NULL,'February 2017','0.9827','107','109.50','2017-09-27 03:27:53','2016-10-27 00:00:00','2016-10-27 00:00:00','12962','828259','4076767','60.77','287.23','5734','5212','4342','3947'),(NULL,NULL,'March 2017','0.9827','107','109.50','2017-09-27 03:28:06','2016-10-27 00:00:00','2016-10-27 00:00:00','12962','828259','4076767','60.77','287.23','5734','5212','4342','3947'),(NULL,NULL,'April 2017','0.9827','107','109.50','2017-09-27 03:28:25','2016-10-26 00:00:00','2016-10-26 00:00:00','12932','826478','4082908','60.78','288.33','5721','5201','4349','3953'),(NULL,NULL,'May 2017','0.9827','107','109.50','2017-09-27 03:28:39','2016-10-27 00:00:00','2016-10-27 00:00:00','12962','828259','4076767','60.77','287.23','5734','5212','4342','3947'),(NULL,NULL,'June 2017','0.9827','107','109.50','2017-09-27 03:28:55','2016-10-27 00:00:00','2016-10-27 00:00:00','12962','828259','4076767','60.77','287.23','5734','5212','4342','3947'),(NULL,NULL,'July 2017','0.9827','107','109.50','2017-09-27 03:29:01','2016-10-27 00:00:00','2016-10-27 00:00:00','12962','828259','4076767','60.77','287.23','5734','5212','4342','3947'),(NULL,NULL,'August 2017','0.9827','107','109.50','2017-09-27 03:29:09','2016-10-27 00:00:00','2016-10-27 00:00:00','12962','828259','4076767','60.77','287.23','5734','5212','4342','3947'),(NULL,NULL,'September 2017','0.9827','107','109.50','2017-09-27 03:30:17','2016-10-26 00:00:00','2016-10-26 00:00:00','12932','826478','4082908','60.78','288.33','5721','5201','4349','3953'),(NULL,NULL,'January 2017','0.9827','107','109.50','2017-09-27 03:27:30','2016-10-28 00:00:00','2016-10-28 00:00:00','12983','829464','4071715','60.76','286.41','5742','5220','4337','3942'),(NULL,NULL,'February 2017','0.9827','107','109.50','2017-09-27 03:27:53','2016-10-27 00:00:00','2016-10-27 00:00:00','12962','828259','4076767','60.77','287.23','5734','5212','4342','3947'),(NULL,NULL,'March 2017','0.9827','107','109.50','2017-09-27 03:28:06','2016-10-27 00:00:00','2016-10-27 00:00:00','12962','828259','4076767','60.77','287.23','5734','5212','4342','3947'),(NULL,NULL,'April 2017','0.9827','107','109.50','2017-09-27 03:28:25','2016-10-26 00:00:00','2016-10-26 00:00:00','12932','826478','4082908','60.78','288.33','5721','5201','4349','3953'),(NULL,NULL,'May 2017','0.9827','107','109.50','2017-09-27 03:28:39','2016-10-27 00:00:00','2016-10-27 00:00:00','12962','828259','4076767','60.77','287.23','5734','5212','4342','3947'),(NULL,NULL,'June 2017','0.9827','107','109.50','2017-09-27 03:28:55','2016-10-27 00:00:00','2016-10-27 00:00:00','12962','828259','4076767','60.77','287.23','5734','5212','4342','3947'),(NULL,NULL,'July 2017','0.9827','107','109.50','2017-09-27 03:29:01','2016-10-27 00:00:00','2016-10-27 00:00:00','12962','828259','4076767','60.77','287.23','5734','5212','4342','3947'),(NULL,NULL,'August 2017','0.9827','107','109.50','2017-09-27 03:29:09','2016-10-27 00:00:00','2016-10-27 00:00:00','12962','828259','4076767','60.77','287.23','5734','5212','4342','3947'),(NULL,NULL,'September 2017','0.9827','107','109.50','2017-09-27 03:30:17','2016-10-26 00:00:00','2016-10-26 00:00:00','12932','826478','4082908','60.78','288.33','5721','5201','4349','3953');
+
+/*Table structure for table `FILE_ADENDUM_KONTRAK_PEMASOK` */
+
+DROP TABLE IF EXISTS `FILE_ADENDUM_KONTRAK_PEMASOK`;
+
+CREATE TABLE `FILE_ADENDUM_KONTRAK_PEMASOK` (
   `ID_FILE_KONTRAK_PEMASOK` varchar(5) NOT NULL,
   `ID_ADENDUM_PEMASOK` varchar(5) NOT NULL,
   `PATH_FILE_KONTRAK_PEMASOK` varchar(100) DEFAULT NULL,
@@ -191,29 +262,401 @@ CREATE TABLE `file_adendum_kontrak_pemasok` (
   `FILE_KONTRAK_PEMASOK` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`ID_FILE_KONTRAK_PEMASOK`),
   KEY `FK_RELATIONSHIP_26` (`ID_ADENDUM_PEMASOK`),
-  CONSTRAINT `FK_RELATIONSHIP_26` FOREIGN KEY (`ID_ADENDUM_PEMASOK`) REFERENCES `adendum_kontrak_pemasok` (`ID_ADENDUM_PEMASOK`)
+  CONSTRAINT `FK_RELATIONSHIP_26` FOREIGN KEY (`ID_ADENDUM_PEMASOK`) REFERENCES `ADENDUM_KONTRAK_PEMASOK` (`ID_ADENDUM_PEMASOK`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*Data for the table `file_adendum_kontrak_pemasok` */
+/*Data for the table `FILE_ADENDUM_KONTRAK_PEMASOK` */
 
-/*Table structure for table `m_jns_bhn_bkr` */
+/*Table structure for table `KURS` */
 
-DROP TABLE IF EXISTS `m_jns_bhn_bkr`;
+DROP TABLE IF EXISTS `KURS`;
 
-CREATE TABLE `m_jns_bhn_bkr` (
+CREATE TABLE `KURS` (
+  `ID_KURS` int(11) NOT NULL,
+  `BLTH_KURS` int(11) NOT NULL,
+  `TGL_KURS` date NOT NULL,
+  `NOMINAL` varchar(25) NOT NULL,
+  `JUAL` varchar(25) NOT NULL,
+  `KTBI` varchar(25) NOT NULL,
+  `CD_BY_KURS` varchar(60) NOT NULL,
+  `CD_DATE_KURS` date NOT NULL,
+  `UD_BY_KURS` varchar(60) DEFAULT NULL,
+  `UD_DATE_KURS` date DEFAULT NULL,
+  `KET_KURS` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`ID_KURS`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `KURS` */
+
+/*Table structure for table `MASTER_DEPO` */
+
+DROP TABLE IF EXISTS `MASTER_DEPO`;
+
+CREATE TABLE `MASTER_DEPO` (
+  `ID_DEPO` varchar(20) NOT NULL,
+  `ID_PEMASOK` varchar(20) NOT NULL,
+  `NAMA_DEPO` varchar(150) DEFAULT NULL,
+  `LAT_DEPO` varchar(100) DEFAULT NULL,
+  `LOT_DEPO` varchar(100) DEFAULT NULL,
+  `ALAMAT_DEPO` varchar(150) DEFAULT NULL,
+  `FLAG_DEPO` char(1) DEFAULT NULL,
+  `UD_DEPO` date DEFAULT NULL,
+  `CD_DEPO` date DEFAULT NULL,
+  `CD_BY_DEPO` varchar(100) DEFAULT NULL,
+  `ISAKTIF_DEPO` char(1) DEFAULT NULL,
+  PRIMARY KEY (`ID_DEPO`),
+  KEY `FK_RELATIONSHIP_8` (`ID_PEMASOK`),
+  CONSTRAINT `FK_RELATIONSHIP_8` FOREIGN KEY (`ID_PEMASOK`) REFERENCES `MASTER_PEMASOK` (`ID_PEMASOK`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `MASTER_DEPO` */
+
+insert  into `MASTER_DEPO`(`ID_DEPO`,`ID_PEMASOK`,`NAMA_DEPO`,`LAT_DEPO`,`LOT_DEPO`,`ALAMAT_DEPO`,`FLAG_DEPO`,`UD_DEPO`,`CD_DEPO`,`CD_BY_DEPO`,`ISAKTIF_DEPO`) values ('001','00000000000000000004','JATIWARINGIN','-6.2323371','106.8400545','JAKARTA',NULL,NULL,NULL,NULL,NULL),('002','00000000000000000003','GARUDA RAYA','-6.240638333333334','106.84741833333334','PONDOK GEDE',NULL,NULL,NULL,NULL,NULL),('003','00000000000000000002','BSD GEMILAR','-6.233076666666666','106.86698499999999','CISAUK',NULL,NULL,NULL,NULL,NULL),('004','00000000000000000004','RAWA JAGUNG','106.84369602250571','-6.240561478777081','JAKARTA SELATAN',NULL,NULL,NULL,NULL,NULL);
+
+/*Table structure for table `MASTER_FLOW_MTR` */
+
+DROP TABLE IF EXISTS `MASTER_FLOW_MTR`;
+
+CREATE TABLE `MASTER_FLOW_MTR` (
+  `SLOC` varchar(10) NOT NULL,
+  `NO_SERI_FLOW_MTR` varchar(60) NOT NULL,
+  `JNS_FLOW_MTR` int(11) NOT NULL,
+  `MERK_FLOW_MTR` varchar(25) NOT NULL,
+  `TYPE_FLOW_MTR` varchar(25) NOT NULL,
+  `CLASS_FLOW_MTR` varchar(25) DEFAULT NULL,
+  `MASA_AKHIR_FLOW_MTR` date DEFAULT NULL,
+  `BUKTI_TERA` longblob,
+  PRIMARY KEY (`SLOC`,`NO_SERI_FLOW_MTR`),
+  CONSTRAINT `FK_RELATIONSHIP_58` FOREIGN KEY (`SLOC`) REFERENCES `MASTER_LEVEL4` (`SLOC`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `MASTER_FLOW_MTR` */
+
+/*Table structure for table `MASTER_LEVEL1` */
+
+DROP TABLE IF EXISTS `MASTER_LEVEL1`;
+
+CREATE TABLE `MASTER_LEVEL1` (
+  `COCODE` varchar(10) NOT NULL,
+  `ID_REGIONAL` varchar(10) DEFAULT NULL,
+  `LEVEL1` varchar(50) DEFAULT NULL,
+  `DESCRIPTION_LVL1` varchar(50) DEFAULT NULL,
+  `IS_AKTIF_LVL1` char(1) DEFAULT NULL,
+  PRIMARY KEY (`COCODE`),
+  KEY `FK_RELATIONSHIP_70` (`ID_REGIONAL`),
+  CONSTRAINT `FK_RELATIONSHIP_70` FOREIGN KEY (`ID_REGIONAL`) REFERENCES `M_REGIONAL` (`ID_REGIONAL`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `MASTER_LEVEL1` */
+
+/*Table structure for table `MASTER_LEVEL2` */
+
+DROP TABLE IF EXISTS `MASTER_LEVEL2`;
+
+CREATE TABLE `MASTER_LEVEL2` (
+  `PLANT` varchar(10) NOT NULL,
+  `COCODE` varchar(10) NOT NULL,
+  `STOR_SLOC` varchar(10) NOT NULL,
+  `SLOC` varchar(10) NOT NULL,
+  `LEVEL2` varchar(50) DEFAULT NULL,
+  `DESCRIPTION_LVL2` varchar(100) DEFAULT NULL,
+  `IS_AKTIF_LVL2` char(1) DEFAULT NULL,
+  PRIMARY KEY (`PLANT`),
+  KEY `FK_RELATIONSHIP_1` (`COCODE`),
+  KEY `FK_RELATIONSHIP_50` (`STOR_SLOC`),
+  KEY `FK_RELATIONSHIP_55` (`SLOC`),
+  CONSTRAINT `FK_RELATIONSHIP_1` FOREIGN KEY (`COCODE`) REFERENCES `MASTER_LEVEL1` (`COCODE`),
+  CONSTRAINT `FK_RELATIONSHIP_50` FOREIGN KEY (`STOR_SLOC`) REFERENCES `MASTER_LEVEL3` (`STOR_SLOC`),
+  CONSTRAINT `FK_RELATIONSHIP_55` FOREIGN KEY (`SLOC`) REFERENCES `MASTER_LEVEL4` (`SLOC`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `MASTER_LEVEL2` */
+
+/*Table structure for table `MASTER_LEVEL3` */
+
+DROP TABLE IF EXISTS `MASTER_LEVEL3`;
+
+CREATE TABLE `MASTER_LEVEL3` (
+  `STOR_SLOC` varchar(10) NOT NULL,
+  `SLOC` varchar(10) NOT NULL,
+  `LEVEL3` varchar(50) DEFAULT NULL,
+  `DESCRIPTION_LVL3` varchar(100) DEFAULT NULL,
+  `IS_AKTIF_LVL3` char(1) DEFAULT NULL,
+  PRIMARY KEY (`STOR_SLOC`),
+  KEY `FK_RELATIONSHIP_56` (`SLOC`),
+  CONSTRAINT `FK_RELATIONSHIP_56` FOREIGN KEY (`SLOC`) REFERENCES `MASTER_LEVEL4` (`SLOC`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `MASTER_LEVEL3` */
+
+/*Table structure for table `MASTER_LEVEL4` */
+
+DROP TABLE IF EXISTS `MASTER_LEVEL4`;
+
+CREATE TABLE `MASTER_LEVEL4` (
+  `SLOC` varchar(10) NOT NULL,
+  `ID_USER` int(11) NOT NULL,
+  `PEN_SLOC` varchar(10) NOT NULL,
+  `LEVEL4` varchar(50) DEFAULT NULL,
+  `DESCRIPTION_LVL4` varchar(50) DEFAULT NULL,
+  `IS_AKTI_LVL4` char(1) DEFAULT NULL,
+  `LAT_LVL4` varchar(100) DEFAULT NULL,
+  `LOT_LVL4` varchar(100) DEFAULT NULL,
+  `KAPASITAS_LVL4` int(11) DEFAULT NULL,
+  `STATUS_LVL4` char(1) DEFAULT NULL,
+  PRIMARY KEY (`SLOC`),
+  KEY `FK_RELATIONSHIP_67` (`ID_USER`,`PEN_SLOC`),
+  CONSTRAINT `FK_RELATIONSHIP_67` FOREIGN KEY (`ID_USER`, `PEN_SLOC`) REFERENCES `PENUTUPAN_MUTASI_PERSEDIAAN` (`ID_USER`, `SLOC`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `MASTER_LEVEL4` */
+
+/*Table structure for table `MASTER_PEMASOK` */
+
+DROP TABLE IF EXISTS `MASTER_PEMASOK`;
+
+CREATE TABLE `MASTER_PEMASOK` (
+  `ID_PEMASOK` varchar(20) NOT NULL,
+  `KODE_PEMASOK` varchar(50) NOT NULL,
+  `NAMA_PEMASOK` varchar(50) DEFAULT NULL,
+  `CD_PEMASOK` date DEFAULT NULL,
+  `CD_BY_PEMASOK` varchar(100) DEFAULT NULL,
+  `UD_PEMASOK` date DEFAULT NULL,
+  `ISAKTIF_PEMASOK` char(1) DEFAULT NULL,
+  PRIMARY KEY (`ID_PEMASOK`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `MASTER_PEMASOK` */
+
+insert  into `MASTER_PEMASOK`(`ID_PEMASOK`,`KODE_PEMASOK`,`NAMA_PEMASOK`,`CD_PEMASOK`,`CD_BY_PEMASOK`,`UD_PEMASOK`,`ISAKTIF_PEMASOK`) values ('00000000000000000002','002','AKR CORPORINDO TBK','2017-10-19','Administrator','2017-10-19','1'),('00000000000000000003','003','PT. KUTILANG PAKSI MAS','2017-10-19','Administrator','2017-10-19','1'),('00000000000000000004','001','PT. PERTAMINA (PERSERO)','2017-10-19','Administrator','2017-10-19','1');
+
+/*Table structure for table `MASTER_REGIONAL` */
+
+DROP TABLE IF EXISTS `MASTER_REGIONAL`;
+
+CREATE TABLE `MASTER_REGIONAL` (
+  `ID_REGIONAL` varchar(2) NOT NULL,
+  `NAMA_REGIONAL` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID_REGIONAL`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `MASTER_REGIONAL` */
+
+insert  into `MASTER_REGIONAL`(`ID_REGIONAL`,`NAMA_REGIONAL`) values ('00','Pusat'),('01','Sumatera'),('02','Jawa Bagian Barat'),('03','Jawa Bagian Tengah'),('04','Jawa Bagian Timur dan Bali'),('05','Kalimantan'),('06','Sulawesi dan Nusa Tenggara'),('07','Maluku dan Papua');
+
+/*Table structure for table `MASTER_TANGKI` */
+
+DROP TABLE IF EXISTS `MASTER_TANGKI`;
+
+CREATE TABLE `MASTER_TANGKI` (
+  `ID_TANGKI` varchar(4) NOT NULL,
+  `ID_JNS_BHN_BKR` varchar(5) NOT NULL,
+  `SLOC` varchar(10) NOT NULL,
+  `NAMA_TANGKI` varchar(50) DEFAULT NULL,
+  `VOLUME_TANGKI` int(11) DEFAULT NULL,
+  `DEADSTOCK_TANGKI` int(11) DEFAULT NULL,
+  `CD_TANGKI` date DEFAULT NULL,
+  `UD_TANGKI` date DEFAULT NULL,
+  `STOCKEFEKTIF_TANGKI` int(11) DEFAULT NULL,
+  `UD_BY_TANGKI` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`ID_TANGKI`),
+  KEY `FK_RELATIONSHIP_20` (`ID_JNS_BHN_BKR`),
+  KEY `FK_RELATIONSHIP_9` (`SLOC`),
+  CONSTRAINT `FK_RELATIONSHIP_20` FOREIGN KEY (`ID_JNS_BHN_BKR`) REFERENCES `M_JNS_BHN_BKR` (`ID_JNS_BHN_BKR`),
+  CONSTRAINT `FK_RELATIONSHIP_9` FOREIGN KEY (`SLOC`) REFERENCES `MASTER_LEVEL4` (`SLOC`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `MASTER_TANGKI` */
+
+/*Table structure for table `MASTER_TERA` */
+
+DROP TABLE IF EXISTS `MASTER_TERA`;
+
+CREATE TABLE `MASTER_TERA` (
+  `ID_TERA` varchar(5) NOT NULL,
+  `NAMA_TERA` varchar(100) DEFAULT NULL,
+  `CD_TERA` date DEFAULT NULL,
+  `CD_BY_TERA` varchar(100) DEFAULT NULL,
+  `UD_TERA` date DEFAULT NULL,
+  `ISAKTIF_TERA` char(1) DEFAULT NULL,
+  PRIMARY KEY (`ID_TERA`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `MASTER_TERA` */
+
+/*Table structure for table `MASTER_TRANSPORTIR` */
+
+DROP TABLE IF EXISTS `MASTER_TRANSPORTIR`;
+
+CREATE TABLE `MASTER_TRANSPORTIR` (
+  `ID_TRANSPORTIR` varchar(20) NOT NULL,
+  `KD_TRANSPORTIR` varchar(50) DEFAULT NULL,
+  `NAMA_TRANSPORTIR` varchar(50) DEFAULT NULL,
+  `KET_TRANSPORTIR` varchar(150) DEFAULT NULL,
+  PRIMARY KEY (`ID_TRANSPORTIR`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `MASTER_TRANSPORTIR` */
+
+/*Table structure for table `MOPS` */
+
+DROP TABLE IF EXISTS `MOPS`;
+
+CREATE TABLE `MOPS` (
+  `ID_MOPS` char(5) NOT NULL,
+  `ID_USER` int(11) NOT NULL,
+  `LOWHSD_MOPS` varchar(60) DEFAULT NULL,
+  `MIDHSD_MOPS` varchar(60) NOT NULL,
+  `LOWMFO_MOPS` varchar(60) DEFAULT NULL,
+  `MIDMFO_MOPS` varchar(60) NOT NULL,
+  `TGL_MOPS` date NOT NULL,
+  `CD_BY_MOPS` varchar(100) NOT NULL,
+  `CD_DATE_MOPS` date NOT NULL,
+  `UD_BY_MOPS` varchar(100) DEFAULT NULL,
+  `UD_DATE_MOPS` date DEFAULT NULL,
+  PRIMARY KEY (`ID_MOPS`),
+  KEY `FK_RELATIONSHIP_34` (`ID_USER`),
+  CONSTRAINT `FK_RELATIONSHIP_34` FOREIGN KEY (`ID_USER`) REFERENCES `M_USER` (`ID_USER`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='id_mops : no_mops (sys)\nlowhsd : harga hsd rendah (use';
+
+/*Data for the table `MOPS` */
+
+/*Table structure for table `MOPS_KOREKSI` */
+
+DROP TABLE IF EXISTS `MOPS_KOREKSI`;
+
+CREATE TABLE `MOPS_KOREKSI` (
+  `ID_MOPS_KREKSI` varchar(25) NOT NULL,
+  `ID_MOPS` char(5) NOT NULL,
+  `LOWHSD_MOPS_KREKSI` varchar(1024) DEFAULT NULL,
+  `MIDHSD_MOPS_KREKSI` varchar(1024) DEFAULT NULL,
+  `LOWMFO_MOPS_KREKSI` varchar(1024) DEFAULT NULL,
+  `MIDMFO_MOPS_KREKSI` varchar(1024) DEFAULT NULL,
+  `TGL_MOPS_KREKSI` date DEFAULT NULL,
+  `CD_BY_MOPS_KREKSI` varchar(1024) DEFAULT NULL,
+  `CD_DATE_MOPS_KREKSI` date DEFAULT NULL,
+  `UD_BY_MOPS_KREKSI` varchar(1024) DEFAULT NULL,
+  `UD_DATE_MOPS_KREKSI` date DEFAULT NULL,
+  PRIMARY KEY (`ID_MOPS_KREKSI`),
+  KEY `FK_RELATIONSHIP_59` (`ID_MOPS`),
+  CONSTRAINT `FK_RELATIONSHIP_59` FOREIGN KEY (`ID_MOPS`) REFERENCES `MOPS` (`ID_MOPS`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `MOPS_KOREKSI` */
+
+/*Table structure for table `MUTASI_NOMINASI` */
+
+DROP TABLE IF EXISTS `MUTASI_NOMINASI`;
+
+CREATE TABLE `MUTASI_NOMINASI` (
+  `ID_PERMINTAAN` varchar(60) NOT NULL,
+  `SLOC` varchar(10) NOT NULL,
+  `ID_PEMASOK` varchar(20) NOT NULL,
+  `ID_JNS_BHN_BKR` varchar(5) NOT NULL,
+  `NO_NOMINASI` varchar(60) NOT NULL,
+  `TGL_MTS_NOMINASI` date NOT NULL,
+  `VOLUME_NOMINASI` varchar(60) NOT NULL,
+  `CD_BY_MTS_NOMINASI` varchar(60) DEFAULT NULL,
+  `CD_DATE_MTS_NOMINASI` date DEFAULT NULL,
+  `UD_BY_MTS_NOMINASI` varchar(25) DEFAULT NULL,
+  `UD_DATE_NOMINASI` date DEFAULT NULL,
+  `APPROVE_BY_MTS_NOMINASI` varchar(60) DEFAULT NULL,
+  `APPROVE_DATE` date NOT NULL,
+  `STATUS_APPROVE` char(1) DEFAULT NULL,
+  `PATH_FILE_NOMINASI` varchar(100) NOT NULL,
+  `KET_MTS_NOMINASI` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`ID_PERMINTAAN`),
+  KEY `FK_RELATIONSHIP_49` (`ID_PEMASOK`),
+  KEY `FK_RELATIONSHIP_51` (`ID_JNS_BHN_BKR`),
+  KEY `FK_RELATIONSHIP_53` (`SLOC`),
+  CONSTRAINT `FK_RELATIONSHIP_49` FOREIGN KEY (`ID_PEMASOK`) REFERENCES `MASTER_PEMASOK` (`ID_PEMASOK`),
+  CONSTRAINT `FK_RELATIONSHIP_51` FOREIGN KEY (`ID_JNS_BHN_BKR`) REFERENCES `M_JNS_BHN_BKR` (`ID_JNS_BHN_BKR`),
+  CONSTRAINT `FK_RELATIONSHIP_53` FOREIGN KEY (`SLOC`) REFERENCES `MASTER_LEVEL4` (`SLOC`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='id_permintaan : id mutasinominasi(system)\nno_nominasi ';
+
+/*Data for the table `MUTASI_NOMINASI` */
+
+/*Table structure for table `MUTASI_PEMAKAIAN` */
+
+DROP TABLE IF EXISTS `MUTASI_PEMAKAIAN`;
+
+CREATE TABLE `MUTASI_PEMAKAIAN` (
+  `ID_PEMAKAIAN` varchar(40) NOT NULL,
+  `ID_JNS_BHN_BKR` varchar(5) NOT NULL,
+  `SLOC` varchar(10) NOT NULL,
+  `TGL_PENCATATAN` date NOT NULL,
+  `TGL_MUTASI_PENGAKUAN` date NOT NULL,
+  `VOLUME_PEMAKAIAN` varchar(60) NOT NULL,
+  `CD_BY_MUTASI_PEMAKAIAN` varchar(60) NOT NULL,
+  `UD_BY_MUTASI_PEMAKAIAN` varchar(60) DEFAULT NULL,
+  `UD_DATE_MUTASI_PEMAKAIAN` date DEFAULT NULL,
+  `APPROVE_BY_MUTASI_PEMAKAIAN` varchar(25) DEFAULT NULL,
+  `APPROVE_DATE_MUTASI_PAKAI` date DEFAULT NULL,
+  `STATUS_MUTASI_PEMAKAIAN` int(11) DEFAULT NULL,
+  `NO_MUTASI_PEMAKAIAN` varchar(50) DEFAULT NULL,
+  `JENIS_PEMAKAIAN` char(1) DEFAULT NULL,
+  PRIMARY KEY (`ID_PEMAKAIAN`),
+  KEY `FK_RELATIONSHIP_38` (`SLOC`),
+  KEY `FK_RELATIONSHIP_41` (`ID_JNS_BHN_BKR`),
+  CONSTRAINT `FK_RELATIONSHIP_38` FOREIGN KEY (`SLOC`) REFERENCES `MASTER_LEVEL4` (`SLOC`),
+  CONSTRAINT `FK_RELATIONSHIP_41` FOREIGN KEY (`ID_JNS_BHN_BKR`) REFERENCES `M_JNS_BHN_BKR` (`ID_JNS_BHN_BKR`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='tgl_pencatatan = tgl catat pemakaian (createdate)\ntgl_';
+
+/*Data for the table `MUTASI_PEMAKAIAN` */
+
+/*Table structure for table `MUTASI_PENERIMAAN` */
+
+DROP TABLE IF EXISTS `MUTASI_PENERIMAAN`;
+
+CREATE TABLE `MUTASI_PENERIMAAN` (
+  `ID_PENERIMAAN` varchar(10) NOT NULL,
+  `ID_TRANSPORTIR` varchar(20) NOT NULL,
+  `ID_PEMASOK` varchar(20) NOT NULL,
+  `SLOC` varchar(10) NOT NULL,
+  `TGL_PENGAKUAN` date DEFAULT NULL,
+  `TGL_MUTASI_TERIMA` date NOT NULL,
+  `TGL_PENERIMAAN` date NOT NULL,
+  `JNS_PENERIMAAN` char(1) NOT NULL,
+  `VOL_TERIMA` int(11) NOT NULL,
+  `VOL_TERIMA_REAL` int(11) NOT NULL,
+  `KET_MUTASI_TERIMA` varchar(100) DEFAULT NULL,
+  `CD_BY_MUTASI_TERIMA` varchar(100) NOT NULL,
+  `CD_DATE_MUTASI_TERIMA` date NOT NULL,
+  `UD_BY_MUTASI_TERIMA` varchar(25) DEFAULT NULL,
+  `UD_DATE_MUTASI_TERIMA` date DEFAULT NULL,
+  `STATUS_MUTASI_TERIMA` char(1) NOT NULL,
+  `APPROVEL_BY_MUTASI_TERIMA` varchar(25) DEFAULT NULL,
+  `APPROVEL_DATE_MUTASI_TERIMA` date DEFAULT NULL,
+  `REVISI` int(11) NOT NULL,
+  PRIMARY KEY (`ID_PENERIMAAN`),
+  KEY `FK_RELATIONSHIP_40` (`ID_TRANSPORTIR`),
+  KEY `FK_RELATIONSHIP_42` (`SLOC`),
+  KEY `FK_RELATIONSHIP_52` (`ID_PEMASOK`),
+  CONSTRAINT `FK_RELATIONSHIP_40` FOREIGN KEY (`ID_TRANSPORTIR`) REFERENCES `MASTER_TRANSPORTIR` (`ID_TRANSPORTIR`),
+  CONSTRAINT `FK_RELATIONSHIP_42` FOREIGN KEY (`SLOC`) REFERENCES `MASTER_LEVEL4` (`SLOC`),
+  CONSTRAINT `FK_RELATIONSHIP_52` FOREIGN KEY (`ID_PEMASOK`) REFERENCES `MASTER_PEMASOK` (`ID_PEMASOK`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `MUTASI_PENERIMAAN` */
+
+/*Table structure for table `M_JNS_BHN_BKR` */
+
+DROP TABLE IF EXISTS `M_JNS_BHN_BKR`;
+
+CREATE TABLE `M_JNS_BHN_BKR` (
   `ID_JNS_BHN_BKR` varchar(5) NOT NULL,
   `NAMA_JNS_BHN_BKR` varchar(50) DEFAULT NULL,
   `KODE_JNS_BHN_BKR` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`ID_JNS_BHN_BKR`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*Data for the table `m_jns_bhn_bkr` */
+/*Data for the table `M_JNS_BHN_BKR` */
 
-/*Table structure for table `m_menu` */
+/*Table structure for table `M_MENU` */
 
-DROP TABLE IF EXISTS `m_menu`;
+DROP TABLE IF EXISTS `M_MENU`;
 
-CREATE TABLE `m_menu` (
+CREATE TABLE `M_MENU` (
   `MENU_ID` char(3) NOT NULL,
   `M_M_MENU_ID` char(3) DEFAULT NULL,
   `MENU_NAMA` varchar(100) DEFAULT NULL,
@@ -223,18 +666,18 @@ CREATE TABLE `m_menu` (
   `MENU_URUTAN` int(11) DEFAULT NULL,
   PRIMARY KEY (`MENU_ID`),
   KEY `FK_RELATIONSHIP_19` (`M_M_MENU_ID`),
-  CONSTRAINT `FK_RELATIONSHIP_19` FOREIGN KEY (`M_M_MENU_ID`) REFERENCES `m_menu` (`MENU_ID`)
+  CONSTRAINT `FK_RELATIONSHIP_19` FOREIGN KEY (`M_M_MENU_ID`) REFERENCES `M_MENU` (`MENU_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*Data for the table `m_menu` */
+/*Data for the table `M_MENU` */
 
-insert  into `m_menu`(`MENU_ID`,`M_M_MENU_ID`,`MENU_NAMA`,`MENU_URL`,`MENU_KETERANGAN`,`MENU_ICON`,`MENU_URUTAN`) values ('001',NULL,'Dashboard','#','','icon-dashboard',1),('002',NULL,'User Management','#','','icon-barcode',3),('003','002','Menu Management','user_management/menu','','',1),('004','002','Role Management','user_management/role','','',2),('005','002','User','user_management/user','','',3),('006',NULL,'Data Transaksi','#','','icon-globe',2),('007','006','Stock Opname','data_transaksi/stockopname','','icon-credit-card',1),('008',NULL,'Master','#','','icon-coffee',3);
+insert  into `M_MENU`(`MENU_ID`,`M_M_MENU_ID`,`MENU_NAMA`,`MENU_URL`,`MENU_KETERANGAN`,`MENU_ICON`,`MENU_URUTAN`) values ('001',NULL,'Dashboard','#','','icon-dashboard',1),('002',NULL,'User Management','#','','icon-barcode',3),('003','002','Menu Management','user_management/menu','','',1),('004','002','Role Management','user_management/role','','',2),('005','002','User','user_management/user','','',3),('006',NULL,'Data Transaksi','#','','icon-globe',2),('007','006','Stock Opname','data_transaksi/stockopname','','icon-credit-card',1),('008',NULL,'Master','#','','icon-coffee',3),('009','008','Master Level 2','master/master_level2','','icon-beaker',3),('010','008','Master Level 1','master/master_level1','','icon-barcode',2),('011','008','Master Level 3','master/master_level3','','icon-barcode',4),('012','008','Master Level 4','master/master_level4','','icon-bar-chart',5),('013','001','Grafik','dashboard/grafik','','icon-bar-chart',1),('014','001','Peta','dashboard/peta','','icon-barcode',2),('015','008','Master Regional','master/master_regional','','icon-ban-circle',1),('016','008','Transportir','master/transportir','','icon-bar-chart',7),('017','008','Depo','master/depo','','icon-ban-circle',8),('018','006','Perhitungan Harga','data_transaksi/perhitungan_harga','','icon-barcode',1),('019','008','Pemasok','master/pemasok','','icon-barcode',9),('020','008','Kontrak Transportir','master/kontrak_transportir','','icon-ban-circle',10),('021','008','Data Kontrak Pemasok','master/data_kontrak_pemasok','','icon-bar-chart',11);
 
-/*Table structure for table `m_otoritas_menu` */
+/*Table structure for table `M_OTORITAS_MENU` */
 
-DROP TABLE IF EXISTS `m_otoritas_menu`;
+DROP TABLE IF EXISTS `M_OTORITAS_MENU`;
 
-CREATE TABLE `m_otoritas_menu` (
+CREATE TABLE `M_OTORITAS_MENU` (
   `ROLES_ID` char(3) NOT NULL,
   `MENU_ID` char(3) NOT NULL,
   `IS_VIEW` char(1) DEFAULT NULL,
@@ -245,19 +688,31 @@ CREATE TABLE `m_otoritas_menu` (
   `UD_OTORITAS` date DEFAULT NULL,
   PRIMARY KEY (`ROLES_ID`,`MENU_ID`),
   KEY `FK_RELATIONSHIP_18` (`MENU_ID`),
-  CONSTRAINT `FK_RELATIONSHIP_17` FOREIGN KEY (`ROLES_ID`) REFERENCES `roles` (`ROLES_ID`),
-  CONSTRAINT `FK_RELATIONSHIP_18` FOREIGN KEY (`MENU_ID`) REFERENCES `m_menu` (`MENU_ID`)
+  CONSTRAINT `FK_RELATIONSHIP_17` FOREIGN KEY (`ROLES_ID`) REFERENCES `ROLES` (`ROLES_ID`),
+  CONSTRAINT `FK_RELATIONSHIP_18` FOREIGN KEY (`MENU_ID`) REFERENCES `M_MENU` (`MENU_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*Data for the table `m_otoritas_menu` */
+/*Data for the table `M_OTORITAS_MENU` */
 
-insert  into `m_otoritas_menu`(`ROLES_ID`,`MENU_ID`,`IS_VIEW`,`IS_ADD`,`IS_EDIT`,`IS_DELETE`,`IS_APPROVE`,`UD_OTORITAS`) values ('001','002','t','t','t','t','t',NULL),('001','003','t','t','t','t','t',NULL),('001','004','t','t','t','t','t',NULL),('001','005','t','t','t','t','t',NULL),('001','006','t','t','t','t','t',NULL),('001','007','t','t','t','t','t',NULL),('001','008','t','t','t','t','t',NULL),('01','006','t','t','t','t','t',NULL),('01','007','t','t','t','t','t',NULL),('01','008','t','t','t','t','t',NULL),('02','001','t','t','t','t','t',NULL),('02','002','t','t','t','t','t',NULL),('02','003','t','t','t','t','t',NULL),('02','004','t','t','t','t','t',NULL),('02','005','t','t','t','t','t',NULL),('02','006','t','t','t','t','t',NULL),('02','007','t','t','t','t','t',NULL),('02','008','t','t','t','t','t',NULL),('03','001','t','t','t','t','t',NULL),('03','002','t','t','t','t','t',NULL),('03','003','t','t','t','t','t',NULL),('03','004','t','t','t','t','t',NULL),('03','005','t','t','t','t','t',NULL),('03','006','t','t','t','t','t',NULL),('03','007','t','t','t','t','t',NULL),('03','008','t','t','t','t','t',NULL);
+insert  into `M_OTORITAS_MENU`(`ROLES_ID`,`MENU_ID`,`IS_VIEW`,`IS_ADD`,`IS_EDIT`,`IS_DELETE`,`IS_APPROVE`,`UD_OTORITAS`) values ('001','001','t','t','t','t','t',NULL),('001','002','t','t','t','t','t',NULL),('001','003','t','t','t','t','t',NULL),('001','004','t','t','t','t','t',NULL),('001','005','t','t','t','t','t',NULL),('001','006','t','t','t','t','t',NULL),('001','007','t','t','t','t','t',NULL),('001','008','t','t','t','t','t',NULL),('001','009','t','t','t','t','t',NULL),('001','010','t','t','t','t','t',NULL),('001','011','t','t','t','t','t',NULL),('001','012','t','t','t','t','t',NULL),('001','013','t','t','t','t','t',NULL),('001','014','t','t','t','t','t',NULL),('001','015','t','t','t','t','t',NULL),('001','016','t','t','t','t','t',NULL),('001','017','t','t','t','t','t',NULL),('001','018','t','t','t','t','t',NULL),('001','019','t','t','t','t','t',NULL),('001','020','t','t','t','t','t',NULL),('001','021','t','t','t','t','t',NULL),('01','006','t','t','t','t','t',NULL),('01','007','t','t','t','t','t',NULL),('01','008','t','t','t','t','t',NULL),('02','001','t','t','t','t','t',NULL),('02','002','t','t','t','t','t',NULL),('02','003','t','t','t','t','t',NULL),('02','004','t','t','t','t','t',NULL),('02','005','t','t','t','t','t',NULL),('02','006','t','t','t','t','t',NULL),('02','007','t','t','t','t','t',NULL),('02','008','t','t','t','t','t',NULL),('03','001','t','t','t','t','t',NULL),('03','002','t','t','t','t','t',NULL),('03','003','t','t','t','t','t',NULL),('03','004','t','t','t','t','t',NULL),('03','005','t','t','t','t','t',NULL),('03','006','t','t','t','t','t',NULL),('03','007','t','t','t','t','t',NULL),('03','008','t','t','t','t','t',NULL);
 
-/*Table structure for table `m_user` */
+/*Table structure for table `M_REGIONAL` */
 
-DROP TABLE IF EXISTS `m_user`;
+DROP TABLE IF EXISTS `M_REGIONAL`;
 
-CREATE TABLE `m_user` (
+CREATE TABLE `M_REGIONAL` (
+  `ID_REGIONAL` varchar(10) NOT NULL,
+  `NAMA_REGIONAL` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID_REGIONAL`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `M_REGIONAL` */
+
+/*Table structure for table `M_USER` */
+
+DROP TABLE IF EXISTS `M_USER`;
+
+CREATE TABLE `M_USER` (
   `ID_USER` int(11) NOT NULL,
   `ROLES_ID` char(3) NOT NULL,
   `KD_USER` varchar(20) DEFAULT NULL,
@@ -273,204 +728,88 @@ CREATE TABLE `m_user` (
   `UD_USER` date DEFAULT NULL,
   PRIMARY KEY (`ID_USER`),
   KEY `FK_RELATIONSHIP_16` (`ROLES_ID`),
-  CONSTRAINT `FK_RELATIONSHIP_16` FOREIGN KEY (`ROLES_ID`) REFERENCES `roles` (`ROLES_ID`)
+  CONSTRAINT `FK_RELATIONSHIP_16` FOREIGN KEY (`ROLES_ID`) REFERENCES `ROLES` (`ROLES_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*Data for the table `m_user` */
+/*Data for the table `M_USER` */
 
-insert  into `m_user`(`ID_USER`,`ROLES_ID`,`KD_USER`,`NAMA_USER`,`USERNAME`,`PWD_USER`,`EMAIL_USER`,`LEVEL_USER`,`KODE_LEVEL`,`ISAKTIF_USER`,`CD_USER`,`CD_BY_USER`,`UD_USER`) values (1,'001','xxxx','Adityass','admin','admin','admin','0','0','1',NULL,NULL,NULL),(2,'001','22222','Aditssss','stafflevel2','d9b1d7db4cd6e70935368a1efb10e377','andhambe@yahoo.comsss','1','321','0','2017-10-18','Aditya-0','2017-10-18'),(3,'01','92384273','Gembul','Gembul','123','adityaprandhana@gmail.com','1','321','1','2017-10-18','Adityass-0',NULL),(4,'03','','aa','aa','d9b1d7db4cd6e70935368a1efb10e377','adityaprandhana@gmail.com','2','1','1','2017-10-19','Adityass-0','2017-10-19'),(5,'02','','bb','bb','21ad0bd836b90d08f4cf640b4c298e7c','bb@mail.com','2','1','1','2017-10-19','Adityass-0',NULL);
+insert  into `M_USER`(`ID_USER`,`ROLES_ID`,`KD_USER`,`NAMA_USER`,`USERNAME`,`PWD_USER`,`EMAIL_USER`,`LEVEL_USER`,`KODE_LEVEL`,`ISAKTIF_USER`,`CD_USER`,`CD_BY_USER`,`UD_USER`) values (1,'001','xxxx','Administrator','admin','21232f297a57a5a743894a0e4a801fc3','admin','0','0','1',NULL,NULL,NULL);
 
-/*Table structure for table `master_depo` */
+/*Table structure for table `PENUTUPAN_MUTASI_PERSEDIAAN` */
 
-DROP TABLE IF EXISTS `master_depo`;
+DROP TABLE IF EXISTS `PENUTUPAN_MUTASI_PERSEDIAAN`;
 
-CREATE TABLE `master_depo` (
-  `ID_DEPO` varchar(20) NOT NULL,
-  `ID_PEMASOK` varchar(20) NOT NULL,
-  `NAMA_DEPO` varchar(150) DEFAULT NULL,
-  `LAT_DEPO` varchar(100) DEFAULT NULL,
-  `LOT_DEPO` varchar(100) DEFAULT NULL,
-  `ALAMAT_DEPO` varchar(150) DEFAULT NULL,
-  `FLAG_DEPO` char(1) DEFAULT NULL,
-  `UD_DEPO` date DEFAULT NULL,
-  `CD_DEPO` date DEFAULT NULL,
-  `CD_BY_DEPO` varchar(100) DEFAULT NULL,
-  `ISAKTIF_DEPO` char(1) DEFAULT NULL,
-  PRIMARY KEY (`ID_DEPO`),
-  KEY `FK_RELATIONSHIP_8` (`ID_PEMASOK`),
-  CONSTRAINT `FK_RELATIONSHIP_8` FOREIGN KEY (`ID_PEMASOK`) REFERENCES `master_pemasok` (`ID_PEMASOK`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-/*Data for the table `master_depo` */
-
-/*Table structure for table `master_level1` */
-
-DROP TABLE IF EXISTS `master_level1`;
-
-CREATE TABLE `master_level1` (
-  `COCODE` varchar(10) NOT NULL,
-  `ID_REGIONAL` varchar(2) NOT NULL,
-  `LEVEL1` varchar(50) DEFAULT NULL,
-  `DESCRIPTION_LVL1` varchar(50) DEFAULT NULL,
-  `IS_AKTIF_LVL1` char(1) DEFAULT NULL,
-  PRIMARY KEY (`COCODE`),
-  KEY `FK_RELATIONSHIP_5` (`ID_REGIONAL`),
-  CONSTRAINT `FK_RELATIONSHIP_5` FOREIGN KEY (`ID_REGIONAL`) REFERENCES `master_regional` (`ID_REGIONAL`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-/*Data for the table `master_level1` */
-
-insert  into `master_level1`(`COCODE`,`ID_REGIONAL`,`LEVEL1`,`DESCRIPTION_LVL1`,`IS_AKTIF_LVL1`) values ('321','1','Level 1',NULL,NULL);
-
-/*Table structure for table `master_level2` */
-
-DROP TABLE IF EXISTS `master_level2`;
-
-CREATE TABLE `master_level2` (
-  `PLANT` varchar(10) NOT NULL,
-  `COCODE` varchar(10) NOT NULL,
-  `LEVEL2` varchar(50) DEFAULT NULL,
-  `DESCRIPTION_LVL2` varchar(100) DEFAULT NULL,
-  `IS_AKTIF_LVL2` char(1) DEFAULT NULL,
-  PRIMARY KEY (`PLANT`),
-  KEY `FK_RELATIONSHIP_1` (`COCODE`),
-  CONSTRAINT `FK_RELATIONSHIP_1` FOREIGN KEY (`COCODE`) REFERENCES `master_level1` (`COCODE`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-/*Data for the table `master_level2` */
-
-insert  into `master_level2`(`PLANT`,`COCODE`,`LEVEL2`,`DESCRIPTION_LVL2`,`IS_AKTIF_LVL2`) values ('1','321','Level 2',NULL,NULL),('2','321','Level 2',NULL,NULL);
-
-/*Table structure for table `master_level3` */
-
-DROP TABLE IF EXISTS `master_level3`;
-
-CREATE TABLE `master_level3` (
-  `PLANT` varchar(10) NOT NULL,
-  `STORE_SLOC` varchar(10) NOT NULL,
-  `LEVEL3` varchar(50) DEFAULT NULL,
-  `DESCRIPTION_LVL3` varchar(100) DEFAULT NULL,
-  `IS_AKTIF_LVL3` char(1) DEFAULT NULL,
-  PRIMARY KEY (`PLANT`,`STORE_SLOC`),
-  CONSTRAINT `FK_RELATIONSHIP_2` FOREIGN KEY (`PLANT`) REFERENCES `master_level2` (`PLANT`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-/*Data for the table `master_level3` */
-
-insert  into `master_level3`(`PLANT`,`STORE_SLOC`,`LEVEL3`,`DESCRIPTION_LVL3`,`IS_AKTIF_LVL3`) values ('1','24234','Level 3',NULL,NULL);
-
-/*Table structure for table `master_level4` */
-
-DROP TABLE IF EXISTS `master_level4`;
-
-CREATE TABLE `master_level4` (
+CREATE TABLE `PENUTUPAN_MUTASI_PERSEDIAAN` (
+  `ID_USER` int(11) NOT NULL,
   `SLOC` varchar(10) NOT NULL,
-  `PLANT` varchar(10) DEFAULT NULL,
-  `STORE_SLOC` varchar(10) DEFAULT NULL,
-  `LEVEL4` varchar(50) DEFAULT NULL,
-  `DESCRIPTION_LVL4` varchar(50) DEFAULT NULL,
-  `IS_AKTI_LVL4` char(1) DEFAULT NULL,
-  `LAT_LVL4` varchar(100) DEFAULT NULL,
-  `LOT_LVL4` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`SLOC`),
-  KEY `FK_RELATIONSHIP_6` (`PLANT`,`STORE_SLOC`),
-  CONSTRAINT `FK_RELATIONSHIP_6` FOREIGN KEY (`PLANT`, `STORE_SLOC`) REFERENCES `master_level3` (`PLANT`, `STORE_SLOC`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `TGL_TUTUP_PERSEDIAAN` date DEFAULT NULL,
+  `BLTH` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ID_USER`,`SLOC`),
+  KEY `FK_RELATIONSHIP_66` (`SLOC`),
+  CONSTRAINT `FK_RELATIONSHIP_65` FOREIGN KEY (`ID_USER`) REFERENCES `M_USER` (`ID_USER`),
+  CONSTRAINT `FK_RELATIONSHIP_66` FOREIGN KEY (`SLOC`) REFERENCES `MASTER_LEVEL4` (`SLOC`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='tgl_tutup_persediaan : tgl insert data (system)\nblth :';
 
-/*Data for the table `master_level4` */
+/*Data for the table `PENUTUPAN_MUTASI_PERSEDIAAN` */
 
-insert  into `master_level4`(`SLOC`,`PLANT`,`STORE_SLOC`,`LEVEL4`,`DESCRIPTION_LVL4`,`IS_AKTI_LVL4`,`LAT_LVL4`,`LOT_LVL4`) values ('33332','1',NULL,'Level 4',NULL,NULL,NULL,NULL),('34234','1','24234','Level 4',NULL,NULL,NULL,NULL);
+/*Table structure for table `REF_HTG_HRG` */
 
-/*Table structure for table `master_pemasok` */
+DROP TABLE IF EXISTS `REF_HTG_HRG`;
 
-DROP TABLE IF EXISTS `master_pemasok`;
-
-CREATE TABLE `master_pemasok` (
+CREATE TABLE `REF_HTG_HRG` (
+  `REF_HTG_HRG` varchar(16) NOT NULL,
+  `ID_KURS` int(11) NOT NULL,
   `ID_PEMASOK` varchar(20) NOT NULL,
-  `KODE_PEMASOK` varchar(50) NOT NULL,
-  `NAMA_PEMASOK` varchar(50) DEFAULT NULL,
-  `CD_PEMASOK` date DEFAULT NULL,
-  `CD_BY_PEMASOK` varchar(100) DEFAULT NULL,
-  `UD_PEMASOK` date DEFAULT NULL,
-  `ISAKTIF_PEMASOK` char(1) DEFAULT NULL,
-  PRIMARY KEY (`ID_PEMASOK`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-/*Data for the table `master_pemasok` */
-
-/*Table structure for table `master_regional` */
-
-DROP TABLE IF EXISTS `master_regional`;
-
-CREATE TABLE `master_regional` (
-  `ID_REGIONAL` varchar(2) NOT NULL,
-  `NAMA_REGIONAL` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`ID_REGIONAL`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-/*Data for the table `master_regional` */
-
-insert  into `master_regional`(`ID_REGIONAL`,`NAMA_REGIONAL`) values ('1','Wilayah');
-
-/*Table structure for table `master_tangki` */
-
-DROP TABLE IF EXISTS `master_tangki`;
-
-CREATE TABLE `master_tangki` (
-  `ID_TANGKI` varchar(4) NOT NULL,
-  `ID_JNS_BHN_BKR` varchar(5) NOT NULL,
   `SLOC` varchar(10) NOT NULL,
-  `NAMA_TANGKI` varchar(50) DEFAULT NULL,
-  `VOLUME_TANGKI` int(11) DEFAULT NULL,
-  `DEADSTOCK_TANGKI` int(11) DEFAULT NULL,
-  `CD_TANGKI` date DEFAULT NULL,
-  `UD_TANGKI` date DEFAULT NULL,
-  `STOCKEFEKTIF_TANGKI` int(11) DEFAULT NULL,
-  `UD_BY_TANGKI` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`ID_TANGKI`),
-  KEY `FK_RELATIONSHIP_20` (`ID_JNS_BHN_BKR`),
-  KEY `FK_RELATIONSHIP_9` (`SLOC`),
-  CONSTRAINT `FK_RELATIONSHIP_20` FOREIGN KEY (`ID_JNS_BHN_BKR`) REFERENCES `m_jns_bhn_bkr` (`ID_JNS_BHN_BKR`),
-  CONSTRAINT `FK_RELATIONSHIP_9` FOREIGN KEY (`SLOC`) REFERENCES `master_level4` (`SLOC`)
+  `ID_MOPS` char(5) NOT NULL,
+  `PERIODE` varchar(6) DEFAULT NULL,
+  `TYPE_HRGA` int(11) DEFAULT NULL,
+  `SULFUR` varchar(60) DEFAULT NULL,
+  `ALPHAHSD` varchar(60) DEFAULT NULL,
+  `ALPHAMFO` varchar(60) DEFAULT NULL,
+  PRIMARY KEY (`REF_HTG_HRG`),
+  KEY `FK_RELATIONSHIP_60` (`ID_MOPS`),
+  KEY `FK_RELATIONSHIP_61` (`ID_PEMASOK`),
+  KEY `FK_RELATIONSHIP_62` (`SLOC`),
+  KEY `FK_RELATIONSHIP_63` (`ID_KURS`),
+  CONSTRAINT `FK_RELATIONSHIP_60` FOREIGN KEY (`ID_MOPS`) REFERENCES `MOPS` (`ID_MOPS`),
+  CONSTRAINT `FK_RELATIONSHIP_61` FOREIGN KEY (`ID_PEMASOK`) REFERENCES `MASTER_PEMASOK` (`ID_PEMASOK`),
+  CONSTRAINT `FK_RELATIONSHIP_62` FOREIGN KEY (`SLOC`) REFERENCES `MASTER_LEVEL4` (`SLOC`),
+  CONSTRAINT `FK_RELATIONSHIP_63` FOREIGN KEY (`ID_KURS`) REFERENCES `KURS` (`ID_KURS`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*Data for the table `master_tangki` */
+/*Data for the table `REF_HTG_HRG` */
 
-/*Table structure for table `master_tera` */
+/*Table structure for table `REKAP_MUTASI_PERSEDIAAN` */
 
-DROP TABLE IF EXISTS `master_tera`;
+DROP TABLE IF EXISTS `REKAP_MUTASI_PERSEDIAAN`;
 
-CREATE TABLE `master_tera` (
-  `ID_TERA` varchar(5) NOT NULL,
-  `NAMA_TERA` varchar(100) DEFAULT NULL,
-  `CD_TERA` date DEFAULT NULL,
-  `CD_BY_TERA` varchar(100) DEFAULT NULL,
-  `UD_TERA` date DEFAULT NULL,
-  `ISAKTIF_TERA` char(1) DEFAULT NULL,
-  PRIMARY KEY (`ID_TERA`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `REKAP_MUTASI_PERSEDIAAN` (
+  `ID_MUTASI_PERSEDIAAN` varchar(5) NOT NULL,
+  `TGL_MUTASI_PERSEDIAAN` date NOT NULL,
+  `STOCK_AWAL` varchar(60) NOT NULL,
+  `PENERIMAAN_REAL` varchar(60) NOT NULL,
+  `PEMAKAIAN` varchar(60) NOT NULL,
+  `STOCK_AKHIR_REAL` varchar(60) NOT NULL,
+  `STOCK_AKHIR_EFEKTIF` varchar(60) DEFAULT NULL,
+  `STOCK_AKHIR_KOREKSI` varchar(60) DEFAULT NULL,
+  `DEAD_STOCK` varchar(60) DEFAULT NULL,
+  `SHO` decimal(5,0) DEFAULT NULL,
+  `CD_BY_MUTASI_PERSEDIAAN` varchar(60) DEFAULT NULL,
+  `CD_DATE_MUTASI_PERSEDIAAN` date DEFAULT NULL,
+  `UD_BY_MUTASI_PERSEDIAAN` varchar(60) DEFAULT NULL,
+  `UD_DATE_MUTASI_PERSEDIAAN` date DEFAULT NULL,
+  `REVISI_MUTASI_PERSEDIAAN` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ID_MUTASI_PERSEDIAAN`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='id_mutasi : no mutasi persediian (sq system)\ntgl_mutas';
 
-/*Data for the table `master_tera` */
+/*Data for the table `REKAP_MUTASI_PERSEDIAAN` */
 
-/*Table structure for table `master_transportir` */
+/*Table structure for table `ROLES` */
 
-DROP TABLE IF EXISTS `master_transportir`;
+DROP TABLE IF EXISTS `ROLES`;
 
-CREATE TABLE `master_transportir` (
-  `ID_TRANSPORTIR` varchar(20) NOT NULL,
-  `KD_TRANSPORTIR` varchar(50) DEFAULT NULL,
-  `NAMA_TRANSPORTIR` varchar(50) DEFAULT NULL,
-  `KET_TRANSPORTIR` varchar(150) DEFAULT NULL,
-  PRIMARY KEY (`ID_TRANSPORTIR`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-/*Data for the table `master_transportir` */
-
-/*Table structure for table `roles` */
-
-DROP TABLE IF EXISTS `roles`;
-
-CREATE TABLE `roles` (
+CREATE TABLE `ROLES` (
   `ROLES_ID` char(3) NOT NULL,
   `ROLES_NAMA` varchar(50) DEFAULT NULL,
   `ROLES_KETERANGAN` varchar(100) DEFAULT NULL,
@@ -480,32 +819,98 @@ CREATE TABLE `roles` (
   PRIMARY KEY (`ROLES_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*Data for the table `roles` */
+/*Data for the table `ROLES` */
 
-insert  into `roles`(`ROLES_ID`,`ROLES_NAMA`,`ROLES_KETERANGAN`,`CD_ROLES`,`UP_ROLES`,`LEVEL_ROLES`) values ('001','Administrator','',NULL,NULL,'0'),('01','Staff Level 1','-',NULL,NULL,'1'),('02','Staff lvl 2','',NULL,NULL,NULL),('03','staff lvl 4','',NULL,NULL,NULL);
+insert  into `ROLES`(`ROLES_ID`,`ROLES_NAMA`,`ROLES_KETERANGAN`,`CD_ROLES`,`UP_ROLES`,`LEVEL_ROLES`) values ('001','Administrator','',NULL,NULL,'0'),('01','Staff Level 1','-',NULL,NULL,'1'),('02','Staff lvl 2','',NULL,NULL,NULL),('03','staff lvl 4','',NULL,NULL,NULL);
 
-/*Table structure for table `setting` */
+/*Table structure for table `SETTING` */
 
-DROP TABLE IF EXISTS `setting`;
+DROP TABLE IF EXISTS `SETTING`;
 
-CREATE TABLE `setting` (
+CREATE TABLE `SETTING` (
   `VALUE` varchar(100) DEFAULT NULL,
   `SETTING` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*Data for the table `setting` */
+/*Data for the table `SETTING` */
 
-insert  into `setting`(`VALUE`,`SETTING`) values ('GBM (Gas Bahan bakar Minyak)','nama_aplikasi');
+insert  into `SETTING`(`VALUE`,`SETTING`) values ('GBM (Gas Bahan bakar Minyak)','nama_aplikasi');
 
-/* Function  structure for function  `SPLIT_STR` */
+/*Table structure for table `STOCK_OPNAME` */
 
-/*!50003 DROP FUNCTION IF EXISTS `SPLIT_STR` */;
+DROP TABLE IF EXISTS `STOCK_OPNAME`;
+
+CREATE TABLE `STOCK_OPNAME` (
+  `ID_STOCKOPNAME` char(5) NOT NULL,
+  `ID_JNS_BHN_BKR` varchar(5) NOT NULL,
+  `SLOC` varchar(10) NOT NULL,
+  `NO_STOCKOPNAME` varchar(25) NOT NULL,
+  `TGL_BA_STOCKOPNAME` date NOT NULL,
+  `TGL_PENGAKUAN` date NOT NULL,
+  `VOLUME_STOCKOPNAME` int(11) NOT NULL,
+  `PATH_STOCKOPNAME` varchar(60) NOT NULL,
+  `CD_BY_STOKOPNAME` varchar(60) NOT NULL,
+  `CD_DATE_STOKOPNAME` date NOT NULL,
+  `UD_BY_STOKOPNAME` varchar(60) DEFAULT NULL,
+  `UD_DATE_STOKOPNAME` date DEFAULT NULL,
+  `APPROVE_BY_STOCKOPNAME` varchar(100) DEFAULT NULL,
+  `APPROVE_DATE` date DEFAULT NULL,
+  `STATUS_APPROVE_STOCKOPNAME` char(1) DEFAULT NULL,
+  PRIMARY KEY (`ID_STOCKOPNAME`),
+  KEY `FK_RELATIONSHIP_47` (`ID_JNS_BHN_BKR`),
+  KEY `FK_RELATIONSHIP_48` (`SLOC`),
+  CONSTRAINT `FK_RELATIONSHIP_47` FOREIGN KEY (`ID_JNS_BHN_BKR`) REFERENCES `M_JNS_BHN_BKR` (`ID_JNS_BHN_BKR`),
+  CONSTRAINT `FK_RELATIONSHIP_48` FOREIGN KEY (`SLOC`) REFERENCES `MASTER_LEVEL4` (`SLOC`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='id_stockopname : id stockopname (sqc)\nno_stockopname :';
+
+/*Data for the table `STOCK_OPNAME` */
+
+/* Procedure structure for procedure `save_penerimaan` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `save_penerimaan` */;
+
 DELIMITER $$
 
-/*!50003 CREATE DEFINER=`root`@`localhost` FUNCTION `SPLIT_STR`(`X` VARCHAR(255), `delim` VARCHAR(12), `pos` INT) RETURNS varchar(255) CHARSET latin1
-RETURN REPLACE(SUBSTRING(SUBSTRING_INDEX(X, delim, pos),
-       LENGTH(SUBSTRING_INDEX(X, delim, pos -1)) + 1),
-       delim, '') */$$
+/*!50003 CREATE DEFINER=`root`@`%` PROCEDURE `save_penerimaan`(IN p_idtransportir VARCHAR(20), 
+    IN p_idpemasok VARCHAR(20), 
+    IN p_pemasok VARCHAR(20),
+    IN p_sloc VARCHAR(10), 
+    IN p_tglpengakuan VARCHAR(8), 
+    IN p_tgl_mutasi_terima VARCHAR(8), 
+    IN p_tgl_penerimaan VARCHAR(8),
+    IN p_jns_penerimaan CHAR(1), 
+    IN p_volterima INT, 
+    IN p_volterimareal INT, 
+    IN p_ketmutasi VARCHAR(100), 
+    IN p_status CHAR(1),
+    IN p_create_by VARCHAR(100))
+BEGIN
+	DECLARE _dt INT DEFAULT 0;
+	DECLARE _count INT DEFAULT 0;
+	DECLARE `_rollback` BOOL DEFAULT 0;
+	DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
+	START TRANSACTION;
+	
+	SELECT CONCAT(DATE_FORMAT(SYSDATE(), '%d'), MONTH(CURDATE()), YEAR(CURDATE())),
+	COUNT(*) INTO _dt, _count
+	FROM MUTASI_PENERIMAAN;
+	INSERT INTO MUTASI_PENERIMAAN (`ID_PENERIMAAN`, `ID_TRANSPORTIR`, `ID_PEMASOK`, SLOC, `TGL_PENGAKUAN`,
+	`TGL_MUTASI_TERIMA`, `TGL_PENERIMAAN`, `JNS_PENERIMAAN`, `VOL_TERIMA`, `VOL_TERIMA_REAL`, `KET_MUTASI_TERIMA`,
+	`CD_BY_MUTASI_TERIMA`, `CD_DATE_MUTASI_TERIMA`, `STATUS_MUTASI_TERIMA`, `REVISI`) VALUES (CONCAT(_dt, _count), p_idtransportir, p_idpemasok, p_sloc, STR_TO_DATE(p_tglpengakuan, '%m%d%Y'),
+	STR_TO_DATE(p_tgl_mutasi_terima, '%m%d%Y'), STR_TO_DATE(p_tgl_penerimaan, '%m%d%Y'),
+	p_jns_penerimaan, p_volterima, p_volterimareal, p_ketmutasi, p_create_by, CURDATE(), p_status, 0);
+	
+	IF `_rollback` THEN
+		ROLLBACK;
+		SELECT 'RC01' AS RCDB, 'GAGAL SIMPAN DATA' AS PESANDB
+		FROM DUAL;
+	ELSE
+		COMMIT;
+		SELECT 'RC00' AS RCDB, 'DATA BERHASIL DISIMPAN' AS PESANDB
+		FROM DUAL;
+	END IF;	
+	
+    END */$$
 DELIMITER ;
 
 /* Procedure structure for procedure `save_user` */
@@ -514,49 +919,49 @@ DELIMITER ;
 
 DELIMITER $$
 
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `save_user`(in p_role_id char(30), in p_kd_user varchar(20), in p_nama_user varchar(50),
-    in p_username varchar(100), in p_pwd varchar(100), in p_email varchar(50), in p_level char(1), in p_kode_level varchar(50),
-    in p_isaktif char(10), in p_cd_user varchar(100), IN p_id_user varchar(20))
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `save_user`(IN p_role_id CHAR(30), IN p_kd_user VARCHAR(20), IN p_nama_user VARCHAR(50),
+    IN p_username VARCHAR(100), IN p_pwd VARCHAR(100), IN p_email VARCHAR(50), IN p_level CHAR(1), IN p_kode_level VARCHAR(50),
+    IN p_isaktif CHAR(10), IN p_cd_user VARCHAR(100), IN p_id_user VARCHAR(20))
 BEGIN
-	declare _count int default 0;
+	DECLARE _count INT DEFAULT 0;
 	DECLARE `_rollback` BOOL DEFAULT 0;
 	DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
 	START TRANSACTION;
 	
-	select count(*) into _count 
-	from m_user where USERNAME =  p_username;
-	if _count = 1 and p_id_user = '' then
-		select 'RC00' as RCDB, 'Username is Exist' as PESANDB from dual;
-	else
-		if p_id_user = '' then
-			select count(*) into _count
-			from m_user;
+	SELECT COUNT(*) INTO _count 
+	FROM M_USER WHERE USERNAME =  p_username;
+	IF _count = 1 AND p_id_user = '' THEN
+		SELECT 'RC00' AS RCDB, 'Username is Exist' AS PESANDB FROM DUAL;
+	ELSE
+		IF p_id_user = '' THEN
+			SELECT COUNT(*) INTO _count
+			FROM M_USER;
 			
-			insert into m_user (id_user, `ROLES_ID`, `KD_USER`, `NAMA_USER`, `USERNAME`, `PWD_USER`, `EMAIL_USER`,
+			INSERT INTO M_USER (`ID_USER`, `ROLES_ID`, `KD_USER`, `NAMA_USER`, `USERNAME`, `PWD_USER`, `EMAIL_USER`,
 			`LEVEL_USER`, `KODE_LEVEL`, `ISAKTIF_USER`, `CD_USER`, `CD_BY_USER`)
-			values ((_count + 1), p_role_id, p_kd_user, p_nama_user, p_username, md5(p_pwd), p_email, p_level, p_kode_level,
-			p_isaktif, curdate(), p_cd_user);
+			VALUES ((_count + 1), p_role_id, p_kd_user, p_nama_user, p_username, MD5(p_pwd), p_email, p_level, p_kode_level,
+			p_isaktif, CURDATE(), p_cd_user);
 			IF `_rollback` THEN
 				ROLLBACK;
 				SELECT 'RC00' AS RCDB, 'GAGAL SIMPAN DATA' AS PESANDB
-				from DUAL;
+				FROM DUAL;
 			ELSE
 				COMMIT;
 				SELECT 'RC01' AS RCDB, 'User Berhasil disimpan' AS PESANDB
 				FROM DUAL;
 			END IF;	
 		ELSE
-			UPDATE m_user
-			set ROLES_ID = p_role_id,
+			UPDATE M_USER
+			SET ROLES_ID = p_role_id,
 			KD_USER = p_kd_user,
 			NAMA_USER = p_nama_user ,
-			PWD_USER = md5(p_pwd) ,
+			PWD_USER = MD5(p_pwd) ,
 			EMAIL_USER =  p_email,
 			`LEVEL_USER` = p_level ,
 			`KODE_LEVEL` = p_kode_level,
 			`ISAKTIF_USER` = p_isaktif,
-			`UD_USER` = curdate()
-			where `ID_USER` = p_id_user;
+			`UD_USER` = CURDATE()
+			WHERE `ID_USER` = p_id_user;
 			
 			IF `_rollback` THEN
 				ROLLBACK;
@@ -568,10 +973,34 @@ BEGIN
 				FROM DUAL;
 			END IF;	
 		END IF;
-	end if;
+	END IF;
 	
     END */$$
 DELIMITER ;
+
+/*Table structure for table `vload_list_penerimaan` */
+
+DROP TABLE IF EXISTS `vload_list_penerimaan`;
+
+/*!50001 DROP VIEW IF EXISTS `vload_list_penerimaan` */;
+/*!50001 DROP TABLE IF EXISTS `vload_list_penerimaan` */;
+
+/*!50001 CREATE TABLE  `vload_list_penerimaan`(
+ `TANGGAL` varchar(8) ,
+ `BLTH` varchar(69) ,
+ `SLOC` varchar(10) ,
+ `LEVEL4` varchar(50) ,
+ `STATUS_APPROVE` varchar(50) ,
+ `SUM_VOLUME` decimal(32,0) ,
+ `COUNT_VOLUME` bigint(21) 
+)*/;
+
+/*View structure for view vload_list_penerimaan */
+
+/*!50001 DROP TABLE IF EXISTS `vload_list_penerimaan` */;
+/*!50001 DROP VIEW IF EXISTS `vload_list_penerimaan` */;
+
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vload_list_penerimaan` AS select date_format(`a`.`TGL_PENGAKUAN`,'%d%m%Y') AS `TANGGAL`,date_format(`a`.`TGL_PENGAKUAN`,'%M-%Y') AS `BLTH`,`a`.`SLOC` AS `SLOC`,`b`.`LEVEL4` AS `LEVEL4`,(select `c`.`NAME_SETTING` from `DATA_SETTING` `c` where ((`c`.`VALUE_SETTING` = `a`.`STATUS_MUTASI_TERIMA`) and (`c`.`KEY_SETTING` = 'STATUS_APPROVE'))) AS `STATUS_APPROVE`,sum(`a`.`VOL_TERIMA_REAL`) AS `SUM_VOLUME`,count(`a`.`VOL_TERIMA_REAL`) AS `COUNT_VOLUME` from (`MUTASI_PENERIMAAN` `a` join `MASTER_LEVEL4` `b` on((`a`.`SLOC` = `b`.`SLOC`))) */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
