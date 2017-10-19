@@ -53,8 +53,7 @@ class depo extends MX_Controller {
             $get_tbl = $this->tbl_get->data($id);
             $data['default'] = $get_tbl->get()->row();
         }
-        $data['parent_options'] = $this->tbl_get->options_vendor();
-        $data['parent_options_sloc']= $this->tbl_get->options_lv4();
+        $data['parent_options'] = $this->tbl_get->options_pemasok();
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses');
         $this->load->view($this->_module . '/form', $data);
@@ -70,17 +69,17 @@ class depo extends MX_Controller {
         $table = new stdClass();
         $table->id = 'ID_DEPO';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('ID_DEPO' => 'center', 'SLOC' => 'center', 'NAMA_VENDOR' => 'center', 'NAMA_DEPO' => 'center', 'LAT' => 'center', 'LOT' => 'center', 'ALAMAT_DEPO' => 'center', 'aksi' => 'center');
+        $table->align = array('ID_DEPO' => 'center', 'NAMA_PEMASOK' => 'center', 'NAMA_DEPO' => 'center', 'LAT' => 'center', 'LOT' => 'center', 'ALAMAT_DEPO' => 'center', 'aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
-        $table->jumlah_kolom = 7;
+        $table->jumlah_kolom = 6;
         $table->header[] = array(
             "No", 1, 1,
-            "SLOC", 1, 1,
-            "Nama Vendor", 1, 1,
+            "Nama Pemasok", 1, 1,
             "Nama Depo", 1, 1,
             "LAT", 1, 1,
             "LOT", 1, 1,
+            "Alamat", 1, 1,
             "Aksi", 1, 1
         );
         $table->total = $data_table['total'];
@@ -90,15 +89,13 @@ class depo extends MX_Controller {
     }
 
     public function proses() {
-        $this->form_validation->set_rules('SLOC', 'SLOC', 'trim|required|max_length[50]');
-        $this->form_validation->set_rules('ID_VENDOR', 'ID_VENDOR', 'required');
+        $this->form_validation->set_rules('ID_PEMASOK', 'ID_PEMASOK', 'required');
         if ($this->form_validation->run($this)) {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
             $id = $this->input->post('id');
 
             $data = array();
-            $data['SLOC'] = $this->input->post('SLOC');
-            $data['ID_VENDOR'] = $this->input->post('ID_VENDOR');
+            $data['ID_PEMASOK'] = $this->input->post('ID_PEMASOK');
             $data['NAMA_DEPO'] = $this->input->post('NAMA_DEPO');
             $data['LAT_DEPO'] = $this->input->post('LAT_DEPO');
             $data['LOT_DEPO'] = $this->input->post('LOT_DEPO');

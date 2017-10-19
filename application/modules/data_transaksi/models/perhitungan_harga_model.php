@@ -7,36 +7,33 @@
  * @created at 17 OKTOBER 2017
  * @modified at 17 OKTOBER 2017
  */
-class depo_model extends CI_Model {
+class perhitungan_harga_model extends CI_Model {
 
     public function __construct() {
         parent::__construct();
     }
 
-    private $_table1 = "master_depo"; //nama table setelah mom_
+    private $_table1 = "t_perhitungan"; //nama table setelah mom_
 
     private function _key($key) { //unit ID
         if (!is_array($key)) {
-            $key = array('ID_DEPO' => $key);
+            $key = array('ID_PERHITUNGAN' => $key);
         }
         return $key;
     }
 
     public function data($key = '') {
-        $this->db->select('a.*, b.NAMA_PEMASOK');
-        $this->db->from($this->_table1.' a');
-        $this->db->join('master_pemasok b', 'b.ID_PEMASOK = a.ID_PEMASOK', 'left');
+       $this->db->from($this->_table1);
+       if (!empty($key) || is_array($key))
+       $this->db->where_condition($this->_key($key));
 
-        if (!empty($key) || is_array($key))
-            $this->db->where_condition($this->_key($key));
-
-        return $this->db;
+       return $this->db;
 
     }
 
     public function save_as_new($data) {
         $this->db->trans_begin();
-        $this->db->set_id($this->_table1, 'ID_DEPO', 'no_prefix', 3);
+        $this->db->set_id($this->_table1, 'ID_PERHITUNGAN', 'no_prefix', 3);
         $this->db->insert($this->_table1, $data);
 
         if ($this->db->trans_status() === FALSE) {
@@ -81,23 +78,21 @@ class depo_model extends CI_Model {
         $kata_kunci = $this->input->post('kata_kunci');
 
         if (!empty($kata_kunci))
-            $filter[$this->_table1 . ".NAMA_DEPO LIKE '%{$kata_kunci}%' "] = NULL;
+            $filter[$this->_table1 . ".BLTH LIKE '%{$kata_kunci}%' "] = NULL;
         $total = $this->data($filter)->count_all_results();
 		$this->db->limit($limit, ($offset * $limit) - $limit);
         $record = $this->data($filter)->get();
 		$no=(($offset-1) * $limit) +1;
         $rows = array();
         foreach ($record->result() as $row) {
-            $id = $row->ID_DEPO;
+            $id = $row->ID_PERHITUNGAN;
             $aksi = anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
             $aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
             $rows[$id] = array(
-                'ID_DEPO' => $no++,
-                'NAMA_PEMASOK' => $row->NAMA_PEMASOK,
-                'NAMA_DEPO' => $row->NAMA_DEPO,
-                'LAT_DEPO' => $row->LAT_DEPO,
-                'LOT_DEPO' => $row->LOT_DEPO,
-                'ALAMAT_DEPO' => $row->ALAMAT_DEPO,
+                'ID_PERHITUNGAN' => $no++,
+                'blth' => $row->blth,
+                'hsdppn' => $row->hsdppn,
+                'mfoppn' => $row->mfoppn,
                 'aksi' => $aksi
             );
         }
@@ -118,6 +113,14 @@ class depo_model extends CI_Model {
         foreach ($list->result() as $row) {
             $option[$row->ID_PEMASOK] = $row->NAMA_PEMASOK;
         }
+        return $option;    
+        
+    }
+
+    public function options_type($default = '--Pilih Type Pemasok--') {
+        
+        $option = ['PERTAMINA', 'NON PERTAMINA'];
+        
         return $option;    
         
     }

@@ -4,13 +4,13 @@ if (!defined("BASEPATH"))
     exit("No direct script access allowed");
 
 /**
- * @module Master Pemasok
+ * @module Master kontrak_transportir
  */
-class pemasok extends MX_Controller {
+class kontrak_transportir extends MX_Controller {
 
-    private $_title = 'Master Pemasok';
+    private $_title = 'Master Data Kontrak Transportir';
     private $_limit = 10;
-    private $_module = 'master/pemasok';
+    private $_module = 'master/kontrak_transportir';
 
     public function __construct() {
         parent::__construct();
@@ -19,7 +19,7 @@ class pemasok extends MX_Controller {
         hprotection::login();
 
         /* Load Global Model */
-        $this->load->model('pemasok_model');
+        $this->load->model('kontrak_transportir_model');
     }
 
     public function index() {
@@ -30,7 +30,7 @@ class pemasok extends MX_Controller {
         $this->asset->set_plugin(array('crud'));
 
         $data['button_group'] = array(
-            anchor(null, '<i class="icon-plus"></i> Tambah Data', array('class' => 'btn yellow', 'id' => 'button-add', 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($this->_module . '/add')))
+            anchor(null, '<i class="icon-plus"></i> Tambah Data', array('class' => 'btn yellow', 'id' => 'button-add', 'onclick' => 'load_form(this.id)', 'data-source' => base_url($this->_module . '/add')))
         );
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $this->_title;
         $data['page_content'] = $this->_module . '/main';
@@ -39,13 +39,17 @@ class pemasok extends MX_Controller {
     }
 
     public function add($id = '') {
-        $page_title = 'Tambah Pemasok';
+        $page_title = 'Tambah Kontrak';
         $data['id'] = $id;
         if ($id != '') {
-            $page_title = 'Edit Pemasok';
-            $pemasok = $this->pemasok_model->data($id);
-            $data['default'] = $pemasok->get()->row();
+            $page_title = 'Edit Kontrak';
+            $tangki = $this->kontrak_transportir_model->data($id);
+            $data['default'] = $tangki->get()->row();
         }
+        $data['option_transportir'] = $this->kontrak_transportir_model->options();
+        $data['option_depo'] = $this->kontrak_transportir_model->optionsDepo();
+        $data['option_pembangkit'] = $this->kontrak_transportir_model->optionsPembangkit();
+        $data['option_jalur'] = $this->kontrak_transportir_model->optionsJalur();
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses');
         $this->load->view($this->_module . '/form', $data);
@@ -56,20 +60,21 @@ class pemasok extends MX_Controller {
     }
 
     public function load($page = 1) {
-        $data_table = $this->pemasok_model->data_table($this->_module, $this->_limit, $page);
+        $data_table = $this->kontrak_transportir_model->data_table($this->_module, $this->_limit, $page);
         $this->load->library("ltable");
         $table = new stdClass();
-        $table->id = 'ID_PEMASOK';
+        $table->id = 'ID_KONTRAK_TRANS';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('number' => 'center','id_pemasok' => 'center', 'nama_pemasok' => 'center', 'isaktif_pemasok' => 'center', 'aksi' => 'center');
+        $table->align = array('no_kontrak' => 'center','nama_transportir' => 'center','periode' => 'center','nilai_kontrak' => 'center','keterangan' => 'center', 'aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
-        $table->jumlah_kolom = 5;
+        $table->jumlah_kolom = 6;
         $table->header[] = array(
-            "No", 1, 1,
-            "Kode Pemasok", 1, 1,
-            "Nama Pemasok", 1, 1,
-            "Status", 1, 1,
+            "No Kontrak", 1, 1,
+            "Transportir", 1, 1,
+            "Periode", 1, 1,
+            "Harga", 1, 1,
+            "Keterangan", 1, 1,
             "Aksi", 1, 1
         );
         $table->total = $data_table['total'];
@@ -79,27 +84,26 @@ class pemasok extends MX_Controller {
     }
 
     public function proses() {
-        $this->form_validation->set_rules('NAMA_PEMASOK', 'Nama Pemasok', 'trim|required|max_length[50]');
-        $this->form_validation->set_rules('KODE_PEMASOK', 'Kode Pemasok', 'trim|required|max_length[50]');
+        $this->form_validation->set_rules('NO_KONTRAK', 'Nomor Kontrak Transportir', 'trim|required');
+        $this->form_validation->set_rules('NILAI_KONTRAK', 'Nilai Kontrak Transportir', 'trim|required|currency');
         if ($this->form_validation->run($this)) {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
             $id = $this->input->post('id');
 
             $data = array();
-            $data['KODE_PEMASOK'] = $this->input->post('KODE_PEMASOK');
-            $data['NAMA_PEMASOK'] = $this->input->post('NAMA_PEMASOK');
-            $data['ISAKTIF_PEMASOK'] = $this->input->post('ISAKTIF_PEMASOK');
-            $data['CD_BY_PEMASOK'] = $this->session->userdata('user_name');
+            $data['KD_KONTRAK_TRANS'] = $this->input->post('NO_KONTRAK');
+            $data['ID_TRANSPORTIR'] = $this->input->post('TRANSPORTIR');
+            $data['TGL_KONTRAK_TRANS'] = $this->input->post('TGLKONTRAK');
+            $data['NILAI_KONTRAK_TRANS'] = $this->input->post('NILAI_KONTRAK');
+            $data['KET_KONTRAK_TRANS'] = $this->input->post('KETERANGAN');
+            $data['PATH_KONTRAK_TRANS'] = $this->input->post('FILE_UPLOAD');
 
             if ($id == '') {
-                $data['CD_PEMASOK'] = date("Y/m/d");
-                $data['UD_PEMASOK'] = date("Y/m/d");
-                if ($this->pemasok_model->save_as_new($data)) {
+                if ($this->kontrak_transportir_model->save_as_new($data)) {
                     $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
                 }
             } else {
-                $data['UD_PEMASOK'] = date("Y/m/d");
-                if ($this->pemasok_model->save($data, $id)) {
+                if ($this->kontrak_transportir_model->save($data, $id)) {
                     $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
                 }
             }
@@ -112,7 +116,7 @@ class pemasok extends MX_Controller {
     public function delete($id) {
         $message = array(false, 'Proses gagal', 'Proses hapus data gagal.', '');
 
-        if ($this->pemasok_model->delete($id)) {
+        if ($this->kontrak_transportir_model->delete($id)) {
             $message = array(true, 'Proses Berhasil', 'Proses hapus data berhasil.', '#content_table');
         }
         echo json_encode($message);
@@ -120,5 +124,5 @@ class pemasok extends MX_Controller {
 
 }
 
-/* End of file pemasok.php */
-/* Location: ./application/modules/pemasok/controllers/pemasoj.php */
+/* End of file kontrak_transportir.php */
+/* Location: ./application/modules/kontrak_transportir/controllers/pemasoj.php */

@@ -62,7 +62,7 @@ class jenis_bahan_bakar extends MX_Controller {
         $table = new stdClass();
         $table->id = 'ID_JNS_BHN_BKR';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('ID_JNS_BHN_BKR' => 'center','KODE_JNS_BHN_BKR' => 'center', 'NAMA_JNS_BHN_BKR' => 'center', 'aksi' => 'center');
+        $table->align = array('no' => 'center','kode_bhn_bkr' => 'center', 'nama_bhn_bkr' => 'center', 'aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
         $table->jumlah_kolom = 5;
