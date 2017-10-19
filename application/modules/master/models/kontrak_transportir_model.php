@@ -9,11 +9,11 @@
 			parent::__construct();
 		}
 		
-		private $_table1 = "data_kontrak_transportir"; //nama table setelah mom_
-		private $_table2 = "master_transportir"; //nama table setelah mom_
-		private $_table3 = "master_depo"; //nama table setelah mom_
-		private $_table4 = "master_level4"; //nama table setelah mom_
-		private $_table5 = "det_kontrak_trans"; //nama table setelah mom_
+		private $_table1 = "DATA_KONTRAK_TRANSPORTIR"; //nama table setelah mom_
+		private $_table2 = "MASTER_TRANSPORTIR"; //nama table setelah mom_
+		private $_table3 = "MASTER_DEPO"; //nama table setelah mom_
+		private $_table4 = "MASTER_LEVEL4"; //nama table setelah mom_
+		private $_table5 = "DET_KONTRAK_TRANS"; //nama table setelah mom_
 		
 		private function _key($key) { //unit ID
 			if (!is_array($key)) {

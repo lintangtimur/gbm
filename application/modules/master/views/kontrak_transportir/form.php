@@ -9,7 +9,7 @@
         ?>
         <ul class="nav nav-tabs">
           <li class="active"><a data-toggle="tab" href="#detail">Detail</a></li>
-          <li><a data-toggle="tab" href="#addendum">Menu 1</a></li>
+          <li><a data-toggle="tab" href="#addendum">Addendum</a></li>
         </ul>
 
         <div class="tab-content">
@@ -116,7 +116,6 @@
 
 <script type="text/javascript">
 $(function() {
-    // $("#TGLKONTRAK").datepicker();
     $("#TGLKONTRAK").datepicker({format: 'yyyy-mm-dd', autoclose:true});
 });
 </script>

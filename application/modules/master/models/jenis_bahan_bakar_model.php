@@ -10,7 +10,7 @@
 			parent::__construct();
 		}
 		
-		private $_table1 = "m_jns_bhn_bkr"; //nama table setelah mom_
+		private $_table1 = "M_JNS_BHN_BKR"; //nama table setelah mom_
 		
 		private function _key($key) { //unit ID
 			if (!is_array($key)) {

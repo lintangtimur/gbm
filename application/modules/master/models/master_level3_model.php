@@ -12,7 +12,7 @@ class master_level3_model extends CI_Model {
         parent::__construct();
     }
 
-    private $_table1 = "master_level3"; //nama table setelah mom_
+    private $_table1 = "MASTER_LEVEL3"; //nama table setelah mom_
 
     private function _key($key) { //unit ID
         if (!is_array($key)) {
@@ -24,9 +24,9 @@ class master_level3_model extends CI_Model {
     public function data($key = '') {
         $this->db->select('a.*, b.LEVEL2, c.COCODE, c.LEVEL1, d.ID_REGIONAL, d.NAMA_REGIONAL');
         $this->db->from($this->_table1.' a');
-        $this->db->join('master_level2 b', 'b.PLANT = a.PLANT','left');
-        $this->db->join('master_level1 c', 'c.COCODE = b.COCODE','left');
-        $this->db->join('master_regional d', 'd.ID_REGIONAL = c.ID_REGIONAL','left');
+        $this->db->join('MASTER_LEVEL2 b', 'b.PLANT = a.PLANT','left');
+        $this->db->join('MASTER_LEVEL1 c', 'c.COCODE = b.COCODE','left');
+        $this->db->join('MASTER_REGIONAL d', 'd.ID_REGIONAL = c.ID_REGIONAL','left');
 
 
         if (!empty($key) || is_array($key))
@@ -90,8 +90,13 @@ class master_level3_model extends CI_Model {
         $rows = array();
         foreach ($record->result() as $row) {
             $id = $row->STORE_SLOC;
-            $aksi = anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
-            $aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
+            $aksi = '';
+            if ($this->laccess->otoritas('edit')) {
+                $aksi .= anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
+            }
+            if ($this->laccess->otoritas('delete')) {
+                $aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
+            }
             $rows[$id] = array(
                 'NO' => $no++,
                 'LEVEL3' => $row->LEVEL3,
@@ -109,7 +114,7 @@ class master_level3_model extends CI_Model {
     public function options_reg($default = '--Pilih Regional--', $key = 'all') {
         $option = array();
 
-        $this->db->from('master_regional');
+        $this->db->from('MASTER_REGIONAL');
         if ($key != 'all'){
             $this->db->where('ID_REGIONAL',$key);
         }   
@@ -126,7 +131,7 @@ class master_level3_model extends CI_Model {
     }
 
     public function options_lv1($default = '--Pilih Level 1--', $key = 'all', $jenis=0) {
-        $this->db->from('master_level1');
+        $this->db->from('MASTER_LEVEL1');
         if ($key != 'all'){
             $this->db->where('ID_REGIONAL',$key);
         }    
@@ -148,7 +153,7 @@ class master_level3_model extends CI_Model {
     }
 
     public function options_lv2($default = '--Pilih Level 2--', $key = 'all', $jenis=0) {
-        $this->db->from('master_level2');
+        $this->db->from('MASTER_LEVEL2');
         if ($key != 'all'){
             $this->db->where('COCODE',$key);
         }    
