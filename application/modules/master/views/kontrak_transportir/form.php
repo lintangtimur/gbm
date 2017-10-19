@@ -45,10 +45,24 @@
                     <label for="password" class="control-label">Harga Transport (Rp/Lt) <span class="required"> *</span> : </label>
                         <div class="controls" id="inputan">
                             <table>
-                                <tr><?php echo form_input('HARGA', !empty($default->HARGA) ? $default->HARGA : '', 'class="span3", placeholder="Harga"'); ?></tr>    
-                                <tr><?php echo form_dropdown('option_depo', $option_depo, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class="span3"'); ?></tr>    
-                                <tr><?php echo form_dropdown('option_pembangkit', $option_pembangkit, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class="span3"'); ?></tr>    
-                                <tr><?php echo form_dropdown('option_jalur', $option_jalur, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class="span3"'); ?></tr> 
+                               <tr>
+                                    <td>
+                                        <?php echo form_dropdown('option_depo', $option_depo, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class=""'); ?>
+                                    </td>
+                                    <td>
+                                        <?php echo form_dropdown('option_pembangkit', $option_pembangkit, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class=""'); ?>
+                                    </td>
+                                    <td>
+                                        <?php echo form_dropdown('option_jalur', $option_jalur, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class=""'); ?>
+                                    </td>    
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <?php echo form_input('HARGA', !empty($default->HARGA) ? $default->HARGA : '', 'class="span12", placeholder="Harga (Rp)"'); ?> &nbsp
+                                    </td><td>
+                                        <?php echo form_input('JARAK', !empty($default->JARAK) ? $default->JARAK : '', 'class="span12", placeholder="(KL / ML)"'); ?> &nbsp
+                                    </td>
+                                </tr>
                             </table>
                         </div><br/>
                 </div>
@@ -67,7 +81,7 @@
                 <div class="control-group">
                     <label for="password" class="control-label">Upload File<span class="required">*</span> : </label>
                     <div class="controls">
-                        <?php echo form_upload('FILE_UPLOAD', !empty($default->FILE_UPLOAD) ? $default->FILE_UPLOAD : '', 'class="span6"'); ?>
+                        <?php echo form_upload('FILE_UPLOAD', '0', 'class="span6"'); ?>
                     </div>
                 </div>
           </div>
@@ -103,15 +117,18 @@
 <script type="text/javascript">
 $(function() {
     $("#TGLKONTRAK").datepicker();
-    $('#TGLKONTRAK').datepicker('option', 'dateFormat', 'yy-mm-dd');
 });
 </script>
 <script type="text/javascript">
-   $(document).keyup(function (e) {
-    if ($("#jmlpas:focus") && (e.keyCode === 13)) {
-        var x = $("#jmlpas").val();
+$('#jmlpas[type="text"]').on('change', function() {
+    // alert($(this).val());
+    var x = $("#jmlpas").val();
+        var str = "";
+        for(i=0;i<x;i++){
+            str += $('#inputan').html() + "<br/>";
+        }
+        document.getElementById("inputan").innerHTML = str;
        $("#pasokan").show();
-        
-    }
- });
+       $("#jmlpas").prop('disabled', true);
+})
 </script>
