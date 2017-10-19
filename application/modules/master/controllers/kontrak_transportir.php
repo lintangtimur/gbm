@@ -30,7 +30,7 @@ class kontrak_transportir extends MX_Controller {
         $this->asset->set_plugin(array('crud'));
 
         $data['button_group'] = array(
-            anchor(null, '<i class="icon-plus"></i> Tambah Data', array('class' => 'btn yellow', 'id' => 'button-add', 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($this->_module . '/add')))
+            anchor(null, '<i class="icon-plus"></i> Tambah Data', array('class' => 'btn yellow', 'id' => 'button-add', 'onclick' => 'load_form(this.id)', 'data-source' => base_url($this->_module . '/add')))
         );
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $this->_title;
         $data['page_content'] = $this->_module . '/main';
@@ -39,14 +39,17 @@ class kontrak_transportir extends MX_Controller {
     }
 
     public function add($id = '') {
-        $page_title = 'Tambah Tangki';
+        $page_title = 'Tambah Kontrak';
         $data['id'] = $id;
         if ($id != '') {
-            $page_title = 'Edit Tangki';
+            $page_title = 'Edit Kontrak';
             $tangki = $this->kontrak_transportir_model->data($id);
             $data['default'] = $tangki->get()->row();
         }
         $data['option_transportir'] = $this->kontrak_transportir_model->options();
+        $data['option_depo'] = $this->kontrak_transportir_model->optionsDepo();
+        $data['option_pembangkit'] = $this->kontrak_transportir_model->optionsPembangkit();
+        $data['option_jalur'] = $this->kontrak_transportir_model->optionsJalur();
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses');
         $this->load->view($this->_module . '/form', $data);
@@ -60,19 +63,18 @@ class kontrak_transportir extends MX_Controller {
         $data_table = $this->kontrak_transportir_model->data_table($this->_module, $this->_limit, $page);
         $this->load->library("ltable");
         $table = new stdClass();
-        $table->id = 'ID_VENDOR';
+        $table->id = 'ID_KONTRAK_TRANS';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('ID_VENDOR' => 'center','KODE_VENDOR' => 'center', 'NAMA_VENDOR' => 'center', 'aksi' => 'center');
+        $table->align = array('ID_KONTRAK_TRANS' => 'center','ID_TRANSPORTIR' => 'center', 'aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
         $table->jumlah_kolom = 7;
         $table->header[] = array(
-            "No", 1, 1,
-            "Pembangkit", 1, 1,
-            "Jenis BBM", 1, 1,
-            "Kapasitas", 1, 1,
-            "Dead Stock", 1, 1,
-            "Stock Efektif", 1, 1,
+            "No Kontrak", 1, 1,
+            "Transportir", 1, 1,
+            "Periode", 1, 1,
+            "Harga", 1, 1,
+            "Keterangan", 1, 1,
             "Aksi", 1, 1
         );
         $table->total = $data_table['total'];
@@ -82,19 +84,19 @@ class kontrak_transportir extends MX_Controller {
     }
 
     public function proses() {
-        $this->form_validation->set_rules('NAMA_VENDOR', 'Nama kontrak_transportir', 'trim|required|max_length[50]');
+        $this->form_validation->set_rules('NO_KONTRAK', 'Nomor Kontrak Transportir', 'trim|required');
+        $this->form_validation->set_rules('NILAI_KONTRAK', 'Nilai Kontrak Transportir', 'trim|required|currency');
         if ($this->form_validation->run($this)) {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
             $id = $this->input->post('id');
 
             $data = array();
-            $data['NO_KONTRAK'] = $this->input->post('NO_KONTRAK');
-            $data['KODE_VENDOR'] = $this->input->post('parent_id');
-            $data['KODE_VENDOR'] = $this->input->post('tglkontrak');
-            $data['KODE_VENDOR'] = $this->input->post('JML_PASOKAN');
-            $data['KODE_VENDOR'] = $this->input->post('NILAI_KONTRAK');
-            $data['KODE_VENDOR'] = $this->input->post('KETERANGAN');
-            $data['KODE_VENDOR'] = $this->input->post('FILE_UPLOAD');
+            $data['KD_KONTRAK_TRANS'] = $this->input->post('NO_KONTRAK');
+            $data['ID_TRANSPORTIR'] = $this->input->post('TRANSPORTIR');
+            $data['TGL_KONTRAK_TRANS'] = $this->input->post('TGLKONTRAK');
+            $data['NILAI_KONTRAK_TRANS'] = $this->input->post('NILAI_KONTRAK');
+            $data['KET_KONTRAK_TRANS'] = $this->input->post('KETERANGAN');
+            $data['PATH_KONTRAK_TRANS'] = $this->input->post('FILE_UPLOAD');
 
             if ($id == '') {
                 if ($this->kontrak_transportir_model->save_as_new($data)) {
