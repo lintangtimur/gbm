@@ -79,6 +79,7 @@ class depo extends MX_Controller {
             "Nama Depo", 1, 1,
             "LAT", 1, 1,
             "LOT", 1, 1,
+            "Alamat", 1, 1,
             "Aksi", 1, 1
         );
         $table->total = $data_table['total'];

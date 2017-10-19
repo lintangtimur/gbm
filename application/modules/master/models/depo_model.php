@@ -97,7 +97,7 @@ class depo_model extends CI_Model {
                 'NAMA_DEPO' => $row->NAMA_DEPO,
                 'LAT_DEPO' => $row->LAT_DEPO,
                 'LOT_DEPO' => $row->LOT_DEPO,
-                'ALAMAT_DEPO' => $row->NAMA_DEPO,
+                'ALAMAT_DEPO' => $row->ALAMAT_DEPO,
                 'aksi' => $aksi
             );
         }

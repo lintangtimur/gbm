@@ -36,7 +36,7 @@ class grafik extends MX_Controller {
         // Memanggil plugin JS Crud
         $this->asset->set_plugin(array('highchart'));
         $this->asset->set_plugin(array('jquery'));
-        $this->asset->set_plugin(array('bootstrap-rakhmat'));
+        //$this->asset->set_plugin(array('bootstrap-rakhmat'));
 
        // print_r($this->asset); die;
 

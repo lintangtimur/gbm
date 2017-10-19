@@ -45,19 +45,19 @@ class perhitungan_harga extends MX_Controller {
         echo Modules::run("template/admin", $data);
     }
 
-    // public function add($id = '') {
-    //     $page_title = 'Tambah '.$this->_title;
-    //     $data['id'] = $id;
-    //     if ($id != '') {
-    //         $page_title = 'Edit Depo / Depot';
-    //         $get_tbl = $this->tbl_get->data($id);
-    //         $data['default'] = $get_tbl->get()->row();
-    //     }
-    //     $data['parent_options'] = $this->tbl_get->options_pemasok();
-    //     $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
-    //     $data['form_action'] = base_url($this->_module . '/proses');
-    //     $this->load->view($this->_module . '/form', $data);
-    // }
+    public function add($id = '') {
+        $page_title = 'Tambah '.$this->_title;
+        $data['id'] = $id;
+        if ($id != '') {
+            $page_title = 'Edit Depo / Depot';
+            $get_tbl = $this->tbl_get->data($id);
+            $data['default'] = $get_tbl->get()->row();
+        }
+        $data['parent_options'] = $this->tbl_get->options_pemasok();
+        $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
+        $data['form_action'] = base_url($this->_module . '/proses');
+        $this->load->view($this->_module . '/form', $data);
+    }
 
     // public function edit($id) {
     //     $this->add($id);
