@@ -12,7 +12,7 @@ class master_level2_model extends CI_Model {
         parent::__construct();
     }
 
-    private $_table1 = "master_level2"; //nama table setelah mom_
+    private $_table1 = "MASTER_LEVEL2"; //nama table setelah mom_
 
     private function _key($key) { //unit ID
         if (!is_array($key)) {
@@ -88,8 +88,13 @@ class master_level2_model extends CI_Model {
         $rows = array();
         foreach ($record->result() as $row) {
             $id = $row->PLANT;
-            $aksi = anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
-            $aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
+            $aksi = '';
+            if ($this->laccess->otoritas('edit')) {
+                $aksi .= anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
+            }
+            if ($this->laccess->otoritas('delete')) {
+                $aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
+            }
             $rows[$id] = array(
                 'NO' => $no++,
                 'LEVEL2' => $row->LEVEL2,
@@ -106,7 +111,7 @@ class master_level2_model extends CI_Model {
     public function options_reg($default = '--Pilih Regional--', $key = 'all') {
         $option = array();
 
-        $this->db->from('master_regional');
+        $this->db->from('MASTER_REGIONAL');
         if ($key != 'all'){
             $this->db->where('ID_REGIONAL',$key);
         }   
@@ -123,7 +128,7 @@ class master_level2_model extends CI_Model {
     }
 
     public function options_lv1($default = '--Pilih Level 1--', $key = 'all', $jenis=0) {
-        $this->db->from('master_level1');
+        $this->db->from('MASTER_LEVEL1');
         if ($key != 'all'){
             $this->db->where('ID_REGIONAL',$key);
         }    
