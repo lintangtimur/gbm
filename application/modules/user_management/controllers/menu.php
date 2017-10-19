@@ -39,7 +39,7 @@ class menu extends MX_Controller {
 		
         $data['button_group'] = $btn;
 
-        $data['parent_options'] = $this->menu_model->options('--Pilih Parent--', array('m_menu.M_M_MENU_ID' => NULL));
+        $data['parent_options'] = $this->menu_model->options('--Pilih Parent--', array('M_MENU.M_M_MENU_ID' => NULL));
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $this->_title;
         $data['page_content'] = $this->_module . '/main';
         $data['data_sources'] = base_url($this->_module . '/load');
@@ -56,7 +56,7 @@ class menu extends MX_Controller {
             $data['default'] = $loker->get()->row();
         }
 
-        $data['parent_options'] = $this->menu_model->options('--Pilih Parent--', array('m_menu.M_M_MENU_ID' => NULL));
+        $data['parent_options'] = $this->menu_model->options('--Pilih Parent--', array('M_MENU.M_M_MENU_ID' => NULL));
 
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses');
