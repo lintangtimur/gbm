@@ -13,8 +13,8 @@ class laccess {
 
     private function otoritas_data($key) {
         $CI = &get_instance();
-        $CI->db->from('m_otoritas_menu a');
-        $CI->db->join('m_menu b', 'a.menu_id = b.menu_id');
+        $CI->db->from('M_OTORITAS_MENU a');
+        $CI->db->join('M_MENU b', 'a.MENU_ID = b.MENU_ID');
         $CI->db->where_condition($key);
         return $CI->db->get();
     }
@@ -33,7 +33,7 @@ class laccess {
             if ($segment2)
                 $url .= '/' . $segment2;
 
-            $roles = $this->otoritas_data(array('a.roles_id' => $roles_id, "b.menu_url = '" . strtolower($url) . "'" => null));
+            $roles = $this->otoritas_data(array('a.ROLES_ID' => $roles_id, "b.MENU_URL = '" . strtolower($url) . "'" => null));
 			
             if ($roles->num_rows() > 0) {
                 $otoritas = $roles->row();
@@ -52,7 +52,7 @@ class laccess {
             foreach ($list_modul as $list) {
                 $url = $list;
 
-                $roles = $this->otoritas_data(array('a.roles_id' => $roles_id, 'b.menu_url' => $url));
+                $roles = $this->otoritas_data(array('a.ROLES_ID' => $roles_id, 'b.MENU_URL' => $url));
                 if ($roles->num_rows() > 0) {
                     $otoritas = $roles->row();
                     $this->role[$url] = array(

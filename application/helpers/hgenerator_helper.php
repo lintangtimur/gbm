@@ -184,17 +184,6 @@ class hgenerator {
     }
 
 	public static function arr_levelgroup(){
-		// $strHtml = '';
-		// $strHtml = '<select name="levelgroup" class="span15" id= "levelgroup">';
-		// $strHtml .= '<option value="-" selected="selected">--Pilih Level Group--</option>';
-		// $strHtml .= '<option value="0">Pusat</option>';
-		// $strHtml .= '<option value="R">Regional</option>';
-		// $strHtml .= '<option value="1">Level 1</option>';
-		// $strHtml .= '<option value="2">Level 2</option>';
-		// $strHtml .= '<option value="3">Level 3</option>';
-		// $strHtml .= '<option value="4">Level 4</option>';
-		// $strHtml .= '</select>';
-		// return $strHtml;
 		$arr_lvlgroup = array("-" => "-- Pilih Level Group --",
 							  "0" => "Pusat",
 							  "R" => "Regional",
