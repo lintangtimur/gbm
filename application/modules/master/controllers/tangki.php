@@ -17,6 +17,8 @@ class tangki extends MX_Controller {
 
         // Protection
         hprotection::login();
+        $this->laccess->check();
+        $this->laccess->otoritas('view', true);
 
         /* Load Global Model */
         $this->load->model('tangki_model');
@@ -28,10 +30,12 @@ class tangki extends MX_Controller {
 
         // Memanggil plugin JS Crud
         $this->asset->set_plugin(array('crud'));
-
-        $data['button_group'] = array(
-            anchor(null, '<i class="icon-plus"></i> Tambah Data', array('class' => 'btn yellow', 'id' => 'button-add', 'onclick' => 'load_form(this.id)', 'data-source' => base_url($this->_module . '/add')))
-        );
+        if ($this->laccess->otoritas('add')) {
+            $data['button_group'] = array(
+                anchor(null, '<i class="icon-plus"></i> Tambah Data', array('class' => 'btn yellow', 'id' => 'button-add', 'onclick' => 'load_form(this.id)', 'data-source' => base_url($this->_module . '/add')))
+            );
+        }
+        
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $this->_title;
         $data['page_content'] = $this->_module . '/main';
         $data['data_sources'] = base_url($this->_module . '/load');
@@ -86,7 +90,7 @@ class tangki extends MX_Controller {
     public function proses() {
         $this->form_validation->set_rules('unit_pembangkit', 'Unit Pembangkit', 'trim|required');
         $this->form_validation->set_rules('jenis_bbm', 'Jenis Bahan Bakar', 'trim|required');
-        $this->form_validation->set_rules('TERA', 'Tera', 'trim|required');
+        // $this->form_validation->set_rules('TERA', 'Tera', 'trim|required');
         $this->form_validation->set_rules('KAPASITAS', 'Kapasitas', 'trim|required|numeric');
         $this->form_validation->set_rules('DEAD_STOCK', 'Dead Stok', 'trim|required|numeric');
         $this->form_validation->set_rules('STOCK_EFEKTIF', 'Stock Efektif', 'trim|required|numeric');

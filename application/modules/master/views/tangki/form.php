@@ -22,10 +22,11 @@
                                     <?php echo form_dropdown('jenis_bbm', $jenis_bbm, !empty($default->ID_JNS_BHN_BKR) ? $default->ID_JNS_BHN_BKR : '', 'class="span10"'); ?>
                                 </div>
                             </div>
-                            <div class="control-group">
+                            <div class="control-group" hidden>
                                 <label for="password" class="control-label">Nama Tangki<span class="required">*</span> : </label>
                                 <div class="controls">
-                                    <?php echo form_input('NAMA_TANGKI', !empty($default->NAMA_TANGKI) ? $default->NAMA_TANGKI : '', 'class="span10"'); ?>
+                                   <!-- <?php echo form_input('NAMA_TANGKI', !empty($default->NAMA_TANGKI) ? $default->NAMA_TANGKI : '', 'class="span10"'); ?> -->
+                                    <?php echo form_input('NAMA_TANGKI', 'TANGKI TIMBUN', 'class="span10"'); ?>
                                 </div>
                         </td>
                         <td>
