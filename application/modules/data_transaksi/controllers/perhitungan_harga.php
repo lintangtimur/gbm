@@ -63,9 +63,9 @@ class perhitungan_harga extends MX_Controller {
         $this->load->view($this->_module . '/form', $data);
     }
 
-    // public function edit($id) {
-    //     $this->add($id);
-    // }
+    public function edit($id) {
+        $this->add($id);
+    }
 
     public function load($page = 1) {
         $data_table = $this->tbl_get->data_table($this->_module, $this->_limit, $page);

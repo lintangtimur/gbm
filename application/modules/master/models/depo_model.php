@@ -79,9 +79,8 @@ class depo_model extends CI_Model {
     public function data_table($module = '', $limit = 20, $offset = 1) {
 		$filter = array();
         $kata_kunci = $this->input->post('kata_kunci');
-
         if (!empty($kata_kunci))
-            $filter[$this->_table1 . ".NAMA_DEPO LIKE '%{$kata_kunci}%' "] = NULL;
+        $filter["a.NAMA_DEPO LIKE '%{$kata_kunci}%' or b.NAMA_PEMASOK LIKE '%{$kata_kunci}%' or a.LAT_DEPO LIKE '%{$kata_kunci}%' or  a.LOT_DEPO LIKE '%{$kata_kunci}%' or a.ALAMAT_DEPO LIKE '%{$kata_kunci}%'"] = NULL;
         $total = $this->data($filter)->count_all_results();
 		$this->db->limit($limit, ($offset * $limit) - $limit);
         $record = $this->data($filter)->get();
