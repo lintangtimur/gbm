@@ -9,11 +9,10 @@ class user_model extends CI_Model {
         parent::__construct();
     }
 
-    private $_table1 = "m_user";
-    private $_table2 = "roles";
-    private $_table3 = "m_loker";
-    private $_table4 = "m_unit";
-	private $_table_mapping = "keahlian_user";
+    private $_table1 = "M_USER";
+    private $_table2 = "ROLES";
+    private $_table3 = "M_LOKER";
+    private $_table4 = "M_UNIT";
 
     private function _key($key) {
         if (!is_array($key)) {
@@ -23,7 +22,7 @@ class user_model extends CI_Model {
     }
 
     public function data($key = '') {
-        $this->db->select("a.*, b.roles_nama, (CASE 
+        $this->db->select("a.*, b.ROLES_NAMA, (CASE 
 		WHEN a.LEVEL_USER = '0' THEN 'SGBM'
 		WHEN a.LEVEL_USER = 'R' THEN (SELECT c.NAMA_REGIONAL FROM master_regional c 
 						WHERE c.ID_REGIONAL = a.KODE_LEVEL)
@@ -120,10 +119,10 @@ class user_model extends CI_Model {
             $filter["a.NAMA_USER LIKE '%{$nama}%' "] = NULL;
         }
         if (!empty($role)) {
-            $filter["a.roles_id"] = $role;
+            $filter["a.ROLES_ID"] = $role;
         }
         if (!empty($status)) {
-            $filter["a.isaktif_user"] = $status;
+            $filter["a.ISAKTIF_USER"] = $status;
         }
 		$total = $this->data($filter)->count_all_results();
         $this->db->limit($limit, ($offset * $limit) - $limit);
@@ -145,7 +144,7 @@ class user_model extends CI_Model {
 				'no' => $no,
                 'user_nama' => $row->NAMA_USER,
                 'user_username' => $row->USERNAME,
-                'role_nama' => $row->roles_nama,
+                'role_nama' => $row->ROLES_NAMA,
                 'user_status' => !empty($row->ISAKTIF_USER) ? hgenerator::status_user($row->ISAKTIF_USER) : '',
                 'aksi' => $aksi
             );
@@ -155,45 +154,6 @@ class user_model extends CI_Model {
         return array('total' => $total, 'rows' => $rows);
     }
 	
-	
-
-    public function datakeahlian($key = '') {
-        $this->db->from($this->_table_mapping);
-
-        if (!empty($key) || is_array($key))
-            $this->db->where_condition($this->_key($key));
-
-        return $this->db;
-    }
-	
-	public function save_mapping($data) {
-        $this->db->trans_begin();
- 
-        $this->db->insert($this->_table_mapping, $data);
-
-        if ($this->db->trans_status() === FALSE) {
-            $this->db->trans_rollback();
-            return FALSE;
-        } else {
-            $this->db->trans_commit();
-            return TRUE;
-        }
-    }
-
-    public function delete_mapping($key) {
-        $this->db->trans_begin();
-
-        $this->db->delete($this->_table_mapping, $this->_key($key));
-
-        if ($this->db->trans_status() === FALSE) {
-            $this->db->trans_rollback();
-            return FALSE;
-        } else {
-            $this->db->trans_commit();
-            return TRUE;
-        }
-    }
-
 }
 
 /* End of file user_model.php */

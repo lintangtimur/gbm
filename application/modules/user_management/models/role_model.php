@@ -9,12 +9,12 @@ class role_model extends CI_Model {
         parent::__construct();
     }
 
-    private $_table1 = "roles";
-    private $_table2 = "m_otoritas_menu";
+    private $_table1 = "ROLES";
+    private $_table2 = "M_OTORITAS_MENU";
 
     private function _key($key) { //unit ID
         if (!is_array($key)) {
-            $key = array('roles_id' => $key);
+            $key = array('ROLES_ID' => $key);
         }
         return $key;
     }
@@ -42,7 +42,7 @@ class role_model extends CI_Model {
     }
 
     public function save_otoritas($save_id, $temp) {
-        $this->db->delete($this->_table2, array('roles_id' => $save_id));
+        $this->db->delete($this->_table2, array('ROLES_ID' => $save_id));
         foreach ($temp as $key => $val) {
             $data_otoritas = array();
             $data_otoritas['roles_id'] = $save_id;
@@ -51,8 +51,6 @@ class role_model extends CI_Model {
             $data_otoritas['is_add'] = isset($val['is_add']) ? 't' : 'f';
             $data_otoritas['is_edit'] = isset($val['is_edit']) ? 't' : 'f';
             $data_otoritas['is_delete'] = isset($val['is_delete']) ? 't' : 'f';
-            // $data_otoritas['is_export'] = isset($val['is_export']) ? 't' : 'f';
-            // $data_otoritas['is_import'] = isset($val['is_import']) ? 't' : 'f';
             $data_otoritas['is_approve'] = isset($val['is_approve']) ? 't' : 'f';
             $this->db->insert($this->_table2, $data_otoritas);
         }
@@ -87,7 +85,7 @@ class role_model extends CI_Model {
         $filter = array();
         $kata_kunci = $this->input->post('kata_kunci');
         if (!empty($kata_kunci))
-            $filter[$this->_table1 . ".roles_nama LIKE '%{$kata_kunci}%' "] = NULL;
+            $filter[$this->_table1 . ".ROLES_NAMA LIKE '%{$kata_kunci}%' "] = NULL;
         $total = $this->data($filter)->count_all_results();
         $this->db->limit($limit, ($offset * $limit) - $limit);
         $record = $this->data($filter)->get();

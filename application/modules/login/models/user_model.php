@@ -10,7 +10,7 @@ class user_model extends CI_Model {
         parent::__construct();
     }
 
-    private $_table1 = 'm_user';
+    private $_table1 = 'M_USER';
 
     private function _key($key) {
         if (!is_array($key)) {

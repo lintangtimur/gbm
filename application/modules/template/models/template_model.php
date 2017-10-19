@@ -9,9 +9,9 @@ class template_model extends CI_Model {
         parent::__construct();
     }
 
-    private $_table1 = "m_otoritas_menu";
-    private $_table2 = "m_menu";
-    private $_table = "setting";
+    private $_table1 = "M_OTORITAS_MENU";
+    private $_table2 = "M_MENU";
+    private $_table = "SETTING";
     
     public function data_menu($key = '') {
         $this->db->from($this->_table1);

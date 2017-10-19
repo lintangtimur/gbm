@@ -228,7 +228,7 @@ CREATE TABLE `m_menu` (
 
 /*Data for the table `m_menu` */
 
-insert  into `m_menu`(`MENU_ID`,`M_M_MENU_ID`,`MENU_NAMA`,`MENU_URL`,`MENU_KETERANGAN`,`MENU_ICON`,`MENU_URUTAN`) values ('001',NULL,'Dashboard','#','','icon-dashboard',1),('002',NULL,'User Management','#','','icon-barcode',3),('003','002','Menu Management','user_management/menu','','',1),('004','002','Role Management','user_management/role','','',2),('005','002','User','user_management/user','','',3),('006',NULL,'Data Transaksi','#','','icon-globe',2),('007','006','Stock Opname','data_transaksi/stockopname','','icon-credit-card',1);
+insert  into `m_menu`(`MENU_ID`,`M_M_MENU_ID`,`MENU_NAMA`,`MENU_URL`,`MENU_KETERANGAN`,`MENU_ICON`,`MENU_URUTAN`) values ('001',NULL,'Dashboard','#','','icon-dashboard',1),('002',NULL,'User Management','#','','icon-barcode',3),('003','002','Menu Management','user_management/menu','','',1),('004','002','Role Management','user_management/role','','',2),('005','002','User','user_management/user','','',3),('006',NULL,'Data Transaksi','#','','icon-globe',2),('007','006','Stock Opname','data_transaksi/stockopname','','icon-credit-card',1),('008',NULL,'Master','#','','icon-coffee',3);
 
 /*Table structure for table `m_otoritas_menu` */
 
@@ -251,7 +251,7 @@ CREATE TABLE `m_otoritas_menu` (
 
 /*Data for the table `m_otoritas_menu` */
 
-insert  into `m_otoritas_menu`(`ROLES_ID`,`MENU_ID`,`IS_VIEW`,`IS_ADD`,`IS_EDIT`,`IS_DELETE`,`IS_APPROVE`,`UD_OTORITAS`) values ('001','002','t','t','t','t','t',NULL),('001','003','t','t','t','t','t',NULL),('001','004','t','t','t','t','t',NULL),('001','005','t','t','t','t','t',NULL),('001','006','t','t','t','t','t',NULL),('001','007','t','t','t','t','t',NULL);
+insert  into `m_otoritas_menu`(`ROLES_ID`,`MENU_ID`,`IS_VIEW`,`IS_ADD`,`IS_EDIT`,`IS_DELETE`,`IS_APPROVE`,`UD_OTORITAS`) values ('001','002','t','t','t','t','t',NULL),('001','003','t','t','t','t','t',NULL),('001','004','t','t','t','t','t',NULL),('001','005','t','t','t','t','t',NULL),('001','006','t','t','t','t','t',NULL),('001','007','t','t','t','t','t',NULL),('001','008','t','t','t','t','t',NULL),('01','006','t','t','t','t','t',NULL),('01','007','t','t','t','t','t',NULL),('01','008','t','t','t','t','t',NULL),('02','001','t','t','t','t','t',NULL),('02','002','t','t','t','t','t',NULL),('02','003','t','t','t','t','t',NULL),('02','004','t','t','t','t','t',NULL),('02','005','t','t','t','t','t',NULL),('02','006','t','t','t','t','t',NULL),('02','007','t','t','t','t','t',NULL),('02','008','t','t','t','t','t',NULL),('03','001','t','t','t','t','t',NULL),('03','002','t','t','t','t','t',NULL),('03','003','t','t','t','t','t',NULL),('03','004','t','t','t','t','t',NULL),('03','005','t','t','t','t','t',NULL),('03','006','t','t','t','t','t',NULL),('03','007','t','t','t','t','t',NULL),('03','008','t','t','t','t','t',NULL);
 
 /*Table structure for table `m_user` */
 
@@ -278,7 +278,7 @@ CREATE TABLE `m_user` (
 
 /*Data for the table `m_user` */
 
-insert  into `m_user`(`ID_USER`,`ROLES_ID`,`KD_USER`,`NAMA_USER`,`USERNAME`,`PWD_USER`,`EMAIL_USER`,`LEVEL_USER`,`KODE_LEVEL`,`ISAKTIF_USER`,`CD_USER`,`CD_BY_USER`,`UD_USER`) values (1,'001','xxxx','Adityass','admin','admin','admin','0','0','1',NULL,NULL,NULL),(2,'001','22222','Aditssss','stafflevel2','d9b1d7db4cd6e70935368a1efb10e377','andhambe@yahoo.comsss','1','321','0','2017-10-18','Aditya-0','2017-10-18');
+insert  into `m_user`(`ID_USER`,`ROLES_ID`,`KD_USER`,`NAMA_USER`,`USERNAME`,`PWD_USER`,`EMAIL_USER`,`LEVEL_USER`,`KODE_LEVEL`,`ISAKTIF_USER`,`CD_USER`,`CD_BY_USER`,`UD_USER`) values (1,'001','xxxx','Adityass','admin','admin','admin','0','0','1',NULL,NULL,NULL),(2,'001','22222','Aditssss','stafflevel2','d9b1d7db4cd6e70935368a1efb10e377','andhambe@yahoo.comsss','1','321','0','2017-10-18','Aditya-0','2017-10-18'),(3,'01','92384273','Gembul','Gembul','123','adityaprandhana@gmail.com','1','321','1','2017-10-18','Adityass-0',NULL),(4,'03','','aa','aa','d9b1d7db4cd6e70935368a1efb10e377','adityaprandhana@gmail.com','2','1','1','2017-10-19','Adityass-0','2017-10-19'),(5,'02','','bb','bb','21ad0bd836b90d08f4cf640b4c298e7c','bb@mail.com','2','1','1','2017-10-19','Adityass-0',NULL);
 
 /*Table structure for table `master_depo` */
 
@@ -339,7 +339,7 @@ CREATE TABLE `master_level2` (
 
 /*Data for the table `master_level2` */
 
-insert  into `master_level2`(`PLANT`,`COCODE`,`LEVEL2`,`DESCRIPTION_LVL2`,`IS_AKTIF_LVL2`) values ('1','321','Level 2',NULL,NULL);
+insert  into `master_level2`(`PLANT`,`COCODE`,`LEVEL2`,`DESCRIPTION_LVL2`,`IS_AKTIF_LVL2`) values ('1','321','Level 2',NULL,NULL),('2','321','Level 2',NULL,NULL);
 
 /*Table structure for table `master_level3` */
 
@@ -379,7 +379,7 @@ CREATE TABLE `master_level4` (
 
 /*Data for the table `master_level4` */
 
-insert  into `master_level4`(`SLOC`,`PLANT`,`STORE_SLOC`,`LEVEL4`,`DESCRIPTION_LVL4`,`IS_AKTI_LVL4`,`LAT_LVL4`,`LOT_LVL4`) values ('34234','1','24234','Level 4',NULL,NULL,NULL,NULL);
+insert  into `master_level4`(`SLOC`,`PLANT`,`STORE_SLOC`,`LEVEL4`,`DESCRIPTION_LVL4`,`IS_AKTI_LVL4`,`LAT_LVL4`,`LOT_LVL4`) values ('33332','1',NULL,'Level 4',NULL,NULL,NULL,NULL),('34234','1','24234','Level 4',NULL,NULL,NULL,NULL);
 
 /*Table structure for table `master_pemasok` */
 
@@ -482,7 +482,7 @@ CREATE TABLE `roles` (
 
 /*Data for the table `roles` */
 
-insert  into `roles`(`ROLES_ID`,`ROLES_NAMA`,`ROLES_KETERANGAN`,`CD_ROLES`,`UP_ROLES`,`LEVEL_ROLES`) values ('001','Administrator','',NULL,NULL,'0');
+insert  into `roles`(`ROLES_ID`,`ROLES_NAMA`,`ROLES_KETERANGAN`,`CD_ROLES`,`UP_ROLES`,`LEVEL_ROLES`) values ('001','Administrator','',NULL,NULL,'0'),('01','Staff Level 1','-',NULL,NULL,'1'),('02','Staff lvl 2','',NULL,NULL,NULL),('03','staff lvl 4','',NULL,NULL,NULL);
 
 /*Table structure for table `setting` */
 

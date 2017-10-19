@@ -11,7 +11,7 @@ class menu_model extends CI_Model {
 		$this->laccess->check(array($this->_modul));
     }
 
-    private $_table1 = "m_menu";
+    private $_table1 = "M_MENU";
     private $_rows = array();
 
     private function _key($key) {
@@ -82,7 +82,7 @@ class menu_model extends CI_Model {
         $parent = array();
         // $parent['kms_menu_id'] = NULL;
         $total = $this->data($parent)->count_all_results();
-        $this->db->order_by($this->_table1 . '.menu_urutan');
+        $this->db->order_by($this->_table1 . '.MENU_URUTAN');
         $record = $this->data($parent)->get();
 
         $temp = array();

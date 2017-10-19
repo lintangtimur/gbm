@@ -9,11 +9,11 @@ class master_level_model extends CI_Model {
         parent::__construct();
     }
 
-	private $_tabler = "master_regional";
-    private $_table1 = "master_level1";
-    private $_table2 = "master_level2";
-    private $_table3 = "master_level3";
-    private $_table4 = "master_level4";
+	private $_tabler = "MASTER_REGIONAL";
+    private $_table1 = "MASTER_LEVEL1";
+    private $_table2 = "MASTER_LEVEL2";
+    private $_table3 = "MASTER_LEVEL3";
+    private $_table4 = "MASTER_LEVEL4";
 	
 	public function load_option($id = ''){
 		 $option='';
@@ -44,9 +44,7 @@ class master_level_model extends CI_Model {
 				$list = $this->db->get();
 				break;
 		}
-        // foreach ($list->result() as $row) {
-			// $option .= "<option value='". $row->kode ."'>". $row->nama ."</option>";
-		// }
+     
         return $list->result();
     }
 }

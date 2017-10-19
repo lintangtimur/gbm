@@ -8,10 +8,10 @@ class otoritas_menu_model extends CI_Model {
     public function __construct() {
         parent::__construct();
     }
-	private $_table1="m_otoritas_menu";
+	private $_table1="M_OTORITAS_MENU";
     private function _key($key) { //unit ID
         if (!is_array($key)) {
-            $key = array('roles_id' => $key);
+            $key = array('ROLES_ID' => $key);
         }
         return $key;
     }
@@ -25,7 +25,6 @@ class otoritas_menu_model extends CI_Model {
 
     public function save_as_new($data) {
         $this->db->trans_begin();
-        //$this->db->set_id($this->_table1, 'roles_id', 'no_prefix', 3);
         $this->db->insert($this->_table1, $data);
 
         if ($this->db->trans_status() === FALSE) {
