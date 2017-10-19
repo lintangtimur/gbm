@@ -165,10 +165,14 @@ class asset extends MX_Controller {
             "bootstrap-rakhmat" => array(
                 'css'=> array('bootstrap-rakhmat/bootstrap'),
                 'js'=> array('bootstrap-rakhmat/bootstrap')
-            )
-				
-        );
+            ),
+            "jui" => array(
+            'css'=> array('library/jui/jquery-ui', 'library/jui/jquery-ui.structure', 'library/jui/jquery-ui.theme'),
+            'js'=> array('library/jui/jquery-ui')
+			)
+	);
     }
+	
 
     private function reg_plugin($plugin_name) {
         /*

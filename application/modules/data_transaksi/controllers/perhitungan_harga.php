@@ -33,6 +33,9 @@ class perhitungan_harga extends MX_Controller {
         // Load Modules
         $this->load->module("template/asset");
         $this->asset->set_plugin(array('bootstrap-rakhmat'));
+        $this->asset->set_plugin(array('jquery'));
+        $this->asset->set_plugin(array('jui'));
+        
 
         // Memanggil plugin JS Crud
         $this->asset->set_plugin(array('crud'));
@@ -47,7 +50,7 @@ class perhitungan_harga extends MX_Controller {
     }
 
     public function add($id = '') {
-        $page_title = 'Tambah '.$this->_title;
+        $page_title = 'Tambah Perhitungan';
         $data['id'] = $id;
         if ($id != '') {
             $page_title = 'Edit Depo / Depot';
