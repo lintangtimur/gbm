@@ -24,8 +24,8 @@ class master_level2_model extends CI_Model {
     public function data($key = '') {
         $this->db->select('a.*, b.LEVEL1, c.ID_REGIONAL, c.NAMA_REGIONAL');
         $this->db->from($this->_table1.' a');
-        $this->db->join('master_level1 b', 'b.COCODE = a.COCODE','left');
-        $this->db->join('master_regional c', 'c.ID_REGIONAL = b.ID_REGIONAL','left');
+        $this->db->join('MASTER_LEVEL1 b', 'b.COCODE = a.COCODE','left');
+        $this->db->join('MASTER_REGIONAL c', 'c.ID_REGIONAL = b.ID_REGIONAL','left');
 
         if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
@@ -76,15 +76,15 @@ class master_level2_model extends CI_Model {
     }
 
     public function data_table($module = '', $limit = 20, $offset = 1) {
-		$filter = array();
+        $filter = array();
         $kata_kunci = $this->input->post('kata_kunci');
 
         if (!empty($kata_kunci))
             $filter["a.PLANT LIKE '%{$kata_kunci}%' OR a.LEVEL2 LIKE '%{$kata_kunci}%' " ] = NULL;
         $total = $this->data($filter)->count_all_results();
-		$this->db->limit($limit, ($offset * $limit) - $limit);
+        $this->db->limit($limit, ($offset * $limit) - $limit);
         $record = $this->data($filter)->get();
-		$no=(($offset-1) * $limit) +1;
+        $no=(($offset-1) * $limit) +1;
         $rows = array();
         foreach ($record->result() as $row) {
             $id = $row->PLANT;

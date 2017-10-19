@@ -280,6 +280,15 @@ class kontrak_pemasok extends MX_Controller {
         }
         echo json_encode($message);
     }
+
+    public function delete_adendum($id) {
+        $message = array(false, 'Proses gagal', 'Proses hapus data gagal.', '');
+
+        if ($this->tbl_get_adendum->delete($id)) {
+            $message = array(true, 'Proses Berhasil', 'Proses hapus data berhasil.', '#content_table');
+        }
+        echo json_encode($message);
+    }
 }
 
 /* End of file master_level1.php */

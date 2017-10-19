@@ -110,7 +110,7 @@ class kontrak_pemasok_adendum_model extends CI_Model {
         foreach ($record->result() as $row) {
             $id = $row->ID_ADENDUM_PEMASOK;
             $aksi = anchor(null, '<i class="icon-edit" title="Edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit2-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit_adendum/' . $id)));
-            $aksi .= anchor(null, '<i class="icon-trash" title="Hapus"></i>', array('class' => 'btn transparant', 'id' => 'button-delete2-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
+            $aksi .= anchor(null, '<i class="icon-trash" title="Hapus"></i>', array('class' => 'btn transparant', 'id' => 'button-delete2-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete_adendum/' . $id)));
             $rows[$id] = array(
                 'NO' => $no++,
                 'NO_ADENDUM_PEMASOK' => $row->NO_ADENDUM_PEMASOK,
