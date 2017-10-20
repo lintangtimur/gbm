@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @module MASTER TRANSPORTIR
+ * @module STOCK OPNAME
  * @author  RAKHMAT WIJAYANTO
  * @created at 17 OKTOBER 2017
  * @modified at 17 OKTOBER 2017
@@ -13,11 +13,11 @@ if (!defined("BASEPATH"))
 /**
  * @module Master Wilayah
  */
-class perhitungan_harga extends MX_Controller {
+class stock_opname extends MX_Controller {
 
-    private $_title = 'Perhitungan Harga Pertamina';
+    private $_title = 'Stock Opname';
     private $_limit = 10;
-    private $_module = 'data_transaksi/perhitungan_harga';
+    private $_module = 'data_transaksi/stock_opname';
 
     public function __construct() {
         parent::__construct();
@@ -26,7 +26,7 @@ class perhitungan_harga extends MX_Controller {
         hprotection::login();
 
         /* Load Global Model */
-        $this->load->model('perhitungan_harga_model', 'tbl_get');
+       $this->load->model('stock_opname_model', 'tbl_get');
     }
 
     public function index() {
@@ -35,6 +35,7 @@ class perhitungan_harga extends MX_Controller {
         $this->asset->set_plugin(array('bootstrap-rakhmat'));
         $this->asset->set_plugin(array('jquery'));
         $this->asset->set_plugin(array('jui'));
+        $this->asset->set_plugin(array('file-upload'));
         
 
         // Memanggil plugin JS Crud
@@ -49,21 +50,22 @@ class perhitungan_harga extends MX_Controller {
         echo Modules::run("template/admin", $data);
     }
 
-    public function add($id = '') {
-        $page_title = 'Tambah Perhitungan';
+     public function add($id = '') {
+         $page_title = 'Tambah '.$this->_title;
         $data['id'] = $id;
         if ($id != '') {
-            $page_title = 'Edit Depo / Depot';
+            $page_title = 'Edit Stock Opname';
             $get_tbl = $this->tbl_get->data($id);
             $data['default'] = $get_tbl->get()->row();
         }
-        $data['parent_options'] = $this->tbl_get->options_pemasok();
+        $data['parent_options'] = $this->tbl_get->options_jns_bhn_bkr();
+        $data['parent_options_pem'] = $this->tbl_get->options_pembangkit();
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses');
         $this->load->view($this->_module . '/form', $data);
     }
 
-    public function edit($id) {
+     public function edit($id) {
         $this->add($id);
     }
 
@@ -71,23 +73,26 @@ class perhitungan_harga extends MX_Controller {
         $data_table = $this->tbl_get->data_table($this->_module, $this->_limit, $page);
         $this->load->library("ltable");
         $table = new stdClass();
-        $table->id = 'ID_PERHITUNGAN';
+        $table->id = 'ID_STOCKOPNAME';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('ID_PERHITUNGAN' => 'center', 'blth' => 'center', 'hsdppn' => 'center', 'hsdppn' => 'center', 'aksi' => 'center');
+        $table->align = array('ID_STOCKOPNAME' => 'center', 'NO_STOCKOPNAME' => 'center', 'TGL_BA_STOCKOPNAME' => 'center', 'NAMA_JNS_BHN_BKR' => 'center', 'LEVEL4' => 'center', 'VOLUME_STOCKOPNAME' => 'center', 'detil' => 'center' , 'aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
-        $table->jumlah_kolom = 5;
+        $table->jumlah_kolom = 8;
         $table->header[] = array(
             "No", 1, 1,
-            "Bulan", 1, 1,
-            "Perhitungan HSD (Rp/LT)", 1, 1,
-            "Perhitungan MFO (Rp/LT)", 1, 1,
+            "No Stock Opname", 1, 1,
+            "Tgl Stock Opname", 1, 1,
+            "Jenis Bahan Bakar", 1, 1,
+            "Nama Pembangkit", 1, 1,
+            "Total Volume", 1, 1,
+            "Detil", 1, 1,
             "Aksi", 1, 1
         );
         $table->total = $data_table['total'];
         $table->content = $data_table['rows'];
         $data = $this->ltable->generate($table, 'js', true);
-        echo $data;
+         echo $data;
     }
 
     public function proses() {
@@ -97,7 +102,7 @@ class perhitungan_harga extends MX_Controller {
             $id = $this->input->post('id');
 
             $data = array();
-            $data['ID_PERHITUNGAN'] = $this->input->post('ID_PERHITUNGAN');
+            $data['ID_STOCKOPNAME'] = $this->input->post('ID_STOCKOPNAME');
             // $data['NAMA_DEPO'] = $this->input->post('NAMA_DEPO');
             // $data['LAT_DEPO'] = $this->input->post('LAT_DEPO');
             // $data['LOT_DEPO'] = $this->input->post('LOT_DEPO');
@@ -119,6 +124,8 @@ class perhitungan_harga extends MX_Controller {
         }
         echo json_encode($message, true);
     }
+
+   
  
 
 }

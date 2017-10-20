@@ -107,7 +107,7 @@
 			$kata_kunci = $this->input->post('kata_kunci');
 			
 			if (!empty($kata_kunci))
-            $filter[$this->_table1 . ".NAMA_TANGKI LIKE '%{$kata_kunci}%' "] = NULL;
+            $filter["b.LEVEL4 LIKE '%{$kata_kunci}%' OR c.NAMA_JNS_BHN_BKR LIKE '%{$kata_kunci}%' OR a.VOLUME_TANGKI LIKE '%{$kata_kunci}%' OR a.DEADSTOCK_TANGKI LIKE '%{$kata_kunci}%' OR a.STOCKEFEKTIF_TANGKI LIKE '%{$kata_kunci}%' "] = NULL;
 			$total = $this->data($filter)->count_all_results();
 			$this->db->limit($limit, ($offset * $limit) - $limit);
 			$record = $this->data($filter)->get();

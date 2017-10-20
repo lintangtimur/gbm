@@ -25,7 +25,8 @@
                             <div class="control-group">
                                 <label for="password" class="control-label">Nama Tangki<span class="required">*</span> : </label>
                                 <div class="controls">
-                                    <?php echo form_input('NAMA_TANGKI', !empty($default->NAMA_TANGKI) ? $default->NAMA_TANGKI : '', 'class="span10"'); ?>
+                                   <?php echo form_input('NAMA_TANGKI', !empty($default->NAMA_TANGKI) ? $default->NAMA_TANGKI : '', 'class="span10"'); ?>
+                                    <!-- <?php echo form_input('NAMA_TANGKI', 'TANGKI TIMBUN', 'class="span10"'); ?> -->
                                 </div>
                         </td>
                         <td>
@@ -56,13 +57,13 @@
                             <div class="control-group">
                                 <label for="password" class="control-label">Tera<span class="required">*</span> : </label>
                                 <div class="controls">
-                                    <?php echo form_dropdown('TERA', $tera, !empty($default->NAMA_TERA) ? $default->NAMA_TERA : '', 'class="tera"'); ?>
+                                    <?php echo form_dropdown('TERA', $tera, !empty($default->ID_TERA) ? $default->ID_TERA : '', 'class="span8"'); ?>
                                 </div>
                             </div>
                              <div class="control-group">
                                 <label for="password" class="control-label">Tanggal Akhir Tera<span class="required">*</span> : </label>
                                 <div class="controls">
-                                <?php $attributes = 'id="TGL_TERA" placeholder=""'; echo form_input('TGL_TERA', set_value('TGL_TERA'), $attributes); ?>
+                                <?php echo form_input('TGL_TERA', !empty($default->TGL_DET_TERA) ? $default->TGL_DET_TERA : '', 'class="span8", id="TGL_TERA"'); ?>
                                 </div>
                             </div>
                         </td>
@@ -76,7 +77,7 @@
                             <div class="control-group">
                                 <label for="password" class="control-label">Aktif <span class="required">*</span> : </label>
                                 <div class="controls">
-                                <?php echo form_checkbox('STATUS', '1',!empty($default->STATUS) ? $default->STATUS : '', 'class ="STATUS"' ); ?>
+                                <?php echo form_checkbox('STATUS', '1',!empty($default->ISAKTIF_DET_TERA) ? $default->ISAKTIF_DET_TERA : '', 'class ="STATUS"' ); ?> 
                                 </div>
                             </div>
                             <div class="control-group">

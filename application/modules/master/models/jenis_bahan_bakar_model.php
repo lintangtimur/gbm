@@ -75,7 +75,7 @@
 			$kata_kunci = $this->input->post('kata_kunci');
 			
 			if (!empty($kata_kunci))
-            $filter[$this->_table1 . ".NAMA_JNS_BHN_BKR LIKE '%{$kata_kunci}%' "] = NULL;
+            $filter[$this->_table1 . ".KODE_JNS_BHN_BKR LIKE '%{$kata_kunci}%' OR NAMA_JNS_BHN_BKR LIKE '%{$kata_kunci}%' "] = NULL;
 			$total = $this->data($filter)->count_all_results();
 			$this->db->limit($limit, ($offset * $limit) - $limit);
 			$record = $this->data($filter)->get();
