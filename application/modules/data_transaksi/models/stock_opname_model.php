@@ -1,8 +1,6 @@
 <?php
-
-
-/**
- * @module MASTER TRANSPORTIR
+ /**
+ * @module STOCK OPNAME
  * @author  RAKHMAT WIJAYANTO
  * @created at 17 OKTOBER 2017
  * @modified at 17 OKTOBER 2017
@@ -85,14 +83,15 @@ class stock_opname_model extends CI_Model {
 		$no=(($offset-1) * $limit) +1;
         $rows = array();
         foreach ($record->result() as $row) {
-            $id = $row->ID_PERHITUNGAN;
+            $id = $row->ID_STOCKOPNAME;
             $aksi = anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
             $aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
             $rows[$id] = array(
-                'ID_PERHITUNGAN' => $no++,
+                'ID_STOCKOPNAME' => $no++,
                 'NO_STOCKOPNAME' => $row->NO_STOCKOPNAME,
-                'TGL_BA_STOCKOPNAME' => $row->TGL_BA_STOCKOPNAME,
                 'NAMA_JNS_BHN_BKR' => $row->NAMA_JNS_BHN_BKR,
+                'TGL_BA_STOCKOPNAME' => $row->TGL_BA_STOCKOPNAME,
+                'TGL_PENGAKUAN' => $ROW->TGL_PENGAKUAN,
                 'LEVEL4' => $row->LEVEL4,
                 'VOLUME_STOCKOPNAME' => $row->VOLUME_STOCKOPNAME,
                 'detil' => $detil,
@@ -137,16 +136,6 @@ class stock_opname_model extends CI_Model {
         return $option;    
         
     }
-
-    // public function options_type($default = '--Pilih Type Pemasok--') {
-        
-    //     $option = ['PERTAMINA', 'NON PERTAMINA'];
-        
-    //     return $option;    
-        
-    // }
-	 
-
 
 }
 

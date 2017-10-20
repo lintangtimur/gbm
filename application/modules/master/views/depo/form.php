@@ -21,6 +21,12 @@
             </div>
         </div>
         <div class="control-group">
+            <label for="password" class="control-label">Kode Depo / Depot <span class="required">*</span> :  </label>
+            <div class="controls">
+                <?php echo form_input('KD_DEPO', !empty($default->KD_DEPO) ? $default->KD_DEPO : '', 'class="span6"'); ?>
+            </div>
+        </div>
+        <div class="control-group">
             <label for="password" class="control-label">Nama Depo / Depot : </label>
             <div class="controls">
                 <?php echo form_input('NAMA_DEPO', !empty($default->NAMA_DEPO) ? $default->NAMA_DEPO : '', 'class="span6"'); ?>
@@ -33,7 +39,7 @@
             </div>
         </div>
            <div class="control-group">
-            <label for="password" class="control-label">LOT : </label>
+            <label for="password" class="control-label">LONG : </label>
             <div class="controls">
                 <?php echo form_input('LOT_DEPO', !empty($default->LOT_DEPO) ? $default->LOT_DEPO : '', 'class="span6"'); ?>
             </div>

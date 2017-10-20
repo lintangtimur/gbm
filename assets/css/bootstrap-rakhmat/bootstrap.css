@@ -993,9 +993,9 @@ th {
 .glyphicon-menu-hamburger:before {
   content: "\e236";
 }
-.glyphicon-modal-window:before {
+/* .glyphicon-modal-window:before {
   content: "\e237";
-}
+} */
 .glyphicon-oil:before {
   content: "\e238";
 }
@@ -5863,7 +5863,7 @@ button.close {
   background: transparent;
   border: 0;
 }
-.modal-open {
+/* .modal-open {
   overflow: hidden;
 }
 .modal {
@@ -5985,7 +5985,7 @@ button.close {
   .modal-lg {
     width: 900px;
   }
-}
+} */
 .tooltip {
   position: absolute;
   z-index: 1070;
@@ -6486,13 +6486,13 @@ button.close {
 .pager:after,
 .panel-body:before,
 .panel-body:after,
-.modal-header:before,
+/* .modal-header:before,
 .modal-header:after,
 .modal-footer:before,
 .modal-footer:after {
   display: table;
   content: " ";
-}
+} */
 .clearfix:after,
 .dl-horizontal dd:after,
 .container:after,
@@ -6507,10 +6507,10 @@ button.close {
 .navbar-collapse:after,
 .pager:after,
 .panel-body:after,
-.modal-header:after,
+/* .modal-header:after,
 .modal-footer:after {
   clear: both;
-}
+} */
 .center-block {
   display: block;
   margin-right: auto;

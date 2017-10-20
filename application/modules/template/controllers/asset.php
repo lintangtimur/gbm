@@ -166,6 +166,9 @@ class asset extends MX_Controller {
                 'css'=> array('bootstrap-rakhmat/bootstrap'),
                 'js'=> array('bootstrap-rakhmat/bootstrap')
             ),
+             "bootstrap-custom" => array(
+                'css'=> array('bootstrap-rakhmat/bootstrap-custom')
+            ),
             "jui" => array(
             'css'=> array('library/jui/jquery-ui'),
             'js'=> array('library/jui/jquery-ui')

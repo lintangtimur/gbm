@@ -6,7 +6,13 @@
         <?php
         $hidden_form = array('id' => !empty($id) ? $id : '');
         echo form_open_multipart($form_action, array('id' => 'finput', 'class' => 'form-horizontal'), $hidden_form);
-        ?>   
+        ?>
+         <div class="control-group">
+            <label for="password" class="control-label">Status Anak Perusahaan  : </label>
+            <div class="controls">
+               <?php echo form_checkbox('is_edit[]', $menu_id, isset($otoritas_menu[$menu_id]['is_edit']) && $otoritas_menu[$menu_id]['is_edit'] == 't' ? TRUE : FALSE, 'class="cb_select cb_select_row_' . $menu_id . '"'); ?>
+            </div>
+        </div>   
         <div class="control-group">
             <label for="password" class="control-label">Regional <span class="required">*</span> : </label>
             <div class="controls">
@@ -20,13 +26,13 @@
             </div>
         </div>  
         <div class="control-group">
-            <label for="password" class="control-label">Level 2 <span class="required">*</span> : </label>
+            <label for="password" class="control-label">Level 2 : </label>
             <div class="controls">
                 <?php echo form_dropdown('PLANT', $lv2_options, !empty($default->PLANT) ? $default->PLANT : '', 'class="span6"'); ?>
             </div>
         </div> 
         <div class="control-group">
-            <label for="password" class="control-label">Level 3 <span class="required">*</span> : </label>
+            <label for="password" class="control-label">Level 3 : </label>
             <div class="controls">
                 <?php echo form_dropdown('STORE_SLOC', $lv3_options, !empty($default->STORE_SLOC) ? $default->STORE_SLOC : '', 'class="span6"'); ?>
             </div>

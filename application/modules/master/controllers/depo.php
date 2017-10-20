@@ -69,16 +69,17 @@ class depo extends MX_Controller {
         $table = new stdClass();
         $table->id = 'ID_DEPO';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('ID_DEPO' => 'center', 'NAMA_PEMASOK' => 'center', 'NAMA_DEPO' => 'center', 'LAT_DEPO' => 'center', 'LOT_DEPO' => 'center', 'ALAMAT_DEPO' => 'center', 'aksi' => 'center');
+        $table->align = array('ID_DEPO' => 'center', 'NAMA_PEMASOK' => 'center','KD_DEPO' => 'center', 'NAMA_DEPO' => 'center', 'LAT_DEPO' => 'center', 'LOT_DEPO' => 'center', 'ALAMAT_DEPO' => 'center', 'aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
-        $table->jumlah_kolom = 6;
+        $table->jumlah_kolom = 8;
         $table->header[] = array(
             "No", 1, 1,
             "Nama Pemasok", 1, 1,
+            "Kode DEPO", 1, 1,
             "Nama Depo", 1, 1,
             "LAT", 1, 1,
-            "LOT", 1, 1,
+            "LONG", 1, 1,
             "Alamat", 1, 1,
             "Aksi", 1, 1
         );
@@ -89,7 +90,8 @@ class depo extends MX_Controller {
     }
 
     public function proses() {
-        $this->form_validation->set_rules('ID_PEMASOK', 'ID_PEMASOK', 'required');
+        $this->form_validation->set_rules('ID_PEMASOK', 'NAMA PEMASOK', 'required');
+        $this->form_validation->set_rules('KD_DEPO', 'KODE DEPO', 'required');
         if ($this->form_validation->run($this)) {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
             $id = $this->input->post('id');
@@ -97,6 +99,7 @@ class depo extends MX_Controller {
             $data = array();
             $data['ID_PEMASOK'] = $this->input->post('ID_PEMASOK');
             $data['NAMA_DEPO'] = $this->input->post('NAMA_DEPO');
+            $data['KD_DEPO'] = $this->input->post('KD_DEPO');
             $data['LAT_DEPO'] = $this->input->post('LAT_DEPO');
             $data['LOT_DEPO'] = $this->input->post('LOT_DEPO');
             $data['ALAMAT_DEPO'] = $this->input->post('ALAMAT_DEPO');
