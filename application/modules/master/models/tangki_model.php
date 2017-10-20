@@ -17,7 +17,7 @@
 		
 		private function _key($key) { //unit ID
 			if (!is_array($key)) {
-				$key = array('a.ID_TANGKI' => $key);
+				$key = array('ID_TANGKI' => $key);
 			}
 			return $key;
 		}
@@ -26,7 +26,6 @@
 			$this->db->from($this->_table1 . ' a');
 			$this->db->join($this->_table2 . ' b', 'b.SLOC = a.SLOC');
 			$this->db->join($this->_table3 . ' c', 'c.ID_JNS_BHN_BKR = a.ID_JNS_BHN_BKR');
-			$this->db->join($this->_table5 . ' d', 'd.ID_TANGKI = a.ID_TANGKI');
 			
 			if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
