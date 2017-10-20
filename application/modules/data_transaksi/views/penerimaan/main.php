@@ -90,16 +90,16 @@
                 for (i = 0; i < data_detail.length; i++) {
                     console.log(data_detail.length);
                     $('#detailPenerimaan tbody').append('<tr>' +
-                        '<td>'+data_detail[i].ID_PENERIMAAN+'</td>' +
-                        '<td>'+data_detail[i].TGL_PENGAKUAN+'</td>' +
-                        '<td>'+data_detail[i].NAMA_PEMASOK+'</td>' +
-                        '<td>'+data_detail[i].NAMA_TRANSPORTIR+'</td>' +
-                        '<td>'+data_detail[i].NAMA_JNS_BHN_BKR+'</td>' +
-                        '<td>'+data_detail[i].VOL_TERIMA+'</td>' +
-                        '<td>'+data_detail[i].VOL_TERIMA_REAL+'</td>' +
-                        '<td>'+data_detail[i].STATUS+'</td>' +
-                        '<td>AKSI</td>' +
-                        '<td>CHECK</td>' +
+                        '<td align="center">'+data_detail[i].ID_PENERIMAAN+'</td>' +
+                        '<td align="center">'+data_detail[i].TGL_PENGAKUAN+'</td>' +
+                        '<td align="center">'+data_detail[i].NAMA_PEMASOK+'</td>' +
+                        '<td align="center">'+data_detail[i].NAMA_TRANSPORTIR+'</td>' +
+                        '<td align="center">'+data_detail[i].NAMA_JNS_BHN_BKR+'</td>' +
+                        '<td align="center">'+data_detail[i].VOL_TERIMA+'</td>' +
+                        '<td align="center">'+data_detail[i].VOL_TERIMA_REAL+'</td>' +
+                        '<td align="center">'+data_detail[i].STATUS+'</td>' +
+                        '<td align="center">AKSI</td>' +
+                        '<td align="center">CHECK</td>' +
                         '</tr>')
                 }
             });
