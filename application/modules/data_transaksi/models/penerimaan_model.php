@@ -13,7 +13,6 @@ class penerimaan_model extends CI_Model
     }
 
     private $_table1 = "VLOAD_LIST_PENERIMAAN"; //nama table setelah mom_
-    private $_table2 = "VLOAD_LIST_DETAIL_PENERIMAAN";
 
     private function _key($key) { //unit ID
         if (!is_array($key)) {
@@ -65,38 +64,12 @@ class penerimaan_model extends CI_Model
                 );
             }
         }
-
         return array('total' => $total, 'rows' => $rows);
     }
 
-    public function data_table_detail($module = '', $limit = 20, $offset = 1) {
-        $filter = array();
-        $kata_kunci = $this->input->post('kata_kunci_detail');
-
-        if (!empty($kata_kunci))
-            $filter[$this->_table2 . ".TGL_PENGAKUAN LIKE '%{$kata_kunci}%' "] = NULL;
-
-        $total = $this->data_detail($filter)->count_all_results();
-        $this->db->limit($limit, ($offset * $limit) - $limit);
-        $record = $this->data_detail($filter)->get();
-        $no=(($offset-1) * $limit) +1;
-        $rows = array();
-        foreach ($record->result() as $row) {
-                $id = $row->ID_PENERIMAAN;
-                $aksi = anchor(null, '<i class="icon-eye-open"></i>', array('class' => 'btn transparant button-detail', 'id' => 'button-view-' . $id, 'onClick' => 'show_detail('.$id.')'));
-                $rows[$id] = array(
-                    'ID' => $row->ID_PENERIMAAN,
-                    'TGL_PENGAKUAN' => $row->TGL_PENGAKUAN,
-                    'NAMA_PEMASOK' => $row->NAMA_PEMASOK,
-                    'NAMA_TRANSPORTIR' => $row->NAMA_TRANSPORTIR,
-                    'NAMA_JNS_BHN_BKR'=>$row->NAMA_JNS_BHN_BKR,
-                    'VOL_TERIMA'=>$row->VOL_TERIMA,
-                    'VOL_TERIMA_REAL'=>$row->VOL_TERIMA_REAL,
-                    'STATUS'=>$row->STATUS,
-                    'AKSI' => $aksi,
-                );
-        }
-        return array('total' => $total, 'rows' => $rows);
+    function getTableViewDetail($tanggal){
+        $query = $this->db->query("select * from VLOAD_LIST_DETAIL_PENERIMAAN where DATE_FORMAT(tgl_pengakuan,'%m%Y') = '".$tanggal."'");
+        return $query->result();
     }
 }
 ?>
