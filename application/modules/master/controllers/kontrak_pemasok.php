@@ -21,6 +21,7 @@ class kontrak_pemasok extends MX_Controller {
         /* Load Global Model */
         $this->load->model('kontrak_pemasok_model','tbl_get');
         $this->load->model('kontrak_pemasok_adendum_model','tbl_get_adendum');
+        $this->load->model('pemasok_model','tbl_get_pemasok');
     }
 
     public function index() {
@@ -28,7 +29,7 @@ class kontrak_pemasok extends MX_Controller {
         $this->load->module("template/asset");
 
         // Memanggil plugin JS Crud
-        $this->asset->set_plugin(array('crud'));
+        $this->asset->set_plugin(array('crud','format_number'));
 
         $data['button_group'] = array(
             anchor(null, '<i class="icon-plus"></i> Tambah Data', array('class' => 'btn yellow', 'id' => 'button-add', 'onclick' => 'load_form(this.id)', 'data-source' => base_url($this->_module . '/add')))
@@ -44,9 +45,8 @@ class kontrak_pemasok extends MX_Controller {
         $this->load->module("template/asset");
 
         // Memanggil plugin JS Crud
-        $this->asset->set_plugin(array('crud'));
+        $this->asset->set_plugin(array('crud','format_number'));
         $this->session->set_userdata('ID_KONTRAK_PEMASOK', $id);
-
 
         $page_title = 'Tambah '.$this->_title.' (Adendum)';
 
@@ -65,7 +65,7 @@ class kontrak_pemasok extends MX_Controller {
         $page_title = 'Tambah '.$this->_title;
         $data['id'] = $id;
         if ($id != '') {
-            $page_title = 'Edit '.$this->_title;
+            $page_title = 'View '.$this->_title;
             $get_data = $this->tbl_get->data($id);
             $data['default'] = $get_data->get()->row();
         }
@@ -115,7 +115,7 @@ class kontrak_pemasok extends MX_Controller {
         $table = new stdClass();
         $table->id = 'ID_KONTRAK_PEMASOK';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('NO' => 'center', 'NAMA_PEMASOK' => 'left', 'NOPJBBM_KONTRAK_PEMASOK' => 'left', 'TGL_KONTRAK_PEMASOK' => 'left', 'JUDUL_KONTRAK_PEMASOK' => 'left', 'PERIODE_AWAL_KONTRAK_PEMASOK' => 'left', 'PERIODE_AKHIR_KONTRAK_PEMASOK' => 'left', 'PERUBAHAN' => 'center', 
+        $table->align = array('NO' => 'center', 'NAMA_PEMASOK' => 'left', 'NOPJBBM_KONTRAK_PEMASOK' => 'left', 'TGL_KONTRAK_PEMASOK' => 'center', 'JUDUL_KONTRAK_PEMASOK' => 'left', 'PERIODE_AWAL_KONTRAK_PEMASOK' => 'center', 'PERIODE_AKHIR_KONTRAK_PEMASOK' => 'center', 'PERUBAHAN' => 'center', 
             // 'JENIS_KONTRAK_PEMASOK' => 'left', 
             // 'VOLUME_KONTRAK_PEMASOK' => 'left', 'ALPHA_KONTRAK_PEMASOK' => 'left', 'RUPIAH_KONTRAK_PEMASOK' => 'left', 'PENJAMIN_KONTRAK_PEMASOK' => 'left', 'NO_PENJAMIN_KONTRAK_PEMASOK' => 'left', 'NOMINAL_JAMINAN_KONTRAK' => 'left', 'TGL_BERAKHIR_JAMINAN_KONTRAK' => 'left', 'KET_KONTRAK_PEMASOK' => 'left', 
             'aksi' => 'center');
@@ -125,7 +125,7 @@ class kontrak_pemasok extends MX_Controller {
         $table->header[] = array(
             "No", 1, 1,
             "Pemasok", 1, 1,
-            "No PJBBM", 1, 1,
+            "No PJBBBM", 1, 1,
             "Tgl Kontrak", 1, 1,
             "Judul Kontrak", 1, 1,
             "Periode Awal", 1, 1,
@@ -154,15 +154,14 @@ class kontrak_pemasok extends MX_Controller {
         $table = new stdClass();
         $table->id = 'ID_ADENDUM_PEMASOK';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('NO' => 'center', 'NO_ADENDUM_PEMASOK' => 'left', 'TGL_ADENDUM_PEMASOK' => 'left', 'JUDUL_ADENDUM_PEMASOK' => 'left', 'KET_ADENDUM_PEMASOK' => 'left', 'aksi' => 'center');
+        $table->align = array('NO' => 'center', 'NO_ADENDUM_PEMASOK' => 'center', 'TGL_ADENDUM_PEMASOK' => 'center', 'KET_ADENDUM_PEMASOK' => 'left', 'aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
-        $table->jumlah_kolom = 6;
+        $table->jumlah_kolom = 5;
         $table->header[] = array(
             "No", 1, 1,
             "No Adendum", 1, 1,
             "Tgl Adendum", 1, 1,
-            "Judul Adendum", 1, 1,
             "Keterangan", 1, 1,
             "Aksi", 1, 1
         );
@@ -174,6 +173,7 @@ class kontrak_pemasok extends MX_Controller {
     }
 
     public function proses() {
+        $this->form_validation->set_rules('ID_PEMASOK', 'Pemasok', 'trim|required|max_length[20]');
         $this->form_validation->set_rules('NOPJBBM_KONTRAK_PEMASOK', 'No PJBBM', 'trim|required|max_length[20]');
         $this->form_validation->set_rules('TGL_KONTRAK_PEMASOK', 'Tgl Kontrak', 'required');
         $this->form_validation->set_rules('JUDUL_KONTRAK_PEMASOK', 'Judul Kontrak', 'required');
@@ -194,12 +194,12 @@ class kontrak_pemasok extends MX_Controller {
             $data['PERIODE_AWAL_KONTRAK_PEMASOK'] = $this->input->post('PERIODE_AWAL_KONTRAK_PEMASOK');
             $data['PERIODE_AKHIR_KONTRAK_PEMASOK'] = $this->input->post('PERIODE_AKHIR_KONTRAK_PEMASOK');
             $data['JENIS_KONTRAK_PEMASOK'] = $this->input->post('JENIS_KONTRAK_PEMASOK');
-            $data['VOLUME_KONTRAK_PEMASOK'] = $this->input->post('VOLUME_KONTRAK_PEMASOK');
-            $data['ALPHA_KONTRAK_PEMASOK'] = $this->input->post('ALPHA_KONTRAK_PEMASOK');
-            $data['RUPIAH_KONTRAK_PEMASOK'] = $this->input->post('RUPIAH_KONTRAK_PEMASOK');
+            $data['VOLUME_KONTRAK_PEMASOK'] = str_replace(",","",$this->input->post('VOLUME_KONTRAK_PEMASOK'));
+            $data['ALPHA_KONTRAK_PEMASOK'] = str_replace(",","",$this->input->post('ALPHA_KONTRAK_PEMASOK')); 
+            $data['RUPIAH_KONTRAK_PEMASOK'] = str_replace(",","",$this->input->post('RUPIAH_KONTRAK_PEMASOK'));
             $data['PENJAMIN_KONTRAK_PEMASOK'] = $this->input->post('PENJAMIN_KONTRAK_PEMASOK');
             $data['NO_PENJAMIN_KONTRAK_PEMASOK'] = $this->input->post('NO_PENJAMIN_KONTRAK_PEMASOK');
-            $data['NOMINAL_JAMINAN_KONTRAK'] = $this->input->post('NOMINAL_JAMINAN_KONTRAK');
+            $data['NOMINAL_JAMINAN_KONTRAK'] = str_replace(",","",$this->input->post('NOMINAL_JAMINAN_KONTRAK'));
             $data['TGL_BERAKHIR_JAMINAN_KONTRAK'] = $this->input->post('TGL_BERAKHIR_JAMINAN_KONTRAK');
             $data['KET_KONTRAK_PEMASOK'] = $this->input->post('KET_KONTRAK_PEMASOK');
             // $data['ISAKTIF_KONTRAK_PEMASOK'] = $this->input->post('ID_REGIONAL');
@@ -244,12 +244,12 @@ class kontrak_pemasok extends MX_Controller {
             $data['PERIODE_AWAL_ADENDUM_PEMASOK'] = $this->input->post('PERIODE_AWAL_ADENDUM_PEMASOK');
             $data['PERIODE_AKHIR_ADENMDUM_PEMASOK'] = $this->input->post('PERIODE_AKHIR_ADENMDUM_PEMASOK');
             $data['JENIS_AKHIR_ADENDUM_PEMASOK'] = $this->input->post('JENIS_AKHIR_ADENDUM_PEMASOK');
-            $data['VOL_AKHIR_ADENDUM_PEMASOK'] = $this->input->post('VOL_AKHIR_ADENDUM_PEMASOK');
-            $data['ALPHA_ADENDUM_PEMASOK'] = $this->input->post('ALPHA_ADENDUM_PEMASOK');
-            $data['RP_ADENDUM_PEMASOK'] = $this->input->post('RP_ADENDUM_PEMASOK');
+            $data['VOL_AKHIR_ADENDUM_PEMASOK'] = str_replace(",","",$this->input->post('VOL_AKHIR_ADENDUM_PEMASOK'));
+            $data['ALPHA_ADENDUM_PEMASOK'] = str_replace(",","",$this->input->post('ALPHA_ADENDUM_PEMASOK'));
+            $data['RP_ADENDUM_PEMASOK'] = str_replace(",","",$this->input->post('RP_ADENDUM_PEMASOK')); 
             $data['PENJAMIN_ADENDUM_PEMASOK'] = $this->input->post('PENJAMIN_ADENDUM_PEMASOK');
             $data['NO_PENJAMIN_ADENDUM_PEMASOK'] = $this->input->post('NO_PENJAMIN_ADENDUM_PEMASOK');
-            $data['NOMINAL_ADENDUM_PEMASOK'] = $this->input->post('NOMINAL_ADENDUM_PEMASOK');
+            $data['NOMINAL_ADENDUM_PEMASOK'] = str_replace(",","",$this->input->post('NOMINAL_ADENDUM_PEMASOK'));
             $data['TGL_AKHIR_ADENDUM_PEMASOK'] = $this->input->post('TGL_AKHIR_ADENDUM_PEMASOK');
             $data['KET_ADENDUM_PEMASOK'] = $this->input->post('KET_ADENDUM_PEMASOK');
             // $data['ISAKTIF_KONTRAK_PEMASOK'] = $this->input->post('ID_REGIONAL');
@@ -257,6 +257,26 @@ class kontrak_pemasok extends MX_Controller {
             if ($id == '') {
                 $data['CD_BY_ADENDUM_PEMASOK'] = $this->session->userdata('user_id');
                 $data['CD_ADENDUM_PEMASOK'] = date('Y-m-d');
+
+                //upload file
+                // $msg_doc ='';
+                // $file_element_name = $this->input->post('ID_DOC_PEMASOK');
+                // $config['upload_path'] = 'assets/upload_kontrak';
+                // $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+                // $this->load->library('upload', $config);
+
+                // if (!$this->upload->do_upload($file_element_name)){
+                //     $status = 'error';
+                //     $msg = $this->upload->display_errors('', '');
+                // } else {
+                //     $data = $this->upload->data();
+                //     if ($data){
+                //         $status = 'Upload dokumen tersimpan';
+                //     }
+                // }
+                // @unlink($_FILES[$file_element_name]);
+
+
                 if ($this->tbl_get_adendum->save_as_new($data)) {
                     $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
                 }
@@ -289,6 +309,56 @@ class kontrak_pemasok extends MX_Controller {
         }
         echo json_encode($message);
     }
+
+    public function upload_file(){
+        $status = "";
+        $msg = "";
+        $file_element_name = $this->input->post('ID_DOC_PEMASOK');
+
+        // $config['upload_path'] = './upload_file/';
+        $config['upload_path'] = 'assets/upload_kontrak';
+        $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+        //$config['max_size'] = 1024 * 8;
+
+        // $nama_file_asli = $_FILES["nama_file"]['name'];
+
+        // $new_name = $this->input->post('no_registrasi').'-'.$file_element_name;
+        // $config['file_name'] = $new_name;
+
+        // $config['max_size'] = 1024 * 8;
+        // $config['encrypt_name'] = TRUE;
+
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload($file_element_name)){
+            $status = 'error';
+            $msg = $this->upload->display_errors('', '');
+        } else {
+            $data = $this->upload->data();
+
+            // $save = array( 
+            //         'no_registrasi' => $this->input->post('no_registrasi'),
+            //         'nama_file' => $new_name,
+            //         'kode' => $file_element_name,
+            //         'link' => $data['file_name'],
+            //         'tanggal' => date("Y-m-d"),
+            //     );
+            // $insert = $this->tbl_get->save_dokumen($save);
+            // if($insert){
+            //     $status = "success";
+            //     $msg = "Upload File Success";
+            // } else {
+            //     unlink($data['full_path']);
+            //     $status = "error";
+            //     $msg = "Gagal upload file, silahkan coba lg <br><br>".$file_id;
+            // }
+        }
+        @unlink($_FILES[$file_element_name]);
+       
+        //echo json_encode(array('status' => $status, 'msg' => $msg));
+    }   
+
+
 }
 
 /* End of file master_level1.php */

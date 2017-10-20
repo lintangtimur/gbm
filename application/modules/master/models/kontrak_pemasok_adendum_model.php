@@ -102,20 +102,33 @@ class kontrak_pemasok_adendum_model extends CI_Model {
             $filter["a.NO_ADENDUM_PEMASOK LIKE '%{$kata_kunci}%' OR a.JUDUL_ADENDUM_PEMASOK LIKE '%{$kata_kunci}%'OR a.KET_ADENDUM_PEMASOK LIKE '%{$kata_kunci}%'"] = NULL;
         }
 
-        $total = $this->data($filter)->count_all_results();
+        $total = $this->data($filter)->count_all_results() + 1;
 		$this->db->limit($limit, ($offset * $limit) - $limit);
         $record = $this->data($filter)->get();
 		$no=(($offset-1) * $limit) +1;
         $rows = array();
+
+        //payung kontrak
+        $idkontrak = $this->session->userdata('ID_KONTRAK_PEMASOK'); 
+        $id=$idkontrak;
+
+        $aksi = anchor(null, '<i class="icon-zoom-in" title="View"></i>', array('class' => 'btn transparant', 'id' => 'button-edit2-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
+        $rows['A'.$id] = array(
+            'NO' => $no++,
+            'NO_ADENDUM_PEMASOK' => '-',
+            'TGL_ADENDUM_PEMASOK' => '-',
+            'KET_ADENDUM_PEMASOK' => 'Awal Kontrak (PJBBBM)',
+            'aksi' => $aksi
+        );
+
         foreach ($record->result() as $row) {
             $id = $row->ID_ADENDUM_PEMASOK;
-            $aksi = anchor(null, '<i class="icon-edit" title="Edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit2-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit_adendum/' . $id)));
+            $aksi = anchor(null, '<i class="icon-edit" title="Edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit3-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit_adendum/' . $id)));
             $aksi .= anchor(null, '<i class="icon-trash" title="Hapus"></i>', array('class' => 'btn transparant', 'id' => 'button-delete2-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete_adendum/' . $id)));
             $rows[$id] = array(
                 'NO' => $no++,
                 'NO_ADENDUM_PEMASOK' => $row->NO_ADENDUM_PEMASOK,
                 'TGL_ADENDUM_PEMASOK' => $row->TGL_ADENDUM_PEMASOK,
-                'JUDUL_ADENDUM_PEMASOK' => $row->JUDUL_ADENDUM_PEMASOK,
                 'KET_ADENDUM_PEMASOK' => $row->KET_ADENDUM_PEMASOK,
                 'aksi' => $aksi
             );

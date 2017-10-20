@@ -51,7 +51,7 @@
                 <?php echo form_dropdown('JENIS_AKHIR_ADENDUM_PEMASOK', $jns_kontrak_options, !empty($default->JENIS_AKHIR_ADENDUM_PEMASOK) ? $default->JENIS_AKHIR_ADENDUM_PEMASOK : '', 'class="span2"'); ?>
             </div>
             <br>
-            <label for="password" class="control-label">Volume : </label> 
+            <label for="password" class="control-label">Volume (L): </label> 
             <div class="controls">
                 <?php echo form_input('VOL_AKHIR_ADENDUM_PEMASOK', !empty($default->VOL_AKHIR_ADENDUM_PEMASOK) ? $default->VOL_AKHIR_ADENDUM_PEMASOK : '', 'class="span3"'); ?>
             </div>
@@ -61,7 +61,7 @@
                 <?php echo form_input('ALPHA_ADENDUM_PEMASOK', !empty($default->ALPHA_ADENDUM_PEMASOK) ? $default->ALPHA_ADENDUM_PEMASOK : '', 'class="span3"'); ?>
             </div>
             <br>
-            <label for="password" class="control-label">Rupiah Kontrak : </label> 
+            <label for="password" class="control-label">Nilai Kontrak (Rp): </label> 
             <div class="controls">
                 <?php echo form_input('RP_ADENDUM_PEMASOK', !empty($default->RP_ADENDUM_PEMASOK) ? $default->RP_ADENDUM_PEMASOK : '', 'class="span3"'); ?>
             </div>
@@ -76,7 +76,7 @@
                 <?php echo form_input('NO_PENJAMIN_ADENDUM_PEMASOK', !empty($default->NO_PENJAMIN_ADENDUM_PEMASOK) ? $default->NO_PENJAMIN_ADENDUM_PEMASOK : '', 'class="span6"'); ?>
             </div>
             <br>
-            <label for="password" class="control-label">Nominal Jaminan : </label> 
+            <label for="password" class="control-label">Nominal Jaminan (Rp) : </label> 
             <div class="controls">
                 <?php echo form_input('NOMINAL_ADENDUM_PEMASOK', !empty($default->NOMINAL_ADENDUM_PEMASOK) ? $default->NOMINAL_ADENDUM_PEMASOK : '', 'class="span3"'); ?>
             </div>
@@ -110,4 +110,14 @@
         pickerPosition: "bottom-left"
     });
     $('select[name="ID_PEMASOK"]').attr("disabled", true);
+
+    $('input[name=VOL_AKHIR_ADENDUM_PEMASOK]').inputmask("numeric", {radixPoint: ".",groupSeparator: ",",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    });
+    $('input[name=ALPHA_ADENDUM_PEMASOK]').inputmask("numeric", {radixPoint: ".",groupSeparator: ",",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    });
+    $('input[name=RP_ADENDUM_PEMASOK]').inputmask("numeric", {radixPoint: ".",groupSeparator: ",",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    });
+    $('input[name=NOMINAL_ADENDUM_PEMASOK]').inputmask("numeric", {radixPoint: ".",groupSeparator: ",",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    });
+    
 </script>            
