@@ -119,23 +119,6 @@
         }
     }
 
-//    function check() {
-//        var arr = $('#formKirimDetail').serializeArray(),
-//            names = (function(){
-//                var n = [],
-//                    l = arr.length - 1;
-//                for(; l>=0; l--){
-//                    n.push(arr[l].name);
-//                }
-//                return n;
-//            })();
-//        var data = {}
-//        var checked = $('#pilihan:checked').map(function(_, el) {
-//            return $(el).val();
-//        }).get();
-//        console.log(checked);
-//    }
-
     function saveDetailKirim(obj) {
         var url = "<?php echo base_url() ?>data_transaksi/penerimaan/saveKiriman/kirim";
         $.ajax({
