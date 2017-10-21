@@ -123,9 +123,9 @@ class penerimaan extends MX_Controller
         $simpan = $this->tbl_get->saveDetailPenerimaan($idPenerimaan, $statusPenerimaan,$level_user,$kode_level,$user_name,$jumlah);
 
         if ($simpan[0]->RCDB == "RC00"){
-            $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.');
+            $message = array(true, 'Proses Berhasil', $simpan[0]->PESANDB, '#table_detail' );
         } else{
-            $message = array(false, 'Proses Gagal', 'Proses penyimpanan data gagal.');
+            $message = array(false, 'Proses Gagal',  $simpan[0]->PESANDB, '');
         }
         echo json_encode($message, true);
     }
