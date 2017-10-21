@@ -74,7 +74,7 @@ class stock_opname extends MX_Controller {
         $table = new stdClass();
         $table->id = 'ID_STOCKOPNAME';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('ID_STOCKOPNAME' => 'center', 'NO_STOCKOPNAME' => 'center', 'TGL_BA_STOCKOPNAME' => 'center', 'NAMA_JNS_BHN_BKR' => 'center', 'LEVEL4' => 'center', 'VOLUME_STOCKOPNAME' => 'center', 'STATUS_APPROVE_STOCKOPNAME' => 'center' , 'aksi' => 'center');
+        $table->align = array('ID_STOCKOPNAME' => 'center', 'NO_STOCKOPNAME' => 'center', 'TGL_PENGAKUAN' => 'center', 'NAMA_JNS_BHN_BKR' => 'center', 'LEVEL4' => 'center', 'VOLUME_STOCKOPNAME' => 'center', 'STATUS_APPROVE_STOCKOPNAME' => 'center' , 'aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
         $table->jumlah_kolom = 8;

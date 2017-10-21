@@ -109,7 +109,7 @@
      jQuery(function($) {
      $('#containerHsd').highcharts({
         title: {
-            text: 'Trend rata-rata Bulanan'
+            text: 'Trend rata-rata Bulanan Tahun'
         },
         xAxis: [{
             categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
