@@ -58,22 +58,35 @@ class persediaan_bbm extends MX_Controller {
     public function load($page = 1) {
         $data_table = $this->tbl_get->data_table($this->_module, $this->_limit, $page);
 
-        echo json_encode($message, true); die;
+        // echo json_encode($message, true); die;
 
         $this->load->library("ltable");
         $table = new stdClass();
-        $table->id = 'COCODE';
+        $table->id = 'ID_MUTASI_PERSDIAAN';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
         $table->align = array('NO' => 'center', 'LEVEL1' => 'left', 'COCODE' => 'center', 'NAMA_REGIONAL' => 'left', 'aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
-        $table->jumlah_kolom = 5;
+        $table->jumlah_kolom = 18;
         $table->header[] = array(
             "No", 1, 1,
-            "Level 1", 1, 1,
-            "Company Code", 1, 1,
-            "Regional ", 1, 1,
-            "Aksi", 1, 1
+            "Wilayah", 1, 1,
+            "Area", 1, 1,
+            "Rayon", 1, 1,
+            "Pembangkit", 1, 1,
+            "Bahan Bakar", 1, 1,
+            "Tgl Mutasi Persediaan", 1, 1,
+            "Stock Awal", 1, 1,
+            "Penerimaan Real", 1, 1,
+            "Pemakaian Sendiri", 1, 1,
+            "KIRIM", 1, 1,
+            "VOLUME OPNAME", 1, 1,
+            "DEAD STOCK", 1, 1,
+            "STOCK AKHIR REAL", 1, 1,
+            "STOCK AKHIR EFEKTIF", 1, 1,
+            "STOCK AKHIR KOREKSI", 1, 1,
+            "SHO", 1, 1,
+            "REV", 1, 1,
         );
         $table->total = $data_table['total'];
         $table->content = $data_table['rows'];

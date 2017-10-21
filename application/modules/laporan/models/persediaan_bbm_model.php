@@ -13,7 +13,6 @@ class persediaan_bbm_model extends CI_Model {
     }
 
     private $_table1 = "REKAP_MUTASI_PERSEDIAAN"; //nama table setelah mom_
-    private $_table2 = "M_JNS_BHN_BKR"; //nama table setelah mom_
 
     private function _key($key) { //unit ID
         if (!is_array($key)) {
@@ -23,7 +22,7 @@ class persediaan_bbm_model extends CI_Model {
     }
 
      public function data($key = '') {
-        $kolom = 'M1.LEVEL1, M2.LEVEL2, M3.LEVEL3, M4.LEVEL4, JB.NAMA_JNS_BHN_BKR, A.TGL_MUTASI_PERSEDIAAN, A.STOCK_AWAL, A.PENERIMAAN_REAL, A.PEMAKAIAN, PM.VOLUME_PEMAKAIAN, A.DEAD_STOCK, SO.VOLUME_STOCKOPNAME, A.STOCK_AKHIR_REAL, A.STOCK_AKHIR_EFEKTIF, A.STOCK_AKHIR_KOREKSI, A.SHO, A.REVISI_MUTASI_PERSEDIAAN';
+        $kolom = 'A.ID_MUTASI_PERSEDIAAN, M1.LEVEL1, M2.LEVEL2, M3.LEVEL3, M4.LEVEL4, JB.NAMA_JNS_BHN_BKR, A.TGL_MUTASI_PERSEDIAAN, A.STOCK_AWAL, A.PENERIMAAN_REAL, A.PEMAKAIAN, PM.VOLUME_PEMAKAIAN, A.DEAD_STOCK, SO.VOLUME_STOCKOPNAME, A.STOCK_AKHIR_REAL, A.STOCK_AKHIR_EFEKTIF, A.STOCK_AKHIR_KOREKSI, A.SHO, A.REVISI_MUTASI_PERSEDIAAN';
         $this->db->select($kolom);
         $this->db->from($this->_table1.' A');
         $this->db->join('DETIL_PERSEDIAAN B', 'B.ID_MUTASI_PERSEDIAAN = A.ID_MUTASI_PERSEDIAAN','left');
@@ -52,19 +51,25 @@ class persediaan_bbm_model extends CI_Model {
         $rows = array();
         foreach ($record->result() as $row) {
             $id = $row->ID_MUTASI_PERSEDIAAN;
-            $aksi = '';
-            if ($this->laccess->otoritas('edit')) {
-                $aksi .= anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
-            }
-            if ($this->laccess->otoritas('delete')) {
-                $aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
-            }
             $rows[$id] = array(
                 'NO' => $no++,
                 'LEVEL1' => $row->LEVEL1,
-                'COCODE' => $row->COCODE,
-                'NAMA_REGIONAL' => $row->NAMA_REGIONAL,
-                'aksi' => $aksi
+                'AREA' => $row->LEVEL2,
+                'RAYON' => $row->LEVEL3,
+                'PEMBANGKIT' => $row->LEVEL4,
+                'BBM' => $row->NAMA_JNS_BHN_BKR,
+                'TGL_MUTASI' => $row->TGL_MUTASI_PERSEDIAAN,
+                'STOCK_AWAL' => $row->STOCK_AWAL,
+                'PENERIMAAN_REAL' => $row->PENERIMAAN_REAL,
+                'PEMAKAIAN' => $row->PEMAKAIAN,
+                'VOLUME_PEM' => $row->VOLUME_PEMAKAIAN,
+                'DEAD_STOCK' => $row->DEAD_STOCK,
+                'VOLUME_STOCKOPNAME' => $row->VOLUME_STOCKOPNAME,
+                'STOCK_REAL' => $row->STOCK_AKHIR_REAL,
+                'STOCK_EFEKTIF' => $row->STOCK_AKHIR_EFEKTIF,
+                'STOCK_KOREKSI' => $row->STOCK_AKHIR_KOREKSI,
+                'SHO' => $row->SHO,
+                'REV' => $row->REVISI_MUTASI_PERSEDIAAN,
             );
         }
 
@@ -156,7 +161,7 @@ class persediaan_bbm_model extends CI_Model {
     }
 
     public function data_option($key = '') {
-            $this->db->from($this->_table2);
+            $this->db->from('M_JNS_BHN_BKR');
             
             if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
