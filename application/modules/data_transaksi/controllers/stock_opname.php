@@ -129,9 +129,14 @@ class stock_opname extends MX_Controller {
         }
         echo json_encode($message, true);
     }
+    public function delete($id) {
+        $message = array(false, 'Proses gagal', 'Proses hapus data gagal.', '');
 
-   
- 
+        if ($this->tbl_get->delete($id)) {
+            $message = array(true, 'Proses Berhasil', 'Proses hapus data berhasil.', '#content_table');
+        }
+        echo json_encode($message);
+    }
 
 }
 
