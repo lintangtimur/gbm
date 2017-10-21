@@ -51,10 +51,10 @@ if (!defined('BASEPATH'))
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = 'localhost';
+$db['default']['hostname'] = '10.14.152.87';
 $db['default']['username'] = 'root';
-$db['default']['password'] = '';
-$db['default']['database'] = 'gbm_new';
+$db['default']['password'] = 'berkabung';
+$db['default']['database'] = 'gbm_new_dev';
 $db['default']['dbdriver'] = 'mysqli';
 $db['default']['dbprefix'] = '';
 $db['default']['port']     = 3306;

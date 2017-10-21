@@ -176,6 +176,9 @@ class asset extends MX_Controller {
             "file-upload" => array(
             'js'=> array('library/file-upload/dropify'),
             'css'=> array('library/file-upload/dropify')
+            ),
+            "format_number" => array(
+            'js'=> array('cf/jquery.inputmask.bundle')
             )
 	   );
     }
