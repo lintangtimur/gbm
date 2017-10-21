@@ -17,11 +17,11 @@
                 <div id ="index-content" class="well-content no-search">
 
                     <div class="well">
-                        <div class="content_table">
+                        <div class="pull-left">
                             <?php echo hgenerator::render_button_group($button_group); ?>
                         </div>
                     </div>
-                    <div class="content_table">
+                    <div class="well">
                         <div class="well-content clearfix">
                             <?php echo form_open_multipart('', array('id' => 'ffilter')); ?>
                             <table>
@@ -42,6 +42,7 @@
                     <div>&nbsp;</div>
                 </div>
                 <div id="form-content" class="well-content"></div>
+                
             </div>
         </div>
     </div>

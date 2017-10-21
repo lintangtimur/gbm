@@ -41,22 +41,7 @@ class penerimaan extends MX_Controller {
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $this->_title;
         $data['page_content'] = $this->_module . '/main';
         $data['data_sources'] = base_url($this->_module . '/load');
-        $data['detail_penerimaan'] = base_url($this->_module . '/load_detail');
         echo Modules::run("template/admin", $data);
-    }
-
-    public function add($id = '') {
-        $page_title = 'Tambah Perhitungan';
-        $data['id'] = $id;
-        if ($id != '') {
-            $page_title = 'Edit Depo / Depot';
-            $get_tbl = $this->tbl_get->data($id);
-            $data['default'] = $get_tbl->get()->row();
-        }
-        $data['parent_options'] = $this->tbl_get->options_pemasok();
-        $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
-        $data['form_action'] = base_url($this->_module . '/proses');
-        $this->load->view($this->_module . '/form', $data);
     }
 
     public function load($page = 1) {
@@ -85,17 +70,12 @@ class penerimaan extends MX_Controller {
     }
 
     public function proses() {
-        //$this->form_validation->set_rules('ID_PEMASOK', 'ID_PEMASOK', 'required');
         if ($this->form_validation->run($this)) {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
             $id = $this->input->post('id');
 
             $data = array();
             $data['ID_PERHITUNGAN'] = $this->input->post('ID_PERHITUNGAN');
-            // $data['NAMA_DEPO'] = $this->input->post('NAMA_DEPO');
-            // $data['LAT_DEPO'] = $this->input->post('LAT_DEPO');
-            // $data['LOT_DEPO'] = $this->input->post('LOT_DEPO');
-            // $data['ALAMAT_DEPO'] = $this->input->post('ALAMAT_DEPO');
 
 
 
@@ -114,32 +94,7 @@ class penerimaan extends MX_Controller {
         echo json_encode($message, true);
     }
 
-    public function load_detail($page = 1){
-        $data_table = $this->tbl_get->data_table_detail($this->_module, $this->_limit, $page);
-//        print_r($data_table);
-//        print_r($data_table);
-        $this->load->library("ltable");
-        $table = new stdClass();
-        $table->id = 'DETAIL_PENERIMAAN';
-        $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('ID' => 'center','TGL_PENGAKUAN' => 'center', 'NAMA_PEMASOK' => 'center','NAMA_TRANSPORTIR' => 'center', 'NAMA_JNS_BHN_BKR' => 'center', 'VOL_TERIMA' => 'center','VOL_TERIMA_REAL' => 'center','STATUS'=>'center','AKSI'=>'center');
-        $table->page = $page;
-        $table->limit = $this->_limit;
-        $table->jumlah_kolom = 9;
-        $table->header[] = array(
-            "ID", 1, 1,
-            "TGL_PENGAKUAN", 1, 1,
-            "NAMA_PEMASOK", 1, 1,
-            "NAMA_TRANSPORTIR",1,1,
-            "NAMA_JNS_BHN_BKR", 1, 1,
-            "VOL_TERIMA", 1, 1,
-            "VOL_TERIMA_REAL", 1, 1,
-            "STATUS", 1, 1,
-            "AKSI", 1, 1
-        );
-        $table->total = $data_table['total'];
-        $table->content = $data_table['rows'];
-        $data = $this->ltable->generate($table, 'js', true);
-        echo $data;
+    public function getDataDetail($tanggal){
+        echo json_encode($this->tbl_get->getTableViewDetail($tanggal));
     }
 }

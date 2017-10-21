@@ -1,8 +1,6 @@
 <?php
-
-
-/**
- * @module MASTER TRANSPORTIR
+ /**
+ * @module STOCK OPNAME
  * @author  RAKHMAT WIJAYANTO
  * @created at 17 OKTOBER 2017
  * @modified at 17 OKTOBER 2017
@@ -23,12 +21,15 @@ class stock_opname_model extends CI_Model {
     }
 
     public function data($key = '') {
-       $this->db->from($this->_table1);
-       if (!empty($key) || is_array($key))
-       $this->db->where_condition($this->_key($key));
+        $this->db->select('a.*, b.NAMA_JNS_BHN_BKR, C.LEVEL4');
+        $this->db->from($this->_table1.' a');
+        $this->db->join('M_JNS_BHN_BKR b', 'b.ID_JNS_BHN_BKR = a.ID_JNS_BHN_BKR', 'left');
+        $this->db->join('MASTER_LEVEL4 c', 'c.SLOC = a.SLOC', 'left');
 
-       return $this->db;
+        if (!empty($key) || is_array($key))
+            $this->db->where_condition($this->_key($key));
 
+        return $this->db;
     }
 
     public function save_as_new($data) {
@@ -79,26 +80,26 @@ class stock_opname_model extends CI_Model {
 
         if (!empty($kata_kunci))
             $filter[$this->_table1 . ".SLOC LIKE '%{$kata_kunci}%' "] = NULL;
-        $total = $this->data($filter)->count_all_results();
-		$this->db->limit($limit, ($offset * $limit) - $limit);
-        $record = $this->data($filter)->get();
-		$no=(($offset-1) * $limit) +1;
-        $rows = array();
-        foreach ($record->result() as $row) {
-            $id = $row->ID_PERHITUNGAN;
-            $aksi = anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
-            $aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
-            $rows[$id] = array(
-                'ID_PERHITUNGAN' => $no++,
-                'NO_STOCKOPNAME' => $row->NO_STOCKOPNAME,
-                'TGL_BA_STOCKOPNAME' => $row->TGL_BA_STOCKOPNAME,
-                'NAMA_JNS_BHN_BKR' => $row->NAMA_JNS_BHN_BKR,
-                'LEVEL4' => $row->LEVEL4,
-                'VOLUME_STOCKOPNAME' => $row->VOLUME_STOCKOPNAME,
-                'detil' => $detil,
-                'aksi' => $aksi
-            );
-        }
+            $total = $this->data($filter)->count_all_results();
+            $this->db->limit($limit, ($offset * $limit) - $limit);
+            $record = $this->data($filter)->get();
+            $no=(($offset-1) * $limit) +1;
+            $rows = array();
+            foreach ($record->result() as $row) {
+                $id = $row->ID_STOCKOPNAME;
+                $aksi = anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
+                $aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
+                $rows[$id] = array(
+                    'ID_STOCKOPNAME' => $no++,
+                    'NO_STOCKOPNAME' => $row->NO_STOCKOPNAME,
+                    'TGL_PENGAKUAN' => $row->TGL_PENGAKUAN,
+                    'NAMA_JNS_BHN_BKR' => $row->NAMA_JNS_BHN_BKR,
+                    'LEVEL4' => $row->LEVEL4,
+                    'VOLUME_STOCKOPNAME' => $row->VOLUME_STOCKOPNAME,
+                    'STATUS_APPROVE_STOCKOPNAME' => $row->STATUS_APPROVE_STOCKOPNAME ? 'Setuju':'Tidak Setuju',
+                    'aksi' => $aksi
+                );
+            }    
 
         return array('total' => $total, 'rows' => $rows);
     }
@@ -137,16 +138,6 @@ class stock_opname_model extends CI_Model {
         return $option;    
         
     }
-
-    // public function options_type($default = '--Pilih Type Pemasok--') {
-        
-    //     $option = ['PERTAMINA', 'NON PERTAMINA'];
-        
-    //     return $option;    
-        
-    // }
-	 
-
 
 }
 

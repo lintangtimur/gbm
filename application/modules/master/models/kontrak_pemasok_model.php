@@ -88,9 +88,14 @@ class kontrak_pemasok_model extends CI_Model {
         $rows = array();
         foreach ($record->result() as $row) {
             $id = $row->ID_KONTRAK_PEMASOK;
-            $aksi = anchor(null, '<i class="icon-edit" title="Edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
-            $aksi .= anchor(null, '<i class="icon-trash" title="Hapus"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
+            $aksi = anchor(null, '<i class="icon-zoom-in" title="View"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
+
             $aksi .= anchor(null, '<i class="icon-copy" title="Adendum"></i>', array('class' => 'btn transparant', 'id' => 'button-adendum-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/adendum/' . $id)));
+
+            if ($row->PERUBAHAN == 0){
+             $aksi .= anchor(null, '<i class="icon-trash" title="Hapus"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));               
+            }
+
             $rows[$id] = array(
                 'NO' => $no++,
                 'NAMA_PEMASOK' => $row->NAMA_PEMASOK,

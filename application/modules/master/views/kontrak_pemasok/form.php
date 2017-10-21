@@ -22,7 +22,7 @@
                 <?php echo form_input('TGL_KONTRAK_PEMASOK', !empty($default->TGL_KONTRAK_PEMASOK) ? $default->TGL_KONTRAK_PEMASOK : '', 'class="span2 input-append date form_datetime"'); ?>
             </div>
             <br>
-            <label for="password" class="control-label">No PJBBM <span class="required">*</span> : </label>
+            <label for="password" class="control-label">No PJBBBM <span class="required">*</span> : </label>
             <div class="controls">
                 <?php echo form_input('NOPJBBM_KONTRAK_PEMASOK', !empty($default->NOPJBBM_KONTRAK_PEMASOK) ? $default->NOPJBBM_KONTRAK_PEMASOK : '', 'class="span6"'); ?>
             </div>
@@ -47,7 +47,7 @@
                 <?php echo form_dropdown('JENIS_KONTRAK_PEMASOK', $jns_kontrak_options, !empty($default->JENIS_KONTRAK_PEMASOK) ? $default->JENIS_KONTRAK_PEMASOK : '', 'class="span2"'); ?>
             </div>
             <br>
-            <label for="password" class="control-label">Volume : </label> 
+            <label for="password" class="control-label">Volume (L) : </label> 
             <div class="controls">
                 <?php echo form_input('VOLUME_KONTRAK_PEMASOK', !empty($default->VOLUME_KONTRAK_PEMASOK) ? $default->VOLUME_KONTRAK_PEMASOK : '', 'class="span3"'); ?>
             </div>
@@ -57,7 +57,7 @@
                 <?php echo form_input('ALPHA_KONTRAK_PEMASOK', !empty($default->ALPHA_KONTRAK_PEMASOK) ? $default->ALPHA_KONTRAK_PEMASOK : '', 'class="span3"'); ?>
             </div>
             <br>
-            <label for="password" class="control-label">Rupiah Kontrak : </label> 
+            <label for="password" class="control-label">Nilai Kontrak (Rp): </label> 
             <div class="controls">
                 <?php echo form_input('RUPIAH_KONTRAK_PEMASOK', !empty($default->RUPIAH_KONTRAK_PEMASOK) ? $default->RUPIAH_KONTRAK_PEMASOK : '', 'class="span3"'); ?>
             </div>
@@ -72,7 +72,7 @@
                 <?php echo form_input('NO_PENJAMIN_KONTRAK_PEMASOK', !empty($default->NO_PENJAMIN_KONTRAK_PEMASOK) ? $default->NO_PENJAMIN_KONTRAK_PEMASOK : '', 'class="span6"'); ?>
             </div>
             <br>
-            <label for="password" class="control-label">Nominal Jaminan : </label> 
+            <label for="password" class="control-label">Nominal Jaminan (Rp) : </label> 
             <div class="controls">
                 <?php echo form_input('NOMINAL_JAMINAN_KONTRAK', !empty($default->NOMINAL_JAMINAN_KONTRAK) ? $default->NOMINAL_JAMINAN_KONTRAK : '', 'class="span3"'); ?>
             </div>
@@ -110,4 +110,23 @@
         todayBtn: true,
         pickerPosition: "bottom-left"
     });
+
+    if( $('input[name=id]').val() != '') {
+        // $('#button-save').attr('disabled',true); 
+        $("#button-save").hide();
+     }
+
+    $('input[name=VOLUME_KONTRAK_PEMASOK]').inputmask("numeric", {radixPoint: ".",groupSeparator: ",",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    });
+    $('input[name=ALPHA_KONTRAK_PEMASOK]').inputmask("numeric", {radixPoint: ".",groupSeparator: ",",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    });
+    $('input[name=RUPIAH_KONTRAK_PEMASOK]').inputmask("numeric", {radixPoint: ".",groupSeparator: ",",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    });
+    $('input[name=NOMINAL_JAMINAN_KONTRAK]').inputmask("numeric", {radixPoint: ".",groupSeparator: ",",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    });
+
+    // if ($('#id').val()){
+    //     $(':input[type="submit"]').prop('disabled', true);
+    // }
+
 </script>            

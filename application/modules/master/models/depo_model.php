@@ -93,6 +93,7 @@ class depo_model extends CI_Model {
             $rows[$id] = array(
                 'ID_DEPO' => $no++,
                 'NAMA_PEMASOK' => $row->NAMA_PEMASOK,
+                'KD_DEPO' => $row->KD_DEPO,
                 'NAMA_DEPO' => $row->NAMA_DEPO,
                 'LAT_DEPO' => $row->LAT_DEPO,
                 'LOT_DEPO' => $row->LOT_DEPO,

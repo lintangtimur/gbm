@@ -166,6 +166,9 @@ class asset extends MX_Controller {
                 'css'=> array('bootstrap-rakhmat/bootstrap'),
                 'js'=> array('bootstrap-rakhmat/bootstrap')
             ),
+             "bootstrap-custom" => array(
+                'css'=> array('bootstrap-rakhmat/bootstrap-custom')
+            ),
             "jui" => array(
             'css'=> array('library/jui/jquery-ui'),
             'js'=> array('library/jui/jquery-ui')
@@ -173,6 +176,9 @@ class asset extends MX_Controller {
             "file-upload" => array(
             'js'=> array('library/file-upload/dropify'),
             'css'=> array('library/file-upload/dropify')
+            ),
+            "format_number" => array(
+            'js'=> array('cf/jquery.inputmask.bundle')
             )
 	   );
     }
