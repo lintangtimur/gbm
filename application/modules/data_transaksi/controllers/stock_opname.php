@@ -34,7 +34,6 @@ class stock_opname extends MX_Controller {
         $this->load->module("template/asset");
         $this->asset->set_plugin(array('bootstrap-custom'));
         $this->asset->set_plugin(array('jquery'));
-        $this->asset->set_plugin(array('jui'));
         $this->asset->set_plugin(array('file-upload'));
         
 
@@ -75,7 +74,7 @@ class stock_opname extends MX_Controller {
         $table = new stdClass();
         $table->id = 'ID_STOCKOPNAME';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('ID_STOCKOPNAME' => 'center', 'NO_STOCKOPNAME' => 'center', 'TGL_BA_STOCKOPNAME' => 'center', 'NAMA_JNS_BHN_BKR' => 'center', 'LEVEL4' => 'center', 'VOLUME_STOCKOPNAME' => 'center', 'detil' => 'center' , 'aksi' => 'center');
+        $table->align = array('ID_STOCKOPNAME' => 'center', 'NO_STOCKOPNAME' => 'center', 'TGL_BA_STOCKOPNAME' => 'center', 'NAMA_JNS_BHN_BKR' => 'center', 'LEVEL4' => 'center', 'VOLUME_STOCKOPNAME' => 'center', 'STATUS_APPROVE_STOCKOPNAME' => 'center' , 'aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
         $table->jumlah_kolom = 8;
@@ -92,24 +91,30 @@ class stock_opname extends MX_Controller {
         $table->total = $data_table['total'];
         $table->content = $data_table['rows'];
         $data = $this->ltable->generate($table, 'js', true);
-         echo $data;
+        echo $data;
+        
     }
 
     public function proses() {
-        //$this->form_validation->set_rules('ID_PEMASOK', 'ID_PEMASOK', 'required');
+        $this->form_validation->set_rules('NO_STOCKOPNAME', 'NO STOCKOPNAME', 'required');
+        $this->form_validation->set_rules('ID_JNS_BHN_BKR', 'JENIS BAHAN BAKAR', 'required');
+        $this->form_validation->set_rules('TGL_BA_STOCKOPNAME', 'TANGGAL BA STOCKOPNAME', 'required');
+        $this->form_validation->set_rules('TGL_PENGAKUAN', 'TANGGAL PENGAKUAN STOCKOPNAME', 'required');
+        $this->form_validation->set_rules('SLOC', 'PEMBANGKIT', 'required');
+        $this->form_validation->set_rules('VOLUME_STOCKOPNAME', 'VOLUME STOCKOPNAME', 'required');
         if ($this->form_validation->run($this)) {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
             $id = $this->input->post('id');
 
             $data = array();
-            $data['ID_STOCKOPNAME'] = $this->input->post('ID_STOCKOPNAME');
-            // $data['NAMA_DEPO'] = $this->input->post('NAMA_DEPO');
-            // $data['LAT_DEPO'] = $this->input->post('LAT_DEPO');
-            // $data['LOT_DEPO'] = $this->input->post('LOT_DEPO');
-            // $data['ALAMAT_DEPO'] = $this->input->post('ALAMAT_DEPO');
+            $data['NO_STOCKOPNAME'] = $this->input->post('NO_STOCKOPNAME');
+            $data['ID_JNS_BHN_BKR'] = $this->input->post('ID_JNS_BHN_BKR');
+            $data['TGL_BA_STOCKOPNAME'] = $this->input->post('TGL_BA_STOCKOPNAME');
+            $data['TGL_PENGAKUAN'] = $this->input->post('TGL_PENGAKUAN');
+            $data['SLOC'] = $this->input->post('SLOC');
+            $data['VOLUME_STOCKOPNAME'] = $this->input->post('VOLUME_STOCKOPNAME');
+            $data['STATUS_APPROVE_STOCKOPNAME'] = $this->input->post('0');
             
-
-
             if ($id == '') {
                 if ($this->tbl_get->save_as_new($data)) {
                     $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');

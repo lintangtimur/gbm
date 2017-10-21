@@ -6,8 +6,6 @@
  * @modified at 17 OKTOBER 2017
  */ -->
 
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
 <div class="row-fluid">
     <div class="box-title">
         <?php echo (isset($page_title)) ? $page_title : 'Untitle'; ?>
@@ -22,18 +20,17 @@
         <div class="col-md-11.5">
                         <div class="col-md-5">
                             <div class="control-group">
+                            <br>
                             <label for="password" class="control-label">No Stock Opname <span class="required">*</span> : </label>
                             <div class="controls">
-                            <?php echo form_input('NAMA_DEPO', !empty($default->NAMA_DEPO) ? $default->NAMA_DEPO : '', 'class="span6"'); ?>
+                            <?php echo form_input('NO_STOCKOPNAME', !empty($default->NO_STOCKOPNAME) ? $default->NO_STOCKOPNAME : '', 'class="span6"'); ?>
                              </div>
-                            </div>
-                            <div class="control-group">
+                             <br>
                             <label for="password" class="control-label">Pilih Jenis Bahan Bakar <span class="required">*</span> : </label>
                             <div class="controls">
                             <?php echo form_dropdown('ID_JNS_BHN_BKR', $parent_options, !empty($default->ID_JNS_BHN_BKR) ? $default->ID_JNS_BHN_BKR : '', 'class="span6"'); ?> 
                             </div>
-                            </div>
-                            <div class="control-group">
+                            <br>
                             <label for="password" class="control-label">Pilih Pembangkit <span class="required">*</span> : </label>
                             <div class="controls">
                             <?php echo form_dropdown('SLOC', $parent_options_pem, !empty($default->SLOC) ? $default->SLOC : '', 'class="span6"'); ?> 
@@ -42,21 +39,20 @@
                         </div>
                         <div class="col-md-5">
                           <div class="control-group">
+                          <br>
                             <label for="password" class="control-label">Volume Stock Opname <span class="required">*</span> : </label>
                             <div class="controls">
                             <?php echo form_input('VOLUME_STOCKOPNAME', !empty($default->VOLUME_STOCKOPNAME) ? $default->VOLUME_STOCKOPNAME : '', 'class="span6"'); ?>
                              </div>
-                            </div>
-                          <div class="control-group">
+                             <br>
                             <label for="password" class="control-label">Tanggal BA Stock Opname <span class="required">*</span> : </label>
                             <div class="controls">
-                            <?php echo form_input('TGL_BA_STOCKOPNAME', !empty($default->TGL_BA_STOCKOPNAME) ? $default->TGL_BA_STOCKOPNAME : '', 'class="span6", id="datepicker"'); ?>
+                            <?php echo form_input('TGL_BA_STOCKOPNAME', !empty($default->TGL_BA_STOCKOPNAME) ? $default->TGL_BA_STOCKOPNAME : '', 'class="span6 input-append date form_datetime", id="datepicker"'); ?>
                             </div>
-                          </div>
-                          <div class="control-group">
+                            <br>
                             <label for="password" class="control-label">Tanggal Pengakuan <span class="required">*</span> : </label>
                             <div class="controls">
-                            <?php echo form_input('TGL_PENGAKUAN', !empty($default->TGL_PENGAKUAN) ? $default->TGL_PENGAKUAN : '', 'class="span6", id="datepicker1"'); ?>
+                            <?php echo form_input('TGL_PENGAKUAN', !empty($default->TGL_PENGAKUAN) ? $default->TGL_PENGAKUAN : '', 'class="span6 input-append date form_datetime"'); ?>
                             </div>
                           </div>
                         </div>
@@ -87,23 +83,17 @@
 </div>
  <script>
   $( function() {
-    $.datepicker._gotoToday = function(id) {
-            var target = $(id);
-            var inst = this._getInst(target[0]);
-
-            var date = new Date();
-            this._setDate(inst,date);
-            this._hideDatepicker();
-            
-        }
-
-    $( "#datepicker" ).datepicker({
-         showButtonPanel: true
-    });
-     $( "#datepicker1" ).datepicker({
-        showButtonPanel: true
-    });
-
     $('.dropify').dropify();
   } );
-  </script>
+ </script>
+
+<script type="text/javascript">
+    $(".form_datetime").datepicker({
+        format: "yyyy-mm-dd",
+        autoclose: true,
+        todayBtn: true,
+        pickerPosition: "bottom-left"
+    });
+
+</script>            
+
