@@ -76,5 +76,10 @@ class penerimaan_model extends CI_Model
         $query = $this->db->query("call PROSES_PENERIMAAN_V2('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$kode_level."','".$user."',".$jumlah.")");
         return $query->result();
     }
+
+    function options_data($table){
+        $query = $this->db->get($table);
+        return $query->result();
+    }
 }
 ?>
