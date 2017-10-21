@@ -64,10 +64,12 @@ class kontrak_pemasok extends MX_Controller {
     public function add($id = '') {
         $page_title = 'Tambah '.$this->_title;
         $data['id'] = $id;
+        $data['id_dok'] = '';
         if ($id != '') {
             $page_title = 'View '.$this->_title;
             $get_data = $this->tbl_get->data($id);
             $data['default'] = $get_data->get()->row();
+            $data['id_dok'] = $data['default']->PATH_DOC_PEMASOK; 
         }
         $data['pemasok_options'] = $this->tbl_get->options_pemasok();
         $data['jns_kontrak_options'] = $this->tbl_get->options_jns_kontrak();
@@ -171,7 +173,7 @@ class kontrak_pemasok extends MX_Controller {
         $data = $this->ltable->generate($table, 'js', true);
         echo $data;
     }
-
+   
     public function proses() {
         $this->form_validation->set_rules('ID_PEMASOK', 'Pemasok', 'trim|required|max_length[20]');
         $this->form_validation->set_rules('NOPJBBM_KONTRAK_PEMASOK', 'No PJBBM', 'trim|required|max_length[20]');
@@ -207,8 +209,27 @@ class kontrak_pemasok extends MX_Controller {
             if ($id == '') {
                 $data['CD_BY_KONTRAK_PEMASOK'] = $this->session->userdata('user_id');
                 $data['CD_KONTRAK_PEMASOK'] = date('Y-m-d');
-                if ($this->tbl_get->save_as_new($data)) {
-                    $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
+
+                $new_name = date('Ymd').'_'.$this->input->post('NOPJBBM_KONTRAK_PEMASOK').'_'.$_FILES["ID_DOC_PEMASOK"]['name'];
+                $config['file_name'] = $new_name;
+                $config['upload_path'] = 'assets/upload_kontrak/';
+                $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
+                $config['max_size'] = 1024 * 4; 
+                // $config['encrypt_name'] = TRUE;
+
+                $this->load->library('upload', $config);
+
+                if (!$this->upload->do_upload('ID_DOC_PEMASOK')){
+                    $err = $this->upload->display_errors('', '');
+                    $message = array(false, 'Proses gagal', $err, '');
+                } else {
+                    $res = $this->upload->data();
+                    if ($res){
+                        $nama_file= $res['file_name'];
+                        if ($this->tbl_get->save_as_new($data,$nama_file)) {
+                            $message = array(true, 'Proses Berhasil ', 'Proses penyimpanan data berhasil.', '#content_table');
+                        }
+                    }
                 }
             } else {
                 $data['UD_KONTRAK_PEMASOK'] = date('Y-m-d');
@@ -309,56 +330,7 @@ class kontrak_pemasok extends MX_Controller {
         }
         echo json_encode($message);
     }
-
-    public function upload_file(){
-        $status = "";
-        $msg = "";
-        $file_element_name = $this->input->post('ID_DOC_PEMASOK');
-
-        // $config['upload_path'] = './upload_file/';
-        $config['upload_path'] = 'assets/upload_kontrak';
-        $config['allowed_types'] = 'jpg|jpeg|png|pdf';
-        //$config['max_size'] = 1024 * 8;
-
-        // $nama_file_asli = $_FILES["nama_file"]['name'];
-
-        // $new_name = $this->input->post('no_registrasi').'-'.$file_element_name;
-        // $config['file_name'] = $new_name;
-
-        // $config['max_size'] = 1024 * 8;
-        // $config['encrypt_name'] = TRUE;
-
-        $this->load->library('upload', $config);
-
-        if (!$this->upload->do_upload($file_element_name)){
-            $status = 'error';
-            $msg = $this->upload->display_errors('', '');
-        } else {
-            $data = $this->upload->data();
-
-            // $save = array( 
-            //         'no_registrasi' => $this->input->post('no_registrasi'),
-            //         'nama_file' => $new_name,
-            //         'kode' => $file_element_name,
-            //         'link' => $data['file_name'],
-            //         'tanggal' => date("Y-m-d"),
-            //     );
-            // $insert = $this->tbl_get->save_dokumen($save);
-            // if($insert){
-            //     $status = "success";
-            //     $msg = "Upload File Success";
-            // } else {
-            //     unlink($data['full_path']);
-            //     $status = "error";
-            //     $msg = "Gagal upload file, silahkan coba lg <br><br>".$file_id;
-            // }
-        }
-        @unlink($_FILES[$file_element_name]);
-       
-        //echo json_encode(array('status' => $status, 'msg' => $msg));
-    }   
-
-
+  
 }
 
 /* End of file master_level1.php */

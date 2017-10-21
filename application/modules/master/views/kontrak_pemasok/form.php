@@ -87,11 +87,14 @@
                 <?php echo form_input('KET_KONTRAK_PEMASOK', !empty($default->KET_KONTRAK_PEMASOK) ? $default->KET_KONTRAK_PEMASOK : '', 'class="span6"'); ?>
             </div>
             <br>
-            <label for="password" class="control-label">Upload Dokumen : </label> 
-            <div class="controls">
+            <label for="password" class="control-label" id="up_nama">Upload Dokumen : </label> 
+            <div class="controls" id="up_file">
                     <?php echo form_upload('ID_DOC_PEMASOK', !empty($default->ID_DOC_PEMASOK) ? $default->ID_DOC_PEMASOK : '', 'class="span6"'); ?>
             </div>
-
+            <label for="password" class="control-label"> </label> 
+            <div class="controls" id="dokumen">
+                   <a href="<?php echo base_url().'assets/upload_kontrak/'.$id_dok;?>" target="_blank"><b><?php echo (empty($id_dok)) ? $id_dok : 'Lihat Dokumen'; ?></b></a>
+            </div>
         </div>
     </div><br>
     
@@ -114,7 +117,9 @@
     if( $('input[name=id]').val() != '') {
         // $('#button-save').attr('disabled',true); 
         $("#button-save").hide();
-     }
+        $("#up_nama").hide();
+        $("#up_file").hide();
+    }
 
     $('input[name=VOLUME_KONTRAK_PEMASOK]').inputmask("numeric", {radixPoint: ".",groupSeparator: ",",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
     });
