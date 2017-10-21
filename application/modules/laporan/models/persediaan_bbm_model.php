@@ -34,6 +34,28 @@ class persediaan_bbm_model extends CI_Model {
         $this->db->join('MUTASI_PEMAKAIAN PM', 'PM.ID_PEMAKAIAN = B.ID_PEMAKAIAN','left');
         $this->db->join('STOCK_OPNAME SO', 'SO.ID_STOCKOPNAME = B.ID_STOCKOPNAME','left');
 
+        if ($_POST['COCODE'] !='') {
+            $this->db->where("M1.COCODE",$_POST['COCODE']);   
+        }
+        if ($_POST['PLANT'] !='') {
+            $this->db->where("M2.PLANT",$_POST['PLANT']);   
+        }
+        if ($_POST['STORE_SLOC'] !='') {
+            $this->db->where("M3.STORE_SLOC",$_POST['STORE_SLOC']);   
+        }
+        if ($_POST['SLOC'] !='') {
+            $this->db->where("M4.SLOC",$_POST['SLOC']);   
+        }
+        if ($_POST['BBM'] !='') {
+            $this->db->where("JB.ID_JNS_BHN_BKR",$_POST['BBM']);   
+        }
+        if ($_POST['BULAN'] !='') {
+            $this->db->where("MONTH(A.TGL_MUTASI_PERSEDIAAN)",$_POST['BULAN']);   
+        }
+        if ($_POST['TAHUN'] !='') {
+            $this->db->where("YEAR(A.TGL_MUTASI_PERSEDIAAN)",$_POST['TAHUN']);   
+        }
+
         if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
 
@@ -204,17 +226,12 @@ class persediaan_bbm_model extends CI_Model {
 public function options_tahun() {
         $year = date("Y"); 
 
-        $option = array(
-        $year-1, $year, $year + 1,
-        );
+        $option = array();
+        $option[$year-1] = $year-1;
+        $option[$year] = $year;
+        $option[$year + 1] = $year + 1;
 
-            return $option;
-        // $option = array();
-        // $option[] = $year - 1;
-        // $option[] = $year;
-        // $option[] = $year + 1;
-
-        // return $option;
+        return $option;
     }
 
 }

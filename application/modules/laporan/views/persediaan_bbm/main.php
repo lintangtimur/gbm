@@ -6,6 +6,7 @@
     </div>
     <div class="widgets_area">
         <div class="well-content no-search">
+            <?php echo form_open_multipart('', array('id' => 'ffilter')); ?>
             <div class="form_row">
                 <div class="pull-left span3">
                     <label for="password" class="control-label">Level 1 <span class="required">*</span> : </label>
@@ -57,13 +58,12 @@
                     <?php echo anchor(NULL, "<i class='icon-download'></i> PDF", array('class' => 'btn', 'id' => 'button-filter')); ?>
                     </div>
                 </div>
-                 
             </div>
+            <?php echo form_close(); ?>
         </div>
         <div class="well-content no-search">
             <div id="content_table" data-source="<?php echo $data_sources; ?>" data-filter="#ffilter"></div>
         </div>
-
     </div>
 </div>
 
@@ -78,6 +78,7 @@
 
     });
 </script>
+
 <script type="text/javascript">
     jQuery(function($) {
         function setDefaultLv1(){

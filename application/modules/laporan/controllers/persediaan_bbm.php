@@ -58,8 +58,6 @@ class persediaan_bbm extends MX_Controller {
     public function load($page = 1) {
         $data_table = $this->tbl_get->data_table($this->_module, $this->_limit, $page);
 
-        // echo json_encode($message, true); die;
-
         $this->load->library("ltable");
         $table = new stdClass();
         $table->id = 'ID_MUTASI_PERSDIAAN';
