@@ -21,7 +21,7 @@ class stock_opname_model extends CI_Model {
     }
 
     public function data($key = '') {
-        $this->db->select('a.*, b.NAMA_JNS_BHN_BKR, C.LEVEL4');
+        $this->db->select('a.*, b.NAMA_JNS_BHN_BKR, c.LEVEL4');
         $this->db->from($this->_table1.' a');
         $this->db->join('M_JNS_BHN_BKR b', 'b.ID_JNS_BHN_BKR = a.ID_JNS_BHN_BKR', 'left');
         $this->db->join('MASTER_LEVEL4 c', 'c.SLOC = a.SLOC', 'left');
