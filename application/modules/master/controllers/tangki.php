@@ -49,6 +49,8 @@ class tangki extends MX_Controller {
             $page_title = 'Edit Tangki';
             $tangki = $this->tangki_model->data($id);
             $data['default'] = $tangki->get()->row();
+            $trans = $this->tangki_model->get_detail($id);
+            $data['data_detail'] = $trans->get()->row();
         }
         $data['unit_pembangkit'] = $this->tangki_model->option_pembangkit('--Pilih Unit Pembangkit--', array('master_tangki.SLOC' => NULL));
         $data['jenis_bbm'] = $this->tangki_model->option_jenisbbm('--Pilih Jenis BBM--', array('master_tangki.ID_JNS_BHN_BKR' => NULL));

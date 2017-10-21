@@ -10,24 +10,24 @@
             <div class="control-group">
                 <label for="password" class="control-label">No Kontrak <span class="required">*</span> : </label>
                 <div class="controls">
-                    <?php echo form_input('NO_KONTRAK', !empty($default->NO_KONTRAK) ? $default->NO_KONTRAK : '', 'class="span6"'); ?>
+                    <?php echo form_input('NO_KONTRAK', !empty($default->KD_KONTRAK_TRANS) ? $default->KD_KONTRAK_TRANS : '', 'class="span6"'); ?>
                 </div>
             </div>
             <div class="control-group">
                 <label for="password" class="control-label">Pilih Transportir<span class="required">*</span> : </label>
                 <div class="controls">
-                    <?php echo form_dropdown('TRANSPORTIR', $option_transportir, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class="span6"'); ?>
+                    <?php echo form_dropdown('TRANSPORTIR', $option_transportir, !empty($default->ID_TRANSPORTIR) ? $default->ID_TRANSPORTIR : '', 'class="span6"'); ?>
                 </div>
             </div>
             <div class="control-group">
                 <label for="password" class="control-label">Tanggal Tera<span class="required">*</span> : </label>
                 <div class="controls">
-                <?php $attributes = 'id="TGLKONTRAK" placeholder="Tanggal Kontrak"'; echo form_input('TGLKONTRAK', set_value('TGLKONTRAK'), $attributes); ?>
+                <?php echo form_input('TGL_KONTRAK_TRANS', !empty($default->TGL_KONTRAK_TRANS) ? $default->TGL_KONTRAK_TRANS : '', 'class="span3", id="TGLKONTRAK"'); ?>
                 </div>
             </div>
-            <div class="control-group">
+            <!-- <div class="control-group">
                 <label for="password" class="control-label">Periode (Bulan)<span class="required">*</span></label>
-            </div>
+            </div> -->
             <div class="control-group">
                 <label for="password" class="control-label">Jumlah Pasokan <span class="required"> *</span> : </label>
                 <div class="controls">
@@ -51,9 +51,9 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <?php echo form_input('HARGA', !empty($default->HARGA) ? $default->HARGA : '', 'class="span12", placeholder="Harga (Rp)"'); ?> &nbsp
+                                    <?php echo form_input('HARGA', !empty($default->HARGA_KONTRAK_TRANS) ? $default->HARGA_KONTRAK_TRANS : '', 'class="span12", placeholder="Harga (Rp)"'); ?> &nbsp
                                 </td><td>
-                                    <?php echo form_input('JARAK', !empty($default->JARAK) ? $default->JARAK : '', 'class="span12", placeholder="(KL / ML)"'); ?> &nbsp
+                                    <?php echo form_input('JARAK', !empty($default->JARAK) ? $default->JARAK : '', 'class="span12", placeholder="Jarak (KL / ML)"'); ?> &nbsp
                                 </td>
                             </tr>
                         </table>
@@ -62,13 +62,13 @@
             <div class="control-group">
                 <label for="password" class="control-label">Nilai Kontrak (Rp)<span class="required">*</span> : </label>
                 <div class="controls">
-                    <?php echo form_input('NILAI_KONTRAK', !empty($default->NILAI_KONTRAK) ? $default->NILAI_KONTRAK : '', 'class="span6"'); ?>
+                    <?php echo form_input('NILAI_KONTRAK', !empty($default->NILAI_KONTRAK_TRANS) ? $default->NILAI_KONTRAK_TRANS : '', 'class="span6"'); ?>
                 </div>
             </div>
             <div class="control-group">
                 <label for="password" class="control-label">Keterangan<span class="required">*</span> : </label>
                 <div class="controls">
-                      <?php echo form_input('KETERANGAN', !empty($default->KETERANGAN) ? $default->KETERANGAN : '', 'class="span6"'); ?>
+                      <?php echo form_input('KETERANGAN', !empty($default->KET_KONTRAK_TRANS) ? $default->KET_KONTRAK_TRANS : '', 'class="span6"'); ?>
                 </div>
             </div>
             <div class="control-group">
@@ -77,12 +77,26 @@
                     <?php echo form_upload('FILE_UPLOAD', '0', 'class="span6"'); ?>
                 </div>
             </div>
-            <form method="post" action="upload.php" enctype="multipart/form-data" id="uploadForm">
-                <input type="file" name="file" id="file" />
-                <!-- <input type="submit" name="submit" value="Upload"/> -->
-            </form>
-
        
+        <div class="well-content" id="content_table">
+            <table id="detil_kontrak_trans" class="table table-striped table-bordered table-hover datatable dataTable">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Depo</th>
+                        <th>Pembangkit</th>
+                        <th>Harga Kontrak</th>
+                        <th>Jarak</th>
+                        <th>Transportasi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+        </div>
+
+
         <div class="form-actions">
             <?php echo anchor(null, '<i class="icon-save"></i> Simpan', array('id' => 'button-save', 'class' => 'blue btn', 'onclick' => "simpan_data(this.id, '#finput', '#button-back')")); ?>
             <?php echo anchor(null, '<i class="icon-circle-arrow-left"></i> Tutup', array('id' => 'button-back', 'class' => 'btn', 'onclick' => 'close_form(this.id)')); ?>
@@ -91,25 +105,6 @@
     </div>
 </div>
 
-<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
-<script type="text/javascript">
-    function filePreview(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            // $('#uploadForm + embed').remove();
-            // $('#uploadForm').after('<embed src="'+e.target.result+'" width="450" height="300">');
-            $('#uploadForm + img').remove();
-            $('#uploadForm').after('<img src="'+e.target.result+'" width="450" height="300"/>');
-        }
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-
-$("#file").change(function () {
-    filePreview(this);
-});
-</script>
 <script type="text/javascript">
 $(function() {
     $("#TGLKONTRAK").datepicker({

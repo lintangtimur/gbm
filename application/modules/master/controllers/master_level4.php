@@ -101,8 +101,10 @@ class master_level4 extends MX_Controller {
     public function proses() {
         $this->form_validation->set_rules('ID_REGIONAL', 'Regional','required');
         $this->form_validation->set_rules('COCODE', 'Level 1','required');
-        $this->form_validation->set_rules('PLANT', 'Level 2', 'required');
-        $this->form_validation->set_rules('STORE_SLOC', 'Level 3', 'required');
+        if ($this->input->post('STATUS_LVL4')==0){
+            $this->form_validation->set_rules('PLANT', 'Level 2', 'required');
+            $this->form_validation->set_rules('STORE_SLOC', 'Level 3', 'required');            
+        } 
         $this->form_validation->set_rules('LEVEL4', 'Level 4', 'trim|required|max_length[50]');
         $this->form_validation->set_rules('SLOC', 'Sloc', 'trim|required|max_length[50]');
         if ($this->form_validation->run($this)) {
@@ -117,6 +119,7 @@ class master_level4 extends MX_Controller {
             $data['STORE_SLOC'] = $this->input->post('STORE_SLOC');
             $data['LAT_LVL4'] = $this->input->post('LAT_LVL4');
             $data['LOT_LVL4'] = $this->input->post('LOT_LVL4');
+            $data['STATUS_LVL4'] = $this->input->post('STATUS_LVL4');
 
             if ($id == '') {
                 if ($this->tbl_get->save_as_new($data)) {
