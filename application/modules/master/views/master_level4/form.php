@@ -10,7 +10,7 @@
          <div class="control-group">
             <label for="password" class="control-label">Status Anak Perusahaan  : </label>
             <div class="controls">
-               <?php echo form_checkbox('is_edit[]', $menu_id, isset($otoritas_menu[$menu_id]['is_edit']) && $otoritas_menu[$menu_id]['is_edit'] == 't' ? TRUE : FALSE, 'class="cb_select cb_select_row_' . $menu_id . '"'); ?>
+            <?php echo form_checkbox('STATUS_LVL4', '1',!empty($default->STATUS_LVL4) ? $default->STATUS_LVL4 : '', 'class ="STATUS"' ); ?>  <!-- <b>Status Anak Perusahaan</b> -->
             </div>
         </div>   
         <div class="control-group">
@@ -25,14 +25,14 @@
                 <?php echo form_dropdown('COCODE', $lv1_options, !empty($default->COCODE) ? $default->COCODE : '', 'class="span6"'); ?>
             </div>
         </div>  
-        <div class="control-group">
-            <label for="password" class="control-label">Level 2 : </label>
+        <div class="control-group" id="lv2">
+            <label for="password" class="control-label">Level 2 : <span class="required">*</span> </label>
             <div class="controls">
                 <?php echo form_dropdown('PLANT', $lv2_options, !empty($default->PLANT) ? $default->PLANT : '', 'class="span6"'); ?>
             </div>
         </div> 
-        <div class="control-group">
-            <label for="password" class="control-label">Level 3 : </label>
+        <div class="control-group" id="lv3">
+            <label for="password" class="control-label">Level 3 : <span class="required">*</span> </label>
             <div class="controls">
                 <?php echo form_dropdown('STORE_SLOC', $lv3_options, !empty($default->STORE_SLOC) ? $default->STORE_SLOC : '', 'class="span6"'); ?>
             </div>
@@ -62,7 +62,7 @@
             </div>
         </div>
         <div class="control-group">
-            <label for="password" class="control-label">Longitude : </label>
+            <label for="password" class="control-label">Longtitude : </label>
             <div class="controls">
                 <?php echo form_input('LOT_LVL4', !empty($default->LOT_LVL4) ? $default->LOT_LVL4 : '', 'class="span6"'); ?>
             </div>
@@ -147,6 +147,21 @@
                     }
                 });
             }
+        });
+
+        if ($('input[name="STATUS_LVL4"]:checked').serialize()) {
+            $('#lv2').hide();
+            $('#lv3').hide();            
+        } 
+
+        $('input[name="STATUS_LVL4"]').change(function() {
+            if(this.checked) {
+                $('#lv2').hide();
+                $('#lv3').hide();
+            } else {
+                $('#lv2').show();
+                $('#lv3').show();            
+            }      
         });
     });
 </script>
