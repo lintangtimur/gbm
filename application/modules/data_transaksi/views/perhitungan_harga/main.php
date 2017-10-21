@@ -1,6 +1,6 @@
 
 <!-- /**
- * @module MASTER TRANSPORTIR
+ * @module PERHITUNGAN HARGA
  * @author  RAKHMAT WIJAYANTO
  * @created at 17 OKTOBER 2017
  * @modified at 17 OKTOBER 2017
@@ -17,11 +17,11 @@
                 <div id ="index-content" class="well-content no-search">
 
                     <div class="well">
-                        <div class="content_table">
+                        <div class="pull-left">
                             <?php echo hgenerator::render_button_group($button_group); ?>
                         </div>
                     </div>
-                    <div class="content_table">
+                    <div class="well">
                         <div class="well-content clearfix">
                             <?php echo form_open_multipart('', array('id' => 'ffilter')); ?>
                             <table>

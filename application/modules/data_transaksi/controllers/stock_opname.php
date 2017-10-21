@@ -32,7 +32,7 @@ class stock_opname extends MX_Controller {
     public function index() {
         // Load Modules
         $this->load->module("template/asset");
-        $this->asset->set_plugin(array('bootstrap-custom'));
+        $this->asset->set_plugin(array('bootstrap-custom','format_number'));
         $this->asset->set_plugin(array('jquery'));
         $this->asset->set_plugin(array('file-upload'));
         
@@ -50,7 +50,7 @@ class stock_opname extends MX_Controller {
     }
 
      public function add($id = '') {
-         $page_title = 'Tambah '.$this->_title;
+        $page_title = 'Tambah '.$this->_title;
         $data['id'] = $id;
         if ($id != '') {
             $page_title = 'Edit Stock Opname';
@@ -66,6 +66,67 @@ class stock_opname extends MX_Controller {
 
      public function edit($id) {
         $this->add($id);
+    }
+    
+     public function sendAction($id=''){
+        if($id==''){
+            $message = array(false, 'Proses gagal', 'Proses kirim data gagal.', '');
+        }else{
+            $data['id'] = $id;
+            $data = $this->tbl_get->data($id);
+            $hasil=$data->get()->row();
+            $ID_STOCKOPNAME=$hasil->ID_STOCKOPNAME;
+            $SLOC=$hasil->SLOC;
+            $TGL_PENGAKUAN=$hasil->TGL_PENGAKUAN;
+            $ID_JNS_BHN_BKR=$hasil->ID_JNS_BHN_BKR;
+            $LEVEL_USER = $this->session->userdata('level_user');
+            $USER = $this->session->userdata('user_name');
+            $STATUS="1";
+
+            $this->tbl_get->callProsedureStockOpname($ID_STOCKOPNAME, $SLOC, $ID_JNS_BHN_BKR, $TGL_PENGAKUAN, $LEVEL_USER, $STATUS, $USER);
+            $message = array(true, 'Proses Berhasil', 'Proses kirim data berhasil.', '#content_table');
+        }
+        echo json_encode($message);
+     }
+     public function approveAction($id){
+        if($id==''){
+            $message = array(false, 'Proses gagal', 'Proses kirim data gagal.', '');
+        }else{
+            $data['id'] = $id;
+            $data = $this->tbl_get->data($id);
+            $hasil=$data->get()->row();
+            $ID_STOCKOPNAME=$hasil->ID_STOCKOPNAME;
+            $SLOC=$hasil->SLOC;
+            $TGL_PENGAKUAN=$hasil->TGL_PENGAKUAN;
+            $ID_JNS_BHN_BKR=$hasil->ID_JNS_BHN_BKR;
+            $LEVEL_USER = $this->session->userdata('level_user');
+            $USER = $this->session->userdata('user_name');
+            $STATUS="2";
+
+            $this->tbl_get->callProsedureStockOpname($ID_STOCKOPNAME, $SLOC, $ID_JNS_BHN_BKR, $TGL_PENGAKUAN, $LEVEL_USER, $STATUS, $USER);
+            $message = array(true, 'Proses Berhasil', 'Proses kirim data berhasil.', '#content_table');
+        }
+        echo json_encode($message);
+     }
+     public function tolakAction($id){
+        if($id==''){
+            $message = array(false, 'Proses gagal', 'Proses tolak data gagal.', '');
+        }else{
+            $data['id'] = $id;
+            $data = $this->tbl_get->data($id);
+            $hasil=$data->get()->row();
+            $ID_STOCKOPNAME=$hasil->ID_STOCKOPNAME;
+            $SLOC=$hasil->SLOC;
+            $TGL_PENGAKUAN=$hasil->TGL_PENGAKUAN;
+            $ID_JNS_BHN_BKR=$hasil->ID_JNS_BHN_BKR;
+            $LEVEL_USER = $this->session->userdata('level_user');
+            $USER = $this->session->userdata('user_name');
+            $STATUS="3";
+
+            $this->tbl_get->callProsedureStockOpname($ID_STOCKOPNAME, $SLOC, $ID_JNS_BHN_BKR, $TGL_PENGAKUAN, $LEVEL_USER, $STATUS, $USER);
+            $message = array(true, 'Proses Berhasil', 'Proses tolak data berhasil.', '#content_table');
+        }
+        echo json_encode($message);
     }
 
     public function load($page = 1) {
@@ -112,7 +173,7 @@ class stock_opname extends MX_Controller {
             $data['TGL_BA_STOCKOPNAME'] = $this->input->post('TGL_BA_STOCKOPNAME');
             $data['TGL_PENGAKUAN'] = $this->input->post('TGL_PENGAKUAN');
             $data['SLOC'] = $this->input->post('SLOC');
-            $data['VOLUME_STOCKOPNAME'] = $this->input->post('VOLUME_STOCKOPNAME');
+            $data['VOLUME_STOCKOPNAME'] = str_replace(",","",$this->input->post('VOLUME_STOCKOPNAME'));
             $data['STATUS_APPROVE_STOCKOPNAME'] = $this->input->post('0');
             
             if ($id == '') {
@@ -137,7 +198,7 @@ class stock_opname extends MX_Controller {
         }
         echo json_encode($message);
     }
-
+  
 }
 
 /* End of file wilayah.php */

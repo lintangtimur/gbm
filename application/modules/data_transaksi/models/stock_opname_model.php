@@ -20,6 +20,7 @@ class stock_opname_model extends CI_Model {
         return $key;
     }
 
+    
     public function data($key = '') {
         $this->db->select('a.*, b.NAMA_JNS_BHN_BKR, c.LEVEL4');
         $this->db->from($this->_table1.' a');
@@ -31,7 +32,18 @@ class stock_opname_model extends CI_Model {
 
         return $this->db;
     }
+    public function callProsedureStockOpname($ID_STOCKOPNAME, $SLOC, $ID_JNS_BHN_BKR, $TGL_PENGAKUAN, $LEVEL_USER, $STATUS, $USER){
+        $this->db->query("CALL PROSES_STOCK_OPNAME('$ID_STOCKOPNAME', '$SLOC', '$ID_JNS_BHN_BKR', '$TGL_PENGAKUAN', '$LEVEL_USER', '$STATUS', '$USER')");
 
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return FALSE;
+        } else {
+            $this->db->trans_commit();
+            return TRUE;
+        }
+
+    }
     public function save_as_new($data) {
         $this->db->trans_begin();
         $this->db->set_id($this->_table1, 'ID_STOCKOPNAME', 'no_prefix', 3);
@@ -87,12 +99,12 @@ class stock_opname_model extends CI_Model {
             $rows = array();
             foreach ($record->result() as $row) {
                 $id = $row->ID_STOCKOPNAME;
-                // $aksi = anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
-                // $aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
-                // $aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
+                $aksi = anchor(null, '<i class="icon-share"></i>', array('class' => 'btn transparant', 'id' => 'button-kirim-' . $id, 'onclick' => 'kirim_row(this.id)', 'data-source' => base_url($module . '/sendAction/' . $id)));
+                $aksi .= anchor(null, '<i class="icon-check"></i>', array('class' => 'btn transparant', 'id' => 'button-approve-' . $id, 'onclick' => 'approve_row(this.id)', 'data-source' => base_url($module . '/approveAction/' . $id)));
+                $aksi .= anchor(null, '<i class="icon-remove"></i>', array('class' => 'btn transparant', 'id' => 'button-tolak-' . $id, 'onclick' => 'tolak_row(this.id)', 'data-source' => base_url($module . '/tolakAction/' . $id)));
                 
-                $aksi = anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
-                $aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
+                // $aksi .= anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
+                // $aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
                 $rows[$id] = array(
                     'ID_STOCKOPNAME' => $no++,
                     'NO_STOCKOPNAME' => $row->NO_STOCKOPNAME,
@@ -100,7 +112,7 @@ class stock_opname_model extends CI_Model {
                     'NAMA_JNS_BHN_BKR' => $row->NAMA_JNS_BHN_BKR,
                     'LEVEL4' => $row->LEVEL4,
                     'VOLUME_STOCKOPNAME' => $row->VOLUME_STOCKOPNAME,
-                    'STATUS_APPROVE_STOCKOPNAME' => $row->STATUS_APPROVE_STOCKOPNAME ? 'Setuju':'Tidak Setuju',
+                    'STATUS_APPROVE_STOCKOPNAME' => $row->STATUS_APPROVE_STOCKOPNAME,
                     'aksi' => $aksi
                 );
             }    

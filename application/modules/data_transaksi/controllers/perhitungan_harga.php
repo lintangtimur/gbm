@@ -32,9 +32,8 @@ class perhitungan_harga extends MX_Controller {
     public function index() {
         // Load Modules
         $this->load->module("template/asset");
-        $this->asset->set_plugin(array('bootstrap-rakhmat'));
-        $this->asset->set_plugin(array('jquery'));
-        $this->asset->set_plugin(array('jui'));
+        $this->asset->set_plugin(array('bootstrap-custom'));
+        // $this->asset->set_plugin(array('jquery'));
         
 
         // Memanggil plugin JS Crud
