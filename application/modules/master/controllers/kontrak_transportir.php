@@ -17,6 +17,8 @@ class kontrak_transportir extends MX_Controller {
 
         // Protection
         hprotection::login();
+        $this->laccess->check();
+        $this->laccess->otoritas('view', true);
 
         /* Load Global Model */
         $this->load->model('kontrak_transportir_model');
@@ -29,12 +31,16 @@ class kontrak_transportir extends MX_Controller {
         // Memanggil plugin JS Crud
         $this->asset->set_plugin(array('crud'));
 
-        $data['button_group'] = array(
-            anchor(null, '<i class="icon-plus"></i> Tambah Data', array('class' => 'btn yellow', 'id' => 'button-add', 'onclick' => 'load_form(this.id)', 'data-source' => base_url($this->_module . '/add')))
-        );
+        if ($this->laccess->otoritas('add')) {
+            $data['button_group'] = array(
+                anchor(null, '<i class="icon-plus"></i> Tambah Data', array('class' => 'btn yellow', 'id' => 'button-add', 'onclick' => 'load_form(this.id)', 'data-source' => base_url($this->_module . '/add')))
+            );
+        }
+        
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $this->_title;
         $data['page_content'] = $this->_module . '/main';
         $data['data_sources'] = base_url($this->_module . '/load');
+        // $data['data_detaijl'] = base_url($this->_module . '/load_detail');
         echo Modules::run("template/admin", $data);
     }
 
@@ -43,10 +49,10 @@ class kontrak_transportir extends MX_Controller {
         $data['id'] = $id;
         if ($id != '') {
             $page_title = 'Edit Kontrak';
-            $tangki = $this->kontrak_transportir_model->data($id);
-            $data['default'] = $tangki->get()->row();
+            $trans = $this->kontrak_transportir_model->data($id);
+            $data['default'] = $trans->get()->row();
         }
-        $data['option_transportir'] = $this->kontrak_transportir_model->options();
+        $data['option_transportir'] = $this->kontrak_transportir_model->options('--Pilih Transportir--', array('master_transportir.ID_TRANSPORTIR' => NULL));
         $data['option_depo'] = $this->kontrak_transportir_model->optionsDepo();
         $data['option_pembangkit'] = $this->kontrak_transportir_model->optionsPembangkit();
         $data['option_jalur'] = $this->kontrak_transportir_model->optionsJalur();
@@ -76,6 +82,30 @@ class kontrak_transportir extends MX_Controller {
             "Harga", 1, 1,
             "Keterangan", 1, 1,
             "Aksi", 1, 1
+        );
+        $table->total = $data_table['total'];
+        $table->content = $data_table['rows'];
+        $data = $this->ltable->generate($table, 'js', true);
+        echo $data;
+    }
+
+     public function load_detail($page = 1) {
+        $data_table = $this->kontrak_transportir_model->data_table_detail($this->_module, $this->_limit, $page);
+        $this->load->library("ltable");
+        $table = new stdClass();
+        $table->id = 'ID_DET_KONTRAK_TRANS';
+        $table->style = "table table-striped table-bordered table-hover datatable dataTable";
+        $table->align = array('nomor' => 'center','depo' => 'center','pembangkit' => 'center','harga_kontrak' => 'center','Jarak' => 'center', 'transportasi' => 'center');
+        $table->page = $page;
+        $table->limit = $this->_limit;
+        $table->jumlah_kolom = 6;
+        $table->header[] = array(
+            "No ", 1, 1,
+            "Depo", 1, 1,
+            "Pembangkit", 1, 1,
+            "Harga Kontrak", 1, 1,
+            "Jarak", 1, 1,
+            "Transportasi", 1, 1
         );
         $table->total = $data_table['total'];
         $table->content = $data_table['rows'];

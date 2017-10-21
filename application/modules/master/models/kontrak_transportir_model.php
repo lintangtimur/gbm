@@ -25,6 +25,7 @@
 		public function data($key = '') {
 			$this->db->from($this->_table1 . ' a');
 			$this->db->join($this->_table2 . ' b', 'b.ID_TRANSPORTIR = a.ID_TRANSPORTIR');
+			// $this->db->join($this->_table5 . ' c', 'c.ID_KONTRAK_TRANSPORTIR = a.ID_KONTRAK_TRANSPORTIR');
 			
 			if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
@@ -114,7 +115,7 @@
 			foreach ($record->result() as $row) {
 				$id = $row->ID_KONTRAK_TRANS;
 				// if ($this->laccess->otoritas('edit')) {
-				$aksi = anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
+				$aksi = anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
 				// }
 				$aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
 				$rows[$id] = array(
@@ -130,6 +131,38 @@
 			return array('total' => $total, 'rows' => $rows);
 		}
 		
+
+		public function data_table_detail($module = '', $limit = 20, $offset = 1) {
+			$filter = array();
+			$kata_kunci = $this->input->post('kata_kunci');
+			
+			if (!empty($kata_kunci))
+            $filter[$this->_table1 . ".KD_KONTRAK_TRANS LIKE '%{$kata_kunci}%' "] = NULL;
+			$total = $this->data($filter)->count_all_results();
+			$this->db->limit($limit, ($offset * $limit) - $limit);
+			$record = $this->data($filter)->get();
+			$no=(($offset-1) * $limit) +1;
+			$rows = array();
+			// $aksi = '';
+			foreach ($record->result() as $row) {
+				$id = $row->ID_DET_KONTRAK_TRANS;
+				// if ($this->laccess->otoritas('edit')) {
+				// $aksi = anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
+				// }
+				// $aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
+				$rows[$id] = array(
+				'nomor' => $no,
+                'depo' => $row->ID_DEPO,
+                'pembangkit' => $row->SLOC,
+                'harga_kontrak' => $row->HARGA_KONTRAK_TRANS,
+                'Jarak' => $row->CD_DET_KONTRAK_TRANS,
+                'transportasi' => $row->TYPE_KONTRAK_TRANS,
+                // 'aksi' => $aksi
+				);
+			}
+			
+			return array('total' => $total, 'rows' => $rows);
+		}
 
 		public function dataoption($key = '') {
 			$this->db->from($this->_table2);
