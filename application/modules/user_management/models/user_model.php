@@ -32,7 +32,7 @@ class user_model extends CI_Model {
 						WHERE c.PLANT = a.KODE_LEVEL)
 		WHEN a.LEVEL_USER = '3' THEN (SELECT c.LEVEL3 FROM MASTER_LEVEL3 c 
 						WHERE c.PLANT = (SELECT SPLIT_STR(a.KODE_LEVEL, ';', 1))
-						AND c.STOR_SLOC = (SELECT SPLIT_STR(a.KODE_LEVEL, ';', 2)))
+						AND c.STORE_SLOC = (SELECT SPLIT_STR(a.KODE_LEVEL, ';', 2)))
 		WHEN a.LEVEL_USER = '4' THEN (SELECT c.LEVEL4 FROM MASTER_LEVEL4 c 
 						WHERE c.PLANT = a.KODE_LEVEL) END) as LOKER_NAMA ", false);
         $this->db->from($this->_table1 . ' a ');
