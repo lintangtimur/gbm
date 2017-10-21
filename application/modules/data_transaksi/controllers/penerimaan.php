@@ -12,13 +12,15 @@ if (!defined("BASEPATH"))
 /**
  * @module Master Wilayah
  */
-class penerimaan extends MX_Controller {
+class penerimaan extends MX_Controller
+{
 
     private $_title = 'Mutasi Penerimaan';
     private $_limit = 10;
     private $_module = 'data_transaksi/penerimaan';
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 
         // Protection
@@ -28,7 +30,8 @@ class penerimaan extends MX_Controller {
         $this->load->model('penerimaan_model', 'tbl_get');
     }
 
-    public function index() {
+    public function index()
+    {
         // Load Modules
         $this->load->module("template/asset");
 
@@ -44,13 +47,14 @@ class penerimaan extends MX_Controller {
         echo Modules::run("template/admin", $data);
     }
 
-    public function load($page = 1) {
+    public function load($page = 1)
+    {
         $data_table = $this->tbl_get->data_table($this->_module, $this->_limit, $page);
         $this->load->library("ltable");
         $table = new stdClass();
         $table->id = 'TABLE_PENERIMAAN';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('NO' => 'center','BLTH' => 'center', 'LEVEL4' => 'center','STATUS' => 'center', 'TOTAL_VOLUME' => 'center', 'COUNT' => 'center','AKSI'=>'center');
+        $table->align = array('NO' => 'center', 'BLTH' => 'center', 'LEVEL4' => 'center', 'STATUS' => 'center', 'TOTAL_VOLUME' => 'center', 'COUNT' => 'center', 'AKSI' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
         $table->jumlah_kolom = 7;
@@ -58,7 +62,7 @@ class penerimaan extends MX_Controller {
             "NO", 1, 1,
             "BLTH", 1, 1,
             "LEVEL4", 1, 1,
-            "STATUS",1,1,
+            "STATUS", 1, 1,
             "TOTAL_VOLUME", 1, 1,
             "COUNT", 1, 1,
             "AKSI", 1, 1
@@ -69,32 +73,60 @@ class penerimaan extends MX_Controller {
         echo $data;
     }
 
-    public function proses() {
-        if ($this->form_validation->run($this)) {
-            $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
-            $id = $this->input->post('id');
+    public function proses()
+    {
 
-            $data = array();
-            $data['ID_PERHITUNGAN'] = $this->input->post('ID_PERHITUNGAN');
-
-
-
-            if ($id == '') {
-                if ($this->tbl_get->save_as_new($data)) {
-                    $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
-                }
-            } else {
-                if ($this->tbl_get->save($data, $id)) {
-                    $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
-                }
-            }
-        } else {
-            $message = array(false, 'Proses gagal', validation_errors(), '');
-        }
-        echo json_encode($message, true);
     }
 
-    public function getDataDetail($tanggal){
+    public function getDataDetail($tanggal)
+    {
         echo json_encode($this->tbl_get->getTableViewDetail($tanggal));
+    }
+
+    /**
+     * Fungsi akan melakukan pengambilan di table bila checkbok dipilih
+     *
+     * procedure : PROSES_PENERIMAAN_V2
+     * @param $idPenerimaan format idPenerimaan1#idPenerimaan2#idPenerimaan3
+     * @param $status format status1#status2#status3
+     * @param $level_user dari session
+     * @param $kode_level dari session
+     * @param $user_name dari session
+     * @param $jumlah jumlah data yang di inputkan
+     */
+    public function saveKiriman($statusKirim)
+    {
+        $pilihan = $this->input->post('pilihan');
+        $idPenerimaan = $this->input->post('idPenerimaan');
+        $p = ""; //penampung pilihan
+        $s = ""; //penamping status
+        $level_user = $this->session->userdata('level_user');
+        $kode_level = $this->session->userdata('kode_level');
+        $user_name = $this->session->userdata('user_name');
+        for ($i = 0; $i < count($idPenerimaan); $i++) {
+            if (isset($pilihan[$i])) {
+                $p = $p . $pilihan[$i] . "#";
+                if ($statusKirim =='kirim') {
+                    $s = $s . "1" . "#";
+                } else if ($statusKirim == 'approve'){
+                    $s = $s . "2" . "#";
+                } else {
+                    $s = $s . "3" . "#";
+                }
+            }
+        }
+        $idPenerimaan = substr($p, 0, strlen($p) - 1);
+        $statusPenerimaan = substr($s, 0, strlen($s) - 1);
+        $jumlah = count($pilihan);
+//        echo "call PROSES_PENERIMAAN_V2('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$kode_level."','".$user_name."',".$jumlah.")";
+//        echo "<br/>";
+        $simpan = $this->tbl_get->saveDetailPenerimaan($idPenerimaan, $statusPenerimaan,$level_user,$kode_level,$user_name,$jumlah);
+
+        if ($simpan[0]->RCDB == "RC00"){
+            $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.');
+        } else{
+            $message = array(false, 'Proses Gagal', 'Proses penyimpanan data gagal.');
+        }
+        echo json_encode($message, true);
     }
 }

@@ -44,35 +44,42 @@
                 </div>
                 <div id="content_table" data-source="<?php echo $data_sources; ?>" data-filter="#ffilter"></div>
                 <div id="table_detail" hidden>
-                    <div class="well-content clearfix">
-                        <table class="pull-right">
-
-                            <tr>
-                                <td>
-                                    <button class="btn btn-primary" type="button">Kirim</button>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="content">
-                        <table class="table table-bordered table-striped" id="detailPenerimaan">
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>TGL PENGAKUAN</th>
-                                <th>NAMA PEMASOK</th>
-                                <th>NAMA TRANSPORTIR</th>
-                                <th>NAMA JNS BHN BKR</th>
-                                <th>VOL TERIMA</th>
-                                <th>VOL TERIMA REAL</th>
-                                <th>STATUS</th>
-                                <th>AKSI</th>
-                                <th>CHECK</th>
-                            </tr>
-                            </thead>
-                            <tbody ></tbody>
-                        </table>
-                    </div>
+                    <form method="POST" id="formKirimDetail">
+                        <div class="well-content clearfix">
+                            <table class="pull-right">
+                                <tr>
+                                    <td>
+                                        <button class="btn btn-primary" type="button" onclick="saveDetailKirim(this)">Kirim</button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary" type="button" onclick="saveDetailApprove(this)">Approve</button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary" type="button" onclick="saveDetailTolak(this)">Tolak</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="content">
+                            <table class="table table-bordered table-striped" id="detailPenerimaan">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>TGL PENGAKUAN</th>
+                                    <th>NAMA PEMASOK</th>
+                                    <th>NAMA TRANSPORTIR</th>
+                                    <th>NAMA JNS BHN BKR</th>
+                                    <th>VOL TERIMA</th>
+                                    <th>VOL TERIMA REAL</th>
+                                    <th>STATUS</th>
+                                    <th>AKSI</th>
+                                    <th>CHECK</th>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div id="form-content" class="well-content"></div>
@@ -80,27 +87,29 @@
     </div>
 </div>
 <script type="text/javascript">
-    $('#detailPenerimaan').dataTable;
-
     function show_detail(tanggal) {
         if (!$('#table_detail').is(":visible")) {
-            $.get("<?php echo base_url()?>data_transaksi/penerimaan/getDataDetail/"+tanggal, function (data) {
+            $.get("<?php echo base_url()?>data_transaksi/penerimaan/getDataDetail/" + tanggal, function (data) {
                 var data_detail = (JSON.parse(data));
-                console.log(data_detail);
                 for (i = 0; i < data_detail.length; i++) {
-                    console.log(data_detail.length);
-                    $('#detailPenerimaan tbody').append('<tr>' +
-                        '<td align="center">'+data_detail[i].ID_PENERIMAAN+'</td>' +
-                        '<td align="center">'+data_detail[i].TGL_PENGAKUAN+'</td>' +
-                        '<td align="center">'+data_detail[i].NAMA_PEMASOK+'</td>' +
-                        '<td align="center">'+data_detail[i].NAMA_TRANSPORTIR+'</td>' +
-                        '<td align="center">'+data_detail[i].NAMA_JNS_BHN_BKR+'</td>' +
-                        '<td align="center">'+data_detail[i].VOL_TERIMA+'</td>' +
-                        '<td align="center">'+data_detail[i].VOL_TERIMA_REAL+'</td>' +
-                        '<td align="center">'+data_detail[i].STATUS+'</td>' +
-                        '<td align="center">AKSI</td>' +
-                        '<td align="center">CHECK</td>' +
-                        '</tr>')
+                    $('#detailPenerimaan tbody').append(
+                        '<tr>' +
+                        '<td align="center">' + data_detail[i].ID_PENERIMAAN + '</td>' +
+                        '<td align="center">' + data_detail[i].TGL_PENGAKUAN + '</td>' +
+                        '<td align="center">' + data_detail[i].NAMA_PEMASOK + '</td>' +
+                        '<td align="center">' + data_detail[i].NAMA_TRANSPORTIR + '</td>' +
+                        '<td align="center">' + data_detail[i].NAMA_JNS_BHN_BKR + '</td>' +
+                        '<td align="center">' + data_detail[i].VOL_TERIMA + '</td>' +
+                        '<td align="center">' + data_detail[i].VOL_TERIMA_REAL + '</td>' +
+                        '<td align="center">' + data_detail[i].STATUS + '</td>' +
+                        '<td align="center"><i class="icon-edit"></i></td>' +
+                        '<td align="center">' +
+                        '<input type="checkbox" name="pilihan[' + i + ']" id="pilihan" value="'+data_detail[i].ID_PENERIMAAN+'">' +
+                        '<input type="hidden" id="idPenerimaan" name="idPenerimaan[' + i + ']" value="' + data_detail[i].ID_PENERIMAAN + '">' +
+                        '<input type="hidden" id="status" name="status[' + i + ']" value="' + data_detail[i].STATUS + '">' +
+                        '</td>' +
+                        '</tr>'
+                    );
                 }
             });
             $('#table_detail').show();
@@ -108,6 +117,61 @@
             $('#detailPenerimaan tbody tr').detach();
             $('#table_detail').hide();
         }
+    }
+
+//    function check() {
+//        var arr = $('#formKirimDetail').serializeArray(),
+//            names = (function(){
+//                var n = [],
+//                    l = arr.length - 1;
+//                for(; l>=0; l--){
+//                    n.push(arr[l].name);
+//                }
+//                return n;
+//            })();
+//        var data = {}
+//        var checked = $('#pilihan:checked').map(function(_, el) {
+//            return $(el).val();
+//        }).get();
+//        console.log(checked);
+//    }
+
+    function saveDetailKirim(obj) {
+        var url = "<?php echo base_url() ?>data_transaksi/penerimaan/saveKiriman/kirim";
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: $('#formKirimDetail').serializeArray(),
+            success: function (data) {
+                console.log(data)
+            }
+        });
+
+    }
+
+    function saveDetailApprove(obj) {
+        var url = "<?php echo base_url() ?>data_transaksi/penerimaan/saveKiriman/approve";
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: $('#formKirimDetail').serializeArray(),
+            success: function (data) {
+                console.log(data)
+            }
+        });
+
+    }
+    function saveDetailTolak(obj) {
+        var url = "<?php echo base_url() ?>data_transaksi/penerimaan/saveKiriman/tolak";
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: $('#formKirimDetail').serializeArray(),
+            success: function (data) {
+                console.log(data)
+            }
+        });
+
     }
 
     jQuery(function ($) {
