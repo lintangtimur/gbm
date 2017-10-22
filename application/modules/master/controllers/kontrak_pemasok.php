@@ -17,6 +17,8 @@ class kontrak_pemasok extends MX_Controller {
 
         // Protection
         hprotection::login();
+        $this->laccess->check();
+        $this->laccess->otoritas('view', true);
 
         /* Load Global Model */
         $this->load->model('kontrak_pemasok_model','tbl_get');
@@ -31,9 +33,13 @@ class kontrak_pemasok extends MX_Controller {
         // Memanggil plugin JS Crud
         $this->asset->set_plugin(array('crud','format_number'));
 
-        $data['button_group'] = array(
-            anchor(null, '<i class="icon-plus"></i> Tambah Data', array('class' => 'btn yellow', 'id' => 'button-add', 'onclick' => 'load_form(this.id)', 'data-source' => base_url($this->_module . '/add')))
-        );
+        $data['button_group'] = array();
+        if ($this->laccess->otoritas('add')) {
+            $data['button_group'] = array(
+                anchor(null, '<i class="icon-plus"></i> Tambah Data', array('class' => 'btn yellow', 'id' => 'button-add', 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($this->_module . '/add')))
+            );
+        }
+
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $this->_title;
         $data['page_content'] = $this->_module . '/main';
         $data['data_sources'] = base_url($this->_module . '/load');
@@ -50,10 +56,18 @@ class kontrak_pemasok extends MX_Controller {
 
         $page_title = 'Tambah '.$this->_title.' (Adendum)';
 
-        $data['button_group'] = array(
-            anchor(null, '<i class="icon-plus"></i> Tambah Data', array('class' => 'btn yellow', 'id' => 'button-ad2', 'onclick' => 'load_form(this.id)', 'data-source' => base_url($this->_module . '/add_adendum/'.$id))),
-            anchor(null, '<i class="icon-circle-arrow-left"></i> Tutup', array('id' => 'button-back2', 'class' => 'btn', 'onclick' => 'close_form(this.id)'))
-        );
+
+        $data['button_group'] = array();
+        if ($this->laccess->otoritas('edit')) {
+            $data['button_group'] = array(
+                anchor(null, '<i class="icon-plus"></i> Tambah Data', array('class' => 'btn yellow', 'id' => 'button-ad2', 'onclick' => 'load_form(this.id)', 'data-source' => base_url($this->_module . '/add_adendum/'.$id))),
+                anchor(null, '<i class="icon-circle-arrow-left"></i> Tutup', array('id' => 'button-back2', 'class' => 'btn', 'onclick' => 'close_form(this.id)'))
+            );
+        } else {
+            $data['button_group'] = array(
+                anchor(null, '<i class="icon-circle-arrow-left"></i> Tutup', array('id' => 'button-back2', 'class' => 'btn', 'onclick' => 'close_form(this.id)'))
+            );            
+        }
 
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $this->_title.' (Adendum)';
         $data['page_content'] = $this->_module . '/main';

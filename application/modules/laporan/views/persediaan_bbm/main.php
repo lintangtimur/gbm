@@ -84,9 +84,11 @@
     jQuery(function($) {
 
         load_table('#content_table', 1);
+        load_table('#content_table2', 1);
 
         $('#button-filter').click(function() {
             load_table('#content_table', 1);
+            load_table('#content_table2', 1);
         });
 
     });
@@ -95,11 +97,11 @@
 <script type="text/javascript">
     jQuery(function($) {
 
-        if ($('select[name="ID_REGIONAL"]').val()!=''){$('select[name="ID_REGIONAL"').attr('disabled',true);}
-        if ($('select[name="COCODE"]').val()!=''){$('select[name="COCODE"').attr('disabled',true);}
-        if ($('select[name="PLANT"]').val()!=''){$('select[name="PLANT"').attr('disabled',true);}
-        if ($('select[name="STORE_SLOC"]').val()!=''){$('select[name="STORE_SLOC"').attr('disabled',true);}
-        if ($('select[name="SLOC"]').val()!=''){$('select[name="SLOC"').attr('disabled',true);}
+        // if ($('select[name="ID_REGIONAL"]').val()!=''){$('select[name="ID_REGIONAL"').attr('disabled',true);}
+        // if ($('select[name="COCODE"]').val()!=''){$('select[name="COCODE"').attr('disabled',true);}
+        // if ($('select[name="PLANT"]').val()!=''){$('select[name="PLANT"').attr('disabled',true);}
+        // if ($('select[name="STORE_SLOC"]').val()!=''){$('select[name="STORE_SLOC"').attr('disabled',true);}
+        // if ($('select[name="SLOC"]').val()!=''){$('select[name="SLOC"').attr('disabled',true);}
 
         function setDefaultLv1(){
             $('select[name="PLANT"]').empty();
