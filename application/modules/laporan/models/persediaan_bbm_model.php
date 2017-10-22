@@ -244,7 +244,7 @@ class persediaan_bbm_model extends CI_Model {
         return $option;
     }
 
-public function options_tahun() {
+    public function options_tahun() {
         $year = date("Y"); 
 
         $option = array();
