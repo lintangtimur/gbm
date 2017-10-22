@@ -58,7 +58,6 @@ class user_model extends CI_Model {
         // }
 		$user = $this->session->userdata("user_name")."-".$this->session->userdata("kode_level");
 		$query = "call save_user('". $roleid ."','". $kduser ."','". $nama ."','". $username ."','". $pwd ."','". $email ."','". $level ."','". $kodelevel ."','". $isaktif ."','". $user ."', '".$id."')";
-		
 		$data = $this->db->query($query);
 		
 		return $data;

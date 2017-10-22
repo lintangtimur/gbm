@@ -19,7 +19,6 @@
     <div class="row-fluid">
         <div class="span12">
             <div id="index-content" class="well-content no-search">
-
                 <div class="well">
                     <div class="content_table">
                         <?php echo hgenerator::render_button_group($button_group); ?>
@@ -49,18 +48,19 @@
                             <table class="pull-right">
                                 <tr>
                                     <td>
-										<?php if ($this->session->userdata('level_user') > "2" || $this->session->userdata('level_user') === "0") {?>
-											<button class="btn btn-primary" type="button" onclick="saveDetailKirim(this)">Kirim</button>
+										<?php if ($this->session->userdata('level_user') === "0" || $this->session->userdata('level_user') > "2"){
+											if ($this->laccess->otoritas('add') == true){?>
+												<button class="btn btn-primary" type="button" onclick="saveDetailKirim(this)">Kirim</button>
+										<?php }}?>
+                                    </td>
+                                    <td>
+										<?php if ($this->laccess->otoritas('approve') == true && $this->session->userdata('level_user') <= "2") {?>
+												<button class="btn btn-primary" type="button" onclick="saveDetailApprove(this)">Approve</button>
 										<?php }?>
                                     </td>
                                     <td>
-										<?php if ($this->session->userdata('level_user') === "2" || $this->session->userdata('level_user') === "0") {?>
-                                        <button class="btn btn-primary" type="button" onclick="saveDetailApprove(this)">Approve</button>
-										<?php }?>
-                                    </td>
-                                    <td>
-										<?php if ($this->session->userdata('level_user') === "2" || $this->session->userdata('level_user') === "0") {?>
-                                        <button class="btn btn-primary" type="button" onclick="saveDetailTolak(this)">Tolak</button>
+										<?php if ($this->laccess->otoritas('approve') == true && $this->session->userdata('level_user') <= "2") {?>
+												<button class="btn btn-primary" type="button" onclick="saveDetailTolak(this)">Tolak</button>
 										<?php }?>
                                     </td>
                                 </tr>

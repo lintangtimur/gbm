@@ -49,19 +49,20 @@
                             <table class="pull-right">
                                 <tr>
                                     <td>
-                                        <?php if ($this->session->userdata('level_user') > "2" || $this->session->userdata('level_user') === "0") {?>
-                                            <button class="btn btn-primary" type="button" onclick="saveDetailKirim(this)">Kirim</button>
-                                        <?php }?>
+										<?php if ($this->session->userdata('level_user') === "0" || $this->session->userdata('level_user') > "2"){
+											if ($this->laccess->otoritas('add') == true){?>
+												<button class="btn btn-primary" type="button" onclick="saveDetailKirim(this)">Kirim</button>
+										<?php }}?>
                                     </td>
                                     <td>
-                                        <?php if ($this->session->userdata('level_user') === "2" || $this->session->userdata('level_user') === "0") {?>
-                                            <button class="btn btn-primary" type="button" onclick="saveDetailApprove(this)">Approve</button>
-                                        <?php }?>
+										<?php if ($this->laccess->otoritas('approve') == true && $this->session->userdata('level_user') <= "2") {?>
+												<button class="btn btn-primary" type="button" onclick="saveDetailApprove(this)">Approve</button>
+										<?php }?>
                                     </td>
                                     <td>
-                                        <?php if ($this->session->userdata('level_user') === "2" || $this->session->userdata('level_user') === "0") {?>
-                                            <button class="btn btn-primary" type="button" onclick="saveDetailTolak(this)">Tolak</button>
-                                        <?php }?>
+										<?php if ($this->laccess->otoritas('approve') == true && $this->session->userdata('level_user') <= "2") {?>
+												<button class="btn btn-primary" type="button" onclick="saveDetailTolak(this)">Tolak</button>
+										<?php }?>
                                     </td>
                                 </tr>
                             </table>

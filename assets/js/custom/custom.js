@@ -1,5 +1,5 @@
 
-function load_level(url, id){
+function load_level(url, idllevel, idcbo, idlabel){
 	bootbox.modal('<div class="loading-progress"></div>');
     $.ajax({
 		url: url,
@@ -7,11 +7,27 @@ function load_level(url, id){
 		dataType: "json"
 	}).done(function(result) {
 		$(".bootbox").modal("hide");
-		// $("."+id).append(result);
-		// $('.'+id).chosen().trigger("chosen:updated");
-		$(".select2").html("");
+		$(idcbo).html("");
+		$(idlabel).show();
+		if (idllevel == "1")
+			$("#level1").show();
+		else if(idllevel == "2"){
+			$("#level1").show();
+			$("#level2").show();
+		}
+		else if(idlevel == "3"){
+			$("#level1").show();
+			$("#level2").show();
+			$("#level3").show();
+		}else if (idlevel == "4"){
+			$("#level1").show();
+			$("#level2").show();
+			$("#level3").show();
+			$("#level4").show();
+		}
+			
 		for (var i=0; i <= result.length - 1; i++){
-			$(".select2").append("<option value='"+result[i].kode+"'>" + result[i].nama + "</option>");
+			$(idcbo).append("<option value='"+result[i].kode+"'>" + result[i].nama + "</option>");
 		}
 	});
 }
