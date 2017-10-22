@@ -36,47 +36,47 @@
                              
                         ?>
                
-                <div class="col-md-12">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <h6>Hsd</h6>
-                            </div>
-                            <div class="panel-body">
-                            <div id="containerHsd" class="col-md-12"></div>
-                            </div>
-                    </div>
-                </div>
-                    <div class="col-md-12">
-                     <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <h6>Mfo</h6>
-                        </div>
-                           <div class="panel-body">
-                           <div id="containerMfo" ></div>
-                            </div>
-                        </div>
-                </div>
-                 <div class="col-md-12">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <h6>Kurs</h6>
-                        </div>
-                             <div class="panel-body">
-                                 <div id="containerKurs" ></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <h6>Mops</h6>
-                             </div>
-                            <div class="panel-body">
-                                <div id="containerMops" ></div>
-                            </div>
-                        </div>
-                    </div>
-				<div class="col-md-12">
+						<div class="col-md-12">
+							<div class="panel panel-primary">
+								<div class="panel-heading">
+									<h6>Hsd</h6>
+									</div>
+									<div class="panel-body">
+									<div id="containerHsd"></div>
+									</div>
+							</div>
+						</div>
+						<div class="col-md-12">
+							 <div class="panel panel-primary">
+								<div class="panel-heading">
+									<h6>Mfo</h6>
+								</div>
+								   <div class="panel-body">
+								   <div id="containerMfo"></div>
+									</div>
+								</div>
+						</div>
+						<div class="col-md-12">
+							<div class="panel panel-primary">
+								<div class="panel-heading">
+									<h6>Kurs</h6>
+								</div>
+									 <div class="panel-body">
+										 <div id="containerKurs" ></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="panel panel-primary">
+								<div class="panel-heading">
+									<h6>Mops</h6>
+									 </div>
+									<div class="panel-body">
+										<div id="containerMops" ></div>
+									</div>
+								</div>
+						</div>
+						<div class="col-md-12">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
 						<h6>All</h6>
@@ -88,28 +88,25 @@
                 </div>
                
                
-                        </div>
-                    </div> 
-                    <div id="content_table" data-source="<?php echo $data_sources; ?>" data-filter="#ffilter">
-                        
-
-                        </div>
-
-                    <div>&nbsp;</div>
-                </div>
-                <div id="form-content" class="modal fade modal-xlarge">
+                    </div>
+                 </div> 
+                 <div id="content_table" data-source="<?php echo $data_sources; ?>" data-filter="#ffilter">
+				 </div>
+                 <div>&nbsp;</div>
+            </div>
+            <div id="form-content" class="modal fade modal-xlarge">
            
-                </div>
             </div>
         </div>
     </div>
+    
 </div>
 
 <script type="text/javascript">
      jQuery(function($) {
      $('#containerHsd').highcharts({
         title: {
-            text: 'Trend rata-rata Bulanan Tahun'
+            text: 'Trend rata-rata Bulanan'
         },
         xAxis: [{
             categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
