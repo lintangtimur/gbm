@@ -95,33 +95,59 @@
 <script type="text/javascript">
     jQuery(function($) {
 
-        if ($('select[name="ID_REGIONAL"]').val()!=''){$('select[name="ID_REGIONAL"').attr('disabled',true);}
-        if ($('select[name="COCODE"]').val()!=''){$('select[name="COCODE"').attr('disabled',true);}
-        if ($('select[name="PLANT"]').val()!=''){$('select[name="PLANT"').attr('disabled',true);}
-        if ($('select[name="STORE_SLOC"]').val()!=''){$('select[name="STORE_SLOC"').attr('disabled',true);}
-        if ($('select[name="SLOC"]').val()!=''){$('select[name="SLOC"').attr('disabled',true);}
+        // if ($('select[name="ID_REGIONAL"]').val()!=''){$('select[name="ID_REGIONAL"').attr('disabled',true);}
+        // if ($('select[name="COCODE"]').val()!=''){$('select[name="COCODE"').attr('disabled',true);}
+        // if ($('select[name="PLANT"]').val()!=''){$('select[name="PLANT"').attr('disabled',true);}
+        // if ($('select[name="STORE_SLOC"]').val()!=''){$('select[name="STORE_SLOC"').attr('disabled',true);}
+        // if ($('select[name="SLOC"]').val()!=''){$('select[name="SLOC"').attr('disabled',true);}
 
         function setDefaultLv1(){
+            $('select[name="COCODE"]').empty();
+            $('select[name="COCODE"]').append('<option value="">--Pilih Level 1--</option>');
+        }
+
+        function setDefaultLv2(){
             $('select[name="PLANT"]').empty();
             $('select[name="PLANT"]').append('<option value="">--Pilih Level 2--</option>');
         }
 
-        function setDefaultLv2(){
+        function setDefaultLv3(){
             $('select[name="STORE_SLOC"]').empty();
             $('select[name="STORE_SLOC"]').append('<option value="">--Pilih Level 3--</option>');
         }
 
-        function setDefaultLv3(){
+        function setDefaultLv4(){
             $('select[name="SLOC"]').empty();
             $('select[name="SLOC"]').append('<option value="">--Pilih Level 4--</option>');
         }
 
-        $('select[name="COCODE"]').on('change', function() {
+        $('select[name="ID_REGIONAL"]').on('change', function() {
             var stateID = $(this).val();
-            var vlink_url = '<?php echo base_url()?>laporan/persediaan_bbm/get_options_lv2/'+stateID;
+            var vlink_url = '<?php echo base_url()?>master/master_level4/get_options_lv1/'+stateID;
             setDefaultLv1();
             setDefaultLv2();
             setDefaultLv3();
+            setDefaultLv4();
+            if(stateID) {
+                $.ajax({
+                    url: vlink_url,
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {
+                        $.each(data, function(key, value) {
+                            $('select[name="COCODE"]').append('<option value="'+ value.COCODE +'">'+ value.LEVEL1 +'</option>');
+                        });
+                    }
+                });
+            }
+        });
+
+        $('select[name="COCODE"]').on('change', function() {
+            var stateID = $(this).val();
+            var vlink_url = '<?php echo base_url()?>master/master_level4/get_options_lv2/'+stateID;
+            setDefaultLv2();
+            setDefaultLv3();
+            setDefaultLv4();
             if(stateID) {
                 $.ajax({
                     url: vlink_url,
@@ -138,9 +164,9 @@
 
         $('select[name="PLANT"]').on('change', function() {
             var stateID = $(this).val();
-            var vlink_url = '<?php echo base_url()?>laporan/persediaan_bbm/get_options_lv3/'+stateID;
-            setDefaultLv2();
+            var vlink_url = '<?php echo base_url()?>master/master_level4/get_options_lv3/'+stateID;
             setDefaultLv3();
+            setDefaultLv4();
             if(stateID) {
                 $.ajax({
                     url: vlink_url,
@@ -158,7 +184,7 @@
         $('select[name="STORE_SLOC"]').on('change', function() {
             var stateID = $(this).val();
             var vlink_url = '<?php echo base_url()?>laporan/persediaan_bbm/get_options_lv4/'+stateID;
-            setDefaultLv3();
+            setDefaultLv4();
             if(stateID) {
                 $.ajax({
                     url: vlink_url,

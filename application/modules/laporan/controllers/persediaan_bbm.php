@@ -103,14 +103,15 @@ class persediaan_bbm extends MX_Controller {
 
         $this->load->library("ltable");
         $table = new stdClass();
-        $table->id = 'ID_MUTASI_PERSDIAAN';
+        $table->id = 'NAMA_REGIONAL';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('NO' => 'center', 'LEVEL1' => 'left', 'COCODE' => 'center', 'NAMA_REGIONAL' => 'left', 'aksi' => 'center');
+        $table->align = array('NO' => 'center', 'NAMA_REGIONAL' => 'left', 'LEVEL1' => 'left', 'COCODE' => 'center', 'NAMA_REGIONAL' => 'left', 'aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
-        $table->jumlah_kolom = 18;
-        $table->header[] = array(
+        $table->jumlah_kolom = 19;
+        $table->header[] = array( 
             "No", 1, 1,
+            "Regional", 1, 1,
             "Wilayah", 1, 1,
             "Area", 1, 1,
             "Rayon", 1, 1,
@@ -120,14 +121,14 @@ class persediaan_bbm extends MX_Controller {
             "Stock Awal", 1, 1,
             "Penerimaan Real", 1, 1,
             "Pemakaian Sendiri", 1, 1,
-            "KIRIM", 1, 1,
-            "VOLUME OPNAME", 1, 1,
-            "DEAD STOCK", 1, 1,
-            "STOCK AKHIR REAL", 1, 1,
-            "STOCK AKHIR EFEKTIF", 1, 1,
-            "STOCK AKHIR KOREKSI", 1, 1,
+            "Kirim", 1, 1,
+            "Volume Opname", 1, 1,
+            "Dead Stock", 1, 1,
+            "Stock Akhir Real", 1, 1,
+            "Stock Akhir Efektif", 1, 1,
+            "Stock Akhir Koreksi", 1, 1,
             "SHO", 1, 1,
-            "REV", 1, 1,
+            "REV", 1, 1
         );
         $table->total = $data_table['total'];
         $table->content = $data_table['rows'];
