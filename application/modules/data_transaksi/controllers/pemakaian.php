@@ -72,6 +72,7 @@ class pemakaian extends MX_Controller
         $this->load->library("ltable");
         $table = new stdClass();
         $table->id = 'TABLE_PENERIMAAN';
+		$table->drildown = true;
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
         $table->align = array('NO' => 'center', 'BLTH' => 'center', 'LEVEL4' => 'center', 'STATUS' => 'center', 'TOTAL_VOLUME' => 'center', 'COUNT' => 'center', 'AKSI' => 'center');
         $table->page = $page;

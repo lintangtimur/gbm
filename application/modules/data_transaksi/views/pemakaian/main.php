@@ -49,13 +49,19 @@
                             <table class="pull-right">
                                 <tr>
                                     <td>
-                                        <button class="btn btn-primary" type="button" onclick="saveDetailKirim(this)">Kirim</button>
+										<?php if ($this->session->userdata('level_user') > "2" || $this->session->userdata('level_user') === "0") {?>
+											<button class="btn btn-primary" type="button" onclick="saveDetailKirim(this)">Kirim</button>
+										<?php }?>
                                     </td>
                                     <td>
+										<?php if ($this->session->userdata('level_user') === "2" || $this->session->userdata('level_user') === "0") {?>
                                         <button class="btn btn-primary" type="button" onclick="saveDetailApprove(this)">Approve</button>
+										<?php }?>
                                     </td>
                                     <td>
+										<?php if ($this->session->userdata('level_user') === "2" || $this->session->userdata('level_user') === "0") {?>
                                         <button class="btn btn-primary" type="button" onclick="saveDetailTolak(this)">Tolak</button>
+										<?php }?>
                                     </td>
                                 </tr>
                             </table>
@@ -66,11 +72,8 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>TGL PENGAKUAN</th>
-                                    <th>NAMA PEMASOK</th>
-                                    <th>NAMA TRANSPORTIR</th>
                                     <th>NAMA JNS BHN BKR</th>
-                                    <th>VOL TERIMA</th>
-                                    <th>VOL TERIMA REAL</th>
+                                    <th>VOL PEMAKAIAN</th>
                                     <th>STATUS</th>
                                     <th>AKSI</th>
                                     <th>CHECK</th>
@@ -89,27 +92,29 @@
 <script type="text/javascript">
     function show_detail(tanggal) {
         if (!$('#table_detail').is(":visible")) {
-            $.get("<?php echo base_url()?>data_transaksi/penerimaan/getDataDetail/" + tanggal, function (data) {
+            $.get("<?php echo base_url()?>data_transaksi/pemakaian/getDataDetail/" + tanggal, function (data) {
                 var data_detail = (JSON.parse(data));
+				var cekbox = '';
                 for (i = 0; i < data_detail.length; i++) {
+					console.log(data_detail[i].KODE_STATUS);
+					if (data_detail[i].KODE_STATUS !== "2")
+						cekbox = '<input type="checkbox" name="pilihan[' + i + ']" id="pilihan" value="'+data_detail[i].ID_PEMAKAIAN+'">';
                     $('#detailPenerimaan tbody').append(
                         '<tr>' +
-                        '<td align="center">' + data_detail[i].ID_PENERIMAAN + '</td>' +
+                        '<td align="center">' + data_detail[i].ID_PEMAKAIAN + '</td>' +
                         '<td align="center">' + data_detail[i].TGL_PENGAKUAN + '</td>' +
-                        '<td align="center">' + data_detail[i].NAMA_PEMASOK + '</td>' +
-                        '<td align="center">' + data_detail[i].NAMA_TRANSPORTIR + '</td>' +
                         '<td align="center">' + data_detail[i].NAMA_JNS_BHN_BKR + '</td>' +
-                        '<td align="center">' + data_detail[i].VOL_TERIMA + '</td>' +
-                        '<td align="center">' + data_detail[i].VOL_TERIMA_REAL + '</td>' +
-                        '<td align="center">' + data_detail[i].STATUS + '</td>' +
+                        '<td align="center">' + data_detail[i].VOLUME_PEMAKAIAN + '</td>' +
+                        '<td align="center">' + data_detail[i].STATUS_PEMAKAIAN + '</td>' +
                         '<td align="center"><i class="icon-edit"></i></td>' +
                         '<td align="center">' +
-                        '<input type="checkbox" name="pilihan[' + i + ']" id="pilihan" value="'+data_detail[i].ID_PENERIMAAN+'">' +
-                        '<input type="hidden" id="idPenerimaan" name="idPenerimaan[' + i + ']" value="' + data_detail[i].ID_PENERIMAAN + '">' +
-                        '<input type="hidden" id="status" name="status[' + i + ']" value="' + data_detail[i].STATUS + '">' +
+                        cekbox +
+						'<input type="hidden" id="idPenerimaan" name="idPenerimaan[' + i + ']" value="' + data_detail[i].ID_PEMAKAIAN + '">' +
+                        '<input type="hidden" id="status" name="status[' + i + ']" value="' + data_detail[i].STATUS_PEMAKAIAN + '">' +
                         '</td>' +
                         '</tr>'
                     );
+					cekbox = '';
                 }
             });
             $('#table_detail').show();
