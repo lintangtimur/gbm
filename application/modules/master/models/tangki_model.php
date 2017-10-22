@@ -26,6 +26,8 @@
 			$this->db->from($this->_table1 . ' a');
 			$this->db->join($this->_table2 . ' b', 'b.SLOC = a.SLOC');
 			$this->db->join($this->_table3 . ' c', 'c.ID_JNS_BHN_BKR = a.ID_JNS_BHN_BKR');
+			// $this->db->join($this->_table5 . ' d', 'd.ID_TANGKI = a.ID_TANGKI');
+
 			
 			if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
@@ -33,7 +35,7 @@
 			return $this->db;
 		}
 		
-		public function save_as_new($data) {
+		public function save_as_new($data, $nama_file) {
 			$this->db->trans_begin();
 			$id = $this->db->set_id($this->_table1, 'ID_TANGKI', 'no_prefix', 4);
 			$this->db->insert($this->_table1, $data);
@@ -42,22 +44,22 @@
 				$this->db->trans_rollback();
 				return FALSE;
 				} else {
+				$this->save_as_new2($id, $nama_file);
 				$this->db->trans_commit();
-				$this->save_as_new2($id);
 				return TRUE;
 			}
 		}
 
 
-		public function save_as_new2($id) {
+		public function save_as_new2($id, $nama_file) {
 			$tera['ID_TANGKI'] = $id;
 			$tera['TGL_DET_TERA'] = $this->input->post('TGL_TERA');
-            $tera['CD_DET_TERA'] = date("Y/m/d");
-            $tera['UD_DET_TERA'] = date("Y/m/d");
+            $tera['CD_DET_TERA'] = date("Y-m-d");
+            $tera['UD_DET_TERA'] = date("Y-m-d");
             $tera['CD_BY_DET_TERA'] = $this->session->userdata('user_name');
             $tera['ID_TERA'] = $this->input->post('TERA');
             $tera['ISAKTIF_DET_TERA'] = $this->input->post('STATUS');
-            $tera['PATH_DET_TERA'] = $this->input->post('FILE_UPLOAD');
+            $tera['PATH_DET_TERA'] = $nama_file;
 
 			$this->db->trans_begin();
 			$this->db->set_id($this->_table5, 'ID_DET_TERA', 'no_prefix', 5);
@@ -134,6 +136,47 @@
 			return array('total' => $total, 'rows' => $rows);
 		}
 		
+		public function data_table_detail($module = '', $limit = 20, $offset = 1) {
+			$filter = array();
+			$kata_kunci = $this->input->post('kata_kunci');
+			
+			if (!empty($kata_kunci))
+            $filter["b.LEVEL4 LIKE '%{$kata_kunci}%' OR c.NAMA_JNS_BHN_BKR LIKE '%{$kata_kunci}%' OR a.VOLUME_TANGKI LIKE '%{$kata_kunci}%' OR a.DEADSTOCK_TANGKI LIKE '%{$kata_kunci}%' OR a.STOCKEFEKTIF_TANGKI LIKE '%{$kata_kunci}%' "] = NULL;
+			$total = $this->data($filter)->count_all_results();
+			$this->db->limit($limit, ($offset * $limit) - $limit);
+			$record = $this->get_detail($filter)->get();
+			$no=(($offset-1) * $limit) +1;
+			$rows = array();
+			$aksi = '';
+			foreach ($record->result() as $row) {
+				$id = $row->ID_TANGKI;
+				// if ($this->laccess->otoritas('edit')) {
+				$aksi = anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
+				// }
+				$aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
+				$rows[$id] = array(
+                'number' => $no++,
+                'unit_pembangkit' => $row->LEVEL4,
+                'jenis_bbm' => $row->NAMA_JNS_BHN_BKR,
+                'kapasitas' => $row->VOLUME_TANGKI,
+                'deadstock' => $row->DEADSTOCK_TANGKI,
+                'stockefektif' => $row->STOCKEFEKTIF_TANGKI,
+                'aksi' => $aksi
+				);
+			}
+			
+			return array('total' => $total, 'rows' => $rows);
+		}
+
+		function get_detail($key = '') {
+			$this->db->from($this->_table5);
+			
+			if (!empty($key) || is_array($key))
+            $this->db->where_condition($this->_key($key));
+			
+			return $this->db;
+		}
+
 		public function data_option($key = '') {
 			$this->db->from($this->_table2);
 			

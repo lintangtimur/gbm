@@ -96,9 +96,14 @@ class tangki extends MX_Controller {
         $this->form_validation->set_rules('KAPASITAS', 'Kapasitas', 'trim|required|numeric');
         $this->form_validation->set_rules('DEAD_STOCK', 'Dead Stok', 'trim|required|numeric');
         $this->form_validation->set_rules('STOCK_EFEKTIF', 'Stock Efektif', 'trim|required|numeric');
+        $id = $this->input->post('id');
+         if ($id == '') {
+            if (empty($_FILES['FILE_UPLOAD']['name'])){
+                $this->form_validation->set_rules('FILE_UPLOAD', 'Upload Dokumen', 'required');
+            }
+        }
         if ($this->form_validation->run($this)) {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
-            $id = $this->input->post('id');
 
             $data = array();
             $data['SLOC'] = $this->input->post('unit_pembangkit');
@@ -113,11 +118,31 @@ class tangki extends MX_Controller {
             if ($id == '') {
                 $data['CD_TANGKI'] = date("Y/m/d");
                 $data['UD_TANGKI'] = date("Y/m/d");
-                if ($this->tangki_model->save_as_new($data)) {
-                    $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
+
+                $new_name = date('Ymd').'_'.$_FILES["FILE_UPLOAD"]['name'];
+                $config['file_name'] = $new_name;
+                $config['upload_path'] = 'assets/upload_tangki/';
+                $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
+                $config['max_size'] = 1024 * 4; 
+
+                // print_r($config);
+
+                $this->load->library('upload', $config);
+
+                    if (!$this->upload->do_upload('FILE_UPLOAD')){
+                        $err = $this->upload->display_errors('', '');
+                        $message = array(false, 'Proses gagal', $err, '');
+                    } else {
+                        $res = $this->upload->data();
+                        if ($res){
+                            $nama_file= $res['file_name'];
+                            if ($this->tangki_model->save_as_new($data,$nama_file)) {
+                                $message = array(true, 'Proses Berhasil ', 'Proses penyimpanan data berhasil.', '#content_table');
+                            }
+                    }
                 }
             } else {
-                $data['UD_TANGKI'] = date("Y/m/d");
+                $data['UD_TANGKI'] = date('Y-m-d');
                 if ($this->tangki_model->save($data, $id)) {
                     $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
                 }

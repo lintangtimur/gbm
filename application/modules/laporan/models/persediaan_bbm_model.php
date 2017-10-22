@@ -22,8 +22,12 @@ class persediaan_bbm_model extends CI_Model {
     }
 
      public function data($key = '') {
-        $kolom = 'A.ID_MUTASI_PERSEDIAAN, M1.LEVEL1, M2.LEVEL2, M3.LEVEL3, M4.LEVEL4, JB.NAMA_JNS_BHN_BKR, A.TGL_MUTASI_PERSEDIAAN, A.STOCK_AWAL, A.PENERIMAAN_REAL, A.PEMAKAIAN, PM.VOLUME_PEMAKAIAN, A.DEAD_STOCK, SO.VOLUME_STOCKOPNAME, A.STOCK_AKHIR_REAL, A.STOCK_AKHIR_EFEKTIF, A.STOCK_AKHIR_KOREKSI, A.SHO, A.REVISI_MUTASI_PERSEDIAAN';
-        $this->db->select($kolom);
+        // $kolom = 'A.ID_MUTASI_PERSEDIAAN, M1.LEVEL1, M2.LEVEL2, M3.LEVEL3, M4.LEVEL4, JB.NAMA_JNS_BHN_BKR, A.TGL_MUTASI_PERSEDIAAN, A.STOCK_AWAL, A.PENERIMAAN_REAL, A.PEMAKAIAN, PM.VOLUME_PEMAKAIAN, A.DEAD_STOCK, SO.VOLUME_STOCKOPNAME, A.STOCK_AKHIR_REAL, A.STOCK_AKHIR_EFEKTIF, A.STOCK_AKHIR_KOREKSI, A.SHO, A.REVISI_MUTASI_PERSEDIAAN';
+
+        $kolom_sum = 'A.ID_MUTASI_PERSEDIAAN, M1.LEVEL1, M2.LEVEL2, M3.LEVEL3, M4.LEVEL4, JB.NAMA_JNS_BHN_BKR,
+        A.TGL_MUTASI_PERSEDIAAN, SUM(A.STOCK_AWAL) STOCK_AWAL, SUM(A.PENERIMAAN_REAL) PENERIMAAN_REAL, SUM(A.PEMAKAIAN) PEMAKAIAN, SUM(PM.VOLUME_PEMAKAIAN) VOLUME_PEMAKAIAN, SUM(A.DEAD_STOCK) DEAD_STOCK, SUM(SO.VOLUME_STOCKOPNAME) VOLUME_STOCKOPNAME, SUM(A.STOCK_AKHIR_REAL) STOCK_AKHIR_REAL, SUM(A.STOCK_AKHIR_EFEKTIF) STOCK_AKHIR_EFEKTIF,
+        SUM(A.STOCK_AKHIR_KOREKSI) STOCK_AKHIR_KOREKSI, SUM(A.SHO) SHO, SUM(A.REVISI_MUTASI_PERSEDIAAN) REVISI_MUTASI_PERSEDIAAN';
+        $this->db->select($kolom_sum);
         $this->db->from($this->_table1.' A');
         $this->db->join('DETIL_PERSEDIAAN B', 'B.ID_MUTASI_PERSEDIAAN = A.ID_MUTASI_PERSEDIAAN','left');
         $this->db->join('MASTER_LEVEL4 M4', 'M4.SLOC = B.SLOC','left');
@@ -58,6 +62,23 @@ class persediaan_bbm_model extends CI_Model {
 
         if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
+
+        if ($_POST['COCODE'] !='') {
+            $this->db->group_by('M1.LEVEL1');  
+        }
+        if ($_POST['PLANT'] !='') {
+            $this->db->group_by('M2.LEVEL2');   
+        }
+        if ($_POST['STORE_SLOC'] !='') {
+            $this->db->group_by('M3.LEVEL3');   
+        }
+        if ($_POST['SLOC'] !='') {
+            $this->db->group_by('M4.LEVEL4');     
+        }
+        // if ($_POST['BBM'] !='') {
+        //     $this->db->group_by('JB.NAMA_JNS_BHN_BKR');     
+        // }
+        $this->db->group_by('JB.NAMA_JNS_BHN_BKR'); 
 
         return $this->db;
     }
@@ -223,7 +244,7 @@ class persediaan_bbm_model extends CI_Model {
         return $option;
     }
 
-public function options_tahun() {
+    public function options_tahun() {
         $year = date("Y"); 
 
         $option = array();

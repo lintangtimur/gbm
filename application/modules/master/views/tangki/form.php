@@ -69,10 +69,14 @@
                         </td>
                         <td>
                             <div class="control-group">
-                                <label for="password" class="control-label">Upload File<span class="required">*</span> : </label>
+                                <label for="password" class="control-label" id="up_nama">Upload Dokumen : </label> 
+                                <div class="controls" id="up_file">
+                                        <?php echo form_upload('FILE_UPLOAD', !empty($default->ID_DOC_PEMASOK) ? $default->ID_DOC_PEMASOK : '', 'class="span6"'); ?>
+                                </div>
+                                <!-- <label for="password" class="control-label">Upload File<span class="required">*</span> : </label>
                                 <div class="controls">
                                 <?php echo form_upload('FILE_UPLOAD', !empty($default->FILE_UPLOAD) ? $default->FILE_UPLOAD : '', 'class="filepath"'); ?>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="control-group">
                                 <label for="password" class="control-label">Aktif <span class="required">*</span> : </label>
@@ -88,24 +92,28 @@
                         </td>
                     </tr>
             </table>
-
-         <div class="well-content" id="content_table">
+            <!-- <div id="content_table" data-source="<?php echo $data_detail; ?>" data-filter="#ffilter"></div> -->
+       <!--  <div class="well-content" id="content_table">
             <table id="data_tera" class="table table-striped table-bordered table-hover datatable dataTable">
                 <thead>
                     <tr>
-                        <th>No</th>
                         <th>Tera</th>
                         <th>Path Tera</th>
                         <th>Tanggal Detail Tera</th>
                         <th>Status</th>
                     </tr>
                 </thead>
-                <tbody>
+                    <tr>
+                        <td><?php echo $data_detail->ID_TERA; ?></td>
+                        <td><?php echo $data_detail->PATH_DET_TERA; ?></td>
+                        <td><?php echo $data_detail->TGL_DET_TERA; ?></td>
+                        <td><?php echo $data_detail->ISAKTIF_DET_TERA; ?></td>
+                    </tr>
                     
                 </tbody>
             </table>
         </div>
-
+ -->
         <div class="form-actions">
             <?php echo anchor(null, '<i class="icon-save"></i> Simpan', array('id' => 'button-save', 'class' => 'blue btn', 'onclick' => "simpan_data(this.id, '#finput', '#button-back')")); ?>
              <?php echo anchor(null, '<i class="icon-circle-arrow-left"></i> Tutup', array('id' => 'button-back', 'class' => 'btn', 'onclick' => 'close_form(this.id)')); ?>
@@ -113,6 +121,18 @@
         <?php echo form_close(); ?>
     </div>
 </div>
+
+<script type="text/javascript">
+    jQuery(function($) {
+
+        load_table('#content_table', 1, '#ffilter');
+
+        $('#button-filter').click(function() {
+            load_table('#content_table', 1, '#ffilter');
+        });
+
+    });
+</script>
 
 <script type="text/javascript">
 $(function() {
