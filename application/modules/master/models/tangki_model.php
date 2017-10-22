@@ -115,13 +115,15 @@
 			$record = $this->data($filter)->get();
 			$no=(($offset-1) * $limit) +1;
 			$rows = array();
-			$aksi = '';
 			foreach ($record->result() as $row) {
+				$aksi = '';
 				$id = $row->ID_TANGKI;
-				// if ($this->laccess->otoritas('edit')) {
+				if ($this->laccess->otoritas('edit')) {
 				$aksi = anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
-				// }
+				}
+				if ($this->laccess->otoritas('delete')) {
 				$aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
+				}
 				$rows[$id] = array(
                 'number' => $no++,
                 'unit_pembangkit' => $row->LEVEL4,

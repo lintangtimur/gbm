@@ -71,12 +71,8 @@
                             <div class="control-group">
                                 <label for="password" class="control-label" id="up_nama">Upload Dokumen : </label> 
                                 <div class="controls" id="up_file">
-                                        <?php echo form_upload('FILE_UPLOAD', !empty($default->ID_DOC_PEMASOK) ? $default->ID_DOC_PEMASOK : '', 'class="span6"'); ?>
+                                    <?php echo form_upload('FILE_UPLOAD', !empty($default->PATH_DET_TERA) ? $default->PATH_DET_TERA : '', 'class="span6"'); ?>
                                 </div>
-                                <!-- <label for="password" class="control-label">Upload File<span class="required">*</span> : </label>
-                                <div class="controls">
-                                <?php echo form_upload('FILE_UPLOAD', !empty($default->FILE_UPLOAD) ? $default->FILE_UPLOAD : '', 'class="filepath"'); ?>
-                                </div> -->
                             </div>
                             <div class="control-group">
                                 <label for="password" class="control-label">Aktif <span class="required">*</span> : </label>
@@ -135,9 +131,13 @@
 </script>
 
 <script type="text/javascript">
-$(function() {
-    $("#TGL_TERA").datepicker({format: 'yyyy-mm-dd', autoclose:true});
-});
+$("#TGL_TERA").datepicker({
+        format: "yyyy-mm-dd",
+        autoclose: true,
+        todayBtn: true,
+        pickerPosition: "bottom-left"
+    });
+    
 </script>
 <script type="text/javascript">
      $("#tambah").click(function () {
@@ -156,4 +156,5 @@ $(function() {
         };
 
     });
+
 </script>
