@@ -16,16 +16,17 @@ class kontrak_pemasok_model extends CI_Model {
 
     private function _key($key) { //unit ID
         if (!is_array($key)) {
-            $key = array('ID_KONTRAK_PEMASOK' => $key);
+            $key = array('a.ID_KONTRAK_PEMASOK' => $key);
         }
         return $key;
     }
 
     public function data($key = '') {
         $perubahan = ' ,(SELECT COUNT(*) FROM ADENDUM_KONTRAK_PEMASOK b WHERE b.ID_KONTRAK_PEMASOK=a.ID_KONTRAK_PEMASOK) AS PERUBAHAN';
-        $this->db->select('a.*, b.NAMA_PEMASOK '.$perubahan);
+        $this->db->select('a.*, b.NAMA_PEMASOK, c.PATH_DOC_PEMASOK '.$perubahan);
         $this->db->from($this->_table1.' a');
         $this->db->join('MASTER_PEMASOK b', 'b.ID_PEMASOK = a.ID_PEMASOK','left');
+        $this->db->join('DOC_KONTRAK_PEMASOK c', 'c.ID_KONTRAK_PEMASOK = a.ID_KONTRAK_PEMASOK','left');
 
         if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
@@ -33,10 +34,30 @@ class kontrak_pemasok_model extends CI_Model {
         return $this->db;
     }
 
-    public function save_as_new($data) {
+    public function save_as_new($data,$nama_file) {
         $this->db->trans_begin();
-        $this->db->set_id($this->_table1, 'ID_KONTRAK_PEMASOK', 'no_prefix', 5);
+        $id_kontrak = $this->db->set_id($this->_table1, 'ID_KONTRAK_PEMASOK', 'no_prefix', 5);
         $this->db->insert($this->_table1, $data);
+
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return FALSE;
+        } else {
+            $this->db->trans_commit();
+
+            $data_file['ID_KONTRAK_PEMASOK'] = $id_kontrak;
+            $data_file['PATH_DOC_PEMASOK'] = $nama_file;
+            $data_file['CD_DOC_PEMASOK'] = $data['CD_KONTRAK_PEMASOK'];
+            $data_file['CD_BY_DOC_PEMASOK'] = $data['CD_BY_KONTRAK_PEMASOK'];
+            $this->save_as_new_file($data_file);
+            return TRUE;
+        }
+    }
+
+    public function save_as_new_file($data_file) {
+        $this->db->trans_begin();
+        $this->db->set_id('DOC_KONTRAK_PEMASOK', 'ID_DOC_PEMASOK', 'no_prefix', 5);
+        $this->db->insert('DOC_KONTRAK_PEMASOK', $data_file);
 
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
