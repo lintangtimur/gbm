@@ -33,15 +33,13 @@ class stock_opname_model extends CI_Model {
         return $this->db;
     }
     public function callProsedureStockOpname($ID_STOCKOPNAME, $SLOC, $ID_JNS_BHN_BKR, $TGL_PENGAKUAN, $LEVEL_USER, $STATUS, $USER){
-        $this->db->query("CALL PROSES_STOCK_OPNAME('$ID_STOCKOPNAME', '$SLOC', '$ID_JNS_BHN_BKR', '$TGL_PENGAKUAN', '$LEVEL_USER', '$STATUS', '$USER')");
+        $myDate = new DateTime($TGL_PENGAKUAN);
+        $TGL_PENGAKUAN = $myDate->format('dmY');
 
-        if ($this->db->trans_status() === FALSE) {
-            $this->db->trans_rollback();
-            return FALSE;
-        } else {
-            $this->db->trans_commit();
-            return TRUE;
-        }
+        $query="CALL PROSES_STOCK_OPNAME('$ID_STOCKOPNAME', '$SLOC', '$ID_JNS_BHN_BKR', '$TGL_PENGAKUAN', '$LEVEL_USER', '$STATUS', '$USER')";
+        // print_debug($query);
+        $data = $this->db->query($query);
+        return $data->result();
 
     }
     public function save_as_new($data) {
