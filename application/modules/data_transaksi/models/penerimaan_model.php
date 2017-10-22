@@ -77,9 +77,95 @@ class penerimaan_model extends CI_Model
         return $query->result();
     }
 
-    function options_data($table){
-        $query = $this->db->get($table);
-        return $query->result();
+    public function options_pemasok($default = '--Pilih Pemasok--') {
+        $this->db->from('MASTER_PEMASOK');
+
+        $option = array();
+        $list = $this->db->get();
+
+        if (!empty($default)) {
+            $option[''] = $default;
+        }
+
+        foreach ($list->result() as $row) {
+            $option[$row->ID_PEMASOK] = $row->NAMA_PEMASOK;
+        }
+        return $option;
+
     }
+
+    public function options_transpotir($default = '--Pilih Transportir--') {
+        $this->db->from('MASTER_TRANSPORTIR');
+
+        $option = array();
+        $list = $this->db->get();
+
+        if (!empty($default)) {
+            $option[''] = $default;
+        }
+
+        foreach ($list->result() as $row) {
+            $option[$row->ID_TRANSPORTIR] = $row->NAMA_TRANSPORTIR;
+        }
+        return $option;
+
+    }
+    public function options_jenis_bahan_bakar($default = '--Pilih Jenis Bahan Bakar--') {
+        $this->db->from('M_JNS_BHN_BKR');
+
+        $option = array();
+        $list = $this->db->get();
+
+        if (!empty($default)) {
+            $option[''] = $default;
+        }
+
+        foreach ($list->result() as $row) {
+            $option[$row->ID_JNS_BHN_BKR] = $row->NAMA_JNS_BHN_BKR;
+        }
+        return $option;
+    }
+
+    public function options_jenis_penerimaan($default = '--Pilih Jenis Penerimaan--') {
+        $this->db->from('DATA_SETTING');
+        $this->db->where('KEY_SETTING','JENIS_PENERIMAAN');
+        $option = array();
+        $list = $this->db->get();
+
+        if (!empty($default)) {
+            $option[''] = $default;
+        }
+
+        foreach ($list->result() as $row) {
+            $option[$row->VALUE_SETTING] = $row->NAME_SETTING;
+        }
+        return $option;
+
+    }
+
+    public function options_level($level_user,$kode_level) {
+        $default = '--Pilih Level--';
+        $query = $this->db->query('call LOAD_LEVEL4('.$level_user.', '.$kode_level.')');
+        $option = array();
+        $list = $query;
+
+        if (!empty($default)) {
+            $option[''] = $default;
+        }
+
+        foreach ($list->result() as $row) {
+            $option[$row->SLOC] = $row->LEVEL4;
+        }
+        $this->db->close();
+        return $option;
+
+    }
+
+//    function option_data_procedure($query){
+//        $query = $this->db->query($query);
+//        $this->db->close();
+//        return $query->result();
+//    }
+
 }
 ?>
