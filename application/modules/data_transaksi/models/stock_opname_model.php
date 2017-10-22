@@ -84,9 +84,10 @@ class stock_opname_model extends CI_Model {
         }
     }
 
-    public function data_table($module = '', $limit = 20, $offset = 1) {
-		$filter = array();
+   public function data_table($module = '', $limit = 20, $offset = 1) {
+        $filter = array();
         $kata_kunci = $this->input->post('kata_kunci');
+        $level_user = $this->session->userdata('level_user');
 
         if (!empty($kata_kunci))
             $filter[$this->_table1 . ".SLOC LIKE '%{$kata_kunci}%' "] = NULL;
@@ -96,12 +97,33 @@ class stock_opname_model extends CI_Model {
             $no=(($offset-1) * $limit) +1;
             $rows = array();
             foreach ($record->result() as $row) {
+                $aksi = '';
                 $id = $row->ID_STOCKOPNAME;
-                $aksi = anchor(null, '<i class="icon-share"></i>', array('class' => 'btn transparant', 'id' => 'button-kirim-' . $id, 'onclick' => 'kirim_row(this.id)', 'data-source' => base_url($module . '/sendAction/' . $id)));
-                $aksi .= anchor(null, '<i class="icon-check"></i>', array('class' => 'btn transparant', 'id' => 'button-approve-' . $id, 'onclick' => 'approve_row(this.id)', 'data-source' => base_url($module . '/approveAction/' . $id)));
-                $aksi .= anchor(null, '<i class="icon-remove"></i>', array('class' => 'btn transparant', 'id' => 'button-tolak-' . $id, 'onclick' => 'tolak_row(this.id)', 'data-source' => base_url($module . '/tolakAction/' . $id)));
+                $status = $row->STATUS_APPROVE_STOCKOPNAME;
+                if($level_user == 2){
+                    if ($level_user == 2  && $status == 1) {
+                        $aksi .= anchor(null, '<i class="icon-check" title="Setuju"></i>', array('class' => 'btn transparant', 'id' => 'button-approve-' . $id, 'onclick' => 'approve_row(this.id)', 'data-source' => base_url($module . '/approveAction/' . $id)));
+                        $aksi .= anchor(null, '<i class="icon-remove" title="Tolak"></i>', array('class' => 'btn transparant', 'id' => 'button-tolak-' . $id, 'onclick' => 'tolak_row(this.id)', 'data-source' => base_url($module . '/tolakAction/' . $id)));
+                    } else {
+                        $aksi = '';
+                    }
+                } else if ($level_user == 3){
+                    if ($level_user == 3 && $status == 0) {
+                        $aksi .= anchor(null, '<i class="icon-share" title="Kirim"></i>', array('class' => 'btn transparant', 'id' => 'button-kirim-' . $id, 'onclick' => 'kirim_row(this.id)', 'data-source' => base_url($module . '/sendAction/' . $id)));
+                        $aksi .= anchor(null, '<i class="icon-edit" title="Edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
+                    } else if ($level_user == 3 && $status == 3) {
+                        $aksi .= anchor(null, '<i class="icon-share" title="Kirim"></i>', array('class' => 'btn transparant', 'id' => 'button-kirim-' . $id, 'onclick' => 'kirim_row(this.id)', 'data-source' => base_url($module . '/sendAction/' . $id)));
+                        $aksi .= anchor(null, '<i class="icon-edit" title="Edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
+                    } else {
+                        $aksi = '';
+                    }
+                } else {
+                    $aksi = anchor(null, '<i class="icon-share" title="Kirim"></i>', array('class' => 'btn transparant', 'id' => 'button-kirim-' . $id, 'onclick' => 'kirim_row(this.id)', 'data-source' => base_url($module . '/sendAction/' . $id)));
+                    $aksi .= anchor(null, '<i class="icon-check" title="Setuju"></i>', array('class' => 'btn transparant', 'id' => 'button-approve-' . $id, 'onclick' => 'approve_row(this.id)', 'data-source' => base_url($module . '/approveAction/' . $id)));
+                    $aksi .= anchor(null, '<i class="icon-remove" title="Tolak"></i>', array('class' => 'btn transparant', 'id' => 'button-tolak-' . $id, 'onclick' => 'tolak_row(this.id)', 'data-source' => base_url($module . '/tolakAction/' . $id)));
+                    $aksi .= anchor(null, '<i class="icon-edit" title="Edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
+                }
                 
-                $aksi .= anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
                 // $aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
                 $rows[$id] = array(
                     'ID_STOCKOPNAME' => $no++,
