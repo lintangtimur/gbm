@@ -90,7 +90,7 @@ class stock_opname extends MX_Controller {
      }
      public function approveAction($id){
         if($id==''){
-            $message = array(false, 'Proses gagal', 'Proses kirim data gagal.', '');
+            $message = array(false, 'Proses gagal', 'Proses Appove data gagal.', '');
         }else{
             $data['id'] = $id;
             $data = $this->tbl_get->data($id);
@@ -104,7 +104,7 @@ class stock_opname extends MX_Controller {
             $STATUS="2";
 
             $this->tbl_get->callProsedureStockOpname($ID_STOCKOPNAME, $SLOC, $ID_JNS_BHN_BKR, $TGL_PENGAKUAN, $LEVEL_USER, $STATUS, $USER);
-            $message = array(true, 'Proses Berhasil', 'Proses kirim data berhasil.', '#content_table');
+            $message = array(true, 'Proses Berhasil', 'Proses Appove data berhasil.', '#content_table');
         }
         echo json_encode($message);
      }
