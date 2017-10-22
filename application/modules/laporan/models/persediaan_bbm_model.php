@@ -119,22 +119,45 @@ class persediaan_bbm_model extends CI_Model {
         return array('total' => $total, 'rows' => $rows);
     }
 
-    public function options_lv1($default = '--Pilih Level 1--', $key = 'all') {
+    public function options_reg($default = '--Pilih Regional--', $key = 'all') {
         $option = array();
 
-        $this->db->from('MASTER_LEVEL1');
+        $this->db->from('MASTER_REGIONAL');
         if ($key != 'all'){
-            $this->db->where('COCODE',$key);
+            $this->db->where('ID_REGIONAL',$key);
         }   
         $list = $this->db->get(); 
 
         if (!empty($default)) {
             $option[''] = $default;
         }
+
+        foreach ($list->result() as $row) {
+            $option[$row->ID_REGIONAL] = $row->NAMA_REGIONAL;
+        }
+        return $option;
+    }
+
+    public function options_lv1($default = '--Pilih Level 1--', $key = 'all', $jenis=0) {
+        $this->db->from('MASTER_LEVEL1');
+        if ($key != 'all'){
+            $this->db->where('ID_REGIONAL',$key);
+        }    
+        if ($jenis==0){
+            return $this->db->get()->result(); 
+        } else {
+            $option = array();
+            $list = $this->db->get(); 
+
+            if (!empty($default)) {
+                $option[''] = $default;
+            }
+
             foreach ($list->result() as $row) {
                 $option[$row->COCODE] = $row->LEVEL1;
             }
             return $option;    
+        }
     }
 
     public function options_lv2($default = '--Pilih Level 2--', $key = 'all', $jenis=0) {
@@ -255,6 +278,75 @@ class persediaan_bbm_model extends CI_Model {
         return $option;
     }
 
+    public function options_get_lv($lv = '', $key=''){
+        switch ($lv) {
+            case "1":
+                $this->db->select("ID_REGIONAL AS KODE");
+                $this->db->from('MASTER_LEVEL1');
+                $this->db->where('COCODE',$key);
+                break;
+            case "2":
+                $this->db->select("COCODE AS KODE");
+                $this->db->from('MASTER_LEVEL2');
+                $this->db->where('PLANT',$key);
+                break;
+            case "3":
+                $this->db->select("PLANT AS KODE");
+                $this->db->from('MASTER_LEVEL3');
+                $this->db->where('STORE_SLOC',$key);
+                break;
+            case "4":
+                $this->db->select("STORE_SLOC AS KODE");
+                $this->db->from('MASTER_LEVEL4');
+                $this->db->where('SLOC',$key);
+                break;
+        } 
+
+        return $this->db->get()->result();
+    }
+
+    public function get_level($lv='', $key=''){ 
+        switch ($lv) {
+            case "0":
+                $q = "SELECT  E.ID_REGIONAL, E.NAMA_REGIONAL 
+                FROM MASTER_REGIONAL E
+                WHERE ID_REGIONAL='$key' ";
+                break;
+            case "1":
+                $q = "SELECT D.COCODE, D.LEVEL1, E.ID_REGIONAL, E.NAMA_REGIONAL 
+                FROM MASTER_LEVEL1 D 
+                LEFT JOIN MASTER_REGIONAL E ON E.ID_REGIONAL=D.ID_REGIONAL
+                WHERE COCODE='$key' ";
+                break;
+            case "2":
+                $q = "SELECT C.PLANT, C.LEVEL2,  D.COCODE,  D.LEVEL1, E.ID_REGIONAL, E.NAMA_REGIONAL
+                FROM MASTER_LEVEL2 C 
+                LEFT JOIN MASTER_LEVEL1 D ON D.COCODE=C.COCODE 
+                LEFT JOIN master_regional E ON E.ID_REGIONAL=D.ID_REGIONAL
+                WHERE PLANT='$key' ";
+                break;
+            case "3":
+                $q = "SELECT B.STORE_SLOC, B.LEVEL3, C.PLANT, C.LEVEL2,  D.COCODE,  D.LEVEL1, E.ID_REGIONAL, E.NAMA_REGIONAL
+                FROM MASTER_LEVEL3 B
+                LEFT JOIN MASTER_LEVEL2 C ON C.PLANT=B.PLANT 
+                LEFT JOIN MASTER_LEVEL1 D ON D.COCODE=C.COCODE 
+                LEFT JOIN master_regional E ON E.ID_REGIONAL=D.ID_REGIONAL
+                WHERE STORE_SLOC='$key' ";
+                break;
+            case "4":
+                $q = "SELECT A.SLOC, A.LEVEL4, B.STORE_SLOC, B.LEVEL3, C.PLANT, C.LEVEL2,  D.COCODE,  D.LEVEL1, E.ID_REGIONAL, E.NAMA_REGIONAL
+                FROM MASTER_LEVEL4 A
+                LEFT JOIN MASTER_LEVEL3 B ON B.STORE_SLOC=A.STORE_SLOC 
+                LEFT JOIN MASTER_LEVEL2 C ON C.PLANT=B.PLANT 
+                LEFT JOIN MASTER_LEVEL1 D ON D.COCODE=C.COCODE 
+                LEFT JOIN master_regional E ON E.ID_REGIONAL=D.ID_REGIONAL
+                WHERE SLOC='$key' ";
+                break;
+        } 
+
+        $query = $this->db->query($q)->result();
+        return $query;
+    }
 }
 
 /* End of file master_level1_model.php */
