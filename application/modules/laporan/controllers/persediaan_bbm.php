@@ -103,7 +103,7 @@ class persediaan_bbm extends MX_Controller {
 
         $this->load->library("ltable");
         $table = new stdClass();
-        $table->id = 'ID_MUTASI_PERSDIAAN';
+        $table->id = 'NAMA_REGIONAL';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
         $table->align = array('NO' => 'center', 'NAMA_REGIONAL' => 'left', 'LEVEL1' => 'left', 'COCODE' => 'center', 'NAMA_REGIONAL' => 'left', 'aksi' => 'center');
         $table->page = $page;
@@ -128,7 +128,7 @@ class persediaan_bbm extends MX_Controller {
             "Stock Akhir Efektif", 1, 1,
             "Stock Akhir Koreksi", 1, 1,
             "SHO", 1, 1,
-            "REV", 1, 1,
+            "REV", 1, 1
         );
         $table->total = $data_table['total'];
         $table->content = $data_table['rows'];

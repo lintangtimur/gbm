@@ -16,26 +16,25 @@ class persediaan_bbm_model extends CI_Model {
 
     private function _key($key) { //unit ID
         if (!is_array($key)) {
-            $key = array('ID_MUTASI_PERSEDIAAN' => $key);
+            $key = array('R.NAMA_REGIONAL' => $key);
         }
         return $key;
-    }
+    }  
 
-     public function data($key = '') {
-        $kolom_sum = 'A.ID_MUTASI_PERSEDIAAN, R.NAMA_REGIONAL, M1.LEVEL1, M2.LEVEL2, M3.LEVEL3, M4.LEVEL4, JB.NAMA_JNS_BHN_BKR,
-        A.TGL_MUTASI_PERSEDIAAN, SUM(A.STOCK_AWAL) STOCK_AWAL, SUM(A.PENERIMAAN_REAL) PENERIMAAN_REAL, SUM(A.PEMAKAIAN) PEMAKAIAN, SUM(PM.VOLUME_PEMAKAIAN) VOLUME_PEMAKAIAN, SUM(A.DEAD_STOCK) DEAD_STOCK, SUM(SO.VOLUME_STOCKOPNAME) VOLUME_STOCKOPNAME, SUM(A.STOCK_AKHIR_REAL) STOCK_AKHIR_REAL, SUM(A.STOCK_AKHIR_EFEKTIF) STOCK_AKHIR_EFEKTIF,
-        SUM(A.STOCK_AKHIR_KOREKSI) STOCK_AKHIR_KOREKSI, SUM(A.SHO) SHO, SUM(A.REVISI_MUTASI_PERSEDIAAN) REVISI_MUTASI_PERSEDIAAN';
+    public function data($key = '') {
+        $kolom_sum = "R.NAMA_REGIONAL, M1.LEVEL1, M2.LEVEL2, M3.LEVEL3, M4.LEVEL4, JB.NAMA_JNS_BHN_BKR,
+        A.TGL_MUTASI_PERSEDIAAN, SUM(A.STOCK_AWAL) STOCK_AWAL, SUM(A.PENERIMAAN_REAL) PENERIMAAN_REAL, SUM(A.PEMAKAIAN) PEMAKAIAN, (CASE WHEN PM.JENIS_PEMAKAIAN=2 THEN SUM(PM.VOLUME_PEMAKAIAN) END) PEMAKAIAN_SENDIRI, (CASE WHEN PM.JENIS_PEMAKAIAN=1 THEN SUM(PM.VOLUME_PEMAKAIAN) END) PEMAKAIAN_KIRIM, SUM(A.DEAD_STOCK) DEAD_STOCK, SUM(SO.VOLUME_STOCKOPNAME) VOLUME_STOCKOPNAME, SUM(A.STOCK_AKHIR_REAL) STOCK_AKHIR_REAL, SUM(A.STOCK_AKHIR_EFEKTIF) STOCK_AKHIR_EFEKTIF,
+        SUM(A.STOCK_AKHIR_KOREKSI) STOCK_AKHIR_KOREKSI, SUM(A.SHO) SHO, SUM(A.REVISI_MUTASI_PERSEDIAAN) REVISI_MUTASI_PERSEDIAAN";
         $this->db->select($kolom_sum);
         $this->db->from($this->_table1.' A');
-        $this->db->join('DETIL_PERSEDIAAN B', 'B.ID_MUTASI_PERSEDIAAN = A.ID_MUTASI_PERSEDIAAN','left');
-        $this->db->join('MASTER_LEVEL4 M4', 'M4.SLOC = B.SLOC','left');
+        $this->db->join('MASTER_LEVEL4 M4', 'M4.SLOC = A.SLOC','left');
         $this->db->join('MASTER_LEVEL3 M3', 'M3.STORE_SLOC = M4.STORE_SLOC','left');
         $this->db->join('MASTER_LEVEL2 M2', 'M2.PLANT = M3.PLANT','left');
         $this->db->join('MASTER_LEVEL1 M1', 'M1.COCODE = M2.COCODE','left');
         $this->db->join('MASTER_REGIONAL R', 'R.ID_REGIONAL = M1.ID_REGIONAL','left');
-        $this->db->join('M_JNS_BHN_BKR JB', 'JB.ID_JNS_BHN_BKR = B.ID_JNS_BHN_BKR','left');
-        $this->db->join('MUTASI_PEMAKAIAN PM', 'PM.ID_PEMAKAIAN = B.ID_PEMAKAIAN','left');
-        $this->db->join('STOCK_OPNAME SO', 'SO.ID_STOCKOPNAME = B.ID_STOCKOPNAME','left');
+        $this->db->join('M_JNS_BHN_BKR JB', 'JB.ID_JNS_BHN_BKR = A.ID_JNS_BHN_BKR','left');
+        $this->db->join('MUTASI_PEMAKAIAN PM', 'PM.SLOC = A.SLOC AND PM.ID_JNS_BHN_BKR=A.ID_JNS_BHN_BKR','left');
+        $this->db->join('STOCK_OPNAME SO', 'SO.SLOC = A.SLOC','left');
 
         if ($_POST['ID_REGIONAL'] !='') {
             $this->db->where("R.ID_REGIONAL",$_POST['ID_REGIONAL']);   
@@ -64,11 +63,12 @@ class persediaan_bbm_model extends CI_Model {
 
         if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
-        
 
-        if ($_POST['ID_REGIONAL'] !='') {
-            $this->db->group_by('R.NAMA_REGIONAL');  
-        }
+
+        // if ($_POST['ID_REGIONAL'] !='') {
+            // $this->db->group_by('R.NAMA_REGIONAL');  
+        // }
+
         if ($_POST['COCODE'] !='') {
             $this->db->group_by('M1.LEVEL1');  
         }
@@ -81,10 +81,12 @@ class persediaan_bbm_model extends CI_Model {
         if ($_POST['SLOC'] !='') {
             $this->db->group_by('M4.LEVEL4');     
         }
+        
         // if ($_POST['BBM'] !='') {
         //     $this->db->group_by('JB.NAMA_JNS_BHN_BKR');     
         // }
         $this->db->group_by('JB.NAMA_JNS_BHN_BKR'); 
+        $this->db->group_by('R.NAMA_REGIONAL');  
 
         return $this->db;
     }
@@ -98,8 +100,9 @@ class persediaan_bbm_model extends CI_Model {
         $record = $this->data($filter)->get();
         $no=(($offset-1) * $limit) +1;
         $rows = array();
+
         foreach ($record->result() as $row) {
-            $id = $row->ID_MUTASI_PERSEDIAAN;
+            $id = $no;  //$row->NAMA_REGIONAL.'-'.$no;
             $rows[$id] = array(
                 'NO' => $no++,
                 'NAMA_REGIONAL' => $row->NAMA_REGIONAL,
@@ -111,8 +114,8 @@ class persediaan_bbm_model extends CI_Model {
                 'TGL_MUTASI' => $row->TGL_MUTASI_PERSEDIAAN,
                 'STOCK_AWAL' => $row->STOCK_AWAL,
                 'PENERIMAAN_REAL' => $row->PENERIMAAN_REAL,
-                'PEMAKAIAN' => $row->PEMAKAIAN,
-                'VOLUME_PEM' => $row->VOLUME_PEMAKAIAN,
+                'PEMAKAIAN_SENDIRI' => $row->PEMAKAIAN_SENDIRI,
+                'PEMAKAIAN_KIRIM' => $row->PEMAKAIAN_KIRIM,
                 'DEAD_STOCK' => $row->DEAD_STOCK,
                 'VOLUME_STOCKOPNAME' => $row->VOLUME_STOCKOPNAME,
                 'STOCK_REAL' => $row->STOCK_AKHIR_REAL,
