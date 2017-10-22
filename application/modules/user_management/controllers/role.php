@@ -103,13 +103,15 @@ class role extends MX_Controller {
     public function proses() {
         if ($this->laccess->otoritas('add') || $this->laccess->otoritas('edit')) {
             $this->form_validation->set_rules('roles_nama', 'Nama Role', 'trim|required|max_length[50]');
+			$this->form_validation->set_rules('level_user', 'Level Group', 'trim|required');
             $this->form_validation->set_rules('roles_keterangan', 'Keterangan Role', 'trim|max_length[250]');
             if ($this->form_validation->run($this)) {
                 $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
                 $id = $this->input->post('id');
                 $data = array();
-                $data['roles_nama'] = $this->input->post('roles_nama');
-                $data['roles_keterangan'] = $this->input->post('roles_keterangan');
+                $data['ROLES_NAMA'] = $this->input->post('roles_nama');
+                $data['ROLES_KETERANGAN'] = $this->input->post('roles_keterangan');
+				$data['LEVEL_ROLES'] = $this->input->post('level_user');
                 $temp = array();
                 $is_view = $this->input->post('is_view');
                 $is_add = $this->input->post('is_add');

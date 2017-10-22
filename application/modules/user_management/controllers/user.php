@@ -30,7 +30,7 @@ class user extends MX_Controller {
         $this->load->module("template/asset");
 
         // Memanggil plugin JS Crud
-        $this->asset->set_plugin(array('crud'));
+        $this->asset->set_plugin(array('crud', 'select2'));
 
 		$data['button_group'] = array();
 		if ($this->laccess->otoritas('add')) {
@@ -102,10 +102,41 @@ class user extends MX_Controller {
 
     public function proses() {
 		if ($this->laccess->otoritas('add') || $this->laccess->otoritas('edit')) {
+			$level = $this->input->post("level_user");
 			$this->form_validation->set_rules('nama_user', 'Nama User', 'trim|required|max_length[50]');
 			$this->form_validation->set_rules('email_user', 'Email User', 'trim|required|max_length[50]|valid_email');
 			$this->form_validation->set_rules('level_user', 'Level User', 'required');
-			$this->form_validation->set_rules('kode_level', 'Kode Level', 'required');
+			if ($level == "R"){
+				$this->form_validation->set_rules('kode_regional', 'Kode Regional', 'required');
+				$kodelevel = $this->input->post("kode_regional");
+			}
+			else if($level == "1"){
+				$this->form_validation->set_rules('kode_regional', 'Kode Regional', 'required');
+				$this->form_validation->set_rules('kode_level1', 'Kode Level l', 'required');
+				$kodelevel = $this->input->post("kode_level1");
+			}
+			else if($level == "2"){
+				$this->form_validation->set_rules('kode_regional', 'Kode Regional', 'required');
+				$this->form_validation->set_rules('kode_level1', 'Kode Level l', 'required');
+				$this->form_validation->set_rules('kode_level2', 'Kode Level 2', 'required');
+				$kodelevel = $this->input->post("kode_level2");
+			}
+			else if($level == "3"){
+				$this->form_validation->set_rules('kode_regional', 'Kode Regional', 'required');
+				$this->form_validation->set_rules('kode_level1', 'Kode Level l', 'required');
+				$this->form_validation->set_rules('kode_level2', 'Kode Level 2', 'required');
+				$this->form_validation->set_rules('kode_level3', 'Kode Level 3', 'required');
+				$kodelevel = $this->input->post("kode_level3");
+			}
+			else if($level == "4"){
+				$this->form_validation->set_rules('kode_regional', 'Kode Regional', 'required');
+				$this->form_validation->set_rules('kode_level1', 'Kode Level l', 'required');
+				$this->form_validation->set_rules('kode_level2', 'Kode Level 2', 'required');
+				$this->form_validation->set_rules('kode_level3', 'Kode Level 3', 'required');
+				$this->form_validation->set_rules('kode_level4', 'Kode Level 4', 'required');
+				$kodelevel = $this->input->post("kode_level4");
+			}
+			
 			$this->form_validation->set_rules('user_username', 'Username', 'trim|required|max_length[100]');
 			$this->form_validation->set_rules('password', 'Password', 'trim|required|max_length[100]');
 			$this->form_validation->set_rules('role_id', 'Role User', 'trim|required');
@@ -120,8 +151,6 @@ class user extends MX_Controller {
 				$username = $this->input->post("user_username");
 				$pwd = $this->input->post("password");
 				$email = $this->input->post("email_user");
-				$level = $this->input->post("level_user");
-				$kodelevel = $this->input->post("kode_level");
 				$isaktif = $this->input->post("user_status");
 				
 				$data = $this->user_model->save_as_new($roleid, $kduser, $nama, $username, $pwd, $email, $level, $kodelevel, $isaktif, $id)->row();
@@ -278,10 +307,9 @@ class user extends MX_Controller {
         echo json_encode($message, true);
     }
 	
-	public function load_level($id = ''){
-		$data = $this->master_level_model->load_option($id);
+	public function load_level($id = '', $kode = ''){
+		$data = $this->master_level_model->load_option($id, $kode);
 		echo json_encode($data);
-		// return $data;
 	}
 	
 }

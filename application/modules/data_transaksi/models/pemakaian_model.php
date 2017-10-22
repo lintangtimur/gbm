@@ -129,7 +129,86 @@ class pemakaian_model extends CI_Model
         return $option;
 
     }
-
+	
+	public function load_option($id = '', $kode = ''){
+		 $option='';
+        switch ($id) {
+			case "R":
+				$this->db->select("ID_REGIONAL as KODE, NAMA_REGIONAL as NAMA");
+				$this->db->from("MASTER_REGIONAL");
+				$list = $this->db->get();
+				break;
+			case "1":
+				$this->db->select("COCODE as KODE, LEVEL1 as NAMA");
+				$this->db->where("ID_REGIONAL", $kode);
+				$this->db->from("MASTER_LEVEL1");
+				$list = $this->db->get();
+				break;
+			case "2":
+				$this->db->select("PLANT as KODE, LEVEL2 as NAMA");
+				$this->db->where("COCODE", $kode);
+				$this->db->from("MASTER_LEVEL2");
+				$list = $this->db->get();
+				break;
+			case "3":
+				$this->db->select("STORE_SLOC as KODE, LEVEL3 as NAMA");
+				$this->db->where("PLANT", $kode);
+				$this->db->from("MASTER_LEVEL3");
+				$list = $this->db->get();
+				break;
+			case "4":
+				$c = explode("..", $kode);
+				$this->db->select("concat(concat(SLOC,'#'), STORE_SLOC) as KODE, LEVEL4 as NAMA", false);
+				$this->db->where(array("PLANT" => $c[0], "STORE_SLOC" => $c[1]));
+				$this->db->from("MASTER_LEVEL4");
+				$list = $this->db->get();
+				break;
+		}
+		foreach ($list->result() as $row) {
+			$option[$row->KODE] = $row->NAMA;
+		}
+		return $option;
+        // return $list->result();
+    }
+	
+	public function load_optionJSON($id = '', $kode = ''){
+		 $option='';
+        switch ($id) {
+			case "R":
+				$this->db->select("ID_REGIONAL as kode, NAMA_REGIONAL as nama");
+				$this->db->from("MASTER_REGIONAL");
+				$list = $this->db->get();
+				break;
+			case "1":
+				$this->db->select("COCODE as kode, LEVEL1 as nama");
+				$this->db->where("ID_REGIONAL", $kode);
+				$this->db->from("MASTER_LEVEL1");
+				$list = $this->db->get();
+				break;
+			case "2":
+				$this->db->select("PLANT as kode, LEVEL2 as nama");
+				$this->db->where("COCODE", $kode);
+				$this->db->from("MASTER_LEVEL2");
+				$list = $this->db->get();
+				break;
+			case "3":
+				$this->db->select("STORE_SLOC as kode, LEVEL3 as nama");
+				$this->db->where("PLANT", $kode);
+				$this->db->from("MASTER_LEVEL3");
+				$list = $this->db->get();
+				break;
+			case "4":
+				$c = explode("..", $kode);
+				$this->db->select("SLOC kode, LEVEL4 as nama", false);
+				$this->db->where(array("PLANT" => $c[0], "STORE_SLOC" => $c[1]));
+				$this->db->from("MASTER_LEVEL4");
+				$list = $this->db->get();
+				break;
+		}
+		
+        return $list->result();
+    }
+	
     public function save($data){
         $sql = "CALL SAVE_PEMAKAIAN ('"
             .$data['SLOC']."','"
@@ -142,7 +221,7 @@ class pemakaian_model extends CI_Model
             $data['CREATE_BY']."','"
             .$data['NO_PEMAKAIAN']."','"
             .$data['ID_JNS_BHN_BKR']."')";
-//        echo $sql;
+// print_debug($sql);
         $query = $this->db->query($sql);
         $this->db->close();
         return $query->result();

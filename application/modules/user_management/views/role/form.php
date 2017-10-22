@@ -13,6 +13,13 @@
                 <?php echo form_input('roles_nama', !empty($default->ROLES_NAMA) ? $default->ROLES_NAMA : '', 'class="span6"'); ?>
             </div>
             <br>
+			 <div class="control-group">
+				<label  class="control-label">Level Group <span class="required">*</span> : </label>
+				<div class="controls">
+					<?php echo form_dropdown('level_user', hgenerator::arr_levelgroup(), !isset($default->LEVEL_ROLES) ? '' : $default->LEVEL_ROLES, 'class="span8 chosen" id="level_user"'); ?>
+				</div>
+			</div>
+			<br/>
             <label for="password" class="control-label">Keterangan : </label>
             <div class="controls">
                 <?php echo form_input('roles_keterangan', !empty($default->ROLES_KETERANGAN) ? $default->ROLES_KETERANGAN : '', 'class="span6"'); ?>

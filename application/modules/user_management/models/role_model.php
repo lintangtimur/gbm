@@ -119,7 +119,7 @@ class role_model extends CI_Model {
             $option[''] = $default;
 
         foreach ($list->result() as $row) {
-            $option[$row->ROLES_ID] = $row->ROLES_NAMA;
+            $option[$row->ROLES_ID.'..'.$row->LEVEL_ROLES] = $row->ROLES_NAMA;
         }
 
         return $option;
