@@ -53,6 +53,7 @@
 			$data['SLOC'] = $this->input->post('option_pembangkit');
             $data['ID_DEPO'] = $this->input->post('option_depo');
             $data['TYPE_KONTRAK_TRANS'] = $this->input->post('option_jalur');
+            $data['JARAK_DET_KONTRAK_TRANS'] = $this->input->post('JARAK');
             $data['HARGA_KONTRAK_TRANS'] = $this->input->post('HARGA');
             $data['CD_DET_KONTRAK_TRANS'] = date("Y/m/d");
             $data['UD_DET_KONTRAK_TRANS'] = date("Y/m/d");
@@ -60,7 +61,6 @@
 
 			$this->db->trans_begin();
 			$this->db->set_id($this->_table5, 'ID_DET_KONTRAK_TRANS', 'no_prefix', 11);
-			// $id = $this->db->set_id($this->_table1, 'ID_TANGKI', 'no_prefix', 4);
 			$this->db->insert($this->_table5, $data);
 			
 			if ($this->db->trans_status() === FALSE) {
@@ -89,6 +89,7 @@
 		public function delete($key) {
 			$this->db->trans_begin();
 			
+			$this->db->delete($this->_table5, $this->_key($key));
 			$this->db->delete($this->_table1, $this->_key($key));
 			
 			if ($this->db->trans_status() === FALSE) {

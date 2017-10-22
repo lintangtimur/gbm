@@ -22,7 +22,7 @@
             <div class="control-group">
                 <label for="password" class="control-label">Tanggal Tera<span class="required">*</span> : </label>
                 <div class="controls">
-                <?php echo form_input('TGL_KONTRAK_TRANS', !empty($default->TGL_KONTRAK_TRANS) ? $default->TGL_KONTRAK_TRANS : '', 'class="span3", id="TGLKONTRAK"'); ?>
+                <?php echo form_input('TGL_KONTRAK_TRANS', !empty($default->TGL_KONTRAK_TRANS) ? $default->TGL_KONTRAK_TRANS : '', 'class="span3", id="TGL_KONTRAK_TRANS"'); ?>
                 </div>
             </div>
             <!-- <div class="control-group">
@@ -107,7 +107,7 @@
 
 <script type="text/javascript">
 $(function() {
-    $("#TGLKONTRAK").datepicker({
+    $("#TGL_KONTRAK_TRANS").datepicker({
         format: 'yyyy-mm-dd', 
         autoclose:true,
         todayBtn: true,

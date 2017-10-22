@@ -90,48 +90,78 @@ class kontrak_transportir extends MX_Controller {
     }
 
      public function load_detail($page = 1) {
-        $data_table = $this->kontrak_transportir_model->data_table_detail($this->_module, $this->_limit, $page);
-        $this->load->library("ltable");
-        $table = new stdClass();
-        $table->id = 'ID_DET_KONTRAK_TRANS';
-        $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('nomor' => 'center','depo' => 'center','pembangkit' => 'center','harga_kontrak' => 'center','Jarak' => 'center', 'transportasi' => 'center');
-        $table->page = $page;
-        $table->limit = $this->_limit;
-        $table->jumlah_kolom = 6;
-        $table->header[] = array(
-            "No ", 1, 1,
-            "Depo", 1, 1,
-            "Pembangkit", 1, 1,
-            "Harga Kontrak", 1, 1,
-            "Jarak", 1, 1,
-            "Transportasi", 1, 1
-        );
-        $table->total = $data_table['total'];
-        $table->content = $data_table['rows'];
-        $data = $this->ltable->generate($table, 'js', true);
-        echo $data;
+        alert('alert');
+        // $data_table = $this->kontrak_transportir_model->data_table_detail($this->_module, $this->_limit, $page);
+        // $this->load->library("ltable");
+        // $table = new stdClass();
+        // $table->id = 'ID_DET_KONTRAK_TRANS';
+        // $table->style = "table table-striped table-bordered table-hover datatable dataTable";
+        // $table->align = array('nomor' => 'center','depo' => 'center','pembangkit' => 'center','harga_kontrak' => 'center','Jarak' => 'center', 'transportasi' => 'center');
+        // $table->page = $page;
+        // $table->limit = $this->_limit;
+        // $table->jumlah_kolom = 6;
+        // $table->header[] = array(
+        //     "No ", 1, 1,
+        //     "Depo", 1, 1,
+        //     "Pembangkit", 1, 1,
+        //     "Harga Kontrak", 1, 1,
+        //     "Jarak", 1, 1,
+        //     "Transportasi", 1, 1
+        // );
+        // $table->total = $data_table['total'];
+        // $table->content = $data_table['rows'];
+        // $data = $this->ltable->generate($table, 'js', true);
+        // echo $data;
     }
 
     public function proses() {
         $this->form_validation->set_rules('NO_KONTRAK', 'Nomor Kontrak Transportir', 'trim|required');
         $this->form_validation->set_rules('NILAI_KONTRAK', 'Nilai Kontrak Transportir', 'trim|required|currency');
+        $id = $this->input->post('id');
+         if ($id == '') {
+            if (empty($_FILES['FILE_UPLOAD']['name'])){
+                $this->form_validation->set_rules('FILE_UPLOAD', 'Upload Dokumen', 'required');
+            }
+        }
+
         if ($this->form_validation->run($this)) {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
-            $id = $this->input->post('id');
 
             $data = array();
             $data['KD_KONTRAK_TRANS'] = $this->input->post('NO_KONTRAK');
             $data['ID_TRANSPORTIR'] = $this->input->post('TRANSPORTIR');
-            $data['TGL_KONTRAK_TRANS'] = $this->input->post('TGLKONTRAK');
+            $data['TGL_KONTRAK_TRANS'] = $this->input->post('TGL_KONTRAK_TRANS');
             $data['NILAI_KONTRAK_TRANS'] = $this->input->post('NILAI_KONTRAK');
             $data['KET_KONTRAK_TRANS'] = $this->input->post('KETERANGAN');
-            $data['PATH_KONTRAK_TRANS'] = $this->input->post('FILE_UPLOAD');
+
+            $new_name = date('Ymd').'_'.$_FILES["FILE_UPLOAD"]['name'];
+            $config['file_name'] = $new_name;
+            $config['upload_path'] = 'assets/upload_kontrak_trans/';
+            $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
+            $config['max_size'] = 1024 * 4; 
+
+            $this->load->library('upload', $config);
 
             if ($id == '') {
-                if ($this->kontrak_transportir_model->save_as_new($data)) {
-                    $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
+                $this->load->library('upload', $config);
+
+                if (!$this->upload->do_upload('FILE_UPLOAD')){
+                    $err = $this->upload->display_errors('', '');
+                    $message = array(false, 'Proses gagal', $err, '');
+                } else {
+                    $res = $this->upload->data();
+                    if ($res){
+                        $nama_file= $res['file_name'];
+                        $data['PATH_KONTRAK_TRANS'] = $nama_file;
+                        if ($this->kontrak_transportir_model->save_as_new($data)) {
+                            $message = array(true, 'Proses Berhasil ', 'Proses penyimpanan data berhasil.', '#content_table');
+                        }
+                    }
                 }
+
+                // if ($this->kontrak_transportir_model->save_as_new($data)) {
+                //     $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
+                // }
             } else {
                 if ($this->kontrak_transportir_model->save($data, $id)) {
                     $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
