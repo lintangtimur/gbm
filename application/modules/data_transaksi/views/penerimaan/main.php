@@ -98,6 +98,9 @@
             $.get("<?php echo base_url()?>data_transaksi/penerimaan/getDataDetail/" + tanggal, function (data) {
                 var data_detail = (JSON.parse(data));
                 for (i = 0; i < data_detail.length; i++) {
+                    if (data_detail[i].KODE_STATUS !== "2"){
+                        var checkbox = '<input type="checkbox" name="pilihan[' + i + ']" id="pilihan" value="'+data_detail[i].ID_PENERIMAAN+'">';
+                    }
                     $('#detailPenerimaan tbody').append(
                         '<tr>' +
                         '<td align="center">' + data_detail[i].ID_PENERIMAAN + '</td>' +
@@ -110,12 +113,13 @@
                         '<td align="center">' + data_detail[i].STATUS + '</td>' +
                         '<td align="center"><i class="icon-edit"></i></td>' +
                         '<td align="center">' +
-                        '<input type="checkbox" name="pilihan[' + i + ']" id="pilihan" value="'+data_detail[i].ID_PENERIMAAN+'">' +
+                        checkbox+
                         '<input type="hidden" id="idPenerimaan" name="idPenerimaan[' + i + ']" value="' + data_detail[i].ID_PENERIMAAN + '">' +
                         '<input type="hidden" id="status" name="status[' + i + ']" value="' + data_detail[i].STATUS + '">' +
                         '</td>' +
                         '</tr>'
                     );
+                    checkbox ='';
                 }
             });
             $('#table_detail').show();

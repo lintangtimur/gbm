@@ -96,7 +96,6 @@
                 var data_detail = (JSON.parse(data));
 				var cekbox = '';
                 for (i = 0; i < data_detail.length; i++) {
-					console.log(data_detail[i].KODE_STATUS);
 					if (data_detail[i].KODE_STATUS !== "2")
 						cekbox = '<input type="checkbox" name="pilihan[' + i + ']" id="pilihan" value="'+data_detail[i].ID_PEMAKAIAN+'">';
                     $('#detailPenerimaan tbody').append(
