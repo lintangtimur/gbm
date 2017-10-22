@@ -124,7 +124,7 @@
     }
 
     function saveDetailKirim(obj) {
-        var url = "<?php echo base_url() ?>data_transaksi/penerimaan/saveKiriman/kirim";
+        var url = "<?php echo base_url() ?>data_transaksi/pemakaian/saveKiriman/kirim";
         $.ajax({
             type: "POST",
             url: url,
@@ -137,7 +137,7 @@
     }
 
     function saveDetailApprove(obj) {
-        var url = "<?php echo base_url() ?>data_transaksi/penerimaan/saveKiriman/approve";
+        var url = "<?php echo base_url() ?>data_transaksi/pemakaian/saveKiriman/approve";
         $.ajax({
             type: "POST",
             url: url,
@@ -149,7 +149,7 @@
 
     }
     function saveDetailTolak(obj) {
-        var url = "<?php echo base_url() ?>data_transaksi/penerimaan/saveKiriman/tolak";
+        var url = "<?php echo base_url() ?>data_transaksi/pemakaian/saveKiriman/tolak";
         $.ajax({
             type: "POST",
             url: url,

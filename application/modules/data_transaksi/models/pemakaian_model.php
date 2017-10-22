@@ -72,13 +72,77 @@ class pemakaian_model extends CI_Model
         return $query->result();
     }
 
-    function saveDetailPenerimaan($idPenerimaan, $statusPenerimaan,$level_user,$kode_level,$user,$jumlah){
-        $query = $this->db->query("call PROSES_PENERIMAAN_V2('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$kode_level."','".$user."',".$jumlah.")");
+    function saveDetailPenerimaan($idPenerimaan, $statusPenerimaan,$level_user,$user,$jumlah){
+        $query = $this->db->query("call PROSES_PEMAKAIAN_V2('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$user."',".$jumlah.")");
         return $query->result();
     }
 
-    function options_data($table){
-        $query = $this->db->get($table);
+    public function options_jenis_bahan_bakar($default = '--Pilih Jenis Bahan Bakar--') {
+        $this->db->from('M_JNS_BHN_BKR');
+
+        $option = array();
+        $list = $this->db->get();
+
+        if (!empty($default)) {
+            $option[''] = $default;
+        }
+
+        foreach ($list->result() as $row) {
+            $option[$row->ID_JNS_BHN_BKR] = $row->NAMA_JNS_BHN_BKR;
+        }
+        return $option;
+    }
+
+    public function options_jenis_pemakaian($default = '--Pilih Jenis Penerimaan--') {
+        $this->db->from('DATA_SETTING');
+        $this->db->where('KEY_SETTING','JENIS_PEMAKAIAN');
+        $option = array();
+        $list = $this->db->get();
+
+        if (!empty($default)) {
+            $option[''] = $default;
+        }
+
+        foreach ($list->result() as $row) {
+            $option[$row->VALUE_SETTING] = $row->NAME_SETTING;
+        }
+        return $option;
+
+    }
+
+    public function options_level($level_user,$kode_level) {
+        $default = '--Pilih Level--';
+        $query = $this->db->query('call LOAD_LEVEL4('.$level_user.', '.$kode_level.')');
+        $option = array();
+        $list = $query;
+
+        if (!empty($default)) {
+            $option[''] = $default;
+        }
+
+        foreach ($list->result() as $row) {
+            $option[$row->SLOC] = $row->LEVEL4;
+        }
+        $this->db->close();
+        return $option;
+
+    }
+
+    public function save($data){
+        $sql = "CALL SAVE_PEMAKAIAN ('"
+            .$data['SLOC']."','"
+            .$data['TGL_PENGAKUAN']."','"
+            .$data['TGL_CATAT']."','"
+            .$data['VALUE_SETTING']."',"
+            .$data['VOL_PEMAKAIAN'].",'"
+            .$data['KETERANGAN']."',
+            '0','".
+            $data['CREATE_BY']."','"
+            .$data['NO_PEMAKAIAN']."','"
+            .$data['ID_JNS_BHN_BKR']."')";
+//        echo $sql;
+        $query = $this->db->query($sql);
+        $this->db->close();
         return $query->result();
     }
 }

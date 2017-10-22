@@ -10,7 +10,7 @@ if (!defined("BASEPATH"))
     exit("No direct script access allowed");
 
 /**
- * 
+ *
  */
 class pemakaian extends MX_Controller
 {
@@ -46,20 +46,21 @@ class pemakaian extends MX_Controller
         $data['data_sources'] = base_url($this->_module . '/load');
         echo Modules::run("template/admin", $data);
     }
-   
-   public function add($id = '') {
-        $page_title = 'Tambah Penerimaan';
+
+    public function add($id = '')
+    {
+        $page_title = 'Tambah Pemakaian';
         $data['id'] = $id;
         if ($id != '') {
-            $page_title = 'Edit Penerimaan';
+            $page_title = 'Edit Pemakaian';
             $get_tbl = $this->tbl_get->data($id);
             $data['default'] = $get_tbl->get()->row();
         }
-        $data['option_pemasok'] = $this->tbl_get->options_data('MASTER_PEMASOK');
-        $data['option_transportir'] = $this->tbl_get->options_data('MASTER_TRANSPORTIR');
-//        $data['option_level'] = $this->tbl_get->options_data('MASTER_LEVEL4');
-//        $data['option_jenis_penerimaan'] = $this->tbl_get->options_data('JENIS_PENERIMAAN');
-        $data['option_jenis_bbm'] = $this->tbl_get->options_data('M_JNS_BHN_BKR');
+        $level_user = $this->session->userdata('level_user');
+        $kode_level = $this->session->userdata('kode_level');
+        $data['option_jenis_pemakaian'] = $this->tbl_get->options_jenis_pemakaian();
+        $data['option_jenis_bbm'] = $this->tbl_get->options_jenis_bahan_bakar();
+        $data['option_level'] = $this->tbl_get->options_level($level_user, $kode_level);
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses');
         $this->load->view($this->_module . '/form', $data);
@@ -72,7 +73,7 @@ class pemakaian extends MX_Controller
         $this->load->library("ltable");
         $table = new stdClass();
         $table->id = 'TABLE_PENERIMAAN';
-		$table->drildown = true;
+        $table->drildown = true;
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
         $table->align = array('NO' => 'center', 'BLTH' => 'center', 'LEVEL4' => 'center', 'STATUS' => 'center', 'TOTAL_VOLUME' => 'center', 'COUNT' => 'center', 'AKSI' => 'center');
         $table->page = $page;
@@ -94,34 +95,28 @@ class pemakaian extends MX_Controller
     }
 
 
-    public function proses() {
-//        $this->form_validation->set_rules('NO_KONTRAK', 'Nomor Kontrak Transportir', 'trim|required');
-//        $this->form_validation->set_rules('NILAI_KONTRAK', 'Nilai Kontrak Transportir', 'trim|required|currency');
-//        if ($this->form_validation->run($this)) {
-//            $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
-//            $id = $this->input->post('id');
-//
-//            $data = array();
-//            $data['KD_KONTRAK_TRANS'] = $this->input->post('NO_KONTRAK');
-//            $data['ID_TRANSPORTIR'] = $this->input->post('TRANSPORTIR');
-//            $data['TGL_KONTRAK_TRANS'] = $this->input->post('TGLKONTRAK');
-//            $data['NILAI_KONTRAK_TRANS'] = $this->input->post('NILAI_KONTRAK');
-//            $data['KET_KONTRAK_TRANS'] = $this->input->post('KETERANGAN');
-//            $data['PATH_KONTRAK_TRANS'] = $this->input->post('FILE_UPLOAD');
-//
-//            if ($id == '') {
-//                if ($this->kontrak_transportir_model->save_as_new($data)) {
-//                    $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
-//                }
-//            } else {
-//                if ($this->kontrak_transportir_model->save($data, $id)) {
-//                    $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
-//                }
-//            }
-//        } else {
-//            $message = array(false, 'Proses gagal', validation_errors(), '');
-//        }
-//        echo json_encode($message, true);
+    public function proses()
+    {
+        $data = array();
+        $data['TGL_CATAT'] = str_replace('-', '', $this->input->post('TGL_CATAT'));
+        $data['TGL_MUTASI'] = date("dmY");
+        $data['TGL_PENGAKUAN'] = str_replace('-', '', $this->input->post('TGL_PENGAKUAN'));
+        $data['SLOC'] = $this->input->post('SLOC');
+        $data['VALUE_SETTING'] = $this->input->post('VALUE_SETTING');
+        $data['ID_JNS_BHN_BKR'] = $this->input->post('ID_JNS_BHN_BKR');
+        $data['NO_TUG'] = $this->input->post('NO_TUG');
+        $data['VOL_PEMAKAIAN'] = $this->input->post('VOL_PEMAKAIAN');
+        $data['CREATE_BY'] = $this->session->userdata('user_name');
+        $data['KETERANGAN'] = $this->input->post('KETERANGAN');
+        $data['NO_PEMAKAIAN'] = $this->input->post('NO_PEMAKAIAN');
+
+        $simpan_data = $this->tbl_get->save($data);
+        if ($simpan_data[0]->RCDB == 'RC00') {
+            $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
+        } else {
+            $message = array(false, 'Proses Gagal', 'Proses penyimpanan data gagal.', '#content_table');
+        }
+        echo json_encode($message, true);
     }
 
     public function getDataDetail($tanggal)
@@ -132,7 +127,7 @@ class pemakaian extends MX_Controller
     /**
      * Fungsi akan melakukan pengambilan di table bila checkbok dipilih
      *
-     * procedure : PROSES_PENERIMAAN_V2
+     * procedure : PROSES_PEMAKAIAN2
      * @param $idPenerimaan format idPenerimaan1#idPenerimaan2#idPenerimaan3
      * @param $status format status1#status2#status3
      * @param $level_user dari session
@@ -147,14 +142,13 @@ class pemakaian extends MX_Controller
         $p = ""; //penampung pilihan
         $s = ""; //penamping status
         $level_user = $this->session->userdata('level_user');
-        $kode_level = $this->session->userdata('kode_level');
         $user_name = $this->session->userdata('user_name');
         for ($i = 0; $i < count($idPenerimaan); $i++) {
             if (isset($pilihan[$i])) {
                 $p = $p . $pilihan[$i] . "#";
-                if ($statusKirim =='kirim') {
+                if ($statusKirim == 'kirim') {
                     $s = $s . "1" . "#";
-                } else if ($statusKirim == 'approve'){
+                } else if ($statusKirim == 'approve') {
                     $s = $s . "2" . "#";
                 } else {
                     $s = $s . "3" . "#";
@@ -166,12 +160,12 @@ class pemakaian extends MX_Controller
         $jumlah = count($pilihan);
 //        echo "call PROSES_PENERIMAAN_V2('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$kode_level."','".$user_name."',".$jumlah.")";
 //        echo "<br/>";
-        $simpan = $this->tbl_get->saveDetailPenerimaan($idPenerimaan, $statusPenerimaan,$level_user,$kode_level,$user_name,$jumlah);
+        $simpan = $this->tbl_get->saveDetailPenerimaan($idPenerimaan, $statusPenerimaan, $level_user, $user_name, $jumlah);
 
-        if ($simpan[0]->RCDB == "RC00"){
-            $message = array(true, 'Proses Berhasil', $simpan[0]->PESANDB, '#content_table' );
-        } else{
-            $message = array(false, 'Proses Gagal',  $simpan[0]->PESANDB, '');
+        if ($simpan[0]->RCDB == "RC00") {
+            $message = array(true, 'Proses Berhasil', $simpan[0]->PESANDB, '#content_table');
+        } else {
+            $message = array(false, 'Proses Gagal', $simpan[0]->PESANDB, '');
         }
         echo json_encode($message, true);
     }
