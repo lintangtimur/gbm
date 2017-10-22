@@ -158,7 +158,7 @@ class stock_opname extends MX_Controller {
             "Jenis Bahan Bakar", 1, 1,
             "Nama Pembangkit", 1, 1,
             "Total Volume", 1, 1,
-            "Detil", 1, 1,
+            "Status", 1, 1,
             "Aksi", 1, 1
         );
         $table->total = $data_table['total'];
@@ -189,10 +189,16 @@ class stock_opname extends MX_Controller {
             $data['STATUS_APPROVE_STOCKOPNAME'] = $this->input->post('0');
             
             if ($id == '') {
+                $data['CD_BY_STOKOPNAME'] = $this->session->userdata('user_name');
+                $data['CD_DATE_STOKOPNAME'] = date('Y-m-d');
+
                 if ($this->tbl_get->save_as_new($data)) {
                     $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
                 }
             } else {
+                $data['UD_BY_STOKOPNAME'] = $this->session->userdata('user_name');
+                $data['UD_DATE_STOKOPNAME'] = date('Y-m-d');
+               
                 if ($this->tbl_get->save($data, $id)) {
                     $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
                 }

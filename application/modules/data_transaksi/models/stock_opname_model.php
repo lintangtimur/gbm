@@ -100,6 +100,7 @@ class stock_opname_model extends CI_Model {
                 $aksi = '';
                 $id = $row->ID_STOCKOPNAME;
                 $status = $row->STATUS_APPROVE_STOCKOPNAME;
+                $status_hasil='';
                 if($level_user == 2){
                     if ($level_user == 2  && $status == 1) {
                         $aksi .= anchor(null, '<i class="icon-check" title="Setuju"></i>', array('class' => 'btn transparant', 'id' => 'button-approve-' . $id, 'onclick' => 'approve_row(this.id)', 'data-source' => base_url($module . '/approveAction/' . $id)));
@@ -123,6 +124,16 @@ class stock_opname_model extends CI_Model {
                     $aksi .= anchor(null, '<i class="icon-remove" title="Tolak"></i>', array('class' => 'btn transparant', 'id' => 'button-tolak-' . $id, 'onclick' => 'tolak_row(this.id)', 'data-source' => base_url($module . '/tolakAction/' . $id)));
                     $aksi .= anchor(null, '<i class="icon-edit" title="Edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
                 }
+
+                if($status==0){
+                   $status_hasil="Belum Dikirm";
+                }else if($status==1){
+                  $status_hasil="Sudah Dikirim";
+                }else if($status==2){
+                  $status_hasil="Disetujui";
+                }else{
+                  $status_hasil="Tidak Disetujui";
+                }
                 
                 // $aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
                 $rows[$id] = array(
@@ -132,7 +143,7 @@ class stock_opname_model extends CI_Model {
                     'NAMA_JNS_BHN_BKR' => $row->NAMA_JNS_BHN_BKR,
                     'LEVEL4' => $row->LEVEL4,
                     'VOLUME_STOCKOPNAME' => $row->VOLUME_STOCKOPNAME,
-                    'STATUS_APPROVE_STOCKOPNAME' => $row->STATUS_APPROVE_STOCKOPNAME,
+                    'STATUS_APPROVE_STOCKOPNAME' => $status_hasil,
                     'aksi' => $aksi
                 );
             }    
