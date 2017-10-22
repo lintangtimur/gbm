@@ -31,7 +31,7 @@
         <div class="control-group">
             <label class="control-label">Pemasok<span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_dropdown('ID_JNS_BHN_BKR', $option_jenis_bbm, !empty($default->ID_JNS_BHN_BKR) ? $default->ID_JNS_BHN_BKR : '', 'class="span6"'); ?>
+                <?php echo form_dropdown('ID_PEMASOK', $option_pemasok, !empty($default->ID_PEMASOK) ? $default->ID_PEMASOK : '', 'class="span6"'); ?>
             </div>
         </div>
         <div class="control-group">
@@ -82,7 +82,7 @@
 
 <script type="text/javascript">
     $(".form_datetime").datepicker({
-        format: "yyyy-mm-dd",
+        format: "dd-mm-yyyy",
         autoclose: true,
         todayBtn: true,
         pickerPosition: "bottom-left"

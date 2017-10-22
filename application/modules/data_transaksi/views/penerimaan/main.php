@@ -49,13 +49,19 @@
                             <table class="pull-right">
                                 <tr>
                                     <td>
-                                        <button class="btn btn-primary" type="button" onclick="saveDetailKirim(this)">Kirim</button>
+                                        <?php if ($this->session->userdata('level_user') > "2" || $this->session->userdata('level_user') === "0") {?>
+                                            <button class="btn btn-primary" type="button" onclick="saveDetailKirim(this)">Kirim</button>
+                                        <?php }?>
                                     </td>
                                     <td>
-                                        <button class="btn btn-primary" type="button" onclick="saveDetailApprove(this)">Approve</button>
+                                        <?php if ($this->session->userdata('level_user') === "2" || $this->session->userdata('level_user') === "0") {?>
+                                            <button class="btn btn-primary" type="button" onclick="saveDetailApprove(this)">Approve</button>
+                                        <?php }?>
                                     </td>
                                     <td>
-                                        <button class="btn btn-primary" type="button" onclick="saveDetailTolak(this)">Tolak</button>
+                                        <?php if ($this->session->userdata('level_user') === "2" || $this->session->userdata('level_user') === "0") {?>
+                                            <button class="btn btn-primary" type="button" onclick="saveDetailTolak(this)">Tolak</button>
+                                        <?php }?>
                                     </td>
                                 </tr>
                             </table>

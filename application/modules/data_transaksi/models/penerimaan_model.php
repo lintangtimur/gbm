@@ -29,14 +29,6 @@ class penerimaan_model extends CI_Model
         return $this->db;
     }
 
-    private function data_detail($key = ''){
-        $this->db->from($this->_table2);
-        if (!empty($key) || is_array($key))
-            $this->db->where_condition($this->_key($key));
-
-        return $this->db;
-    }
-
     public function data_table($module = '', $limit = 20, $offset = 1) {
         $filter = array();
         $kata_kunci = $this->input->post('kata_kunci');
@@ -161,11 +153,27 @@ class penerimaan_model extends CI_Model
 
     }
 
-//    function option_data_procedure($query){
-//        $query = $this->db->query($query);
-//        $this->db->close();
-//        return $query->result();
-//    }
+    public function save($data){
+        $sql = "CALL SAVE_PENERIMAAN ('"
+            .$data['ID_TRANSPORTIR']."','"
+            .$data['ID_PEMASOK']."','"
+            .$data['SLOC']."','"
+            .$data['TGL_PENGAKUAN']."',
+            '".$data['TGL_MUTASI']."','"
+            .$data['TGL_PENERIMAAN']."','"
+            .$data['VALUE_SETTING']."',"
+            .$data['VOL_PENERIMAAN'].","
+            .$data['VOL_PENERIMAAN_REAL'].",
+            '',
+            '0','".
+            $data['CREATE_BY']."','"
+            .$data['NO_PENERIMAAN']."','"
+            .$data['ID_JNS_BHN_BKR']."')";
+//        echo $sql;
+        $query = $this->db->query($sql);
+        $this->db->close();
+        return $query->result();
+    }
 
 }
 ?>
