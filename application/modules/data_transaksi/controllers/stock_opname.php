@@ -83,8 +83,12 @@ class stock_opname extends MX_Controller {
             $USER = $this->session->userdata('user_name');
             $STATUS="1";
 
-            $this->tbl_get->callProsedureStockOpname($ID_STOCKOPNAME, $SLOC, $ID_JNS_BHN_BKR, $TGL_PENGAKUAN, $LEVEL_USER, $STATUS, $USER);
-            $message = array(true, 'Proses Berhasil', 'Proses kirim data berhasil.', '#content_table');
+            $simpan_data =$this->tbl_get->callProsedureStockOpname($ID_STOCKOPNAME, $SLOC, $ID_JNS_BHN_BKR, $TGL_PENGAKUAN, $LEVEL_USER, $STATUS, $USER);
+            if ($simpan_data[0]->RCDB=='RC00') {
+                $message = array(true, 'Proses Berhasil', 'Proses kirim data berhasil.', '#content_table');
+            }else{
+                $message = array(false, 'Proses gagal', 'Proses kirim data gagal.', '');
+            }
         }
         echo json_encode($message);
      }
@@ -103,8 +107,12 @@ class stock_opname extends MX_Controller {
             $USER = $this->session->userdata('user_name');
             $STATUS="2";
 
-            $this->tbl_get->callProsedureStockOpname($ID_STOCKOPNAME, $SLOC, $ID_JNS_BHN_BKR, $TGL_PENGAKUAN, $LEVEL_USER, $STATUS, $USER);
-            $message = array(true, 'Proses Berhasil', 'Proses Appove data berhasil.', '#content_table');
+            $simpan_data =$this->tbl_get->callProsedureStockOpname($ID_STOCKOPNAME, $SLOC, $ID_JNS_BHN_BKR, $TGL_PENGAKUAN, $LEVEL_USER, $STATUS, $USER);
+            if ($simpan_data[0]->RCDB=='RC00') {
+                $message = array(true, 'Proses Berhasil', 'Proses approve data berhasil.', '#content_table');
+            }else{
+                $message = array(false, 'Proses gagal', 'Proses approve data gagal.', '');
+            }
         }
         echo json_encode($message);
      }
@@ -123,8 +131,12 @@ class stock_opname extends MX_Controller {
             $USER = $this->session->userdata('user_name');
             $STATUS="3";
 
-            $this->tbl_get->callProsedureStockOpname($ID_STOCKOPNAME, $SLOC, $ID_JNS_BHN_BKR, $TGL_PENGAKUAN, $LEVEL_USER, $STATUS, $USER);
-            $message = array(true, 'Proses Berhasil', 'Proses tolak data berhasil.', '#content_table');
+            $simpan_data =$this->tbl_get->callProsedureStockOpname($ID_STOCKOPNAME, $SLOC, $ID_JNS_BHN_BKR, $TGL_PENGAKUAN, $LEVEL_USER, $STATUS, $USER);
+            if ($simpan_data[0]->RCDB=='RC00') {
+                $message = array(true, 'Proses Berhasil', 'Proses tolak data berhasil.', '#content_table');
+            }else{
+                $message = array(false, 'Proses gagal', 'Proses tolak data gagal.', '');
+            }
         }
         echo json_encode($message);
     }
