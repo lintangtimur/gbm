@@ -40,13 +40,14 @@ class penerimaan_model extends CI_Model
         $record = $this->data($filter)->get();
         $no=(($offset-1) * $limit) +1;
         $rows = array();
+		$num = 1;
         foreach ($record->result() as $row) {
-            $count = $row->COUNT_VOLUME;
-            if ($count!=0) {
+            // $count = $row->COUNT_VOLUME;
+            // if ($count!=0) {
                 $id = $row->TANGGAL;
                 $aksi = anchor(null, '<i class="icon-eye-open"></i>', array('class' => 'btn transparant button-detail', 'id' => 'button-view-' . $id, 'onClick' => 'show_detail(\''.$id.'\')'));
-                $rows[$id] = array(
-                    'NO' => $no++,
+                $rows[$num] = array(
+                    'NO' => $num,
                     'BLTH' => $row->BLTH,
                     'LEVEL4' => $row->LEVEL4,
                     'STATUS' => $row->STATUS_APPROVE,
@@ -54,7 +55,8 @@ class penerimaan_model extends CI_Model
                     'COUNT' => $row->COUNT_VOLUME,
                     'AKSI' => $aksi
                 );
-            }
+				$num++;
+            // }
         }
         return array('total' => $total, 'rows' => $rows);
     }
@@ -67,6 +69,7 @@ class penerimaan_model extends CI_Model
     function saveDetailPenerimaan($idPenerimaan, $statusPenerimaan,$level_user,$kode_level,$user,$jumlah){
         $query = $this->db->query("call PROSES_PENERIMAAN_V2('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$kode_level."','".$user."',".$jumlah.")");
         return $query->result();
+		// print_debug("call PROSES_PENERIMAAN_V2('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$kode_level."','".$user."',".$jumlah.")");
     }
 
     public function options_pemasok($default = '--Pilih Pemasok--') {

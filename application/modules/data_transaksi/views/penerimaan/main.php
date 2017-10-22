@@ -130,41 +130,95 @@
     }
 
     function saveDetailKirim(obj) {
-        var url = "<?php echo base_url() ?>data_transaksi/penerimaan/saveKiriman/kirim";
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: $('#formKirimDetail').serializeArray(),
-            success: function (data) {
-                console.log(data)
-            }
-        });
-
+		bootbox.confirm('Yakin data ini akan dikirimkan ?', "Tidak", "Ya", function(e) {
+			if(e){
+				bootbox.modal('<div class="loading-progress"></div>');
+				var url = "<?php echo base_url() ?>data_transaksi/penerimaan/saveKiriman/kirim";
+				$.ajax({
+					type: "POST",
+					url: url,
+					data: $('#formKirimDetail').serializeArray(),
+					dataType:"json",
+					success: function (data) {
+						$(".bootbox").modal("hide");
+						var message = '';
+						var content_id = data[3];
+						if (data[0]) {
+							icon = 'icon-ok-sign';
+							color = '#0072c6;';
+						}
+						message += '<div class="box-title" style="color:' + color + '"><i class="' + icon + '"></i> ' + data[1] + '</div>';
+						message += data[2];
+						bootbox.alert(message, function() {
+							load_table("#content_table", 1);
+							$('#detailPenerimaan tbody tr').detach();
+							$('#table_detail').hide();
+						});
+					}
+				});
+			}
+		});
     }
 
     function saveDetailApprove(obj) {
-        var url = "<?php echo base_url() ?>data_transaksi/penerimaan/saveKiriman/approve";
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: $('#formKirimDetail').serializeArray(),
-            success: function (data) {
-                console.log(data)
-            }
-        });
-
+		bootbox.confirm('Yakin data ini akan di Setujui ?', "Tidak", "Ya", function(e) {
+			if(e){
+				bootbox.modal('<div class="loading-progress"></div>');
+				var url = "<?php echo base_url() ?>data_transaksi/penerimaan/saveKiriman/approve";
+				$.ajax({
+					type: "POST",
+					url: url,
+					data: $('#formKirimDetail').serializeArray(),
+					dataType:"json",
+					success: function (data) {
+						$(".bootbox").modal("hide");
+						var message = '';
+						var content_id = data[3];
+						if (data[0]) {
+							icon = 'icon-ok-sign';
+							color = '#0072c6;';
+						}
+						message += '<div class="box-title" style="color:' + color + '"><i class="' + icon + '"></i> ' + data[1] + '</div>';
+						message += data[2];
+						bootbox.alert(message, function() {
+							load_table("#content_table", 1);
+							$('#detailPenerimaan tbody tr').detach();
+							$('#table_detail').hide();
+						});
+					}
+				});
+			}
+		});
     }
     function saveDetailTolak(obj) {
-        var url = "<?php echo base_url() ?>data_transaksi/penerimaan/saveKiriman/tolak";
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: $('#formKirimDetail').serializeArray(),
-            success: function (data) {
-                console.log(data)
-            }
-        });
-
+		bootbox.confirm('Yakin data ini akan ditolak ?', "Tidak", "Ya", function(e) {
+			if(e){
+				var url = "<?php echo base_url() ?>data_transaksi/penerimaan/saveKiriman/tolak";
+				bootbox.modal('<div class="loading-progress"></div>');
+				$.ajax({
+					type: "POST",
+					url: url,
+					data: $('#formKirimDetail').serializeArray(),
+					dataType:"json",
+					success: function (data) {
+						$(".bootbox").modal("hide");
+						var message = '';
+						var content_id = data[3];
+						if (data[0]) {
+							icon = 'icon-ok-sign';
+							color = '#0072c6;';
+						}
+						message += '<div class="box-title" style="color:' + color + '"><i class="' + icon + '"></i> ' + data[1] + '</div>';
+						message += data[2];
+						bootbox.alert(message, function() {
+							load_table("#content_table", 1);
+							$('#detailPenerimaan tbody tr').detach();
+							$('#table_detail').hide();
+						});
+					}
+				});
+			}
+		});
     }
 
     jQuery(function ($) {

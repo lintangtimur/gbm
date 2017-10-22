@@ -48,13 +48,14 @@ class pemakaian_model extends CI_Model
         $record = $this->data($filter)->get();
         $no=(($offset-1) * $limit) +1;
         $rows = array();
+		$num = 1;
         foreach ($record->result() as $row) {
-            $count = $row->COUNT_VOLUME;
-            if ($count!=0) {
+            // $count = $row->COUNT_VOLUME;
+            // if ($count!=0) {
                 $id = $row->TANGGAL;
                 $aksi = anchor(null, '<i class="icon-eye-open"></i>', array('class' => 'btn transparant button-detail', 'id' => 'button-view-' . $id, 'onClick' => 'show_detail(\''.$id.'\')'));
-                $rows[$id] = array(
-                    'NO' => $no++,
+                $rows[$num] = array(
+                    'NO' => $num,
                     'BLTH' => $row->BLTH,
                     'LEVEL4' => $row->LEVEL4,
                     'STATUS' => $row->STATUS_APPROVE,
@@ -62,14 +63,15 @@ class pemakaian_model extends CI_Model
                     'COUNT' => $row->COUNT_VOLUME,
                     'AKSI' => $aksi
                 );
-            }
+				$num++;
+            // }
         }
         return array('total' => $total, 'rows' => $rows);
     }
 
     function getTableViewDetail($tanggal){
-        $query = $this->db->query("select * from VLOAD_LIST_DETAIL_PEMAKAIAN where DATE_FORMAT(TGL_PENGAKUAN,'%m%Y') = '".$tanggal."'");
-        return $query->result();
+        $data = $this->db->query("select * from VLOAD_LIST_DETAIL_PEMAKAIAN where DATE_FORMAT(TGL_PENGAKUAN,'%m%Y') = '".$tanggal."'");
+        return $data->result();
     }
 
     function saveDetailPenerimaan($idPenerimaan, $statusPenerimaan,$level_user,$user,$jumlah){
