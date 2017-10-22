@@ -100,12 +100,9 @@ class stock_opname_model extends CI_Model {
             foreach ($record->result() as $row) {
                 $id = $row->ID_STOCKOPNAME;
                 $aksi = anchor(null, '<i class="icon-share"></i>', array('class' => 'btn transparant', 'id' => 'button-kirim-' . $id, 'onclick' => 'kirim_row(this.id)', 'data-source' => base_url($module . '/sendAction/' . $id)));
-                $aksi .= anchor(null, '<i class="icon-search"></i>', array('class' => 'btn transparant', 'id' => 'button-search-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadApprove/' . $id)));
-                //versi lama
-                // $aksi .= anchor(null, '<i class="icon-check"></i>', array('class' => 'btn transparant', 'id' => 'button-approve-' . $id, 'onclick' => 'approve_row(this.id)', 'data-source' => base_url($module . '/approveAction/' . $id)));
-                // $aksi .= anchor(null, '<i class="icon-remove"></i>', array('class' => 'btn transparant', 'id' => 'button-tolak-' . $id, 'onclick' => 'tolak_row(this.id)', 'data-source' => base_url($module . '/tolakAction/' . $id)));
-                //end versi lama
-
+                $aksi .= anchor(null, '<i class="icon-check"></i>', array('class' => 'btn transparant', 'id' => 'button-approve-' . $id, 'onclick' => 'approve_row(this.id)', 'data-source' => base_url($module . '/approveAction/' . $id)));
+                $aksi .= anchor(null, '<i class="icon-remove"></i>', array('class' => 'btn transparant', 'id' => 'button-tolak-' . $id, 'onclick' => 'tolak_row(this.id)', 'data-source' => base_url($module . '/tolakAction/' . $id)));
+                
                 // $aksi .= anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
                 // $aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
                 $rows[$id] = array(

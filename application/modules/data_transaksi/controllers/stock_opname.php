@@ -63,113 +63,71 @@ class stock_opname extends MX_Controller {
         $data['form_action'] = base_url($this->_module . '/proses');
         $this->load->view($this->_module . '/form', $data);
     }
-    
-    public function loadApprove($id = '') {
-        $page_title = 'Approve '.$this->_title;
-        $data['id'] = $id;
-        $get_tbl = $this->tbl_get->data($id);
-        $data['default'] = $get_tbl->get()->row();
-        $data['parent_options'] = $this->tbl_get->options_jns_bhn_bkr();
-        $data['parent_options_pem'] = $this->tbl_get->options_pembangkit();
-        $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
-        $data['form_action'] = base_url($this->_module . '/prosesApprove');
-        $this->load->view($this->_module . '/form_approve', $data);
-    }
-    public function prosesApprove(){
-    
-        // $approve= $this->input->post('approve');
-        // $tolak= $this->input->post('tolak');
-        // if($approve!=''){
-        //    print_r("approve");
-        // }else{
-        //    print_r("tolak");
-        // }
-           $id = $this->input->post('ID_STOCKOPNAME');
-           print_r($id);
-        // if($id==''){
-        //     $message = array(false, 'Proses gagal', 'Proses tolak data gagal.', '');
-        // }else{
-        //     $data = array();
-        //     // $data['NO_STOCKOPNAME'] = $this->input->post('NO_STOCKOPNAME');
-        //     $ID_STOCKOPNAME=$ID;
-        //     $ID_JNS_BHN_BKR = $this->input->post('ID_JNS_BHN_BKR');
-        //     // $data['TGL_BA_STOCKOPNAME'] = $this->input->post('TGL_BA_STOCKOPNAME');
-        //     $TGL_PENGAKUAN = $this->input->post('TGL_PENGAKUAN');
-        //     $SLOC = $this->input->post('SLOC');
-        //     $LEVEL_USER = $this->session->userdata('level_user');
-        //     $USER = $this->session->userdata('user_name');
-        //     $STATUS="2";
-
-        //     $this->tbl_get->callProsedureStockOpname($ID_STOCKOPNAME, $SLOC, $ID_JNS_BHN_BKR, $TGL_PENGAKUAN, $LEVEL_USER, $STATUS, $USER);
-        //     $message = array(true, 'Proses Berhasil', 'Proses kirim data berhasil.', '#content_table');
-        // }
-        // echo json_encode($message);
-    }
 
      public function edit($id) {
         $this->add($id);
     }
     
-    //  public function sendAction($id=''){
-    //     if($id==''){
-    //         $message = array(false, 'Proses gagal', 'Proses kirim data gagal.', '');
-    //     }else{
-    //         $data['id'] = $id;
-    //         $data = $this->tbl_get->data($id);
-    //         $hasil=$data->get()->row();
-    //         $ID_STOCKOPNAME=$hasil->ID_STOCKOPNAME;
-    //         $SLOC=$hasil->SLOC;
-    //         $TGL_PENGAKUAN=$hasil->TGL_PENGAKUAN;
-    //         $ID_JNS_BHN_BKR=$hasil->ID_JNS_BHN_BKR;
-    //         $LEVEL_USER = $this->session->userdata('level_user');
-    //         $USER = $this->session->userdata('user_name');
-    //         $STATUS="1";
+     public function sendAction($id=''){
+        if($id==''){
+            $message = array(false, 'Proses gagal', 'Proses kirim data gagal.', '');
+        }else{
+            $data['id'] = $id;
+            $data = $this->tbl_get->data($id);
+            $hasil=$data->get()->row();
+            $ID_STOCKOPNAME=$hasil->ID_STOCKOPNAME;
+            $SLOC=$hasil->SLOC;
+            $TGL_PENGAKUAN=$hasil->TGL_PENGAKUAN;
+            $ID_JNS_BHN_BKR=$hasil->ID_JNS_BHN_BKR;
+            $LEVEL_USER = $this->session->userdata('level_user');
+            $USER = $this->session->userdata('user_name');
+            $STATUS="1";
 
-    //         $this->tbl_get->callProsedureStockOpname($ID_STOCKOPNAME, $SLOC, $ID_JNS_BHN_BKR, $TGL_PENGAKUAN, $LEVEL_USER, $STATUS, $USER);
-    //         $message = array(true, 'Proses Berhasil', 'Proses kirim data berhasil.', '#content_table');
-    //     }
-    //     echo json_encode($message);
-    //  }
-    //  public function approveAction($id){
-    //     if($id==''){
-    //         $message = array(false, 'Proses gagal', 'Proses kirim data gagal.', '');
-    //     }else{
-    //         $data['id'] = $id;
-    //         $data = $this->tbl_get->data($id);
-    //         $hasil=$data->get()->row();
-    //         $ID_STOCKOPNAME=$hasil->ID_STOCKOPNAME;
-    //         $SLOC=$hasil->SLOC;
-    //         $TGL_PENGAKUAN=$hasil->TGL_PENGAKUAN;
-    //         $ID_JNS_BHN_BKR=$hasil->ID_JNS_BHN_BKR;
-    //         $LEVEL_USER = $this->session->userdata('level_user');
-    //         $USER = $this->session->userdata('user_name');
-    //         $STATUS="2";
+            $this->tbl_get->callProsedureStockOpname($ID_STOCKOPNAME, $SLOC, $ID_JNS_BHN_BKR, $TGL_PENGAKUAN, $LEVEL_USER, $STATUS, $USER);
+            $message = array(true, 'Proses Berhasil', 'Proses kirim data berhasil.', '#content_table');
+        }
+        echo json_encode($message);
+     }
+     public function approveAction($id){
+        if($id==''){
+            $message = array(false, 'Proses gagal', 'Proses kirim data gagal.', '');
+        }else{
+            $data['id'] = $id;
+            $data = $this->tbl_get->data($id);
+            $hasil=$data->get()->row();
+            $ID_STOCKOPNAME=$hasil->ID_STOCKOPNAME;
+            $SLOC=$hasil->SLOC;
+            $TGL_PENGAKUAN=$hasil->TGL_PENGAKUAN;
+            $ID_JNS_BHN_BKR=$hasil->ID_JNS_BHN_BKR;
+            $LEVEL_USER = $this->session->userdata('level_user');
+            $USER = $this->session->userdata('user_name');
+            $STATUS="2";
 
-    //         $this->tbl_get->callProsedureStockOpname($ID_STOCKOPNAME, $SLOC, $ID_JNS_BHN_BKR, $TGL_PENGAKUAN, $LEVEL_USER, $STATUS, $USER);
-    //         $message = array(true, 'Proses Berhasil', 'Proses kirim data berhasil.', '#content_table');
-    //     }
-    //     echo json_encode($message);
-    //  }
-    //  public function tolakAction($id){
-    //     if($id==''){
-    //         $message = array(false, 'Proses gagal', 'Proses tolak data gagal.', '');
-    //     }else{
-    //         $data['id'] = $id;
-    //         $data = $this->tbl_get->data($id);
-    //         $hasil=$data->get()->row();
-    //         $ID_STOCKOPNAME=$hasil->ID_STOCKOPNAME;
-    //         $SLOC=$hasil->SLOC;
-    //         $TGL_PENGAKUAN=$hasil->TGL_PENGAKUAN;
-    //         $ID_JNS_BHN_BKR=$hasil->ID_JNS_BHN_BKR;
-    //         $LEVEL_USER = $this->session->userdata('level_user');
-    //         $USER = $this->session->userdata('user_name');
-    //         $STATUS="3";
+            $this->tbl_get->callProsedureStockOpname($ID_STOCKOPNAME, $SLOC, $ID_JNS_BHN_BKR, $TGL_PENGAKUAN, $LEVEL_USER, $STATUS, $USER);
+            $message = array(true, 'Proses Berhasil', 'Proses kirim data berhasil.', '#content_table');
+        }
+        echo json_encode($message);
+     }
+     public function tolakAction($id){
+        if($id==''){
+            $message = array(false, 'Proses gagal', 'Proses tolak data gagal.', '');
+        }else{
+            $data['id'] = $id;
+            $data = $this->tbl_get->data($id);
+            $hasil=$data->get()->row();
+            $ID_STOCKOPNAME=$hasil->ID_STOCKOPNAME;
+            $SLOC=$hasil->SLOC;
+            $TGL_PENGAKUAN=$hasil->TGL_PENGAKUAN;
+            $ID_JNS_BHN_BKR=$hasil->ID_JNS_BHN_BKR;
+            $LEVEL_USER = $this->session->userdata('level_user');
+            $USER = $this->session->userdata('user_name');
+            $STATUS="3";
 
-    //         $this->tbl_get->callProsedureStockOpname($ID_STOCKOPNAME, $SLOC, $ID_JNS_BHN_BKR, $TGL_PENGAKUAN, $LEVEL_USER, $STATUS, $USER);
-    //         $message = array(true, 'Proses Berhasil', 'Proses tolak data berhasil.', '#content_table');
-    //     }
-    //     echo json_encode($message);
-    // }
+            $this->tbl_get->callProsedureStockOpname($ID_STOCKOPNAME, $SLOC, $ID_JNS_BHN_BKR, $TGL_PENGAKUAN, $LEVEL_USER, $STATUS, $USER);
+            $message = array(true, 'Proses Berhasil', 'Proses tolak data berhasil.', '#content_table');
+        }
+        echo json_encode($message);
+    }
 
     public function load($page = 1) {
         $data_table = $this->tbl_get->data_table($this->_module, $this->_limit, $page);
