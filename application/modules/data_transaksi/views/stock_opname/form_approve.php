@@ -15,6 +15,7 @@
         $hidden_form = array('id' => !empty($id) ? $id : '');
         echo form_open_multipart($form_action, array('id' => 'finput', 'class' => 'form-horizontal'), $hidden_form);
         ?>
+        <h2>ini hahah</div>
          <!--perhitungan Start -->
         <div class="col-md-12">
             <div class="col-md-5">
@@ -22,6 +23,7 @@
                 <br>
                 <label for="password" class="control-label">No Stock Opname <span class="required">*</span> : </label>
                 <div class="controls">
+                <?php echo form_input('ID_STOCKOPNAME', 'hahahah', 'class="span9"'); ?>
                 <?php echo form_input('NO_STOCKOPNAME', !empty($default->NO_STOCKOPNAME) ? $default->NO_STOCKOPNAME : '', 'class="span9"'); ?>
                 </div>
                 <br>
@@ -52,8 +54,12 @@
                 <?php echo form_input('TGL_PENGAKUAN', !empty($default->TGL_PENGAKUAN) ? $default->TGL_PENGAKUAN : '', 'class="span9 input-append date form_datetime"'); ?>
                 </div>
                 <br>
-                <div class="controls">
-                <?php echo anchor(null, '<i class="icon-save"></i> Simpan', array('id' => 'button-save', 'class' => 'blue btn', 'onclick' => "simpan_data(this.id, '#finput', '#button-back')")); ?>
+                <div class="controls"><br>
+                <!-- <input type=text value="2" id="approve">
+                <input type=text value="3" id="tolak"><br> -->
+               
+                <?php echo anchor(null, '<i class="icon-check"></i> Setujui', array('id' => 'button-approve', 'class' => 'blue btn', 'onclick' => "simpan_data(this.id, '#finput', '#button-back')")); ?>
+               
                 <?php echo anchor(null, '<i class="icon-circle-arrow-left"></i> Tutup', array('id' => 'button-back', 'class' => 'btn', 'onclick' => 'close_form(this.id)')); ?>
                 </div>
                 </div>
