@@ -108,25 +108,25 @@ class persediaan_bbm extends MX_Controller {
         $table->align = array('NO' => 'center', 'NAMA_REGIONAL' => 'left', 'LEVEL1' => 'left', 'COCODE' => 'center', 'NAMA_REGIONAL' => 'left', 'aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
-        $table->jumlah_kolom = 19;
+        $table->jumlah_kolom = 18;
         $table->header[] = array( 
             "No", 1, 1,
-            "Regional", 1, 1,
-            "Wilayah", 1, 1,
-            "Area", 1, 1,
-            "Rayon", 1, 1,
-            "Pembangkit", 1, 1,
+            "Level 0", 1, 1,
+            "Level 1", 1, 1,
+            "Level 2", 1, 1,
+            "Level 3", 1, 1,
+            "Level 4", 1, 1,
             "Bahan Bakar", 1, 1,
             "Tgl Mutasi Persediaan", 1, 1,
             "Stock Awal", 1, 1,
             "Penerimaan Real", 1, 1,
             "Pemakaian Sendiri", 1, 1,
             "Kirim", 1, 1,
-            "Volume Opname", 1, 1,
-            "Dead Stock", 1, 1,
-            "Stock Akhir Real", 1, 1,
-            "Stock Akhir Efektif", 1, 1,
-            "Stock Akhir Koreksi", 1, 1,
+            "Volume Opname (L)", 1, 1,
+            "Dead Stok", 1, 1,
+            "Stok Akhir", 1, 1,
+            "Stok Akhir Efektif", 1, 1,
+            // "Stok Akhir Koreksi", 1, 1,
             "SHO", 1, 1,
             "REV", 1, 1
         );
