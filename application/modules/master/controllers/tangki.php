@@ -76,7 +76,7 @@ class tangki extends MX_Controller {
         $table = new stdClass();
         $table->id = 'ID_VENDOR';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('number' => 'center','unit_pembangkit' => 'center','jenis_bbm' => 'center','kapasitas' => 'center','deadstock' => 'center','stockefektif' => 'center','aksi' => 'center');
+        $table->align = array('number' => 'center','unit_pembangkit' => 'center','jenis_bbm' => 'center','kapasitas' => 'right','deadstock' => 'right','stockefektif' => 'right','aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
         $table->jumlah_kolom = 7;
@@ -84,9 +84,9 @@ class tangki extends MX_Controller {
             "No", 1, 1,
             "Pembangkit", 1, 1,
             "Jenis BBM", 1, 1,
-            "Kapasitas", 1, 1,
-            "Dead Stock", 1, 1,
-            "Stock Efektif", 1, 1,
+            "Kapasitas (L)", 1, 1,
+            "Dead Stock (L)", 1, 1,
+            "Stock Efektif (L)", 1, 1,
             "Aksi", 1, 1
         );
         $table->total = $data_table['total'];
