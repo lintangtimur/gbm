@@ -36,7 +36,7 @@ class kontrak_pemasok extends MX_Controller {
         $data['button_group'] = array();
         if ($this->laccess->otoritas('add')) {
             $data['button_group'] = array(
-                anchor(null, '<i class="icon-plus"></i> Tambah Data', array('class' => 'btn yellow', 'id' => 'button-add', 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($this->_module . '/add')))
+                anchor(null, '<i class="icon-plus"></i> Tambah Data', array('class' => 'btn yellow', 'id' => 'button-add', 'onclick' => 'load_form(this.id)', 'data-source' => base_url($this->_module . '/add')))
             );
         }
 

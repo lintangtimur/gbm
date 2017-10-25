@@ -34,7 +34,7 @@ class persediaan_bbm_model extends CI_Model {
         $this->db->join('MASTER_REGIONAL R', 'R.ID_REGIONAL = M1.ID_REGIONAL','left');
         $this->db->join('M_JNS_BHN_BKR JB', 'JB.ID_JNS_BHN_BKR = A.ID_JNS_BHN_BKR','left');
         $this->db->join('MUTASI_PEMAKAIAN PM', 'PM.SLOC = A.SLOC AND PM.ID_JNS_BHN_BKR=A.ID_JNS_BHN_BKR','left');
-        $this->db->join('STOCK_OPNAME SO', 'SO.SLOC = A.SLOC','left');
+        $this->db->join('STOCK_OPNAME SO', 'SO.SLOC = A.SLOC AND SO.ID_JNS_BHN_BKR = A.ID_JNS_BHN_BKR','left');
 
         if ($_POST['ID_REGIONAL'] !='') {
             $this->db->where("R.ID_REGIONAL",$_POST['ID_REGIONAL']);   
