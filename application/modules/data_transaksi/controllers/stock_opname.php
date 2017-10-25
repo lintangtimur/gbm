@@ -141,7 +141,7 @@ class stock_opname extends MX_Controller {
             $message = array(false, 'Proses gagal', 'Proses kirim data gagal.', '');
         }else{
             $data['id'] = $id;
-            $data = $this->tbl_get->data($id);
+            $data = $this->tbl_get->dataToUpdate($id);
             $hasil=$data->get()->row();
             $ID_STOCKOPNAME=$hasil->ID_STOCKOPNAME;
             $SLOC=$hasil->SLOC;
@@ -165,7 +165,7 @@ class stock_opname extends MX_Controller {
             $message = array(false, 'Proses gagal', 'Proses Appove data gagal.', '');
         }else{
             $data['id'] = $id;
-            $data = $this->tbl_get->data($id);
+            $data = $this->tbl_get->dataToUpdate($id);
             $hasil=$data->get()->row();
             $ID_STOCKOPNAME=$hasil->ID_STOCKOPNAME;
             $SLOC=$hasil->SLOC;
@@ -189,7 +189,7 @@ class stock_opname extends MX_Controller {
             $message = array(false, 'Proses gagal', 'Proses tolak data gagal.', '');
         }else{
             $data['id'] = $id;
-            $data = $this->tbl_get->data($id);
+            $data = $this->tbl_get->dataToUpdate($id);
             $hasil=$data->get()->row();
             $ID_STOCKOPNAME=$hasil->ID_STOCKOPNAME;
             $SLOC=$hasil->SLOC;
@@ -236,6 +236,31 @@ class stock_opname extends MX_Controller {
         
     }
 
+     public function loadApprove($id = '') {
+        $page_title = 'Approve '.$this->_title;
+        $data['id'] = $id;
+
+        $get_tbl = $this->tbl_get->dataToUpdate($id);
+        $data['default'] = $get_tbl->get()->row();
+         $data['id_dok'] = $data['default']->PATH_STOCKOPNAME; 
+        $data['parent_options_jns'] = $this->tbl_get->options_jns_bhn_bkr();
+        $data['parent_options_pem'] = $this->tbl_get->options_pembangkit_add();
+        $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
+        $data['form_action'] = base_url($this->_module . '/prosesApprove');
+        $this->load->view($this->_module . '/form_approve', $data);
+    }
+
+      public function prosesApprove(){
+        //print_r($this->input->post('setuju')); die;
+       $cek=$this->input->post('setuju');
+       $id =$this->input->post('id');
+       if($cek==2){
+            $this->approveAction($id);
+       }else{
+            $this->tolakAction($id);
+       }     
+    }
+
     public function proses() {
         $this->form_validation->set_rules('NO_STOCKOPNAME', 'NO STOCKOPNAME', 'required');
         $this->form_validation->set_rules('ID_JNS_BHN_BKR', 'JENIS BAHAN BAKAR', 'required');
@@ -268,7 +293,7 @@ class stock_opname extends MX_Controller {
             if ($id == '') {
                 $new_name = date('Ymd').'_'.$_FILES["FILE_UPLOAD"]['name'];
                 $config['file_name'] = $new_name;
-                $config['upload_path'] = 'assets/upload_kontrak_trans/';
+                $config['upload_path'] = 'assets/upload_stock_opname/';
                 $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
                 $config['max_size'] = 1024 * 4; 
 
