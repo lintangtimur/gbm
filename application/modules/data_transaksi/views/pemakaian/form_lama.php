@@ -35,34 +35,34 @@
                 <input type="text" name="TGL_PENGAKUAN" class="form-control span12 form_datetime" placeholder="Tanggal Pengakuan" required>
             </div>
         </div>
-        <div class="control-group">
+        <div class="control-group" id="regional" style="<?php echo !empty($read[0]) ? $read[0] : '';?>">
             <label  class="control-label">Regional <span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_dropdown('ID_REGIONAL', $reg_options, !empty($default->ID_REGIONAL) ? $default->ID_REGIONAL : ''); ?>
+                <?php echo form_dropdown('kode_regional', $option_regional, !empty($default->KODE_LEVEL) ? $default->KODE_LEVEL : '', 'class="span8 select2 " id="kode_regional"'); ?>
             </div>
         </div>
-        <div class="control-group">
+        <div class="control-group" id="level1" style="<?php echo !empty($read[1]) ? $read[1] : '';?>">
             <label  class="control-label">Level 1<span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_dropdown('COCODE', $lv1_options, !empty($default->COCODE) ? $default->COCODE : ''); ?>
+                <?php echo form_dropdown('kode_level1', !empty($option_level1) ? $option_level1 : array(), !empty($default->KODE_LEVEL) ? $default->KODE_LEVEL : '', 'class="span8 select2" id="kode_level1"'); ?>
             </div>
         </div>
-		<div class="control-group">
+		<div class="control-group" id="level2" style="<?php echo !empty($read[2]) ? $read[2] : '';?>">
             <label  class="control-label">Level 2<span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_dropdown('PLANT', $lv2_options, !empty($default->PLANT) ? $default->PLANT : ''); ?>
+                <?php echo form_dropdown('kode_level2', !empty($option_level2) ? $option_level2 : array(), !empty($default->KODE_LEVEL) ? $default->KODE_LEVEL : '', 'class="span8 select2" id="kode_level2"'); ?>
             </div>
         </div>
-		<div class="control-group">
+		<div class="control-group" id="level3" style="<?php echo !empty($read[3]) ? $read[3] : '';?>">
             <label  class="control-label">Level 3<span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_dropdown('STORE_SLOC', $lv3_options, !empty($default->STORE_SLOC) ? $default->STORE_SLOC : ''); ?>
+                <?php echo form_dropdown('kode_level3', !empty($option_level3) ? $option_level3 : array(), !empty($default->KODE_LEVEL) ? $default->KODE_LEVEL : '', 'class="span8 select2" id="kode_level3"'); ?>
             </div>
         </div>
-		<div class="control-group">
+		<div class="control-group" id="level4" style="<?php echo !empty($read[4]) ? $read[4] : '';?>">
             <label  class="control-label">Level 4<span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : ''); ?>
+                <?php echo form_dropdown('kode_level4', !empty($option_level4) ? $option_level4 : array(), !empty($default->KODE_LEVEL) ? $default->KODE_LEVEL : '', 'class="span8 select2" id="kode_level4"'); ?>
             </div>
         </div>
         <div class="control-group">
@@ -91,7 +91,7 @@
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label">Keterangan : </label>
+            <label class="control-label">KETERANGAN<span class="required">*</span> : </label>
             <div class="controls">
                 <input type="text" name="KETERANGAN" class="form-control span4" placeholder="Keterangan Pemakaian">
             </div>
@@ -113,102 +113,21 @@
         todayBtn: true,
         pickerPosition: "bottom-left"
     });
-
-    function setDefaultLv1(){
-        $('select[name="COCODE"]').empty();
-        $('select[name="COCODE"]').append('<option value="">--Pilih Level 1--</option>');
-    }
-
-    function setDefaultLv2(){
-        $('select[name="PLANT"]').empty();
-        $('select[name="PLANT"]').append('<option value="">--Pilih Level 2--</option>');
-    }
-
-    function setDefaultLv3(){
-        $('select[name="STORE_SLOC"]').empty();
-        $('select[name="STORE_SLOC"]').append('<option value="">--Pilih Level 3--</option>');
-    }
-
-    function setDefaultLv4(){
-        $('select[name="SLOC"]').empty();
-        $('select[name="SLOC"]').append('<option value="">--Pilih Level 4--</option>');
-    }
-
-    $('select[name="ID_REGIONAL"]').on('change', function() {
-        var stateID = $(this).val();
-        var vlink_url = '<?php echo base_url()?>master/master_level4/get_options_lv1/'+stateID;
-        setDefaultLv1();
-        setDefaultLv2();
-        setDefaultLv3();
-        setDefaultLv4();
-        if(stateID) {
-            $.ajax({
-                url: vlink_url,
-                type: "GET",
-                dataType: "json",
-                success:function(data) {
-                    $.each(data, function(key, value) {
-                        $('select[name="COCODE"]').append('<option value="'+ value.COCODE +'">'+ value.LEVEL1 +'</option>');
-                    });
-                }
-            });
-        }
-    });
-
-    $('select[name="COCODE"]').on('change', function() {
-        var stateID = $(this).val();
-        var vlink_url = '<?php echo base_url()?>master/master_level4/get_options_lv2/'+stateID;
-        setDefaultLv2();
-        setDefaultLv3();
-        setDefaultLv4();
-        if(stateID) {
-            $.ajax({
-                url: vlink_url,
-                type: "GET",
-                dataType: "json",
-                success:function(data) {
-                    $.each(data, function(key, value) {
-                        $('select[name="PLANT"]').append('<option value="'+ value.PLANT +'">'+ value.LEVEL2 +'</option>');
-                    });
-                }
-            });
-        }
-    });
-
-    $('select[name="PLANT"]').on('change', function() {
-        var stateID = $(this).val();
-        var vlink_url = '<?php echo base_url()?>master/master_level4/get_options_lv3/'+stateID;
-        setDefaultLv3();
-        setDefaultLv4();
-        if(stateID) {
-            $.ajax({
-                url: vlink_url,
-                type: "GET",
-                dataType: "json",
-                success:function(data) {
-                    $.each(data, function(key, value) {
-                        $('select[name="STORE_SLOC"]').append('<option value="'+ value.STORE_SLOC +'">'+ value.LEVEL3 +'</option>');
-                    });
-                }
-            });
-        }
-    });
-
-    $('select[name="STORE_SLOC"]').on('change', function() {
-        var stateID = $(this).val();
-        var vlink_url = '<?php echo base_url()?>laporan/persediaan_bbm/get_options_lv4/'+stateID;
-        setDefaultLv4();
-        if(stateID) {
-            $.ajax({
-                url: vlink_url,
-                type: "GET",
-                dataType: "json",
-                success:function(data) {
-                    $.each(data, function(key, value) {
-                        $('select[name="SLOC"]').append('<option value="'+ value.SLOC +'">'+ value.LEVEL4 +'</option>');
-                    });
-                }
-            });
-        }
-    });
+	idlevel = "<?php echo $this->session->userdata('level_user');?>";
+	$( "#kode_regional" ).change(function() {
+		load_level('<?php echo $loadlevel; ?>1/'+$(this).val(),'', "#kode_level1");
+	});
+	$( "#kode_level1" ).change(function() {
+		load_level('<?php echo $loadlevel; ?>2/'+$(this).val(),'', "#kode_level2");
+	});
+	$( "#kode_level2" ).change(function() {
+		load_level('<?php echo $loadlevel; ?>3/'+$(this).val(),'', "#kode_level3");
+	});
+	$( "#kode_level3" ).change(function() {
+		a = $("#kode_level2").val();
+		b = $("#kode_level3").val();
+		c = a + ".." + b;
+		load_level('<?php echo $loadlevel; ?>4/'+c,'', "#kode_level4");
+	});
+	
 </script>

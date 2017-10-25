@@ -334,7 +334,7 @@ class persediaan_bbm_model extends CI_Model {
                 $q = "SELECT C.PLANT, C.LEVEL2,  D.COCODE,  D.LEVEL1, E.ID_REGIONAL, E.NAMA_REGIONAL
                 FROM MASTER_LEVEL2 C 
                 LEFT JOIN MASTER_LEVEL1 D ON D.COCODE=C.COCODE 
-                LEFT JOIN master_regional E ON E.ID_REGIONAL=D.ID_REGIONAL
+                LEFT JOIN MASTER_REGIONAL E ON E.ID_REGIONAL=D.ID_REGIONAL
                 WHERE PLANT='$key' ";
                 break;
             case "3":
@@ -342,7 +342,7 @@ class persediaan_bbm_model extends CI_Model {
                 FROM MASTER_LEVEL3 B
                 LEFT JOIN MASTER_LEVEL2 C ON C.PLANT=B.PLANT 
                 LEFT JOIN MASTER_LEVEL1 D ON D.COCODE=C.COCODE 
-                LEFT JOIN master_regional E ON E.ID_REGIONAL=D.ID_REGIONAL
+                LEFT JOIN MASTER_REGIONAL E ON E.ID_REGIONAL=D.ID_REGIONAL
                 WHERE STORE_SLOC='$key' ";
                 break;
             case "4":
@@ -351,7 +351,7 @@ class persediaan_bbm_model extends CI_Model {
                 LEFT JOIN MASTER_LEVEL3 B ON B.STORE_SLOC=A.STORE_SLOC 
                 LEFT JOIN MASTER_LEVEL2 C ON C.PLANT=B.PLANT 
                 LEFT JOIN MASTER_LEVEL1 D ON D.COCODE=C.COCODE 
-                LEFT JOIN master_regional E ON E.ID_REGIONAL=D.ID_REGIONAL
+                LEFT JOIN MASTER_REGIONAL E ON E.ID_REGIONAL=D.ID_REGIONAL
                 WHERE SLOC='$key' ";
                 break;
         } 

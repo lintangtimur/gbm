@@ -58,7 +58,6 @@ class pemakaian_model extends CI_Model
                     'NO' => $num,
                     'BLTH' => $row->BLTH,
                     'LEVEL4' => $row->LEVEL4,
-                    'STATUS' => $row->STATUS_APPROVE,
                     'TOTAL_VOLUME' => $row->SUM_VOLUME,
                     'COUNT' => $row->COUNT_VOLUME,
                     'AKSI' => $aksi
