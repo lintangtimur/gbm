@@ -282,8 +282,6 @@ class persediaan_bbm_model extends CI_Model {
         $year = date("Y"); 
 
         $option = array();
-        $option[''] = '--Pilih Tahun--';
-        $option[$year-1] = $year-1;
         $option[$year] = $year;
         $option[$year + 1] = $year + 1;
 
