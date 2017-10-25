@@ -85,8 +85,8 @@ class tangki extends MX_Controller {
             "Pembangkit", 1, 1,
             "Jenis BBM", 1, 1,
             "Kapasitas (L)", 1, 1,
-            "Dead Stock (L)", 1, 1,
-            "Stock Efektif (L)", 1, 1,
+            "Dead Stok (L)", 1, 1,
+            "Stok Efektif (L)", 1, 1,
             "Aksi", 1, 1
         );
         $table->total = $data_table['total'];

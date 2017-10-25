@@ -122,7 +122,7 @@ class persediaan_bbm extends MX_Controller {
             "Level 4", 1, 1,
             "Bahan Bakar", 1, 1,
             "Tgl Mutasi Persediaan", 1, 1,
-            "Stock Awal (L)", 1, 1,
+            "Stok Awal (L)", 1, 1,
             "Penerimaan Real (L)", 1, 1,
             "Pemakaian Sendiri (L)", 1, 1,
             "Kirim (L)", 1, 1,
