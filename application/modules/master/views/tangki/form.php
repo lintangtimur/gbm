@@ -73,6 +73,9 @@
                                 <div class="controls" id="up_file">
                                     <?php echo form_upload('FILE_UPLOAD', !empty($default->PATH_DET_TERA) ? $default->PATH_DET_TERA : '', 'class="span6"'); ?>
                                 </div>
+                                <div class="controls" id="dokumen">
+                                       <a href="<?php echo base_url().'assets/upload_tangki/'.$id_dok;?>" target="_blank"><b><?php echo (empty($id_dok)) ? $id_dok : 'Lihat Dokumen'; ?></b></a>
+                                </div>
                             </div>
                             <div class="control-group">
                                 <label for="password" class="control-label">Aktif <span class="required">*</span> : </label>

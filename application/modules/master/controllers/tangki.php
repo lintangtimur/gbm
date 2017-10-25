@@ -45,6 +45,7 @@ class tangki extends MX_Controller {
 
     public function add($id = '') {
         $page_title = 'Tambah Tangki';
+        $data['id_dok'] = $id;
         $data['id'] = $id;
         if ($id != '') {
             $page_title = 'Edit Tangki';
@@ -52,6 +53,10 @@ class tangki extends MX_Controller {
             $data['default'] = $tangki->get()->row();
             $trans = $this->tangki_model->get_detail($id);
             $data['data_detail'] = $trans->get()->row();
+            $data['id_dok'] = $data['data_detail']->PATH_DET_TERA;
+
+
+             
         }
         $data['unit_pembangkit'] = $this->tangki_model->option_pembangkit('--Pilih Unit Pembangkit--', array('master_tangki.SLOC' => NULL));
         $data['jenis_bbm'] = $this->tangki_model->option_jenisbbm('--Pilih Jenis BBM--', array('master_tangki.ID_JNS_BHN_BKR' => NULL));

@@ -40,17 +40,20 @@ class kontrak_transportir extends MX_Controller {
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $this->_title;
         $data['page_content'] = $this->_module . '/main';
         $data['data_sources'] = base_url($this->_module . '/load');
+        $data['data_sources'] = base_url($this->_module . '/load');
         // $data['data_detaijl'] = base_url($this->_module . '/load_detail');
         echo Modules::run("template/admin", $data);
     }
 
     public function add($id = '') {
         $page_title = 'Tambah Kontrak';
+        $data['id_dok'] = '';
         $data['id'] = $id;
         if ($id != '') {
             $page_title = 'Edit Kontrak';
             $trans = $this->kontrak_transportir_model->data($id);
             $data['default'] = $trans->get()->row();
+            $data['id_dok'] = $data['default']->PATH_KONTRAK_TRANS; 
         }
         $data['option_transportir'] = $this->kontrak_transportir_model->options('--Pilih Transportir--', array('master_transportir.ID_TRANSPORTIR' => NULL));
         $data['option_depo'] = $this->kontrak_transportir_model->optionsDepo();
