@@ -120,7 +120,7 @@ class persediaan_bbm_model extends CI_Model {
                 'VOLUME_STOCKOPNAME' => $row->VOLUME_STOCKOPNAME,
                 'STOCK_REAL' => $row->STOCK_AKHIR_REAL,
                 'STOCK_EFEKTIF' => $row->STOCK_AKHIR_EFEKTIF,
-                'STOCK_KOREKSI' => $row->STOCK_AKHIR_KOREKSI,
+                // 'STOCK_KOREKSI' => $row->STOCK_AKHIR_KOREKSI,
                 'SHO' => $row->SHO,
                 'REV' => $row->REVISI_MUTASI_PERSEDIAAN,
             );
