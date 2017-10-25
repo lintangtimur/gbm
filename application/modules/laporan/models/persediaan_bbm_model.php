@@ -88,7 +88,8 @@ class persediaan_bbm_model extends CI_Model {
         // }
         $this->db->group_by('JB.NAMA_JNS_BHN_BKR'); 
         $this->db->group_by('R.NAMA_REGIONAL');  
-         $this->db->group_by('A.TGL_MUTASI_PERSEDIAAN', 'DESC');  
+        $this->db->group_by('A.TGL_MUTASI_PERSEDIAAN');  
+        $this->db->order_by('A.TGL_MUTASI_PERSEDIAAN', 'DESC');  
 
         return $this->db;
     }
