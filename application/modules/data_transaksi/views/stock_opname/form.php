@@ -28,7 +28,7 @@
                              <br>
                             <label for="password" class="control-label">Pilih Jenis Bahan Bakar <span class="required">*</span> : </label>
                             <div class="controls">
-                            <?php echo form_dropdown('ID_JNS_BHN_BKR', $parent_options, !empty($default->ID_JNS_BHN_BKR) ? $default->ID_JNS_BHN_BKR : '', 'class="span6"'); ?> 
+                            <?php echo form_dropdown('ID_JNS_BHN_BKR', $parent_options_jns, !empty($default->ID_JNS_BHN_BKR) ? $default->ID_JNS_BHN_BKR : '', 'class="span6"'); ?> 
                             </div>
                             <br>
                             <label for="password" class="control-label">Pilih Pembangkit <span class="required">*</span> : </label>
@@ -40,7 +40,7 @@
                         <div class="col-md-5">
                           <div class="control-group">
                           <br>
-                            <label for="password" class="control-label">Volume Stock Opname <span class="required">*</span> : </label>
+                            <label for="password" class="control-label">Volume Stock Opname (L)<span class="required">*</span> : </label>
                             <div class="controls">
                             <?php echo form_input('VOLUME_STOCKOPNAME', !empty($default->VOLUME_STOCKOPNAME) ? $default->VOLUME_STOCKOPNAME : '', 'class="span6"'); ?>
                              </div>
@@ -58,22 +58,21 @@
                         </div>
                         <div class="col-md-11">
                         <div class="md-card-content">
-                            <br>
-                            <center><h3 class="heading_a uk-margin-small-bottom">
-                             Uploas Max size (2 MB)
-                            </h3></center>
-                            <br>
-                            <input type="file" id="input-file-e" class="dropify" data-height="150" data-max/>
+                            <label for="password" class="control-label">Upload File<span class="required">*</span> : </label>
+                            <div class="controls">
+                            <?php echo form_upload('FILE_UPLOAD', !empty($default->PATH_STOCKOPNAME) ? $default->PATH_STOCKOPNAME : '', 'class="span6"'); ?>
+                            </div>
+                            <div class="controls" id="dokumen">
+                             <a href="<?php echo base_url().'assets/upload_stock_opname/'.$id_dok;?>" target="_blank"><b><?php echo (empty($id_dok)) ? $id_dok : 'Lihat Dokumen'; ?></b></a>
+                            </div>
                         </div>
                         </div>
                     
                 <div class="form-actions">
                 <div class="col-md-9">
                 <br>
-                <center>
                 <?php echo anchor(null, '<i class="icon-save"></i> Simpan', array('id' => 'button-save', 'class' => 'blue btn', 'onclick' => "simpan_data(this.id, '#finput', '#button-back')")); ?>
                 <?php echo anchor(null, '<i class="icon-circle-arrow-left"></i> Tutup', array('id' => 'button-back', 'class' => 'btn', 'onclick' => 'close_form(this.id)')); ?>
-                </center>
                 </div>
 			</div>
             <!-- perhitungan End -->
