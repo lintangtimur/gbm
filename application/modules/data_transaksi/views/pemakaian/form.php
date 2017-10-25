@@ -74,7 +74,7 @@
         <div class="control-group">
             <label class="control-label">NO TUG 8/9<span class="required">*</span> : </label>
             <div class="controls">
-                <input type="text" name="NO_TUG" class="form-control span4" placeholder="Volume Penerimaan">
+                <input type="text" name="NO_TUG" class="form-control span4" placeholder="NO TUG 8/9">
             </div>
         </div>
         <div class="control-group">
