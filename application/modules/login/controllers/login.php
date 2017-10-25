@@ -32,13 +32,59 @@ class login extends MX_Controller {
         $login_status = false;
         $login_message = '';
         if ($this->form_validation->run($this)) {
+            // $username = $this->input->post('username');
+            // $password = $this->input->post('password');
+            if(isset($_POST['username']) && isset($_POST['password'])){
+                
+                $username = $_POST['username'];
+                $password = $_POST['password'];
 
-            $username = $this->input->post('username');
-            $password = $this->input->post('password');
+                $domain = strtolower(substr($username, 0, strrpos($username, "\\")));
+                $username = substr($username, strrpos($username, "\\") + 1, strlen($username) - strrpos($username, "\\"));
+
+                $adServer = "ldap://10.1.8.20";
+                $ldap = ldap_connect($adServer);
+
+                // $ldaprdn = 'pusat' . "\\" . $username;
+                $ldaprdn = $domain . "\\" . $username;
+
+                ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
+                ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
+
+                $bind = @ldap_bind($ldap, $ldaprdn, $password);
+
+                if ($bind) {
+                    $filter="(sAMAccountName=$username)";
+                    $result = ldap_search($ldap,"DC=".$domain.",DC=corp,DC=pln,DC=co,DC=id",$filter);
+                    // ldap_sort($ldap,$result,"sn");
+                    $info = ldap_get_entries($ldap, $result);
+                    for ($i=0; $i<$info["count"]; $i++)
+                    {
+                        if($info['count'] > 1)
+                            break;
+                        // echo "<p>You are accessing <strong> ". $info[$i]["sn"][0] .", " . $info[$i]["givenname"][0] ."</strong><br /> (" . $info[$i]["samaccountname"][0] .") email= ".$info[$i]["userprincipalname"][0]."  NIK= ".$info[$i]["employeenumber"][0]." </p>\n";
+                        // echo '<pre>';
+                        // var_dump($info);
+                        // echo '</pre>';
+                        $userDn = $info[$i]["distinguishedname"][0]; 
+                        $ldap_user = $info[$i]["samaccountname"][0];
+                        $ldap_nik = $info[$i]["employeenumber"][0];
+                        $ldap_email = $info[$i]["mail"][0]; 
+                    }
+                    @ldap_close($ldap);
+                    //echo 'Authentication Succed';
+                } 
+                else {
+                    $ldap_user ='';
+                    //echo 'Authentication Failed';
+                }
+            }
 
             $filter = array();
-            $filter['USERNAME`'] = $username;
-            $filter['PWD_USER'] = md5($password);//$this->user_model->encrypt($password);
+            $filter['USERNAME'] = $ldap_user;
+            $filter['EMAIL_USER'] = $ldap_email;
+            // $filter['USERNAME`'] = $username;
+            // $filter['PWD_USER'] = md5($password);//$this->user_model->encrypt($password);
             $data_user = $this->user_model->data($filter)->get();
 
             if ($data_user->num_rows() > 0) {
@@ -59,7 +105,11 @@ class login extends MX_Controller {
                    $login_message = 'Maaf, User tidak aktif, silahkan hubungi administrator!'; 
                 }
             } else {
-                $login_message = 'Maaf, Username dan Password tidak sesuai.';
+                if ($ldap_user){
+                    $login_message = 'Maaf, Username anda tidak terdaftar di sistem GBM, silahkan hubungi helpdesk untuk info lebih lanjut'; 
+                } else {
+                    $login_message = 'Maaf, Username dan Password tidak sesuai.';    
+                }
             }
         } else {
             $login_message = validation_errors();

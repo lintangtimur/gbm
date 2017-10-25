@@ -29,7 +29,6 @@ class user_model extends CI_Model {
     public function encrypt($str) {
         return md5($str);
     }
-
 }
 
 /* End of file user.php */

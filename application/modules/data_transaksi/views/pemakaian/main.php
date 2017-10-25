@@ -73,7 +73,7 @@
                                     <th>ID</th>
                                     <th>TGL PENGAKUAN</th>
                                     <th>NAMA JNS BHN BKR</th>
-                                    <th>VOL PEMAKAIAN</th>
+                                    <th>VOL PEMAKAIAN (L)</th>
                                     <th>STATUS</th>
                                     <th>AKSI</th>
                                     <th>CHECK</th>
