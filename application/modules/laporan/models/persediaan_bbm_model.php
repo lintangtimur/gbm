@@ -15,6 +15,7 @@ class persediaan_bbm_model extends CI_Model {
     private $_table1 = "REKAP_MUTASI_PERSEDIAAN"; //nama table setelah mom_
 
     private function _key($key) { //unit ID
+        
         if (!is_array($key)) {
             $key = array('R.NAMA_REGIONAL' => $key);
         }
@@ -135,7 +136,7 @@ class persediaan_bbm_model extends CI_Model {
         $this->db->from('MASTER_REGIONAL');
         if ($key != 'all'){
             $this->db->where('ID_REGIONAL',$key);
-        }   
+        }  
         $list = $this->db->get(); 
 
         if (!empty($default)) {
@@ -281,6 +282,7 @@ class persediaan_bbm_model extends CI_Model {
         $year = date("Y"); 
 
         $option = array();
+        $option[''] = '--Pilih Tahun--';
         $option[$year-1] = $year-1;
         $option[$year] = $year;
         $option[$year + 1] = $year + 1;
