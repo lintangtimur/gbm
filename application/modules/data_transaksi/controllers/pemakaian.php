@@ -147,7 +147,7 @@ class pemakaian extends MX_Controller
             "NO", 1, 1,
             "BLTH", 1, 1,
             "LEVEL4", 1, 1,
-            "TOTAL_VOLUME", 1, 1,
+            "TOTAL_VOLUME (L)", 1, 1,
             "COUNT", 1, 1,
             "AKSI", 1, 1
         );

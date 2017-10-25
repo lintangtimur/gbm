@@ -85,7 +85,7 @@
         </div>
 
         <div class="control-group">
-            <label class="control-label">Vol. Pemakaian<span class="required">*</span> : </label>
+            <label class="control-label">Vol. Pemakaian (L)<span class="required">*</span> : </label>
             <div class="controls">
                 <input type="text" name="VOL_PEMAKAIAN" class="form-control span4" placeholder="Volume Pemakaian">
             </div>
