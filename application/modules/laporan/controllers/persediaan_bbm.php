@@ -93,51 +93,25 @@ class persediaan_bbm extends MX_Controller {
 
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $this->_title;
         $data['page_content'] = $this->_module . '/main';
-        $data['data_sources'] = base_url($this->_module . '/load');
+        // $data['data_sources'] = base_url($this->_module . '/getData');
+        // $data['data_sources'] = base_url($this->_module . '/load');
         
         echo Modules::run("template/admin", $data);
     }
 
-    public function load($page = 1) {
-        $data_table = $this->tbl_get->data_table($this->_module, $this->_limit, $page);
+    public function getData()
+    {
+        $data['ID_REGIONAL'] = $this->input->post('ID_REGIONAL');
+        $data['COCODE'] = $this->input->post('COCODE');
+        $data['PLANT'] = $this->input->post('PLANT');
+        $data['STORE_SLOC'] = $this->input->post('STORE_SLOC');
+        $data['SLOC'] = $this->input->post('SLOC');
+        $data['BBM'] = $this->input->post('BBM');
+        $data['BULAN'] = $this->input->post('BULAN');
+        $data['TAHUN'] = $this->input->post('TAHUN');
 
-        $this->load->library("ltable");
-        $table = new stdClass();
-        $table->id = 'NAMA_REGIONAL';
-        $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('NO' => 'center', 'NAMA_REGIONAL' => 'center', 'LEVEL1' => 'center', 'AREA' => 'center','RAYON' => 'center',
-                                'PEMBANGKIT' => 'center','BBM'=>'center','TGL_MUTASI'=>'center',
-                                 'STOCK_AWAL'=> 'right','PENERIMAAN_REAL'=>'right', 'PEMAKAIAN_SENDIRI'=>'right','PEMAKAIAN_KIRIM'=>'right',
-                                 'DEAD_STOCK'=>'right','VOLUME_STOCKOPNAME'=>'right','STOCK_REAL'=>'right','STOCK_EFEKTIF'=>'right',
-                                 'SHO'=>'right','REV'=>'right', 'aksi' => 'center');
-        $table->page = $page;
-        $table->limit = $this->_limit;
-        $table->jumlah_kolom = 18;
-        $table->header[] = array( 
-            "No", 1, 1,
-            "Level 0", 1, 1,
-            "Level 1", 1, 1,
-            "Level 2", 1, 1,
-            "Level 3", 1, 1,
-            "Level 4", 1, 1,
-            "Bahan Bakar", 1, 1,
-            "Tgl Mutasi Persediaan", 1, 1,
-            "Stok Awal (L)", 1, 1,
-            "Penerimaan Real (L)", 1, 1,
-            "Pemakaian Sendiri (L)", 1, 1,
-            "Kirim (L)", 1, 1,
-            "Dead Stok (L)", 1, 1,
-            "Volume Opname (L)", 1, 1,
-            "Stok Akhir (L)", 1, 1,
-            "Stok Akhir Efektif (L)", 1, 1,
-            // "Stok Akhir Koreksi", 1, 1,
-            "SHO", 1, 1,
-            "REV", 1, 1
-        );
-        $table->total = $data_table['total'];
-        $table->content = $data_table['rows'];
-        $data = $this->ltable->generate($table, 'js', true);
-        echo $data;
+        $data = $this->tbl_get->getData_Model($data);
+        echo json_encode($data);
     }
 
     public function get_options_lv1($key=null) {

@@ -14,16 +14,9 @@ class persediaan_bbm_model extends CI_Model {
 
     private $_table1 = "REKAP_MUTASI_PERSEDIAAN"; //nama table setelah mom_
 
-    private function _key($key) { //unit ID
-        
-        if (!is_array($key)) {
-            $key = array('R.NAMA_REGIONAL' => $key);
-        }
-        return $key;
-    }  
-
-    public function data($key = '') {
-        $kolom_sum = "R.NAMA_REGIONAL, M1.LEVEL1, M2.LEVEL2, M3.LEVEL3, M4.LEVEL4, JB.NAMA_JNS_BHN_BKR,
+    public function getData_Model($data)
+    {
+         $kolom_sum = "R.NAMA_REGIONAL, M1.LEVEL1, M2.LEVEL2, M3.LEVEL3, M4.LEVEL4, JB.NAMA_JNS_BHN_BKR,
         A.TGL_MUTASI_PERSEDIAAN, SUM(A.STOCK_AWAL) STOCK_AWAL, SUM(A.PENERIMAAN_REAL) PENERIMAAN_REAL, SUM(A.PEMAKAIAN) PEMAKAIAN, (CASE WHEN PM.JENIS_PEMAKAIAN=2 THEN SUM(PM.VOLUME_PEMAKAIAN) END) PEMAKAIAN_SENDIRI, (CASE WHEN PM.JENIS_PEMAKAIAN=1 THEN SUM(PM.VOLUME_PEMAKAIAN) END) PEMAKAIAN_KIRIM, SUM(A.DEAD_STOCK) DEAD_STOCK, SUM(SO.VOLUME_STOCKOPNAME) VOLUME_STOCKOPNAME, SUM(A.STOCK_AKHIR_REAL) STOCK_AKHIR_REAL, SUM(A.STOCK_AKHIR_EFEKTIF) STOCK_AKHIR_EFEKTIF,
         SUM(A.STOCK_AKHIR_KOREKSI) STOCK_AKHIR_KOREKSI, SUM(A.SHO) SHO, SUM(A.REVISI_MUTASI_PERSEDIAAN) REVISI_MUTASI_PERSEDIAAN";
         $this->db->select($kolom_sum);
@@ -35,101 +28,56 @@ class persediaan_bbm_model extends CI_Model {
         $this->db->join('MASTER_REGIONAL R', 'R.ID_REGIONAL = M1.ID_REGIONAL','left');
         $this->db->join('M_JNS_BHN_BKR JB', 'JB.ID_JNS_BHN_BKR = A.ID_JNS_BHN_BKR','left');
         $this->db->join('MUTASI_PEMAKAIAN PM', 'PM.SLOC = A.SLOC AND PM.ID_JNS_BHN_BKR=A.ID_JNS_BHN_BKR','left');
-        $this->db->join('STOCK_OPNAME SO', 'SO.SLOC = A.SLOC AND SO.ID_JNS_BHN_BKR = A.ID_JNS_BHN_BKR AND SO.TGL_PENGAKUAN = A.TGL_MUTASI_PERSEDIAAN','left');
-
-        if ($_POST['ID_REGIONAL'] !='') {
-            $this->db->where("R.ID_REGIONAL",$_POST['ID_REGIONAL']);   
-        }
-        if ($_POST['COCODE'] !='') {
-            $this->db->where("M1.COCODE",$_POST['COCODE']);   
-        }
-        if ($_POST['PLANT'] !='') {
-            $this->db->where("M2.PLANT",$_POST['PLANT']);   
-        }
-        if ($_POST['STORE_SLOC'] !='') {
-            $this->db->where("M3.STORE_SLOC",$_POST['STORE_SLOC']);   
-        }
-        if ($_POST['SLOC'] !='') {
-            $this->db->where("M4.SLOC",$_POST['SLOC']);   
-        }
-        if ($_POST['BBM'] !='') {
-            $this->db->where("JB.ID_JNS_BHN_BKR",$_POST['BBM']);   
-        }
-        if ($_POST['BULAN'] !='') {
-            $this->db->where("MONTH(A.TGL_MUTASI_PERSEDIAAN)",$_POST['BULAN']);   
-        }
-        if ($_POST['TAHUN'] !='') {
-            $this->db->where("YEAR(A.TGL_MUTASI_PERSEDIAAN)",$_POST['TAHUN']);   
-        }
-
-        if (!empty($key) || is_array($key))
-            $this->db->where_condition($this->_key($key));
+        $this->db->join('STOCK_OPNAME SO', 'SO.SLOC = A.SLOC AND SO.ID_JNS_BHN_BKR = A.ID_JNS_BHN_BKR AND SO.TGL_PENGAKUAN=A.TGL_MUTASI_PERSEDIAAN','left');
 
 
-        // if ($_POST['ID_REGIONAL'] !='') {
-            // $this->db->group_by('R.NAMA_REGIONAL');  
-        // }
+        if ($data['ID_REGIONAL'] !='') {
+            $this->db->where('R.ID_REGIONAL',$data['ID_REGIONAL']);
+        }
 
-        if ($_POST['COCODE'] !='') {
+        if ($data['COCODE'] !='') {
+            $this->db->where("M1.COCODE",$data['COCODE']);   
+        }
+        if ($data['PLANT'] !='') {
+            $this->db->where("M2.PLANT",$data['PLANT']);   
+        }
+        if ($data['STORE_SLOC'] !='') {
+            $this->db->where("M3.STORE_SLOC",$data['STORE_SLOC']);   
+        }
+        if ($data['SLOC'] !='') {
+            $this->db->where("M4.SLOC",$data['SLOC']);   
+        }
+        if ($data['BBM'] !='') {
+            $this->db->where("JB.ID_JNS_BHN_BKR",$data['BBM']);   
+        }
+        if ($data['BULAN'] !='') {
+            $this->db->where("MONTH(A.TGL_MUTASI_PERSEDIAAN)",$data['BULAN']);   
+        }
+        if ($data['TAHUN'] !='') {
+            $this->db->where("YEAR(A.TGL_MUTASI_PERSEDIAAN)",$data['TAHUN']);   
+        }
+
+        if ($data['COCODE'] !='') {
             $this->db->group_by('M1.LEVEL1');  
         }
-        if ($_POST['PLANT'] !='') {
+        if ($data['PLANT'] !='') {
             $this->db->group_by('M2.LEVEL2');   
         }
-        if ($_POST['STORE_SLOC'] !='') {
+        if ($data['STORE_SLOC'] !='') {
             $this->db->group_by('M3.LEVEL3');   
         }
-        if ($_POST['SLOC'] !='') {
+        if ($data['SLOC'] !='') {
             $this->db->group_by('M4.LEVEL4');     
         }
-        
-        // if ($_POST['BBM'] !='') {
-        //     $this->db->group_by('JB.NAMA_JNS_BHN_BKR');     
-        // }
+
         $this->db->group_by('JB.NAMA_JNS_BHN_BKR'); 
         $this->db->group_by('R.NAMA_REGIONAL');  
         $this->db->group_by('A.TGL_MUTASI_PERSEDIAAN');  
         $this->db->order_by('A.TGL_MUTASI_PERSEDIAAN', 'DESC');  
 
-        return $this->db;
-    }
+        $query = $this->db->get();
+        return $query->result();
 
-    public function data_table($module = '', $limit = 20, $offset = 1) {
-            $filter = array();
-            $kata_kunci = $this->input->post('kata_kunci');
-            
-            $total = $this->data($filter)->count_all_results();
-        $this->db->limit($limit, ($offset * $limit) - $limit);
-        $record = $this->data($filter)->get();
-        $no=(($offset-1) * $limit) +1;
-        $rows = array();
-
-        foreach ($record->result() as $row) {
-            $id = $no;  //$row->NAMA_REGIONAL.'-'.$no;
-            $rows[$id] = array(
-                'NO' => $no++,
-                'NAMA_REGIONAL' => $row->NAMA_REGIONAL,
-                'LEVEL1' => $row->LEVEL1,
-                'AREA' => $row->LEVEL2,
-                'RAYON' => $row->LEVEL3,
-                'PEMBANGKIT' => $row->LEVEL4,
-                'BBM' => $row->NAMA_JNS_BHN_BKR,
-                'TGL_MUTASI' => $row->TGL_MUTASI_PERSEDIAAN,
-                'STOCK_AWAL' => $row->STOCK_AWAL,
-                'PENERIMAAN_REAL' => $row->PENERIMAAN_REAL,
-                'PEMAKAIAN_SENDIRI' => $row->PEMAKAIAN_SENDIRI,
-                'PEMAKAIAN_KIRIM' => $row->PEMAKAIAN_KIRIM,
-                'DEAD_STOCK' => $row->DEAD_STOCK,
-                'VOLUME_STOCKOPNAME' => $row->VOLUME_STOCKOPNAME,
-                'STOCK_REAL' => $row->STOCK_AKHIR_REAL,
-                'STOCK_EFEKTIF' => $row->STOCK_AKHIR_EFEKTIF,
-                // 'STOCK_KOREKSI' => $row->STOCK_AKHIR_KOREKSI,
-                'SHO' => $row->SHO,
-                'REV' => $row->REVISI_MUTASI_PERSEDIAAN,
-            );
-        }
-
-        return array('total' => $total, 'rows' => $rows);
     }
 
     public function options_reg($default = '--Pilih Regional--', $key = 'all') {
@@ -138,7 +86,7 @@ class persediaan_bbm_model extends CI_Model {
         $this->db->from('MASTER_REGIONAL');
         if ($key != 'all'){
             $this->db->where('ID_REGIONAL',$key);
-        }  
+        }   
         $list = $this->db->get(); 
 
         if (!empty($default)) {
@@ -283,7 +231,6 @@ class persediaan_bbm_model extends CI_Model {
     public function options_tahun() {
         $year = date("Y"); 
 
-        $option = array();
         $option[$year] = $year;
         $option[$year + 1] = $year + 1;
 
@@ -334,7 +281,7 @@ class persediaan_bbm_model extends CI_Model {
                 $q = "SELECT C.PLANT, C.LEVEL2,  D.COCODE,  D.LEVEL1, E.ID_REGIONAL, E.NAMA_REGIONAL
                 FROM MASTER_LEVEL2 C 
                 LEFT JOIN MASTER_LEVEL1 D ON D.COCODE=C.COCODE 
-                LEFT JOIN master_regional E ON E.ID_REGIONAL=D.ID_REGIONAL
+                LEFT JOIN MASTER_REGIONAL E ON E.ID_REGIONAL=D.ID_REGIONAL
                 WHERE PLANT='$key' ";
                 break;
             case "3":
@@ -342,7 +289,7 @@ class persediaan_bbm_model extends CI_Model {
                 FROM MASTER_LEVEL3 B
                 LEFT JOIN MASTER_LEVEL2 C ON C.PLANT=B.PLANT 
                 LEFT JOIN MASTER_LEVEL1 D ON D.COCODE=C.COCODE 
-                LEFT JOIN master_regional E ON E.ID_REGIONAL=D.ID_REGIONAL
+                LEFT JOIN MASTER_REGIONAL E ON E.ID_REGIONAL=D.ID_REGIONAL
                 WHERE STORE_SLOC='$key' ";
                 break;
             case "4":
@@ -351,7 +298,7 @@ class persediaan_bbm_model extends CI_Model {
                 LEFT JOIN MASTER_LEVEL3 B ON B.STORE_SLOC=A.STORE_SLOC 
                 LEFT JOIN MASTER_LEVEL2 C ON C.PLANT=B.PLANT 
                 LEFT JOIN MASTER_LEVEL1 D ON D.COCODE=C.COCODE 
-                LEFT JOIN master_regional E ON E.ID_REGIONAL=D.ID_REGIONAL
+                LEFT JOIN MASTER_REGIONAL E ON E.ID_REGIONAL=D.ID_REGIONAL
                 WHERE SLOC='$key' ";
                 break;
         } 

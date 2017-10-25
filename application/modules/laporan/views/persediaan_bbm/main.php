@@ -11,19 +11,19 @@
                 <div class="pull-left span3">
                     <label for="password" class="control-label">Regional <span class="required">*</span> : </label>
                     <div class="controls">
-                        <?php echo form_dropdown('ID_REGIONAL', $reg_options, !empty($default->ID_REGIONAL) ? $default->ID_REGIONAL : ''); ?>
+                        <?php echo form_dropdown('ID_REGIONAL', $reg_options, !empty($default->ID_REGIONAL) ? $default->ID_REGIONAL : '', 'id="lvl0"'); ?>
                     </div>
                 </div>
                 <div class="pull-left span3">
                     <label for="password" class="control-label">Level 1 <span class="required">*</span> : </label>
                     <div class="controls">
-                        <?php echo form_dropdown('COCODE', $lv1_options, !empty($default->COCODE) ? $default->COCODE : ''); ?>
+                        <?php echo form_dropdown('COCODE', $lv1_options, !empty($default->COCODE) ? $default->COCODE : '', 'id="lvl1"'); ?>
                     </div>
                 </div>
                 <div class="pull-left span3">
                     <label for="password" class="control-label">Level 2 <span class="required">*</span> : </label>
                     <div class="controls">
-                        <?php echo form_dropdown('PLANT', $lv2_options, !empty($default->PLANT) ? $default->PLANT : ''); ?>
+                        <?php echo form_dropdown('PLANT', $lv2_options, !empty($default->PLANT) ? $default->PLANT : '', 'id="lvl2"'); ?>
                     </div>
 
                    
@@ -33,19 +33,19 @@
                 <div class="pull-left span3">
                     <label for="password" class="control-label">Level 3 <span class="required">*</span> : </label>
                     <div class="controls">
-                        <?php echo form_dropdown('STORE_SLOC', $lv3_options, !empty($default->STORE_SLOC) ? $default->STORE_SLOC : ''); ?>
+                        <?php echo form_dropdown('STORE_SLOC', $lv3_options, !empty($default->STORE_SLOC) ? $default->STORE_SLOC : '', 'id="lvl3"'); ?>
                     </div>
                 </div>
                 <div class="pull-left span3">
                     <label for="password" class="control-label">Level 4 <span class="required">*</span> : </label>
                     <div class="controls">
-                        <?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : ''); ?>
+                        <?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : '', 'id="lvl4"'); ?>
                     </div>
                 </div>
                 <div class="pull-left span3">
                     <label for="password" class="control-label">Jenis Bahan Bakar <span class="required">*</span> : </label>
                     <div class="controls">
-                        <?php echo form_dropdown('BBM', $opsi_bbm, !empty($default->ID_JENIS_BHN_BKR) ? $default->ID_JENIS_BHN_BKR : ''); ?>
+                        <?php echo form_dropdown('BBM', $opsi_bbm, !empty($default->ID_JENIS_BHN_BKR) ? $default->ID_JENIS_BHN_BKR : '', 'id="bbm"'); ?>
                     </div>
                 </div>
             </div><br/>
@@ -54,41 +54,125 @@
                     <label for="password" class="control-label">Bulan <span class="required">*</span> : </label>
                     <label for="password" class="control-label" style="margin-left:95px">Tahun <span class="required">*</span> : </label>
                     <div class="controls">
-                        <?php echo form_dropdown('BULAN', $opsi_bulan, '','style="width: 137px;"'); ?>
-                        <?php echo form_dropdown('TAHUN', $opsi_tahun, '','style="width: 80px;"'); ?>
+                        <?php echo form_dropdown('BULAN', $opsi_bulan, '','style="width: 137px;", id="bln"'); ?>
+                        <?php echo form_dropdown('TAHUN', $opsi_tahun, '','style="width: 80px;", id="thn"'); ?>
                     </div>
                 </div>
                 <div class="pull-left span1">
                     <label></label>
                     <div class="controls">
-                    <?php echo anchor(NULL, "<i class='icon-search'></i> Load", array('class' => 'btn', 'id' => 'button-filter')); ?>
+                    <?php echo anchor(NULL, "<i class='icon-search'></i> Load", array('class' => 'btn', 'id' => 'button-load')); ?>
                     </div>
                 </div>
                 <div class="pull-left span4">
                     <label></label>
                     <div class="controls">
-                    <?php echo anchor(NULL, "<i class='icon-download'></i> Download Excel", array('class' => 'btn', 'id' => 'button-filter')); ?>
-                    <?php echo anchor(NULL, "<i class='icon-download'></i> Download PDF", array('class' => 'btn', 'id' => 'button-filter')); ?>
+                    <?php echo anchor(NULL, "<i class='icon-download'></i> Download Excel", array('class' => 'btn', 'id' => 'button-excel')); ?>
+                    <?php echo anchor(NULL, "<i class='icon-download'></i> Download PDF", array('class' => 'btn', 'id' => 'button-pdf')); ?>
                     </div>
                 </div>
             </div>
             <?php echo form_close(); ?>
         </div>
         <div class="well-content no-search">
-            <div id="content_table" data-source="<?php echo $data_sources; ?>" data-filter="#ffilter"></div>
+            <!-- <div id="content_table" data-source="<?php echo $data_sources; ?>" data-filter="#ffilter"></div> -->
+            <table id="dataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                <th rowspan="2">No</th>
+                <th colspan="5">Level</th>
+                <th rowspan="2">Bahan Bakar</th>
+                <th rowspan="2">Tgl Mutasi Persediaan</th>
+                <th rowspan="2">Stock Awal</th>
+                <th rowspan="2">Penerimaan Real</th>
+                <th colspan="2">Pemakaian</th>
+                <th rowspan="2">Volume Opname (L)</th>
+                <th rowspan="2">Dead Stok</th>
+                <th colspan="2">Stok Akhir</th>
+                <!-- <th rowspan="2">Stok Akhir Koreksi</th> -->
+                <th rowspan="2">SHO</th>
+                <th rowspan="2">REV</th>
+                </tr>
+                <tr>
+                <th>0</th>
+                <th>1</th>
+                <th>2</th>
+                <th>3</th>
+                <th>4</th>
+                <th>Sendiri</th>
+                <th>Kirim</th>
+                <th>Akhir</th>
+                <th>Akhir Efektif</th>
+                </tr>
+            </thead>
+            <tbody>
+
+
+            </tbody>
+            </table>
+
+
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
-    jQuery(function($) {
+     $('#button-load').click(function(e) {
+        var lvl0 = $('#lvl0').val();
+        var lvl1 = $('#lvl1').val();
+        var lvl2 = $('#lvl2').val();
+        var lvl3 = $('#lvl3').val();
+        var lvl4 = $('#lvl4').val();
+        var bbm = $('#bbm').val();
+        var bln = $('#bln').val();
+        var bln = $('#bln').val();
+        var thn = $('#thn').val();
+        if (lvl0 == '') {
+            alert('--PILIH REGIONAL--');
+        };
 
-        load_table('#content_table', 1);
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url('laporan/persediaan_bbm/getData'); ?>",
+                    data: {"ID_REGIONAL": lvl0,"COCODE":lvl1, "PLANT":lvl2, "STORE_SLOC":lvl3,
+                            "SLOC":lvl4, "ID_JNS_BHN_BKR": bbm, "BULAN":bln, "TAHUN": thn},
+                    success:function(response) {
+                        var obj = JSON.parse(response);
+                        if (obj == 0) {
+                            alert('Data Tidak Ditemukan');
+                        };
+                         $('#dataTable tbody').empty();
+                         var nomer = 1;
+                         $.each(obj, function (index, value) {
+                            var strRow =
+                                    '<tr>' +
+                                    '<td>' + nomer + '</td>' +
+                                    '<td>' + value.NAMA_REGIONAL  + '</td>' +
+                                    '<td>' + value.LEVEL1 + '</td>' +
+                                    '<td>' + value.LEVEL2 + '</td>' +
+                                    '<td>' + value.LEVEL3 + '</td>' +
+                                    '<td>' + value.LEVEL4 + '</td>' +
+                                    '<td>' + value.NAMA_JNS_BHN_BKR + '</td>' +
+                                    '<td>' + value.TGL_MUTASI_PERSEDIAAN + '</td>' +
+                                    '<td>' + value.STOCK_AWAL + '</td>' +
+                                    '<td>' + value.PENERIMAAN_REAL + '</td>' +
+                                    '<td>' + value.PEMAKAIAN_SENDIRI + '</td>' +
+                                    '<td>' + value.PEMAKAIAN_KIRIM + '</td>' +
+                                    '<td>' + value.VOLUME_STOCKOPNAME + '</td>' +
+                                    '<td>' + value.DEAD_STOCK + '</td>' +
+                                    '<td>' + value.STOCK_AKHIR_REAL + '</td>' +
+                                    '<td>' + value.STOCK_AKHIR_EFEKTIF + '</td>' +
+                                    // '<td>' + value.STOCK_AKHIR_KOREKSI + '</td>' +
+                                    '<td>' + value.SHO + '</td>' +
+                                    '<td>' + value.REVISI_MUTASI_PERSEDIAAN + '</td>' +
+                                    '</tr>';
+                            nomer++;
 
-        $('#button-filter').click(function() {
-            load_table('#content_table', 1);
-        });
+                            $("#dataTable tbody").append(strRow);
 
+                          });
+                    }
+                });
     });
 </script>
 
