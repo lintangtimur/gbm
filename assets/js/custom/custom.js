@@ -9,8 +9,9 @@ function load_level(url, idllevel, idcbo, idlabel){
 		$(".bootbox").modal("hide");
 		$(idcbo).html("");
 		$(idlabel).show();
-		if (idllevel == "1")
+		if (idllevel == "1"){
 			$("#level1").show();
+		}
 		else if(idllevel == "2"){
 			$("#level1").show();
 			$("#level2").show();
@@ -24,8 +25,9 @@ function load_level(url, idllevel, idcbo, idlabel){
 			$("#level2").show();
 			$("#level3").show();
 			$("#level4").show();
-		}
-			
+		}			
+		
+		$(idcbo).append("<option value=''>--Pilih Level--</option>");
 		for (var i=0; i <= result.length - 1; i++){
 			$(idcbo).append("<option value='"+result[i].kode+"'>" + result[i].nama + "</option>");
 		}
