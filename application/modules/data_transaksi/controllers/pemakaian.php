@@ -150,9 +150,10 @@ class pemakaian extends MX_Controller
         echo json_encode($message, true);
     }
 
-    public function getDataDetail($tanggal)
+    public function getDataDetail($tanggal=null)
     {
-        echo json_encode($this->tbl_get->getTableViewDetail($tanggal));
+        // echo json_encode($this->tbl_get->getTableViewDetail($tanggal));
+        echo json_encode($this->tbl_get->getTableViewDetail());
     }
 
     /**

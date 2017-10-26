@@ -28,13 +28,34 @@
                              <br>
                             <label for="password" class="control-label">Pilih Jenis Bahan Bakar <span class="required">*</span> : </label>
                             <div class="controls">
-                            <?php echo form_dropdown('ID_JNS_BHN_BKR', $parent_options_jns, !empty($default->ID_JNS_BHN_BKR) ? $default->ID_JNS_BHN_BKR : '', 'class="span6"'); ?> 
+                            <?php echo form_dropdown('ID_JNS_BHN_BKR', $parent_options_jns, !empty($default->ID_JNS_BHN_BKR) ? $default->ID_JNS_BHN_BKR : ''); ?> 
                             </div>
                             <br>
-                            <label for="password" class="control-label">Pilih Pembangkit <span class="required">*</span> : </label>
+                            <label  class="control-label">Regional <span class="required">*</span> : </label>
                             <div class="controls">
-                            <?php echo form_dropdown('SLOC', $parent_options_pem, !empty($default->SLOC) ? $default->SLOC : '', 'class="span6"'); ?> 
+                                <?php echo form_dropdown('ID_REGIONAL', $reg_options, !empty($default->ID_REGIONAL) ? $default->ID_REGIONAL : ''); ?>
                             </div>
+                            <br>
+                            <label  class="control-label">Level 1<span class="required">*</span> : </label>
+                            <div class="controls">
+                                <?php echo form_dropdown('COCODE', $lv1_options, !empty($default->COCODE) ? $default->COCODE : ''); ?>
+                            </div>
+                            <br>
+                            <label  class="control-label">Level 2<span class="required">*</span> : </label>
+                            <div class="controls">
+                                <?php echo form_dropdown('PLANT', $lv2_options, !empty($default->PLANT) ? $default->PLANT : ''); ?>
+                            </div>
+                            <br>
+                            <label  class="control-label">Level 3<span class="required">*</span> : </label>
+                            <div class="controls">
+                                <?php echo form_dropdown('STORE_SLOC', $lv3_options, !empty($default->STORE_SLOC) ? $default->STORE_SLOC : ''); ?>
+                            </div>
+                            <br>
+                            <label  class="control-label">Level 4<span class="required">*</span> : </label>
+                            <div class="controls">
+                                <?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : ''); ?>
+                            </div>
+
                             </div>                          
                         </div>
                         <div class="col-md-5">

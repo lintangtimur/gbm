@@ -127,7 +127,18 @@
 <script type="text/javascript">
     function show_detail(tanggal) {
         if (!$('#table_detail').is(":visible")) {
-            $.get("<?php echo base_url()?>data_transaksi/pemakaian/getDataDetail/" + tanggal, function (data) {
+            var vId = tanggal;
+            var strArray = vId.split("|");
+
+            var data = {ID_REGIONAL: strArray[1],
+                        COCODE: $('select[name="COCODE"]').val(),
+                        PLANT: $('select[name="PLANT"]').val(),
+                        STORE_SLOC: $('select[name="STORE_SLOC"]').val(),
+                        SLOC: $('select[name="SLOC"]').val(),
+                        TGL_PENGAKUAN:strArray[0],
+                        };
+            // $.get("<?php echo base_url()?>data_transaksi/pemakaian/getDataDetail/" + tanggal, function (data) {
+            $.post("<?php echo base_url()?>data_transaksi/pemakaian/getDataDetail/", data, function (data) {
                 var data_detail = (JSON.parse(data));
 				var cekbox = '';
                 for (i = 0; i < data_detail.length; i++) {

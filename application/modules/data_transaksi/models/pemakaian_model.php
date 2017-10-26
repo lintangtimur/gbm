@@ -22,7 +22,8 @@ class pemakaian_model extends CI_Model
     }
 
     private function data($key = ''){
-        $this->db->from($this->_table1);
+        $this->db->select('a.*, sum(a.COUNT_VOLUME) as JML, sum(a.SUM_volume) as JML_VOLUME');
+        $this->db->from($this->_table1.' a' );
         if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
 
@@ -40,6 +41,20 @@ class pemakaian_model extends CI_Model
         }
         if ($_POST['SLOC'] !='') {
             $this->db->where("SLOC",$_POST['SLOC']);   
+        }
+
+        $this->db->group_by('ID_REGIONAL');
+        if ($_POST['COCODE'] !='') {
+            $this->db->group_by('COCODE');
+        }
+        if ($_POST['PLANT'] !='') {
+            $this->db->group_by('PLANT');
+        }
+        if ($_POST['STORE_SLOC'] !='') {
+            $this->db->group_by('STORE_SLOC');
+        }
+        if ($_POST['SLOC'] !='') {
+            $this->db->group_by('SLOC');
         }
 
         return $this->db;
@@ -68,14 +83,14 @@ class pemakaian_model extends CI_Model
         foreach ($record->result() as $row) {
             // $count = $row->COUNT_VOLUME;
             // if ($count!=0) {
-                $id = $row->TANGGAL;
+                $id = $row->TANGGAL.'|'.$row->ID_REGIONAL;
                 $aksi = anchor(null, '<i class="icon-eye-open"></i>', array('class' => 'btn transparant button-detail', 'id' => 'button-view-' . $id, 'onClick' => 'show_detail(\''.$id.'\')'));
                 $rows[$num] = array(
                     'NO' => $num,
                     'BLTH' => $row->BLTH,
                     'LEVEL4' => $row->LEVEL4,
-                    'TOTAL_VOLUME' => $row->SUM_VOLUME,
-                    'COUNT' => $row->COUNT_VOLUME,
+                    'TOTAL_VOLUME' => $row->JML_VOLUME,
+                    'COUNT' => $row->JML,
                     'AKSI' => $aksi
                 );
                 $num++;
@@ -84,8 +99,34 @@ class pemakaian_model extends CI_Model
         return array('total' => $total, 'rows' => $rows);
     }
 
-    function getTableViewDetail($tanggal){
-        $data = $this->db->query("select * from VLOAD_LIST_DETAIL_PEMAKAIAN where DATE_FORMAT(TGL_PENGAKUAN,'%m%Y') = '".$tanggal."'");
+    function getTableViewDetail($tanggal=null){
+        // $data = $this->db->query("select * from VLOAD_LIST_DETAIL_PEMAKAIAN where DATE_FORMAT(TGL_PENGAKUAN,'%m%Y') = '".$tanggal."'");
+        // return $data->result();
+
+        $this->db->from('VLOAD_LIST_DETAIL_PEMAKAIAN_V2');
+
+
+        if ($_POST['TGL_PENGAKUAN'] !='') {
+            $this->db->where("DATE_FORMAT(TGL_PENGAKUAN,'%m%Y')",$_POST['TGL_PENGAKUAN']);
+        }
+        if ($_POST['ID_REGIONAL'] !='') {
+            $this->db->where('ID_REGIONAL',$_POST['ID_REGIONAL']);
+        }
+        if ($_POST['COCODE'] !='') {
+            $this->db->where("COCODE",$_POST['COCODE']);   
+        }
+        if ($_POST['PLANT'] !='') {
+            $this->db->where("PLANT",$_POST['PLANT']);   
+        }
+        if ($_POST['STORE_SLOC'] !='') {
+            $this->db->where("STORE_SLOC",$_POST['STORE_SLOC']);   
+        }
+        if ($_POST['SLOC'] !='') {
+            $this->db->where("SLOC",$_POST['SLOC']);   
+        }
+
+        $data = $this->db->get();
+
         return $data->result();
     }
 
