@@ -106,7 +106,9 @@
                 </tr>
             </thead>
             <tbody>
-
+            <tr>
+                <td colspan="18" align="center">Data Tidak Ditemukan</td>
+            </tr>
 
             </tbody>
             </table>
@@ -138,39 +140,64 @@
                             "SLOC":lvl4, "ID_JNS_BHN_BKR": bbm, "BULAN":bln, "TAHUN": thn},
                     success:function(response) {
                         var obj = JSON.parse(response);
-                        if (obj == 0) {
+
+                        if (obj == "" || obj == null) {
                             alert('Data Tidak Ditemukan');
-                        };
+                            $('#dataTable tbody').empty();
+                            var str = '<tr><td colspan="18" align="center">Data Tidak Ditemukan</td></tr>';
+                            $("#dataTable tbody").append(str);
+                        } else {
                          $('#dataTable tbody').empty();
                          var nomer = 1;
                          $.each(obj, function (index, value) {
+
+                            var NAMA_REGIONAL = value.NAMA_REGIONAL == null ? "" : value.NAMA_REGIONAL;
+                            var LEVEL0 = value.LEVEL0 == null ? "" : value.LEVEL0;
+                            var LEVEL1 = value.LEVEL1 == null ? "" : value.LEVEL1;
+                            var LEVEL2 = value.LEVEL2 == null ? "" : value.LEVEL2;
+                            var LEVEL3 = value.LEVEL3 == null ? "" : value.LEVEL3;
+                            var LEVEL4 = value.LEVEL4 == null ? "" : value.LEVEL4;
+                            var NAMA_JNS_BHN_BKR = value.NAMA_JNS_BHN_BKR == null ? "" : value.NAMA_JNS_BHN_BKR;
+                            var TGL_MUTASI_PERSEDIAAN = value.TGL_MUTASI_PERSEDIAAN == null ? "" : value.TGL_MUTASI_PERSEDIAAN;
+                            var STOCK_AWAL = value.STOCK_AWAL == null ? "" : value.STOCK_AWAL;
+                            var PENERIMAAN_REAL = value.PENERIMAAN_REAL == null ? "" : value.PENERIMAAN_REAL;
+                            var PEMAKAIAN_SENDIRI = value.PEMAKAIAN_SENDIRI == null ? "" : value.PEMAKAIAN_SENDIRI;
+                            var KIRIM = value.PEMAKAIAN_KIRIM == null ? "" : value.PEMAKAIAN_KIRIM;
+                            var VOLUME = value.VOLUME_STOCKOPNAME == null ? "" : value.VOLUME_STOCKOPNAME;
+                            var DEAD_STOCK = value.DEAD_STOCK == null ? "" : value.DEAD_STOCK;
+                            var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
+                            var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
+                            var SHO = value.SHO == null ? "" : value.SHO;
+                            var REV = value.REVISI_MUTASI_PERSEDIAAN == null ? "" : value.REVISI_MUTASI_PERSEDIAAN;
+
                             var strRow =
                                     '<tr>' +
                                     '<td>' + nomer + '</td>' +
-                                    '<td>' + value.NAMA_REGIONAL  + '</td>' +
-                                    '<td>' + value.LEVEL1 + '</td>' +
-                                    '<td>' + value.LEVEL2 + '</td>' +
-                                    '<td>' + value.LEVEL3 + '</td>' +
-                                    '<td>' + value.LEVEL4 + '</td>' +
-                                    '<td>' + value.NAMA_JNS_BHN_BKR + '</td>' +
-                                    '<td>' + value.TGL_MUTASI_PERSEDIAAN + '</td>' +
-                                    '<td>' + value.STOCK_AWAL + '</td>' +
-                                    '<td>' + value.PENERIMAAN_REAL + '</td>' +
-                                    '<td>' + value.PEMAKAIAN_SENDIRI + '</td>' +
-                                    '<td>' + value.PEMAKAIAN_KIRIM + '</td>' +
-                                    '<td>' + value.VOLUME_STOCKOPNAME + '</td>' +
-                                    '<td>' + value.DEAD_STOCK + '</td>' +
-                                    '<td>' + value.STOCK_AKHIR_REAL + '</td>' +
-                                    '<td>' + value.STOCK_AKHIR_EFEKTIF + '</td>' +
+                                    '<td>' + NAMA_REGIONAL  + '</td>' +
+                                    '<td>' + LEVEL1 + '</td>' +
+                                    '<td>' + LEVEL2 + '</td>' +
+                                    '<td>' + LEVEL3 + '</td>' +
+                                    '<td>' + LEVEL4 + '</td>' +
+                                    '<td>' + NAMA_JNS_BHN_BKR + '</td>' +
+                                    '<td>' + TGL_MUTASI_PERSEDIAAN + '</td>' +
+                                    '<td>' + STOCK_AWAL + '</td>' +
+                                    '<td>' + PENERIMAAN_REAL + '</td>' +
+                                    '<td>' + PEMAKAIAN_SENDIRI + '</td>' +
+                                    '<td>' + KIRIM + '</td>' +
+                                    '<td>' + VOLUME + '</td>' +
+                                    '<td>' + DEAD_STOCK + '</td>' +
+                                    '<td>' + STOK_REAL + '</td>' +
+                                    '<td>' + STOK_EFEKTIF + '</td>' +
                                     // '<td>' + value.STOCK_AKHIR_KOREKSI + '</td>' +
-                                    '<td>' + value.SHO + '</td>' +
-                                    '<td>' + value.REVISI_MUTASI_PERSEDIAAN + '</td>' +
+                                    '<td>' + SHO + '</td>' +
+                                    '<td>' +  REV + '</td>' +
                                     '</tr>';
                             nomer++;
 
                             $("#dataTable tbody").append(strRow);
 
                           });
+                        };
                     }
                 });
     });
