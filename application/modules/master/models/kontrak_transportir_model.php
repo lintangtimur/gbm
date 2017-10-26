@@ -25,10 +25,24 @@
 		public function data($key = '') {
 			$this->db->from($this->_table1 . ' a');
 			$this->db->join($this->_table2 . ' b', 'b.ID_TRANSPORTIR = a.ID_TRANSPORTIR');
-			// $this->db->join($this->_table5 . ' c', 'c.ID_KONTRAK_TRANSPORTIR = a.ID_KONTRAK_TRANSPORTIR');
+			// $this->db->join($this->_table5 . ' c', 'c.ID_KONTRAK_TRANS = a.ID_KONTRAK_TRANS');
 			
 			if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
+			
+			return $this->db;
+		}
+
+		public function dataEdit($key = '') {
+			$this->db->from($this->_table1 . ' a');
+			$this->db->join($this->_table2 . ' b', 'b.ID_TRANSPORTIR = a.ID_TRANSPORTIR');
+			$this->db->join($this->_table5 . ' c', 'c.ID_KONTRAK_TRANS = a.ID_KONTRAK_TRANS');
+			$this->db->join($this->_table3 . ' d', 'd.ID_DEPO = c.ID_DEPO');
+			$this->db->join($this->_table4 . ' e', 'e.SLOC = c.SLOC');
+			
+			if (!empty($key) || is_array($key))
+				$this->db->where("a.ID_KONTRAK_TRANS",$key);
+            // $this->db->where_condition($this->_key($key));
 			
 			return $this->db;
 		}
@@ -134,6 +148,19 @@
 			return array('total' => $total, 'rows' => $rows);
 		}
 		
+
+		public function getDetail($key='')
+		{
+			$this->db->from($this->_table1 . ' a');
+			$this->db->join($this->_table5 . ' c', 'c.ID_KONTRAK_TRANS = a.ID_KONTRAK_TRANS');
+
+			if (!empty($key) || is_array($key))
+			$this->db->where("a.ID_KONTRAK_TRANS",$key);
+            // $this->db->where_condition($this->_key($key));
+
+			$query = $this->db->get();
+        	return $query->result();
+		}
 
 		public function data_table_detail($module = '', $limit = 20, $offset = 1) {
 			$filter = array();

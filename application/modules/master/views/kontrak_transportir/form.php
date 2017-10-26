@@ -58,6 +58,28 @@
                             </tr>
                         </table>
                     </div>
+                    <div class="controls" id="inputan_awal" style="display:none">
+                        <table>
+                           <tr>
+                                <td>
+                                    <?php echo form_dropdown('option_depo', $option_depo, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class=""'); ?>
+                                </td>
+                                <td>
+                                    <?php echo form_dropdown('option_pembangkit', $option_pembangkit, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class=""'); ?>
+                                </td>
+                                <td>
+                                    <?php echo form_dropdown('option_jalur', $option_jalur, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class=""'); ?>
+                                </td>    
+                            </tr>
+                            <tr>
+                                <td>
+                                    <?php echo form_input('HARGA', !empty($default->HARGA_KONTRAK_TRANS) ? $default->HARGA_KONTRAK_TRANS : '', 'class="span12", placeholder="Harga (Rp)"'); ?> &nbsp
+                                </td><td>
+                                    <?php echo form_input('JARAK', !empty($default->JARAK) ? $default->JARAK : '', 'class="span12", placeholder="Jarak (KL / ML)"'); ?> &nbsp
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
             </div>
             <div class="control-group">
                 <label for="password" class="control-label">Nilai Kontrak (Rp)<span class="required">*</span> : </label>
@@ -82,10 +104,10 @@
             </div>
        
         <div class="well-content" id="content_table">
+        <label>Detail Pasokan</label>
             <table id="detil_kontrak_trans" class="table table-striped table-bordered table-hover datatable dataTable">
                 <thead>
                     <tr>
-                        <th>No</th>
                         <th>Depo</th>
                         <th>Pembangkit</th>
                         <th>Harga Kontrak</th>
@@ -94,7 +116,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    
+                    <tr>
+                        <td align="center"><?php echo !empty($default->NAMA_DEPO) ? $default->NAMA_DEPO : '-'; ?></td>
+                        <td align="center"><?php echo !empty($default->LEVEL4) ? $default->LEVEL4 : '-'; ?></td>
+                        <td align="right"><?php echo !empty($default->NILAI_KONTRAK_TRANS) ? $default->NILAI_KONTRAK_TRANS : '-'; ?></td>
+                        <td align="right"><?php echo !empty($default->JARAK_DET_KONTRAK_TRANS) ? $default->JARAK_DET_KONTRAK_TRANS : '-'; ?></td>
+                        <td align="center"><?php echo !empty($default->TYPE_KONTRAK_TRANS) ? $default->TYPE_KONTRAK_TRANS : '-'; ?></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -119,6 +147,8 @@ $(function() {
 });
 </script>
 <script type="text/javascript">
+var inputan_awal =  $('#inputan_awal').html();
+
 $('#jmlpas[type="text"]').on('change', function() {
     // alert($(this).val());
     var x = $("#jmlpas").val();
@@ -126,12 +156,13 @@ $('#jmlpas[type="text"]').on('change', function() {
         if ( x == 0 || x > 5 ) {
             alert('Jumlah Pasokan Max 5');
         } else {
+            $('#inputan').empty();
             for(i=0;i<x;i++){
-                str += $('#inputan').html() + "<br/>";
+                str += $('#inputan_awal').html() + "<br/>";
             }
             document.getElementById("inputan").innerHTML = str;
            $("#pasokan").show();
-           $("#jmlpas").prop('disabled', true);
+           $("#jmlpas").prop('disabled', false);
         };
 })
 </script>

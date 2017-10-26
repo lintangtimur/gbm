@@ -51,7 +51,7 @@ class kontrak_transportir extends MX_Controller {
         $data['id'] = $id;
         if ($id != '') {
             $page_title = 'Edit Kontrak';
-            $trans = $this->kontrak_transportir_model->data($id);
+            $trans = $this->kontrak_transportir_model->dataEdit($id);
             $data['default'] = $trans->get()->row();
             $data['id_dok'] = $data['default']->PATH_KONTRAK_TRANS; 
         }
@@ -74,7 +74,7 @@ class kontrak_transportir extends MX_Controller {
         $table = new stdClass();
         $table->id = 'ID_KONTRAK_TRANS';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('no_kontrak' => 'center','nama_transportir' => 'center','periode' => 'center','nilai_kontrak' => 'right','keterangan' => 'center', 'aksi' => 'center');
+        $table->align = array('no_kontrak' => 'center','nama_transportir' => 'center','periode' => 'center','nilai_kontrak' => 'center','keterangan' => 'center', 'aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
         $table->jumlah_kolom = 6;

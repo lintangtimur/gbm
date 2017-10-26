@@ -49,11 +49,11 @@ class tangki extends MX_Controller {
         $data['id'] = $id;
         if ($id != '') {
             $page_title = 'Edit Tangki';
-            $tangki = $this->tangki_model->data($id);
+            $tangki = $this->tangki_model->dataEdit($id);
             $data['default'] = $tangki->get()->row();
-            $trans = $this->tangki_model->get_detail($id);
-            $data['data_detail'] = $trans->get()->row();
-            $data['id_dok'] = $data['data_detail']->PATH_DET_TERA;
+            // $trans = $this->tangki_model->get_detail($id);
+            // $data['data_detail'] = $trans->get()->row();
+            $data['id_dok'] = $data['default']->PATH_DET_TERA;
 
 
              
@@ -76,7 +76,7 @@ class tangki extends MX_Controller {
         $table = new stdClass();
         $table->id = 'ID_VENDOR';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('number' => 'center','unit_pembangkit' => 'center','jenis_bbm' => 'center','kapasitas' => 'right','deadstock' => 'right','stockefektif' => 'right','aksi' => 'center');
+        $table->align = array('number' => 'center','unit_pembangkit' => 'center','jenis_bbm' => 'center','kapasitas' => 'center','deadstock' => 'center','stockefektif' => 'center','aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
         $table->jumlah_kolom = 7;
@@ -84,9 +84,9 @@ class tangki extends MX_Controller {
             "No", 1, 1,
             "Pembangkit", 1, 1,
             "Jenis BBM", 1, 1,
-            "Kapasitas (L)", 1, 1,
-            "Dead Stok (L)", 1, 1,
-            "Stok Efektif (L)", 1, 1,
+            "Kapasitas", 1, 1,
+            "Dead Stock", 1, 1,
+            "Stock Efektif", 1, 1,
             "Aksi", 1, 1
         );
         $table->total = $data_table['total'];
