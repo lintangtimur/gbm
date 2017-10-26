@@ -77,7 +77,7 @@
         </div>
         <div class="well-content no-search">
             <!-- <div id="content_table" data-source="<?php echo $data_sources; ?>" data-filter="#ffilter"></div> -->
-            <table id="dataTable" class="table table-bordered table-striped">
+            <table id="dataTable" class="table table-bordered table-striped" style="max-height:600px; overflow-y:auto; display:block">
             <thead>
                 <tr>
                     <th rowspan="2">No</th>
