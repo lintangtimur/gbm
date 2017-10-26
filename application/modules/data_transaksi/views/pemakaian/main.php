@@ -58,6 +58,16 @@
                             <?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : '', 'id="lvl4"'); ?>
                         </div>
                     </div>
+                    <div class="pull-left span3">
+                        <label for="password" class="control-label">Bulan <span class="required">*</span> : </label>
+                        <label for="password" class="control-label" style="margin-left:95px">Tahun <span class="required">*</span> : </label>
+                        <div class="controls">
+                            <?php echo form_dropdown('BULAN', $opsi_bulan, '','style="width: 137px;", id="bln"'); ?>
+                            <?php echo form_dropdown('TAHUN', $opsi_tahun, '','style="width: 80px;", id="thn"'); ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="form_row">
                     <div class="pull-left span5">
                         <div class="controls">
                             <table>
@@ -66,7 +76,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td><?php echo form_input('kata_kunci', '', 'class="input-xlarge"'); ?></td>
+                                    <td><?php echo form_input('kata_kunci', '', 'class="input-large"'); ?></td>
                                     <td> &nbsp </td>
                                     <td><?php echo anchor(NULL, "<i class='icon-search'></i> Filter", array('class' => 'btn', 'id' => 'button-filter')); ?></td>
                                 </tr>
@@ -130,12 +140,14 @@
             var vId = tanggal;
             var strArray = vId.split("|");
 
-            var data = {ID_REGIONAL: strArray[1],
+            var data = {ID_REGIONAL: $('select[name="ID_REGIONAL"]').val(),
                         COCODE: $('select[name="COCODE"]').val(),
                         PLANT: $('select[name="PLANT"]').val(),
                         STORE_SLOC: $('select[name="STORE_SLOC"]').val(),
-                        SLOC: $('select[name="SLOC"]').val(),
+                        SLOC: strArray[1],
                         TGL_PENGAKUAN:strArray[0],
+                        BULAN: $('select[name="BULAN"]').val(),
+                        TAHUN: $('select[name="TAHUN"]').val(),
                         };
             // $.get("<?php echo base_url()?>data_transaksi/pemakaian/getDataDetail/" + tanggal, function (data) {
             $.post("<?php echo base_url()?>data_transaksi/pemakaian/getDataDetail/", data, function (data) {

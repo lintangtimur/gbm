@@ -42,6 +42,12 @@ class pemakaian_model extends CI_Model
         if ($_POST['SLOC'] !='') {
             $this->db->where("SLOC",$_POST['SLOC']);   
         }
+        if ($_POST['BULAN'] !='') {
+            $this->db->where("BL",$_POST['BULAN']);   
+        }
+        if ($_POST['TAHUN'] !='') {
+            $this->db->where("TH",$_POST['TAHUN']);   
+        }
 
         $this->db->group_by('ID_REGIONAL');
         if ($_POST['COCODE'] !='') {
@@ -53,9 +59,16 @@ class pemakaian_model extends CI_Model
         if ($_POST['STORE_SLOC'] !='') {
             $this->db->group_by('STORE_SLOC');
         }
-        if ($_POST['SLOC'] !='') {
-            $this->db->group_by('SLOC');
+
+        if ($_POST['BULAN'] !='') {
+            $this->db->group_by('BL'); 
         }
+        if ($_POST['TAHUN'] !='') {
+            $this->db->group_by('TH'); 
+        }
+        // if ($_POST['SLOC'] !='') {
+            $this->db->group_by('SLOC');
+        // }
 
         return $this->db;
     }
@@ -73,7 +86,7 @@ class pemakaian_model extends CI_Model
         $kata_kunci = $this->input->post('kata_kunci');
 
         if (!empty($kata_kunci))
-            $filter[$this->_table1 . ".BLTH LIKE '%{$kata_kunci}%' "] = NULL;
+            $filter["a.LEVEL4 LIKE '%{$kata_kunci}%' OR a.BLTH LIKE '%{$kata_kunci}%' "] = NULL;
         $total = $this->data($filter)->count_all_results();
         $this->db->limit($limit, ($offset * $limit) - $limit);
         $record = $this->data($filter)->get();
@@ -83,7 +96,7 @@ class pemakaian_model extends CI_Model
         foreach ($record->result() as $row) {
             // $count = $row->COUNT_VOLUME;
             // if ($count!=0) {
-                $id = $row->TANGGAL.'|'.$row->ID_REGIONAL;
+                $id = $row->TANGGAL.'|'.$row->SLOC;
                 $aksi = anchor(null, '<i class="icon-eye-open"></i>', array('class' => 'btn transparant button-detail', 'id' => 'button-view-' . $id, 'onClick' => 'show_detail(\''.$id.'\')'));
                 $rows[$num] = array(
                     'NO' => $num,
@@ -123,6 +136,12 @@ class pemakaian_model extends CI_Model
         }
         if ($_POST['SLOC'] !='') {
             $this->db->where("SLOC",$_POST['SLOC']);   
+        }
+        if ($_POST['BULAN'] !='') {
+            $this->db->where("BL",$_POST['BULAN']);   
+        }
+        if ($_POST['TAHUN'] !='') {
+            $this->db->where("TH",$_POST['TAHUN']);   
         }
 
         $data = $this->db->get();
