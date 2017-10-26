@@ -120,6 +120,14 @@
 </div>
 
 <script type="text/javascript">
+    function convertToRupiah(angka)
+        {
+            var rupiah = '';        
+            var angkarev = angka.toString().split('').reverse().join('');
+            for(var i = 0; i < angkarev.length; i++) if(i%3 == 0) rupiah += angkarev.substr(i,3)+'.';
+            return rupiah.split('',rupiah.length-1).reverse().join('');
+        }
+
      $('#button-load').click(function(e) {
         var lvl0 = $('#lvl0').val();
         var lvl1 = $('#lvl1').val();
@@ -181,14 +189,14 @@
                                     '<td>' + LEVEL4 + '</td>' +
                                     '<td>' + NAMA_JNS_BHN_BKR + '</td>' +
                                     '<td>' + TGL_MUTASI_PERSEDIAAN + '</td>' +
-                                    '<td align="right">' + STOCK_AWAL + '</td>' +
-                                    '<td align="right">' + PENERIMAAN_REAL + '</td>' +
-                                    '<td align="right">' + PEMAKAIAN_SENDIRI + '</td>' +
-                                    '<td align="right">' + KIRIM + '</td>' +
-                                    '<td align="right">' + VOLUME + '</td>' +
-                                    '<td align="right">' + DEAD_STOCK + '</td>' +
-                                    '<td align="right">' + STOK_REAL + '</td>' +
-                                    '<td align="right">' + STOK_EFEKTIF + '</td>' +
+                                    '<td align="right">' + convertToRupiah(STOCK_AWAL) + '</td>' +
+                                    '<td align="right">' + convertToRupiah(PENERIMAAN_REAL) + '</td>' +
+                                    '<td align="right">' + convertToRupiah(PEMAKAIAN_SENDIRI) + '</td>' +
+                                    '<td align="right">' + convertToRupiah(KIRIM) + '</td>' +
+                                    '<td align="right">' + convertToRupiah(VOLUME) + '</td>' +
+                                    '<td align="right">' + convertToRupiah(DEAD_STOCK) + '</td>' +
+                                    '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
+                                    '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
                                     // '<td>' + value.STOCK_AKHIR_KOREKSI + '</td>' +
                                     '<td align="right">' + SHO + '</td>' +
                                     '<td align="right">' +  REV + '</td>' +
