@@ -34,6 +34,20 @@
 			
 			return $this->db;
 		}
+
+		public function dataEdit($key = '') {
+			$this->db->from($this->_table1 . ' a');
+			$this->db->join($this->_table2 . ' b', 'b.SLOC = a.SLOC');
+			$this->db->join($this->_table3 . ' c', 'c.ID_JNS_BHN_BKR = a.ID_JNS_BHN_BKR');
+			$this->db->join($this->_table5 . ' d', 'd.ID_TANGKI = a.ID_TANGKI');
+
+			
+			if (!empty($key) || is_array($key))
+			$this->db->where("a.ID_TANGKI",$key);
+            // $this->db->where_condition($this->_key($key));
+			
+			return $this->db;
+		}
 		
 		public function save_as_new($data, $nama_file) {
 			$this->db->trans_begin();
@@ -170,14 +184,14 @@
 			return array('total' => $total, 'rows' => $rows);
 		}
 
-		function get_detail($key = '') {
-			$this->db->from($this->_table5);
+		// function get_detail($key = '') {
+		// 	$this->db->from($this->_table5);
 			
-			if (!empty($key) || is_array($key))
-            $this->db->where_condition($this->_key($key));
+		// 	if (!empty($key) || is_array($key))
+  //           $this->db->where_condition($this->_key($key));
 			
-			return $this->db;
-		}
+		// 	return $this->db;
+		// }
 
 		public function data_option($key = '') {
 			$this->db->from($this->_table2);
