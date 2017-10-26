@@ -59,22 +59,6 @@ class stock_opname_model extends CI_Model {
         if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
 
-        if ($_POST['COCODE'] !='') {
-            $this->db->group_by('M1.LEVEL1');  
-        }
-        if ($_POST['PLANT'] !='') {
-            $this->db->group_by('M2.LEVEL2');   
-        }
-        if ($_POST['STORE_SLOC'] !='') {
-            $this->db->group_by('M3.LEVEL3');   
-        }
-        if ($_POST['SLOC'] !='') {
-            $this->db->group_by('M4.LEVEL4');     
-        }
-
-        // $this->db->group_by('JB.NAMA_JNS_BHN_BKR'); 
-        // $this->db->group_by('R.NAMA_REGIONAL');
-
         return $this->db;
     }
 
@@ -164,7 +148,7 @@ class stock_opname_model extends CI_Model {
                         // $aksi .= anchor(null, '<i class="icon-check" title="Setuju"></i>', array('class' => 'btn transparant', 'id' => 'button-approve-' . $id, 'onclick' => 'approve_row(this.id)', 'data-source' => base_url($module . '/approveAction/' . $id)));
                         // $aksi .= anchor(null, '<i class="icon-remove" title="Tolak"></i>', array('class' => 'btn transparant', 'id' => 'button-tolak-' . $id, 'onclick' => 'tolak_row(this.id)', 'data-source' => base_url($module . '/tolakAction/' . $id)));
 
-                         $aksi .= anchor(null, '<i class="icon-zoom-in" title="View"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadApprove/' . $id)));
+                         $aksi .= anchor(null, '<i class="icon-zoom-in" title="View"></i>', array('class' => 'btn transparant', 'id' => 'button-load-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadApprove/' . $id)));
 
                     } else {
                         $aksi = '';
@@ -179,12 +163,13 @@ class stock_opname_model extends CI_Model {
                     } else {
                         $aksi = '';
                     }
-                } else {
+                }
+                 else {
                     $aksi = anchor(null, '<i class="icon-share" title="Kirim"></i>', array('class' => 'btn transparant', 'id' => 'button-kirim-' . $id, 'onclick' => 'kirim_row(this.id)', 'data-source' => base_url($module . '/sendAction/' . $id)));
                     // $aksi .= anchor(null, '<i class="icon-check" title="Setuju"></i>', array('class' => 'btn transparant', 'id' => 'button-approve-' . $id, 'onclick' => 'approve_row(this.id)', 'data-source' => base_url($module . '/approveAction/' . $id)));
                     // $aksi .= anchor(null, '<i class="icon-remove" title="Tolak"></i>', array('class' => 'btn transparant', 'id' => 'button-tolak-' . $id, 'onclick' => 'tolak_row(this.id)', 'data-source' => base_url($module . '/tolakAction/' . $id)));
 
-                     $aksi .= anchor(null, '<i class="icon-zoom-in" title="View"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadApprove/' . $id)));
+                    $aksi .= anchor(null, '<i class="icon-zoom-in" title="View"></i>', array('class' => 'btn transparant', 'id' => 'button-load-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadApprove/' . $id)));
                      
                     $aksi .= anchor(null, '<i class="icon-edit" title="Edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
                 }
@@ -348,6 +333,23 @@ class stock_opname_model extends CI_Model {
         }
     }
 
+    public function options_pembangkit_add($default = '--Pilih Level 4--') {
+        $this->db->from('MASTER_LEVEL4');
+    
+        $option = array();
+        $list = $this->db->get(); 
+
+        if (!empty($default)) {
+            $option[''] = $default;
+        }
+
+        foreach ($list->result() as $row) {
+            $option[$row->SLOC] = $row->LEVEL4;
+        }
+        return $option;    
+        
+    }
+
      public function options_bulan() {
         $option = array();
         $option[''] = '--Pilih Bulan--';
@@ -446,22 +448,6 @@ class stock_opname_model extends CI_Model {
         return $query;
     }
 
-    public function options_pembangkit_add($default = '--Pilih Pembangkit--') {
-        $this->db->from('MASTER_LEVEL4');
-    
-        $option = array();
-        $list = $this->db->get(); 
-
-        if (!empty($default)) {
-            $option[''] = $default;
-        }
-
-        foreach ($list->result() as $row) {
-            $option[$row->SLOC] = $row->LEVEL4;
-        }
-        return $option;    
-        
-    }
 
 }
 

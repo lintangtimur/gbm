@@ -96,5 +96,6 @@
 
     $('input[name=VOLUME_STOCKOPNAME]').inputmask("numeric", {radixPoint: ".",groupSeparator: ",",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
     });
+
 </script>            
 
