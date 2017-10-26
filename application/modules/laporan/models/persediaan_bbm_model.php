@@ -16,68 +16,69 @@ class persediaan_bbm_model extends CI_Model {
 
     public function getData_Model($data)
     {
-         $kolom_sum = "R.NAMA_REGIONAL, M1.LEVEL1, M2.LEVEL2, M3.LEVEL3, M4.LEVEL4, JB.NAMA_JNS_BHN_BKR,
-        A.TGL_MUTASI_PERSEDIAAN, SUM(A.STOCK_AWAL) STOCK_AWAL, SUM(A.PENERIMAAN_REAL) PENERIMAAN_REAL, SUM(A.PEMAKAIAN) PEMAKAIAN, (CASE WHEN PM.JENIS_PEMAKAIAN=2 THEN SUM(PM.VOLUME_PEMAKAIAN) END) PEMAKAIAN_SENDIRI, (CASE WHEN PM.JENIS_PEMAKAIAN=1 THEN SUM(PM.VOLUME_PEMAKAIAN) END) PEMAKAIAN_KIRIM, SUM(A.DEAD_STOCK) DEAD_STOCK, SUM(SO.VOLUME_STOCKOPNAME) VOLUME_STOCKOPNAME, SUM(A.STOCK_AKHIR_REAL) STOCK_AKHIR_REAL, SUM(A.STOCK_AKHIR_EFEKTIF) STOCK_AKHIR_EFEKTIF,
-        SUM(A.STOCK_AKHIR_KOREKSI) STOCK_AKHIR_KOREKSI, SUM(A.SHO) SHO, SUM(A.REVISI_MUTASI_PERSEDIAAN) REVISI_MUTASI_PERSEDIAAN";
-        $this->db->select($kolom_sum);
-        $this->db->from($this->_table1.' A');
-        $this->db->join('MASTER_LEVEL4 M4', 'M4.SLOC = A.SLOC','left');
-        $this->db->join('MASTER_LEVEL3 M3', 'M3.STORE_SLOC = M4.STORE_SLOC','left');
-        $this->db->join('MASTER_LEVEL2 M2', 'M2.PLANT = M3.PLANT','left');
-        $this->db->join('MASTER_LEVEL1 M1', 'M1.COCODE = M2.COCODE','left');
-        $this->db->join('MASTER_REGIONAL R', 'R.ID_REGIONAL = M1.ID_REGIONAL','left');
-        $this->db->join('M_JNS_BHN_BKR JB', 'JB.ID_JNS_BHN_BKR = A.ID_JNS_BHN_BKR','left');
-        $this->db->join('MUTASI_PEMAKAIAN PM', 'PM.SLOC = A.SLOC AND PM.ID_JNS_BHN_BKR=A.ID_JNS_BHN_BKR','left');
-        $this->db->join('STOCK_OPNAME SO', 'SO.SLOC = A.SLOC AND SO.ID_JNS_BHN_BKR = A.ID_JNS_BHN_BKR AND SO.TGL_PENGAKUAN=A.TGL_MUTASI_PERSEDIAAN','left');
+        $ID = $data['ID_REGIONAL'];
+        $COCODE = $data['COCODE'];
+        $PLANT = $data['PLANT'];   
+        $STORE_SLOC = $data['STORE_SLOC'];   
+        $SLOC = $data['SLOC'];   
+        $BBM = $data['BBM'];   
+        $BULAN = $data['BULAN'];   
+        $TAHUN = $data['TAHUN'];   
 
+        $sql = " SELECT F.NAMA_REGIONAL LEVEL0, E.LEVEL1,D.LEVEL2,C.LEVEL3,B.LEVEL4,G.NAMA_JNS_BHN_BKR,aa.TGL_MUTASI_PERSEDIAAN,aa.STOCK_AWAL, IFNULL(aa.PENERIMAAN_REAL,0) PENERIMAAN_REAL,
+                IFNULL(aa.PEMAKAIAN,0) PEMAKAIAN,IFNULL(aa.PEMAKAIAN_SENDIRI,0)PEMAKAIAN_SENDIRI,IFNULL(aa.PEMAKAIAN_KIRIM,0)PEMAKAIAN_KIRIM
+                ,IFNULL(aa.DEAD_STOCK,0) DEAD_STOCK,
+                IFNULL(aa.STOCK_OPNAME,0) VOLUME_STOCKOPNAME,IFNULL(aa.STOCK_AKHIR_REAL,0) STOCK_AKHIR_REAL, 
+                STOK_AKHIR_EFEKTIF(aa.STOCK_AKHIR_REAL,aa.DEAD_STOCK) STOK_AKHIR_EFEKTIF ,
+                IFNULL(aa.STOCK_AKHIR_KOREKSI,0) STOCK_AKHIR_KOREKSI,
+                ROUND(SHO(STOK_AKHIR_EFEKTIF(aa.STOCK_AKHIR_REAL,aa.DEAD_STOCK),aa.AVG_PAKAI),2) SHO,
+                IFNULL(aa.REVISI_MUTASI_PERSEDIAAN,0) REVISI_MUTASI_PERSEDIAAN
+                FROM (
+                SELECT a.SLOC,a.ID_JNS_BHN_BKR,a.TGL_MUTASI_PERSEDIAAN, CASE WHEN IFNULL(a.STW_OP,0)='0' AND IFNULL(a.STW2_REAL,0)<>'0' THEN a.STW2_REAL
+                WHEN IFNULL(a.STW_OP,0)='0' AND IFNULL(a.STW2_REAL,0)='0' THEN 0 
+                ELSE a.STW_OP END STOCK_AWAL,
+                a.PENERIMAAN_REAL,a.PEMAKAIAN,a.PEMAKAIAN_SENDIRI,a.PEMAKAIAN_KIRIM,a.volume_stockopname STOCK_OPNAME,
+                CASE WHEN IFNULL(a.STW_OP,0)='0' AND IFNULL(a.STW2_REAL,0)<>'0' THEN (IFNULL(a.STW2_REAL,0)+IFNULL(a.PENERIMAAN_REAL,0))- IFNULL(a.PEMAKAIAN,0)
+                WHEN IFNULL(a.STW_OP,0)='0' AND IFNULL(a.STW2_REAL,0)='0' THEN IFNULL(a.PENERIMAAN_REAL,0)- IFNULL(a.PEMAKAIAN,0)
+                WHEN IFNULL(a.STW_OP,0)<>'0' AND IFNULL(a.STW2_REAL,0)<>'0' THEN (IFNULL(a.STW_OP,0)+IFNULL(a.PENERIMAAN_REAL,0))- IFNULL(a.PEMAKAIAN,0)
+                END STOCK_AKHIR_REAL,DEAD_STOCK,(SELECT VALUE_SETTING FROM DATA_SETTING WHERE KEY_SETTING='AVG_PAKAI_SENDIRI') AVG_PAKAI,
+                a.STOCK_AKHIR_KOREKSI,a.REVISI_MUTASI_PERSEDIAAN
+                 FROM (
+                SELECT m.ID_JNS_BHN_BKR, m.SLOC,m.TGL_MUTASI_PERSEDIAAN,
+                        (SELECT 
+                        SUM(IFNULL(VOLUME_STOCKOPNAME,0)) 
+                        FROM REKAP_MUTASI_PERSEDIAAN m2
+                        WHERE m2.ID_JNS_BHN_BKR = m.ID_JNS_BHN_BKR AND
+                              m2.SLOC=m.SLOC AND
+                              m2.TGL_MUTASI_PERSEDIAAN < m.TGL_MUTASI_PERSEDIAAN) AS STW_OP,
+                        (SELECT SUM(IFNULL(PENERIMAAN_REAL,0)) - SUM(IFNULL(PEMAKAIAN,0))
+                        FROM REKAP_MUTASI_PERSEDIAAN m2
+                        WHERE m2.ID_JNS_BHN_BKR = m.ID_JNS_BHN_BKR AND
+                              m2.SLOC=m.SLOC AND
+                              m2.TGL_MUTASI_PERSEDIAAN < m.TGL_MUTASI_PERSEDIAAN) AS STW2_REAL,
+                  m.PENERIMAAN_REAL,m.PEMAKAIAN,IFNULL(m.VOLUME_STOCKOPNAME,0) VOLUME_STOCKOPNAME,
+                  IF(PM.JENIS_PEMAKAIAN='2', PM.VOLUME_PEMAKAIAN, '0') PEMAKAIAN_SENDIRI, 
+                  IF(PM.JENIS_PEMAKAIAN='1', PM.VOLUME_PEMAKAIAN, '0') PEMAKAIAN_KIRIM,
+                  IFNULL(TG.DEADSTOCK_TANGKI,0) DEAD_STOCK,m.STOCK_AKHIR_KOREKSI,m.REVISI_MUTASI_PERSEDIAAN
+                FROM REKAP_MUTASI_PERSEDIAAN m
+                LEFT JOIN MUTASI_PEMAKAIAN PM ON PM.SLOC = m.SLOC AND PM.ID_JNS_BHN_BKR=m.ID_JNS_BHN_BKR AND PM.TGL_MUTASI_PENGAKUAN=m.TGL_MUTASI_PERSEDIAAN
+                LEFT JOIN MASTER_TANGKI TG ON TG.SLOC = m.SLOC AND TG.ID_JNS_BHN_BKR=m.ID_JNS_BHN_BKR 
+                ORDER BY m.SLOC,m.TGL_MUTASI_PERSEDIAAN,m.ID_JNS_BHN_BKR ASC
+                ) a
+                ) aa
+                LEFT JOIN MASTER_LEVEL4 B ON B.SLOC=aa.SLOC 
+                LEFT JOIN MASTER_LEVEL3 C ON C.STORE_SLOC = B.STORE_SLOC
+                LEFT JOIN MASTER_LEVEL2 D ON D.PLANT = B.PLANT
+                LEFT JOIN MASTER_LEVEL1 E ON E.COCODE=D.COCODE
+                LEFT JOIN MASTER_REGIONAL F ON F.ID_REGIONAL=E.ID_REGIONAL
+                LEFT JOIN M_JNS_BHN_BKR G ON G.ID_JNS_BHN_BKR = aa.ID_JNS_BHN_BKR
+                WHERE (F.ID_REGIONAL = '$ID' OR E.COCODE = '$COCODE' OR D.PLANT = '$PLANT' OR C.STORE_SLOC = '$STORE_SLOC' OR B.SLOC = '$SLOC' 
+                OR G.ID_JNS_BHN_BKR = '$BBM') AND MONTH(aa.TGL_MUTASI_PERSEDIAAN) = '$BULAN' AND  YEAR(aa.TGL_MUTASI_PERSEDIAAN) = '$TAHUN' 
+                ";
 
-        if ($data['ID_REGIONAL'] !='') {
-            $this->db->where('R.ID_REGIONAL',$data['ID_REGIONAL']);
-        }
+         $query = $this->db->query($sql);
 
-        if ($data['COCODE'] !='') {
-            $this->db->where("M1.COCODE",$data['COCODE']);   
-        }
-        if ($data['PLANT'] !='') {
-            $this->db->where("M2.PLANT",$data['PLANT']);   
-        }
-        if ($data['STORE_SLOC'] !='') {
-            $this->db->where("M3.STORE_SLOC",$data['STORE_SLOC']);   
-        }
-        if ($data['SLOC'] !='') {
-            $this->db->where("M4.SLOC",$data['SLOC']);   
-        }
-        if ($data['BBM'] !='') {
-            $this->db->where("JB.ID_JNS_BHN_BKR",$data['BBM']);   
-        }
-        if ($data['BULAN'] !='') {
-            $this->db->where("MONTH(A.TGL_MUTASI_PERSEDIAAN)",$data['BULAN']);   
-        }
-        if ($data['TAHUN'] !='') {
-            $this->db->where("YEAR(A.TGL_MUTASI_PERSEDIAAN)",$data['TAHUN']);   
-        }
-
-        if ($data['COCODE'] !='') {
-            $this->db->group_by('M1.LEVEL1');  
-        }
-        if ($data['PLANT'] !='') {
-            $this->db->group_by('M2.LEVEL2');   
-        }
-        if ($data['STORE_SLOC'] !='') {
-            $this->db->group_by('M3.LEVEL3');   
-        }
-        if ($data['SLOC'] !='') {
-            $this->db->group_by('M4.LEVEL4');     
-        }
-
-        $this->db->group_by('JB.NAMA_JNS_BHN_BKR'); 
-        $this->db->group_by('R.NAMA_REGIONAL');  
-        $this->db->group_by('A.TGL_MUTASI_PERSEDIAAN');  
-        $this->db->order_by('A.TGL_MUTASI_PERSEDIAAN', 'DESC');  
-
-        $query = $this->db->get();
         return $query->result();
-
     }
 
     public function options_reg($default = '--Pilih Regional--', $key = 'all') {

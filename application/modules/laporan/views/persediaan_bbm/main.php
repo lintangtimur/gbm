@@ -83,12 +83,12 @@
                 <th colspan="5">Level</th>
                 <th rowspan="2">Bahan Bakar</th>
                 <th rowspan="2">Tgl Mutasi Persediaan</th>
-                <th rowspan="2">Stok Awal</th>
-                <th rowspan="2">Penerimaan Real</th>
-                <th colspan="2">Pemakaian</th>
+                <th rowspan="2">Stock Awal (L)</th>
+                <th rowspan="2">Penerimaan Real (L)</th>
+                <th colspan="2">Pemakaian (L)</th>
                 <th rowspan="2">Volume Opname (L)</th>
-                <th rowspan="2">Dead Stok</th>
-                <th colspan="2">Stok</th>
+                <th rowspan="2">Dead Stok (L)</th>
+                <th colspan="2">Stok Akhir (L)</th>
                 <!-- <th rowspan="2">Stok Akhir Koreksi</th> -->
                 <th rowspan="2">SHO</th>
                 <th rowspan="2">REV</th>
@@ -131,7 +131,7 @@
         var thn = $('#thn').val();
         if (lvl0 == '') {
             alert('--PILIH REGIONAL--');
-        };
+        } else {
 
                 $.ajax({
                     type: "POST",
@@ -166,7 +166,7 @@
                             var VOLUME = value.VOLUME_STOCKOPNAME == null ? "" : value.VOLUME_STOCKOPNAME;
                             var DEAD_STOCK = value.DEAD_STOCK == null ? "" : value.DEAD_STOCK;
                             var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
-                            var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
+                            var STOK_EFEKTIF = value.STOK_AKHIR_EFEKTIF == null ? "" : value.STOK_AKHIR_EFEKTIF;
                             var SHO = value.SHO == null ? "" : value.SHO;
                             var REV = value.REVISI_MUTASI_PERSEDIAAN == null ? "" : value.REVISI_MUTASI_PERSEDIAAN;
 
@@ -188,7 +188,7 @@
                                     '<td align="right">' + DEAD_STOCK + '</td>' +
                                     '<td align="right">' + STOK_REAL + '</td>' +
                                     '<td align="right">' + STOK_EFEKTIF + '</td>' +
-                                    // '<td align="right">' + value.STOCK_AKHIR_KOREKSI + '</td>' +
+                                    // '<td>' + value.STOCK_AKHIR_KOREKSI + '</td>' +
                                     '<td align="right">' + SHO + '</td>' +
                                     '<td align="right">' +  REV + '</td>' +
                                     '</tr>';
@@ -200,6 +200,7 @@
                         };
                     }
                 });
+        };
     });
 </script>
 
