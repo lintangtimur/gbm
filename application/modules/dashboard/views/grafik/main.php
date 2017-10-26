@@ -17,9 +17,100 @@
                 <div class="well-content no-search">
 
                     <div class="well">
-                        <div class="pull-left">
-                           
-                        </div>
+                        <!-- <div class="pull-left"> -->
+                          <!-- /.row -->
+                            <div class="row">
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">
+                                            <div class="row">
+                                                <div class="col-xs-3">
+                                                    <i class="fa fa-link fa-5x"></i>
+                                                </div>
+                                                <div class="col-xs-9 text-right">
+                                                    <div class="huge">26</div>
+                                                    <div><h1>HSD</h1></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a href="#">
+                                            <div class="panel-footer">
+                                                <span class="pull-left">View Details</span>
+                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">
+                                            <div class="row">
+                                                <div class="col-xs-3">
+                                                    <i class="fa fa-tasks fa-5x"></i>
+                                                </div>
+                                                <div class="col-xs-9 text-right">
+                                                    <div class="huge">12</div>
+                                                    <div><h1>MFO</h1></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a href="#">
+                                            <div class="panel-footer">
+                                                <span class="pull-left">View Details</span>
+                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">
+                                            <div class="row">
+                                                <div class="col-xs-3">
+                                                    <i class="fa fa-sun-o fa-5x"></i>
+                                                </div>
+                                                <div class="col-xs-9 text-right">
+                                                    <div class="huge">124</div>
+                                                    <div><h1>BIO</h1></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a href="#">
+                                            <div class="panel-footer">
+                                                <span class="pull-left">View Details</span>
+                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">
+                                            <div class="row">
+                                                <div class="col-xs-3">
+                                                    <i class="fa fa-tachometer fa-5x"></i>
+                                                </div>
+                                                <div class="col-xs-9 text-right">
+                                                    <div class="huge">13</div>
+                                                    <div><h2>HSD+BIO</h2></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a href="#">
+                                            <div class="panel-footer">
+                                                <span class="pull-left">View Details</span>
+                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.row -->
+                        <!-- </div>  --><!-- end pull left -->
                     </div>
                     
                      <div class="well-content clearfix">
@@ -33,61 +124,67 @@
                                 $avgHargaMops[] = (float) $result->avgHargaMops; //ambil nilai
                             }
                             /* end mengambil query*/
-                             
                         ?>
-               
-						<div class="col-md-12">
+                <!-- start row -->
+                <div class="row">
+						<div class="col-md-6">
 							<div class="panel panel-primary">
 								<div class="panel-heading">
-									<h6>Hsd</h6>
+									<h6>HSD</h6>
 									</div>
 									<div class="panel-body">
 									<div id="containerHsd"></div>
 									</div>
 							</div>
 						</div>
-						<div class="col-md-12">
+						<div class="col-md-6">
 							 <div class="panel panel-primary">
 								<div class="panel-heading">
-									<h6>Mfo</h6>
+									<h6>MFO</h6>
 								</div>
 								   <div class="panel-body">
 								   <div id="containerMfo"></div>
 									</div>
 								</div>
 						</div>
-						<div class="col-md-12">
+                </div>
+                <!-- end row -->
+                <!-- start row -->
+                <div class="row">
+						<div class="col-md-6">
 							<div class="panel panel-primary">
 								<div class="panel-heading">
-									<h6>Kurs</h6>
+									<h6>KURS</h6>
 								</div>
 									 <div class="panel-body">
 										 <div id="containerKurs" ></div>
 								</div>
 							</div>
 						</div>
-						<div class="col-md-12">
+						<div class="col-md-6">
 							<div class="panel panel-primary">
 								<div class="panel-heading">
-									<h6>Mops</h6>
+									<h6>MOPS</h6>
 									 </div>
 									<div class="panel-body">
 										<div id="containerMops" ></div>
 									</div>
 								</div>
 						</div>
-						<div class="col-md-12">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-						<h6>All</h6>
-                          </div>
-                            <div class="panel-body">
-                            <div id="containerAll" ></div>
-                            </div>
-                    </div>
                 </div>
+                <!-- end row -->
+						<div class="col-md-12">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+            						<h6>All</h6>
+                                </div>
+                                <div class="panel-body">
+                                    <div id="containerAll" ></div>
+                                </div>
+                            </div>
+                        </div>
                
-               
+               <!-- end row -->
                     </div>
                  </div> 
                  <div id="content_table" data-source="<?php echo $data_sources; ?>" data-filter="#ffilter">
