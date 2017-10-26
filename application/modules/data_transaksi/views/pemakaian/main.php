@@ -153,9 +153,16 @@
             $.post("<?php echo base_url()?>data_transaksi/pemakaian/getDataDetail/", data, function (data) {
                 var data_detail = (JSON.parse(data));
 				var cekbox = '';
+                var vLevelUser = "<?php echo $this->session->userdata('level_user'); ?>";
+
                 for (i = 0; i < data_detail.length; i++) {
-					if (data_detail[i].KODE_STATUS !== "2")
+					if (data_detail[i].KODE_STATUS !== "2"){
 						cekbox = '<input type="checkbox" name="pilihan[' + i + ']" id="pilihan" value="'+data_detail[i].ID_PEMAKAIAN+'">';
+
+                        if (((vLevelUser==3) || (vLevelUser==4)) && ((data_detail[i].KODE_STATUS == "1") || (data_detail[i].KODE_STATUS == "2"))){
+                            cekbox ='';
+                        } 
+                    }
                     $('#detailPenerimaan tbody').append(
                         '<tr>' +
                         '<td align="center">' + data_detail[i].ID_PEMAKAIAN + '</td>' +

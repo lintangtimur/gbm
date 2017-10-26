@@ -192,6 +192,8 @@ class pemakaian extends MX_Controller
         $jumlah = count($pilihan);
 //        echo "call PROSES_PENERIMAAN_V2('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$kode_level."','".$user_name."',".$jumlah.")";
 //        echo "<br/>";
+
+        // print_r('idPenerimaan='.$idPenerimaan.' statusPenerimaan='.$statusPenerimaan.' level_user='.$level_user.' user_name='. $user_name.' jumlah='. $jumlah); die;
         $simpan = $this->tbl_get->saveDetailPenerimaan($idPenerimaan, $statusPenerimaan, $level_user, $user_name, $jumlah);
 
         if ($simpan[0]->RCDB == "RC00") {

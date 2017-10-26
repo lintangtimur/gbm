@@ -141,6 +141,7 @@ class penerimaan extends MX_Controller
      */
     public function saveKiriman($statusKirim)
     {
+        print_r($statusKirim); die;    
         $pilihan = $this->input->post('pilihan');
         $idPenerimaan = $this->input->post('idPenerimaan');
         $p = ""; //penampung pilihan
@@ -160,6 +161,8 @@ class penerimaan extends MX_Controller
                 }
             }
         }
+
+
         $idPenerimaan = substr($p, 0, strlen($p) - 1);
         $statusPenerimaan = substr($s, 0, strlen($s) - 1);
         $jumlah = count($pilihan);
