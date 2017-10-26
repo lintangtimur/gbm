@@ -29,6 +29,7 @@ class stock_opname extends MX_Controller {
 
         /* Load Global Model */
         $this->load->model('stock_opname_model', 'tbl_get');
+        $this->load->model('laporan/persediaan_bbm_model','tbl_get_combo');
     }
 
     public function index() {
@@ -135,6 +136,30 @@ class stock_opname extends MX_Controller {
      public function edit($id) {
         $this->add($id);
     }
+     public function loadApprove($id = '') {
+        $page_title = 'Approve '.$this->_title;
+        $data['id'] = $id;
+
+        $get_tbl = $this->tbl_get->dataToUpdate($id);
+        $data['default'] = $get_tbl->get()->row();
+         $data['id_dok'] = $data['default']->PATH_STOCKOPNAME; 
+        $data['parent_options_jns'] = $this->tbl_get->options_jns_bhn_bkr();
+        $data['parent_options_pem'] = $this->tbl_get->options_lv4();
+        $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
+        $data['form_action'] = base_url($this->_module . '/prosesApprove');
+        $this->load->view($this->_module . '/form_approve', $data);
+    }
+
+      public function prosesApprove(){
+        //print_r($this->input->post('setuju')); die;
+       $cek=$this->input->post('setuju');
+       $id =$this->input->post('id');
+       if($cek==2){
+            $this->approveAction($id);
+       }else{
+            $this->tolakAction($id);
+       }     
+    }
     
      public function sendAction($id=''){
         if($id==''){
@@ -236,30 +261,6 @@ class stock_opname extends MX_Controller {
         
     }
 
-     public function loadApprove($id = '') {
-        $page_title = 'Approve '.$this->_title;
-        $data['id'] = $id;
-
-        $get_tbl = $this->tbl_get->dataToUpdate($id);
-        $data['default'] = $get_tbl->get()->row();
-         $data['id_dok'] = $data['default']->PATH_STOCKOPNAME; 
-        $data['parent_options_jns'] = $this->tbl_get->options_jns_bhn_bkr();
-        $data['parent_options_pem'] = $this->tbl_get->options_pembangkit_add();
-        $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
-        $data['form_action'] = base_url($this->_module . '/prosesApprove');
-        $this->load->view($this->_module . '/form_approve', $data);
-    }
-
-      public function prosesApprove(){
-        //print_r($this->input->post('setuju')); die;
-       $cek=$this->input->post('setuju');
-       $id =$this->input->post('id');
-       if($cek==2){
-            $this->approveAction($id);
-       }else{
-            $this->tolakAction($id);
-       }     
-    }
 
     public function proses() {
         $this->form_validation->set_rules('NO_STOCKOPNAME', 'NO STOCKOPNAME', 'required');

@@ -72,8 +72,8 @@ class stock_opname_model extends CI_Model {
             $this->db->group_by('M4.LEVEL4');     
         }
 
-        $this->db->group_by('JB.NAMA_JNS_BHN_BKR'); 
-        $this->db->group_by('R.NAMA_REGIONAL');
+        // $this->db->group_by('JB.NAMA_JNS_BHN_BKR'); 
+        // $this->db->group_by('R.NAMA_REGIONAL');
 
         return $this->db;
     }
