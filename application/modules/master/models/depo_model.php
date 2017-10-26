@@ -88,8 +88,14 @@ class depo_model extends CI_Model {
         $rows = array();
         foreach ($record->result() as $row) {
             $id = $row->ID_DEPO;
+
+            if ($this->laccess->otoritas('edit')) {
             $aksi = anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
+            }
+            
+            if ($this->laccess->otoritas('delete')) {
             $aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
+            }
             $rows[$id] = array(
                 'ID_DEPO' => $no++,
                 'NAMA_PEMASOK' => $row->NAMA_PEMASOK,
