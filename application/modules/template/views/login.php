@@ -13,7 +13,8 @@
         ?>
     </head>
 
-    <body class="blue-login">
+    <body> 
+        <img src="<?php echo base_url();?>assets/img/login_bg.png">
         <?php isset($page_content) ? $this->load->view($page_content) : 'Silahkan set $data["page_content"] = ""; '; ?>
     </body>
 </html>
