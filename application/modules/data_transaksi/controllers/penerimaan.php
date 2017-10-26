@@ -110,7 +110,7 @@ class penerimaan extends MX_Controller
 
     public function proses()
     {
-        $id = $this->input->post('id');
+        $id = $this->input->post('ID');
         if ($id!=null || $id!="") {
             $level_user = $this->session->userdata('level_user');
             $kode_level = $this->session->userdata('kode_level');
