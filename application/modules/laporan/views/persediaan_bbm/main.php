@@ -54,7 +54,8 @@
                     <label for="password" class="control-label">Bulan <span class="required">*</span> : </label>
                     <label for="password" class="control-label" style="margin-left:95px">Tahun <span class="required">*</span> : </label>
                     <div class="controls">
-                        <?php echo form_dropdown('BULAN', $opsi_bulan, '','style="width: 137px;", id="bln"'); ?>
+                        <?php $now = strtotime(date("Y-m-d")); $bulan = date("m",$now); ?>
+                        <?php echo form_dropdown('BULAN', $opsi_bulan, $bulan,'style="width: 137px;", id="bln"'); ?>
                         <?php echo form_dropdown('TAHUN', $opsi_tahun, '','style="width: 80px;", id="thn"'); ?>
                     </div>
                 </div>

@@ -17,13 +17,34 @@ class persediaan_bbm_model extends CI_Model {
     public function getData_Model($data)
     {
         $ID = $data['ID_REGIONAL'];
-        $COCODE = $data['COCODE'];
-        $PLANT = $data['PLANT'];   
-        $STORE_SLOC = $data['STORE_SLOC'];   
-        $SLOC = $data['SLOC'];   
+        $COCODE = $data['COCODE']; 
+        $PLANT = $data['PLANT'];
+        $STORE_SLOC = $data['STORE_SLOC'];
+        $SLOC = $data['SLOC'];
         $BBM = $data['BBM'];   
         $BULAN = $data['BULAN'];   
         $TAHUN = $data['TAHUN'];   
+        $JENIS_BBM = '';
+        $PARAM = '';
+
+        if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == '') {
+            $PARAM = "F.ID_REGIONAL = '$ID'";
+        } elseif ($PLANT == '' && $STORE_SLOC == '' && $SLOC == '') {
+            $PARAM = "E.COCODE  = '$COCODE'";
+        } elseif ($STORE_SLOC == '' && $SLOC == '') {
+            $PARAM = "D.PLANT = '$PLANT'";
+        } elseif ($SLOC == '') {
+            $PARAM = "C.STORE_SLOC = '$STORE_SLOC'";
+        } else {
+           $PARAM = "B.SLOC = '$SLOC'";
+        }
+
+        if ($BBM == '') {
+           $JENIS_BBM = "OR G.ID_JNS_BHN_BKR = '$BBM'";
+        } else {
+            $JENIS_BBM = "AND G.ID_JNS_BHN_BKR = '$BBM'";
+        }
+        
 
         $sql = " SELECT F.NAMA_REGIONAL LEVEL0, E.LEVEL1,D.LEVEL2,C.LEVEL3,B.LEVEL4,G.NAMA_JNS_BHN_BKR,aa.TGL_MUTASI_PERSEDIAAN,aa.STOCK_AWAL, IFNULL(aa.PENERIMAAN_REAL,0) PENERIMAAN_REAL,
                 IFNULL(aa.PEMAKAIAN,0) PEMAKAIAN,IFNULL(aa.PEMAKAIAN_SENDIRI,0)PEMAKAIAN_SENDIRI,IFNULL(aa.PEMAKAIAN_KIRIM,0)PEMAKAIAN_KIRIM
@@ -72,8 +93,7 @@ class persediaan_bbm_model extends CI_Model {
                 LEFT JOIN MASTER_LEVEL1 E ON E.COCODE=D.COCODE
                 LEFT JOIN MASTER_REGIONAL F ON F.ID_REGIONAL=E.ID_REGIONAL
                 LEFT JOIN M_JNS_BHN_BKR G ON G.ID_JNS_BHN_BKR = aa.ID_JNS_BHN_BKR
-                WHERE (F.ID_REGIONAL = '$ID' OR E.COCODE = '$COCODE' OR D.PLANT = '$PLANT' OR C.STORE_SLOC = '$STORE_SLOC' OR B.SLOC = '$SLOC' 
-                OR G.ID_JNS_BHN_BKR = '$BBM') AND MONTH(aa.TGL_MUTASI_PERSEDIAAN) = '$BULAN' AND  YEAR(aa.TGL_MUTASI_PERSEDIAAN) = '$TAHUN' 
+                WHERE $PARAM $JENIS_BBM AND MONTH(aa.TGL_MUTASI_PERSEDIAAN) = '$BULAN' AND  YEAR(aa.TGL_MUTASI_PERSEDIAAN) = '$TAHUN' 
                 ";
 
          $query = $this->db->query($sql);

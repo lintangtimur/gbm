@@ -106,7 +106,7 @@ class persediaan_bbm extends MX_Controller {
         $data['PLANT'] = $this->input->post('PLANT');
         $data['STORE_SLOC'] = $this->input->post('STORE_SLOC');
         $data['SLOC'] = $this->input->post('SLOC');
-        $data['BBM'] = $this->input->post('BBM');
+        $data['BBM'] = $this->input->post('ID_JNS_BHN_BKR');
         $data['BULAN'] = $this->input->post('BULAN');
         $data['TAHUN'] = $this->input->post('TAHUN');
 
