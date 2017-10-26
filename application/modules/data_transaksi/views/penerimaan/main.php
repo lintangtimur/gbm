@@ -158,6 +158,8 @@
                     if (data_detail[i].KODE_STATUS != "2"){
                         if (data_detail[i].KODE_STATUS==0 && user_level==2){
                             checkbox ='';
+                        } else if (data_detail[i].KODE_STATUS==3 && user_level==2) {
+                            checkbox ='';
                         } else{
                         checkbox = '<input type="checkbox" name="pilihan[' + i + ']" id="pilihan" value="'+data_detail[i].ID_PENERIMAAN+'">';
                         }
