@@ -25,12 +25,12 @@ class penerimaan extends MX_Controller
 
         // Protection
         hprotection::login();
-		$this->laccess->check();
+        $this->laccess->check();
         $this->laccess->otoritas('view', true);
-		
+
         /* Load Global Model */
         $this->load->model('penerimaan_model', 'tbl_get');
-        $this->load->model('laporan/persediaan_bbm_model','tbl_get_combo');
+        $this->load->model('laporan/persediaan_bbm_model', 'tbl_get_combo');
     }
 
     public function index()
@@ -44,24 +44,26 @@ class penerimaan extends MX_Controller
         $data = $this->get_level_user();
 
         $data['button_group'] = array();
-		if ($this->laccess->otoritas('add')) {
-			$data['button_group'] = array(
-				anchor(null, '<i class="icon-plus"></i> Tambah Data', array('class' => 'btn yellow', 'id' => 'button-add', 'onclick' => 'load_form(this.id)', 'data-source' => base_url($this->_module . '/add')))
-			);
-		}
+        if ($this->laccess->otoritas('add')) {
+            $data['button_group'] = array(
+                anchor(null, '<i class="icon-plus"></i> Tambah Data', array('class' => 'btn yellow', 'id' => 'button-add', 'onclick' => 'load_form(this.id)', 'data-source' => base_url($this->_module . '/add')))
+            );
+        }
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $this->_title;
         $data['page_content'] = $this->_module . '/main';
         $data['data_sources'] = base_url($this->_module . '/load');
         echo Modules::run("template/admin", $data);
     }
-    public function add($id = '') {
+
+    public function add($id = '')
+    {
         $page_title = 'Tambah Penerimaan';
 
         $data['id'] = $id;
         if ($id != '') {
             $page_title = 'Edit Penerimaan';
-            $get_tbl = $this->tbl_get->data($id);
-            $data['default'] = $get_tbl->get()->row();
+            $get_tbl = $this->tbl_get->data_edit($id);
+            $data['default'] = $get_tbl;
         }
         $level_user = $this->session->userdata('level_user');
         $kode_level = $this->session->userdata('kode_level');
@@ -69,13 +71,14 @@ class penerimaan extends MX_Controller
         $data['option_transportir'] = $this->tbl_get->options_transpotir();
         $data['option_jenis_penerimaan'] = $this->tbl_get->options_jenis_penerimaan();
         $data['option_jenis_bbm'] = $this->tbl_get->options_jenis_bahan_bakar();
-        $data['option_level'] = $this->tbl_get->options_level($level_user,$kode_level);
+        $data['option_level'] = $this->tbl_get->options_level($level_user, $kode_level);
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses');
         $this->load->view($this->_module . '/form', $data);
     }
 
-    public function edit($id) {
+    public function edit($id)
+    {
         $this->add($id);
     }
 
@@ -106,26 +109,47 @@ class penerimaan extends MX_Controller
     }
 
 
-    public function proses() {
-        $data = array();
-        $data['TGL_PENERIMAAN'] = str_replace('-','',$this->input->post('TGL_PENERIMAAN'));
-        $data['TGL_MUTASI'] = date("dmY");
-        $data['TGL_PENGAKUAN'] = str_replace('-','',$this->input->post('TGL_PENGAKUAN'));
-        $data['ID_PEMASOK'] = $this->input->post('ID_PEMASOK');
-        $data['ID_TRANSPORTIR'] = $this->input->post('ID_TRANSPORTIR');
-        $data['SLOC'] = $this->input->post('SLOC');
-        $data['VALUE_SETTING'] = $this->input->post('VALUE_SETTING');
-        $data['NO_PENERIMAAN'] = $this->input->post('NO_PENERIMAAN');
-        $data['ID_JNS_BHN_BKR'] = $this->input->post('ID_JNS_BHN_BKR');
-        $data['VOL_PENERIMAAN'] = $this->input->post('VOL_PENERIMAAN');
-        $data['VOL_PENERIMAAN_REAL'] = $this->input->post('VOL_PENERIMAAN_REAL');
-        $data['CREATE_BY'] = $this->session->userdata('user_name');
+    public function proses()
+    {
+        $id = $this->input->post('id');
+        if (isset($id)) {
+            $level_user = $this->session->userdata('level_user');
+            $kode_level = $this->session->userdata('kode_level');
+            $data = array();
+            $data['ID_PENERIMAAN']=$id;
+            $data['LEVEL_USER']=$level_user;
+            $data['KODE_LEVEL']=$kode_level;
+            $data['STATUS'] = $this->input->post('STATUS');
+            $data['VOL_PENERIMAAN'] = $this->input->post('VOL_PENERIMAAN');
+            $data['VOL_PENERIMAAN_REAL'] = $this->input->post('VOL_PENERIMAAN_REAL');
+            $data['CREATE_BY'] = $this->session->userdata('user_name');
+            $simpan_data = $this->tbl_get->save_edit($data);
+            if ($simpan_data[0]->RCDB == 'RC00') {
+                $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
+            } else {
+                $message = array(false, 'Proses Gagal', $simpan_data[0]->PESANDB, '#content_table');
+            }
+        } else {
+            $data = array();
+            $data['TGL_PENERIMAAN'] = str_replace('-', '', $this->input->post('TGL_PENERIMAAN'));
+            $data['TGL_MUTASI'] = date("dmY");
+            $data['TGL_PENGAKUAN'] = str_replace('-', '', $this->input->post('TGL_PENGAKUAN'));
+            $data['ID_PEMASOK'] = $this->input->post('ID_PEMASOK');
+            $data['ID_TRANSPORTIR'] = $this->input->post('ID_TRANSPORTIR');
+            $data['SLOC'] = $this->input->post('SLOC');
+            $data['VALUE_SETTING'] = $this->input->post('VALUE_SETTING');
+            $data['NO_PENERIMAAN'] = $this->input->post('NO_PENERIMAAN');
+            $data['ID_JNS_BHN_BKR'] = $this->input->post('ID_JNS_BHN_BKR');
+            $data['VOL_PENERIMAAN'] = $this->input->post('VOL_PENERIMAAN');
+            $data['VOL_PENERIMAAN_REAL'] = $this->input->post('VOL_PENERIMAAN_REAL');
+            $data['CREATE_BY'] = $this->session->userdata('user_name');
 
-        $simpan_data = $this->tbl_get->save($data);
-        if ($simpan_data[0]->RCDB=='RC00') {
-            $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
-        }else {
-            $message = array(false, 'Proses Gagal', 'Proses penyimpanan data gagal.', '#content_table');
+            $simpan_data = $this->tbl_get->save($data);
+            if ($simpan_data[0]->RCDB == 'RC00') {
+                $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
+            } else {
+                $message = array(false, 'Proses Gagal', 'Proses penyimpanan data gagal.', '#content_table');
+            }
         }
         echo json_encode($message, true);
     }
@@ -148,7 +172,8 @@ class penerimaan extends MX_Controller
      */
     public function saveKiriman($statusKirim)
     {
-        print_r($statusKirim); die;    
+        print_r($statusKirim);
+        die;
         $pilihan = $this->input->post('pilihan');
         $idPenerimaan = $this->input->post('idPenerimaan');
         $p = ""; //penampung pilihan
@@ -159,9 +184,9 @@ class penerimaan extends MX_Controller
         for ($i = 0; $i < count($idPenerimaan); $i++) {
             if (isset($pilihan[$i])) {
                 $p = $p . $pilihan[$i] . "#";
-                if ($statusKirim =='kirim') {
+                if ($statusKirim == 'kirim') {
                     $s = $s . "1" . "#";
-                } else if ($statusKirim == 'approve'){
+                } else if ($statusKirim == 'approve') {
                     $s = $s . "2" . "#";
                 } else {
                     $s = $s . "3" . "#";
@@ -175,17 +200,18 @@ class penerimaan extends MX_Controller
         $jumlah = count($pilihan);
 //        echo "call PROSES_PENERIMAAN_V2('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$kode_level."','".$user_name."',".$jumlah.")";
 //        echo "<br/>";
-        $simpan = $this->tbl_get->saveDetailPenerimaan($idPenerimaan, $statusPenerimaan,$level_user,$kode_level,$user_name,$jumlah);
+        $simpan = $this->tbl_get->saveDetailPenerimaan($idPenerimaan, $statusPenerimaan, $level_user, $kode_level, $user_name, $jumlah);
 
-        if ($simpan[0]->RCDB == "RC00"){
-            $message = array(true, 'Proses Berhasil', $simpan[0]->PESANDB, '#content_table' );
-        } else{
-            $message = array(false, 'Proses Gagal',  $simpan[0]->PESANDB, '');
+        if ($simpan[0]->RCDB == "RC00") {
+            $message = array(true, 'Proses Berhasil', $simpan[0]->PESANDB, '#content_table');
+        } else {
+            $message = array(false, 'Proses Gagal', $simpan[0]->PESANDB, '');
         }
         echo json_encode($message, true);
     }
 
-    public function get_level_user(){
+    public function get_level_user()
+    {
         $data['lv1_options'] = $this->tbl_get_combo->options_lv1('--Pilih Level 1--', '-', 1);
         $data['lv2_options'] = $this->tbl_get_combo->options_lv2('--Pilih Level 2--', '-', 1);
         $data['lv3_options'] = $this->tbl_get_combo->options_lv3('--Pilih Level 3--', '-', 1);
@@ -194,9 +220,9 @@ class penerimaan extends MX_Controller
         $level_user = $this->session->userdata('level_user');
         $kode_level = $this->session->userdata('kode_level');
 
-        $data_lv = $this->tbl_get_combo->get_level($level_user,$kode_level);
+        $data_lv = $this->tbl_get_combo->get_level($level_user, $kode_level);
 
-        if ($level_user==4){
+        if ($level_user == 4) {
             $option_reg[$data_lv[0]->ID_REGIONAL] = $data_lv[0]->NAMA_REGIONAL;
             $option_lv1[$data_lv[0]->COCODE] = $data_lv[0]->LEVEL1;
             $option_lv2[$data_lv[0]->PLANT] = $data_lv[0]->LEVEL2;
@@ -207,7 +233,7 @@ class penerimaan extends MX_Controller
             $data['lv2_options'] = $option_lv2;
             $data['lv3_options'] = $option_lv3;
             $data['lv4_options'] = $option_lv4;
-        } else if ($level_user==3){
+        } else if ($level_user == 3) {
             $option_reg[$data_lv[0]->ID_REGIONAL] = $data_lv[0]->NAMA_REGIONAL;
             $option_lv1[$data_lv[0]->COCODE] = $data_lv[0]->LEVEL1;
             $option_lv2[$data_lv[0]->PLANT] = $data_lv[0]->LEVEL2;
@@ -217,7 +243,7 @@ class penerimaan extends MX_Controller
             $data['lv2_options'] = $option_lv2;
             $data['lv3_options'] = $option_lv3;
             $data['lv4_options'] = $this->tbl_get_combo->options_lv4('--Pilih Level 4--', $data_lv[0]->STORE_SLOC, 1);
-        } else if ($level_user==2){
+        } else if ($level_user == 2) {
             $option_reg[$data_lv[0]->ID_REGIONAL] = $data_lv[0]->NAMA_REGIONAL;
             $option_lv1[$data_lv[0]->COCODE] = $data_lv[0]->LEVEL1;
             $option_lv2[$data_lv[0]->PLANT] = $data_lv[0]->LEVEL2;
@@ -225,14 +251,14 @@ class penerimaan extends MX_Controller
             $data['lv1_options'] = $option_lv1;
             $data['lv2_options'] = $option_lv2;
             $data['lv3_options'] = $this->tbl_get_combo->options_lv3('--Pilih Level 3--', $data_lv[0]->PLANT, 1);
-        } else if ($level_user==1){
+        } else if ($level_user == 1) {
             $option_reg[$data_lv[0]->ID_REGIONAL] = $data_lv[0]->NAMA_REGIONAL;
             $option_lv1[$data_lv[0]->COCODE] = $data_lv[0]->LEVEL1;
             $data['reg_options'] = $option_reg;
             $data['lv1_options'] = $option_lv1;
             $data['lv2_options'] = $this->tbl_get_combo->options_lv2('--Pilih Level 2--', $data_lv[0]->COCODE, 1);
-        } else if ($level_user==0){
-            if ($kode_level==00){
+        } else if ($level_user == 0) {
+            if ($kode_level == 00) {
                 $data['reg_options'] = $this->tbl_get_combo->options_reg();
             } else {
                 $option_reg[$data_lv[0]->ID_REGIONAL] = $data_lv[0]->NAMA_REGIONAL;

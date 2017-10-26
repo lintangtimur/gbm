@@ -160,7 +160,7 @@
                     }
                     if (user_level==3 || user_level==4 ){
                         edit = '<td align="center">' +
-                            '<a href="javascript:void(0);" class="btn transparant" id="button-edit-003" onclick="load_form(this.id)" data-source="http://localhost/gbm/data_transaksi/penerimaan/edit/003"><i class="icon-edit"></i></a>'+
+                            '<a href="javascript:void(0);" class="btn transparant" id="button-edit-003" onclick="load_form(this.id)" data-source="<?php echo base_url()?>data_transaksi/penerimaan/add/'+data_detail[i].ID_PENERIMAAN +'"><i class="icon-edit"></i></a>'+
                             '</a></td>';
                     }
                     $('#detailPenerimaan tbody').append(

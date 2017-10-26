@@ -13,6 +13,7 @@ class penerimaan_model extends CI_Model
     }
 
     private $_table1 = "VLOAD_LIST_PENERIMAAN"; //nama table setelah mom_
+    private $_table2 = "MUTASI_PENERIMAAN"; //nama table setelah mom_
 
     private function _key($key) { //unit ID
         if (!is_array($key)) {
@@ -21,12 +22,29 @@ class penerimaan_model extends CI_Model
         return $key;
     }
 
-    private function data($key = ''){
-        $this->db->from($this->_table1);
-        if (!empty($key) || is_array($key))
-            $this->db->where_condition($this->_key($key));
+    private function _key_edit($key){
+        if (!is_array($key)) {
+            $key = array('ID_PENERIMAAN' => $key);
+        }
+        return $key;
+    }
 
+    public function data($key = ''){
+
+        if (!empty($key)) {
+            $this->db->from($this->_table2);
+            $this->db->where_condition($this->_key_edit($key));
+        } else{
+            $this->db->from($this->_table1);
+        }
         return $this->db;
+    }
+
+    public function data_edit($key){
+        $this->db->from($this->_table2);
+        $this->db->where('ID_PENERIMAAN',$key);
+        $query=$this->db->get();
+        return $query->result();
     }
 
     public function data_table($module = '', $limit = 20, $offset = 1) {
@@ -172,6 +190,21 @@ class penerimaan_model extends CI_Model
             $data['CREATE_BY']."','"
             .$data['NO_PENERIMAAN']."','"
             .$data['ID_JNS_BHN_BKR']."')";
+//        echo $sql;
+        $query = $this->db->query($sql);
+        $this->db->close();
+        return $query->result();
+    }
+
+    public function save_edit($data){
+        $sql = "CALL EDIT_PENERIMAAN (
+            '".$data['ID_PENERIMAAN']."',
+            '".$data['STATUS']."',
+            '".$data['LEVEL_USER']."',
+            '".$data['KODE_LEVEL']."',
+            '".$data['CREATE_BY']."',
+            ".$data['VOL_PENERIMAAN'].",
+            ".$data['VOL_PENERIMAAN_REAL'].")";
 //        echo $sql;
         $query = $this->db->query($sql);
         $this->db->close();
