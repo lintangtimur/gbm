@@ -180,17 +180,17 @@
                                     '<td>' + LEVEL4 + '</td>' +
                                     '<td>' + NAMA_JNS_BHN_BKR + '</td>' +
                                     '<td>' + TGL_MUTASI_PERSEDIAAN + '</td>' +
-                                    '<td>' + STOCK_AWAL + '</td>' +
-                                    '<td>' + PENERIMAAN_REAL + '</td>' +
-                                    '<td>' + PEMAKAIAN_SENDIRI + '</td>' +
-                                    '<td>' + KIRIM + '</td>' +
-                                    '<td>' + VOLUME + '</td>' +
-                                    '<td>' + DEAD_STOCK + '</td>' +
-                                    '<td>' + STOK_REAL + '</td>' +
-                                    '<td>' + STOK_EFEKTIF + '</td>' +
-                                    // '<td>' + value.STOCK_AKHIR_KOREKSI + '</td>' +
-                                    '<td>' + SHO + '</td>' +
-                                    '<td>' +  REV + '</td>' +
+                                    '<td align="right">' + STOCK_AWAL + '</td>' +
+                                    '<td align="right">' + PENERIMAAN_REAL + '</td>' +
+                                    '<td align="right">' + PEMAKAIAN_SENDIRI + '</td>' +
+                                    '<td align="right">' + KIRIM + '</td>' +
+                                    '<td align="right">' + VOLUME + '</td>' +
+                                    '<td align="right">' + DEAD_STOCK + '</td>' +
+                                    '<td align="right">' + STOK_REAL + '</td>' +
+                                    '<td align="right">' + STOK_EFEKTIF + '</td>' +
+                                    // '<td align="right">' + value.STOCK_AKHIR_KOREKSI + '</td>' +
+                                    '<td align="right">' + SHO + '</td>' +
+                                    '<td align="right">' +  REV + '</td>' +
                                     '</tr>';
                             nomer++;
 
