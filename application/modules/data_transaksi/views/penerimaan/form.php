@@ -13,13 +13,14 @@
     <div class="box-content">
 
         <?php
-        $hidden_form = array('id' => !empty($id) ? $id : '');
-        echo form_open_multipart($form_action, array('id' => 'finput', 'class' => 'form-horizontal'), $hidden_form);
+//        $hidden_form = array('id' => !empty($id) ? $id : '');
+        echo form_open_multipart($form_action, array('id' => 'finput', 'class' => 'form-horizontal'));
         if (isset($default)) {
             ?>
             <div class="control-group">
                 <label class="control-label">Volume DO/TUG<span class="required">*</span> :</label>
                 <div class="controls">
+                    <input type="hidden" name="ID" value="<?php echo $default[0]->ID_PENERIMAAN ?>">
                     <input type="hidden" name="STATUS" value="<?php echo $default[0]->STATUS_MUTASI_TERIMA?>">
                     <input type="text" name="VOL_PENERIMAAN" class="form-control span4" placeholder="Volume Penerimaan" value="<?php echo $default[0]->VOL_TERIMA ?>">
                 </div>
