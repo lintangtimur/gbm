@@ -18,7 +18,7 @@
         if (isset($default)) {
             ?>
             <div class="control-group">
-                <label class="control-label">Volume DO/TUG<span class="required">*</span> : </label>
+                <label class="control-label">Volume DO/TUG<span class="required">*</span> :</label>
                 <div class="controls">
                     <input type="hidden" name="STATUS" value="<?php echo $default[0]->STATUS_MUTASI_TERIMA?>">
                     <input type="text" name="VOL_PENERIMAAN" class="form-control span4" placeholder="Volume Penerimaan" value="<?php echo $default[0]->VOL_TERIMA ?>">
@@ -66,11 +66,41 @@
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">Level 4<span class="required">*</span> : </label>
+                <label  class="control-label">Regional <span class="required">*</span> : </label>
                 <div class="controls">
-                    <?php echo form_dropdown('SLOC', $option_level, !empty($default->SLOC) ? $default->SLOC : '', 'class="span6"'); ?>
+                    <?php echo form_dropdown('ID_REGIONAL', $reg_options, !empty($default->ID_REGIONAL) ? $default->ID_REGIONAL : ''); ?>
                 </div>
             </div>
+            <div class="control-group">
+                <label  class="control-label">Level 1<span class="required">*</span> : </label>
+                <div class="controls">
+                    <?php echo form_dropdown('COCODE', $lv1_options, !empty($default->COCODE) ? $default->COCODE : ''); ?>
+                </div>
+            </div>
+            <div class="control-group">
+                <label  class="control-label">Level 2<span class="required">*</span> : </label>
+                <div class="controls">
+                    <?php echo form_dropdown('PLANT', $lv2_options, !empty($default->PLANT) ? $default->PLANT : ''); ?>
+                </div>
+            </div>
+            <div class="control-group">
+                <label  class="control-label">Level 3<span class="required">*</span> : </label>
+                <div class="controls">
+                    <?php echo form_dropdown('STORE_SLOC', $lv3_options, !empty($default->STORE_SLOC) ? $default->STORE_SLOC : ''); ?>
+                </div>
+            </div>
+            <div class="control-group">
+                <label  class="control-label">Level 4<span class="required">*</span> : </label>
+                <div class="controls">
+                    <?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : ''); ?>
+                </div>
+            </div>
+<!--            <div class="control-group">-->
+<!--                <label class="control-label">Level 4<span class="required">*</span> : </label>-->
+<!--                <div class="controls">-->
+<!--                    --><?php //echo form_dropdown('SLOC', $option_level, !empty($default->SLOC) ? $default->SLOC : '', 'class="span6"'); ?>
+<!--                </div>-->
+<!--            </div>-->
             <div class="control-group">
                 <label class="control-label">Jenis Penerimaan<span class="required">*</span> : </label>
                 <div class="controls">
@@ -120,5 +150,101 @@
         todayBtn: true,
         pickerPosition: "bottom-left"
     });
+    function setDefaultLv1(){
+        $('select[name="COCODE"]').empty();
+        $('select[name="COCODE"]').append('<option value="">--Pilih Level 1--</option>');
+    }
 
+    function setDefaultLv2(){
+        $('select[name="PLANT"]').empty();
+        $('select[name="PLANT"]').append('<option value="">--Pilih Level 2--</option>');
+    }
+
+    function setDefaultLv3(){
+        $('select[name="STORE_SLOC"]').empty();
+        $('select[name="STORE_SLOC"]').append('<option value="">--Pilih Level 3--</option>');
+    }
+
+    function setDefaultLv4(){
+        $('select[name="SLOC"]').empty();
+        $('select[name="SLOC"]').append('<option value="">--Pilih Level 4--</option>');
+    }
+
+    $('select[name="ID_REGIONAL"]').on('change', function() {
+        var stateID = $(this).val();
+        var vlink_url = '<?php echo base_url()?>master/master_level4/get_options_lv1/'+stateID;
+        setDefaultLv1();
+        setDefaultLv2();
+        setDefaultLv3();
+        setDefaultLv4();
+        if(stateID) {
+            $.ajax({
+                url: vlink_url,
+                type: "GET",
+                dataType: "json",
+                success:function(data) {
+                    $.each(data, function(key, value) {
+                        $('select[name="COCODE"]').append('<option value="'+ value.COCODE +'">'+ value.LEVEL1 +'</option>');
+                    });
+                }
+            });
+        }
+    });
+
+    $('select[name="COCODE"]').on('change', function() {
+        var stateID = $(this).val();
+        var vlink_url = '<?php echo base_url()?>master/master_level4/get_options_lv2/'+stateID;
+        setDefaultLv2();
+        setDefaultLv3();
+        setDefaultLv4();
+        if(stateID) {
+            $.ajax({
+                url: vlink_url,
+                type: "GET",
+                dataType: "json",
+                success:function(data) {
+                    $.each(data, function(key, value) {
+                        $('select[name="PLANT"]').append('<option value="'+ value.PLANT +'">'+ value.LEVEL2 +'</option>');
+                    });
+                }
+            });
+        }
+    });
+
+    $('select[name="PLANT"]').on('change', function() {
+        var stateID = $(this).val();
+        var vlink_url = '<?php echo base_url()?>master/master_level4/get_options_lv3/'+stateID;
+        setDefaultLv3();
+        setDefaultLv4();
+        if(stateID) {
+            $.ajax({
+                url: vlink_url,
+                type: "GET",
+                dataType: "json",
+                success:function(data) {
+                    $.each(data, function(key, value) {
+                        $('select[name="STORE_SLOC"]').append('<option value="'+ value.STORE_SLOC +'">'+ value.LEVEL3 +'</option>');
+                    });
+                }
+            });
+        }
+    });
+
+    $('select[name="STORE_SLOC"]').on('change', function() {
+        var stateID = $(this).val();
+        var vlink_url = '<?php echo base_url()?>laporan/persediaan_bbm/get_options_lv4/'+stateID;
+        setDefaultLv4();
+        if(stateID) {
+            $.ajax({
+                url: vlink_url,
+                type: "GET",
+                dataType: "json",
+                success:function(data) {
+                    $.each(data, function(key, value) {
+                        $('select[name="SLOC"]').append('<option value="'+ value.SLOC +'">'+ value.LEVEL4 +'</option>');
+                    });
+                }
+            });
+        }
+    });
 </script>

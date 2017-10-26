@@ -58,8 +58,7 @@ class penerimaan extends MX_Controller
     public function add($id = '')
     {
         $page_title = 'Tambah Penerimaan';
-
-        $data['id'] = $id;
+        $data = $this->get_level_user();
         if ($id != '') {
             $page_title = 'Edit Penerimaan';
             $get_tbl = $this->tbl_get->data_edit($id);
@@ -112,7 +111,7 @@ class penerimaan extends MX_Controller
     public function proses()
     {
         $id = $this->input->post('id');
-        if (isset($id)) {
+        if ($id!=null || $id!="") {
             $level_user = $this->session->userdata('level_user');
             $kode_level = $this->session->userdata('kode_level');
             $data = array();
@@ -125,9 +124,9 @@ class penerimaan extends MX_Controller
             $data['CREATE_BY'] = $this->session->userdata('user_name');
             $simpan_data = $this->tbl_get->save_edit($data);
             if ($simpan_data[0]->RCDB == 'RC00') {
-                $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
+                $message = array(true, 'Proses Update Berhasil', $simpan_data[0]->PESANDB, '#content_table');
             } else {
-                $message = array(false, 'Proses Gagal', $simpan_data[0]->PESANDB, '#content_table');
+                $message = array(false, 'Proses Update Gagal', $simpan_data[0]->PESANDB, '#content_table');
             }
         } else {
             $data = array();
@@ -146,9 +145,9 @@ class penerimaan extends MX_Controller
 
             $simpan_data = $this->tbl_get->save($data);
             if ($simpan_data[0]->RCDB == 'RC00') {
-                $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
+                $message = array(true, 'Proses Simpan Berhasil', $simpan_data[0]->PESANDB, '#content_table');
             } else {
-                $message = array(false, 'Proses Gagal', 'Proses penyimpanan data gagal.', '#content_table');
+                $message = array(false, 'Proses Simpan Gagal', $simpan_data[0]->PESANDB, '#content_table');
             }
         }
         echo json_encode($message, true);
