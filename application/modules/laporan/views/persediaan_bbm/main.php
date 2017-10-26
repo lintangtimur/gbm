@@ -80,30 +80,30 @@
             <table id="dataTable" class="table table-bordered table-striped">
             <thead>
                 <tr>
-                <th rowspan="2">No</th>
-                <th colspan="5">Level</th>
-                <th rowspan="2">Bahan Bakar</th>
-                <th rowspan="2">Tgl Mutasi Persediaan</th>
-                <th rowspan="2">Stock Awal (L)</th>
-                <th rowspan="2">Penerimaan Real (L)</th>
-                <th colspan="2">Pemakaian (L)</th>
-                <th rowspan="2">Volume Opname (L)</th>
-                <th rowspan="2">Dead Stok (L)</th>
-                <th colspan="2">Stok Akhir (L)</th>
-                <!-- <th rowspan="2">Stok Akhir Koreksi</th> -->
-                <th rowspan="2">SHO</th>
-                <th rowspan="2">REV</th>
+                    <th rowspan="2">No</th>
+                    <th colspan="5">Level</th>
+                    <th rowspan="2">Bahan Bakar</th>
+                    <th rowspan="2">Tgl Mutasi Persediaan</th>
+                    <th rowspan="2">Stock Awal (L)</th>
+                    <th rowspan="2">Penerimaan Real (L)</th>
+                    <th colspan="2">Pemakaian (L)</th>
+                    <th rowspan="2">Volume Opname (L)</th>
+                    <th rowspan="2">Dead Stok (L)</th>
+                    <th colspan="2">Stok (L)</th>
+                    <!-- <th rowspan="2">Stok Akhir Koreksi</th> -->
+                    <th rowspan="2">SHO</th>
+                    <th rowspan="2">REV</th>
                 </tr>
                 <tr>
-                <th>0</th>
-                <th>1</th>
-                <th>2</th>
-                <th>3</th>
-                <th>4</th>
-                <th>Sendiri</th>
-                <th>Kirim</th>
-                <th>Akhir</th>
-                <th>Akhir Efektif</th>
+                    <th>0</th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>4</th>
+                    <th>Sendiri</th>
+                    <th>Kirim</th>
+                    <th>Akhir</th>
+                    <th>Akhir Efektif</th>
                 </tr>
             </thead>
             <tbody>
@@ -152,7 +152,7 @@
                          var nomer = 1;
                          $.each(obj, function (index, value) {
 
-                            var NAMA_REGIONAL = value.NAMA_REGIONAL == null ? "" : value.NAMA_REGIONAL;
+                            // var NAMA_REGIONAL = value.NAMA_REGIONAL == null ? "" : value.NAMA_REGIONAL;
                             var LEVEL0 = value.LEVEL0 == null ? "" : value.LEVEL0;
                             var LEVEL1 = value.LEVEL1 == null ? "" : value.LEVEL1;
                             var LEVEL2 = value.LEVEL2 == null ? "" : value.LEVEL2;
@@ -174,7 +174,7 @@
                             var strRow =
                                     '<tr>' +
                                     '<td>' + nomer + '</td>' +
-                                    '<td>' + NAMA_REGIONAL  + '</td>' +
+                                    '<td>' + LEVEL0  + '</td>' +
                                     '<td>' + LEVEL1 + '</td>' +
                                     '<td>' + LEVEL2 + '</td>' +
                                     '<td>' + LEVEL3 + '</td>' +
