@@ -13,10 +13,11 @@ class pemakaian_model extends CI_Model
     }
 
     private $_table1 = "VLOAD_LIST_PEMAKAIAN_V2"; //nama table setelah mom_
+    private $_table2 = "MUTASI_PEMAKAIAN"; //nama table setelah mom_
 
     private function _key($key) { //unit ID
         if (!is_array($key)) {
-            $key = array('TANGGAL' => $key);
+            $key = array('ID_PEMAKAIAN' => $key);
         }
         return $key;
     }
@@ -24,6 +25,7 @@ class pemakaian_model extends CI_Model
     private function data($key = ''){
         $this->db->select('a.*, sum(a.COUNT_VOLUME) as JML, sum(a.SUM_volume) as JML_VOLUME');
         $this->db->from($this->_table1.' a' );
+
         if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
 
@@ -73,8 +75,16 @@ class pemakaian_model extends CI_Model
         return $this->db;
     }
 
-    private function data_detail($key = ''){
-        $this->db->from($this->_table2);
+    public function data_detail($key = ''){
+        $this->db->select('a.*, b.STORE_SLOC, c.PLANT, d.COCODE, e.ID_REGIONAL');
+        $this->db->from($this->_table2.' a');
+        $this->db->join('MASTER_LEVEL4 f', 'f.SLOC = a.SLOC','left');
+        $this->db->join('MASTER_LEVEL3 b', 'b.STORE_SLOC = f.STORE_SLOC','left');
+        $this->db->join('MASTER_LEVEL2 c', 'c.PLANT = b.PLANT','left');
+        $this->db->join('MASTER_LEVEL1 d', 'd.COCODE = c.COCODE','left');
+        $this->db->join('MASTER_REGIONAL e', 'e.ID_REGIONAL = d.ID_REGIONAL','left');
+
+
         if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
 
@@ -300,7 +310,27 @@ class pemakaian_model extends CI_Model
             '0','".
             $data['CREATE_BY']."','"
             .$data['NO_PEMAKAIAN']."','"
-            .$data['ID_JNS_BHN_BKR']."')";
+            .$data['ID_JNS_BHN_BKR']."','"
+            .$data['NO_TUG']."')";
+// print_debug($sql);
+        $query = $this->db->query($sql);
+        $this->db->close();
+        return $query->result();
+    }
+
+    public function update($data){
+        $sql = "CALL EDIT_PEMAKAIAN ('"
+            .$data['ID_PEMAKAIAN']."','"
+            .$data['ID_JNS_BHN_BKR']."','"
+            .$data['SLOC']."','"
+            .$data['TGL_CATAT']."',"
+            .$data['TGL_PENGAKUAN'].",'"
+            .$data['VOL_PEMAKAIAN']."','"
+            .$data['UD_BY_MUTASI_PEMAKAIAN']."','"
+            .$data['NO_PEMAKAIAN']."','"
+            .$data['VALUE_SETTING']."','"
+            .$data['KETERANGAN']."','"
+            .$data['NO_TUG']."')";
 // print_debug($sql);
         $query = $this->db->query($sql);
         $this->db->close();

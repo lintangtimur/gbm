@@ -40,7 +40,7 @@ class pemakaian extends MX_Controller
         $this->load->module("template/asset");
 
         // Memanggil plugin JS Crud
-        $this->asset->set_plugin(array('crud'));
+        $this->asset->set_plugin(array('crud','format_number'));
 
         $data = $this->get_level_user(); 
 
@@ -57,6 +57,10 @@ class pemakaian extends MX_Controller
         echo Modules::run("template/admin", $data);
     }
 
+    public function edit($id) {
+        $this->add($id);
+    }    
+
     public function add($id = '')
     {
         $page_title = 'Tambah Pemakaian';
@@ -65,8 +69,40 @@ class pemakaian extends MX_Controller
 
         if ($id != '') {
             $page_title = 'Edit Pemakaian';
-            $get_tbl = $this->tbl_get->data($id);
+            $get_tbl = $this->tbl_get->data_detail($id);
             $data['default'] = $get_tbl->get()->row();
+            $lv1 = $data['default']->ID_REGIONAL; 
+            $lv2 = $data['default']->COCODE;
+            $lv3 = $data['default']->PLANT;
+            $lv4 = $data['default']->STORE_SLOC;
+
+            $level_user = $this->session->userdata('level_user');
+            $kode_level = $this->session->userdata('kode_level');
+
+            if ($level_user==3){
+                $data['lv4_options'] = $this->tbl_get_combo->options_lv4('--Pilih Level 4--', $lv4, 1);  
+            } else if ($level_user==2){
+                $data['lv3_options'] = $this->tbl_get_combo->options_lv3('--Pilih Level 3--', $lv3, 1); 
+                $data['lv4_options'] = $this->tbl_get_combo->options_lv4('--Pilih Level 4--', $lv4, 1); 
+            } else if ($level_user==1){
+                $data['lv2_options'] = $this->tbl_get_combo->options_lv2('--Pilih Level 2--', $lv2, 1);
+                $data['lv3_options'] = $this->tbl_get_combo->options_lv3('--Pilih Level 3--', $lv3, 1); 
+                $data['lv4_options'] = $this->tbl_get_combo->options_lv4('--Pilih Level 4--', $lv4, 1); 
+            } else if ($level_user==0){
+                if ($kode_level==00){
+                    $data['reg_options'] = $this->tbl_get_combo->options_reg(); 
+                    $data['lv1_options'] = $this->tbl_get_combo->options_lv1('--Pilih Level 1--', $lv1, 1);
+                    $data['lv2_options'] = $this->tbl_get_combo->options_lv2('--Pilih Level 2--', $lv2, 1);
+                    $data['lv3_options'] = $this->tbl_get_combo->options_lv3('--Pilih Level 3--', $lv3, 1); 
+                    $data['lv4_options'] = $this->tbl_get_combo->options_lv4('--Pilih Level 4--', $lv4, 1); 
+                } else {
+                    $data['lv1_options'] = $this->tbl_get_combo->options_lv1('--Pilih Level 1--', $lv1, 1);
+                    $data['lv2_options'] = $this->tbl_get_combo->options_lv2('--Pilih Level 2--', $lv2, 1);
+                    $data['lv3_options'] = $this->tbl_get_combo->options_lv3('--Pilih Level 3--', $lv3, 1); 
+                    $data['lv4_options'] = $this->tbl_get_combo->options_lv4('--Pilih Level 4--', $lv4, 1); 
+                }
+            }      
+            // print_r($data['default']); die;
         }
         $data['option_jenis_pemakaian'] = $this->tbl_get->options_jenis_pemakaian();
         $data['option_jenis_bbm'] = $this->tbl_get->options_jenis_bahan_bakar();
@@ -122,6 +158,9 @@ class pemakaian extends MX_Controller
         $this->form_validation->set_rules('NO_TUG', 'No TUG', 'required');
         $this->form_validation->set_rules('ID_JNS_BHN_BKR', 'Jenis Bahan Bakar', 'required');
         $this->form_validation->set_rules('VOL_PEMAKAIAN', 'Vol. Pakai', 'required|max_length[25]');
+
+
+
         
         $kodelevel = $this->input->post("SLOC");
         $data = array();
@@ -132,17 +171,30 @@ class pemakaian extends MX_Controller
         $data['VALUE_SETTING'] = $this->input->post('VALUE_SETTING');
         $data['ID_JNS_BHN_BKR'] = $this->input->post('ID_JNS_BHN_BKR');
         $data['NO_TUG'] = $this->input->post('NO_TUG');
-        $data['VOL_PEMAKAIAN'] = $this->input->post('VOL_PEMAKAIAN');
+        $data['VOL_PEMAKAIAN'] = str_replace(",","",$this->input->post('VOL_PEMAKAIAN'));
         $data['CREATE_BY'] = $this->session->userdata('user_name');
         $data['KETERANGAN'] = $this->input->post('KETERANGAN');
         $data['NO_PEMAKAIAN'] = $this->input->post('NO_PEMAKAIAN');
+        $id = $this->input->post('id');
         $this->load->library('encrypt');
         if ($this->form_validation->run($this)) {
-            $simpan_data = $this->tbl_get->save($data);
-            if ($simpan_data[0]->RCDB == 'RC00') {
-                $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
+
+            if ($id == '') {
+                $simpan_data = $this->tbl_get->save($data);
+                if ($simpan_data[0]->RCDB == 'RC00') {
+                    $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
+                } else {
+                    $message = array(false, 'Proses Gagal', 'Proses penyimpanan data gagal.', '');
+                }
             } else {
-                $message = array(false, 'Proses Gagal', 'Proses penyimpanan data gagal.', '');
+                $data['ID_PEMAKAIAN'] = $id;
+                $data['UD_BY_MUTASI_PEMAKAIAN'] = $this->session->userdata('user_name');
+                $simpan_data = $this->tbl_get->update($data);
+                if ($simpan_data[0]->RCDB == 'RC00') {
+                    $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+                } else {
+                    $message = array(false, 'Proses Gagal', 'Proses update data gagal.', '');
+                }
             }
         }else {
             $message = array(false, 'Proses gagal', validation_errors(), '');

@@ -19,20 +19,19 @@
         <div class="control-group">
             <label class="control-label">No Pemakaian<span class="required">*</span> : </label>
             <div class="controls">
-                <input type="text" name="NO_PEMAKAIAN" class="form-control span4" placeholder="Nomor Pemakaian">
+                <?php echo form_input('NO_PEMAKAIAN', !empty($default->NO_MUTASI_PEMAKAIAN) ? $default->NO_MUTASI_PEMAKAIAN : '', 'class="span6" placeholder="Nomor Pemakaian"'); ?>
             </div>
         </div>
         <div class="control-group">
             <label class="control-label">Tanggal Catat Pemakaian<span class="required">*</span> : </label>
             <div class="controls">
-                <input type="text" name="TGL_CATAT" class="form-control span12 form_datetime" placeholder="Tanggal Catat"
-                       required>
+                <?php echo form_input('TGL_CATAT', !empty($default->TGL_PENCATATAN) ? $default->TGL_PENCATATAN : '', 'class="span12 input-append date form_datetime" placeholder="Tanggal Catat"'); ?>
             </div>
         </div>
         <div class="control-group">
             <label class="control-label">Tanggal Pengakuan<span class="required">*</span> : </label>
             <div class="controls">
-                <input type="text" name="TGL_PENGAKUAN" class="form-control span12 form_datetime" placeholder="Tanggal Pengakuan" required>
+                <?php echo form_input('TGL_PENGAKUAN', !empty($default->TGL_MUTASI_PENGAKUAN) ? $default->TGL_MUTASI_PENGAKUAN : '', 'class="span12 input-append date form_datetime" placeholder="Tanggal Pengakuan"'); ?>
             </div>
         </div>
         <div class="control-group">
@@ -68,13 +67,13 @@
         <div class="control-group">
             <label class="control-label">Jenis Pemakaian<span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_dropdown('VALUE_SETTING', $option_jenis_pemakaian, !empty($default->VALUE_SETTING) ? $default->VALUE_SETTING : '', 'class="span6"'); ?>
+                <?php echo form_dropdown('VALUE_SETTING', $option_jenis_pemakaian, !empty($default->JENIS_PEMAKAIAN) ? $default->JENIS_PEMAKAIAN : '', 'class="span6"'); ?>
             </div>
         </div>
         <div class="control-group">
             <label class="control-label">NO TUG 8/9<span class="required">*</span> : </label>
             <div class="controls">
-                <input type="text" name="NO_TUG" class="form-control span4" placeholder="NO TUG 8/9">
+                <?php echo form_input('NO_TUG', !empty($default->NO_TUG) ? $default->NO_TUG : '', 'class="span4" placeholder="NO TUG 8/9"'); ?>
             </div>
         </div>
         <div class="control-group">
@@ -87,13 +86,13 @@
         <div class="control-group">
             <label class="control-label">Vol. Pemakaian (L)<span class="required">*</span> : </label>
             <div class="controls">
-                <input type="text" name="VOL_PEMAKAIAN" class="form-control span4" placeholder="Volume Pemakaian">
+                <?php echo form_input('VOL_PEMAKAIAN', !empty($default->VOLUME_PEMAKAIAN) ? $default->VOLUME_PEMAKAIAN : '', 'class="span4" placeholder="Volume Pemakaian"'); ?>
             </div>
         </div>
         <div class="control-group">
             <label class="control-label">Keterangan : </label>
             <div class="controls">
-                <input type="text" name="KETERANGAN" class="form-control span4" placeholder="Keterangan Pemakaian">
+                <?php echo form_input('KETERANGAN', !empty($default->KET_MUTASI_PEMAKAIAN) ? $default->KET_MUTASI_PEMAKAIAN : '', 'class="span4" placeholder="Keterangan Pemakaian"'); ?>
             </div>
         </div>
         <div class="form-actions">
@@ -113,6 +112,10 @@
         todayBtn: true,
         pickerPosition: "bottom-left"
     });
+
+    $('input[name=VOL_PEMAKAIAN]').inputmask("numeric", {radixPoint: ".",groupSeparator: ",",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    });
+
 
     function setDefaultLv1(){
         $('select[name="COCODE"]').empty();
