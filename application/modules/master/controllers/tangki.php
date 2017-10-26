@@ -29,7 +29,7 @@ class tangki extends MX_Controller {
         $this->load->module("template/asset");
 
         // Memanggil plugin JS Crud
-        $this->asset->set_plugin(array('crud'));
+        $this->asset->set_plugin(array('crud','format_number'));
         $data['button_group'] = array();
         if ($this->laccess->otoritas('add')) {
             $data['button_group'] = array(
@@ -115,9 +115,9 @@ class tangki extends MX_Controller {
             $data['SLOC'] = $this->input->post('unit_pembangkit');
             $data['ID_JNS_BHN_BKR'] = $this->input->post('jenis_bbm');
             $data['NAMA_TANGKI'] = $this->input->post('NAMA_TANGKI');
-            $data['VOLUME_TANGKI'] = $this->input->post('KAPASITAS');
-            $data['DEADSTOCK_TANGKI'] = $this->input->post('DEAD_STOCK');
-            $data['STOCKEFEKTIF_TANGKI'] = $this->input->post('STOCK_EFEKTIF');
+            $data['VOLUME_TANGKI'] = str_replace(",","",$this->input->post('KAPASITAS'));
+            $data['DEADSTOCK_TANGKI'] = str_replace(",","",$this->input->post('DEAD_STOCK'));
+            $data['STOCKEFEKTIF_TANGKI'] = str_replace(",","",$this->input->post('STOCK_EFEKTIF'));
             $data['UD_BY_TANGKI'] = $this->session->userdata('user_name');
             $tera['TGL_DET_TERA'] = $this->input->post('TGL_TERA');
            
