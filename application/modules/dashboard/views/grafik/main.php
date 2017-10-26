@@ -34,18 +34,18 @@
                                             </div>
                                         </div>
                                         <a href="#">
-                                            <div class="panel-footer">
-                                                <span class="pull-left">View Details</span>
-                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                            <div class="panel-footer" style="background-color:#337ab7">
+                                                <span class="pull-left" style="color:#fff">View Details</span>
+                                                <span class="pull-right" style="color:#fff"><i class="fa fa-arrow-circle-right"></i></span>
                                                 <div class="clearfix"></div>
                                             </div>
                                         </a>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-6">
-                                    <div class="panel panel-primary">
-                                        <div class="panel-heading">
-                                            <div class="row">
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading" style="background-color:#ffc107">
+                                            <div class="row" style="color:#fff">
                                                 <div class="col-xs-3">
                                                     <i class="fa fa-tasks fa-5x"></i>
                                                 </div>
@@ -56,18 +56,18 @@
                                             </div>
                                         </div>
                                         <a href="#">
-                                            <div class="panel-footer">
-                                                <span class="pull-left">View Details</span>
-                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                            <div class="panel-footer" style="background-color:#ffc107">
+                                                <span class="pull-left" style="color:#fff">View Details</span>
+                                                <span class="pull-right" style="color:#fff"><i class="fa fa-arrow-circle-right"></i></span>
                                                 <div class="clearfix"></div>
                                             </div>
                                         </a>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-6">
-                                    <div class="panel panel-primary">
-                                        <div class="panel-heading">
-                                            <div class="row">
+                                    <div class="panel panel-danger">
+                                        <div class="panel-heading" style="background-color:#28a745">
+                                            <div class="row" style="color:#fff">
                                                 <div class="col-xs-3">
                                                     <i class="fa fa-sun-o fa-5x"></i>
                                                 </div>
@@ -78,18 +78,18 @@
                                             </div>
                                         </div>
                                         <a href="#">
-                                            <div class="panel-footer">
-                                                <span class="pull-left">View Details</span>
-                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                            <div class="panel-footer" style="background-color:#28a745">
+                                                <span class="pull-left" style="color:#fff">View Details</span>
+                                                <span class="pull-right" style="color:#fff"><i class="fa fa-arrow-circle-right"></i></span>
                                                 <div class="clearfix"></div>
                                             </div>
                                         </a>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-6">
-                                    <div class="panel panel-primary">
-                                        <div class="panel-heading">
-                                            <div class="row">
+                                    <div class="panel panel-success">
+                                        <div class="panel-heading" style="background-color:#dc3545">
+                                            <div class="row" style="color:#fff">
                                                 <div class="col-xs-3">
                                                     <i class="fa fa-tachometer fa-5x"></i>
                                                 </div>
@@ -100,9 +100,9 @@
                                             </div>
                                         </div>
                                         <a href="#">
-                                            <div class="panel-footer">
-                                                <span class="pull-left">View Details</span>
-                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                            <div class="panel-footer" style="background-color:#dc3545">
+                                                <span class="pull-left" style="color:#fff">View Details</span>
+                                                <span class="pull-right" style="color:#fff"><i class="fa fa-arrow-circle-right"></i></span>
                                                 <div class="clearfix"></div>
                                             </div>
                                         </a>
