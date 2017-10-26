@@ -175,6 +175,9 @@ class asset extends MX_Controller {
             "bootstrap-panel" => array(
                 'css'=> array('bootstrap-rakhmat/bootstrap-panel')
             ),
+            "font-awesome" => array(
+                'css'=> array('bootstrap-rakhmat/font-awesome.min')
+            ),
             "jui" => array(
             'css'=> array('library/jui/jquery-ui'),
             'js'=> array('library/jui/jquery-ui')
