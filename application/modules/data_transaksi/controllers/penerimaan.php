@@ -172,8 +172,6 @@ class penerimaan extends MX_Controller
      */
     public function saveKiriman($statusKirim)
     {
-        print_r($statusKirim);
-        die;
         $pilihan = $this->input->post('pilihan');
         $idPenerimaan = $this->input->post('idPenerimaan');
         $p = ""; //penampung pilihan
