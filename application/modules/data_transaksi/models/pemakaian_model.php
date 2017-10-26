@@ -12,7 +12,7 @@ class pemakaian_model extends CI_Model
         parent::__construct();
     }
 
-    private $_table1 = "VLOAD_LIST_PEMAKAIAN"; //nama table setelah mom_
+    private $_table1 = "VLOAD_LIST_PEMAKAIAN_V2"; //nama table setelah mom_
 
     private function _key($key) { //unit ID
         if (!is_array($key)) {
@@ -25,6 +25,22 @@ class pemakaian_model extends CI_Model
         $this->db->from($this->_table1);
         if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
+
+        if ($_POST['ID_REGIONAL'] !='') {
+            $this->db->where('ID_REGIONAL',$_POST['ID_REGIONAL']);
+        }
+        if ($_POST['COCODE'] !='') {
+            $this->db->where("COCODE",$_POST['COCODE']);   
+        }
+        if ($_POST['PLANT'] !='') {
+            $this->db->where("PLANT",$_POST['PLANT']);   
+        }
+        if ($_POST['STORE_SLOC'] !='') {
+            $this->db->where("STORE_SLOC",$_POST['STORE_SLOC']);   
+        }
+        if ($_POST['SLOC'] !='') {
+            $this->db->where("SLOC",$_POST['SLOC']);   
+        }
 
         return $this->db;
     }
