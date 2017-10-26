@@ -141,6 +141,12 @@ $("#TGL_TERA").datepicker({
         pickerPosition: "bottom-left"
     });
     
+    $('input[name=KAPASITAS]').inputmask("numeric", {radixPoint: ".",groupSeparator: ",",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    });
+    $('input[name=DEAD_STOCK]').inputmask("numeric", {radixPoint: ".",groupSeparator: ",",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    });
+    $('input[name=STOCK_EFEKTIF]').inputmask("numeric", {radixPoint: ".",groupSeparator: ",",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    });
 </script>
 <script type="text/javascript">
      $("#tambah").click(function () {
