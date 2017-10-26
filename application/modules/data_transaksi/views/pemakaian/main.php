@@ -154,15 +154,26 @@
                 var data_detail = (JSON.parse(data));
 				var cekbox = '';
                 var vLevelUser = "<?php echo $this->session->userdata('level_user'); ?>";
+                var vEdit='';
+                var vlink_url = "";
 
                 for (i = 0; i < data_detail.length; i++) {
 					if (data_detail[i].KODE_STATUS !== "2"){
 						cekbox = '<input type="checkbox" name="pilihan[' + i + ']" id="pilihan" value="'+data_detail[i].ID_PEMAKAIAN+'">';
 
-                        if (((vLevelUser==3) || (vLevelUser==4)) && ((data_detail[i].KODE_STATUS == "1") || (data_detail[i].KODE_STATUS == "2"))){
-                            cekbox ='';
-                        } 
+                        if ((vLevelUser==3) || (vLevelUser==4)){
+                            if((data_detail[i].KODE_STATUS == "1") || (data_detail[i].KODE_STATUS == "2")){
+                                cekbox ='';    
+                            }
+                            if((data_detail[i].KODE_STATUS == "0") || (data_detail[i].KODE_STATUS == "3")){
+                                vlink_url = "<?php echo base_url()?>data_transaksi/pemakaian/edit/"+data_detail[i].ID_PEMAKAIAN;
+
+                                vEdit = '<a href="javascript:void(0);" class="btn transparant" id="button-edit-'+data_detail[i].ID_PEMAKAIAN+'" onclick="load_form(this.id)" data-source="'+vlink_url+'"> <i class="icon-edit"></i></a>';   
+                            }
+                        }
                     }
+
+
                     $('#detailPenerimaan tbody').append(
                         '<tr>' +
                         '<td align="center">' + data_detail[i].ID_PEMAKAIAN + '</td>' +
@@ -170,7 +181,7 @@
                         '<td align="center">' + data_detail[i].NAMA_JNS_BHN_BKR + '</td>' +
                         '<td align="center">' + data_detail[i].VOLUME_PEMAKAIAN + '</td>' +
                         '<td align="center">' + data_detail[i].STATUS_PEMAKAIAN + '</td>' +
-                        '<td align="center"><i class="icon-edit"></i></td>' +
+                        '<td align="center">' + vEdit +' </td>' +
                         '<td align="center">' +
                         cekbox +
 						'<input type="hidden" id="idPenerimaan" name="idPenerimaan[' + i + ']" value="' + data_detail[i].ID_PEMAKAIAN + '">' +
