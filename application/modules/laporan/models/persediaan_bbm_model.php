@@ -70,11 +70,12 @@ class persediaan_bbm_model extends CI_Model {
                  FROM (
                 SELECT m.ID_JNS_BHN_BKR, m.SLOC,m.TGL_MUTASI_PERSEDIAAN,
                         (SELECT 
-                        SUM(IFNULL(VOLUME_STOCKOPNAME,0)) 
+                         IFNULL(VOLUME_STOCKOPNAME,0) 
                         FROM REKAP_MUTASI_PERSEDIAAN m2
                         WHERE m2.ID_JNS_BHN_BKR = m.ID_JNS_BHN_BKR AND
                               m2.SLOC=m.SLOC AND
-                              m2.TGL_MUTASI_PERSEDIAAN < m.TGL_MUTASI_PERSEDIAAN) AS STW_OP,
+                              m2.TGL_MUTASI_PERSEDIAAN < m.TGL_MUTASI_PERSEDIAAN  
+                              ORDER BY m2.TGL_MUTASI_PERSEDIAAN  DESC LIMIT 1) AS STW_OP,
                         (SELECT SUM(IFNULL(PENERIMAAN_REAL,0)) - SUM(IFNULL(PEMAKAIAN,0))
                         FROM REKAP_MUTASI_PERSEDIAAN m2
                         WHERE m2.ID_JNS_BHN_BKR = m.ID_JNS_BHN_BKR AND
