@@ -25,10 +25,21 @@
                                         <div class="panel-heading">
                                             <div class="row">
                                                 <div class="col-xs-3">
-                                                    <i class="fa fa-link fa-5x"></i>
+                                                    <i class="fa fa-tachometer fa-5x"></i>
                                                 </div>
                                                 <div class="col-xs-9 text-right">
-                                                    <div class="huge">26</div>
+                                                    <div class="huge" style="font-size:20px">
+                                                    <?php 
+                                                    if($HSD==""){
+                                                        echo "0 (L)";
+                                                    }else{
+                                                        foreach($HSD as $result){
+                                                            $nilai= $result->STOK;
+                                                            echo number_format($nilai)." (L) ";
+                                                         }
+                                                    } 
+                                                    ?>
+                                                    </div>
                                                     <div><h1>HSD</h1></div>
                                                 </div>
                                             </div>
@@ -50,7 +61,18 @@
                                                     <i class="fa fa-tasks fa-5x"></i>
                                                 </div>
                                                 <div class="col-xs-9 text-right">
-                                                    <div class="huge">12</div>
+                                                    <div class="huge" style="font-size:20px">
+                                                    <?php 
+                                                    if($MFO==""){
+                                                        echo "0 (L)";
+                                                    }else{
+                                                        foreach($MFO as $result){
+                                                            $nilai= $result->STOK;
+                                                            echo number_format($nilai)." (L) ";
+                                                         }
+                                                    } 
+                                                    ?>
+                                                    </div>
                                                     <div><h1>MFO</h1></div>
                                                 </div>
                                             </div>
@@ -72,7 +94,18 @@
                                                     <i class="fa fa-sun-o fa-5x"></i>
                                                 </div>
                                                 <div class="col-xs-9 text-right">
-                                                    <div class="huge">124</div>
+                                                    <div class="huge" style="font-size:20px">
+                                                    <?php 
+                                                    if($BIO==""){
+                                                        echo "0 (L)";
+                                                    }else{
+                                                        foreach($BIO as $result){
+                                                            $nilai= $result->STOK;
+                                                            echo number_format($nilai)." (L) ";
+                                                         }
+                                                    } 
+                                                    ?>
+                                                    </div>
                                                     <div><h1>BIO</h1></div>
                                                 </div>
                                             </div>
@@ -91,10 +124,21 @@
                                         <div class="panel-heading" style="background-color:#dc3545">
                                             <div class="row" style="color:#fff">
                                                 <div class="col-xs-3">
-                                                    <i class="fa fa-tachometer fa-5x"></i>
+                                                    <i class="fa fa-link fa-5x"></i>
                                                 </div>
                                                 <div class="col-xs-9 text-right">
-                                                    <div class="huge">13</div>
+                                                    <div class="huge" style="font-size:20px">
+                                                    <?php 
+                                                    if($HSDBIO==""){
+                                                        echo "0 (L)";
+                                                    }else{
+                                                        foreach($HSDBIO as $result){
+                                                            $nilai= $result->STOK;
+                                                            echo number_format($nilai)." (L) ";
+                                                         }
+                                                    } 
+                                                    ?>
+                                                    </div>
                                                     <div><h2>HSD+BIO</h2></div>
                                                 </div>
                                             </div>

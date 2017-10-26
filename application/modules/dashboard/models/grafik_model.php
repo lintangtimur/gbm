@@ -25,6 +25,61 @@ class grafik_model extends CI_Model {
         }
     } 
 
+    public function getVolMfo(){
+       $query = $this->db->query("SELECT SUM(A.STOCK_AKHIR_REAL) AS 'STOK' , B.NAMA_JNS_BHN_BKR FROM REKAP_MUTASI_PERSEDIAAN A
+       LEFT OUTER JOIN M_JNS_BHN_BKR B ON A.ID_JNS_BHN_BKR = B.ID_JNS_BHN_BKR
+       WHERE B.NAMA_JNS_BHN_BKR = 'MFO'
+       GROUP BY A.ID_JNS_BHN_BKR ORDER BY A.ID_JNS_BHN_BKR ;");
+        
+       if($query->num_rows() > 0){
+           foreach($query->result() as $data){
+               $hasil[] = $data;
+           }
+           return $hasil;
+       }
+    }
+
+    public function getVolHsd(){
+        $query = $this->db->query("SELECT SUM(A.STOCK_AKHIR_REAL) AS 'STOK' , B.NAMA_JNS_BHN_BKR FROM REKAP_MUTASI_PERSEDIAAN A
+        LEFT OUTER JOIN M_JNS_BHN_BKR B ON A.ID_JNS_BHN_BKR = B.ID_JNS_BHN_BKR
+        WHERE B.NAMA_JNS_BHN_BKR = 'HSD'
+        GROUP BY A.ID_JNS_BHN_BKR ORDER BY A.ID_JNS_BHN_BKR ;");
+         
+        if($query->num_rows() > 0){
+            foreach($query->result() as $data){
+                $hasil[] = $data;
+            }
+            return $hasil;
+        }
+     }
+
+     public function getVolBio(){
+        $query = $this->db->query("SELECT SUM(A.STOCK_AKHIR_REAL) AS 'STOK' , B.NAMA_JNS_BHN_BKR FROM REKAP_MUTASI_PERSEDIAAN A
+        LEFT OUTER JOIN M_JNS_BHN_BKR B ON A.ID_JNS_BHN_BKR = B.ID_JNS_BHN_BKR
+        WHERE B.NAMA_JNS_BHN_BKR = 'BIO'
+        GROUP BY A.ID_JNS_BHN_BKR ORDER BY A.ID_JNS_BHN_BKR ;");
+         
+        if($query->num_rows() > 0){
+            foreach($query->result() as $data){
+                $hasil[] = $data;
+            }
+            return $hasil;
+        }
+     }
+     public function getVolHsdBio(){
+        $query = $this->db->query("SELECT SUM(A.STOCK_AKHIR_REAL) AS 'STOK' , B.NAMA_JNS_BHN_BKR FROM REKAP_MUTASI_PERSEDIAAN A
+        LEFT OUTER JOIN M_JNS_BHN_BKR B ON A.ID_JNS_BHN_BKR = B.ID_JNS_BHN_BKR
+        WHERE B.NAMA_JNS_BHN_BKR = 'HSD+BIO'
+        GROUP BY A.ID_JNS_BHN_BKR ORDER BY A.ID_JNS_BHN_BKR ;");
+         
+        if($query->num_rows() > 0){
+            foreach($query->result() as $data){
+                $hasil[] = $data;
+            }
+            return $hasil;
+        }
+     }
+
     public function options_tahun($default = '--Pilih Tahun--') {
         $option = array();
         $list=$this->db->query("SELECT DISTINCT(YEAR(a.tanggal)) tahun FROM DUMMY_GRAFIK a ;");
