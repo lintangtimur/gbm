@@ -96,8 +96,7 @@ class persediaan_bbm_model extends CI_Model {
                 LEFT JOIN MASTER_LEVEL1 E ON E.COCODE=D.COCODE
                 LEFT JOIN MASTER_REGIONAL F ON F.ID_REGIONAL=E.ID_REGIONAL
                 LEFT JOIN M_JNS_BHN_BKR G ON G.ID_JNS_BHN_BKR = aa.ID_JNS_BHN_BKR
-                WHERE $PARAM $JENIS_BBM AND MONTH(aa.TGL_MUTASI_PERSEDIAAN) = '$BULAN' AND  YEAR(aa.TGL_MUTASI_PERSEDIAAN) = '$TAHUN' 
-                ";
+                WHERE $PARAM $JENIS_BBM AND MONTH(aa.TGL_MUTASI_PERSEDIAAN) = '$BULAN' AND  YEAR(aa.TGL_MUTASI_PERSEDIAAN) = '$TAHUN' ORDER BY aa.TGL_MUTASI_PERSEDIAAN DESC ";
 
          $query = $this->db->query($sql);
 
