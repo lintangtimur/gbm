@@ -67,8 +67,8 @@
 			$data['SLOC'] = $this->input->post('option_pembangkit');
             $data['ID_DEPO'] = $this->input->post('option_depo');
             $data['TYPE_KONTRAK_TRANS'] = $this->input->post('option_jalur');
-            $data['JARAK_DET_KONTRAK_TRANS'] = str_replace(",","",$this->input->post('JARAK'));
-            $data['HARGA_KONTRAK_TRANS'] = str_replace(",","",$this->input->post('HARGA'));
+            $data['JARAK_DET_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('JARAK'));
+            $data['HARGA_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('HARGA'));
             $data['CD_DET_KONTRAK_TRANS'] = date("Y/m/d");
             $data['UD_DET_KONTRAK_TRANS'] = date("Y/m/d");
             $data['CD_BY_DET_KONTRAK_TRANS'] = $this->session->userdata('user_name');

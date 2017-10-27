@@ -134,7 +134,7 @@ class kontrak_transportir extends MX_Controller {
             $data['KD_KONTRAK_TRANS'] = $this->input->post('NO_KONTRAK');
             $data['ID_TRANSPORTIR'] = $this->input->post('TRANSPORTIR');
             $data['TGL_KONTRAK_TRANS'] = $this->input->post('TGL_KONTRAK_TRANS');
-            $data['NILAI_KONTRAK_TRANS'] = $this->input->post('NILAI_KONTRAK');
+            $data['NILAI_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('NILAI_KONTRAK'));
             $data['KET_KONTRAK_TRANS'] = $this->input->post('KETERANGAN');
 
             $new_name = date('Ymd').'_'.$_FILES["FILE_UPLOAD"]['name'];
