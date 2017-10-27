@@ -135,6 +135,12 @@
     </div>
 </div>
 <script type="text/javascript">
+    function toRupiah(angka){
+        var rupiah = '';        
+        var angkarev = angka.toString().split('').reverse().join('');
+        for(var i = 0; i < angkarev.length; i++) if(i%3 == 0) rupiah += angkarev.substr(i,3)+'.';
+        return rupiah.split('',rupiah.length-1).reverse().join('');
+    }
     function show_detail(tanggal) {
         if (!$('#table_detail').is(":visible")) {
             var vId = tanggal;
@@ -181,7 +187,7 @@
                         '<td align="center">' + data_detail[i].ID_PEMAKAIAN + '</td>' +
                         '<td align="center">' + data_detail[i].TGL_PENGAKUAN + '</td>' +
                         '<td align="center">' + data_detail[i].NAMA_JNS_BHN_BKR + '</td>' +
-                        '<td align="center">' + data_detail[i].VOLUME_PEMAKAIAN + '</td>' +
+                        '<td align="right">' + toRupiah(data_detail[i].VOLUME_PEMAKAIAN) + '</td>' +
                         '<td align="center">' + data_detail[i].STATUS_PEMAKAIAN + '</td>' +
                         '<td align="center">' + vEdit +' </td>' +
                         '<td align="center">' +
