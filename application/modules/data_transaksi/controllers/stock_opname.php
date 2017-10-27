@@ -196,8 +196,8 @@ class stock_opname extends MX_Controller {
         $table->jumlah_kolom = 8;
         $table->header[] = array(
             "No", 1, 1,
-            "No Stock Opname", 1, 1,
-            "Tgl Stock Opname", 1, 1,
+            "No Stok Opname", 1, 1,
+            "Tgl Stok Opname", 1, 1,
             "Jenis Bahan Bakar", 1, 1,
             "Nama Pembangkit", 1, 1,
             "Total Volume (L)", 1, 1,
@@ -213,7 +213,7 @@ class stock_opname extends MX_Controller {
 
 
     public function proses() {
-        $this->form_validation->set_rules('NO_STOCKOPNAME', 'NO STOCKOPNAME', 'required');
+        $this->form_validation->set_rules('NO_STOCKOPNAME', 'NO STOCKOPNAME', 'trim|required|max_length[25]');
         $this->form_validation->set_rules('ID_JNS_BHN_BKR', 'JENIS BAHAN BAKAR', 'required');
         $this->form_validation->set_rules('TGL_BA_STOCKOPNAME', 'TANGGAL BA STOCKOPNAME', 'required');
         $this->form_validation->set_rules('TGL_PENGAKUAN', 'TANGGAL PENGAKUAN STOCKOPNAME', 'required');

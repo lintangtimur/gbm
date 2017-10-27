@@ -179,13 +179,13 @@ class stock_opname_model extends CI_Model {
                 }
 
                 if($status==0){
-                   $status_hasil="Belum Dikirm";
+                   $status_hasil="Belum Dikirim";
                 }else if($status==1){
-                  $status_hasil="Sudah Dikirim";
+                  $status_hasil="Belum Disetujui";
                 }else if($status==2){
                   $status_hasil="Disetujui";
                 }else{
-                  $status_hasil="Tidak Disetujui";
+                  $status_hasil="Ditolak";
                 }
                 
                 // $aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));

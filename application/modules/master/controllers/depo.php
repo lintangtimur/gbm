@@ -95,7 +95,7 @@ class depo extends MX_Controller {
 
     public function proses() {
         $this->form_validation->set_rules('ID_PEMASOK', 'NAMA PEMASOK', 'required');
-        $this->form_validation->set_rules('KD_DEPO', 'KODE DEPO', 'required');
+        $this->form_validation->set_rules('KD_DEPO', 'KODE DEPO', 'trim|required|max_length[20]');
         if ($this->form_validation->run($this)) {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
             $id = $this->input->post('id');
