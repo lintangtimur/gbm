@@ -36,46 +36,112 @@
             </div>
             <div id="pasokan" class="control-group" hidden>
                 <label for="password" class="control-label">Harga Transport (Rp/Lt) <span class="required"> *</span> : </label>
-                    <div class="controls" id="inputan">
+                     <div class="controls" id="inputan1" hidden>
                         <table>
                            <tr>
                                 <td>
-                                    <?php echo form_dropdown('option_depo', $option_depo, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class=""'); ?>
+                                    <?php echo form_dropdown('option_depo1', $option_depo, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class=""'); ?>
                                 </td>
                                 <td>
-                                    <?php echo form_dropdown('option_pembangkit', $option_pembangkit, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class=""'); ?>
+                                    <?php echo form_dropdown('option_pembangkit1', $option_pembangkit, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class=""'); ?>
                                 </td>
                                 <td>
-                                    <?php echo form_dropdown('option_jalur', $option_jalur, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class=""'); ?>
+                                    <?php echo form_dropdown('option_jalur1', $option_jalur, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class=""'); ?>
                                 </td>    
                             </tr>
                             <tr>
                                 <td>
-                                    <?php echo form_input('HARGA', !empty($default->HARGA_KONTRAK_TRANS) ? $default->HARGA_KONTRAK_TRANS : '', 'class="span12", placeholder="Harga (Rp)"'); ?> &nbsp
+                                    <?php echo form_input('HARGA1', !empty($default->HARGA_KONTRAK_TRANS) ? $default->HARGA_KONTRAK_TRANS : '', 'class="span12", placeholder="Harga (Rp)"'); ?> &nbsp
                                 </td><td>
-                                    <?php echo form_input('JARAK', !empty($default->JARAK) ? $default->JARAK : '', 'class="span12", placeholder="Jarak (KL / ML)"'); ?> &nbsp
+                                    <?php echo form_input('JARAK1', !empty($default->JARAK) ? $default->JARAK : '', 'class="span12", placeholder="Jarak (KL / ML)"'); ?> &nbsp
                                 </td>
                             </tr>
                         </table>
                     </div>
-                    <div class="controls" id="inputan_awal" style="display:none">
+                    <div class="controls" id="inputan2" hidden>
                         <table>
                            <tr>
                                 <td>
-                                    <?php echo form_dropdown('option_depo', $option_depo, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class=""'); ?>
+                                    <?php echo form_dropdown('option_depo2', $option_depo, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class=""'); ?>
                                 </td>
                                 <td>
-                                    <?php echo form_dropdown('option_pembangkit', $option_pembangkit, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class=""'); ?>
+                                    <?php echo form_dropdown('option_pembangkit2', $option_pembangkit, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class=""'); ?>
                                 </td>
                                 <td>
-                                    <?php echo form_dropdown('option_jalur', $option_jalur, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class=""'); ?>
+                                    <?php echo form_dropdown('option_jalur2', $option_jalur, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class=""'); ?>
                                 </td>    
                             </tr>
                             <tr>
                                 <td>
-                                    <?php echo form_input('HARGA', !empty($default->HARGA_KONTRAK_TRANS) ? $default->HARGA_KONTRAK_TRANS : '', 'class="span12", placeholder="Harga (Rp)"'); ?> &nbsp
+                                    <?php echo form_input('HARGA2', !empty($default->HARGA_KONTRAK_TRANS) ? $default->HARGA_KONTRAK_TRANS : '', 'class="span12", placeholder="Harga (Rp)"'); ?> &nbsp
                                 </td><td>
-                                    <?php echo form_input('JARAK', !empty($default->JARAK) ? $default->JARAK : '', 'class="span12", placeholder="Jarak (KL / ML)"'); ?> &nbsp
+                                    <?php echo form_input('JARAK2', !empty($default->JARAK) ? $default->JARAK : '', 'class="span12", placeholder="Jarak (KL / ML)"'); ?> &nbsp
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="controls" id="inputan3" hidden>
+                        <table>
+                           <tr>
+                                <td>
+                                    <?php echo form_dropdown('option_depo3', $option_depo, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class=""'); ?>
+                                </td>
+                                <td>
+                                    <?php echo form_dropdown('option_pembangkit3', $option_pembangkit, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class=""'); ?>
+                                </td>
+                                <td>
+                                    <?php echo form_dropdown('option_jalur3', $option_jalur, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class=""'); ?>
+                                </td>    
+                            </tr>
+                            <tr>
+                                <td>
+                                    <?php echo form_input('HARGA3', !empty($default->HARGA_KONTRAK_TRANS) ? $default->HARGA_KONTRAK_TRANS : '', 'class="span12", placeholder="Harga (Rp)"'); ?> &nbsp
+                                </td><td>
+                                    <?php echo form_input('JARAK3', !empty($default->JARAK) ? $default->JARAK : '', 'class="span12", placeholder="Jarak (KL / ML)"'); ?> &nbsp
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="controls" id="inputan4" hidden>
+                        <table>
+                           <tr>
+                                <td>
+                                    <?php echo form_dropdown('option_depo4', $option_depo, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class=""'); ?>
+                                </td>
+                                <td>
+                                    <?php echo form_dropdown('option_pembangkit4', $option_pembangkit, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class=""'); ?>
+                                </td>
+                                <td>
+                                    <?php echo form_dropdown('option_jalur4', $option_jalur, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class=""'); ?>
+                                </td>    
+                            </tr>
+                            <tr>
+                                <td>
+                                    <?php echo form_input('HARGA4', !empty($default->HARGA_KONTRAK_TRANS) ? $default->HARGA_KONTRAK_TRANS : '', 'class="span12", placeholder="Harga (Rp)"'); ?> &nbsp
+                                </td><td>
+                                    <?php echo form_input('JARAK4', !empty($default->JARAK) ? $default->JARAK : '', 'class="span12", placeholder="Jarak (KL / ML)"'); ?> &nbsp
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="controls" id="inputan5" hidden>
+                        <table>
+                           <tr>
+                                <td>
+                                    <?php echo form_dropdown('option_depo5', $option_depo, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class=""'); ?>
+                                </td>
+                                <td>
+                                    <?php echo form_dropdown('option_pembangkit5', $option_pembangkit, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class=""'); ?>
+                                </td>
+                                <td>
+                                    <?php echo form_dropdown('option_jalur5', $option_jalur, !empty($default->kms_menu_id) ? $default->kms_menu_id : '', 'class=""'); ?>
+                                </td>    
+                            </tr>
+                            <tr>
+                                <td>
+                                    <?php echo form_input('HARGA5', !empty($default->HARGA_KONTRAK_TRANS) ? $default->HARGA_KONTRAK_TRANS : '', 'class="span12", placeholder="Harga (Rp)"'); ?> &nbsp
+                                </td><td>
+                                    <?php echo form_input('JARAK5', !empty($default->JARAK) ? $default->JARAK : '', 'class="span12", placeholder="Jarak (KL / ML)"'); ?> &nbsp
                                 </td>
                             </tr>
                         </table>
@@ -144,10 +210,27 @@
         pickerPosition: "bottom-left"
     });
     
-    $('input[name=HARGA]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    $('input[name=HARGA1]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
     });
-    $('input[name=JARAK]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    $('input[name=JARAK1]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
     });
+    $('input[name=HARGA2]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    });
+    $('input[name=JARAK2]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    });
+    $('input[name=HARGA3]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    });
+    $('input[name=JARAK3]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    });
+    $('input[name=HARGA4]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    });
+    $('input[name=JARAK4]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    });
+    $('input[name=HARGA5]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    });
+    $('input[name=JARAK5]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    });
+
     $('input[name=NILAI_KONTRAK]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
     });
 
@@ -156,19 +239,46 @@
 var inputan_awal =  $('#inputan_awal').html();
 
 $('#jmlpas[type="text"]').on('change', function() {
-    // alert($(this).val());
     var x = $("#jmlpas").val();
-        var str = "";
-        if ( x == 0 || x > 5 ) {
-            alert('Jumlah Pasokan Max 5');
-        } else {
-            $('#inputan').empty();
-            for(i=0;i<x;i++){
-                str += $('#inputan_awal').html() + "<br/>";
-            }
-            document.getElementById("inputan").innerHTML = str;
-           $("#pasokan").show();
-           $("#jmlpas").prop('disabled', false);
-        };
+    if(x == 1){
+         $("#pasokan").show();
+         $("#inputan1").show();
+    } else if(x == 2) {
+        $("#pasokan").show();
+         $("#inputan1").show();
+         $("#inputan2").show();
+    } else if(x == 3){
+        $("#pasokan").show();
+         $("#inputan1").show();
+         $("#inputan2").show();
+         $("#inputan3").show();
+    } else if(x == 4){
+        $("#pasokan").show();
+         $("#inputan1").show();
+         $("#inputan2").show();
+         $("#inputan3").show();
+         $("#inputan4").show();
+    } else if (x == 5){
+        $("#pasokan").show();
+         $("#inputan1").show();
+         $("#inputan2").show();
+         $("#inputan3").show();
+         $("#inputan4").show();
+         $("#inputan5").show();
+    } else {
+        alert('Jumlah Pasokan Max 5');
+    }
+
+        // var str = "";
+        // if ( x == 0 || x > 5 ) {
+        //     alert('Jumlah Pasokan Max 5');
+        // } else {
+        //     $('#inputan').empty();
+        //     for(i=0;i<x;i++){
+        //         str += $('#inputan_awal').html() + "<br/>";
+        //     }
+        //     document.getElementById("inputan").innerHTML = str;
+        //    $("#jmlpas").prop('disabled', false);
+        // };
 })
 </script>
