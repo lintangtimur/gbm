@@ -397,7 +397,7 @@ class pemakaian extends MX_Controller
             }
         }
 
-        $data['opsi_bulan'] = $this->tbl_get_combo->options_bulan();  
+        $data['opsi_bulan'] = $this->tbl_get_combo->options_bulanv2();  
         $data['opsi_tahun'] = $this->tbl_get_combo->options_tahun();  
 
         return $data;

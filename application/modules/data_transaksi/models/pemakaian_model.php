@@ -52,6 +52,7 @@ class pemakaian_model extends CI_Model
         }
 
         $this->db->group_by('ID_REGIONAL');
+        $this->db->group_by('BLTH');
         if ($_POST['COCODE'] !='') {
             $this->db->group_by('COCODE');
         }

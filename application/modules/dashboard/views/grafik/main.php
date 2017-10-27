@@ -40,7 +40,7 @@
                                                     } 
                                                     ?>
                                                     </div>
-                                                    <div><h1>HSD</h1></div>
+                                                    <div><h2>HSD</h2></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -73,7 +73,7 @@
                                                     } 
                                                     ?>
                                                     </div>
-                                                    <div><h1>MFO</h1></div>
+                                                    <div><h2>MFO</h2></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -106,7 +106,7 @@
                                                     } 
                                                     ?>
                                                     </div>
-                                                    <div><h1>BIO</h1></div>
+                                                    <div><h2>BIO</h2></div>
                                                 </div>
                                             </div>
                                         </div>

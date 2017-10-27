@@ -93,18 +93,18 @@
                             <table class="pull-right">
                                 <tr>
                                     <td>
-                                        <?php if ($this->session->userdata('level_user') === "0" || $this->session->userdata('level_user') > "2"){
+                                        <?php if ($this->session->userdata('level_user') > "2"){
                                             if ($this->laccess->otoritas('add') == true){?>
                                                 <button class="btn btn-primary" type="button" onclick="saveDetailKirim(this)">Kirim</button>
                                         <?php }}?>
                                     </td>
                                     <td>
-                                        <?php if ($this->laccess->otoritas('approve') == true && $this->session->userdata('level_user') <= "2") {?>
+                                        <?php if ($this->laccess->otoritas('approve') == true && $this->session->userdata('level_user') == "2") {?>
                                                 <button class="btn btn-primary" type="button" onclick="saveDetailApprove(this)">Approve</button>
                                         <?php }?>
                                     </td>
                                     <td>
-                                        <?php if ($this->laccess->otoritas('approve') == true && $this->session->userdata('level_user') <= "2") {?>
+                                        <?php if ($this->laccess->otoritas('approve') == true && $this->session->userdata('level_user') == "2") {?>
                                                 <button class="btn btn-primary" type="button" onclick="saveDetailTolak(this)">Tolak</button>
                                         <?php }?>
                                     </td>
@@ -158,17 +158,19 @@
                 var vlink_url = "";
 
                 for (i = 0; i < data_detail.length; i++) {
-					if (data_detail[i].KODE_STATUS !== "2"){
-						cekbox = '<input type="checkbox" name="pilihan[' + i + ']" id="pilihan" value="'+data_detail[i].ID_PEMAKAIAN+'">';
+                    if (vLevelUser>=2){
+    					if (data_detail[i].KODE_STATUS !== "2"){
+    						cekbox = '<input type="checkbox" name="pilihan[' + i + ']" id="pilihan" value="'+data_detail[i].ID_PEMAKAIAN+'">';
 
-                        if ((vLevelUser==3) || (vLevelUser==4)){
-                            if((data_detail[i].KODE_STATUS == "1") || (data_detail[i].KODE_STATUS == "2")){
-                                cekbox ='';    
-                            }
-                            if((data_detail[i].KODE_STATUS == "0") || (data_detail[i].KODE_STATUS == "3")){
-                                vlink_url = "<?php echo base_url()?>data_transaksi/pemakaian/edit/"+data_detail[i].ID_PEMAKAIAN;
+                            if ((vLevelUser==3) || (vLevelUser==4)){
+                                if((data_detail[i].KODE_STATUS == "1") || (data_detail[i].KODE_STATUS == "2")){
+                                    cekbox ='';    
+                                }
+                                if((data_detail[i].KODE_STATUS == "0") || (data_detail[i].KODE_STATUS == "3")){
+                                    vlink_url = "<?php echo base_url()?>data_transaksi/pemakaian/edit/"+data_detail[i].ID_PEMAKAIAN;
 
-                                vEdit = '<a href="javascript:void(0);" class="btn transparant" id="button-edit-'+data_detail[i].ID_PEMAKAIAN+'" onclick="load_form(this.id)" data-source="'+vlink_url+'"> <i class="icon-edit"></i></a>';   
+                                    vEdit = '<a href="javascript:void(0);" class="btn transparant" id="button-edit-'+data_detail[i].ID_PEMAKAIAN+'" onclick="load_form(this.id)" data-source="'+vlink_url+'"> <i class="icon-edit"></i></a>';   
+                                }
                             }
                         }
                     }
