@@ -64,11 +64,11 @@
 
 		public function save_as_new2($id) {
 			$data['ID_KONTRAK_TRANS'] = $id;
-			$data['SLOC'] = $this->input->post('option_pembangkit');
-            $data['ID_DEPO'] = $this->input->post('option_depo');
-            $data['TYPE_KONTRAK_TRANS'] = $this->input->post('option_jalur');
-            $data['JARAK_DET_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('JARAK'));
-            $data['HARGA_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('HARGA'));
+			$data['SLOC'] = $this->input->post('option_pembangkit1');
+            $data['ID_DEPO'] = $this->input->post('option_depo1');
+            $data['TYPE_KONTRAK_TRANS'] = $this->input->post('option_jalur1');
+            $data['JARAK_DET_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('JARAK1'));
+            $data['HARGA_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('HARGA1'));
             $data['CD_DET_KONTRAK_TRANS'] = date("Y/m/d");
             $data['UD_DET_KONTRAK_TRANS'] = date("Y/m/d");
             $data['CD_BY_DET_KONTRAK_TRANS'] = $this->session->userdata('user_name');
@@ -139,7 +139,7 @@
                 'no_kontrak' => $row->KD_KONTRAK_TRANS,
                 'nama_transportir' => $row->NAMA_TRANSPORTIR,
                 'periode' => $row->TGL_KONTRAK_TRANS,
-                'nilai_kontrak' =>  number_format($row->NILAI_KONTRAK_TRANS,0,',','.'),
+                'nilai_kontrak' => number_format($row->NILAI_KONTRAK_TRANS,0,',','.'),
                 'keterangan' => $row->KET_KONTRAK_TRANS,
                 'aksi' => $aksi
 				);
