@@ -72,42 +72,10 @@ class stock_opname extends MX_Controller {
             $get_tbl = $this->tbl_get->dataToUpdate($id);
             $data['default'] = $get_tbl->get()->row();
             $data['id_dok'] = $data['default']->PATH_STOCKOPNAME; 
-
-            $lv1 = $data['default']->ID_REGIONAL; 
-            $lv2 = $data['default']->COCODE;
-            $lv3 = $data['default']->PLANT;
-            $lv4 = $data['default']->STORE_SLOC;
-
-            $level_user = $this->session->userdata('level_user');
-            $kode_level = $this->session->userdata('kode_level');
-
-            if ($level_user==3){
-                $data['lv4_options'] = $this->tbl_get_combo->options_lv4('--Pilih Level 4--', $lv4, 1);  
-            } else if ($level_user==2){
-                $data['lv3_options'] = $this->tbl_get_combo->options_lv3('--Pilih Level 3--', $lv3, 1); 
-                $data['lv4_options'] = $this->tbl_get_combo->options_lv4('--Pilih Level 4--', $lv4, 1); 
-            } else if ($level_user==1){
-                $data['lv2_options'] = $this->tbl_get_combo->options_lv2('--Pilih Level 2--', $lv2, 1);
-                $data['lv3_options'] = $this->tbl_get_combo->options_lv3('--Pilih Level 3--', $lv3, 1); 
-                $data['lv4_options'] = $this->tbl_get_combo->options_lv4('--Pilih Level 4--', $lv4, 1); 
-            } else if ($level_user==0){
-                if ($kode_level==00){
-                    $data['reg_options'] = $this->tbl_get_combo->options_reg(); 
-                    $data['lv1_options'] = $this->tbl_get_combo->options_lv1('--Pilih Level 1--', $lv1, 1);
-                    $data['lv2_options'] = $this->tbl_get_combo->options_lv2('--Pilih Level 2--', $lv2, 1);
-                    $data['lv3_options'] = $this->tbl_get_combo->options_lv3('--Pilih Level 3--', $lv3, 1); 
-                    $data['lv4_options'] = $this->tbl_get_combo->options_lv4('--Pilih Level 4--', $lv4, 1); 
-                } else {
-                    $data['lv1_options'] = $this->tbl_get_combo->options_lv1('--Pilih Level 1--', $lv1, 1);
-                    $data['lv2_options'] = $this->tbl_get_combo->options_lv2('--Pilih Level 2--', $lv2, 1);
-                    $data['lv3_options'] = $this->tbl_get_combo->options_lv3('--Pilih Level 3--', $lv3, 1); 
-                    $data['lv4_options'] = $this->tbl_get_combo->options_lv4('--Pilih Level 4--', $lv4, 1); 
-                }
-            }
-
         }
+        
         $data['parent_options_jns'] = $this->tbl_get->options_jns_bhn_bkr();
-        $data['parent_options_pem'] = $this->tbl_get->options_pembangkit_add(); 
+        // $data['parent_options_pem'] = $this->tbl_get->options_pembangkit_add(); 
 
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses');

@@ -118,5 +118,109 @@
     $('input[name=VOLUME_STOCKOPNAME]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
     });
 
-</script>            
+</script> 
+
+
+<script type="text/javascript">
+    jQuery(function($) {
+
+        function setDefaultLv1(){
+            $('select[name="COCODE"]').empty();
+            $('select[name="COCODE"]').append('<option value="">--Pilih Level 1--</option>');
+        }
+
+        function setDefaultLv2(){
+            $('select[name="PLANT"]').empty();
+            $('select[name="PLANT"]').append('<option value="">--Pilih Level 2--</option>');
+        }
+
+        function setDefaultLv3(){
+            $('select[name="STORE_SLOC"]').empty();
+            $('select[name="STORE_SLOC"]').append('<option value="">--Pilih Level 3--</option>');
+        }
+
+        function setDefaultLv4(){
+            $('select[name="SLOC"]').empty();
+            $('select[name="SLOC"]').append('<option value="">--Pilih Level 4--</option>');
+        }
+
+        $('select[name="ID_REGIONAL"]').on('change', function() {
+            var stateID = $(this).val();
+            var vlink_url = '<?php echo base_url()?>master/master_level4/get_options_lv1/'+stateID;
+            setDefaultLv1();
+            setDefaultLv2();
+            setDefaultLv3();
+            setDefaultLv4();
+            if(stateID) {
+                $.ajax({
+                    url: vlink_url,
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {
+                        $.each(data, function(key, value) {
+                            $('select[name="COCODE"]').append('<option value="'+ value.COCODE +'">'+ value.LEVEL1 +'</option>');
+                        });
+                    }
+                });
+            }
+        });
+
+        $('select[name="COCODE"]').on('change', function() {
+            var stateID = $(this).val();
+            var vlink_url = '<?php echo base_url()?>master/master_level4/get_options_lv2/'+stateID;
+            setDefaultLv2();
+            setDefaultLv3();
+            setDefaultLv4();
+            if(stateID) {
+                $.ajax({
+                    url: vlink_url,
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {
+                        $.each(data, function(key, value) {
+                            $('select[name="PLANT"]').append('<option value="'+ value.PLANT +'">'+ value.LEVEL2 +'</option>');
+                        });
+                    }
+                });
+            }
+        });
+
+        $('select[name="PLANT"]').on('change', function() {
+            var stateID = $(this).val();
+            var vlink_url = '<?php echo base_url()?>master/master_level4/get_options_lv3/'+stateID;
+            setDefaultLv3();
+            setDefaultLv4();
+            if(stateID) {
+                $.ajax({
+                    url: vlink_url,
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {
+                        $.each(data, function(key, value) {
+                            $('select[name="STORE_SLOC"]').append('<option value="'+ value.STORE_SLOC +'">'+ value.LEVEL3 +'</option>');
+                        });
+                    }
+                });
+            }
+        });
+
+        $('select[name="STORE_SLOC"]').on('change', function() {
+            var stateID = $(this).val();
+            var vlink_url = '<?php echo base_url()?>laporan/persediaan_bbm/get_options_lv4/'+stateID;
+            setDefaultLv4();
+            if(stateID) {
+                $.ajax({
+                    url: vlink_url,
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {
+                        $.each(data, function(key, value) {
+                            $('select[name="SLOC"]').append('<option value="'+ value.SLOC +'">'+ value.LEVEL4 +'</option>');
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>           
 
