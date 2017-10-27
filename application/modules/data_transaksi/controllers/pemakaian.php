@@ -125,7 +125,7 @@ class pemakaian extends MX_Controller
         $table->id = 'TABLE_PENERIMAAN';
         $table->drildown = true;
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('NO' => 'center', 'BLTH' => 'center', 'LEVEL4' => 'center', 'TOTAL_VOLUME' => 'center', 'COUNT' => 'center', 'AKSI' => 'center');
+        $table->align = array('NO' => 'center', 'BLTH' => 'center', 'LEVEL4' => 'center', 'TOTAL_VOLUME' => 'right', 'COUNT' => 'center', 'AKSI' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
         $table->jumlah_kolom = 6;
@@ -397,7 +397,7 @@ class pemakaian extends MX_Controller
             }
         }
 
-        $data['opsi_bulan'] = $this->tbl_get_combo->options_bulan();  
+        $data['opsi_bulan'] = $this->tbl_get_combo->options_bulanv2();  
         $data['opsi_tahun'] = $this->tbl_get_combo->options_tahun();  
 
         return $data;

@@ -137,14 +137,20 @@
 </div>
 
 <script type="text/javascript">
-$(function() {
     $("#TGL_KONTRAK_TRANS").datepicker({
         format: 'yyyy-mm-dd', 
         autoclose:true,
         todayBtn: true,
         pickerPosition: "bottom-left"
     });
-});
+    
+    $('input[name=HARGA]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    });
+    $('input[name=JARAK]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    });
+    $('input[name=NILAI_KONTRAK]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    });
+
 </script>
 <script type="text/javascript">
 var inputan_awal =  $('#inputan_awal').html();

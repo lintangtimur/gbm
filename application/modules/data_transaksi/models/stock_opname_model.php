@@ -22,7 +22,7 @@ class stock_opname_model extends CI_Model {
 
     
     public function data($key = '') {
-        $this->db->select('A.*, R.NAMA_REGIONAL, M1.LEVEL1, M2.LEVEL2, M3.LEVEL3, M4.LEVEL4, JB.NAMA_JNS_BHN_BKR,   A.TGL_PENGAKUAN');
+        $this->db->select('A.*, R.ID_REGIONAL, R.NAMA_REGIONAL, M1.COCODE, M1.LEVEL1, M2.PLANT, M2.LEVEL2, M3.STORE_SLOC, M3.LEVEL3, M4.LEVEL4, JB.NAMA_JNS_BHN_BKR,   A.TGL_PENGAKUAN');
         $this->db->from($this->_table1.' A');
         $this->db->join('MASTER_LEVEL4 M4', 'M4.SLOC = A.SLOC','left');
         $this->db->join('MASTER_LEVEL3 M3', 'M3.STORE_SLOC = M4.STORE_SLOC','left');
@@ -30,6 +30,9 @@ class stock_opname_model extends CI_Model {
         $this->db->join('MASTER_LEVEL1 M1', 'M1.COCODE = M2.COCODE','left');
         $this->db->join('MASTER_REGIONAL R', 'R.ID_REGIONAL = M1.ID_REGIONAL','left');
         $this->db->join('M_JNS_BHN_BKR JB', 'JB.ID_JNS_BHN_BKR = A.ID_JNS_BHN_BKR','left');
+
+        if (!empty($key) || is_array($key))
+        $this->db->where_condition($this->_key($key));
 
         if ($_POST['ID_REGIONAL'] !='') {
             $this->db->where("R.ID_REGIONAL",$_POST['ID_REGIONAL']);   
@@ -56,17 +59,19 @@ class stock_opname_model extends CI_Model {
             $this->db->where("YEAR(A.TGL_PENGAKUAN)",$_POST['TAHUN']);   
         }
 
-        if (!empty($key) || is_array($key))
-            $this->db->where_condition($this->_key($key));
 
         return $this->db;
     }
 
     public function dataToUpdate($key = '') {
-        $this->db->select('a.*, b.NAMA_JNS_BHN_BKR, c.LEVEL4');
+        $this->db->select('A.*, R.ID_REGIONAL, R.NAMA_REGIONAL, M1.COCODE, M1.LEVEL1, M2.PLANT, M2.LEVEL2, M3.STORE_SLOC, M3.LEVEL3, M4.LEVEL4, JB.NAMA_JNS_BHN_BKR,   A.TGL_PENGAKUAN');
         $this->db->from($this->_table1.' a');
-        $this->db->join('M_JNS_BHN_BKR b', 'b.ID_JNS_BHN_BKR = a.ID_JNS_BHN_BKR', 'left');
-        $this->db->join('MASTER_LEVEL4 c', 'c.SLOC = a.SLOC', 'left');
+        $this->db->join('MASTER_LEVEL4 M4', 'M4.SLOC = A.SLOC','left');
+        $this->db->join('MASTER_LEVEL3 M3', 'M3.STORE_SLOC = M4.STORE_SLOC','left');
+        $this->db->join('MASTER_LEVEL2 M2', 'M2.PLANT = M3.PLANT','left');
+        $this->db->join('MASTER_LEVEL1 M1', 'M1.COCODE = M2.COCODE','left');
+        $this->db->join('MASTER_REGIONAL R', 'R.ID_REGIONAL = M1.ID_REGIONAL','left');
+        $this->db->join('M_JNS_BHN_BKR JB', 'JB.ID_JNS_BHN_BKR = A.ID_JNS_BHN_BKR','left');
 
         if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
@@ -190,7 +195,7 @@ class stock_opname_model extends CI_Model {
                     'TGL_PENGAKUAN' => $row->TGL_PENGAKUAN,
                     'NAMA_JNS_BHN_BKR' => $row->NAMA_JNS_BHN_BKR,
                     'LEVEL4' => $row->LEVEL4,
-                    'VOLUME_STOCKOPNAME' => $row->VOLUME_STOCKOPNAME,
+                    'VOLUME_STOCKOPNAME' => number_format($row->VOLUME_STOCKOPNAME,0,',','.'),
                     'STATUS_APPROVE_STOCKOPNAME' => $status_hasil,
                     'aksi' => $aksi
                 );

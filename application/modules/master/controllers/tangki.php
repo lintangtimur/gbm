@@ -76,7 +76,7 @@ class tangki extends MX_Controller {
         $table = new stdClass();
         $table->id = 'ID_VENDOR';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('number' => 'center','unit_pembangkit' => 'center','jenis_bbm' => 'center','kapasitas' => 'center','deadstock' => 'center','stockefektif' => 'center','aksi' => 'center');
+        $table->align = array('number' => 'center','unit_pembangkit' => 'center','jenis_bbm' => 'center','kapasitas' => 'right','deadstock' => 'right','stockefektif' => 'right','aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
         $table->jumlah_kolom = 7;
@@ -84,9 +84,9 @@ class tangki extends MX_Controller {
             "No", 1, 1,
             "Pembangkit", 1, 1,
             "Jenis BBM", 1, 1,
-            "Kapasitas", 1, 1,
-            "Dead Stock", 1, 1,
-            "Stock Efektif", 1, 1,
+            "Volume (L)", 1, 1,
+            "Dead Stok (L)", 1, 1,
+            "Stok Efektif (L)", 1, 1,
             "Aksi", 1, 1
         );
         $table->total = $data_table['total'];
@@ -115,9 +115,9 @@ class tangki extends MX_Controller {
             $data['SLOC'] = $this->input->post('unit_pembangkit');
             $data['ID_JNS_BHN_BKR'] = $this->input->post('jenis_bbm');
             $data['NAMA_TANGKI'] = $this->input->post('NAMA_TANGKI');
-            $data['VOLUME_TANGKI'] = str_replace(",","",$this->input->post('KAPASITAS'));
-            $data['DEADSTOCK_TANGKI'] = str_replace(",","",$this->input->post('DEAD_STOCK'));
-            $data['STOCKEFEKTIF_TANGKI'] = str_replace(",","",$this->input->post('STOCK_EFEKTIF'));
+            $data['VOLUME_TANGKI'] = str_replace(".","",$this->input->post('KAPASITAS'));
+            $data['DEADSTOCK_TANGKI'] = str_replace(".","",$this->input->post('DEAD_STOCK'));
+            $data['STOCKEFEKTIF_TANGKI'] = str_replace(".","",$this->input->post('STOCK_EFEKTIF'));
             $data['UD_BY_TANGKI'] = $this->session->userdata('user_name');
             $tera['TGL_DET_TERA'] = $this->input->post('TGL_TERA');
            

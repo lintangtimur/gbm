@@ -52,6 +52,7 @@ class pemakaian_model extends CI_Model
         }
 
         $this->db->group_by('ID_REGIONAL');
+        $this->db->group_by('BLTH');
         if ($_POST['COCODE'] !='') {
             $this->db->group_by('COCODE');
         }
@@ -112,7 +113,7 @@ class pemakaian_model extends CI_Model
                     'NO' => $num,
                     'BLTH' => $row->BLTH,
                     'LEVEL4' => $row->LEVEL4,
-                    'TOTAL_VOLUME' => $row->JML_VOLUME,
+                    'TOTAL_VOLUME' => number_format($row->JML_VOLUME,0,',','.'),
                     'COUNT' => $row->JML,
                     'AKSI' => $aksi
                 );

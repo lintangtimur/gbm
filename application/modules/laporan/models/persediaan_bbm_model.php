@@ -253,6 +253,24 @@ class persediaan_bbm_model extends CI_Model {
         return $option;
     }
 
+    public function options_bulanv2() {
+        $option = array();
+        $option[''] = '--Pilih Bulan--';
+        $option['01'] = 'Januari';
+        $option['02'] = 'Febuari';
+        $option['03'] = 'Maret';
+        $option['04'] = 'April';
+        $option['05'] = 'Mei';
+        $option['06'] = 'Juni';
+        $option['07'] = 'Juli';
+        $option['08'] = 'Agustus';
+        $option['09'] = 'September';
+        $option['10'] = 'Oktober';
+        $option['11'] = 'November';
+        $option['12'] = 'Desember';
+        return $option;
+    }
+
     public function options_tahun() {
         $year = date("Y"); 
 

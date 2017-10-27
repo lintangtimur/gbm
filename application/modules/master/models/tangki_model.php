@@ -142,9 +142,9 @@
                 'number' => $no++,
                 'unit_pembangkit' => $row->LEVEL4,
                 'jenis_bbm' => $row->NAMA_JNS_BHN_BKR,
-                'kapasitas' => $row->VOLUME_TANGKI,
-                'deadstock' => $row->DEADSTOCK_TANGKI,
-                'stockefektif' => $row->STOCKEFEKTIF_TANGKI,
+                'kapasitas' => number_format($row->VOLUME_TANGKI,0,',','.'),
+                'deadstock' => number_format($row->DEADSTOCK_TANGKI,0,',','.'),
+                'stockefektif' => number_format($row->STOCKEFEKTIF_TANGKI,0,',','.'),
                 'aksi' => $aksi
 				);
 			}
