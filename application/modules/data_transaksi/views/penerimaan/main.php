@@ -149,7 +149,20 @@
 <script type="text/javascript">
     function show_detail(tanggal) {
         if (!$('#table_detail').is(":visible")) {
-            $.get("<?php echo base_url()?>data_transaksi/penerimaan/getDataDetail/" + tanggal, function (data) {
+            var vId = tanggal;
+            var strArray = vId.split("|");
+            console.log(strArray)
+            var data_kirim = {ID_REGIONAL: $('select[name="ID_REGIONAL"]').val(),
+                COCODE: $('select[name="COCODE"]').val(),
+                PLANT: $('select[name="PLANT"]').val(),
+                STORE_SLOC: $('select[name="STORE_SLOC"]').val(),
+                SLOC: strArray[1],
+                TGL_PENGAKUAN:strArray[0],
+                BULAN: $('select[name="BULAN"]').val(),
+                TAHUN: $('select[name="TAHUN"]').val(),
+            };
+            $.post("<?php echo base_url()?>data_transaksi/penerimaan/getDataDetail/", data_kirim, function (data) {
+//            $.get("<?php //echo base_url()?>//data_transaksi/penerimaan/getDataDetail/" + tanggal, function (data) {
                 var data_detail = (JSON.parse(data));
                 var user_level = '<?php echo $this->session->userdata('level_user')?>'
                 var checkbox = '';

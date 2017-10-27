@@ -153,9 +153,9 @@ class penerimaan extends MX_Controller
         echo json_encode($message, true);
     }
 
-    public function getDataDetail($tanggal)
+    public function getDataDetail()
     {
-        echo json_encode($this->tbl_get->getTableViewDetail($tanggal));
+        echo json_encode($this->tbl_get->getTableViewDetail());
     }
 
     /**
