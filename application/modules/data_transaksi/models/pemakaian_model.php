@@ -114,7 +114,7 @@ class pemakaian_model extends CI_Model
                     'BLTH' => $row->BLTH,
                     'LEVEL4' => $row->LEVEL4,
                     'TOTAL_VOLUME' => number_format($row->JML_VOLUME,0,',','.'),
-                    'COUNT' => $row->JML,
+                    'COUNT' => number_format($row->JML,0,',','.'),
                     'AKSI' => $aksi
                 );
                 $num++;
