@@ -65,7 +65,7 @@ class stock_opname_model extends CI_Model {
 
     public function dataToUpdate($key = '') {
         $this->db->select('A.*, R.ID_REGIONAL, R.NAMA_REGIONAL, M1.COCODE, M1.LEVEL1, M2.PLANT, M2.LEVEL2, M3.STORE_SLOC, M3.LEVEL3, M4.LEVEL4, JB.NAMA_JNS_BHN_BKR,   A.TGL_PENGAKUAN');
-        $this->db->from($this->_table1.' a');
+        $this->db->from($this->_table1.' A');
         $this->db->join('MASTER_LEVEL4 M4', 'M4.SLOC = A.SLOC','left');
         $this->db->join('MASTER_LEVEL3 M3', 'M3.STORE_SLOC = M4.STORE_SLOC','left');
         $this->db->join('MASTER_LEVEL2 M2', 'M2.PLANT = M3.PLANT','left');

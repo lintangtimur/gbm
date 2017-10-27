@@ -12,7 +12,7 @@ class penerimaan_model extends CI_Model
         parent::__construct();
     }
 
-    private $_table1 = "VLOAD_LIST_PENERIMAAN"; //nama table setelah mom_
+    private $_table1 = "VLOAD_LIST_PENERIMAAN_V2"; //nama table setelah mom_
     private $_table2 = "MUTASI_PENERIMAAN"; //nama table setelah mom_
 
     private function _key($key) { //unit ID
@@ -31,12 +31,55 @@ class penerimaan_model extends CI_Model
 
     public function data($key = ''){
 
-        if (!empty($key)) {
-            $this->db->from($this->_table2);
-            $this->db->where_condition($this->_key_edit($key));
-        } else{
-            $this->db->from($this->_table1);
+        $this->db->select('a.*, sum(a.COUNT_VOLUME) as JML, sum(a.SUM_volume) as JML_VOLUME');
+        $this->db->from($this->_table1.' a' );
+
+        if (!empty($key) || is_array($key))
+            $this->db->where_condition($this->_key($key));
+
+        if ($_POST['ID_REGIONAL'] !='') {
+            $this->db->where('ID_REGIONAL',$_POST['ID_REGIONAL']);
         }
+        if ($_POST['COCODE'] !='') {
+            $this->db->where("COCODE",$_POST['COCODE']);
+        }
+        if ($_POST['PLANT'] !='') {
+            $this->db->where("PLANT",$_POST['PLANT']);
+        }
+        if ($_POST['STORE_SLOC'] !='') {
+            $this->db->where("STORE_SLOC",$_POST['STORE_SLOC']);
+        }
+        if ($_POST['SLOC'] !='') {
+            $this->db->where("SLOC",$_POST['SLOC']);
+        }
+        if ($_POST['BULAN'] !='') {
+            $this->db->where("BL",$_POST['BULAN']);
+        }
+        if ($_POST['TAHUN'] !='') {
+            $this->db->where("TH",$_POST['TAHUN']);
+        }
+
+        $this->db->group_by('ID_REGIONAL');
+        if ($_POST['COCODE'] !='') {
+            $this->db->group_by('COCODE');
+        }
+        if ($_POST['PLANT'] !='') {
+            $this->db->group_by('PLANT');
+        }
+        if ($_POST['STORE_SLOC'] !='') {
+            $this->db->group_by('STORE_SLOC');
+        }
+
+        if ($_POST['BULAN'] !='') {
+            $this->db->group_by('BL');
+        }
+        if ($_POST['TAHUN'] !='') {
+            $this->db->group_by('TH');
+        }
+        // if ($_POST['SLOC'] !='') {
+        $this->db->group_by('SLOC');
+        // }
+
         return $this->db;
     }
 
@@ -62,7 +105,7 @@ class penerimaan_model extends CI_Model
         foreach ($record->result() as $row) {
             // $count = $row->COUNT_VOLUME;
             // if ($count!=0) {
-                $id = $row->TANGGAL;
+                $id = $row->TANGGAL.'|'.$row->SLOC;;
                 $aksi = anchor(null, '<i class="icon-eye-open"></i>', array('class' => 'btn transparant button-detail', 'id' => 'button-view-' . $id, 'onClick' => 'show_detail(\''.$id.'\')'));
                 $rows[$num] = array(
                     'NO' => $num,
@@ -79,9 +122,39 @@ class penerimaan_model extends CI_Model
         return array('total' => $total, 'rows' => $rows);
     }
 
-    function getTableViewDetail($tanggal){
-        $query = $this->db->query("select * from VLOAD_LIST_DETAIL_PENERIMAAN where DATE_FORMAT(tgl_pengakuan,'%m%Y') = '".$tanggal."'");
-        return $query->result();
+    function getTableViewDetail(){
+
+        $this->db->from('VLOAD_LIST_DETAIL_PENERIMAAN_V2');
+
+
+        if ($_POST['TGL_PENGAKUAN'] !='') {
+            $this->db->where("DATE_FORMAT(TGL_PENGAKUAN,'%m%Y')",$_POST['TGL_PENGAKUAN']);
+        }
+        if ($_POST['ID_REGIONAL'] !='') {
+            $this->db->where('ID_REGIONAL',$_POST['ID_REGIONAL']);
+        }
+        if ($_POST['COCODE'] !='') {
+            $this->db->where("COCODE",$_POST['COCODE']);
+        }
+        if ($_POST['PLANT'] !='') {
+            $this->db->where("PLANT",$_POST['PLANT']);
+        }
+        if ($_POST['STORE_SLOC'] !='') {
+            $this->db->where("STORE_SLOC",$_POST['STORE_SLOC']);
+        }
+        if ($_POST['SLOC']!='') {
+            $this->db->where("SLOC",$_POST['SLOC']);
+        }
+        if ($_POST['BULAN']!='') {
+            $this->db->where("DATE_FORMAT(TGL_PENGAKUAN, '%mm')",$_POST['BULAN']);
+        }
+        if ($_POST['TAHUN']!='') {
+            $this->db->where("DATE_FORMAT(TGL_PENGAKUAN, '%YYYY')=".$_POST['TAHUN']);
+        }
+
+        $data = $this->db->get();
+
+        return $data->result();
     }
 
     function saveDetailPenerimaan($idPenerimaan, $statusPenerimaan,$level_user,$kode_level,$user,$jumlah){
