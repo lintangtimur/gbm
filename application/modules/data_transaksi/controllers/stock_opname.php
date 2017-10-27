@@ -73,6 +73,38 @@ class stock_opname extends MX_Controller {
             $data['default'] = $get_tbl->get()->row();
             $data['id_dok'] = $data['default']->PATH_STOCKOPNAME; 
 
+            $lv1 = $data['default']->ID_REGIONAL; 
+            $lv2 = $data['default']->COCODE;
+            $lv3 = $data['default']->PLANT;
+            $lv4 = $data['default']->STORE_SLOC;
+
+            $level_user = $this->session->userdata('level_user');
+            $kode_level = $this->session->userdata('kode_level');
+
+            if ($level_user==3){
+                $data['lv4_options'] = $this->tbl_get_combo->options_lv4('--Pilih Level 4--', $lv4, 1);  
+            } else if ($level_user==2){
+                $data['lv3_options'] = $this->tbl_get_combo->options_lv3('--Pilih Level 3--', $lv3, 1); 
+                $data['lv4_options'] = $this->tbl_get_combo->options_lv4('--Pilih Level 4--', $lv4, 1); 
+            } else if ($level_user==1){
+                $data['lv2_options'] = $this->tbl_get_combo->options_lv2('--Pilih Level 2--', $lv2, 1);
+                $data['lv3_options'] = $this->tbl_get_combo->options_lv3('--Pilih Level 3--', $lv3, 1); 
+                $data['lv4_options'] = $this->tbl_get_combo->options_lv4('--Pilih Level 4--', $lv4, 1); 
+            } else if ($level_user==0){
+                if ($kode_level==00){
+                    $data['reg_options'] = $this->tbl_get_combo->options_reg(); 
+                    $data['lv1_options'] = $this->tbl_get_combo->options_lv1('--Pilih Level 1--', $lv1, 1);
+                    $data['lv2_options'] = $this->tbl_get_combo->options_lv2('--Pilih Level 2--', $lv2, 1);
+                    $data['lv3_options'] = $this->tbl_get_combo->options_lv3('--Pilih Level 3--', $lv3, 1); 
+                    $data['lv4_options'] = $this->tbl_get_combo->options_lv4('--Pilih Level 4--', $lv4, 1); 
+                } else {
+                    $data['lv1_options'] = $this->tbl_get_combo->options_lv1('--Pilih Level 1--', $lv1, 1);
+                    $data['lv2_options'] = $this->tbl_get_combo->options_lv2('--Pilih Level 2--', $lv2, 1);
+                    $data['lv3_options'] = $this->tbl_get_combo->options_lv3('--Pilih Level 3--', $lv3, 1); 
+                    $data['lv4_options'] = $this->tbl_get_combo->options_lv4('--Pilih Level 4--', $lv4, 1); 
+                }
+            }
+
         }
         $data['parent_options_jns'] = $this->tbl_get->options_jns_bhn_bkr();
         $data['parent_options_pem'] = $this->tbl_get->options_pembangkit_add(); 
@@ -190,7 +222,7 @@ class stock_opname extends MX_Controller {
         $table = new stdClass();
         $table->id = 'ID_STOCKOPNAME';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('ID_STOCKOPNAME' => 'center', 'NO_STOCKOPNAME' => 'center', 'TGL_PENGAKUAN' => 'center', 'NAMA_JNS_BHN_BKR' => 'center', 'LEVEL4' => 'center', 'VOLUME_STOCKOPNAME' => 'center', 'STATUS_APPROVE_STOCKOPNAME' => 'center' , 'aksi' => 'center');
+        $table->align = array('ID_STOCKOPNAME' => 'center', 'NO_STOCKOPNAME' => 'center', 'TGL_PENGAKUAN' => 'center', 'NAMA_JNS_BHN_BKR' => 'center', 'LEVEL4' => 'center', 'VOLUME_STOCKOPNAME' => 'right', 'STATUS_APPROVE_STOCKOPNAME' => 'center' , 'aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
         $table->jumlah_kolom = 8;
@@ -237,7 +269,7 @@ class stock_opname extends MX_Controller {
             $data['TGL_BA_STOCKOPNAME'] = $this->input->post('TGL_BA_STOCKOPNAME');
             $data['TGL_PENGAKUAN'] = $this->input->post('TGL_PENGAKUAN');
             $data['SLOC'] = $this->input->post('SLOC');
-            $data['VOLUME_STOCKOPNAME'] = str_replace(",","",$this->input->post('VOLUME_STOCKOPNAME'));
+            $data['VOLUME_STOCKOPNAME'] = str_replace(".","",$this->input->post('VOLUME_STOCKOPNAME'));
             $data['STATUS_APPROVE_STOCKOPNAME'] = $this->input->post('0');
 
             
