@@ -29,7 +29,7 @@ class kontrak_transportir extends MX_Controller {
         $this->load->module("template/asset");
 
         // Memanggil plugin JS Crud
-        $this->asset->set_plugin(array('crud'));
+        $this->asset->set_plugin(array('crud','format_number'));
         $data['button_group'] = array();
         if ($this->laccess->otoritas('add')) {
             $data['button_group'] = array(
@@ -74,7 +74,7 @@ class kontrak_transportir extends MX_Controller {
         $table = new stdClass();
         $table->id = 'ID_KONTRAK_TRANS';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('no_kontrak' => 'center','nama_transportir' => 'center','periode' => 'center','nilai_kontrak' => 'center','keterangan' => 'center', 'aksi' => 'center');
+        $table->align = array('no_kontrak' => 'center','nama_transportir' => 'center','periode' => 'center','nilai_kontrak' => 'right','keterangan' => 'center', 'aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
         $table->jumlah_kolom = 6;

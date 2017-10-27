@@ -84,7 +84,7 @@
                     <th colspan="5">Level</th>
                     <th rowspan="2">Bahan Bakar</th>
                     <th rowspan="2">Tgl Mutasi Persediaan</th>
-                    <th rowspan="2">Stock Awal (L)</th>
+                    <th rowspan="2">Stok Awal (L)</th>
                     <th rowspan="2">Penerimaan Real (L)</th>
                     <th colspan="2">Pemakaian (L)</th>
                     <th rowspan="2">Volume Opname (L)</th>
