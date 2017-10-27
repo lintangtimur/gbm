@@ -20,7 +20,7 @@
                         <div class="col-md-5">
                             <div class="control-group">
                             <br>
-                            <label for="password" class="control-label">No Stock Opname <span class="required">*</span> : </label>
+                            <label for="password" class="control-label">No Stok Opname <span class="required">*</span> : </label>
                             <div class="controls">
                             <?php echo form_input('NO_STOCKOPNAME', !empty($default->NO_STOCKOPNAME) ? $default->NO_STOCKOPNAME : '', 'class="span6"'); ?>
                              </div>
