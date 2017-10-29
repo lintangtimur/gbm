@@ -137,7 +137,7 @@ $(function(){
 	else if(level == "3")
 		load_dynamic_levelgroup('<?php echo $url_levegroup; ?>' + level +"/"+kodelevel,kodelevel, "#kode_level3,#kode_level2,#kode_level1,#kode_regional", level);
 	else if(level == "4")
-		load_dynamic_levelgroup('<?php echo $url_levegroup; ?>' + level,kodelevel, "#kode_level4,#kode_level3,#kode_level2,#kode_level1,#kode_regional", level);
+		load_dynamic_levelgroup('<?php echo $url_levegroup; ?>' + level +"/"+kodelevel,kodelevel, "#kode_level4,#kode_level3,#kode_level2,#kode_level1,#kode_regional", level);
 	
 		
 		

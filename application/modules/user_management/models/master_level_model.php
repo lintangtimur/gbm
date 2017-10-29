@@ -43,7 +43,7 @@ class master_level_model extends CI_Model {
 				break;
 			case "4":
 				$c = explode("..", $kode);
-				$this->db->select("concat(concat(SLOC,'#'), STORE_SLOC) as kode, LEVEL4 as nama", false);
+				$this->db->select("concat(concat(STORE_SLOC,'..'), SLOC) as kode, LEVEL4 as nama", false);
 				$this->db->where(array("PLANT" => $c[0], "STORE_SLOC" => $c[1]));
 				$this->db->from($this->_table4);
 				$list = $this->db->get();
@@ -102,6 +102,24 @@ class master_level_model extends CI_Model {
 			}
 		}
 		$data["idlevel2"] = $idlevel2;
+		$data["list"] = $list;
+		return $data;
+	}
+	
+	public function load_level4($idlevel4 = ''){
+		$idlevel3 = '';
+		
+		$c = explode("..", $idlevel4);
+		$this->db->select("concat(concat(SLOC,'#'), STORE_SLOC) as kode, LEVEL4 as nama, PLANT, STORE_SLOC", false);
+		$this->db->where(array("PLANT" => $c[0], "STORE_SLOC" => $c[1]));
+		$this->db->from($this->_table4);
+		$list = $this->db->get()->result();
+		foreach ($list as $row) {
+			if($row->PLANT == $c[0] && $row->STORE_SLOC == $c[1]){
+				$idlevel3 = $row->STORE_SLOC;
+			}
+		}
+		$data["idlevel3"] = $idlevel3;
 		$data["list"] = $list;
 		return $data;
 	}
