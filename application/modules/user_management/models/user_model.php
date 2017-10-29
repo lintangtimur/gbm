@@ -44,20 +44,8 @@ class user_model extends CI_Model {
     }
 
     public function save_as_new($roleid, $kduser, $nama, $username, $pwd, $email, $level, $kodelevel, $isaktif, $id = '') {
-        // $this->db->trans_begin();
-
-        // $this->db->set_id($this->_table1, 'user_id', 'date_prefix', 10);
-        // $this->db->insert($this->_table1, $data);
-
-        // if ($this->db->trans_status() === FALSE) {
-            // $this->db->trans_rollback();
-            // return FALSE;
-        // } else {
-            // $this->db->trans_commit();
-            // return TRUE;
-        // }
 		$user = $this->session->userdata("user_name")."-".$this->session->userdata("kode_level");
-		$query = "call save_user('". $roleid ."','". $kduser ."','". $nama ."','". $username ."','". $pwd ."','". $email ."','". $level ."','". $kodelevel ."','". $isaktif ."','". $user ."', '".$id."')";
+		$query = "call SAVE_USER('". $roleid ."','". $kduser ."','". $nama ."','". $username ."','". $pwd ."','". $email ."','". $level ."','". $kodelevel ."','". $isaktif ."','". $user ."', '".$id."')";
 		$data = $this->db->query($query);
 		
 		return $data;
@@ -129,8 +117,8 @@ class user_model extends CI_Model {
 		
 
         $rows = array();
-        $no = $offset;
-		// print_debug($record->result());
+        $no=(($offset-1) * $limit) +1;
+		
         foreach ($record->result() as $row) {
             $id = $row->ID_USER;
 			$aksi = '';
@@ -139,15 +127,15 @@ class user_model extends CI_Model {
 			if ($this->laccess->otoritas('delete'))
 				$aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
          
-            $rows[$id] = array(
+            $rows[$no] = array(
 				'no' => $no,
                 'user_nama' => $row->NAMA_USER,
                 'user_username' => $row->USERNAME,
                 'role_nama' => $row->ROLES_NAMA,
-                'user_status' => !empty($row->ISAKTIF_USER) ? hgenerator::status_user($row->ISAKTIF_USER) : '',
+                'user_status' => !empty($row->ISAKTIF_USER) ? hgenerator::status_user($row->ISAKTIF_USER) : 'Tidak Aktif',
                 'aksi' => $aksi
             );
-            $no++;
+			$no++;
         }
 
         return array('total' => $total, 'rows' => $rows);
