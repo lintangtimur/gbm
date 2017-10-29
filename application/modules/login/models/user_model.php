@@ -29,6 +29,12 @@ class user_model extends CI_Model {
 		return $data;
     }
 	
+	public function dataldap($email, $username) {
+        $query = "call LOGIN_LDAP('".$email."', '".$username."')";
+		$data = $this->db->query($query);
+		return $data;
+    }
+	
 	public function logout($iduser){
 		$this->db->where("ID_USER", $iduser);
 		$this->db->update($this->_table1, array("IS_LOGIN"=> "0"));

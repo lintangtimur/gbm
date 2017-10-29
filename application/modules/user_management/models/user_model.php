@@ -46,6 +46,7 @@ class user_model extends CI_Model {
     public function save_as_new($roleid, $kduser, $nama, $username, $pwd, $email, $level, $kodelevel, $isaktif, $id = '') {
 		$user = $this->session->userdata("user_name")."-".$this->session->userdata("kode_level");
 		$query = "call SAVE_USER('". $roleid ."','". $kduser ."','". $nama ."','". $username ."','". $pwd ."','". $email ."','". $level ."','". $kodelevel ."','". $isaktif ."','". $user ."', '".$id."')";
+		// print_debug($query);
 		$data = $this->db->query($query);
 		
 		return $data;
