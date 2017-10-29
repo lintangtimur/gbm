@@ -309,6 +309,11 @@ class persediaan_bbm_model extends CI_Model {
 
     public function get_level($lv='', $key=''){ 
         switch ($lv) {
+			case "R":
+                $q = "SELECT  E.ID_REGIONAL, E.NAMA_REGIONAL 
+                FROM MASTER_REGIONAL E
+                WHERE ID_REGIONAL='$key' ";
+                break;
             case "0":
                 $q = "SELECT  E.ID_REGIONAL, E.NAMA_REGIONAL 
                 FROM MASTER_REGIONAL E
