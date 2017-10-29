@@ -169,6 +169,10 @@
     					if (data_detail[i].KODE_STATUS !== "2"){
     						cekbox = '<input type="checkbox" name="pilihan[' + i + ']" id="pilihan" value="'+data_detail[i].ID_PEMAKAIAN+'">';
 
+                            if ((vLevelUser==2) && (data_detail[i].KODE_STATUS == "3")){
+                                cekbox ='';
+                            }
+
                             if ((vLevelUser==3) || (vLevelUser==4)){
                                 if((data_detail[i].KODE_STATUS == "1") || (data_detail[i].KODE_STATUS == "2")){
                                     cekbox ='';    
