@@ -317,7 +317,7 @@ class stock_opname_model extends CI_Model {
         }
     }
 
-    public function options_lv4($default = '--Pilih Level 4--', $key = 'all', $jenis=0) {
+    public function options_lv4($default = '--Pilih Level 41--', $key = 'all', $jenis=0) {
         $this->db->from('MASTER_LEVEL4');
         if ($key != 'all'){
             $this->db->where('STORE_SLOC',$key);
@@ -338,8 +338,58 @@ class stock_opname_model extends CI_Model {
             return $option;    
         }
     }
+    public function options_lv1_view($default = '--Pilih Level 1--') {
+        $this->db->from('MASTER_LEVEL1');
+    
+        $option = array();
+        $list = $this->db->get(); 
 
-    public function options_pembangkit_add($default = '--Pilih Level 4--') {
+        if (!empty($default)) {
+            $option[''] = $default;
+        }
+
+        foreach ($list->result() as $row) {
+            $option[$row->COCODE] = $row->LEVEL1;
+        }
+        return $option;    
+        
+    }
+
+    public function options_lv2_view($default = '--Pilih Level 2--') {
+        $this->db->from('MASTER_LEVEL2');
+    
+        $option = array();
+        $list = $this->db->get(); 
+
+        if (!empty($default)) {
+            $option[''] = $default;
+        }
+
+        foreach ($list->result() as $row) {
+            $option[$row->PLANT] = $row->LEVEL2;
+        }
+        return $option;    
+        
+    }
+
+    public function options_lv3_view($default = '--Pilih Level 3--') {
+        $this->db->from('MASTER_LEVEL3');
+    
+        $option = array();
+        $list = $this->db->get(); 
+
+        if (!empty($default)) {
+            $option[''] = $default;
+        }
+
+        foreach ($list->result() as $row) {
+            $option[$row->STORE_SLOC] = $row->LEVEL3;
+        }
+        return $option;    
+        
+    }
+
+    public function options_lv4_view($default = '--Pilih Level 4--') {
         $this->db->from('MASTER_LEVEL4');
     
         $option = array();
