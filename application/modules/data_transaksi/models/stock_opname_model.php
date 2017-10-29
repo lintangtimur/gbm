@@ -169,6 +169,8 @@ class stock_opname_model extends CI_Model {
                     }else {
                         $aksi = '';
                     }
+                }else if($level_user == 1){
+                    $aksi = '';
                 }
                  else {
                     $aksi .= anchor(null, '<i class="icon-share" title="Kirim"></i>', array('class' => 'btn transparant', 'id' => 'button-kirim-' . $id, 'onclick' => 'kirim_row(this.id)', 'data-source' => base_url($module . '/sendAction/' . $id)));
