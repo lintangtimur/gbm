@@ -19,12 +19,20 @@ class user_model extends CI_Model {
         return $key;
     }
 
-    public function data($key = '') {
-        $this->db->from($this->_table1);
-        if (!empty($key) || is_array($key))
-            $this->db->where_condition($this->_key($key));
-        return $this->db;
+    public function data($a, $password) {
+        // $this->db->from($this->_table1);
+        // if (!empty($key) || is_array($key))
+            // $this->db->where_condition($this->_key($key));
+        // return $this->db;
+		$query = "call LOGIN('".$a."', '".$password."')";
+		$data = $this->db->query($query);
+		return $data;
     }
+	
+	public function logout($iduser){
+		$this->db->where("ID_USER", $iduser);
+		$this->db->update($this->_table1, array("IS_LOGIN"=> "0"));
+	}
 
     public function encrypt($str) {
         return md5($str);
