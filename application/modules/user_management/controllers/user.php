@@ -55,6 +55,7 @@ class user extends MX_Controller {
 		$data['default'] = array();
 		$data['bindlevel'] = array();
 		$data['disabled'] = '';
+		$data['url_levegroup'] = base_url($this->_module). '/load_levelgroup/';
         if ($id != '') {
             $page_title = 'Edit Data';
             $user = $this->user_model->data($id)->get()->result();
@@ -102,33 +103,36 @@ class user extends MX_Controller {
 
     public function proses() {
 		if ($this->laccess->otoritas('add') || $this->laccess->otoritas('edit')) {
-			$level = $this->input->post("level_user");
+			$level = array();
+			$role = $this->input->post("level_user");
 			$this->form_validation->set_rules('nama_user', 'Nama User', 'trim|required|max_length[50]');
 			$this->form_validation->set_rules('email_user', 'Email User', 'trim|required|max_length[50]|valid_email');
 			$this->form_validation->set_rules('level_user', 'Level User', 'required');
-			if ($level == "R"){
+			$level = explode("..", $role);
+			$kodelevel = '0';
+			if ($level[1] == "R"){
 				$this->form_validation->set_rules('kode_regional', 'Kode Regional', 'required');
 				$kodelevel = $this->input->post("kode_regional");
 			}
-			else if($level == "1"){
+			else if($level[1] == "1"){
 				$this->form_validation->set_rules('kode_regional', 'Kode Regional', 'required');
 				$this->form_validation->set_rules('kode_level1', 'Kode Level l', 'required');
 				$kodelevel = $this->input->post("kode_level1");
 			}
-			else if($level == "2"){
+			else if($level[1] == "2"){
 				$this->form_validation->set_rules('kode_regional', 'Kode Regional', 'required');
 				$this->form_validation->set_rules('kode_level1', 'Kode Level l', 'required');
 				$this->form_validation->set_rules('kode_level2', 'Kode Level 2', 'required');
 				$kodelevel = $this->input->post("kode_level2");
 			}
-			else if($level == "3"){
+			else if($level[1] == "3"){
 				$this->form_validation->set_rules('kode_regional', 'Kode Regional', 'required');
 				$this->form_validation->set_rules('kode_level1', 'Kode Level l', 'required');
 				$this->form_validation->set_rules('kode_level2', 'Kode Level 2', 'required');
 				$this->form_validation->set_rules('kode_level3', 'Kode Level 3', 'required');
 				$kodelevel = $this->input->post("kode_level3");
 			}
-			else if($level == "4"){
+			else if($level[1] == "4"){
 				$this->form_validation->set_rules('kode_regional', 'Kode Regional', 'required');
 				$this->form_validation->set_rules('kode_level1', 'Kode Level l', 'required');
 				$this->form_validation->set_rules('kode_level2', 'Kode Level 2', 'required');
@@ -153,7 +157,7 @@ class user extends MX_Controller {
 				$email = $this->input->post("email_user");
 				$isaktif = $this->input->post("user_status");
 				
-				$data = $this->user_model->save_as_new($roleid, $kduser, $nama, $username, $pwd, $email, $level, $kodelevel, $isaktif, $id)->row();
+				$data = $this->user_model->save_as_new($level[0], $kduser, $nama, $username, $pwd, $email, $level[1], $kodelevel, $isaktif, $id)->row();
 				$rc = $data->RCDB;
 				if($rc == "RC00"){
 					$message = array(false, 'Proses gagal', $data->PESANDB, '');
@@ -309,6 +313,63 @@ class user extends MX_Controller {
 	
 	public function load_level($id = '', $kode = ''){
 		$data = $this->master_level_model->load_option($id, $kode);
+		echo json_encode($data);
+	}
+	
+	public function load_levelgroup($level = '', $id = ''){
+		if ($level == "R")
+			$data["regional"] = $this->master_level_model->load_regional("R");
+		else if ($level == "1"){
+			$level1 = $this->master_level_model->load_level1($id);
+			$data["level1"] = $level1["list"];
+			$data["idregional"] = $level1["idregional"];
+			$data["regional"] = $this->master_level_model->load_option("R");
+		}
+		else if($level == "2"){
+			$level2 = $this->master_level_model->load_level2($id);
+			$data["level2"] = $level2["list"];
+			$data["idlevel1"] = $level2["idlevel1"];
+			
+			$level1 = $this->master_level_model->load_level1($level2["idlevel1"]);
+			$data["level1"] = $level1["list"];
+			$data["idregional"] = $level1["idregional"];
+			
+			$data["regional"] = $this->master_level_model->load_option("R");
+		}
+		else if($level == "3"){
+			$level3 = $this->master_level_model->load_level3($id);
+			$data["level3"] = $level3["list"];
+			$data["idlevel2"] = $level3["idlevel2"];
+			
+			$level2 = $this->master_level_model->load_level2($level3["idlevel2"]);
+			$data["level2"] = $level2["list"];
+			$data["idlevel1"] = $level2["idlevel1"];
+			
+			$level1 = $this->master_level_model->load_level1($level2["idlevel1"]);
+			$data["level1"] = $level1["list"];
+			$data["idregional"] = $level1["idregional"];
+			
+			$data["regional"] = $this->master_level_model->load_option("R");
+		}
+		else if($level == "4"){
+			$level4 = $this->master_level_model->load_level4($id);
+			$data["level4"] = $level4["list"];
+			$data["idlevel3"] = $level4["idlevel3"];
+			
+			$level3 = $this->master_level_model->load_level3($level4["idlevel3"]);
+			$data["level3"] = $level3["list"];
+			$data["idlevel2"] = $level3["idlevel2"];
+			
+			$level2 = $this->master_level_model->load_level2($level3["idlevel2"]);
+			$data["level2"] = $level2["list"];
+			$data["idlevel1"] = $level2["idlevel1"];
+			
+			$level1 = $this->master_level_model->load_level1($level2["idlevel1"]);
+			$data["level1"] = $level1["list"];
+			$data["idregional"] = $level1["idregional"];
+			
+			$data["regional"] = $this->master_level_model->load_option("R");
+		}
 		echo json_encode($data);
 	}
 	

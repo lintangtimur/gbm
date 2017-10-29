@@ -8,9 +8,9 @@ if (!defined("BASEPATH"))
  * @controller Login
  */
 class login extends MX_Controller {
-
     public function __construct() {
         parent::__construct();
+		$this->load->model('user_model');
     }
 
     public function index() {
@@ -24,20 +24,16 @@ class login extends MX_Controller {
     }
 
     public function run() {
-        $this->load->model('user_model');
-
         $this->form_validation->set_rules('username', 'Username', 'required');
         $this->form_validation->set_rules('password', 'Password', 'required');
 
         $login_status = false;
         $login_message = '';
         if ($this->form_validation->run($this)) {
-            // $username = $this->input->post('username');
-            // $password = $this->input->post('password');
             if(isset($_POST['username']) && isset($_POST['password'])){
                 
-                $username = $_POST['username'];
-                $password = $_POST['password'];
+                $username = $this->input->post('username');
+                $password = $this->input->post('password');
 
                 $domain = strtolower(substr($username, 0, strrpos($username, "\\")));
                 $username = substr($username, strrpos($username, "\\") + 1, strlen($username) - strrpos($username, "\\"));
@@ -52,7 +48,6 @@ class login extends MX_Controller {
                 ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
 
                 $bind = @ldap_bind($ldap, $ldaprdn, $password);
-
                 if ($bind) {
                     $filter="(sAMAccountName=$username)";
                     $result = ldap_search($ldap,"DC=".$domain.",DC=corp,DC=pln,DC=co,DC=id",$filter);
@@ -73,24 +68,25 @@ class login extends MX_Controller {
                     }
                     @ldap_close($ldap);
                     //echo 'Authentication Succed';
+					// $filter = array();
+					// $filter['USERNAME'] = $ldap_user;
+					// $filter['EMAIL_USER'] = $ldap_email;
+					// $data_user = $this->user_model->data($filter)->get();
+					$data_user = $this->user_model->dataldap($ldap_user, $ldap_email);
                 } 
                 else {
+					$username = $this->input->post('username');
+					$password = $this->input->post('password');
+					$data_user = $this->user_model->data($username, $password);
                     $ldap_user ='';
                     //echo 'Authentication Failed';
                 }
             }
-
-            $filter = array();
-            $filter['USERNAME'] = $ldap_user;
-            $filter['EMAIL_USER'] = $ldap_email;
-            // $filter['USERNAME`'] = $username;
-            // $filter['PWD_USER'] = md5($password);//$this->user_model->encrypt($password);
-            $data_user = $this->user_model->data($filter)->get();
-
+			
             if ($data_user->num_rows() > 0) {
                 $user = $data_user->row();
-				if($user->ISAKTIF_USER=='1'){
-                $login_status = true;
+				if($user->RCDB=='RC01'){
+					$login_status = true;
                     $info_login = array(
                         'login_status' => TRUE,
                         'user_id' => $user->ID_USER,
@@ -99,10 +95,9 @@ class login extends MX_Controller {
 						'level_user' => $user->LEVEL_USER,
 						'kode_level' =>$user->KODE_LEVEL
                     );
-                
-                $this->session->set_userdata($info_login);
+					$this->session->set_userdata($info_login);
                 }else{
-                   $login_message = 'Maaf, User tidak aktif, silahkan hubungi administrator!'; 
+                   $login_message = $user->PESANDB; 
                 }
             } else {
                 if ($ldap_user){
@@ -124,6 +119,7 @@ class login extends MX_Controller {
     }
 
     public function stop() {
+		$this->user_model->logout($this->session->userdata('user_id'));
         $this->session->sess_destroy();
         redirect('login');
     }
