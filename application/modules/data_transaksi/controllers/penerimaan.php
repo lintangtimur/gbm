@@ -88,7 +88,7 @@ class penerimaan extends MX_Controller
         $table = new stdClass();
         $table->id = 'TABLE_PENERIMAAN';
         $table->style = "table table-striped table-bordered datatable dataTable";
-        $table->align = array('NO' => 'center', 'BLTH' => 'center', 'LEVEL4' => 'center', 'STATUS' => 'center', 'TOTAL_VOLUME' => 'center', 'COUNT' => 'center', 'AKSI' => 'center');
+        $table->align = array('NO' => 'center', 'BLTH' => 'center', 'LEVEL4' => 'center', 'STATUS' => 'center', 'TOTAL_VOLUME' => 'right', 'COUNT' => 'center', 'AKSI' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
         $table->jumlah_kolom = 7;
@@ -97,7 +97,7 @@ class penerimaan extends MX_Controller
             "BLTH", 1, 1,
             "LEVEL4", 1, 1,
 //            "STATUS", 1, 1,
-            "TOTAL_VOLUME", 1, 1,
+            "TOTAL_VOLUME (L)", 1, 1,
             "COUNT", 1, 1,
             "AKSI", 1, 1
         );

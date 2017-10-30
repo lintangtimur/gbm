@@ -263,17 +263,30 @@
 			return $option;
 		}
 
+		
+		public function opsiJalur($key = '') {
+			$this->db->from('DATA_SETTING');
+			
+			$key = 'TYPE_KONTRAK_TRANSPORTIR';
+			if (!empty($key) || is_array($key))
+			$this->db->where("KEY_SETTING",$key);
+			
+			return $this->db;
+		}
+
+
+
 		public function optionsJalur($default = '--Pilih Jalur Transportasi--') {
-			$option = array(
-				'Darat'        => 'Darat',
-		        'Laut/ Sungai' => 'Laut/ Sungai',
-		        'Pipa'         => 'Pipa',
-		        'Multi'        => 'Multi',
-				);
+			$option = array();
+			$list = $this->opsiJalur()->get();
 
 			if (!empty($default))
             $option[''] = $default;
-
+			
+			foreach ($list->result() as $row) {
+				$option[$row->VALUE_SETTING] = $row->NAME_SETTING;
+			}
+			
 			return $option;
 		}
 		
