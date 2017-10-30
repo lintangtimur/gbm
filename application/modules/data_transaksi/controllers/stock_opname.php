@@ -11,7 +11,7 @@ if (!defined("BASEPATH"))
     exit("No direct script access allowed");
 
 /**
- * @module Master Wilayah
+ * @module STOCK OPNAME
  */
 class stock_opname extends MX_Controller {
 
@@ -82,7 +82,6 @@ class stock_opname extends MX_Controller {
         }
         
         $data['parent_options_jns'] = $this->tbl_get->options_jns_bhn_bkr();
-        // $data['parent_options_pem'] = $this->tbl_get->options_pembangkit_add(); 
 
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses');
@@ -108,7 +107,6 @@ class stock_opname extends MX_Controller {
     }
 
       public function prosesApprove(){
-        //print_r($this->input->post('setuju')); die;
        $cek=$this->input->post('setuju');
        $id =$this->input->post('id');
        if($cek==2){
@@ -365,8 +363,6 @@ class stock_opname extends MX_Controller {
             $data['reg_options'] = $option_reg;
             $data['lv1_options'] = $option_lv1;
             $data['lv2_options'] = $this->tbl_get_combo->options_lv2('--Pilih Level 2--', $data_lv[0]->COCODE, 1);
-            // $data['lv3_options'] = $this->tbl_get->options_lv3_view();
-            // $data['lv4_options'] = $this->tbl_get->options_lv4_view();
         } else if ($level_user==0){
             if ($kode_level==00){
                 $data['reg_options'] = $this->tbl_get_combo->options_reg(); 

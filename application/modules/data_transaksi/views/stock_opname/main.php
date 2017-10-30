@@ -130,7 +130,7 @@
 
         $('select[name="ID_REGIONAL"]').on('change', function() {
             var stateID = $(this).val();
-            var vlink_url = '<?php echo base_url()?>master/master_level4/get_options_lv1/'+stateID;
+            var vlink_url = '<?php echo base_url()?>data_transaksi/stock_opname/get_options_lv1/'+stateID;
             setDefaultLv1();
             setDefaultLv2();
             setDefaultLv3();
@@ -151,7 +151,7 @@
 
         $('select[name="COCODE"]').on('change', function() {
             var stateID = $(this).val();
-            var vlink_url = '<?php echo base_url()?>master/master_level4/get_options_lv2/'+stateID;
+            var vlink_url = '<?php echo base_url()?>data_transaksi/stock_opname/get_options_lv2/'+stateID;
             setDefaultLv2();
             setDefaultLv3();
             setDefaultLv4();
@@ -171,7 +171,7 @@
 
         $('select[name="PLANT"]').on('change', function() {
             var stateID = $(this).val();
-            var vlink_url = '<?php echo base_url()?>master/master_level4/get_options_lv3/'+stateID;
+            var vlink_url = '<?php echo base_url()?>data_transaksi/stock_opname/get_options_lv3/'+stateID;
             setDefaultLv3();
             setDefaultLv4();
             if(stateID) {
@@ -190,7 +190,7 @@
 
         $('select[name="STORE_SLOC"]').on('change', function() {
             var stateID = $(this).val();
-            var vlink_url = '<?php echo base_url()?>laporan/persediaan_bbm/get_options_lv4/'+stateID;
+            var vlink_url = '<?php echo base_url()?>data_transaksi/stock_opname/get_options_lv4/'+stateID;
             setDefaultLv4();
             if(stateID) {
                 $.ajax({
