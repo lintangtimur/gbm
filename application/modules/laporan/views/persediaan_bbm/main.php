@@ -173,7 +173,7 @@
                             var VOLUME = value.VOLUME_STOCKOPNAME == null ? "" : value.VOLUME_STOCKOPNAME;
                             var DEAD_STOCK = value.DEAD_STOCK == null ? "" : value.DEAD_STOCK;
                             var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
-                            var STOK_EFEKTIF = value.STOK_AKHIR_EFEKTIF == null ? "" : value.STOK_AKHIR_EFEKTIF;
+                            var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
                             var SHO = value.SHO == null ? "" : value.SHO;
                             var REV = value.REVISI_MUTASI_PERSEDIAAN == null ? "" : value.REVISI_MUTASI_PERSEDIAAN;
 
