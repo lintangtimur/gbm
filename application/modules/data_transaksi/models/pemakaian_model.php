@@ -371,5 +371,190 @@ class pemakaian_model extends CI_Model
         $this->db->close();
         return $query->result();
     }
+
+
+    public function options_reg($default = '--Pilih Regional--', $key = 'all') {
+        $option = array();
+
+        $this->db->from('MASTER_REGIONAL');
+        if ($key != 'all'){
+            $this->db->where('ID_REGIONAL',$key);
+        }   
+        $list = $this->db->get(); 
+
+        if (!empty($default)) {
+            $option[''] = $default;
+        }
+
+        foreach ($list->result() as $row) {
+            $option[$row->ID_REGIONAL] = $row->NAMA_REGIONAL;
+        }
+        return $option;
+    }
+
+    public function options_lv1($default = '--Pilih Level 1--', $key = 'all', $jenis=0) {
+        $this->db->from('MASTER_LEVEL1');
+        if ($key != 'all'){
+            $this->db->where('ID_REGIONAL',$key);
+        }    
+        if ($jenis==0){
+            return $this->db->get()->result(); 
+        } else {
+            $option = array();
+            $list = $this->db->get(); 
+
+            if (!empty($default)) {
+                $option[''] = $default;
+            }
+
+            foreach ($list->result() as $row) {
+                $option[$row->COCODE] = $row->LEVEL1;
+            }
+            return $option;    
+        }
+    }
+
+    public function options_lv2($default = '--Pilih Level 2--', $key = 'all', $jenis=0) {
+        $this->db->from('MASTER_LEVEL2');
+        if ($key != 'all'){
+            $this->db->where('COCODE',$key);
+        }    
+        if ($jenis==0){
+            return $this->db->get()->result(); 
+        } else {
+            $option = array();
+            $list = $this->db->get(); 
+
+            if (!empty($default)) {
+                $option[''] = $default;
+            }
+
+            foreach ($list->result() as $row) {
+                $option[$row->PLANT] = $row->LEVEL2;
+            }
+            return $option;    
+        }
+    }
+
+    public function options_lv3($default = '--Pilih Level 3--', $key = 'all', $jenis=0) {
+        $this->db->from('MASTER_LEVEL3');
+        if ($key != 'all'){
+            $this->db->where('PLANT',$key);
+        }    
+        if ($jenis==0){
+            return $this->db->get()->result(); 
+        } else {
+            $option = array();
+            $list = $this->db->get(); 
+
+            if (!empty($default)) {
+                $option[''] = $default;
+            }
+
+            foreach ($list->result() as $row) {
+                $option[$row->STORE_SLOC] = $row->LEVEL3;
+            }
+            return $option;    
+        }
+    }
+
+    public function options_lv4($default = '--Pilih Level 4--', $key = 'all', $jenis=0) {
+        $this->db->from('MASTER_LEVEL4');
+        if ($key != 'all'){
+            $this->db->where('STORE_SLOC',$key);
+        }    
+        if ($jenis==0){
+            return $this->db->get()->result(); 
+        } else {
+            $option = array();
+            $list = $this->db->get(); 
+
+            if (!empty($default)) {
+                $option[''] = $default;
+            }
+
+            foreach ($list->result() as $row) {
+                $option[$row->SLOC] = $row->LEVEL4;
+            }
+            return $option;    
+        }
+    }
+
+    public function options_bulan() {
+        $option = array();
+        $option[''] = '--Pilih Bulan--';
+        $option['01'] = 'Januari';
+        $option['02'] = 'Febuari';
+        $option['03'] = 'Maret';
+        $option['04'] = 'April';
+        $option['05'] = 'Mei';
+        $option['06'] = 'Juni';
+        $option['07'] = 'Juli';
+        $option['08'] = 'Agustus';
+        $option['09'] = 'September';
+        $option['10'] = 'Oktober';
+        $option['11'] = 'November';
+        $option['12'] = 'Desember';
+        return $option;
+    }
+
+    public function options_tahun() {
+        $year = date("Y"); 
+
+        $option[$year] = $year;
+        $option[$year + 1] = $year + 1;
+
+        return $option;
+    }
+
+    public function get_level($lv='', $key=''){ 
+        switch ($lv) {
+            case "R":
+                $q = "SELECT  E.ID_REGIONAL, E.NAMA_REGIONAL 
+                FROM MASTER_REGIONAL E
+                WHERE ID_REGIONAL='$key' ";
+                break;
+            case "0":
+                $q = "SELECT  E.ID_REGIONAL, E.NAMA_REGIONAL 
+                FROM MASTER_REGIONAL E
+                WHERE ID_REGIONAL='$key' ";
+                break;
+            case "1":
+                $q = "SELECT D.COCODE, D.LEVEL1, E.ID_REGIONAL, E.NAMA_REGIONAL 
+                FROM MASTER_LEVEL1 D 
+                LEFT JOIN MASTER_REGIONAL E ON E.ID_REGIONAL=D.ID_REGIONAL
+                WHERE COCODE='$key' ";
+                break;
+            case "2":
+                $q = "SELECT C.PLANT, C.LEVEL2,  D.COCODE,  D.LEVEL1, E.ID_REGIONAL, E.NAMA_REGIONAL
+                FROM MASTER_LEVEL2 C 
+                LEFT JOIN MASTER_LEVEL1 D ON D.COCODE=C.COCODE 
+                LEFT JOIN MASTER_REGIONAL E ON E.ID_REGIONAL=D.ID_REGIONAL
+                WHERE PLANT='$key' ";
+                break;
+            case "3":
+                $q = "SELECT B.STORE_SLOC, B.LEVEL3, C.PLANT, C.LEVEL2,  D.COCODE,  D.LEVEL1, E.ID_REGIONAL, E.NAMA_REGIONAL
+                FROM MASTER_LEVEL3 B
+                LEFT JOIN MASTER_LEVEL2 C ON C.PLANT=B.PLANT 
+                LEFT JOIN MASTER_LEVEL1 D ON D.COCODE=C.COCODE 
+                LEFT JOIN MASTER_REGIONAL E ON E.ID_REGIONAL=D.ID_REGIONAL
+                WHERE STORE_SLOC='$key' ";
+                break;
+            case "4":
+                $q = "SELECT A.SLOC, A.LEVEL4, B.STORE_SLOC, B.LEVEL3, C.PLANT, C.LEVEL2,  D.COCODE,  D.LEVEL1, E.ID_REGIONAL, E.NAMA_REGIONAL
+                FROM MASTER_LEVEL4 A
+                LEFT JOIN MASTER_LEVEL3 B ON B.STORE_SLOC=A.STORE_SLOC 
+                LEFT JOIN MASTER_LEVEL2 C ON C.PLANT=B.PLANT 
+                LEFT JOIN MASTER_LEVEL1 D ON D.COCODE=C.COCODE 
+                LEFT JOIN MASTER_REGIONAL E ON E.ID_REGIONAL=D.ID_REGIONAL
+                WHERE SLOC='$key' ";
+                break;
+        } 
+
+        $query = $this->db->query($q)->result();
+        return $query;
+    }
+
+
 }
 ?>
