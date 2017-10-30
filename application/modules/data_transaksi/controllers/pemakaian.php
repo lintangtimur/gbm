@@ -31,7 +31,6 @@ class pemakaian extends MX_Controller
         
         /* Load Global Model */
         $this->load->model('pemakaian_model', 'tbl_get');
-        $this->load->model('laporan/persediaan_bbm_model','tbl_get_combo');
     }
 
     public function index()
@@ -85,26 +84,26 @@ class pemakaian extends MX_Controller
             $kode_level = $this->session->userdata('kode_level');
 
             if ($level_user==3){
-                $data['lv4_options'] = $this->tbl_get_combo->options_lv4('--Pilih Level 4--', $lv4, 1);  
+                $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Level 4--', $lv4, 1);  
             } else if ($level_user==2){
-                $data['lv3_options'] = $this->tbl_get_combo->options_lv3('--Pilih Level 3--', $lv3, 1); 
-                $data['lv4_options'] = $this->tbl_get_combo->options_lv4('--Pilih Level 4--', $lv4, 1); 
+                $data['lv3_options'] = $this->tbl_get->options_lv3('--Pilih Level 3--', $lv3, 1); 
+                $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Level 4--', $lv4, 1); 
             } else if ($level_user==1){
-                $data['lv2_options'] = $this->tbl_get_combo->options_lv2('--Pilih Level 2--', $lv2, 1);
-                $data['lv3_options'] = $this->tbl_get_combo->options_lv3('--Pilih Level 3--', $lv3, 1); 
-                $data['lv4_options'] = $this->tbl_get_combo->options_lv4('--Pilih Level 4--', $lv4, 1); 
+                $data['lv2_options'] = $this->tbl_get->options_lv2('--Pilih Level 2--', $lv2, 1);
+                $data['lv3_options'] = $this->tbl_get->options_lv3('--Pilih Level 3--', $lv3, 1); 
+                $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Level 4--', $lv4, 1); 
             } else if ($level_user==0){
                 if ($kode_level==00){
-                    $data['reg_options'] = $this->tbl_get_combo->options_reg(); 
-                    $data['lv1_options'] = $this->tbl_get_combo->options_lv1('--Pilih Level 1--', $lv1, 1);
-                    $data['lv2_options'] = $this->tbl_get_combo->options_lv2('--Pilih Level 2--', $lv2, 1);
-                    $data['lv3_options'] = $this->tbl_get_combo->options_lv3('--Pilih Level 3--', $lv3, 1); 
-                    $data['lv4_options'] = $this->tbl_get_combo->options_lv4('--Pilih Level 4--', $lv4, 1); 
+                    $data['reg_options'] = $this->tbl_get->options_reg(); 
+                    $data['lv1_options'] = $this->tbl_get->options_lv1('--Pilih Level 1--', $lv1, 1);
+                    $data['lv2_options'] = $this->tbl_get->options_lv2('--Pilih Level 2--', $lv2, 1);
+                    $data['lv3_options'] = $this->tbl_get->options_lv3('--Pilih Level 3--', $lv3, 1); 
+                    $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Level 4--', $lv4, 1); 
                 } else {
-                    $data['lv1_options'] = $this->tbl_get_combo->options_lv1('--Pilih Level 1--', $lv1, 1);
-                    $data['lv2_options'] = $this->tbl_get_combo->options_lv2('--Pilih Level 2--', $lv2, 1);
-                    $data['lv3_options'] = $this->tbl_get_combo->options_lv3('--Pilih Level 3--', $lv3, 1); 
-                    $data['lv4_options'] = $this->tbl_get_combo->options_lv4('--Pilih Level 4--', $lv4, 1); 
+                    $data['lv1_options'] = $this->tbl_get->options_lv1('--Pilih Level 1--', $lv1, 1);
+                    $data['lv2_options'] = $this->tbl_get->options_lv2('--Pilih Level 2--', $lv2, 1);
+                    $data['lv3_options'] = $this->tbl_get->options_lv3('--Pilih Level 3--', $lv3, 1); 
+                    $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Level 4--', $lv4, 1); 
                 }
             }      
             // print_r($data['default']); die;
@@ -345,15 +344,15 @@ class pemakaian extends MX_Controller
     }
 
     public function get_level_user(){
-        $data['lv1_options'] = $this->tbl_get_combo->options_lv1('--Pilih Level 1--', '-', 1); 
-        $data['lv2_options'] = $this->tbl_get_combo->options_lv2('--Pilih Level 2--', '-', 1); 
-        $data['lv3_options'] = $this->tbl_get_combo->options_lv3('--Pilih Level 3--', '-', 1);  
-        $data['lv4_options'] = $this->tbl_get_combo->options_lv4('--Pilih Level 4--', '-', 1);  
+        $data['lv1_options'] = $this->tbl_get->options_lv1('--Pilih Level 1--', '-', 1); 
+        $data['lv2_options'] = $this->tbl_get->options_lv2('--Pilih Level 2--', '-', 1); 
+        $data['lv3_options'] = $this->tbl_get->options_lv3('--Pilih Level 3--', '-', 1);  
+        $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Level 4--', '-', 1);  
 
         $level_user = $this->session->userdata('level_user');
         $kode_level = $this->session->userdata('kode_level');
 
-        $data_lv = $this->tbl_get_combo->get_level($level_user,$kode_level);
+        $data_lv = $this->tbl_get->get_level($level_user,$kode_level);
 
         if ($level_user==4){
             $option_reg[$data_lv[0]->ID_REGIONAL] = $data_lv[0]->NAMA_REGIONAL;
@@ -375,7 +374,7 @@ class pemakaian extends MX_Controller
             $data['lv1_options'] = $option_lv1;
             $data['lv2_options'] = $option_lv2;
             $data['lv3_options'] = $option_lv3;
-            $data['lv4_options'] = $this->tbl_get_combo->options_lv4('--Pilih Level 4--', $data_lv[0]->STORE_SLOC, 1); 
+            $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Level 4--', $data_lv[0]->STORE_SLOC, 1); 
         } else if ($level_user==2){
             $option_reg[$data_lv[0]->ID_REGIONAL] = $data_lv[0]->NAMA_REGIONAL;
             $option_lv1[$data_lv[0]->COCODE] = $data_lv[0]->LEVEL1;
@@ -383,26 +382,46 @@ class pemakaian extends MX_Controller
             $data['reg_options'] = $option_reg;
             $data['lv1_options'] = $option_lv1;
             $data['lv2_options'] = $option_lv2;
-            $data['lv3_options'] = $this->tbl_get_combo->options_lv3('--Pilih Level 3--', $data_lv[0]->PLANT, 1);  
+            $data['lv3_options'] = $this->tbl_get->options_lv3('--Pilih Level 3--', $data_lv[0]->PLANT, 1);  
         } else if ($level_user==1){
             $option_reg[$data_lv[0]->ID_REGIONAL] = $data_lv[0]->NAMA_REGIONAL;
             $option_lv1[$data_lv[0]->COCODE] = $data_lv[0]->LEVEL1;
             $data['reg_options'] = $option_reg;
             $data['lv1_options'] = $option_lv1;
-            $data['lv2_options'] = $this->tbl_get_combo->options_lv2('--Pilih Level 2--', $data_lv[0]->COCODE, 1);
+            $data['lv2_options'] = $this->tbl_get->options_lv2('--Pilih Level 2--', $data_lv[0]->COCODE, 1);
         } else if ($level_user==0){
             if ($kode_level==00){
-                $data['reg_options'] = $this->tbl_get_combo->options_reg(); 
+                $data['reg_options'] = $this->tbl_get->options_reg(); 
             } else {
                 $option_reg[$data_lv[0]->ID_REGIONAL] = $data_lv[0]->NAMA_REGIONAL;
                 $data['reg_options'] = $option_reg;
-                $data['lv1_options'] = $this->tbl_get_combo->options_lv1('--Pilih Level 1--', $data_lv[0]->ID_REGIONAL, 1);
+                $data['lv1_options'] = $this->tbl_get->options_lv1('--Pilih Level 1--', $data_lv[0]->ID_REGIONAL, 1);
             }
         }
 
-        $data['opsi_bulan'] = $this->tbl_get_combo->options_bulanv2();  
-        $data['opsi_tahun'] = $this->tbl_get_combo->options_tahun();  
+        $data['opsi_bulan'] = $this->tbl_get->options_bulan();  
+        $data['opsi_tahun'] = $this->tbl_get->options_tahun();  
 
         return $data;
+    }
+
+    public function get_options_lv1($key=null) {
+        $message = $this->tbl_get->options_lv1('--Pilih Level 1--', $key, 0);
+        echo json_encode($message);
+    }
+
+    public function get_options_lv2($key=null) {
+        $message = $this->tbl_get->options_lv2('--Pilih Level 2--', $key, 0);
+        echo json_encode($message);
+    }
+
+    public function get_options_lv3($key=null) {
+        $message = $this->tbl_get->options_lv3('--Pilih Level 3--', $key, 0);
+        echo json_encode($message);
+    }
+
+    public function get_options_lv4($key=null) {
+        $message = $this->tbl_get->options_lv4('--Pilih Level 4--', $key, 0);
+        echo json_encode($message);
     }
 }
