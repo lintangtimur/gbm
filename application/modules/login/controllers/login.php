@@ -62,7 +62,7 @@ class login extends MX_Controller {
                     {
                         if($info['count'] > 1)
                             break;
-                        // echo "<p>You are accessing <strong> ". $info[$i]["sn"][0] .", " . $info[$i]["givenname"][0] ."</strong><br /> (" . $info[$i]["samaccountname"][0] .") email= ".$info[$i]["userprincipalname"][0]."  NIK= ".$info[$i]["employeenumber"][0]." </p>\n";
+                        // echo "<p>You are accessing <strong> ". $info[$i]["sn"][0] .", " . $info[$i]["givenname"][0] ."</strong><br /> (" . $info[$i]["samaccountname"][0] .") email= ".$info[$i]["mail"][0]."  NIK= ".$info[$i]["employeenumber"][0]." </p>\n";
                         // echo '<pre>';
                         // var_dump($info);
                         // echo '</pre>';

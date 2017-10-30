@@ -23,6 +23,7 @@ class user_model extends CI_Model {
         $this->db->from($this->_table1);
         if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
+		print_debug($this->db);
         return $this->db;
     }
 
