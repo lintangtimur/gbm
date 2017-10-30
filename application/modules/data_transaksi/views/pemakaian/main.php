@@ -183,6 +183,13 @@
                                     vEdit = '<a href="javascript:void(0);" class="btn transparant" id="button-edit-'+data_detail[i].ID_PEMAKAIAN+'" onclick="load_form(this.id)" data-source="'+vlink_url+'"> <i class="icon-edit"></i></a>';   
                                 }
                             }
+
+
+                            if ((vLevelUser==2) && (data_detail[i].KODE_STATUS!=0)){
+                                vlink_url = "<?php echo base_url()?>data_transaksi/pemakaian/edit/"+data_detail[i].ID_PEMAKAIAN;
+                                vEdit = '<a href="javascript:void(0);" class="btn transparant" id="button-edit-'+data_detail[i].ID_PEMAKAIAN+'" onclick="load_form(this.id)" data-source="'+vlink_url+'"> <i class="icon-edit"></i></a>'; 
+                            }
+
                         }
                     }
 
