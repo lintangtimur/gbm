@@ -175,6 +175,7 @@
                             var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
                             var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
                             var SHO = value.SHO == null ? "" : value.SHO;
+                            var SHO = SHO.toString().replace(/\./g, ',');  
                             var REV = value.REVISI_MUTASI_PERSEDIAAN == null ? "" : value.REVISI_MUTASI_PERSEDIAAN;
 
                             var strRow =
