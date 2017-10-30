@@ -124,8 +124,8 @@
                                     <th>NAMA PEMASOK</th>
                                     <th>NAMA TRANSPORTIR</th>
                                     <th>NAMA JNS BHN BKR</th>
-                                    <th>VOL TERIMA</th>
-                                    <th>VOL TERIMA REAL</th>
+                                    <th>VOL TERIMA (L)</th>
+                                    <th>VOL TERIMA REAL (L)</th>
                                     <th>STATUS</th>
                                     <?php
                                         if ($this->session->userdata('level_user')==3 || $this->session->userdata('level_user')==4 ){
@@ -147,6 +147,14 @@
     </div>
 </div>
 <script type="text/javascript">
+     function convertToRupiah(angka)
+        {
+            var rupiah = '';        
+            var angkarev = angka.toString().split('').reverse().join('');
+            for(var i = 0; i < angkarev.length; i++) if(i%3 == 0) rupiah += angkarev.substr(i,3)+'.';
+            return rupiah.split('',rupiah.length-1).reverse().join('');
+        }
+
     function show_detail(tanggal) {
         if (!$('#table_detail').is(":visible")) {
             var vId = tanggal;
@@ -189,8 +197,8 @@
                         '<td align="center">' + data_detail[i].NAMA_PEMASOK + '</td>' +
                         '<td align="center">' + data_detail[i].NAMA_TRANSPORTIR + '</td>' +
                         '<td align="center">' + data_detail[i].NAMA_JNS_BHN_BKR + '</td>' +
-                        '<td align="center">' + data_detail[i].VOL_TERIMA + '</td>' +
-                        '<td align="center">' + data_detail[i].VOL_TERIMA_REAL + '</td>' +
+                        '<td align="right">' + convertToRupiah(data_detail[i].VOL_TERIMA) + '</td>' +
+                        '<td align="right">' + convertToRupiah(data_detail[i].VOL_TERIMA_REAL) + '</td>' +
                         '<td align="center">' + data_detail[i].STATUS + '</td>' +
                         edit +
                         '<td align="center">' +
