@@ -111,7 +111,7 @@ class pemakaian_model extends CI_Model
                 $aksi = anchor(null, '<i class="icon-eye-open"></i>', array('class' => 'btn transparant button-detail', 'id' => 'button-view-' . $id, 'onClick' => 'show_detail(\''.$id.'\')'));
                 $rows[$num] = array(
                     'NO' => $num,
-                    'BLTH' => $row->BLTH,
+                    'BLTH' =>  $this->get_blth($row->BL,$row->TH),
                     'LEVEL4' => $row->LEVEL4,
                     'TOTAL_VOLUME' => number_format($row->JML_VOLUME,0,',','.'),
                     'COUNT' => number_format($row->JML,0,',','.'),
@@ -260,6 +260,40 @@ class pemakaian_model extends CI_Model
         }
         return $option;
         // return $list->result();
+    }
+
+    public function get_blth($bulan, $tahun){
+        Switch ($bulan){
+            case 1 : $bulan="Januari";
+                Break;
+            case 2 : $bulan="Februari";
+                Break;
+            case 3 : $bulan="Maret";
+                Break;
+            case 4 : $bulan="April";
+                Break;
+            case 5 : $bulan="Mei";
+                Break;
+            case 6 : $bulan="Juni";
+                Break;
+            case 7 : $bulan="Juli";
+                Break;
+            case 8 : $bulan="Agustus";
+                Break;
+            case 9 : $bulan="September";
+                Break;
+            case 10 : $bulan="Oktober";
+                Break;
+            case 11 : $bulan="November";
+                Break;
+            case 12 : $bulan="Desember";
+                Break;
+            }
+
+        $tahun = substr($tahun,2);
+        $bulan .= '-'.$tahun;
+
+        return $bulan;
     }
     
     public function load_optionJSON($id = '', $kode = ''){

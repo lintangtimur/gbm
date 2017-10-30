@@ -13,7 +13,7 @@ class perhitungan_harga_model extends CI_Model {
         parent::__construct();
     }
 
-    private $_table1 = "t_perhitungan"; //nama table setelah mom_
+    private $_table1 = "T_PERHITUNGAN"; //nama table setelah mom_
 
     private function _key($key) { //unit ID
         if (!is_array($key)) {

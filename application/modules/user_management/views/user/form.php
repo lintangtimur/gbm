@@ -28,7 +28,8 @@
          <div class="control-group">
             <label for="password" class="control-label">Role <span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_dropdown('role_id', $role_options, !empty($default->ROLES_ID) ? $default->ROLES_ID : '', 'class="span6 chosen" id="role_id"'); ?>
+				<input type="hidden" name="level_user" id="level_user"/>
+                <?php echo form_dropdown('role_id', $role_options, !empty($default->ROLES_ID) ? $default->ROLES_ID ."..".$default->LEVEL_USER : '', 'class="span6 chosen" id="role_id"'); ?>
             </div>
         </div>
 		 <div class="control-group" id="regional" style="display:none;">
@@ -103,7 +104,8 @@ $(function(){
 		$("#level2").hide();
 		$("#level3").hide();
 		$("#level4").hide();
-		if (idlevel !== "0")
+		$("#level_user").val(idlevel);
+		if (a[1] !== "0")
 			load_level('<?php echo $loadlevel; ?>R',a[1], "#kode_regional", "#regional");
 		
 	});
@@ -123,5 +125,23 @@ $(function(){
 		c = a + ".." + b;
 		load_level('<?php echo $loadlevel; ?>4/'+c,'', "#kode_level4");
 	});
+	
+	level = '<?php echo !empty($default->LEVEL_USER) ? $default->LEVEL_USER : ''; ?>';
+	kodelevel = '<?php echo !empty($default->KODE_LEVEL) ? $default->KODE_LEVEL : ''; ?>';
+	if(level === 'R')
+		load_dynamic_levelgroup('<?php echo $url_levegroup; ?>' + level,kodelevel, "#kode_regional", level);
+	else if(level == "1")
+		load_dynamic_levelgroup('<?php echo $url_levegroup; ?>' + level +"/"+kodelevel,kodelevel, "#kode_level1,#kode_regional", level);
+	else if(level == "2")
+		load_dynamic_levelgroup('<?php echo $url_levegroup; ?>' + level +"/"+kodelevel,kodelevel, "#kode_level2,#kode_level1,#kode_regional", level);
+	else if(level == "3")
+		load_dynamic_levelgroup('<?php echo $url_levegroup; ?>' + level +"/"+kodelevel,kodelevel, "#kode_level3,#kode_level2,#kode_level1,#kode_regional", level);
+	else if(level == "4")
+		load_dynamic_levelgroup('<?php echo $url_levegroup; ?>' + level +"/"+kodelevel,kodelevel, "#kode_level4,#kode_level3,#kode_level2,#kode_level1,#kode_regional", level);
+	
+		
+		
+	
+	
 });
 </script>
