@@ -231,7 +231,7 @@ class penerimaan_model extends CI_Model
 
     public function options_level($level_user,$kode_level) {
         $default = '--Pilih Level--';
-        $query = $this->db->query('call LOAD_LEVEL4('.$level_user.', '.$kode_level.')');
+        $query = $this->db->query("call LOAD_LEVEL4('".$level_user."','".$kode_level."')");
         $option = array();
         $list = $query;
 
