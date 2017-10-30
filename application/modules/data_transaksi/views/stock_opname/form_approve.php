@@ -22,37 +22,37 @@
                             <br>
                             <label for="password" class="control-label">No Stok Opname <span class="required">*</span> : </label>
                             <div class="controls">
-                            <?php echo form_input('NO_STOCKOPNAME', !empty($default->NO_STOCKOPNAME) ? $default->NO_STOCKOPNAME : '', 'class="span6"'); ?>
+                            <?php echo form_input('NO_STOCKOPNAME', !empty($default->NO_STOCKOPNAME) ? $default->NO_STOCKOPNAME : '', 'class="span6", disabled="true"'); ?>
                              </div>
                              <br>
                             <label for="password" class="control-label">Pilih Jenis Bahan Bakar <span class="required">*</span> : </label>
                             <div class="controls">
-                            <?php echo form_dropdown('ID_JNS_BHN_BKR', $parent_options_jns, !empty($default->ID_JNS_BHN_BKR) ? $default->ID_JNS_BHN_BKR : '', 'class="span6"'); ?> 
+                            <?php echo form_dropdown('ID_JNS_BHN_BKR', $parent_options_jns, !empty($default->ID_JNS_BHN_BKR) ? $default->ID_JNS_BHN_BKR : '', 'class="span6", disabled="true"'); ?> 
                             </div>
                             <br>
                             <label  class="control-label">Regional <span class="required">*</span> : </label>
                             <div class="controls">
-                                <?php echo form_dropdown('ID_REGIONAL', $reg_options, !empty($default->ID_REGIONAL) ? $default->ID_REGIONAL : ''); ?>
+                                <?php echo form_dropdown('ID_REGIONAL', $reg_options, !empty($default->ID_REGIONAL) ? $default->ID_REGIONAL : '','disabled="true"'); ?>
                             </div>
                             <br>
                             <label  class="control-label">Level 1<span class="required">*</span> : </label>
                             <div class="controls">
-                                <?php echo form_dropdown('COCODE', $lv1_options, !empty($default->COCODE) ? $default->COCODE : ''); ?>
+                                <?php echo form_dropdown('COCODE', $lv1_options, !empty($default->COCODE) ? $default->COCODE : '','disabled="true"'); ?>
                             </div>
                             <br>
                             <label  class="control-label">Level 2<span class="required">*</span> : </label>
                             <div class="controls">
-                                <?php echo form_dropdown('PLANT', $lv2_options, !empty($default->PLANT) ? $default->PLANT : ''); ?>
+                                <?php echo form_dropdown('PLANT', $lv2_options, !empty($default->PLANT) ? $default->PLANT : '','disabled="true"'); ?>
                             </div>
                             <br>
                             <label  class="control-label">Level 3<span class="required">*</span> : </label>
                             <div class="controls">
-                                <?php echo form_dropdown('STORE_SLOC', $lv3_options, !empty($default->STORE_SLOC) ? $default->STORE_SLOC : ''); ?>
+                                <?php echo form_dropdown('STORE_SLOC', $lv3_options, !empty($default->STORE_SLOC) ? $default->STORE_SLOC : '','disabled="true"'); ?>
                             </div>
                             <br>
                             <label  class="control-label">Level 4<span class="required">*</span> : </label>
                             <div class="controls">
-                                <?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : ''); ?>
+                                <?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : '','disabled="true"'); ?>
                             </div>
                             </div>                          
                         </div>
@@ -61,17 +61,17 @@
                           <br>
                             <label for="password" class="control-label">Volume Stock Opname (L)<span class="required">*</span> : </label>
                             <div class="controls">
-                            <?php echo form_input('VOLUME_STOCKOPNAME', !empty($default->VOLUME_STOCKOPNAME) ? $default->VOLUME_STOCKOPNAME : '', 'class="span6"'); ?>
+                            <?php echo form_input('VOLUME_STOCKOPNAME', !empty($default->VOLUME_STOCKOPNAME) ? $default->VOLUME_STOCKOPNAME : '', 'class="span6", disabled="true"'); ?>
                              </div>
                              <br>
                             <label for="password" class="control-label">Tanggal BA Stock Opname <span class="required">*</span> : </label>
                             <div class="controls">
-                            <?php echo form_input('TGL_BA_STOCKOPNAME', !empty($default->TGL_BA_STOCKOPNAME) ? $default->TGL_BA_STOCKOPNAME : '', 'class="span6 input-append date form_datetime", id="datepicker"'); ?>
+                            <?php echo form_input('TGL_BA_STOCKOPNAME', !empty($default->TGL_BA_STOCKOPNAME) ? $default->TGL_BA_STOCKOPNAME : '', 'class="span6 input-append date form_datetime", id="datepicker", disabled="true"'); ?>
                             </div>
                             <br>
                             <label for="password" class="control-label">Tanggal Pengakuan <span class="required">*</span> : </label>
                             <div class="controls">
-                            <?php echo form_input('TGL_PENGAKUAN', !empty($default->TGL_PENGAKUAN) ? $default->TGL_PENGAKUAN : '', 'class="span6 input-append date form_datetime"'); ?>
+                            <?php echo form_input('TGL_PENGAKUAN', !empty($default->TGL_PENGAKUAN) ? $default->TGL_PENGAKUAN : '', 'class="span6 input-append date form_datetime", disabled="true"'); ?>
                             </div>
                           </div>
                         </div>
@@ -84,7 +84,7 @@
                         <div class="md-card-content">
                             <label for="password" class="control-label">Upload File<span class="required">*</span> : </label>
                             <div class="controls">
-                            <?php echo form_upload('FILE_UPLOAD', !empty($default->PATH_STOCKOPNAME) ? $default->PATH_STOCKOPNAME : '', 'class="span6"'); ?>
+                            <?php echo form_upload('FILE_UPLOAD', !empty($default->PATH_STOCKOPNAME) ? $default->PATH_STOCKOPNAME : '', 'class="span6", disabled="true"'); ?>
                             </div>
                             <div class="controls" id="dokumen">
                              <a href="<?php echo base_url().'assets/upload_stock_opname/'.$id_dok;?>" target="_blank"><b><?php echo (empty($id_dok)) ? $id_dok : 'Lihat Dokumen'; ?></b></a>
@@ -138,7 +138,6 @@
         $( "#button-ok" ).click();
     });
 </script> 
-
 
 <script type="text/javascript">
     jQuery(function($) {

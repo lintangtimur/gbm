@@ -55,7 +55,6 @@
                             <div class="controls">
                                 <?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : ''); ?>
                             </div>
-
                             </div>                          
                         </div>
                         <div class="col-md-5">

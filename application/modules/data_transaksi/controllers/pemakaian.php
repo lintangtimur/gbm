@@ -75,6 +75,11 @@ class pemakaian extends MX_Controller
             $lv2 = $data['default']->COCODE;
             $lv3 = $data['default']->PLANT;
             $lv4 = $data['default']->STORE_SLOC;
+            $tgl_catat = new DateTime($data['default']->TGL_PENCATATAN);
+            $tgl_mutasi = new DateTime($data['default']->TGL_MUTASI_PENGAKUAN);
+
+            $data['default']->TGL_PENCATATAN = $tgl_catat->format('d-m-Y');
+            $data['default']->TGL_MUTASI_PENGAKUAN = $tgl_mutasi->format('d-m-Y');
 
             $level_user = $this->session->userdata('level_user');
             $kode_level = $this->session->userdata('kode_level');
@@ -125,7 +130,7 @@ class pemakaian extends MX_Controller
         $table->id = 'TABLE_PENERIMAAN';
         $table->drildown = true;
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('NO' => 'center', 'BLTH' => 'center', 'LEVEL4' => 'center', 'TOTAL_VOLUME' => 'right', 'COUNT' => 'center', 'AKSI' => 'center');
+        $table->align = array('NO' => 'center', 'BLTH' => 'center', 'LEVEL4' => 'center', 'TOTAL_VOLUME' => 'right', 'COUNT' => 'right', 'AKSI' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
         $table->jumlah_kolom = 6;
@@ -159,9 +164,6 @@ class pemakaian extends MX_Controller
         $this->form_validation->set_rules('ID_JNS_BHN_BKR', 'Jenis Bahan Bakar', 'required');
         $this->form_validation->set_rules('VOL_PEMAKAIAN', 'Vol. Pakai', 'required|max_length[25]');
 
-
-
-        
         $kodelevel = $this->input->post("SLOC");
         $data = array();
         $data['TGL_CATAT'] = str_replace('-', '', $this->input->post('TGL_CATAT'));
@@ -171,10 +173,11 @@ class pemakaian extends MX_Controller
         $data['VALUE_SETTING'] = $this->input->post('VALUE_SETTING');
         $data['ID_JNS_BHN_BKR'] = $this->input->post('ID_JNS_BHN_BKR');
         $data['NO_TUG'] = $this->input->post('NO_TUG');
-        $data['VOL_PEMAKAIAN'] = str_replace(",","",$this->input->post('VOL_PEMAKAIAN'));
+        $data['VOL_PEMAKAIAN'] = str_replace(".","",$this->input->post('VOL_PEMAKAIAN'));
         $data['CREATE_BY'] = $this->session->userdata('user_name');
         $data['KETERANGAN'] = $this->input->post('KETERANGAN');
         $data['NO_PEMAKAIAN'] = $this->input->post('NO_PEMAKAIAN');
+
         $id = $this->input->post('id');
         $this->load->library('encrypt');
         if ($this->form_validation->run($this)) {

@@ -71,6 +71,13 @@ class stock_opname extends MX_Controller {
             $page_title = 'Edit Stock Opname';
             $get_tbl = $this->tbl_get->dataToUpdate($id);
             $data['default'] = $get_tbl->get()->row();
+            $level_user = $this->session->userdata('level_user');
+            if($level_user==0){
+                $data['lv1_options'] = $this->tbl_get->options_lv1_view();;
+                $data['lv2_options'] = $this->tbl_get->options_lv2_view();
+                $data['lv3_options'] = $this->tbl_get->options_lv3_view();
+                $data['lv4_options'] = $this->tbl_get->options_lv4_view();
+            }
             $data['id_dok'] = $data['default']->PATH_STOCKOPNAME; 
         }
         
@@ -94,7 +101,7 @@ class stock_opname extends MX_Controller {
         $data['default'] = $get_tbl->get()->row();
         $data['id_dok'] = $data['default']->PATH_STOCKOPNAME; 
         $data['parent_options_jns'] = $this->tbl_get->options_jns_bhn_bkr();
-        $data['parent_options_pem'] = $this->tbl_get->options_pembangkit_add();
+        $data['lv4_options'] = $this->tbl_get->options_lv4_view();
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/prosesApprove');
         $this->load->view($this->_module . '/form_approve', $data);
@@ -351,12 +358,15 @@ class stock_opname extends MX_Controller {
             $data['lv1_options'] = $option_lv1;
             $data['lv2_options'] = $option_lv2;
             $data['lv3_options'] = $this->tbl_get_combo->options_lv3('--Pilih Level 3--', $data_lv[0]->PLANT, 1);  
+           
         } else if ($level_user==1){
             $option_reg[$data_lv[0]->ID_REGIONAL] = $data_lv[0]->NAMA_REGIONAL;
             $option_lv1[$data_lv[0]->COCODE] = $data_lv[0]->LEVEL1;
             $data['reg_options'] = $option_reg;
             $data['lv1_options'] = $option_lv1;
             $data['lv2_options'] = $this->tbl_get_combo->options_lv2('--Pilih Level 2--', $data_lv[0]->COCODE, 1);
+            // $data['lv3_options'] = $this->tbl_get->options_lv3_view();
+            // $data['lv4_options'] = $this->tbl_get->options_lv4_view();
         } else if ($level_user==0){
             if ($kode_level==00){
                 $data['reg_options'] = $this->tbl_get_combo->options_reg(); 
