@@ -151,6 +151,12 @@
         todayBtn: true,
         pickerPosition: "bottom-left"
     });
+
+    $('input[name=VOL_PENERIMAAN]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    });
+    $('input[name=VOL_PENERIMAAN_REAL]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    });
+    
     function setDefaultLv1(){
         $('select[name="COCODE"]').empty();
         $('select[name="COCODE"]').append('<option value="">--Pilih Level 1--</option>');

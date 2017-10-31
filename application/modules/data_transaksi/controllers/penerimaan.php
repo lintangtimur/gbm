@@ -39,7 +39,7 @@ class penerimaan extends MX_Controller
         $this->load->module("template/asset");
 
         // Memanggil plugin JS Crud
-        $this->asset->set_plugin(array('crud'));
+        $this->asset->set_plugin(array('crud', 'format_number'));
         // Memanggil Level User
         $data = $this->get_level_user();
 
@@ -119,8 +119,8 @@ class penerimaan extends MX_Controller
             $data['LEVEL_USER']=$level_user;
             $data['KODE_LEVEL']=$kode_level;
             $data['STATUS'] = $this->input->post('STATUS');
-            $data['VOL_PENERIMAAN'] = $this->input->post('VOL_PENERIMAAN');
-            $data['VOL_PENERIMAAN_REAL'] = $this->input->post('VOL_PENERIMAAN_REAL');
+            $data['VOL_PENERIMAAN'] =  str_replace(".","",$this->input->post('VOL_PENERIMAAN'));
+            $data['VOL_PENERIMAAN_REAL'] = str_replace(".","",$this->input->post('VOL_PENERIMAAN_REAL')); ;
             $data['CREATE_BY'] = $this->session->userdata('user_name');
             $simpan_data = $this->tbl_get->save_edit($data);
             if ($simpan_data[0]->RCDB == 'RC00') {
@@ -139,8 +139,8 @@ class penerimaan extends MX_Controller
             $data['VALUE_SETTING'] = $this->input->post('VALUE_SETTING');
             $data['NO_PENERIMAAN'] = $this->input->post('NO_PENERIMAAN');
             $data['ID_JNS_BHN_BKR'] = $this->input->post('ID_JNS_BHN_BKR');
-            $data['VOL_PENERIMAAN'] = $this->input->post('VOL_PENERIMAAN');
-            $data['VOL_PENERIMAAN_REAL'] = $this->input->post('VOL_PENERIMAAN_REAL');
+            $data['VOL_PENERIMAAN'] =  str_replace(".","",$this->input->post('VOL_PENERIMAAN'));
+            $data['VOL_PENERIMAAN_REAL'] = str_replace(".","",$this->input->post('VOL_PENERIMAAN_REAL')); ;
             $data['CREATE_BY'] = $this->session->userdata('user_name');
 
             $simpan_data = $this->tbl_get->save($data);
