@@ -147,7 +147,9 @@
     </div>
 </div>
 <script type="text/javascript">
-     function convertToRupiah(angka)
+    var icon = 'icon-remove-sign';
+	var color = '#ac193d;';
+	function convertToRupiah(angka)
         {
             var rupiah = '';        
             var angkarev = angka.toString().split('').reverse().join('');
