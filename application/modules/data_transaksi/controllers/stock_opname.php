@@ -91,8 +91,24 @@ class stock_opname extends MX_Controller {
      public function edit($id) {
         $this->add($id);
     }
-     public function loadApprove($id = '') {
+
+    public function loadApprove($id = '') {
         $page_title = 'Approve '.$this->_title;
+        $data = $this->get_level_user(); 
+        $data['id'] = $id;
+
+        $get_tbl = $this->tbl_get->dataToUpdate($id);
+        $data['default'] = $get_tbl->get()->row();
+        $data['id_dok'] = $data['default']->PATH_STOCKOPNAME; 
+        $data['parent_options_jns'] = $this->tbl_get->options_jns_bhn_bkr();
+        $data['lv4_options'] = $this->tbl_get->options_lv4_view();
+        $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
+        $data['form_action'] = base_url($this->_module . '/prosesApprove');
+        $this->load->view($this->_module . '/form_approve', $data);
+    }
+
+    public function loadView($id = '') {
+        $page_title = 'View '.$this->_title;
         $data = $this->get_level_user(); 
         $data['id'] = $id;
 
@@ -230,7 +246,7 @@ class stock_opname extends MX_Controller {
         if ($id == '') {
             if (empty($_FILES['FILE_UPLOAD']['name'])){
                 $this->form_validation->set_rules('FILE_UPLOAD', 'Upload Dokumen', 'required');
-                }
+            }
         }
 
         if ($this->form_validation->run($this)) {
@@ -256,69 +272,72 @@ class stock_opname extends MX_Controller {
                 if (!$this->upload->do_upload('FILE_UPLOAD')){
                     $err = $this->upload->display_errors('', '');
                     $message = array(false, 'Proses gagal', $err, '');
-                } else {
+                } 
+                else {
                     $res = $this->upload->data();
                     if ($res){
                         $nama_file= $res['file_name'];
                         $data['PATH_STOCKOPNAME'] = $nama_file;
                         $data['CD_BY_STOKOPNAME'] = $this->session->userdata('user_name');
                         $data['CD_DATE_STOKOPNAME'] = date('Y-m-d');
-                         if ($this->tbl_get->save_as_new($data)) {
+                        if ($this->tbl_get->save_as_new($data)) {
                              $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
-                            }
+                        }
                     }
                 }
-               
-            } else {
+            } 
+            else {
                 if (empty($_FILES['FILE_UPLOAD']['name'])){
+                    $data['UD_BY_STOKOPNAME'] = $this->session->userdata('user_name');
+                    $data['UD_DATE_STOKOPNAME'] = date('Y-m-d');
+                    if ($this->tbl_get->save($data, $id)) {
+                        $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+                    }
+                }
+                else{
+                    $dataa = $this->tbl_get->dataToUpdate($id);
+                    $hasil=$dataa->get()->row();
+                    $file_name=$hasil->PATH_STOCKOPNAME;
+                    $target='assets/upload_stock_opname/'.$file_name;
+                                    
+                    if ($file_name == '') {
+                        if (empty($_FILES['FILE_UPLOAD']['name'])){
+                            $this->form_validation->set_rules('FILE_UPLOAD', 'Upload Dokumen', 'required');
+                            }
+                    }
+                            
+                    if($_FILES['FILE_UPLOAD']['name']!= $file_name || $_FILES['FILE_UPLOAD']['size']!= filesize($target)){
+                        if(file_exists($target)){
+                            unlink($target);
+                            }
+                    }
+                            
+                    $new_name = $data['NO_STOCKOPNAME'].'_'.date('Ymd').'_'.$_FILES["FILE_UPLOAD"]['name'];
+                    $config['file_name'] = $new_name;
+                    $config['upload_path'] = 'assets/upload_stock_opname/';
+                    $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
+                    $config['max_size'] = 1024 * 4; 
+                
+                    $this->load->library('upload', $config);
+                    if (!$this->upload->do_upload('FILE_UPLOAD')){
+                        $err = $this->upload->display_errors('', '');
+                        $message = array(false, 'Proses gagal', $err, '');
+                    }
+                    else{
+                        $res = $this->upload->data();
+                        if ($res){
+                            $nama_file= $res['file_name'];
+                            $data['PATH_STOCKOPNAME'] = $nama_file;
                             $data['UD_BY_STOKOPNAME'] = $this->session->userdata('user_name');
                             $data['UD_DATE_STOKOPNAME'] = date('Y-m-d');
                             if ($this->tbl_get->save($data, $id)) {
                                 $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
                                 }
-                    }else{
-                            $dataa = $this->tbl_get->dataToUpdate($id);
-                            $hasil=$dataa->get()->row();
-                            $file_name=$hasil->PATH_STOCKOPNAME;
-                            $target='assets/upload_stock_opname/'.$file_name;
-                                    
-                            if ($file_name == '') {
-                                if (empty($_FILES['FILE_UPLOAD']['name'])){
-                                    $this->form_validation->set_rules('FILE_UPLOAD', 'Upload Dokumen', 'required');
-                                    }
                             }
-                            
-                            if($_FILES['FILE_UPLOAD']['name']!= $file_name || $_FILES['FILE_UPLOAD']['size']!= filesize($target)){
-                                    if(file_exists($target)){
-                                        unlink($target);
-                                    }
-                            }
-                            
-                            $new_name = $data['NO_STOCKOPNAME'].'_'.date('Ymd').'_'.$_FILES["FILE_UPLOAD"]['name'];
-                            $config['file_name'] = $new_name;
-                            $config['upload_path'] = 'assets/upload_stock_opname/';
-                            $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
-                            $config['max_size'] = 1024 * 4; 
-                
-                            $this->load->library('upload', $config);
-                            if (!$this->upload->do_upload('FILE_UPLOAD')){
-                                $err = $this->upload->display_errors('', '');
-                                $message = array(false, 'Proses gagal', $err, '');
-                            } else {
-                                $res = $this->upload->data();
-                                if ($res){
-                                    $nama_file= $res['file_name'];
-                                    $data['PATH_STOCKOPNAME'] = $nama_file;
-                                    $data['UD_BY_STOKOPNAME'] = $this->session->userdata('user_name');
-                                    $data['UD_DATE_STOKOPNAME'] = date('Y-m-d');
-                                    if ($this->tbl_get->save($data, $id)) {
-                                        $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
-                                        }
-                                }
-                            }
-            
                         }
+            
                     }
+                }
         } else {
             $message = array(false, 'Proses gagal', validation_errors(), '');
         }

@@ -100,12 +100,7 @@
 		</div>
 		</div>
 </div>
- <script>
-  $( function() {
-    $('.dropify').dropify();
-  } );
- </script>
-
+ 
 <script type="text/javascript">
     $(".form_datetime").datepicker({
         format: "yyyy-mm-dd",
