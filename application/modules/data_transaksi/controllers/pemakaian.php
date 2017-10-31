@@ -116,6 +116,61 @@ class pemakaian extends MX_Controller
         $this->load->view($this->_module . '/form', $data);
     }
 
+    public function edit_view($id = '')
+    {
+        $data = $this->get_level_user();
+        $data['id'] = $id;
+
+        if ($id != '') {
+            $page_title = 'Detail Pemakaian';
+            $get_tbl = $this->tbl_get->data_detail($id);
+            $data['default'] = $get_tbl->get()->row();
+            $lv1 = $data['default']->ID_REGIONAL; 
+            $lv2 = $data['default']->COCODE;
+            $lv3 = $data['default']->PLANT;
+            $lv4 = $data['default']->STORE_SLOC;
+            $tgl_catat = new DateTime($data['default']->TGL_PENCATATAN);
+            $tgl_mutasi = new DateTime($data['default']->TGL_MUTASI_PENGAKUAN);
+
+            $data['default']->TGL_PENCATATAN = $tgl_catat->format('d-m-Y');
+            $data['default']->TGL_MUTASI_PENGAKUAN = $tgl_mutasi->format('d-m-Y');
+
+            $level_user = $this->session->userdata('level_user');
+            $kode_level = $this->session->userdata('kode_level');
+
+            if ($level_user==3){
+                $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Level 4--', $lv4, 1);  
+            } else if ($level_user==2){
+                $data['lv3_options'] = $this->tbl_get->options_lv3('--Pilih Level 3--', $lv3, 1); 
+                $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Level 4--', $lv4, 1); 
+            } else if ($level_user==1){
+                $data['lv2_options'] = $this->tbl_get->options_lv2('--Pilih Level 2--', $lv2, 1);
+                $data['lv3_options'] = $this->tbl_get->options_lv3('--Pilih Level 3--', $lv3, 1); 
+                $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Level 4--', $lv4, 1); 
+            } else if ($level_user==0){
+                if ($kode_level==00){
+                    $data['reg_options'] = $this->tbl_get->options_reg(); 
+                    $data['lv1_options'] = $this->tbl_get->options_lv1('--Pilih Level 1--', $lv1, 1);
+                    $data['lv2_options'] = $this->tbl_get->options_lv2('--Pilih Level 2--', $lv2, 1);
+                    $data['lv3_options'] = $this->tbl_get->options_lv3('--Pilih Level 3--', $lv3, 1); 
+                    $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Level 4--', $lv4, 1); 
+                } else {
+                    $data['lv1_options'] = $this->tbl_get->options_lv1('--Pilih Level 1--', $lv1, 1);
+                    $data['lv2_options'] = $this->tbl_get->options_lv2('--Pilih Level 2--', $lv2, 1);
+                    $data['lv3_options'] = $this->tbl_get->options_lv3('--Pilih Level 3--', $lv3, 1); 
+                    $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Level 4--', $lv4, 1); 
+                }
+            }      
+            // print_r($data['default']); die;
+        }
+        $data['option_jenis_pemakaian'] = $this->tbl_get->options_jenis_pemakaian();
+        $data['option_jenis_bbm'] = $this->tbl_get->options_jenis_bahan_bakar();
+        
+        $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
+        $data['form_action'] = base_url($this->_module . '/proses');
+        $this->load->view($this->_module . '/form_edit', $data);
+    }
+
     public function load_level($id = '', $kode = ''){
         $data = $this->tbl_get->load_optionJSON($id, $kode);
         echo json_encode($data);
@@ -248,6 +303,7 @@ class pemakaian extends MX_Controller
 //        echo "<br/>";
 
         // print_r('idPenerimaan='.$idPenerimaan.' statusPenerimaan='.$statusPenerimaan.' level_user='.$level_user.' user_name='. $user_name.' jumlah='. $jumlah); die;
+
         $simpan = $this->tbl_get->saveDetailPenerimaan($idPenerimaan, $statusPenerimaan, $level_user, $user_name, $jumlah);
 
         if ($simpan[0]->RCDB == "RC00") {

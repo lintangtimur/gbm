@@ -163,38 +163,35 @@
 				var cekbox = '';
                 var vLevelUser = "<?php echo $this->session->userdata('level_user'); ?>";
                 var vEdit='';
-                var vlink_url = "";
+                var vlink_url = '';
 
                 for (i = 0; i < data_detail.length; i++) {
-                    vEdit='';
+                    cekbox = '<input type="checkbox" name="pilihan[' + i + ']" id="pilihan" value="'+data_detail[i].ID_PEMAKAIAN+'">';
+                    vlink_url = "<?php echo base_url()?>data_transaksi/pemakaian/edit_view/"+data_detail[i].ID_PEMAKAIAN;
+                    vEdit = '<a href="javascript:void(0);" class="btn transparant" id="button-edit-'+data_detail[i].ID_PEMAKAIAN+'" onclick="load_form(this.id)" data-source="'+vlink_url+'"> <i class="icon-edit"></i></a>'; 
+
                     if (vLevelUser>=2){
-    					if (data_detail[i].KODE_STATUS !== "2"){
-    						cekbox = '<input type="checkbox" name="pilihan[' + i + ']" id="pilihan" value="'+data_detail[i].ID_PEMAKAIAN+'">';
+                        if (vLevelUser==2){
+                            if (data_detail[i].KODE_STATUS !== "1"){
+                                cekbox = '';
+                            }   
+                            if (data_detail[i].KODE_STATUS == "0"){
+                                vEdit = '';
+                            }  
+                        }
 
-                            if ((vLevelUser==2) && ((data_detail[i].KODE_STATUS == "0") || (data_detail[i].KODE_STATUS == "3"))){
-                                cekbox ='';
+                        if ((vLevelUser==3) || (vLevelUser==4)){
+                            if((data_detail[i].KODE_STATUS == "1") || (data_detail[i].KODE_STATUS == "2")){
+                                cekbox = '';  
                             }
-
-                            if ((vLevelUser==3) || (vLevelUser==4)){
-                                if((data_detail[i].KODE_STATUS == "1") || (data_detail[i].KODE_STATUS == "2")){
-                                    cekbox ='';    
-                                }
-                                if((data_detail[i].KODE_STATUS == "0") || (data_detail[i].KODE_STATUS == "3")){
-                                    vlink_url = "<?php echo base_url()?>data_transaksi/pemakaian/edit/"+data_detail[i].ID_PEMAKAIAN;
-
-                                    vEdit = '<a href="javascript:void(0);" class="btn transparant" id="button-edit-'+data_detail[i].ID_PEMAKAIAN+'" onclick="load_form(this.id)" data-source="'+vlink_url+'"> <i class="icon-edit"></i></a>';   
-                                }
-                            }
-
-
-                            if ((vLevelUser==2) && (data_detail[i].KODE_STATUS!=0)){
+                            if((data_detail[i].KODE_STATUS == "0") || (data_detail[i].KODE_STATUS == "3")){
                                 vlink_url = "<?php echo base_url()?>data_transaksi/pemakaian/edit/"+data_detail[i].ID_PEMAKAIAN;
                                 vEdit = '<a href="javascript:void(0);" class="btn transparant" id="button-edit-'+data_detail[i].ID_PEMAKAIAN+'" onclick="load_form(this.id)" data-source="'+vlink_url+'"> <i class="icon-edit"></i></a>'; 
                             }
-
                         }
+                    } else {
+                       cekbox = ''; 
                     }
-
 
                     $('#detailPenerimaan tbody').append(
                         '<tr>' +
@@ -221,7 +218,34 @@
         }
     }
 
+    function cekChekBoxPilih(vJenis){
+        var data = $('#formKirimDetail').serializeArray();
+
+        var arrNames = [];
+        Object.keys(data).forEach(function(key) {
+          var val = data[key]["name"];
+          arrNames.push(val);
+        }); 
+
+        var vAda=1;
+        for (var i=0; i < arrNames.length ; ++i) {
+            var str = arrNames[i];
+            var res =  str.substr(0, 7);
+
+            if (res=='pilihan'){
+                vAda = 0;
+            }
+        }
+
+        if (vAda){
+            bootbox.alert('Silahkan pilih data yang akan di '+vJenis, function() {});
+        }
+
+        return vAda;
+    }
+
     function saveDetailKirim(obj) {
+        if (cekChekBoxPilih('kirim')){return;}
         var url = "<?php echo base_url() ?>data_transaksi/pemakaian/saveKiriman/kirim";
 		bootbox.confirm('Yakin data ini akan dikirim ?', "Tidak", "Ya", function(e) {
 			if(e){
@@ -252,6 +276,7 @@
     }
 
     function saveDetailApprove(obj) {
+        if (cekChekBoxPilih('approve')){return;}
         var url = "<?php echo base_url() ?>data_transaksi/pemakaian/saveKiriman/approve";
 		bootbox.confirm('Yakin data ini akan di Setujui ?', "Tidak", "Ya", function(e) {
 			if(e){
@@ -281,6 +306,7 @@
 		});
     }
     function saveDetailTolak(obj) {
+        if (cekChekBoxPilih('tolak')){return;}
         var url = "<?php echo base_url() ?>data_transaksi/pemakaian/saveKiriman/tolak";
 		bootbox.confirm('Yakin data ini akan ditolak ?', "Tidak", "Ya", function(e) {
 			if(e){
