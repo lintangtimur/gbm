@@ -100,7 +100,7 @@ class master_level4 extends MX_Controller {
 
     public function proses() {
         $this->form_validation->set_rules('ID_REGIONAL', 'Regional','required');
-        $this->form_validation->set_rules('COCODE', 'Level 1','required');
+        $this->form_validation->set_rules('COCODE', 'Level 1','trim|required|max_length[10]');
         if ($this->input->post('STATUS_LVL4')==0){
             $this->form_validation->set_rules('PLANT', 'Level 2', 'required');
             $this->form_validation->set_rules('STORE_SLOC', 'Level 3', 'required');            
