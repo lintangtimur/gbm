@@ -239,7 +239,7 @@ class pemakaian extends MX_Controller
             if ($id == '') {
                 $simpan_data = $this->tbl_get->save($data);
                 if ($simpan_data[0]->RCDB == 'RC00') {
-                    $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
+                    $message = array(true, 'Proses Berhasil', $simpan_data[0]->PESANDB, '#content_table');
                 } else {
                     $message = array(false, 'Proses Gagal', $simpan_data[0]->PESANDB, '');
                 }
@@ -248,9 +248,9 @@ class pemakaian extends MX_Controller
                 $data['UD_BY_MUTASI_PEMAKAIAN'] = $this->session->userdata('user_name');
                 $simpan_data = $this->tbl_get->update($data);
                 if ($simpan_data[0]->RCDB == 'RC00') {
-                    $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+                    $message = array(true, 'Proses Berhasil', $simpan_data[0]->PESANDB, '#content_table');
                 } else {
-                    $message = array(false, 'Proses Gagal', 'Proses update data gagal.', '');
+                    $message = array(false, 'Proses Gagal', $simpan_data[0]->PESANDB, '');
                 }
             }
         }else {

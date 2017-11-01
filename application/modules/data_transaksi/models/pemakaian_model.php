@@ -161,8 +161,10 @@ class pemakaian_model extends CI_Model
     }
 
     function saveDetailPenerimaan($idPenerimaan, $statusPenerimaan,$level_user,$user,$jumlah){
-        $query = $this->db->query("call PROSES_PEMAKAIAN_V2('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$user."',".$jumlah.")");
-        return $query->result();
+		$query = "call PROSES_PEMAKAIAN('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$user."',".$jumlah.")";
+		// print_debug($query);
+        $data = $this->db->query($query);
+        return $data->result();
     }
 
     public function options_jenis_bahan_bakar($default = '--Pilih Jenis Bahan Bakar--') {
@@ -341,9 +343,8 @@ class pemakaian_model extends CI_Model
             .$data['TGL_CATAT']."','"
             .$data['VALUE_SETTING']."',"
             .$data['VOL_PEMAKAIAN'].",'"
-            .$data['KETERANGAN']."',
-            '0','".
-            $data['CREATE_BY']."','"
+            .$data['KETERANGAN']."','0','".
+			 $data['CREATE_BY']."','"
             .$data['NO_PEMAKAIAN']."','"
             .$data['ID_JNS_BHN_BKR']."','"
             .$data['NO_TUG']."')";
