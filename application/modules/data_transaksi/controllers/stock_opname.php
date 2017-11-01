@@ -438,5 +438,5 @@ class stock_opname extends MX_Controller {
   
 }
 
-/* End of file wilayah.php */
-/* Location: ./application/modules/wilayah/controllers/wilayah.php */
+/* End of file stockopname.php */
+
