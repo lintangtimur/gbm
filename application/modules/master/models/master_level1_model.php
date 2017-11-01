@@ -25,6 +25,7 @@ class master_level1_model extends CI_Model {
         $this->db->select('a.*, b.NAMA_REGIONAL ');
         $this->db->from($this->_table1.' a');
         $this->db->join('MASTER_REGIONAL b', 'b.ID_REGIONAL = a.ID_REGIONAL','left');
+        $this->db->order_by("a.COCODE", "asc");
 
         if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
@@ -80,28 +81,31 @@ class master_level1_model extends CI_Model {
 
         if (!empty($kata_kunci))
             $filter["a.COCODE LIKE '%{$kata_kunci}%' OR a.LEVEL1 LIKE '%{$kata_kunci}%' " ] = NULL;
-        $total = $this->data($filter)->count_all_results();
-		$this->db->limit($limit, ($offset * $limit) - $limit);
-        $record = $this->data($filter)->get();
-		$no=(($offset-1) * $limit) +1;
-        $rows = array();
-        foreach ($record->result() as $row) {
-            $id = $row->COCODE;
-            $aksi = '';
-            if ($this->laccess->otoritas('edit')) {
-                $aksi .= anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
-            }
-            if ($this->laccess->otoritas('delete')) {
-                $aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
-            }
-            $rows[$id] = array(
-                'NO' => $no++,
-                'LEVEL1' => $row->LEVEL1,
-                'COCODE' => $row->COCODE,
-                'NAMA_REGIONAL' => $row->NAMA_REGIONAL,
-                'aksi' => $aksi
-            );
-        }
+            $total = $this->data($filter)->count_all_results();
+            $this->db->limit($limit, ($offset * $limit) - $limit);
+            $record = $this->data($filter)->get();
+            $no=(($offset-1) * $limit) +1;
+        
+            $rows = array();
+            foreach ($record->result() as $row => $val) {
+                $id = $val->COCODE;
+                $ids=$row+1;
+                $aksi = '';
+                if ($this->laccess->otoritas('edit')) {
+                    $aksi .= anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
+                }
+                if ($this->laccess->otoritas('delete')) {
+                    $aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
+                }
+                $rows[$ids] = array(
+                    'NO' => $id,
+                    'LEVEL1' => $val->LEVEL1,
+                    'COCODE' => $val->COCODE,
+                    'NAMA_REGIONAL' => $val->NAMA_REGIONAL,
+                    'aksi' => $aksi
+                );
+                
+             }
 
         return array('total' => $total, 'rows' => $rows);
     }

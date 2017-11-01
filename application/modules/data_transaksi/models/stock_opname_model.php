@@ -88,6 +88,7 @@ class stock_opname_model extends CI_Model {
         return $data->result();
 
     }
+    // versi query CI
     public function save_as_new($data) {
         $this->db->trans_begin();
         $this->db->set_id($this->_table1, 'ID_STOCKOPNAME', 'no_prefix', 3);
@@ -101,6 +102,14 @@ class stock_opname_model extends CI_Model {
             return TRUE;
         }
     }
+    
+    
+    // versi store prosecure
+    // public function save_as_new($data) {
+    //      $query="CALL SAVE_STOCK_OPNAME('$data')";
+    //      $data = $this->db->query($query);
+    //      return $data->result();
+    //  }
 
     public function save($data, $key) {
         $this->db->trans_begin();
