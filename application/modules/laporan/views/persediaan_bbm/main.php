@@ -190,8 +190,8 @@
                                     '<td>' + TGL_MUTASI_PERSEDIAAN + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOCK_AWAL) + '</td>' +
                                     '<td align="right">' + convertToRupiah(PENERIMAAN_REAL) + '</td>' +
-                                    '<td align="right">' + convertToRupiah(KIRIM) + '</td>' +
                                     '<td align="right">' + convertToRupiah(PEMAKAIAN_SENDIRI) + '</td>' +
+                                    '<td align="right">' + convertToRupiah(KIRIM) + '</td>' +
                                     '<td align="right">' + convertToRupiah(VOLUME) + '</td>' +
                                     '<td align="right">' + convertToRupiah(DEAD_STOCK) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
