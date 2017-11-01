@@ -84,12 +84,13 @@ class master_level1_model extends CI_Model {
             $total = $this->data($filter)->count_all_results();
             $this->db->limit($limit, ($offset * $limit) - $limit);
             $record = $this->data($filter)->get();
-            $no=(($offset-1) * $limit) +1;
-        
+
             $rows = array();
-            foreach ($record->result() as $row => $val) {
-                $id = $val->COCODE;
-                $ids=$row+1;
+
+            $no=(($offset-1) * $limit) +1;
+           
+            foreach ($record->result() as $row) {
+                $id = $row->COCODE;
                 $aksi = '';
                 if ($this->laccess->otoritas('edit')) {
                     $aksi .= anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
@@ -97,14 +98,14 @@ class master_level1_model extends CI_Model {
                 if ($this->laccess->otoritas('delete')) {
                     $aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
                 }
-                $rows[$ids] = array(
-                    'NO' => $ids,
-                    'LEVEL1' => $val->LEVEL1,
-                    'COCODE' => $val->COCODE,
-                    'NAMA_REGIONAL' => $val->NAMA_REGIONAL,
+                $rows[$no] = array(
+                    'NO' => $no,
+                    'LEVEL1' => $row->LEVEL1,
+                    'COCODE' => $row->COCODE,
+                    'NAMA_REGIONAL' => $row->NAMA_REGIONAL,
                     'aksi' => $aksi
                 );
-                
+                $no++;
              }
 
         return array('total' => $total, 'rows' => $rows);

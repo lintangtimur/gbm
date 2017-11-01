@@ -84,8 +84,11 @@ class master_level2_model extends CI_Model {
         $total = $this->data($filter)->count_all_results();
         $this->db->limit($limit, ($offset * $limit) - $limit);
         $record = $this->data($filter)->get();
-        $no=(($offset-1) * $limit) +1;
+
         $rows = array();
+        
+        $no=(($offset-1) * $limit) +1;
+
         foreach ($record->result() as $row) {
             $id = $row->PLANT;
             $aksi = '';
@@ -95,14 +98,15 @@ class master_level2_model extends CI_Model {
             if ($this->laccess->otoritas('delete')) {
                 $aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
             }
-            $rows[$id] = array(
-                'NO' => $no++,
+            $rows[$no] = array(
+                'NO' => $no,
                 'LEVEL2' => $row->LEVEL2,
                 'PLANT' => $row->PLANT,
                 'NAMA_REGIONAL' => $row->NAMA_REGIONAL,
                 'LEVEL1' => $row->LEVEL1,
                 'aksi' => $aksi
             );
+            $no++;
         }
 
         return array('total' => $total, 'rows' => $rows);
