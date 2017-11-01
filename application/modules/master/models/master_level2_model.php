@@ -80,7 +80,7 @@ class master_level2_model extends CI_Model {
         $kata_kunci = $this->input->post('kata_kunci');
 
         if (!empty($kata_kunci))
-            $filter["a.PLANT LIKE '%{$kata_kunci}%' OR a.LEVEL2 LIKE '%{$kata_kunci}%' " ] = NULL;
+            $filter["a.PLANT LIKE '%{$kata_kunci}%' OR a.LEVEL2 LIKE '%{$kata_kunci}%' OR b.LEVEL1 LIKE '%{$kata_kunci}%' OR c.NAMA_REGIONAL LIKE '%{$kata_kunci}%' " ] = NULL;
         $total = $this->data($filter)->count_all_results();
         $this->db->limit($limit, ($offset * $limit) - $limit);
         $record = $this->data($filter)->get();

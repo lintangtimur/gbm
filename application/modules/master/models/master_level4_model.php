@@ -82,7 +82,7 @@ class master_level4_model extends CI_Model {
         $kata_kunci = $this->input->post('kata_kunci');
 
         if (!empty($kata_kunci))
-            $filter["a.SLOC LIKE '%{$kata_kunci}%' OR a.LEVEL4 LIKE '%{$kata_kunci}%' " ] = NULL;
+            $filter["a.SLOC LIKE '%{$kata_kunci}%' OR a.LEVEL4 LIKE '%{$kata_kunci}%' OR a.DESCRIPTION_LVL4 LIKE '%{$kata_kunci}%' OR b.LEVEL3 LIKE '%{$kata_kunci}%' OR c.LEVEL2 LIKE '%{$kata_kunci}%' OR d.LEVEL1 LIKE '%{$kata_kunci}%' OR e.NAMA_REGIONAL LIKE '%{$kata_kunci}%'" ] = NULL;
         $total = $this->data($filter)->count_all_results();
 		$this->db->limit($limit, ($offset * $limit) - $limit);
         $record = $this->data($filter)->get();
