@@ -25,13 +25,13 @@
         <div class="control-group">
             <label class="control-label">Tanggal Catat Pemakaian<span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_input('TGL_CATAT', !empty($default->TGL_PENCATATAN) ? $default->TGL_PENCATATAN : '', 'class="span12 input-append date form_datetime" placeholder="Tanggal Catat"'); ?>
+                <?php echo form_input('TGL_CATAT', !empty($default->TGL_PENCATATAN) ? $default->TGL_PENCATATAN : '', 'class="span12 input-append date form_datetime" placeholder="Tanggal Catat" id="TGL_CATAT"'); ?>
             </div>
         </div>
         <div class="control-group">
             <label class="control-label">Tanggal Pengakuan<span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_input('TGL_PENGAKUAN', !empty($default->TGL_MUTASI_PENGAKUAN) ? $default->TGL_MUTASI_PENGAKUAN : '', 'class="span12 input-append date form_datetime" placeholder="Tanggal Pengakuan"'); ?>
+                <?php echo form_input('TGL_PENGAKUAN', !empty($default->TGL_MUTASI_PENGAKUAN) ? $default->TGL_MUTASI_PENGAKUAN : '', 'class="span12 input-append date form_datetime" placeholder="Tanggal Pengakuan" id="TGL_PENGAKUAN"'); ?>
             </div>
         </div>
         <div class="control-group">
@@ -105,12 +105,28 @@
     <?php echo form_close(); ?>
 </div>
 
+
 <script type="text/javascript">
     $(".form_datetime").datepicker({
         format: "dd-mm-yyyy",
         autoclose: true,
         todayBtn: true,
         pickerPosition: "bottom-left"
+    });
+
+    $("input[name=TGL_CATAT]").change(function() {
+        $('input[name=TGL_PENGAKUAN]').datepicker('setEndDate', $("input[name=TGL_CATAT]").val());
+    });
+
+    $("input[name=TGL_PENGAKUAN]").focusout(function() {
+        var vDateStart = $("input[name=TGL_CATAT]").val();
+        var vDateEnd = $("input[name=TGL_PENGAKUAN]").val();
+
+        if (vDateEnd > vDateStart) {
+            var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Pengakuan tidak boleh melebihi Tanggal Catat</div>';
+            bootbox.alert(message, function() {});
+            $('input[name=TGL_PENGAKUAN').datepicker('update', vDateStart);
+        }
     });
 
     var vLevelUser = "<?php echo $this->session->userdata('level_user'); ?>";
@@ -121,7 +137,6 @@
 
     $('input[name=VOL_PEMAKAIAN]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
     });
-
 
     function setDefaultLv1(){
         $('select[name="COCODE"]').empty();
