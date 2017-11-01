@@ -241,7 +241,7 @@ class pemakaian extends MX_Controller
                 if ($simpan_data[0]->RCDB == 'RC00') {
                     $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
                 } else {
-                    $message = array(false, 'Proses Gagal', 'Proses penyimpanan data gagal.', '');
+                    $message = array(false, 'Proses Gagal', $simpan_data[0]->PESANDB, '');
                 }
             } else {
                 $data['ID_PEMAKAIAN'] = $id;

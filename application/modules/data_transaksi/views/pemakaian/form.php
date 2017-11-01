@@ -115,6 +115,13 @@
     });
 
     $("input[name=TGL_CATAT]").change(function() {
+        var vDateStart = $("input[name=TGL_CATAT]").val();
+        var vDateEnd = $("input[name=TGL_PENGAKUAN]").val();
+
+        if (vDateEnd > vDateStart) {
+            $('input[name=TGL_PENGAKUAN').datepicker('update', vDateStart);
+        }
+
         $('input[name=TGL_PENGAKUAN]').datepicker('setEndDate', $("input[name=TGL_CATAT]").val());
     });
 
