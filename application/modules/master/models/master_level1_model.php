@@ -98,7 +98,7 @@ class master_level1_model extends CI_Model {
                     $aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
                 }
                 $rows[$ids] = array(
-                    'NO' => $id,
+                    'NO' => $ids,
                     'LEVEL1' => $val->LEVEL1,
                     'COCODE' => $val->COCODE,
                     'NAMA_REGIONAL' => $val->NAMA_REGIONAL,
