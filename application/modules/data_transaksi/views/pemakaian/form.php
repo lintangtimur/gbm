@@ -125,7 +125,7 @@
         $('input[name=TGL_PENGAKUAN]').datepicker('setEndDate', $("input[name=TGL_CATAT]").val());
     });
 
-    $("input[name=TGL_PENGAKUAN]").focusout(function() {
+    function cekTanggalPengakuan(){
         var vDateStart = $("input[name=TGL_CATAT]").val();
         var vDateEnd = $("input[name=TGL_PENGAKUAN]").val();
 
@@ -134,7 +134,11 @@
             bootbox.alert(message, function() {});
             $('input[name=TGL_PENGAKUAN').datepicker('update', vDateStart);
         }
-    });
+    }
+
+    $("input[name=TGL_PENGAKUAN]").focusout(cekTanggalPengakuan);
+    
+    $("input[name=button-save]").click(cekTanggalPengakuan);
 
     var vLevelUser = "<?php echo $this->session->userdata('level_user'); ?>";
 
