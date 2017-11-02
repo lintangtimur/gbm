@@ -30,7 +30,6 @@ class penerimaan_model extends CI_Model
     }
 
     public function data($key = ''){
-
         $this->db->select('a.*, sum(a.COUNT_VOLUME) as JML, sum(a.SUM_volume) as JML_VOLUME');
         $this->db->from($this->_table1.' a' );
 
@@ -60,6 +59,7 @@ class penerimaan_model extends CI_Model
         }
 
         $this->db->group_by('ID_REGIONAL');
+        $this->db->group_by('BLTH');
         if ($_POST['COCODE'] !='') {
             $this->db->group_by('COCODE');
         }
@@ -71,13 +71,13 @@ class penerimaan_model extends CI_Model
         }
 
         if ($_POST['BULAN'] !='') {
-            $this->db->group_by('BL');
+            $this->db->group_by('BL'); 
         }
         if ($_POST['TAHUN'] !='') {
-            $this->db->group_by('TH');
+            $this->db->group_by('TH'); 
         }
         // if ($_POST['SLOC'] !='') {
-        $this->db->group_by('SLOC');
+            $this->db->group_by('SLOC');
         // }
 
         return $this->db;
@@ -95,7 +95,7 @@ class penerimaan_model extends CI_Model
         $kata_kunci = $this->input->post('kata_kunci');
 
         if (!empty($kata_kunci))
-            $filter[$this->_table1 . ".BLTH LIKE '%{$kata_kunci}%' "] = NULL;
+            $filter["a.LEVEL4 LIKE '%{$kata_kunci}%' OR a.BLTH LIKE '%{$kata_kunci}%' "] = NULL;
         $total = $this->data($filter)->count_all_results();
         $this->db->limit($limit, ($offset * $limit) - $limit);
         $record = $this->data($filter)->get();
@@ -109,7 +109,7 @@ class penerimaan_model extends CI_Model
                 $aksi = anchor(null, '<i class="icon-eye-open"></i>', array('class' => 'btn transparant button-detail', 'id' => 'button-view-' . $id, 'onClick' => 'show_detail(\''.$id.'\')'));
                 $rows[$num] = array(
                     'NO' => $num,
-                    'BLTH' => $row->BLTH,
+                    'BLTH' => $this->get_blth($row->BL,$row->TH),
                     'LEVEL4' => $row->LEVEL4,
 //                    'STATUS' => $row->STATUS_APPROVE,
                     'TOTAL_VOLUME' => number_format($row->SUM_VOLUME,0,',','.'),
@@ -145,13 +145,12 @@ class penerimaan_model extends CI_Model
         if ($_POST['SLOC']!='') {
             $this->db->where("SLOC",$_POST['SLOC']);
         }
-        if ($_POST['BULAN']!='') {
-            $this->db->where("DATE_FORMAT(TGL_PENGAKUAN, '%mm')",$_POST['BULAN']);
+        if ($_POST['BULAN'] !='') {
+            $this->db->where("BL",$_POST['BULAN']);   
         }
-        if ($_POST['TAHUN']!='') {
-            $this->db->where("DATE_FORMAT(TGL_PENGAKUAN, '%YYYY')=".$_POST['TAHUN']);
+        if ($_POST['TAHUN'] !='') {
+            $this->db->where("TH",$_POST['TAHUN']);   
         }
-
         $data = $this->db->get();
 
         return $data->result();
@@ -245,6 +244,40 @@ class penerimaan_model extends CI_Model
         $this->db->close();
         return $option;
 
+    }
+
+    public function get_blth($bulan, $tahun){
+        Switch ($bulan){
+            case 1 : $bulan="Januari";
+                Break;
+            case 2 : $bulan="Februari";
+                Break;
+            case 3 : $bulan="Maret";
+                Break;
+            case 4 : $bulan="April";
+                Break;
+            case 5 : $bulan="Mei";
+                Break;
+            case 6 : $bulan="Juni";
+                Break;
+            case 7 : $bulan="Juli";
+                Break;
+            case 8 : $bulan="Agustus";
+                Break;
+            case 9 : $bulan="September";
+                Break;
+            case 10 : $bulan="Oktober";
+                Break;
+            case 11 : $bulan="November";
+                Break;
+            case 12 : $bulan="Desember";
+                Break;
+            }
+
+        $tahun = substr($tahun,2);
+        $bulan .= '-'.$tahun;
+
+        return $bulan;
     }
 
     public function save($data){
