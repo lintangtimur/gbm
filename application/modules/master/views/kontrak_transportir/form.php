@@ -184,12 +184,15 @@
                 <tbody>
                 <?php
                     if ($detail != '') {
-                        foreach ($detail as $detail) { ?>
+                        foreach ($detail as $detail) { 
+                            $nilai = number_format($detail->HARGA_KONTRAK_TRANS,0,',','.');
+                            $jarak = number_format($detail->JARAK_DET_KONTRAK_TRANS,0,',','.');
+                            ?>
                             <tr>
                                 <td align="center"><?php echo !empty($detail->NAMA_DEPO) ? $detail->NAMA_DEPO : '-'; ?></td>
                                 <td align="center"><?php echo !empty($detail->LEVEL4) ? $detail->LEVEL4 : '-'; ?></td>
-                                <td align="right"><?php echo !empty($detail->HARGA_KONTRAK_TRANS) ? $detail->HARGA_KONTRAK_TRANS : '-'; ?></td>
-                                <td align="right"><?php echo !empty($detail->JARAK_DET_KONTRAK_TRANS) ? $detail->JARAK_DET_KONTRAK_TRANS : '-'; ?></td>
+                                <td align="right"><?php echo !empty($nilai) ? $nilai : '-'; ?></td>
+                                <td align="right"><?php echo !empty($jarak) ? $jarak : '-'; ?></td>
                                 <td align="center"><?php echo !empty($detail->NAME_SETTING) ? $detail->NAME_SETTING : '-'; ?></td>
                             </tr>
                 <?php }
