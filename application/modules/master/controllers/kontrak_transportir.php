@@ -115,7 +115,7 @@ class kontrak_transportir extends MX_Controller {
             $data['NILAI_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('NILAI_KONTRAK'));
             $data['KET_KONTRAK_TRANS'] = $this->input->post('KETERANGAN');
 
-            $new_name = date('Ymd').'_'.$_FILES["FILE_UPLOAD"]['name'];
+            $new_name = $data['KD_KONTRAK_TRANS'].'_'.date('Ymd').'_'.$_FILES["FILE_UPLOAD"]['name'];
             $config['file_name'] = $new_name;
             $config['upload_path'] = 'assets/upload_kontrak_trans/';
             $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
@@ -139,14 +139,57 @@ class kontrak_transportir extends MX_Controller {
                         }
                     }
                 }
-
-                // if ($this->kontrak_transportir_model->save_as_new($data)) {
-                //     $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
-                // }
             } else {
-                if ($this->kontrak_transportir_model->save($data, $id)) {
-                    $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+
+                if (empty($_FILES['FILE_UPLOAD']['name'])){
+                    if ($this->kontrak_transportir_model->save($data, $id)) {
+                        $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+                    }
                 }
+                else{
+                    $dataa = $this->kontrak_transportir_model->dataEdit($id);
+                    $hasil=$dataa->get()->row();
+                    $file_name=$hasil->PATH_KONTRAK_TRANS;
+                    $target='assets/upload_kontrak_trans/'.$file_name;
+                                    
+                    if ($file_name == '') {
+                        if (empty($_FILES['FILE_UPLOAD']['name'])){
+                            $this->form_validation->set_rules('FILE_UPLOAD', 'Upload Dokumen', 'required');
+                            }
+                    }
+                            
+                    if($_FILES['FILE_UPLOAD']['name']!= $file_name || $_FILES['FILE_UPLOAD']['size']!= filesize($target)){
+                        if(file_exists($target)){
+                            unlink($target);
+                            }
+                    }
+                            
+                    $new_name = $data['KD_KONTRAK_TRANS'].'_'.date('Ymd').'_'.$_FILES["FILE_UPLOAD"]['name'];
+                    $config['file_name'] = $new_name;
+                    $config['upload_path'] = 'assets/upload_kontrak_trans/';
+                    $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
+                    $config['max_size'] = 1024 * 4; 
+                
+                    $this->load->library('upload', $config);
+                    if (!$this->upload->do_upload('FILE_UPLOAD')){
+                        $err = $this->upload->display_errors('', '');
+                        $message = array(false, 'Proses gagal', $err, '');
+                    }
+                    else{
+                        $res = $this->upload->data();
+                        if ($res){
+                            $nama_file= $res['file_name'];
+                            $data['PATH_KONTRAK_TRANS'] = $nama_file;
+                            if ($this->kontrak_transportir_model->save($data, $id)) {
+                                $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+                                }
+                            }
+                        }
+            
+                    }
+                // if ($this->kontrak_transportir_model->save($data, $id)) {
+                //     $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+                // }
             }
         } else {
             $message = array(false, 'Proses gagal', validation_errors(), '');
