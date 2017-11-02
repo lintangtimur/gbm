@@ -275,17 +275,5 @@ $('#jmlpas[type="text"]').on('change', function() {
     } else {
         alert('Jumlah Pasokan Max 5');
     }
-
-        // var str = "";
-        // if ( x == 0 || x > 5 ) {
-        //     alert('Jumlah Pasokan Max 5');
-        // } else {
-        //     $('#inputan').empty();
-        //     for(i=0;i<x;i++){
-        //         str += $('#inputan_awal').html() + "<br/>";
-        //     }
-        //     document.getElementById("inputan").innerHTML = str;
-        //    $("#jmlpas").prop('disabled', false);
-        // };
 })
 </script>
