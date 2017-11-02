@@ -115,15 +115,14 @@ class kontrak_transportir extends MX_Controller {
             $data['NILAI_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('NILAI_KONTRAK'));
             $data['KET_KONTRAK_TRANS'] = $this->input->post('KETERANGAN');
 
+            if ($id == '') {
+
             $new_name = $data['KD_KONTRAK_TRANS'].'_'.date('Ymd').'_'.$_FILES["FILE_UPLOAD"]['name'];
             $config['file_name'] = $new_name;
             $config['upload_path'] = 'assets/upload_kontrak_trans/';
             $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
             $config['max_size'] = 1024 * 4; 
 
-            $this->load->library('upload', $config);
-
-            if ($id == '') {
                 $this->load->library('upload', $config);
 
                 if (!$this->upload->do_upload('FILE_UPLOAD')){
