@@ -97,7 +97,9 @@ class kontrak_transportir extends MX_Controller {
 
     public function proses() {
         $this->form_validation->set_rules('NO_KONTRAK', 'Nomor Kontrak Transportir', 'trim|required');
-        $this->form_validation->set_rules('NILAI_KONTRAK', 'Nilai Kontrak Transportir', 'trim|required|currency');
+        $this->form_validation->set_rules('TRANSPORTIR', 'Transportir', 'trim|required');
+        $this->form_validation->set_rules('NILAI_KONTRAK', 'Nilai Kontrak Transportir', 'trim|required|');
+        $this->form_validation->set_rules('JML_PASOKAN', 'Pasokan', 'trim|required|');
         $id = $this->input->post('id');
          if ($id == '') {
             if (empty($_FILES['FILE_UPLOAD']['name'])){
