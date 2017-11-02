@@ -14,6 +14,7 @@
 		private $_table3 = "MASTER_DEPO"; //nama table setelah mom_
 		private $_table4 = "MASTER_LEVEL4"; //nama table setelah mom_
 		private $_table5 = "DET_KONTRAK_TRANS"; //nama table setelah mom_
+		private $_table6 = "DATA_SETTING"; //nama table setelah mom_
 		
 		private function _key($key) { //unit ID
 			if (!is_array($key)) {
@@ -37,11 +38,12 @@
 			$this->db->from($this->_table1 . ' a');
 			$this->db->join($this->_table2 . ' b', 'b.ID_TRANSPORTIR = a.ID_TRANSPORTIR');
 			$this->db->join($this->_table5 . ' c', 'c.ID_KONTRAK_TRANS = a.ID_KONTRAK_TRANS');
+			$this->db->join($this->_table6 . ' f', 'f.VALUE_SETTING = c.TYPE_KONTRAK_TRANS');
 			$this->db->join($this->_table3 . ' d', 'd.ID_DEPO = c.ID_DEPO');
 			$this->db->join($this->_table4 . ' e', 'e.SLOC = c.SLOC');
 			
 			if (!empty($key) || is_array($key))
-				$this->db->where("a.ID_KONTRAK_TRANS",$key);
+				$this->db->where("f.KEY_SETTING = 'TYPE_KONTRAK_TRANSPORTIR' AND a.ID_KONTRAK_TRANS =", $key);
             // $this->db->where_condition($this->_key($key));
 			
 			return $this->db;
@@ -63,20 +65,64 @@
 		}
 
 		public function save_as_new2($id) {
+			// $jumlah = $this->input->post('JML_PASOKAN');
 			$data['ID_KONTRAK_TRANS'] = $id;
-			$data['SLOC'] = $this->input->post('option_pembangkit1');
-            $data['ID_DEPO'] = $this->input->post('option_depo1');
-            $data['TYPE_KONTRAK_TRANS'] = $this->input->post('option_jalur1');
-            $data['JARAK_DET_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('JARAK1'));
-            $data['HARGA_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('HARGA1'));
             $data['CD_DET_KONTRAK_TRANS'] = date("Y/m/d");
             $data['UD_DET_KONTRAK_TRANS'] = date("Y/m/d");
             $data['CD_BY_DET_KONTRAK_TRANS'] = $this->session->userdata('user_name');
 
-			$this->db->trans_begin();
-			$this->db->set_id($this->_table5, 'ID_DET_KONTRAK_TRANS', 'no_prefix', 11);
-			$this->db->insert($this->_table5, $data);
-			
+            if ($this->input->post('option_depo1') != '') {
+            	$data['ID_DEPO'] = $this->input->post('option_depo1');
+				$data['SLOC'] = $this->input->post('option_pembangkit1');
+	            $data['TYPE_KONTRAK_TRANS'] = $this->input->post('option_jalur1');
+	            $data['JARAK_DET_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('JARAK1'));
+	            $data['HARGA_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('HARGA1'));
+	           	$this->db->trans_begin();
+				$this->db->set_id($this->_table5, 'ID_DET_KONTRAK_TRANS', 'no_prefix', 11);
+				$this->db->insert($this->_table5, $data);
+            }
+
+            if ($this->input->post('option_depo2') != '') {
+            	$data['ID_DEPO'] = $this->input->post('option_depo2');
+				$data['SLOC'] = $this->input->post('option_pembangkit2');
+	            $data['TYPE_KONTRAK_TRANS'] = $this->input->post('option_jalur2');
+	            $data['JARAK_DET_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('JARAK2'));
+	            $data['HARGA_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('HARGA2'));
+	           	$this->db->trans_begin();
+				$this->db->set_id($this->_table5, 'ID_DET_KONTRAK_TRANS', 'no_prefix', 11);
+				$this->db->insert($this->_table5, $data);
+            }
+            if ($this->input->post('option_depo3') != '') {
+            	$data['ID_DEPO'] = $this->input->post('option_depo3');
+				$data['SLOC'] = $this->input->post('option_pembangkit3');
+	            $data['TYPE_KONTRAK_TRANS'] = $this->input->post('option_jalur3');
+	            $data['JARAK_DET_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('JARAK3'));
+	            $data['HARGA_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('HARGA3'));
+	           	$this->db->trans_begin();
+				$this->db->set_id($this->_table5, 'ID_DET_KONTRAK_TRANS', 'no_prefix', 11);
+				$this->db->insert($this->_table5, $data);
+            }
+            if ($this->input->post('option_depo4') != '') {
+				$data['SLOC'] = $this->input->post('option_pembangkit4');
+            	$data['ID_DEPO'] = $this->input->post('option_depo4');
+	            $data['TYPE_KONTRAK_TRANS'] = $this->input->post('option_jalur4');
+	            $data['JARAK_DET_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('JARAK4'));
+	            $data['HARGA_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('HARGA4'));
+	           	$this->db->trans_begin();
+				$this->db->set_id($this->_table5, 'ID_DET_KONTRAK_TRANS', 'no_prefix', 11);
+				$this->db->insert($this->_table5, $data);
+            }
+            if ($this->input->post('option_depo5') != '') {
+				$data['SLOC'] = $this->input->post('option_pembangkit5');
+            	$data['ID_DEPO'] = $this->input->post('option_depo5');
+	            $data['TYPE_KONTRAK_TRANS'] = $this->input->post('option_jalur5');
+	            $data['JARAK_DET_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('JARAK5'));
+	            $data['HARGA_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('HARGA5'));
+	           	$this->db->trans_begin();
+				$this->db->set_id($this->_table5, 'ID_DET_KONTRAK_TRANS', 'no_prefix', 11);
+				$this->db->insert($this->_table5, $data);
+            }
+            
 			if ($this->db->trans_status() === FALSE) {
 				$this->db->trans_rollback();
 				return FALSE;
@@ -142,52 +188,6 @@
                 'nilai_kontrak' => number_format($row->NILAI_KONTRAK_TRANS,0,',','.'),
                 'keterangan' => $row->KET_KONTRAK_TRANS,
                 'aksi' => $aksi
-				);
-			}
-			
-			return array('total' => $total, 'rows' => $rows);
-		}
-		
-
-		public function getDetail($key='')
-		{
-			$this->db->from($this->_table1 . ' a');
-			$this->db->join($this->_table5 . ' c', 'c.ID_KONTRAK_TRANS = a.ID_KONTRAK_TRANS');
-
-			if (!empty($key) || is_array($key))
-			$this->db->where("a.ID_KONTRAK_TRANS",$key);
-            // $this->db->where_condition($this->_key($key));
-
-			$query = $this->db->get();
-        	return $query->result();
-		}
-
-		public function data_table_detail($module = '', $limit = 20, $offset = 1) {
-			$filter = array();
-			$kata_kunci = $this->input->post('kata_kunci');
-			
-			if (!empty($kata_kunci))
-            $filter[$this->_table1 . ".KD_KONTRAK_TRANS LIKE '%{$kata_kunci}%' "] = NULL;
-			$total = $this->data($filter)->count_all_results();
-			$this->db->limit($limit, ($offset * $limit) - $limit);
-			$record = $this->data($filter)->get();
-			$no=(($offset-1) * $limit) +1;
-			$rows = array();
-			// $aksi = '';
-			foreach ($record->result() as $row) {
-				$id = $row->ID_DET_KONTRAK_TRANS;
-				// if ($this->laccess->otoritas('edit')) {
-				// $aksi = anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
-				// }
-				// $aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
-				$rows[$id] = array(
-				'nomor' => $no,
-                'depo' => $row->ID_DEPO,
-                'pembangkit' => $row->SLOC,
-                'harga_kontrak' => $row->HARGA_KONTRAK_TRANS,
-                'Jarak' => $row->CD_DET_KONTRAK_TRANS,
-                'transportasi' => $row->TYPE_KONTRAK_TRANS,
-                // 'aksi' => $aksi
 				);
 			}
 			

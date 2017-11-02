@@ -127,12 +127,7 @@
                                     <th>VOL TERIMA (L)</th>
                                     <th>VOL TERIMA REAL (L)</th>
                                     <th>STATUS</th>
-                                    <?php
-                                        if ($this->session->userdata('level_user')==3 || $this->session->userdata('level_user')==4 ){
-                                            echo "<th>AKSI</th>";
-                                        }
-                                    ?>
-
+                                    <th>AKSI</th>
                                     <th>CHECK</th>
                                 </tr>
                                 </thead>
@@ -149,19 +144,18 @@
 <script type="text/javascript">
     var icon = 'icon-remove-sign';
 	var color = '#ac193d;';
-	function convertToRupiah(angka)
-        {
-            var rupiah = '';        
-            var angkarev = angka.toString().split('').reverse().join('');
-            for(var i = 0; i < angkarev.length; i++) if(i%3 == 0) rupiah += angkarev.substr(i,3)+'.';
-            return rupiah.split('',rupiah.length-1).reverse().join('');
-        }
+
+    function toRupiah(angka){
+        var rupiah = '';        
+        var angkarev = angka.toString().split('').reverse().join('');
+        for(var i = 0; i < angkarev.length; i++) if(i%3 == 0) rupiah += angkarev.substr(i,3)+'.';
+        return rupiah.split('',rupiah.length-1).reverse().join('');
+    }
 
     function show_detail(tanggal) {
         if (!$('#table_detail').is(":visible")) {
             var vId = tanggal;
             var strArray = vId.split("|");
-            console.log(strArray)
             var data_kirim = {ID_REGIONAL: $('select[name="ID_REGIONAL"]').val(),
                 COCODE: $('select[name="COCODE"]').val(),
                 PLANT: $('select[name="PLANT"]').val(),
@@ -174,24 +168,40 @@
             $.post("<?php echo base_url()?>data_transaksi/penerimaan/getDataDetail/", data_kirim, function (data) {
 //            $.get("<?php //echo base_url()?>//data_transaksi/penerimaan/getDataDetail/" + tanggal, function (data) {
                 var data_detail = (JSON.parse(data));
-                var user_level = '<?php echo $this->session->userdata('level_user')?>'
-                var checkbox = '';
-                var edit='';
+                var cekbox = '';
+                var vLevelUser = "<?php echo $this->session->userdata('level_user'); ?>";
+                var vEdit='';
+                var vlink_url = '';
+
                 for (i = 0; i < data_detail.length; i++) {
-                    if (data_detail[i].KODE_STATUS != "2"){
-                        if (data_detail[i].KODE_STATUS==0 && user_level==2){
-                            checkbox ='';
-                        } else if (data_detail[i].KODE_STATUS==3 && user_level==2) {
-                            checkbox ='';
-                        } else{
-                        checkbox = '<input type="checkbox" name="pilihan[' + i + ']" id="pilihan" value="'+data_detail[i].ID_PENERIMAAN+'">';
+
+                    cekbox = '<input type="checkbox" name="pilihan[' + i + ']" id="pilihan" value="'+data_detail[i].ID_PENERIMAAN+'">';
+                    vlink_url = "<?php echo base_url()?>data_transaksi/penerimaan/edit_view/"+data_detail[i].ID_PENERIMAAN;
+                    vEdit = '<a href="javascript:void(0);" class="btn transparant" id="button-edit-'+data_detail[i].ID_PENERIMAAN+'" onclick="load_form(this.id)" data-source="'+vlink_url+'"> <i class="icon-edit"></i></a>'; 
+
+                    if (vLevelUser>=2){
+                        if (vLevelUser==2){
+                            if (data_detail[i].KODE_STATUS !== "1"){
+                                cekbox = '';
+                            }   
+                            if (data_detail[i].KODE_STATUS == "0"){
+                                vEdit = '';
+                            }  
                         }
+
+                        if ((vLevelUser==3) || (vLevelUser==4)){
+                            if((data_detail[i].KODE_STATUS == "1") || (data_detail[i].KODE_STATUS == "2")){
+                                cekbox = '';  
+                            }
+                            if((data_detail[i].KODE_STATUS == "0") || (data_detail[i].KODE_STATUS == "3")){
+                                vlink_url = "<?php echo base_url()?>data_transaksi/penerimaan/edit/"+data_detail[i].ID_PENERIMAAN;
+                                vEdit = '<a href="javascript:void(0);" class="btn transparant" id="button-edit-'+data_detail[i].ID_PENERIMAAN+'" onclick="load_form(this.id)" data-source="'+vlink_url+'"> <i class="icon-edit"></i></a>'; 
+                            }
+                        }
+                    } else {
+                       cekbox = ''; 
                     }
-                    if (user_level==3 || user_level==4 ){
-                        edit = '<td align="center">' +
-                            '<a href="javascript:void(0);" class="btn transparant" id="button-edit-'+data_detail[i].ID_PENERIMAAN+'" onclick="load_form(this.id)" data-source="<?php echo base_url()?>data_transaksi/penerimaan/edit/'+data_detail[i].ID_PENERIMAAN +'"><i class="icon-edit"></i></a>'+
-                            '</a></td>';
-                    }
+
                     $('#detailPenerimaan tbody').append(
                         '<tr>' +
                         '<td align="center">' + data_detail[i].ID_PENERIMAAN + '</td>' +
@@ -199,18 +209,17 @@
                         '<td align="center">' + data_detail[i].NAMA_PEMASOK + '</td>' +
                         '<td align="center">' + data_detail[i].NAMA_TRANSPORTIR + '</td>' +
                         '<td align="center">' + data_detail[i].NAMA_JNS_BHN_BKR + '</td>' +
-                        '<td align="right">' + convertToRupiah(data_detail[i].VOL_TERIMA) + '</td>' +
-                        '<td align="right">' + convertToRupiah(data_detail[i].VOL_TERIMA_REAL) + '</td>' +
+                        '<td align="right">' + toRupiah(data_detail[i].VOL_TERIMA) + '</td>' +
+                        '<td align="right">' + toRupiah(data_detail[i].VOL_TERIMA_REAL) + '</td>' +
                         '<td align="center">' + data_detail[i].STATUS + '</td>' +
-                        edit +
+                        '<td align="center">' + vEdit +' </td>' +
                         '<td align="center">' +
-                        checkbox+
+                        cekbox+
                         '<input type="hidden" id="idPenerimaan" name="idPenerimaan[' + i + ']" value="' + data_detail[i].ID_PENERIMAAN + '">' +
                         '<input type="hidden" id="status" name="status[' + i + ']" value="' + data_detail[i].STATUS + '">' +
                         '</td>' +
                         '</tr>'
                     );
-                    checkbox ='';
                 }
             });
             $('#table_detail').show();
@@ -220,7 +229,35 @@
         }
     }
 
+    function cekChekBoxPilih(vJenis){
+        var data = $('#formKirimDetail').serializeArray();
+
+        var arrNames = [];
+        Object.keys(data).forEach(function(key) {
+          var val = data[key]["name"];
+          arrNames.push(val);
+        }); 
+
+        var vAda=1;
+        for (var i=0; i < arrNames.length ; ++i) {
+            var str = arrNames[i];
+            var res =  str.substr(0, 7);
+
+            if (res=='pilihan'){
+                vAda = 0;
+            }
+        }
+
+        if (vAda){
+            var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Silahkan pilih data yang akan di '+vJenis+'</div>';
+            bootbox.alert(message, function() {});
+        }
+
+        return vAda;
+    }
+
     function saveDetailKirim(obj) {
+        if (cekChekBoxPilih('kirim')){return;}
 		bootbox.confirm('Yakin data ini akan dikirimkan ?', "Tidak", "Ya", function(e) {
 			if(e){
 				bootbox.modal('<div class="loading-progress"></div>');
@@ -252,6 +289,7 @@
     }
 
     function saveDetailApprove(obj) {
+        if (cekChekBoxPilih('approve')){return;}
 		bootbox.confirm('Yakin data ini akan di Setujui ?', "Tidak", "Ya", function(e) {
 			if(e){
 				bootbox.modal('<div class="loading-progress"></div>');
@@ -281,7 +319,9 @@
 			}
 		});
     }
+    
     function saveDetailTolak(obj) {
+        if (cekChekBoxPilih('tolak')){return;}
 		bootbox.confirm('Yakin data ini akan ditolak ?', "Tidak", "Ya", function(e) {
 			if(e){
 				var url = "<?php echo base_url() ?>data_transaksi/penerimaan/saveKiriman/tolak";

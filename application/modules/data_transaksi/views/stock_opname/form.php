@@ -123,6 +123,16 @@
             $('input[name=TGL_PENGAKUAN').datepicker('update', vDateStart);
         }
     });
+    $("input[name=button-save]").click(function() {
+        var vDateStart = $("input[name=TGL_BA_STOCKOPNAME]").val();
+        var vDateEnd = $("input[name=TGL_PENGAKUAN]").val();
+
+        if (vDateEnd > vDateStart) {
+            var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Pengakuan tidak boleh melebihi Tanggal Berita Acara</div>';
+            bootbox.alert(message, function() {});
+            $('input[name=TGL_PENGAKUAN').datepicker('update', vDateStart);
+        }
+    })
 
 
     $('input[name=VOLUME_STOCKOPNAME]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }

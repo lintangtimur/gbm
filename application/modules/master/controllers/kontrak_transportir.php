@@ -47,13 +47,16 @@ class kontrak_transportir extends MX_Controller {
 
     public function add($id = '') {
         $page_title = 'Tambah Kontrak';
+        $data['detail'] = '';
         $data['id_dok'] = '';
         $data['id'] = $id;
         if ($id != '') {
             $page_title = 'Edit Kontrak';
-            $trans = $this->kontrak_transportir_model->dataEdit($id);
+            $trans = $this->kontrak_transportir_model->data($id);
             $data['default'] = $trans->get()->row();
             $data['id_dok'] = $data['default']->PATH_KONTRAK_TRANS; 
+            $trans = $this->kontrak_transportir_model->dataEdit($id);
+            $data['detail'] = $trans->get()->result();
         }
         $data['option_transportir'] = $this->kontrak_transportir_model->options('--Pilih Transportir--', array('master_transportir.ID_TRANSPORTIR' => NULL));
         $data['option_depo'] = $this->kontrak_transportir_model->optionsDepo();
@@ -92,31 +95,6 @@ class kontrak_transportir extends MX_Controller {
         echo $data;
     }
 
-     public function load_detail($page = 1) {
-        alert('alert');
-        // $data_table = $this->kontrak_transportir_model->data_table_detail($this->_module, $this->_limit, $page);
-        // $this->load->library("ltable");
-        // $table = new stdClass();
-        // $table->id = 'ID_DET_KONTRAK_TRANS';
-        // $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        // $table->align = array('nomor' => 'center','depo' => 'center','pembangkit' => 'center','harga_kontrak' => 'center','Jarak' => 'center', 'transportasi' => 'center');
-        // $table->page = $page;
-        // $table->limit = $this->_limit;
-        // $table->jumlah_kolom = 6;
-        // $table->header[] = array(
-        //     "No ", 1, 1,
-        //     "Depo", 1, 1,
-        //     "Pembangkit", 1, 1,
-        //     "Harga Kontrak", 1, 1,
-        //     "Jarak", 1, 1,
-        //     "Transportasi", 1, 1
-        // );
-        // $table->total = $data_table['total'];
-        // $table->content = $data_table['rows'];
-        // $data = $this->ltable->generate($table, 'js', true);
-        // echo $data;
-    }
-
     public function proses() {
         $this->form_validation->set_rules('NO_KONTRAK', 'Nomor Kontrak Transportir', 'trim|required');
         $this->form_validation->set_rules('NILAI_KONTRAK', 'Nilai Kontrak Transportir', 'trim|required|currency');
@@ -134,7 +112,7 @@ class kontrak_transportir extends MX_Controller {
             $data['KD_KONTRAK_TRANS'] = $this->input->post('NO_KONTRAK');
             $data['ID_TRANSPORTIR'] = $this->input->post('TRANSPORTIR');
             $data['TGL_KONTRAK_TRANS'] = $this->input->post('TGL_KONTRAK_TRANS');
-            $data['NILAI_KONTRAK_TRANS'] = $this->input->post('NILAI_KONTRAK');
+            $data['NILAI_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('NILAI_KONTRAK'));
             $data['KET_KONTRAK_TRANS'] = $this->input->post('KETERANGAN');
 
             $new_name = date('Ymd').'_'.$_FILES["FILE_UPLOAD"]['name'];

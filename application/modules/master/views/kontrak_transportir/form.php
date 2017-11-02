@@ -182,13 +182,23 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td align="center"><?php echo !empty($default->NAMA_DEPO) ? $default->NAMA_DEPO : '-'; ?></td>
-                        <td align="center"><?php echo !empty($default->LEVEL4) ? $default->LEVEL4 : '-'; ?></td>
-                        <td align="right"><?php echo !empty($default->NILAI_KONTRAK_TRANS) ? $default->NILAI_KONTRAK_TRANS : '-'; ?></td>
-                        <td align="right"><?php echo !empty($default->JARAK_DET_KONTRAK_TRANS) ? $default->JARAK_DET_KONTRAK_TRANS : '-'; ?></td>
-                        <td align="center"><?php echo !empty($default->TYPE_KONTRAK_TRANS) ? $default->TYPE_KONTRAK_TRANS : '-'; ?></td>
-                    </tr>
+                <?php
+                    if ($detail != '') {
+                        foreach ($detail as $detail) { 
+                            $nilai = number_format($detail->HARGA_KONTRAK_TRANS,0,',','.');
+                            $jarak = number_format($detail->JARAK_DET_KONTRAK_TRANS,0,',','.');
+                            ?>
+                            <tr>
+                                <td align="center"><?php echo !empty($detail->NAMA_DEPO) ? $detail->NAMA_DEPO : '-'; ?></td>
+                                <td align="center"><?php echo !empty($detail->LEVEL4) ? $detail->LEVEL4 : '-'; ?></td>
+                                <td align="right"><?php echo !empty($nilai) ? $nilai : '-'; ?></td>
+                                <td align="right"><?php echo !empty($jarak) ? $jarak : '-'; ?></td>
+                                <td align="center"><?php echo !empty($detail->NAME_SETTING) ? $detail->NAME_SETTING : '-'; ?></td>
+                            </tr>
+                <?php }
+                     } else { ?>
+                        <td colspan="5" align="center">Data Tidak di Temukan</td>
+                    <?php } ?>
                 </tbody>
             </table>
         </div>
@@ -268,17 +278,5 @@ $('#jmlpas[type="text"]').on('change', function() {
     } else {
         alert('Jumlah Pasokan Max 5');
     }
-
-        // var str = "";
-        // if ( x == 0 || x > 5 ) {
-        //     alert('Jumlah Pasokan Max 5');
-        // } else {
-        //     $('#inputan').empty();
-        //     for(i=0;i<x;i++){
-        //         str += $('#inputan_awal').html() + "<br/>";
-        //     }
-        //     document.getElementById("inputan").innerHTML = str;
-        //    $("#jmlpas").prop('disabled', false);
-        // };
 })
 </script>
