@@ -182,13 +182,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td align="center"><?php echo !empty($default->NAMA_DEPO) ? $default->NAMA_DEPO : '-'; ?></td>
-                        <td align="center"><?php echo !empty($default->LEVEL4) ? $default->LEVEL4 : '-'; ?></td>
-                        <td align="right"><?php echo !empty($default->NILAI_KONTRAK_TRANS) ? $default->NILAI_KONTRAK_TRANS : '-'; ?></td>
-                        <td align="right"><?php echo !empty($default->JARAK_DET_KONTRAK_TRANS) ? $default->JARAK_DET_KONTRAK_TRANS : '-'; ?></td>
-                        <td align="center"><?php echo !empty($default->TYPE_KONTRAK_TRANS) ? $default->TYPE_KONTRAK_TRANS : '-'; ?></td>
-                    </tr>
+                <?php
+                    if ($detail != '') {
+                        foreach ($detail as $detail) { ?>
+                            <tr>
+                                <td align="center"><?php echo !empty($detail->NAMA_DEPO) ? $detail->NAMA_DEPO : '-'; ?></td>
+                                <td align="center"><?php echo !empty($detail->LEVEL4) ? $detail->LEVEL4 : '-'; ?></td>
+                                <td align="right"><?php echo !empty($detail->HARGA_KONTRAK_TRANS) ? $detail->HARGA_KONTRAK_TRANS : '-'; ?></td>
+                                <td align="right"><?php echo !empty($detail->JARAK_DET_KONTRAK_TRANS) ? $detail->JARAK_DET_KONTRAK_TRANS : '-'; ?></td>
+                                <td align="center"><?php echo !empty($detail->NAME_SETTING) ? $detail->NAME_SETTING : '-'; ?></td>
+                            </tr>
+                <?php }
+                     } else { ?>
+                        <td colspan="5" align="center">Data Tidak di Temukan</td>
+                    <?php } ?>
                 </tbody>
             </table>
         </div>
