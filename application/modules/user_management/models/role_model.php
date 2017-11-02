@@ -71,6 +71,7 @@ class role_model extends CI_Model {
 
     public function delete($key) {
         $this->db->trans_begin();
+		$this->db->delete($this->_table2, $this->_key($key));
         $this->db->delete($this->_table1, $this->_key($key));
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
@@ -90,7 +91,7 @@ class role_model extends CI_Model {
         $this->db->limit($limit, ($offset * $limit) - $limit);
         $record = $this->data($filter)->get();
         $rows = array();
-        $no = $offset;
+        $no=(($offset-1) * $limit) +1;
         foreach ($record->result() as $row) {
             $id = $row->ROLES_ID;
             $aksi = '';

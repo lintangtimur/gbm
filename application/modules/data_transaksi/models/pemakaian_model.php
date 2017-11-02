@@ -154,7 +154,9 @@ class pemakaian_model extends CI_Model
         if ($_POST['TAHUN'] !='') {
             $this->db->where("TH",$_POST['TAHUN']);   
         }
-
+		
+		$this->db->order_by("TGL_PENGAKUAN asc");
+		
         $data = $this->db->get();
 
         return $data->result();
