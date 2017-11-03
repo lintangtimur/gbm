@@ -80,6 +80,21 @@ class user_model extends CI_Model {
         }
     }
 
+	public function edit($key, $data) {
+        $this->db->trans_begin();
+		$this->db->set($data);
+		$this->db->where($this->_key($key));
+        $this->db->update($this->_table1);
+
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return FALSE;
+        } else {
+            $this->db->trans_commit();
+            return TRUE;
+        }
+    }
+	
     public function reset_password($key) {
         $this->db->trans_begin();
 
@@ -126,7 +141,10 @@ class user_model extends CI_Model {
 			if ($this->laccess->otoritas('edit'))
 				$aksi = anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
 			if ($this->laccess->otoritas('delete'))
-				$aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
+				if($row->ISAKTIF_USER <> "1")
+					$aksi .= anchor(null, '<i class="icon-close"></i>', array('class' => 'btn transparant', 'id' => 'button-aktif-' . $id, 'onclick' => 'aktivasi_user(this.id, "Mengaktifkan")', 'data-source' => base_url($module . '/aktif/' . $id)));
+				else
+					$aksi .= anchor(null, '<i class="icon-check"></i>', array('class' => 'btn transparant', 'id' => 'button-aktif-' . $id, 'onclick' => 'aktivasi_user(this.id, "Menonaktifkan")', 'data-source' => base_url($module . '/nonaktif/' . $id)));
          
             $rows[$no] = array(
 				'no' => $no,
