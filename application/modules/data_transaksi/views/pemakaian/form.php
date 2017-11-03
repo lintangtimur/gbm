@@ -32,7 +32,7 @@
             <label class="control-label">Tanggal Pengakuan<span class="required">*</span> : </label>
             <div class="controls">
                 <?php echo form_input('TGL_PENGAKUAN', !empty($default->TGL_MUTASI_PENGAKUAN) ? $default->TGL_MUTASI_PENGAKUAN : '', 'class="span12 input-append date form_datetime" placeholder="Tanggal Pengakuan" id="TGL_PENGAKUAN"'); ?>
-            </div>
+                </div>
         </div>
         <div class="control-group">
             <label  class="control-label">Regional <span class="required">*</span> : </label>
@@ -114,31 +114,56 @@
         pickerPosition: "bottom-left"
     });
 
-    $("input[name=TGL_CATAT]").change(function() {
-        var vDateStart = $("input[name=TGL_CATAT]").val();
-        var vDateEnd = $("input[name=TGL_PENGAKUAN]").val();
+    function cekTanggalCatat(){
+        var strStart = $("input[name=TGL_CATAT]").val();
+        var strEnd = $("input[name=TGL_PENGAKUAN]").val();
+
+        var dateStart = strStart.substring(0, 2);
+        var monthStart = strStart.substring(3, 5);
+        var yearStart = strStart.substring(6, 10);
+
+        var dateEnd = strEnd.substring(0, 2);
+        var monthEnd = strEnd.substring(3, 5);
+        var yearEnd = strEnd.substring(6, 10);
+
+        var vDateStart = yearStart + "-" + monthStart + "-" + dateStart;
+        var vDateEnd = yearEnd + "-" + monthEnd + "-" + dateEnd;
 
         if (vDateEnd > vDateStart) {
-            $('input[name=TGL_PENGAKUAN').datepicker('update', vDateStart);
+            $('input[name=TGL_PENGAKUAN').datepicker('update', strStart);
         }
 
         $('input[name=TGL_PENGAKUAN]').datepicker('setEndDate', $("input[name=TGL_CATAT]").val());
-    });
+       
+    }
 
     function cekTanggalPengakuan(){
-        var vDateStart = $("input[name=TGL_CATAT]").val();
-        var vDateEnd = $("input[name=TGL_PENGAKUAN]").val();
+        var strStart = $("input[name=TGL_CATAT]").val();
+        var strEnd = $("input[name=TGL_PENGAKUAN]").val();
+
+        var dateStart = strStart.substring(0, 2);
+        var monthStart = strStart.substring(3, 5);
+        var yearStart = strStart.substring(6, 10);
+
+        var dateEnd = strEnd.substring(0, 2);
+        var monthEnd = strEnd.substring(3, 5);
+        var yearEnd = strEnd.substring(6, 10);
+
+        var vDateStart = yearStart + "-" + monthStart + "-" + dateStart;
+        var vDateEnd = yearEnd + "-" + monthEnd + "-" + dateEnd;
 
         if (vDateEnd > vDateStart) {
             var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Pengakuan tidak boleh melebihi Tanggal Catat</div>';
             bootbox.alert(message, function() {});
-            $('input[name=TGL_PENGAKUAN').datepicker('update', vDateStart);
+            $('input[name=TGL_PENGAKUAN').datepicker('update', strStart);
         }
     }
 
+    $("input[name=TGL_CATAT]").change(cekTanggalCatat);
     $("input[name=TGL_PENGAKUAN]").focusout(cekTanggalPengakuan);
-    
+    $("input[name=TGL_PENGAKUAN]").click(cekTanggalCatat);
     $("input[name=button-save]").click(cekTanggalPengakuan);
+
 
     var vLevelUser = "<?php echo $this->session->userdata('level_user'); ?>";
 
