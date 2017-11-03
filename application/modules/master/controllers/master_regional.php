@@ -85,7 +85,7 @@ class master_regional extends MX_Controller {
     }
 
     public function proses() {
-        $this->form_validation->set_rules('ID_REGIONAL', 'ID Regional','trim|required|max_length[2]');
+        $this->form_validation->set_rules('ID_REGIONAL', 'ID Regional','trim|required|max_length[10]');
         $this->form_validation->set_rules('NAMA_REGIONAL', 'Nama Regional', 'trim|required|max_length[50]');
         if ($this->form_validation->run($this)) {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
@@ -95,15 +95,38 @@ class master_regional extends MX_Controller {
             $data['ID_REGIONAL'] = $this->input->post('ID_REGIONAL');
             $data['NAMA_REGIONAL'] = $this->input->post('NAMA_REGIONAL');
 
+            $id_reg=$data['ID_REGIONAL']; 
             if ($id == '') {
-                if ($this->tbl_get->save_as_new($data)) {
-                    $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
+                if ($this->tbl_get->check_regional($id_reg) == FALSE)
+                {
+                    $message = array(false, 'Proses GAGAL', ' ID Regional '.$id_reg.' Sudah Ada.', '#content_table');
                 }
-            } else {
-                if ($this->tbl_get->save($data, $id)) {
-                    $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+                else{           
+                    if ($this->tbl_get->save_as_new($data)) {
+                        $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
+                    }
                 }
+                
+            }else{
+                if($id==$id_reg){
+                    if ($this->tbl_get->save($data, $id)) {
+                        $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+                    }
+                }else{
+                    if ($this->tbl_get->check_regional($id_reg) == FALSE)
+                    {
+                        $message = array(false, 'Proses GAGAL', ' ID Regional '.$id_reg.' Sudah Ada.', '#content_table');
+                    }
+                    else{           
+                        if ($this->tbl_get->save($data, $id)) {
+                            $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+                        }
+                    }
+                }
+                    
             }
+
+            
         } else {
             $message = array(false, 'Proses gagal', validation_errors(), '');
         }

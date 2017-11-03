@@ -105,14 +105,35 @@ class master_level2 extends MX_Controller {
             $data['PLANT'] = $this->input->post('PLANT');
             $data['COCODE'] = $this->input->post('COCODE');
 
+            $id_plant=$data['PLANT']; 
             if ($id == '') {
-                if ($this->tbl_get->save_as_new($data)) {
-                    $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
+                if ($this->tbl_get->check_plant($id_plant) == FALSE)
+                {
+                    $message = array(false, 'Proses GAGAL', ' PLANT '.$id_plant.' Sudah Ada.', '#content_table');
                 }
-            } else {
-                if ($this->tbl_get->save($data, $id)) {
-                    $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+                else{           
+                    if ($this->tbl_get->save_as_new($data)) {
+                        $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
+                    }
                 }
+                
+            }else{
+                if($id==$id_plant){
+                    if ($this->tbl_get->save($data, $id)) {
+                        $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+                    }
+                }else{
+                    if ($this->tbl_get->check_plant($id_plant) == FALSE)
+                    {
+                        $message = array(false, 'Proses GAGAL', ' PLANT '.$id_plant.' Sudah Ada.', '#content_table');
+                    }
+                    else{           
+                        if ($this->tbl_get->save($data, $id)) {
+                            $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+                        }
+                    }
+                }
+                    
             }
         } else {
             $message = array(false, 'Proses gagal', validation_errors(), '');

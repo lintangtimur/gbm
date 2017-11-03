@@ -30,6 +30,19 @@ class master_regional_model extends CI_Model {
         return $this->db;
     }
 
+    function check_regional($id_reg){
+        $query = $this->db->get_where($this->_table1, array('ID_REGIONAL' => $id_reg));
+       
+        if ($query->num_rows() > 0)
+        {
+            return FALSE;
+        }
+        else
+        {
+            return TRUE;
+        }
+     }
+
     public function save_as_new($data) {
         $this->db->trans_begin();
         // $this->db->set_id($this->_table1, 'ID_WILAYAH', 'no_prefix', 3);
