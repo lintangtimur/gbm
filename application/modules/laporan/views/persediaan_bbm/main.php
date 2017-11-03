@@ -157,11 +157,10 @@
                             var str = '<tr><td colspan="18" align="center">Data Tidak Ditemukan</td></tr>';
                             $("#dataTable tbody").append(str);
                         } else {
-                        bootbox.hideAll();
+                        
                          $('#dataTable tbody').empty();
                          var nomer = 1;
                          $.each(obj, function (index, value) {
-
                             // var NAMA_REGIONAL = value.NAMA_REGIONAL == null ? "" : value.NAMA_REGIONAL;
                             var LEVEL0 = value.LEVEL0 == null ? "" : value.LEVEL0;
                             var LEVEL1 = value.LEVEL1 == null ? "" : value.LEVEL1;
@@ -207,7 +206,7 @@
                             nomer++;
 
                             $("#dataTable tbody").append(strRow);
-
+                            bootbox.hideAll();
                           });
                         };
                     }
