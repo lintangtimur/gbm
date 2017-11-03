@@ -114,6 +114,9 @@
             </tbody>
             </table>
         </div>
+
+        <div id="form-content" class="modal fade modal-xlarge"></div>
+
     </div>
 </div>
 
@@ -137,9 +140,9 @@
         var bln = $('#bln').val();
         var thn = $('#thn').val();
         if (lvl0 == '') {
-            alert('--PILIH REGIONAL--');
+            bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
         } else {
-
+            bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
                 $.ajax({
                     type: "POST",
                     url: "<?php echo base_url('laporan/persediaan_bbm/getData'); ?>",
@@ -147,17 +150,17 @@
                             "SLOC":lvl4, "ID_JNS_BHN_BKR": bbm, "BULAN":bln, "TAHUN": thn},
                     success:function(response) {
                         var obj = JSON.parse(response);
-
                         if (obj == "" || obj == null) {
-                            alert('Data Tidak Ditemukan');
                             $('#dataTable tbody').empty();
                             var str = '<tr><td colspan="18" align="center">Data Tidak Ditemukan</td></tr>';
                             $("#dataTable tbody").append(str);
+                            bootbox.hideAll();
+                            bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Data Tidak ditemukan-- </div>', function() {});
                         } else {
+                        
                          $('#dataTable tbody').empty();
                          var nomer = 1;
                          $.each(obj, function (index, value) {
-
                             // var NAMA_REGIONAL = value.NAMA_REGIONAL == null ? "" : value.NAMA_REGIONAL;
                             var LEVEL0 = value.LEVEL0 == null ? "" : value.LEVEL0;
                             var LEVEL1 = value.LEVEL1 == null ? "" : value.LEVEL1;
@@ -203,7 +206,7 @@
                             nomer++;
 
                             $("#dataTable tbody").append(strRow);
-
+                            bootbox.hideAll();
                           });
                         };
                     }

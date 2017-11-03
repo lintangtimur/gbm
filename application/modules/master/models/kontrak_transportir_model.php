@@ -166,7 +166,7 @@
 			$kata_kunci = $this->input->post('kata_kunci');
 			
 			if (!empty($kata_kunci))
-            $filter[$this->_table1 . ".KD_KONTRAK_TRANS LIKE '%{$kata_kunci}%' "] = NULL;
+			$filter["b.NAMA_TRANSPORTIR LIKE '%{$kata_kunci}%' OR a.KD_KONTRAK_TRANS LIKE '%{$kata_kunci}%'" ] = NULL;	
 			$total = $this->data($filter)->count_all_results();
 			$this->db->limit($limit, ($offset * $limit) - $limit);
 			$record = $this->data($filter)->get();

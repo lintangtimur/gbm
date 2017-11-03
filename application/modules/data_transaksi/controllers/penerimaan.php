@@ -59,21 +59,51 @@ class penerimaan extends MX_Controller
     {
         $page_title = 'Tambah Penerimaan';
         $data = $this->get_level_user();
+        $data['id'] = $id;
         if ($id != '') {
             $page_title = 'Edit Penerimaan';
-            $get_tbl = $this->tbl_get->data_edit($id);
-            $data['default'] = $get_tbl;
+            $get_tbl = $this->tbl_get->data_detail($id);
+            $data['default'] = $get_tbl->get()->row();
+
+            $tgl_catat = new DateTime($data['default']->TGL_PENERIMAAN);
+            $tgl_pengakuan = new DateTime($data['default']->TGL_PENGAKUAN);
+
+            $data['default']->TGL_PENERIMAAN = $tgl_catat->format('d-m-Y');
+            $data['default']->TGL_PENGAKUAN = $tgl_pengakuan->format('d-m-Y');
         }
-        $level_user = $this->session->userdata('level_user');
-        $kode_level = $this->session->userdata('kode_level');
+
         $data['option_pemasok'] = $this->tbl_get->options_pemasok();
         $data['option_transportir'] = $this->tbl_get->options_transpotir();
         $data['option_jenis_penerimaan'] = $this->tbl_get->options_jenis_penerimaan();
         $data['option_jenis_bbm'] = $this->tbl_get->options_jenis_bahan_bakar();
-        $data['option_level'] = $this->tbl_get->options_level($level_user, $kode_level);
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses');
         $this->load->view($this->_module . '/form', $data);
+    }
+
+    public function edit_view($id = '')
+    {
+        $data = $this->get_level_user();
+        $data['id'] = $id;
+        if ($id != '') {
+            $page_title = 'Detail Penerimaan';
+            $get_tbl = $this->tbl_get->data_detail($id);
+            $data['default'] = $get_tbl->get()->row();
+
+            $tgl_catat = new DateTime($data['default']->TGL_PENERIMAAN);
+            $tgl_pengakuan = new DateTime($data['default']->TGL_PENGAKUAN);
+
+            $data['default']->TGL_PENERIMAAN = $tgl_catat->format('d-m-Y');
+            $data['default']->TGL_PENGAKUAN = $tgl_pengakuan->format('d-m-Y');
+        }
+
+        $data['option_pemasok'] = $this->tbl_get->options_pemasok();
+        $data['option_transportir'] = $this->tbl_get->options_transpotir();
+        $data['option_jenis_penerimaan'] = $this->tbl_get->options_jenis_penerimaan();
+        $data['option_jenis_bbm'] = $this->tbl_get->options_jenis_bahan_bakar();
+        $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
+        $data['form_action'] = base_url($this->_module . '/proses');
+        $this->load->view($this->_module . '/form_edit', $data);
     }
 
     public function edit($id)
@@ -110,18 +140,30 @@ class penerimaan extends MX_Controller
 
     public function proses()
     {
-        $id = $this->input->post('ID');
+        $data = array();
+        $data['TGL_PENERIMAAN'] = str_replace('-', '', $this->input->post('TGL_PENERIMAAN'));
+        $data['TGL_MUTASI'] = date("dmY");
+        $data['TGL_PENGAKUAN'] = str_replace('-', '', $this->input->post('TGL_PENGAKUAN'));
+        $data['ID_PEMASOK'] = $this->input->post('ID_PEMASOK');
+        $data['ID_TRANSPORTIR'] = $this->input->post('ID_TRANSPORTIR');
+        $data['SLOC'] = $this->input->post('SLOC');
+        $data['VALUE_SETTING'] = $this->input->post('VALUE_SETTING');
+        $data['NO_PENERIMAAN'] = $this->input->post('NO_PENERIMAAN');
+        $data['ID_JNS_BHN_BKR'] = $this->input->post('ID_JNS_BHN_BKR');
+        $data['VOL_PENERIMAAN'] =  str_replace(".","",$this->input->post('VOL_PENERIMAAN'));
+        $data['VOL_PENERIMAAN_REAL'] = str_replace(".","",$this->input->post('VOL_PENERIMAAN_REAL')); ;
+        $data['CREATE_BY'] = $this->session->userdata('user_name');
+
+        $id = $this->input->post('id');
+
         if ($id!=null || $id!="") {
             $level_user = $this->session->userdata('level_user');
             $kode_level = $this->session->userdata('kode_level');
-            $data = array();
+
             $data['ID_PENERIMAAN']=$id;
             $data['LEVEL_USER']=$level_user;
             $data['KODE_LEVEL']=$kode_level;
-            $data['STATUS'] = $this->input->post('STATUS');
-            $data['VOL_PENERIMAAN'] =  str_replace(".","",$this->input->post('VOL_PENERIMAAN'));
-            $data['VOL_PENERIMAAN_REAL'] = str_replace(".","",$this->input->post('VOL_PENERIMAAN_REAL')); ;
-            $data['CREATE_BY'] = $this->session->userdata('user_name');
+            $data['STATUS'] = $this->input->post('STATUS_MUTASI_TERIMA');
             $simpan_data = $this->tbl_get->save_edit($data);
             if ($simpan_data[0]->RCDB == 'RC00') {
                 $message = array(true, 'Proses Update Berhasil', $simpan_data[0]->PESANDB, '#content_table');
@@ -129,20 +171,6 @@ class penerimaan extends MX_Controller
                 $message = array(false, 'Proses Update Gagal', $simpan_data[0]->PESANDB, '#content_table');
             }
         } else {
-            $data = array();
-            $data['TGL_PENERIMAAN'] = str_replace('-', '', $this->input->post('TGL_PENERIMAAN'));
-            $data['TGL_MUTASI'] = date("dmY");
-            $data['TGL_PENGAKUAN'] = str_replace('-', '', $this->input->post('TGL_PENGAKUAN'));
-            $data['ID_PEMASOK'] = $this->input->post('ID_PEMASOK');
-            $data['ID_TRANSPORTIR'] = $this->input->post('ID_TRANSPORTIR');
-            $data['SLOC'] = $this->input->post('SLOC');
-            $data['VALUE_SETTING'] = $this->input->post('VALUE_SETTING');
-            $data['NO_PENERIMAAN'] = $this->input->post('NO_PENERIMAAN');
-            $data['ID_JNS_BHN_BKR'] = $this->input->post('ID_JNS_BHN_BKR');
-            $data['VOL_PENERIMAAN'] =  str_replace(".","",$this->input->post('VOL_PENERIMAAN'));
-            $data['VOL_PENERIMAAN_REAL'] = str_replace(".","",$this->input->post('VOL_PENERIMAAN_REAL')); ;
-            $data['CREATE_BY'] = $this->session->userdata('user_name');
-
             $simpan_data = $this->tbl_get->save($data);
             if ($simpan_data[0]->RCDB == 'RC00') {
                 $message = array(true, 'Proses Simpan Berhasil', $simpan_data[0]->PESANDB, '#content_table');

@@ -240,34 +240,42 @@
     });
     $('input[name=JARAK5]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
     });
-
     $('input[name=NILAI_KONTRAK]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
     });
 
 </script>
 <script type="text/javascript">
-var inputan_awal =  $('#inputan_awal').html();
 
 $('#jmlpas[type="text"]').on('change', function() {
     var x = $("#jmlpas").val();
     if(x == 1){
          $("#pasokan").show();
          $("#inputan1").show();
+         $("#inputan2").hide();
+         $("#inputan3").hide();
+         $("#inputan4").hide();
+         $("#inputan5").hide();
     } else if(x == 2) {
         $("#pasokan").show();
          $("#inputan1").show();
          $("#inputan2").show();
+         $("#inputan3").hide();
+         $("#inputan4").hide();
+         $("#inputan5").hide();
     } else if(x == 3){
         $("#pasokan").show();
          $("#inputan1").show();
          $("#inputan2").show();
          $("#inputan3").show();
+         $("#inputan4").hide();
+         $("#inputan5").hide();
     } else if(x == 4){
         $("#pasokan").show();
          $("#inputan1").show();
          $("#inputan2").show();
          $("#inputan3").show();
          $("#inputan4").show();
+         $("#inputan5").hide();
     } else if (x == 5){
         $("#pasokan").show();
          $("#inputan1").show();

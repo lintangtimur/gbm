@@ -109,11 +109,19 @@
         pickerPosition: "bottom-left"
     });
 
-    $("input[name=TGL_BA_STOCKOPNAME]").change(function() {
+    function cekTanggalBa(){
+        var vDateStart = $("input[name=TGL_BA_STOCKOPNAME]").val();
+        var vDateEnd = $("input[name=TGL_PENGAKUAN]").val();
+
+        if (vDateEnd > vDateStart) {
+            $('input[name=TGL_PENGAKUAN').datepicker('update', vDateStart);
+        }
+
         $('input[name=TGL_PENGAKUAN]').datepicker('setEndDate', $("input[name=TGL_BA_STOCKOPNAME]").val());
-    });
+    
+    }
 
-    $("input[name=TGL_PENGAKUAN]").focusout(function() {
+    function cekTanggalPengakuan(){
         var vDateStart = $("input[name=TGL_BA_STOCKOPNAME]").val();
         var vDateEnd = $("input[name=TGL_PENGAKUAN]").val();
 
@@ -122,17 +130,12 @@
             bootbox.alert(message, function() {});
             $('input[name=TGL_PENGAKUAN').datepicker('update', vDateStart);
         }
-    });
-    $("input[name=button-save]").click(function() {
-        var vDateStart = $("input[name=TGL_BA_STOCKOPNAME]").val();
-        var vDateEnd = $("input[name=TGL_PENGAKUAN]").val();
+    }
 
-        if (vDateEnd > vDateStart) {
-            var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Pengakuan tidak boleh melebihi Tanggal Berita Acara</div>';
-            bootbox.alert(message, function() {});
-            $('input[name=TGL_PENGAKUAN').datepicker('update', vDateStart);
-        }
-    })
+    $("input[name=TGL_BA_STOCKOPNAME]").change(cekTanggalBa);
+    $("input[name=TGL_PENGAKUAN]").focusout(cekTanggalPengakuan);
+    $("input[name=button-save]").click(cekTanggalPengakuan);
+    $("input[name=TGL_PENGAKUAN]").click(cekTanggalBa);
 
 
     $('input[name=VOLUME_STOCKOPNAME]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
