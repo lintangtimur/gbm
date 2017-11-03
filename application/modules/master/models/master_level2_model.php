@@ -33,6 +33,19 @@ class master_level2_model extends CI_Model {
         return $this->db;
     }
 
+    function check_plant($id_plant){
+        $query = $this->db->get_where($this->_table1, array('PLANT' => $id_plant));
+       
+        if ($query->num_rows() > 0)
+        {
+            return FALSE;
+        }
+        else
+        {
+            return TRUE;
+        }
+     }
+
     public function save_as_new($data) {
         $this->db->trans_begin();
         // $this->db->set_id($this->_table1, 'ID_WILAYAH', 'no_prefix', 3);

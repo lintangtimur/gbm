@@ -33,6 +33,19 @@ class master_level1_model extends CI_Model {
         return $this->db;
     }
 
+    function check_cocode($id_co){
+        $query = $this->db->get_where($this->_table1, array('COCODE' => $id_co));
+       
+        if ($query->num_rows() > 0)
+        {
+            return FALSE;
+        }
+        else
+        {
+            return TRUE;
+        }
+     }
+
     public function save_as_new($data) {
         $this->db->trans_begin();
         // $this->db->set_id($this->_table1, 'ID_WILAYAH', 'no_prefix', 3);

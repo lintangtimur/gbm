@@ -361,15 +361,15 @@ class pemakaian_model extends CI_Model
             .$data['ID_PEMAKAIAN']."','"
             .$data['ID_JNS_BHN_BKR']."','"
             .$data['SLOC']."','"
-            .$data['TGL_CATAT']."',"
-            .$data['TGL_PENGAKUAN'].",'"
+            .$data['TGL_CATAT']."','"
+            .$data['TGL_PENGAKUAN']."','"
             .$data['VOL_PEMAKAIAN']."','"
             .$data['UD_BY_MUTASI_PEMAKAIAN']."','"
             .$data['NO_PEMAKAIAN']."','"
             .$data['VALUE_SETTING']."','"
             .$data['KETERANGAN']."','"
             .$data['NO_TUG']."')";
-// print_debug($sql);
+//print_debug($sql);
         $query = $this->db->query($sql);
         $this->db->close();
         return $query->result();

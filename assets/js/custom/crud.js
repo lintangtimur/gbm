@@ -736,6 +736,77 @@ function delete_row(id) {
     });
 }
 
+function aktivasi_user(id, ket) {
+    var temp_id = '#' + id;
+    var link = $(temp_id).attr('data-source');
+    bootbox.setBtnClasses({
+        CANCEL: '',
+        CONFIRM: 'red'
+    });
+    bootbox.confirm('Anda yakin akan '+ ket +' user ini?', "Tidak", "Ya", function(e) {
+        if (e) {
+            disabled_html([temp_id], true);
+            bootbox.modal('<div class="loading-progress"></div>');
+            $.post(link, function(res) {
+                var message = '';
+                var icon = 'icon-remove-sign';
+                var color = '#ac193d;';
+                var content_id = res[3];
+
+                if (res[0]) {
+                    icon = 'icon-ok-sign';
+                    color = '#0072c6;';
+                }
+
+                message += '<div class="box-title" style="color:' + color + '"><i class="' + icon + '"></i> ' + res[1] + '</div>';
+                message += res[2];
+
+                $(".bootbox").modal("hide");
+                disabled_html(temp_id, false);
+                bootbox.alert(message, function() {
+                    if (isValidURL(content_id)) {
+                        window.location = content_id;
+                    } else {
+                        if (typeof content_id !== 'undefined' && content_id !== '') {
+                            var patt = /^#/;
+
+                            if (patt.test(content_id)) {
+
+                                if (window.status_modal) {
+                                    var form_content_id = window.form_content_modal;
+
+                                    if (typeof content !== 'undefined')
+                                        form_content_id = content;
+
+                                    close_form_modal('', form_content_id);
+                                } else {
+                                    close_form();
+                                }
+
+                                load_table(content_id, 1);
+                            } else {
+
+                                if (window.status_modal) {
+                                    var form_content_id = window.form_content_modal;
+
+                                    if (typeof content !== 'undefined')
+                                        form_content_id = content;
+
+                                    close_form_modal('', form_content_id);
+                                } else {
+                                    close_form();
+                                }
+
+                                eval('(' + content_id + ')');
+                            }
+                        }
+                    }
+                });
+            }, 'json');
+        }
+    });
+}
+
 function confirm_dialog_ajax(id) {
     var temp_id = '#' + id;
     var link = $(temp_id).attr('data-source');

@@ -181,6 +181,24 @@ class user extends MX_Controller {
         }
         echo json_encode($message);
     }
+	
+	public function nonaktif($id) {
+        $message = array(false, 'Proses gagal', 'Proses Non Aktif User gagal.', '');
+
+        if ($this->user_model->edit($id, array("ISAKTIF_USER"=> "0"))) {
+            $message = array(true, 'Proses Berhasil', 'Proses Non Aktif User berhasil.', '#content_table');
+        }
+        echo json_encode($message);
+    }
+	
+	public function aktif($id) {
+        $message = array(false, 'Proses gagal', 'Proses Aktif User gagal.', '');
+
+        if ($this->user_model->edit($id, array("ISAKTIF_USER"=> "1"))) {
+            $message = array(true, 'Proses Berhasil', 'Proses Aktif User berhasil.', '#content_table');
+        }
+        echo json_encode($message);
+    }
 
     public function reset_password($id) {
         $message = array(false, 'Proses gagal', 'Proses reset password gagal.', '');

@@ -160,7 +160,7 @@ class pemakaian extends MX_Controller
 
     public function proses()
     {
-        $this->form_validation->set_rules('NO_PEMAKAIAN', 'No Pemakaian', 'trim|required|max_length[40]');
+        // $this->form_validation->set_rules('NO_PEMAKAIAN', 'No Pemakaian', 'trim|required|max_length[40]');
         $this->form_validation->set_rules('TGL_CATAT', 'Tgl Catat', 'required');
         $this->form_validation->set_rules('TGL_PENGAKUAN', 'Tgl Pengakuan', 'required');
         $this->form_validation->set_rules('ID_REGIONAL', 'Regional', 'required');

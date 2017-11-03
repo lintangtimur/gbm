@@ -134,9 +134,8 @@
 
     $("input[name=TGL_BA_STOCKOPNAME]").change(cekTanggalBa);
     $("input[name=TGL_PENGAKUAN]").focusout(cekTanggalPengakuan);
-    $("input[name=button-save]").click(cekTanggalPengakuan);
     $("input[name=TGL_PENGAKUAN]").click(cekTanggalBa);
-
+    $("input[name=button-save]").click(cekTanggalPengakuan);
 
     $('input[name=VOLUME_STOCKOPNAME]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
     });

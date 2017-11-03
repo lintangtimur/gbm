@@ -179,14 +179,14 @@ class penerimaan extends MX_Controller
             if ($simpan_data[0]->RCDB == 'RC00') {
                 $message = array(true, 'Proses Update Berhasil', $simpan_data[0]->PESANDB, '#content_table');
             } else {
-                $message = array(false, 'Proses Update Gagal', $simpan_data[0]->PESANDB, '#content_table');
+                $message = array(false, 'Proses Update Gagal', $simpan_data[0]->PESANDB, '');
             }
         } else {
             $simpan_data = $this->tbl_get->save($data);
             if ($simpan_data[0]->RCDB == 'RC00') {
                 $message = array(true, 'Proses Simpan Berhasil', $simpan_data[0]->PESANDB, '#content_table');
             } else {
-                $message = array(false, 'Proses Simpan Gagal', $simpan_data[0]->PESANDB, '#content_table');
+                $message = array(false, 'Proses Simpan Gagal', $simpan_data[0]->PESANDB, '');
             }
         }
         echo json_encode($message, true);
