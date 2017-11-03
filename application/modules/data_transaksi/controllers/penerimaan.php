@@ -30,7 +30,7 @@ class penerimaan extends MX_Controller
 
         /* Load Global Model */
         $this->load->model('penerimaan_model', 'tbl_get');
-        $this->load->model('laporan/persediaan_bbm_model', 'tbl_get_combo');
+        $this->load->model('pemakaian_model', 'tbl_get_combo');
     }
 
     public function index()
@@ -60,6 +60,17 @@ class penerimaan extends MX_Controller
         $page_title = 'Tambah Penerimaan';
         $data = $this->get_level_user();
         $data['id'] = $id;
+
+        $level_user = $this->session->userdata('level_user');
+        $kode_level = $this->session->userdata('kode_level');
+
+        if ($level_user==2){
+            $data_lv = $this->tbl_get_combo->get_level($level_user+3,$kode_level);
+            $option_lv3[$data_lv[0]->STORE_SLOC] = $data_lv[0]->LEVEL3;
+            $data['lv3_options'] = $option_lv3;
+            $data['lv4_options'] = $this->tbl_get_combo->options_lv4('--Pilih Level 4--', $data_lv[0]->STORE_SLOC, 1); 
+        }    
+
         if ($id != '') {
             $page_title = 'Edit Penerimaan';
             $get_tbl = $this->tbl_get->data_detail($id);

@@ -66,6 +66,17 @@ class pemakaian extends MX_Controller
         $data = $this->get_level_user();
         $data['id'] = $id;
 
+
+        $level_user = $this->session->userdata('level_user');
+        $kode_level = $this->session->userdata('kode_level');
+
+        if ($level_user==2){
+            $data_lv = $this->tbl_get->get_level($level_user+3,$kode_level);
+            $option_lv3[$data_lv[0]->STORE_SLOC] = $data_lv[0]->LEVEL3;
+            $data['lv3_options'] = $option_lv3;
+            $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Level 4--', $data_lv[0]->STORE_SLOC, 1); 
+        }        
+
         if ($id != '') {
             $page_title = 'Edit Pemakaian';
             $get_tbl = $this->tbl_get->data_detail($id);
@@ -76,38 +87,8 @@ class pemakaian extends MX_Controller
             $lv4 = $data['default']->STORE_SLOC;
             $tgl_catat = new DateTime($data['default']->TGL_PENCATATAN);
             $tgl_mutasi = new DateTime($data['default']->TGL_MUTASI_PENGAKUAN);
-
-            $data['default']->TGL_PENCATATAN = $tgl_catat->format('d-m-Y');
-            $data['default']->TGL_MUTASI_PENGAKUAN = $tgl_mutasi->format('d-m-Y');
-
-            $level_user = $this->session->userdata('level_user');
-            $kode_level = $this->session->userdata('kode_level');
-
-            if ($level_user==3){
-                $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Level 4--', $lv4, 1);  
-            } else if ($level_user==2){
-                $data['lv3_options'] = $this->tbl_get->options_lv3('--Pilih Level 3--', $lv3, 1); 
-                $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Level 4--', $lv4, 1); 
-            } else if ($level_user==1){
-                $data['lv2_options'] = $this->tbl_get->options_lv2('--Pilih Level 2--', $lv2, 1);
-                $data['lv3_options'] = $this->tbl_get->options_lv3('--Pilih Level 3--', $lv3, 1); 
-                $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Level 4--', $lv4, 1); 
-            } else if ($level_user==0){
-                if ($kode_level==00){
-                    $data['reg_options'] = $this->tbl_get->options_reg(); 
-                    $data['lv1_options'] = $this->tbl_get->options_lv1('--Pilih Level 1--', $lv1, 1);
-                    $data['lv2_options'] = $this->tbl_get->options_lv2('--Pilih Level 2--', $lv2, 1);
-                    $data['lv3_options'] = $this->tbl_get->options_lv3('--Pilih Level 3--', $lv3, 1); 
-                    $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Level 4--', $lv4, 1); 
-                } else {
-                    $data['lv1_options'] = $this->tbl_get->options_lv1('--Pilih Level 1--', $lv1, 1);
-                    $data['lv2_options'] = $this->tbl_get->options_lv2('--Pilih Level 2--', $lv2, 1);
-                    $data['lv3_options'] = $this->tbl_get->options_lv3('--Pilih Level 3--', $lv3, 1); 
-                    $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Level 4--', $lv4, 1); 
-                }
-            }      
-            // print_r($data['default']); die;
         }
+
         $data['option_jenis_pemakaian'] = $this->tbl_get->options_jenis_pemakaian();
         $data['option_jenis_bbm'] = $this->tbl_get->options_jenis_bahan_bakar();
         
@@ -134,33 +115,7 @@ class pemakaian extends MX_Controller
 
             $data['default']->TGL_PENCATATAN = $tgl_catat->format('d-m-Y');
             $data['default']->TGL_MUTASI_PENGAKUAN = $tgl_mutasi->format('d-m-Y');
-
-            $level_user = $this->session->userdata('level_user');
-            $kode_level = $this->session->userdata('kode_level');
-
-            if ($level_user==3){
-                $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Level 4--', $lv4, 1);  
-            } else if ($level_user==2){
-                $data['lv3_options'] = $this->tbl_get->options_lv3('--Pilih Level 3--', $lv3, 1); 
-                $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Level 4--', $lv4, 1); 
-            } else if ($level_user==1){
-                $data['lv2_options'] = $this->tbl_get->options_lv2('--Pilih Level 2--', $lv2, 1);
-                $data['lv3_options'] = $this->tbl_get->options_lv3('--Pilih Level 3--', $lv3, 1); 
-                $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Level 4--', $lv4, 1); 
-            } else if ($level_user==0){
-                if ($kode_level==00){
-                    $data['reg_options'] = $this->tbl_get->options_reg(); 
-                    $data['lv1_options'] = $this->tbl_get->options_lv1('--Pilih Level 1--', $lv1, 1);
-                    $data['lv2_options'] = $this->tbl_get->options_lv2('--Pilih Level 2--', $lv2, 1);
-                    $data['lv3_options'] = $this->tbl_get->options_lv3('--Pilih Level 3--', $lv3, 1); 
-                    $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Level 4--', $lv4, 1); 
-                } else {
-                    $data['lv1_options'] = $this->tbl_get->options_lv1('--Pilih Level 1--', $lv1, 1);
-                    $data['lv2_options'] = $this->tbl_get->options_lv2('--Pilih Level 2--', $lv2, 1);
-                    $data['lv3_options'] = $this->tbl_get->options_lv3('--Pilih Level 3--', $lv3, 1); 
-                    $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Level 4--', $lv4, 1); 
-                }
-            }      
+    
             // print_r($data['default']); die;
         }
         $data['option_jenis_pemakaian'] = $this->tbl_get->options_jenis_pemakaian();

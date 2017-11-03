@@ -165,11 +165,11 @@
     $("input[name=button-save]").click(cekTanggalPengakuan);
 
 
-    var vLevelUser = "<?php echo $this->session->userdata('level_user'); ?>";
+    // var vLevelUser = "<?php echo $this->session->userdata('level_user'); ?>";
 
-    if( vLevelUser <= 2) {
-        $("#button-save").hide();
-    }
+    // if( vLevelUser <= 2) {
+    //     $("#button-save").hide();
+    // }
 
     $('input[name=VOL_PEMAKAIAN]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
     });

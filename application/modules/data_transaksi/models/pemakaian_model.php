@@ -552,6 +552,11 @@ class pemakaian_model extends CI_Model
                 LEFT JOIN MASTER_REGIONAL E ON E.ID_REGIONAL=D.ID_REGIONAL
                 WHERE SLOC='$key' ";
                 break;
+            case "5":
+                $q = "SELECT m4.STORE_SLOC,  
+                (SELECT LEVEL3 FROM MASTER_LEVEL3 m3 WHERE m3.STORE_SLOC=m4.STORE_SLOC) LEVEL3 
+                FROM MASTER_LEVEL4 m4 where m4.PLANT= '$key' ";
+                break;
         } 
 
         $query = $this->db->query($q)->result();

@@ -173,12 +173,16 @@
 
                     if (vLevelUser>=2){
                         if (vLevelUser==2){
+
+                            vlink_url = "<?php echo base_url()?>data_transaksi/pemakaian/edit/"+data_detail[i].ID_PEMAKAIAN;
+                            vEdit = '<a href="javascript:void(0);" class="btn transparant" id="button-edit-'+data_detail[i].ID_PEMAKAIAN+'" onclick="load_form(this.id)" data-source="'+vlink_url+'"> <i class="icon-edit"></i></a>'; 
+                            
                             if (data_detail[i].KODE_STATUS !== "1"){
                                 cekbox = '';
                             }   
-                            if (data_detail[i].KODE_STATUS == "0"){
-                                vEdit = '';
-                            }  
+                            // if (data_detail[i].KODE_STATUS == "0"){
+                            //     vEdit = '';
+                            // }  
                         }
 
                         if ((vLevelUser==3) || (vLevelUser==4)){
