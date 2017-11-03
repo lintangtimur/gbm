@@ -134,9 +134,72 @@
 		
 		public function save($data, $key) {
 			$this->db->trans_begin();
-			
 			$this->db->update($this->_table1, $data, $this->_key($key));
+			$id = $key;
 			
+			if ($this->db->trans_status() === FALSE) {
+				$this->db->trans_rollback();
+				return FALSE;
+				} else {
+				$this->db->trans_commit();
+				$this->save2($id);
+				return TRUE;
+			}
+		}
+		
+		public function save2($id) {
+			// $jumlah = $this->input->post('JML_PASOKAN');
+			$data['ID_KONTRAK_TRANS'] = $id;
+            $data['UD_DET_KONTRAK_TRANS'] = date("Y/m/d");
+            $data['CD_BY_DET_KONTRAK_TRANS'] = $this->session->userdata('user_name');
+
+            if ($this->input->post('option_depo1') != '') {
+            	$data['ID_DEPO'] = $this->input->post('option_depo1');
+				$data['SLOC'] = $this->input->post('option_pembangkit1');
+	            $data['TYPE_KONTRAK_TRANS'] = $this->input->post('option_jalur1');
+	            $data['JARAK_DET_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('JARAK1'));
+	            $data['HARGA_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('HARGA1'));
+	           	$this->db->trans_begin();
+				$this->db->update($this->_table5, $data, $this->_key($id));
+            }
+
+    //         if ($this->input->post('option_depo2') != '') {
+    //         	$data['ID_DEPO'] = $this->input->post('option_depo2');
+				// $data['SLOC'] = $this->input->post('option_pembangkit2');
+	   //          $data['TYPE_KONTRAK_TRANS'] = $this->input->post('option_jalur2');
+	   //          $data['JARAK_DET_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('JARAK2'));
+	   //          $data['HARGA_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('HARGA2'));
+	   //         	$this->db->trans_begin();
+				// $this->db->update($this->_table5, $data, $this->_key($id));
+    //         }
+    //         if ($this->input->post('option_depo3') != '') {
+    //         	$data['ID_DEPO'] = $this->input->post('option_depo3');
+				// $data['SLOC'] = $this->input->post('option_pembangkit3');
+	   //          $data['TYPE_KONTRAK_TRANS'] = $this->input->post('option_jalur3');
+	   //          $data['JARAK_DET_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('JARAK3'));
+	   //          $data['HARGA_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('HARGA3'));
+	   //         	$this->db->trans_begin();
+				// $this->db->update($this->_table5, $data, $this->_key($id));
+    //         }
+    //         if ($this->input->post('option_depo4') != '') {
+				// $data['SLOC'] = $this->input->post('option_pembangkit4');
+    //         	$data['ID_DEPO'] = $this->input->post('option_depo4');
+	   //          $data['TYPE_KONTRAK_TRANS'] = $this->input->post('option_jalur4');
+	   //          $data['JARAK_DET_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('JARAK4'));
+	   //          $data['HARGA_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('HARGA4'));
+	   //         	$this->db->trans_begin();
+				// $this->db->update($this->_table5, $data, $this->_key($id));
+    //         }
+    //         if ($this->input->post('option_depo5') != '') {
+				// $data['SLOC'] = $this->input->post('option_pembangkit5');
+    //         	$data['ID_DEPO'] = $this->input->post('option_depo5');
+	   //          $data['TYPE_KONTRAK_TRANS'] = $this->input->post('option_jalur5');
+	   //          $data['JARAK_DET_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('JARAK5'));
+	   //          $data['HARGA_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('HARGA5'));
+	   //         	$this->db->trans_begin();
+				// $this->db->update($this->_table5, $data, $this->_key($id));
+    //         }
+            
 			if ($this->db->trans_status() === FALSE) {
 				$this->db->trans_rollback();
 				return FALSE;
@@ -145,7 +208,7 @@
 				return TRUE;
 			}
 		}
-		
+
 		public function delete($key) {
 			$this->db->trans_begin();
 			
