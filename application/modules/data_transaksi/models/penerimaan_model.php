@@ -90,6 +90,22 @@ class penerimaan_model extends CI_Model
         return $query->result();
     }
 
+    public function data_detail($key = ''){
+        $this->db->select('a.*, b.STORE_SLOC, c.PLANT, d.COCODE, e.ID_REGIONAL');
+        $this->db->from($this->_table2.' a');
+        $this->db->join('MASTER_LEVEL4 f', 'f.SLOC = a.SLOC','left');
+        $this->db->join('MASTER_LEVEL3 b', 'b.STORE_SLOC = f.STORE_SLOC','left');
+        $this->db->join('MASTER_LEVEL2 c', 'c.PLANT = b.PLANT','left');
+        $this->db->join('MASTER_LEVEL1 d', 'd.COCODE = c.COCODE','left');
+        $this->db->join('MASTER_REGIONAL e', 'e.ID_REGIONAL = d.ID_REGIONAL','left');
+
+
+        if (!empty($key) || is_array($key))
+            $this->db->where_condition($this->_key_edit($key));
+
+        return $this->db;
+    }
+
     public function data_table($module = '', $limit = 20, $offset = 1) {
         $filter = array();
         $kata_kunci = $this->input->post('kata_kunci');
@@ -310,8 +326,17 @@ class penerimaan_model extends CI_Model
             '".$data['KODE_LEVEL']."',
             '".$data['CREATE_BY']."',
             ".$data['VOL_PENERIMAAN'].",
-            ".$data['VOL_PENERIMAAN_REAL'].")";
-//        echo $sql;
+            ".$data['VOL_PENERIMAAN_REAL'].",
+            '".$data['ID_TRANSPORTIR']."',
+            '".$data['ID_PEMASOK']."',
+            '".$data['SLOC']."',
+            '".$data['TGL_PENGAKUAN']."',
+            '".$data['TGL_PENERIMAAN']."',
+            '".$data['VALUE_SETTING']."',
+            '',
+            '".$data['ID_JNS_BHN_BKR']."',
+            '".$data['NO_PENERIMAAN']."')";
+       // echo $sql; die;
         $query = $this->db->query($sql);
         $this->db->close();
         return $query->result();
