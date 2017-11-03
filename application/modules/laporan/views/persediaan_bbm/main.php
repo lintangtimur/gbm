@@ -151,11 +151,11 @@
                     success:function(response) {
                         var obj = JSON.parse(response);
                         if (obj == "" || obj == null) {
-                            bootbox.hideAll();
-                            bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Data Tidak ditemukan-- </div>', function() {});
                             $('#dataTable tbody').empty();
                             var str = '<tr><td colspan="18" align="center">Data Tidak Ditemukan</td></tr>';
                             $("#dataTable tbody").append(str);
+                            bootbox.hideAll();
+                            bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Data Tidak ditemukan-- </div>', function() {});
                         } else {
                         
                          $('#dataTable tbody').empty();
