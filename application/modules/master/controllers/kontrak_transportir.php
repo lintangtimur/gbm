@@ -100,6 +100,15 @@ class kontrak_transportir extends MX_Controller {
         $this->form_validation->set_rules('TRANSPORTIR', 'Transportir', 'trim|required');
         $this->form_validation->set_rules('NILAI_KONTRAK', 'Nilai Kontrak Transportir', 'trim|required|');
         $this->form_validation->set_rules('JML_PASOKAN', 'Pasokan', 'trim|required|');
+        $pasokan = $this->input->post('JML_PASOKAN');
+        if ($pasokan == 1) {
+            $this->form_validation->set_rules('option_depo1', 'Depo', 'trim|required');
+            $this->form_validation->set_rules('option_pembangkit1', 'Pembangkit', 'trim|required');
+            $this->form_validation->set_rules('option_jalur1', 'Jalur Transportir', 'trim|required|');
+            $this->form_validation->set_rules('HARGA1', 'Harga', 'trim|required|');
+            $this->form_validation->set_rules('JARAK1', 'Jarak', 'trim|required|');
+        } 
+
         $id = $this->input->post('id');
          if ($id == '') {
             if (empty($_FILES['FILE_UPLOAD']['name'])){
