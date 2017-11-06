@@ -43,6 +43,11 @@ class peta_jalur extends MX_Controller {
         echo Modules::run("template/admin", $data);
     }
 
+    public function get_peta() {
+        $rest = $this->peta_jalur_model->get_peta();
+        echo json_encode($rest);
+    }
+
 }
 
 /* End of file wilayah.php */

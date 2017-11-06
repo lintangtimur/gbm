@@ -94,6 +94,19 @@ class peta_jalur_model extends CI_Model {
         return $option;    
         
     }  
+
+    public function get_peta() {
+        $q="SELECT A.ID_DEPO, A.NAMA_DEPO, A.LAT_DEPO, A.LOT_DEPO, 
+            M4.LEVEL4, M4.LAT_LVL4, M4.LOT_LVL4
+            FROM MASTER_DEPO A
+            INNER JOIN DET_KONTRAK_TRANS B ON B.ID_DEPO=A.ID_DEPO
+            INNER JOIN MASTER_LEVEL4 M4 ON M4.SLOC=B.SLOC
+            GROUP BY A.ID_DEPO, M4.SLOC";
+
+        $query = $this->db->query($q);
+
+        return $query->result();       
+    }
 }
 
 /* End of file unit_model.php */

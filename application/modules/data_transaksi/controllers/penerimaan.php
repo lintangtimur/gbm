@@ -66,9 +66,11 @@ class penerimaan extends MX_Controller
 
         if ($level_user==2){
             $data_lv = $this->tbl_get_combo->get_level($level_user+3,$kode_level);
-            $option_lv3[$data_lv[0]->STORE_SLOC] = $data_lv[0]->LEVEL3;
-            $data['lv3_options'] = $option_lv3;
-            $data['lv4_options'] = $this->tbl_get_combo->options_lv4('--Pilih Level 4--', $data_lv[0]->STORE_SLOC, 1); 
+            if ($data_lv){
+                $option_lv3[$data_lv[0]->STORE_SLOC] = $data_lv[0]->LEVEL3;
+                $data['lv3_options'] = $option_lv3;
+                $data['lv4_options'] = $this->tbl_get_combo->options_lv4('--Pilih Level 4--', $data_lv[0]->STORE_SLOC, 1); 
+            }
         }    
 
         if ($id != '') {
