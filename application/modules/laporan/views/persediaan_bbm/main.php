@@ -99,8 +99,8 @@
                     <th>2</th>
                     <th>3</th>
                     <th>4</th>
-                    <th>DO/TUG</th>
-                    <th>Real</th>
+                    <th>Terima Pemasok</th>
+                    <th>Terima Unit Lain</th>
                     <th>Sendiri</th>
                     <th>Kirim</th>
                     <th>Akhir</th>
@@ -180,7 +180,9 @@
                             var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
                             var SHO = value.SHO == null ? "" : value.SHO;
                             var SHO = SHO.toString().replace(/\./g, ',');  
-                            var REV = value.REVISI_MUTASI_PERSEDIAAN == null ? "" : value.REVISI_MUTASI_PERSEDIAAN;
+                            var REV = value.REVISI_MUTASI_PERSEDIAAN == null ? "0" : value.REVISI_MUTASI_PERSEDIAAN;
+							var TERIMA_PEMASOK = value.TERIMA_PEMASOK == null ? "0" : value.TERIMA_PEMASOK;
+							var TERIMA_UNITLAIN = value.TERIMA_UNITLAIN == null ? "0" : value.TERIMA_UNITLAIN;
 
                             var strRow =
                                     '<tr>' +
@@ -193,8 +195,8 @@
                                     '<td>' + NAMA_JNS_BHN_BKR + '</td>' +
                                     '<td>' + TGL_MUTASI_PERSEDIAAN + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOCK_AWAL) + '</td>' +
-                                    '<td align="right">' + convertToRupiah(PENERIMAAN_REAL) + '</td>' +
-                                    '<td align="right">' + convertToRupiah(PENERIMAAN_REAL) + '</td>' +
+                                    '<td align="right">' + convertToRupiah(TERIMA_PEMASOK) + '</td>' +
+                                    '<td align="right">' + convertToRupiah(TERIMA_UNITLAIN) + '</td>' +
                                     '<td align="right">' + convertToRupiah(PEMAKAIAN_SENDIRI) + '</td>' +
                                     '<td align="right">' + convertToRupiah(KIRIM) + '</td>' +
                                     '<td align="right">' + convertToRupiah(VOLUME) + '</td>' +
