@@ -120,6 +120,9 @@ class master_level4 extends MX_Controller {
             $data['LAT_LVL4'] = $this->input->post('LAT_LVL4');
             $data['LOT_LVL4'] = $this->input->post('LOT_LVL4');
             $data['STATUS_LVL4'] = $this->input->post('STATUS_LVL4');
+            $data['STATUS_LVL2'] = $this->input->post('STATUS_LVL2');
+            $data['IS_AKTIF_LVL4'] = $this->input->post('IS_AKTIF_LVL4');
+            $data['CD_BY_LEVEL4'] = $this->session->userdata('user_name');
 
             if ($id == '') {
                 if ($this->tbl_get->save_as_new($data)) {

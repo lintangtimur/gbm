@@ -8,11 +8,16 @@
         echo form_open_multipart($form_action, array('id' => 'finput', 'class' => 'form-horizontal'), $hidden_form);
         ?>
          <div class="control-group">
-            <label for="password" class="control-label">Status Anak Perusahaan  : </label>
-            <div class="controls">
+            <label for="password" class="control-label">Status Anak Perusahaan  : 
             <?php echo form_checkbox('STATUS_LVL4', '1',!empty($default->STATUS_LVL4) ? $default->STATUS_LVL4 : '', 'class ="STATUS"' ); ?>  <!-- <b>Status Anak Perusahaan</b> -->
-            </div>
-        </div>   
+            </label>
+            <label for="password" class="control-label">Status Tampa Level 2  : 
+            <?php echo form_checkbox('STATUS_LVL2', '1',!empty($default->STATUS_LVL2) ? $default->STATUS_LVL2 : '', 'class ="STATUS"' ); ?>  <!-- <b>Status Anak Perusahaan</b> -->
+            </label>
+            <label for="password" class="control-label">Status Aktif  : 
+            <?php echo form_checkbox('IS_AKTIF_LVL4', '1',!empty($default->IS_AKTIF_LVL4) ? $default->IS_AKTIF_LVL4 : '', 'class ="STATUS"' ); ?>  <!-- <b>Status Anak Perusahaan</b> -->
+            </label>
+        </div>      
         <div class="control-group">
             <label for="password" class="control-label">Regional <span class="required">*</span> : </label>
             <div class="controls">
