@@ -88,7 +88,7 @@ class master_level1 extends MX_Controller {
     public function proses() {
         $this->form_validation->set_rules('ID_REGIONAL', 'Regional','required');
         $this->form_validation->set_rules('LEVEL1', 'Level 1', 'trim|required|max_length[50]');
-        $this->form_validation->set_rules('COCODE', 'Company Code', 'trim|required|max_length[50]');
+        $this->form_validation->set_rules('COCODE', 'Company Code', 'trim|required|max_length[10]');
         if ($this->form_validation->run($this)) {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
             $id = $this->input->post('id');
@@ -97,14 +97,17 @@ class master_level1 extends MX_Controller {
             $data['ID_REGIONAL'] = $this->input->post('ID_REGIONAL');
             $data['LEVEL1'] = $this->input->post('LEVEL1');
             $data['COCODE'] = $this->input->post('COCODE');
+            $data['IS_AKTIF_LVL1'] = $this->input->post('IS_AKTIF_LVL1');
 
             $id_co=$data['COCODE']; 
             if ($id == '') {
                 if ($this->tbl_get->check_cocode($id_co) == FALSE)
                 {
-                    $message = array(false, 'Proses GAGAL', ' Company Code '.$id_co.' Sudah Ada.', '#content_table');
+                    $message = array(false, 'Proses GAGAL', ' Company Code '.$id_co.' Sudah Ada.', '');
                 }
-                else{           
+                else{ 
+                    $data['CD_BY_LVL1'] = $this->session->userdata('user_name');
+                    $data['CD_LVL1'] = date("Y/m/d H:i:s");          
                     if ($this->tbl_get->save_as_new($data)) {
                         $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
                     }
@@ -112,15 +115,17 @@ class master_level1 extends MX_Controller {
                 
             }else{
                 if($id==$id_co){
+                    $data['UD_LVL1'] = date("Y/m/d H:i:s"); 
                     if ($this->tbl_get->save($data, $id)) {
                         $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
                     }
                 }else{
                     if ($this->tbl_get->check_cocode($id_co) == FALSE)
                     {
-                        $message = array(false, 'Proses GAGAL', ' Company Code '.$id_co.' Sudah Ada.', '#content_table');
+                        $message = array(false, 'Proses GAGAL', ' Company Code '.$id_co.' Sudah Ada.', '');
                     }
-                    else{           
+                    else{
+                        $data['UD_LVL1'] = date("Y/m/d H:i:s");            
                         if ($this->tbl_get->save($data, $id)) {
                             $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
                         }

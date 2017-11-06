@@ -95,7 +95,7 @@ class master_level2 extends MX_Controller {
         $this->form_validation->set_rules('ID_REGIONAL', 'Regional','required');
         $this->form_validation->set_rules('COCODE', 'Level 1','required');
         $this->form_validation->set_rules('LEVEL2', 'Level 2', 'trim|required|max_length[50]');
-        $this->form_validation->set_rules('PLANT', 'Kode Plant', 'trim|required|max_length[50]');
+        $this->form_validation->set_rules('PLANT', 'Kode Plant', 'trim|required|max_length[10]');
         if ($this->form_validation->run($this)) {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
             $id = $this->input->post('id');
@@ -104,14 +104,17 @@ class master_level2 extends MX_Controller {
             $data['LEVEL2'] = $this->input->post('LEVEL2');
             $data['PLANT'] = $this->input->post('PLANT');
             $data['COCODE'] = $this->input->post('COCODE');
+            $data['IS_AKTIF_LVL2'] = $this->input->post('IS_AKTIF_LVL2');
 
             $id_plant=$data['PLANT']; 
             if ($id == '') {
                 if ($this->tbl_get->check_plant($id_plant) == FALSE)
                 {
-                    $message = array(false, 'Proses GAGAL', ' PLANT '.$id_plant.' Sudah Ada.', '#content_table');
+                    $message = array(false, 'Proses GAGAL', ' PLANT '.$id_plant.' Sudah Ada.', '');
                 }
-                else{           
+                else{
+                    $data['CD_BY_LVL2'] = $this->session->userdata('user_name');
+                    $data['CD_LVL2'] = date("Y/m/d H:i:s");           
                     if ($this->tbl_get->save_as_new($data)) {
                         $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
                     }
@@ -119,15 +122,17 @@ class master_level2 extends MX_Controller {
                 
             }else{
                 if($id==$id_plant){
+                    $data['UD_LVL2'] = date("Y/m/d H:i:s"); 
                     if ($this->tbl_get->save($data, $id)) {
                         $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
                     }
                 }else{
                     if ($this->tbl_get->check_plant($id_plant) == FALSE)
                     {
-                        $message = array(false, 'Proses GAGAL', ' PLANT '.$id_plant.' Sudah Ada.', '#content_table');
+                        $message = array(false, 'Proses GAGAL', ' PLANT '.$id_plant.' Sudah Ada.', '');
                     }
-                    else{           
+                    else{
+                        $data['UD_LVL2'] = date("Y/m/d H:i:s");            
                         if ($this->tbl_get->save($data, $id)) {
                             $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
                         }

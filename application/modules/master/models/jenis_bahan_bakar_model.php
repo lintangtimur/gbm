@@ -27,7 +27,20 @@
 			
 			return $this->db;
 		}
-		
+
+		function check_jns($kd_jns){
+			$query = $this->db->get_where($this->_table1, array('KODE_JNS_BHN_BKR' => $kd_jns));
+		   
+			if ($query->num_rows() > 0)
+			{
+				return FALSE;
+			}
+			else
+			{
+				return TRUE;
+			}
+		 }
+
 		public function save_as_new($data) {
 			$this->db->trans_begin();
 			$this->db->set_id($this->_table1, 'ID_JNS_BHN_BKR', 'no_prefix', 3);

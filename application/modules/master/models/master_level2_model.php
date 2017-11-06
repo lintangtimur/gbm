@@ -30,6 +30,8 @@ class master_level2_model extends CI_Model {
         if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
 
+        $this->db->order_by('a.CD_LVL2', 'ASC');
+
         return $this->db;
     }
 

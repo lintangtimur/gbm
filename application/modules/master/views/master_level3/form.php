@@ -36,6 +36,12 @@
             <div class="controls">
                 <?php echo form_input('STORE_SLOC', !empty($default->STORE_SLOC) ? $default->STORE_SLOC : '', 'class="span6"'); ?>
             </div>
+        </div>
+        <div class="control-group">
+            <label for="password" class="control-label">Aktif : </label>
+            <div class="controls">
+            <?php echo form_checkbox('IS_AKTIF_LVL3', '1', !empty($default->IS_AKTIF_LVL3) ? $default->IS_AKTIF_LVL3 : '' ); ?>
+            </div>
         </div>   
         <div class="form-actions">
             <?php echo anchor(null, '<i class="icon-save"></i> Simpan', array('id' => 'button-save', 'class' => 'blue btn', 'onclick' => "simpan_data(this.id, '#finput', '#button-back')")); ?>

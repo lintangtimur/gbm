@@ -99,8 +99,8 @@ class master_level3 extends MX_Controller {
         $this->form_validation->set_rules('ID_REGIONAL', 'Regional','required');
         $this->form_validation->set_rules('COCODE', 'Level 1','required');
         $this->form_validation->set_rules('PLANT', 'Level 2', 'required');
-        $this->form_validation->set_rules('LEVEL3', 'Level 3', 'trim|required|max_length[50]');
-        $this->form_validation->set_rules('STORE_SLOC', 'Store Sloc', 'trim|required|max_length[50]');
+        $this->form_validation->set_rules('LEVEL3', 'Level 3', 'trim|required|max_length[10]');
+        $this->form_validation->set_rules('STORE_SLOC', 'Store Sloc', 'trim|required|max_length[10]');
         if ($this->form_validation->run($this)) {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
             $id = $this->input->post('id');
@@ -110,14 +110,39 @@ class master_level3 extends MX_Controller {
             $data['STORE_SLOC'] = $this->input->post('STORE_SLOC');
             $data['PLANT'] = $this->input->post('PLANT');
 
+            $store_sloc=$data['STORE_SLOC']; 
             if ($id == '') {
-                if ($this->tbl_get->save_as_new($data)) {
-                    $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
+                if ($this->tbl_get->check_level3($store_sloc) == FALSE)
+                {
+                    $message = array(false, 'Proses GAGAL', ' STORE SLOC '.$store_sloc.' Sudah Ada.', '');
                 }
-            } else {
-                if ($this->tbl_get->save($data, $id)) {
-                    $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+                else{ 
+                    $data['CD_BY_LVL3'] = $this->session->userdata('user_name');
+                    $data['CD_LVL3'] = date("Y/m/d H:i:s");          
+                    if ($this->tbl_get->save_as_new($data)) {
+                        $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
+                    }
                 }
+                
+            }else{
+                if($id==$store_sloc){
+                    $data['UD_LVL3'] = date("Y/m/d H:i:s"); 
+                    if ($this->tbl_get->save($data, $id)) {
+                        $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+                    }
+                }else{
+                    if ($this->tbl_get->check_level3($store_sloc) == FALSE)
+                    {
+                        $message = array(false, 'Proses GAGAL', ' STORE SLOC '.$store_sloc.' Sudah Ada.', '');
+                    }
+                    else{
+                        $data['UD_LVL3'] = date("Y/m/d H:i:s");            
+                        if ($this->tbl_get->save($data, $id)) {
+                            $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+                        }
+                    }
+                }
+                    
             }
         } else {
             $message = array(false, 'Proses gagal', validation_errors(), '');

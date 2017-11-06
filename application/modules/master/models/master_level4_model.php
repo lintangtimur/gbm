@@ -32,8 +32,22 @@ class master_level4_model extends CI_Model {
         if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
 
+        $this->db->order_by('a.CD_LVL4', 'ASC');
+
         return $this->db;
     }
+    function check_level4($sloc, $plant){
+        $query = $this->db->get_where($this->_table1, array('SLOC' => $sloc, 'PLANT' => $plant));
+        
+        if ($query->num_rows() > 0)
+        {
+            return FALSE;
+        }
+        else
+        {
+            return TRUE;
+        }
+     }
 
     public function save_as_new($data) {
         $this->db->trans_begin();

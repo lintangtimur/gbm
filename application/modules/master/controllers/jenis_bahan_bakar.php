@@ -94,14 +94,41 @@ class jenis_bahan_bakar extends MX_Controller {
             $data['KODE_JNS_BHN_BKR'] = $this->input->post('KODE_JNS_BHN_BKR');
             $data['NAMA_JNS_BHN_BKR'] = $this->input->post('NAMA_JNS_BHN_BKR');
 
+            $kd_jns=$data['KODE_JNS_BHN_BKR']; 
             if ($id == '') {
-                if ($this->jenis_bahan_bakar_model->save_as_new($data)) {
-                    $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
+                if ($this->jenis_bahan_bakar_model->check_jns($kd_jns) == FALSE)
+                {
+                    $message = array(false, 'Proses GAGAL', ' Kode Jenis Bahan Bakar '.$kd_jns.' Sudah Ada.', '');
                 }
-            } else {
-                if ($this->jenis_bahan_bakar_model->save($data, $id)) {
-                    $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+                else{
+                    $data['CD_BY_JNS_BHN_BKR'] = $this->session->userdata('user_name');
+                    $data['CD_JNS_BHN_BKR'] = date("Y/m/d H:i:s");             
+                    if ($this->jenis_bahan_bakar_model->save_as_new($data)) {
+                        $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
+                    }
                 }
+                
+            }else{
+                $data_db = $this->jenis_bahan_bakar_model->data($id);
+                $hasil=$data_db->get()->row();
+                $kd=$hasil->KODE_JNS_BHN_BKR;
+                if($kd==$kd_jns){
+                    if ($this->jenis_bahan_bakar_model->save($data, $id)) {
+                        $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+                    }
+                }else{
+                    if ($this->jenis_bahan_bakar_model->check_jns($kd_jns) == FALSE)
+                    {
+                        $message = array(false, 'Proses GAGAL', ' Kode Jenis Bahan Bakar '.$kd_jns.' Sudah Ada.', '');
+                    }
+                    else{
+                        $data['UD_JNS_BHN_BKR'] = date("Y/m/d H:i:s");              
+                        if ($this->jenis_bahan_bakar_model->save($data, $id)) {
+                            $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+                        }
+                    }
+                }
+                    
             }
         } else {
             $message = array(false, 'Proses gagal', validation_errors(), '');

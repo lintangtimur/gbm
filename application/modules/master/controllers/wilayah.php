@@ -85,7 +85,6 @@ class wilayah extends MX_Controller {
 
             $data = array();
             $data['NAMA_WILAYAH'] = $this->input->post('NAMA_WILAYAH');
-
             if ($id == '') {
                 if ($this->wilayah_model->save_as_new($data)) {
                     $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');

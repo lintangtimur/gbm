@@ -106,7 +106,7 @@ class master_level4 extends MX_Controller {
             $this->form_validation->set_rules('STORE_SLOC', 'Level 3', 'required');            
         } 
         $this->form_validation->set_rules('LEVEL4', 'Level 4', 'trim|required|max_length[50]');
-        $this->form_validation->set_rules('SLOC', 'Sloc', 'trim|required|max_length[50]');
+        $this->form_validation->set_rules('SLOC', 'Sloc', 'trim|required|max_length[10]');
         if ($this->form_validation->run($this)) {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
             $id = $this->input->post('id');
@@ -122,16 +122,45 @@ class master_level4 extends MX_Controller {
             $data['STATUS_LVL4'] = $this->input->post('STATUS_LVL4');
             $data['STATUS_LVL2'] = $this->input->post('STATUS_LVL2');
             $data['IS_AKTIF_LVL4'] = $this->input->post('IS_AKTIF_LVL4');
-            $data['CD_BY_LEVEL4'] = $this->session->userdata('user_name');
+            
+            $data_db = $this->tbl_get->data($id);
+            $hasil=$data_db->get()->row();
+            $kd=$hasil->LEVEL2;
 
+            $plant=$data['PLANT']; 
+            $sloc=$data['SLOC']; 
             if ($id == '') {
-                if ($this->tbl_get->save_as_new($data)) {
-                    $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
+                if ($this->tbl_get->check_level4($sloc, $plant) == FALSE)
+                {
+                    $message = array(false, 'Proses GAGAL', ' SLOC '.$sloc.' di area '.$kd.' Sudah Ada.', '');
                 }
-            } else {
-                if ($this->tbl_get->save($data, $id)) {
-                    $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+                else{ 
+                    $data['CD_BY_LVL4'] = $this->session->userdata('user_name');
+                    $data['CD_LVL4'] = date("Y/m/d H:i:s");          
+                    if ($this->tbl_get->save_as_new($data)) {
+                        $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
+                    }
                 }
+                
+            }else{
+                if($id==$sloc){
+                    $data['UD_LVL4'] = date("Y/m/d H:i:s"); 
+                    if ($this->tbl_get->save($data, $id)) {
+                        $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+                    }
+                }else{
+                    if ($this->tbl_get->check_level4($sloc, $plant) == FALSE)
+                    {
+                        $message = array(false, 'Proses GAGAL', ' SLOC '.$sloc.' di area '.$kd.' Sudah Ada.', '');
+                    }
+                    else{
+                        $data['UD_LVL4'] = date("Y/m/d H:i:s");            
+                        if ($this->tbl_get->save($data, $id)) {
+                            $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+                        }
+                    }
+                }
+                    
             }
         } else {
             $message = array(false, 'Proses gagal', validation_errors(), '');

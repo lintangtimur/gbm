@@ -94,14 +94,18 @@ class master_regional extends MX_Controller {
             $data = array();
             $data['ID_REGIONAL'] = $this->input->post('ID_REGIONAL');
             $data['NAMA_REGIONAL'] = $this->input->post('NAMA_REGIONAL');
+            $data['IS_AKTIF_REGIONAL'] = $this->input->post('IS_AKTIF_REGIONAL');
 
             $id_reg=$data['ID_REGIONAL']; 
             if ($id == '') {
                 if ($this->tbl_get->check_regional($id_reg) == FALSE)
                 {
-                    $message = array(false, 'Proses GAGAL', ' ID Regional '.$id_reg.' Sudah Ada.', '#content_table');
+                    $message = array(false, 'Proses GAGAL', ' ID Regional '.$id_reg.' Sudah Ada.', '');
                 }
-                else{           
+                else{
+                    $data['CD_BY_REGIONAL'] = $this->session->userdata('user_name');
+                    $data['CD_REGIONAL'] = date("Y/m/d H:i:s"); 
+
                     if ($this->tbl_get->save_as_new($data)) {
                         $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
                     }
@@ -115,9 +119,10 @@ class master_regional extends MX_Controller {
                 }else{
                     if ($this->tbl_get->check_regional($id_reg) == FALSE)
                     {
-                        $message = array(false, 'Proses GAGAL', ' ID Regional '.$id_reg.' Sudah Ada.', '#content_table');
+                        $message = array(false, 'Proses GAGAL', ' ID Regional '.$id_reg.' Sudah Ada.', '');
                     }
-                    else{           
+                    else{
+                        $data['UD_REGIONAL'] = date("Y/m/d H:i:s");            
                         if ($this->tbl_get->save($data, $id)) {
                             $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
                         }

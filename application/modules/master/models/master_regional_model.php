@@ -27,6 +27,8 @@ class master_regional_model extends CI_Model {
         if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
 
+        $this->db->order_by('CD_REGIONAL', 'ASC');
+
         return $this->db;
     }
 
@@ -90,7 +92,7 @@ class master_regional_model extends CI_Model {
         $kata_kunci = $this->input->post('kata_kunci');
 
         if (!empty($kata_kunci))
-            $filter[$this->_table1 . ".NAMA_REGIONAL LIKE '%{$kata_kunci}%' "] = NULL;
+        $filter[$this->_table1 . ".NAMA_REGIONAL LIKE '%{$kata_kunci}%' OR ID_REGIONAL LIKE '%{$kata_kunci}%'"] = NULL;
         $total = $this->data($filter)->count_all_results();
 		$this->db->limit($limit, ($offset * $limit) - $limit);
         $record = $this->data($filter)->get();
@@ -106,11 +108,12 @@ class master_regional_model extends CI_Model {
                 $aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
             }
             $rows[$id] = array(
-                'NO' => $no++,
+                'NO' => $no,
                 'ID_REGIONAL' => $row->ID_REGIONAL,
                 'NAMA_REGIONAL' => $row->NAMA_REGIONAL,
                 'aksi' => $aksi
             );
+            $no++;
         }
 
         return array('total' => $total, 'rows' => $rows);

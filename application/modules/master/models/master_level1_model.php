@@ -25,10 +25,11 @@ class master_level1_model extends CI_Model {
         $this->db->select('a.*, b.NAMA_REGIONAL ');
         $this->db->from($this->_table1.' a');
         $this->db->join('MASTER_REGIONAL b', 'b.ID_REGIONAL = a.ID_REGIONAL','left');
-        $this->db->order_by("a.COCODE", "asc");
 
         if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
+
+        $this->db->order_by('a.CD_LVL1', 'ASC');
 
         return $this->db;
     }

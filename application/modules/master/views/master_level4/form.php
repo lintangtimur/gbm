@@ -11,7 +11,7 @@
             <label for="password" class="control-label">Status Anak Perusahaan  : 
             <?php echo form_checkbox('STATUS_LVL4', '1',!empty($default->STATUS_LVL4) ? $default->STATUS_LVL4 : '', 'class ="STATUS"' ); ?>  <!-- <b>Status Anak Perusahaan</b> -->
             </label>
-            <label for="password" class="control-label">Status Tampa Level 2  : 
+            <label for="password" class="control-label">Status Tanpa Level 3  : 
             <?php echo form_checkbox('STATUS_LVL2', '1',!empty($default->STATUS_LVL2) ? $default->STATUS_LVL2 : '', 'class ="STATUS"' ); ?>  <!-- <b>Status Anak Perusahaan</b> -->
             </label>
             <label for="password" class="control-label">Status Aktif  : 
