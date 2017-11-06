@@ -67,6 +67,17 @@ class stock_opname extends MX_Controller {
         $data = $this->get_level_user(); 
         $data['id'] = $id;
         $data['id_dok'] = '';
+
+        $level_user = $this->session->userdata('level_user');
+        $kode_level = $this->session->userdata('kode_level');
+
+        if ($level_user==2){
+            $data_lv = $this->tbl_get->get_level($level_user+3,$kode_level);
+            $option_lv3[$data_lv[0]->STORE_SLOC] = $data_lv[0]->LEVEL3;
+            $data['lv3_options'] = $option_lv3;
+            $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Level 4--', $data_lv[0]->STORE_SLOC, 1); 
+        }  
+        
         if ($id != '') {
             $page_title = 'Edit Stock Opname';
             $get_tbl = $this->tbl_get->dataToUpdate($id);

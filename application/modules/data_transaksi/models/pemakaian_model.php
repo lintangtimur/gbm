@@ -553,9 +553,11 @@ class pemakaian_model extends CI_Model
                 WHERE SLOC='$key' ";
                 break;
             case "5":
-                $q = "SELECT m4.STORE_SLOC,  
-                (SELECT LEVEL3 FROM MASTER_LEVEL3 m3 WHERE m3.STORE_SLOC=m4.STORE_SLOC) LEVEL3 
-                FROM MASTER_LEVEL4 m4 where m4.PLANT= '$key' ";
+                $q = "SELECT a.LEVEL3, a.STORE_SLOC
+                FROM MASTER_LEVEL3 a
+                INNER JOIN MASTER_LEVEL2 b ON a.PLANT = b.PLANT
+                INNER JOIN MASTER_LEVEL4 c ON a.STORE_SLOC = c.STORE_SLOC AND a.PLANT = c.PLANT
+                WHERE c.STATUS_LVL2=1 AND a.PLANT = '$key' ";
                 break;
         } 
 
