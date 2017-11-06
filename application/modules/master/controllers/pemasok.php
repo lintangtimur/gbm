@@ -96,17 +96,40 @@ class pemasok extends MX_Controller {
             $data['ISAKTIF_PEMASOK'] = $this->input->post('ISAKTIF_PEMASOK');
             $data['CD_BY_PEMASOK'] = $this->session->userdata('user_name');
 
+            $kd_pemasok=$data['KODE_PEMASOK']; 
             if ($id == '') {
-                $data['CD_PEMASOK'] = date("Y/m/d");
-                $data['UD_PEMASOK'] = date("Y/m/d");
-                if ($this->pemasok_model->save_as_new($data)) {
-                    $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
+                if ($this->pemasok_model->check_pemasok($kd_pemasok) == FALSE)
+                {
+                    $message = array(false, 'Proses GAGAL', ' Kode Pemasok '.$kd_pemasok.' Sudah Ada.', '');
                 }
-            } else {
-                $data['UD_PEMASOK'] = date("Y/m/d");
-                if ($this->pemasok_model->save($data, $id)) {
-                    $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+                else{
+                    $data['CD_PEMASOK'] = date("Y/m/d H:i:s");           
+                    if ($this->pemasok_model->save_as_new($data)) {
+                        $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
+                    }
                 }
+                
+            }else{
+                $data_db = $this->pemasok_model->data($id);
+                $hasil=$data_db->get()->row();
+                $kd=$hasil->KODE_PEMASOK;
+                $data['UD_PEMASOK'] = date("Y/m/d H:i:s");
+                if($kd==$kd_pemasok){
+                    if ($this->pemasok_model->save($data, $id)) {
+                        $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+                    }
+                }else{
+                    if ($this->pemasok_model->check_pemasok($kd_pemasok) == FALSE)
+                    {
+                        $message = array(false, 'Proses GAGAL', ' Kode Pemasok '.$kd_pemasok.' Sudah Ada.', '');
+                    }
+                    else{           
+                        if ($this->pemasok_model->save($data, $id)) {
+                            $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+                        }
+                    }
+                }
+                    
             }
         } else {
             $message = array(false, 'Proses gagal', validation_errors(), '');

@@ -101,16 +101,44 @@ class transportir extends MX_Controller {
             $data['KD_TRANSPORTIR'] = $this->input->post('KD_TRANSPORTIR');
             $data['NAMA_TRANSPORTIR'] = $this->input->post('NAMA_TRANSPORTIR');
             $data['KET_TRANSPORTIR'] = $this->input->post('KET_TRANSPORTIR');
+            $data['CD_BY_TRANSPORTIR'] = $this->session->userdata('user_name');
 
+            $kd_trans=$data['KD_TRANSPORTIR']; 
             if ($id == '') {
-                if ($this->tbl_get->save_as_new($data)) {
-                    $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
+                if ($this->tbl_get->check_trans($kd_trans) == FALSE)
+                {
+                    $message = array(false, 'Proses GAGAL', ' Kode Transportir '.$kd_trans.' Sudah Ada.', '');
                 }
-            } else {
-                if ($this->tbl_get->save($data, $id)) {
-                    $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+                else{
+                    $data['CD_TRANSPORTIR'] = date("Y/m/d H:i:s");                
+                    if ($this->tbl_get->save_as_new($data)) {
+                        $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
+                    }
                 }
+                
+            }else{
+                $data_db = $this->tbl_get->data($id);
+                $hasil=$data_db->get()->row();
+                $kd=$hasil->KD_TRANSPORTIR;
+                $data['UD_TRANSPORTIR'] = date("Y/m/d H:i:s");           
+                if($kd==$kd_trans){
+                    if ($this->tbl_get->save($data, $id)) {
+                        $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+                    }
+                }else{
+                    if ($this->tbl_get->check_trans($kd_trans) == FALSE)
+                    {
+                        $message = array(false, 'Proses GAGAL', ' Kode Transportir '.$kd_trans.' Sudah Ada.', '');
+                    }
+                    else{           
+                        if ($this->tbl_get->save($data, $id)) {
+                            $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+                        }
+                    }
+                }
+                    
             }
+
         } else {
             $message = array(false, 'Proses gagal', validation_errors(), '');
         }

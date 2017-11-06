@@ -50,6 +50,12 @@
                 <?php echo form_input('ALAMAT_DEPO', !empty($default->ALAMAT_DEPO) ? $default->ALAMAT_DEPO : '', 'class="span6"'); ?>
             </div>
         </div>
+        <div class="control-group">
+            <label for="password" class="control-label">Aktif : </label>
+            <div class="controls">
+            <?php echo form_checkbox('ISAKTIF_DEPO', '1', !empty($default->ISAKTIF_DEPO) ? $default->ISAKTIF_DEPO : '' ); ?>
+            </div>
+        </div>
         <div class="form-actions">
             <?php echo anchor(null, '<i class="icon-save"></i> Simpan', array('id' => 'button-save', 'class' => 'blue btn', 'onclick' => "simpan_data(this.id, '#finput', '#button-back')")); ?>
             <?php echo anchor(null, '<i class="icon-circle-arrow-left"></i> Tutup', array('id' => 'button-back', 'class' => 'btn', 'onclick' => 'close_form_modal(this.id)')); ?>

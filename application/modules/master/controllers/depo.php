@@ -107,18 +107,45 @@ class depo extends MX_Controller {
             $data['LAT_DEPO'] = $this->input->post('LAT_DEPO');
             $data['LOT_DEPO'] = $this->input->post('LOT_DEPO');
             $data['ALAMAT_DEPO'] = $this->input->post('ALAMAT_DEPO');
+            $data['ISAKTIF_DEPO'] = $this->input->post('ISAKTIF_DEPO');
+            $data['CD_BY_DEPO'] = $this->session->userdata('user_name');
             
-
-
+            $kd_depo=$data['KD_DEPO']; 
             if ($id == '') {
-                if ($this->tbl_get->save_as_new($data)) {
-                    $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
+                if ($this->tbl_get->check_depo($kd_depo) == FALSE)
+                {
+                    $message = array(false, 'Proses GAGAL', ' Kode Depo '.$kd_depo.' Sudah Ada.', '');
                 }
-            } else {
-                if ($this->tbl_get->save($data, $id)) {
-                    $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+                else{
+                    $data['CD_DEPO'] = date("Y/m/d H:i:s");           
+                    if ($this->tbl_get->save_as_new($data)) {
+                        $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
+                    }
                 }
+                
+            }else{
+                $data_db = $this->tbl_get->data($id);
+                $hasil=$data_db->get()->row();
+                $kd=$hasil->KD_DEPO;
+                $data['UD_DEPO'] = date("Y/m/d H:i:s");
+                if($kd==$kd_depo){
+                    if ($this->tbl_get->save($data, $id)) {
+                        $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+                    }
+                }else{
+                    if ($this->tbl_get->check_depo($kd_depo) == FALSE)
+                    {
+                        $message = array(false, 'Proses GAGAL', ' Kode Depo '.$kd_depo.' Sudah Ada.', '');
+                    }
+                    else{           
+                        if ($this->tbl_get->save($data, $id)) {
+                            $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+                        }
+                    }
+                }
+                    
             }
+
         } else {
             $message = array(false, 'Proses gagal', validation_errors(), '');
         }

@@ -27,6 +27,19 @@
 			
 			return $this->db;
 		}
+
+		function check_pemasok($kd_pemasok){
+			$query = $this->db->get_where($this->_table1, array('KODE_PEMASOK' => $kd_pemasok));
+		   
+			if ($query->num_rows() > 0)
+			{
+				return FALSE;
+			}
+			else
+			{
+				return TRUE;
+			}
+		 }
 		
 		public function save_as_new($data) {
 			$this->db->trans_begin();

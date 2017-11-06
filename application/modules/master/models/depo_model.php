@@ -26,6 +26,7 @@ class depo_model extends CI_Model {
         $this->db->select('a.*, b.NAMA_PEMASOK');
         $this->db->from($this->_table1.' a');
         $this->db->join('MASTER_PEMASOK b', 'b.ID_PEMASOK = a.ID_PEMASOK', 'left');
+        
 
         if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
@@ -33,6 +34,19 @@ class depo_model extends CI_Model {
         return $this->db;
 
     }
+
+    function check_depo($kd_depo){
+        $query = $this->db->get_where($this->_table1, array('KD_DEPO' => $kd_depo));
+       
+        if ($query->num_rows() > 0)
+        {
+            return FALSE;
+        }
+        else
+        {
+            return TRUE;
+        }
+     }
 
     public function save_as_new($data) {
         $this->db->trans_begin();

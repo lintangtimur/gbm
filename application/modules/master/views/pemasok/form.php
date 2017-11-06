@@ -20,7 +20,7 @@
             </div>
         </div>
         <div class="control-group">
-            <label for="password" class="control-label">Aktif <span class="required">*</span> : </label>
+            <label for="password" class="control-label">Aktif : </label>
             <div class="controls">
             <?php echo form_checkbox('ISAKTIF_PEMASOK', '1', !empty($default->ISAKTIF_PEMASOK) ? $default->ISAKTIF_PEMASOK : '' ); ?>
             </div>
