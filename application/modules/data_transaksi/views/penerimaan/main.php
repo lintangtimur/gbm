@@ -185,9 +185,9 @@
                             vlink_url = "<?php echo base_url()?>data_transaksi/penerimaan/edit/"+data_detail[i].ID_PENERIMAAN;
                             vEdit = '<a href="javascript:void(0);" class="btn transparant" id="button-edit-'+data_detail[i].ID_PENERIMAAN+'" onclick="load_form(this.id)" data-source="'+vlink_url+'"> <i class="icon-edit"></i></a>'; 
 
-                            if (data_detail[i].KODE_STATUS !== "1"){
-                                cekbox = '';
-                            }  
+                            // if (data_detail[i].KODE_STATUS !== "1"){
+                            //     cekbox = '';
+                            // }  
 
                             // if (data_detail[i].KODE_STATUS == "0"){
                             //     vEdit = '';
