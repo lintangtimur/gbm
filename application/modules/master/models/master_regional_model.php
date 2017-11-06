@@ -107,7 +107,7 @@ class master_regional_model extends CI_Model {
             if ($this->laccess->otoritas('delete')) {
                 $aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
             }
-            $rows[$id] = array(
+            $rows[$no] = array(
                 'NO' => $no,
                 'ID_REGIONAL' => $row->ID_REGIONAL,
                 'NAMA_REGIONAL' => $row->NAMA_REGIONAL,
