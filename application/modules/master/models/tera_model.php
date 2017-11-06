@@ -10,7 +10,7 @@
 			parent::__construct();
 		}
 		
-		private $_table1 = "master_tera"; //nama table setelah mom_
+		private $_table1 = "MASTER_TERA"; //nama table setelah mom_
 		
 		private function _key($key) { //unit ID
 			if (!is_array($key)) {
