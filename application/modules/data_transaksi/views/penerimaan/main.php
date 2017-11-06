@@ -97,7 +97,7 @@
                             <table class="pull-right">
                                 <tr>
                                     <td>
-										<?php if ($this->session->userdata('level_user') === "3" || $this->session->userdata('level_user') === "4"){?>
+										<?php if ($this->session->userdata('level_user') >= "2" && $this->laccess->otoritas('add')){?>
 
 												<button class="btn btn-primary" type="button" onclick="saveDetailKirim(this)">Kirim</button>
 										<?php }?>

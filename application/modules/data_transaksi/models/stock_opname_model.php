@@ -492,6 +492,13 @@ class stock_opname_model extends CI_Model {
                 LEFT JOIN MASTER_REGIONAL E ON E.ID_REGIONAL=D.ID_REGIONAL
                 WHERE SLOC='$key' ";
                 break;
+            case "5":
+                $q = "SELECT a.LEVEL3, a.STORE_SLOC
+                FROM MASTER_LEVEL3 a
+                INNER JOIN MASTER_LEVEL2 b ON a.PLANT = b.PLANT
+                INNER JOIN MASTER_LEVEL4 c ON a.STORE_SLOC = c.STORE_SLOC AND a.PLANT = c.PLANT
+                WHERE c.STATUS_LVL2=1 AND a.PLANT = '$key' ";
+                break;
         } 
 
         $query = $this->db->query($q)->result();

@@ -92,7 +92,7 @@
                             <table class="pull-right">
                                 <tr>
                                     <td>
-                                        <?php if ($this->session->userdata('level_user') > "2"){
+                                        <?php if ($this->session->userdata('level_user') >= "2"){
                                             if ($this->laccess->otoritas('add') == true){?>
                                                 <button class="btn btn-primary" type="button" onclick="saveDetailKirim(this)">Kirim</button>
                                         <?php }}?>
