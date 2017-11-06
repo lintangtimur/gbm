@@ -76,7 +76,6 @@
             <?php echo form_close(); ?>
         </div>
         <div class="well-content no-search">
-            <!-- <div id="content_table" data-source="<?php echo $data_sources; ?>" data-filter="#ffilter"></div> -->
             <table id="dataTable" class="table table-bordered table-striped" style="max-height:600px; overflow-y:auto; display:block">
             <thead>
                 <tr>
@@ -85,7 +84,7 @@
                     <th rowspan="2">Bahan Bakar</th>
                     <th rowspan="2">Tgl Mutasi Persediaan</th>
                     <th rowspan="2">Stok Awal (L)</th>
-                    <th rowspan="2">Penerimaan Real (L)</th>
+                    <th colspan="2">Penerimaan (L)</th>
                     <th colspan="2">Pemakaian (L)</th>
                     <th rowspan="2">Volume Opname (L)</th>
                     <th rowspan="2">Dead Stok (L)</th>
@@ -100,6 +99,8 @@
                     <th>2</th>
                     <th>3</th>
                     <th>4</th>
+                    <th>DO/TUG</th>
+                    <th>Real</th>
                     <th>Sendiri</th>
                     <th>Kirim</th>
                     <th>Akhir</th>
@@ -108,7 +109,7 @@
             </thead>
             <tbody>
             <tr>
-                <td colspan="18" align="center">Data Tidak Ditemukan</td>
+                <td colspan="19" align="center">Data Tidak Ditemukan</td>
             </tr>
 
             </tbody>
@@ -192,6 +193,7 @@
                                     '<td>' + NAMA_JNS_BHN_BKR + '</td>' +
                                     '<td>' + TGL_MUTASI_PERSEDIAAN + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOCK_AWAL) + '</td>' +
+                                    '<td align="right">' + convertToRupiah(PENERIMAAN_REAL) + '</td>' +
                                     '<td align="right">' + convertToRupiah(PENERIMAAN_REAL) + '</td>' +
                                     '<td align="right">' + convertToRupiah(PEMAKAIAN_SENDIRI) + '</td>' +
                                     '<td align="right">' + convertToRupiah(KIRIM) + '</td>' +
