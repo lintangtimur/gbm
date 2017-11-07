@@ -257,6 +257,7 @@
         var url = "<?php echo base_url() ?>data_transaksi/pemakaian/saveKiriman/kirim";
 		bootbox.confirm('Yakin data ini akan dikirim ?', "Tidak", "Ya", function(e) {
 			if(e){
+				bootbox.modal('<div class="loading-progress"></div>');
 				$.ajax({
 					type: "POST",
 					url: url,
@@ -288,6 +289,7 @@
         var url = "<?php echo base_url() ?>data_transaksi/pemakaian/saveKiriman/approve";
 		bootbox.confirm('Yakin data ini akan di Setujui ?', "Tidak", "Ya", function(e) {
 			if(e){
+				bootbox.modal('<div class="loading-progress"></div>');
 				$.ajax({
 					type: "POST",
 					url: url,
@@ -318,6 +320,7 @@
         var url = "<?php echo base_url() ?>data_transaksi/pemakaian/saveKiriman/tolak";
 		bootbox.confirm('Yakin data ini akan ditolak ?', "Tidak", "Ya", function(e) {
 			if(e){
+				bootbox.modal('<div class="loading-progress"></div>');
 				$.ajax({
 					type: "POST",
 					url: url,

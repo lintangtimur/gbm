@@ -52,8 +52,8 @@ $active_group = 'default';
 $active_record = TRUE;
 
 $db['default']['hostname'] = '10.14.152.87';
-$db['default']['username'] = 'root';
-$db['default']['password'] = 'soekarno66';
+$db['default']['username'] = 'gbmon';
+$db['default']['password'] = 'VvBZh8ZETswV6FjD';
 $db['default']['database'] = 'gbm_new_dev';
 $db['default']['dbdriver'] = 'mysqli';
 $db['default']['dbprefix'] = '';
