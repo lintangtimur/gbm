@@ -167,13 +167,16 @@ class penerimaan_model extends CI_Model
         if ($_POST['TAHUN'] !='') {
             $this->db->where("TH",$_POST['TAHUN']);   
         }
+		
+		$this->db->order_by("TGL_PENGAKUAN asc");
+		
         $data = $this->db->get();
 
         return $data->result();
     }
 
     function saveDetailPenerimaan($idPenerimaan, $statusPenerimaan,$level_user,$kode_level,$user,$jumlah){
-        $query = $this->db->query("call SP_PENERIMAAN('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$kode_level."','".$user."',".$jumlah.")");
+        $query = $this->db->query("call SP_TEMP_PENERIMAAN('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$kode_level."','".$user."',".$jumlah.")");
         return $query->result();
 		// print_debug("call PROSES_PENERIMAAN_V2('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$kode_level."','".$user."',".$jumlah.")");
     }

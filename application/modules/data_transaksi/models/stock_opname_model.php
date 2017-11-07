@@ -11,9 +11,9 @@ class stock_opname_model extends CI_Model {
         parent::__construct();
     }
 
-    private $_table1 = "STOCK_OPNAME"; //nama table setelah mom_
+    private $_table1 = "STOCK_OPNAME"; 
 
-    private function _key($key) { //unit ID
+    private function _key($key) { 
         if (!is_array($key)) {
             $key = array('ID_STOCKOPNAME' => $key);
         }
@@ -58,7 +58,7 @@ class stock_opname_model extends CI_Model {
         if ($_POST['TAHUN'] !='') {
             $this->db->where("YEAR(A.TGL_PENGAKUAN)",$_POST['TAHUN']);   
         }
-
+		$this->db->order_by("A.TGL_PENGAKUAN asc");
 
         return $this->db;
     }
@@ -83,7 +83,7 @@ class stock_opname_model extends CI_Model {
         $myDate = new DateTime($TGL_PENGAKUAN);
         $TGL_PENGAKUAN = $myDate->format('dmY');
 
-        $query="CALL SP_STOCKOPNAME('$ID_STOCKOPNAME', '$SLOC', '$ID_JNS_BHN_BKR', '$TGL_PENGAKUAN', '$LEVEL_USER', '$STATUS', '$USER')";
+        $query="CALL SP_TEMP_SO('$ID_STOCKOPNAME', '$SLOC', '$ID_JNS_BHN_BKR', '$TGL_PENGAKUAN', '$LEVEL_USER', '$STATUS', '$USER')";
 		// print_debug($query);
         $data = $this->db->query($query);
         return $data->result();

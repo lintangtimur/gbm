@@ -26,7 +26,7 @@ class pemakaian_model extends CI_Model
         $this->db->select('a.*, sum(a.COUNT_VOLUME) as JML, sum(a.SUM_volume) as JML_VOLUME');
         $this->db->from($this->_table1.' a' );
 
-        if (!empty($key) || is_array($key))
+if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
 
         if ($_POST['ID_REGIONAL'] !='') {
@@ -163,7 +163,7 @@ class pemakaian_model extends CI_Model
     }
 
     function saveDetailPenerimaan($idPenerimaan, $statusPenerimaan,$level_user,$user,$jumlah){
-		$query = "call SP_PEMAKAIAN('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$user."',".$jumlah.")";
+		$query = "call SP_TEMP_PEMAKAIAN('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$user."',".$jumlah.")";
 		// print_debug($query);
         $data = $this->db->query($query);
         return $data->result();
@@ -185,7 +185,7 @@ class pemakaian_model extends CI_Model
         return $option;
     }
 
-    public function options_jenis_pemakaian($default = '--Pilih Jenis Penerimaan--') {
+    public function options_jenis_pemakaian($default = '--Pilih Jenis Pemakaian--') {
         $this->db->from('DATA_SETTING');
         $this->db->where('KEY_SETTING','JENIS_PEMAKAIAN');
         $option = array();

@@ -62,6 +62,10 @@ class persediaan_bbm_model extends CI_Model {
                 INNER JOIN M_JNS_BHN_BKR G ON G.ID_JNS_BHN_BKR=A.ID_JNS_BHN_BKR
                 WHERE ($PARAM $JENIS_BBM) AND MONTH(A.TGL_MUTASI_PERSEDIAAN) = '$BULAN' AND  YEAR(A.TGL_MUTASI_PERSEDIAAN) = '$TAHUN' 
 				AND A.IS_AKTIF_MUTASI_PERSEDIAAN = '1'
+				GROUP BY F.NAMA_REGIONAL, E.LEVEL1,D.LEVEL2,C.LEVEL3,B.LEVEL4,G.NAMA_JNS_BHN_BKR,
+                A.TGL_MUTASI_PERSEDIAAN,A.STOCK_AWAL,A.PENERIMAAN_REAL,A.PEMAKAIAN,
+                A.DEAD_STOCK,A.VOLUME_STOCKOPNAME,
+                A.STOCK_AKHIR_REAL,A.STOCK_AKHIR_EFEKTIF,A.STOCK_AKHIR_KOREKSI,A.SHO,A.REVISI_MUTASI_PERSEDIAAN
 				ORDER BY A.TGL_MUTASI_PERSEDIAAN DESC ";
 		
          $query = $this->db->query($sql);
@@ -103,7 +107,7 @@ class persediaan_bbm_model extends CI_Model {
                 $option[''] = $default;
             }
 
-            foreach ($list->result() as $row) {
+foreach ($list->result() as $row) {
                 $option[$row->COCODE] = $row->LEVEL1;
             }
             return $option;    
