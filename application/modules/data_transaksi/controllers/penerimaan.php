@@ -151,45 +151,64 @@ class penerimaan extends MX_Controller
     }
 
 
-    public function proses()
-    {
-        $data = array();
-        $data['TGL_PENERIMAAN'] = str_replace('-', '', $this->input->post('TGL_PENERIMAAN'));
-        $data['TGL_MUTASI'] = date("dmY");
-        $data['TGL_PENGAKUAN'] = str_replace('-', '', $this->input->post('TGL_PENGAKUAN'));
-        $data['ID_PEMASOK'] = $this->input->post('ID_PEMASOK');
-        $data['ID_TRANSPORTIR'] = $this->input->post('ID_TRANSPORTIR');
-        $data['SLOC'] = $this->input->post('SLOC');
-        $data['VALUE_SETTING'] = $this->input->post('VALUE_SETTING');
-        $data['NO_PENERIMAAN'] = $this->input->post('NO_PENERIMAAN');
-        $data['ID_JNS_BHN_BKR'] = $this->input->post('ID_JNS_BHN_BKR');
-        $data['VOL_PENERIMAAN'] =  str_replace(".","",$this->input->post('VOL_PENERIMAAN'));
-        $data['VOL_PENERIMAAN_REAL'] = str_replace(".","",$this->input->post('VOL_PENERIMAAN_REAL')); ;
-        $data['CREATE_BY'] = $this->session->userdata('user_name');
+    public function proses(){
+        $this->form_validation->set_rules('TGL_PENERIMAAN', 'Tanggal Penerimaan', 'required');
+        $this->form_validation->set_rules('TGL_PENGAKUAN', 'Tanggal Pengakuan', 'required');
+        $this->form_validation->set_rules('ID_PEMASOK', 'Pemasok', 'required');
+        $this->form_validation->set_rules('ID_TRANSPORTIR', 'Transportir', 'required');
+        $this->form_validation->set_rules('ID_REGIONAL', 'Regional', 'required');
+        $this->form_validation->set_rules('COCODE', 'Level l', 'required');
+        $this->form_validation->set_rules('PLANT', 'Level 2', 'required');
+        $this->form_validation->set_rules('STORE_SLOC', 'Level 3', 'required');
+        $this->form_validation->set_rules('SLOC', 'Level 4', 'required');
+        $this->form_validation->set_rules('VALUE_SETTING', 'Jenis Penerimaan', 'required');
+        $this->form_validation->set_rules('NO_PENERIMAAN', 'No Penerimaan', 'required|max_length[20]');
+        $this->form_validation->set_rules('ID_JNS_BHN_BKR', 'Jenis Bahan Bakar', 'required');
+        $this->form_validation->set_rules('VOL_PENERIMAAN', 'Volume DO/TUG', 'required|max_length[16]');
+        $this->form_validation->set_rules('VOL_PENERIMAAN_REAL', 'Volume Penerimaan', 'required|max_length[16]');
 
-        $id = $this->input->post('id');
+        if ($this->form_validation->run($this)) {
 
-        if ($id!=null || $id!="") {
-            $level_user = $this->session->userdata('level_user');
-            $kode_level = $this->session->userdata('kode_level');
+            $data = array();
+            $data['TGL_PENERIMAAN'] = str_replace('-', '', $this->input->post('TGL_PENERIMAAN'));
+            $data['TGL_MUTASI'] = date("dmY");
+            $data['TGL_PENGAKUAN'] = str_replace('-', '', $this->input->post('TGL_PENGAKUAN'));
+            $data['ID_PEMASOK'] = $this->input->post('ID_PEMASOK');
+            $data['ID_TRANSPORTIR'] = $this->input->post('ID_TRANSPORTIR');
+            $data['SLOC'] = $this->input->post('SLOC');
+            $data['VALUE_SETTING'] = $this->input->post('VALUE_SETTING');
+            $data['NO_PENERIMAAN'] = $this->input->post('NO_PENERIMAAN');
+            $data['ID_JNS_BHN_BKR'] = $this->input->post('ID_JNS_BHN_BKR');
+            $data['VOL_PENERIMAAN'] =  str_replace(".","",$this->input->post('VOL_PENERIMAAN'));
+            $data['VOL_PENERIMAAN_REAL'] = str_replace(".","",$this->input->post('VOL_PENERIMAAN_REAL')); ;
+            $data['CREATE_BY'] = $this->session->userdata('user_name');
 
-            $data['ID_PENERIMAAN']=$id;
-            $data['LEVEL_USER']=$level_user;
-            $data['KODE_LEVEL']=$kode_level;
-            $data['STATUS'] = $this->input->post('STATUS_MUTASI_TERIMA');
-            $simpan_data = $this->tbl_get->save_edit($data);
-            if ($simpan_data[0]->RCDB == 'RC00') {
-                $message = array(true, 'Proses Update Berhasil', $simpan_data[0]->PESANDB, '#content_table');
+            $id = $this->input->post('id');
+
+            if ($id!=null || $id!="") {
+                $level_user = $this->session->userdata('level_user');
+                $kode_level = $this->session->userdata('kode_level');
+
+                $data['ID_PENERIMAAN']=$id;
+                $data['LEVEL_USER']=$level_user;
+                $data['KODE_LEVEL']=$kode_level;
+                $data['STATUS'] = $this->input->post('STATUS_MUTASI_TERIMA');
+                $simpan_data = $this->tbl_get->save_edit($data);
+                if ($simpan_data[0]->RCDB == 'RC00') {
+                    $message = array(true, 'Proses Update Berhasil', $simpan_data[0]->PESANDB, '#content_table');
+                } else {
+                    $message = array(false, 'Proses Update Gagal', $simpan_data[0]->PESANDB, '');
+                }
             } else {
-                $message = array(false, 'Proses Update Gagal', $simpan_data[0]->PESANDB, '');
+                $simpan_data = $this->tbl_get->save($data);
+                if ($simpan_data[0]->RCDB == 'RC00') {
+                    $message = array(true, 'Proses Simpan Berhasil', $simpan_data[0]->PESANDB, '#content_table');
+                } else {
+                    $message = array(false, 'Proses Simpan Gagal', $simpan_data[0]->PESANDB, '');
+                }
             }
-        } else {
-            $simpan_data = $this->tbl_get->save($data);
-            if ($simpan_data[0]->RCDB == 'RC00') {
-                $message = array(true, 'Proses Simpan Berhasil', $simpan_data[0]->PESANDB, '#content_table');
-            } else {
-                $message = array(false, 'Proses Simpan Gagal', $simpan_data[0]->PESANDB, '');
-            }
+        }else {
+            $message = array(false, 'Proses gagal', validation_errors(), '');
         }
         echo json_encode($message, true);
     }
