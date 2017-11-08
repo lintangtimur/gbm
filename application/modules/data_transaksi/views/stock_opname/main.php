@@ -69,17 +69,29 @@
                                     <label for="password" class="control-label">Bulan <span class="required">*</span> : </label>
                                     <label for="password" class="control-label" style="margin-left:95px">Tahun <span class="required">*</span> : </label>
                                     <div class="controls">
-                                        <?php echo form_dropdown('BULAN', $opsi_bulan, '','style="width: 137px;"'); ?>
-                                        <?php echo form_dropdown('TAHUN', $opsi_tahun, '','style="width: 80px;"'); ?>
+                                    
+                                    <?php echo form_dropdown('BULAN', $opsi_bulan, '','style="width: 137px;", id="bln"'); ?>                 
+                                    <?php echo form_dropdown('TAHUN', $opsi_tahun, '','style="width: 80px;"'); ?>
                                     </div>
                                 </div>
-                                <div class="pull-left span3">
-                                    <label></label>
-                                    <div class="controls">
-                                    <?php echo anchor(NULL, "<i class='icon-search'></i> Load", array('class' => 'btn', 'id' => 'button-filter')); ?>
-                                    </div>
+                            </div> 
+                            <div class="form_row">
+                            <div class="pull-left span5">
+                                <div class="controls">
+                                    <table>
+                                        <tr>
+                                            <td colspan=2><label>Kata Kunci</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo form_input('kata_kunci', '', 'class="input-large"'); ?></td>
+                                            <td> &nbsp </td>
+                                            <td><?php echo anchor(NULL, "<i class='icon-search'></i> Filter", array('class' => 'btn', 'id' => 'button-filter')); ?></td>
+                                        </tr>
+                                    </table>
                                 </div>
-                            </div>    
+                            </div>
+                        </div>   
 						<?php echo form_close(); ?>
                         </div>
                     </div> 

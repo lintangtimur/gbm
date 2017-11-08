@@ -275,11 +275,12 @@ class stock_opname extends MX_Controller {
             $data['STATUS_APPROVE_STOCKOPNAME'] = $this->input->post('0');
 
             if ($id == '') {
-                $new_name = $data['NO_STOCKOPNAME'].'_'.date('Ymd').'_'.$_FILES["FILE_UPLOAD"]['name'];
+                $new_name = $data['NO_STOCKOPNAME'].'_'.date("YmdHis");
                 $config['file_name'] = $new_name;
                 $config['upload_path'] = 'assets/upload_stock_opname/';
                 $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
                 $config['max_size'] = 1024 * 4; 
+                $config['permitted_uri_chars'] = 'a-z 0-9~%.:&_\-'; 
     
                 $this->load->library('upload', $config);
                 if (!$this->upload->do_upload('FILE_UPLOAD')){
@@ -325,11 +326,12 @@ class stock_opname extends MX_Controller {
                             }
                     }
                             
-                    $new_name = $data['NO_STOCKOPNAME'].'_'.date('Ymd').'_'.$_FILES["FILE_UPLOAD"]['name'];
+                    $new_name = $data['NO_STOCKOPNAME'].'_'.date("YmdHis");
                     $config['file_name'] = $new_name;
                     $config['upload_path'] = 'assets/upload_stock_opname/';
                     $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
                     $config['max_size'] = 1024 * 4; 
+                    $config['permitted_uri_chars'] = 'a-z 0-9~%.:&_\-'; 
                 
                     $this->load->library('upload', $config);
                     if (!$this->upload->do_upload('FILE_UPLOAD')){

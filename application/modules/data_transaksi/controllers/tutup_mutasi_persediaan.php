@@ -13,11 +13,11 @@ if (!defined("BASEPATH"))
 /**
  * @module Master Wilayah
  */
-class depo extends MX_Controller {
+class tutup_mutasi_persediaan extends MX_Controller {
 
-    private $_title = 'Master Depo / Depot';
+    private $_title = 'Tutup Mutasi Persediaan';
     private $_limit = 10;
-    private $_module = 'master/depo';
+    private $_module = 'data_transaksi/tutup_mutasi_persediaan';
 
     public function __construct() {
         parent::__construct();
@@ -28,7 +28,7 @@ class depo extends MX_Controller {
         $this->laccess->otoritas('view', true);
 
         /* Load Global Model */
-        $this->load->model('depo_model', 'tbl_get');
+        $this->load->model('tutup_mutasi_persediaan_model', 'tbl_get');
     }
 
     public function index() {
@@ -36,7 +36,7 @@ class depo extends MX_Controller {
         $this->load->module("template/asset");
 
         // Memanggil plugin JS Crud
-        $this->asset->set_plugin(array('crud','gembul'));
+        $this->asset->set_plugin(array('crud'));
         $data['button_group'] = array();
         if ($this->laccess->otoritas('add')) {
         $data['button_group'] = array(
@@ -53,11 +53,11 @@ class depo extends MX_Controller {
         $page_title = 'Tambah '.$this->_title;
         $data['id'] = $id;
         if ($id != '') {
-            $page_title = 'Edit Depo / Depot';
+            $page_title = 'Edit '.$this->_title;
             $get_tbl = $this->tbl_get->data($id);
             $data['default'] = $get_tbl->get()->row();
         }
-        $data['parent_options'] = $this->tbl_get->options_pemasok();
+        $data['parent_options'] = $this->tbl_get->options_status_mutasi();
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses');
         $this->load->view($this->_module . '/form', $data);
@@ -71,20 +71,16 @@ class depo extends MX_Controller {
         $data_table = $this->tbl_get->data_table($this->_module, $this->_limit, $page);
         $this->load->library("ltable");
         $table = new stdClass();
-        $table->id = 'ID_DEPO';
+        $table->id = 'ID_MUTASI';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('ID_DEPO' => 'center', 'NAMA_PEMASOK' => 'center','KD_DEPO' => 'center', 'NAMA_DEPO' => 'center', 'LAT_DEPO' => 'center', 'LOT_DEPO' => 'center', 'ALAMAT_DEPO' => 'center', 'aksi' => 'center');
+        $table->align = array('ID_MUTASI' => 'center', 'TGL_TUTUP' => 'center', 'NAME_SETTING' => 'center', 'aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
-        $table->jumlah_kolom = 8;
+        $table->jumlah_kolom = 4;
         $table->header[] = array(
             "No", 1, 1,
-            "Nama Pemasok", 1, 1,
-            "Kode DEPO", 1, 1,
-            "Nama Depo", 1, 1,
-            "LAT", 1, 1,
-            "LONG", 1, 1,
-            "Alamat", 1, 1,
+            "Tanggal Tutup", 1, 1,
+            "STATUS", 1, 1,
             "Aksi", 1, 1
         );
         $table->total = $data_table['total'];
@@ -94,59 +90,36 @@ class depo extends MX_Controller {
     }
 
     public function proses() {
-        $this->form_validation->set_rules('NAMA_PEMASOK', 'NAMA PEMASOK', 'required');
-        $this->form_validation->set_rules('KD_DEPO', 'KODE DEPO', 'trim|required|max_length[20]');
+        $this->form_validation->set_rules('TGL_TUTUP', 'required');
         if ($this->form_validation->run($this)) {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
             $id = $this->input->post('id');
 
             $data = array();
-            $data['ID_PEMASOK'] = $this->input->post('ID_PEMASOK');
-            $data['NAMA_DEPO'] = $this->input->post('NAMA_DEPO');
-            $data['KD_DEPO'] = $this->input->post('KD_DEPO');
-            $data['LAT_DEPO'] = $this->input->post('LAT_DEPO');
-            $data['LOT_DEPO'] = $this->input->post('LOT_DEPO');
-            $data['ALAMAT_DEPO'] = $this->input->post('ALAMAT_DEPO');
-            $data['ISAKTIF_DEPO'] = $this->input->post('ISAKTIF_DEPO');
-            $data['CD_BY_DEPO'] = $this->session->userdata('user_name');
-            
-            $kd_depo=$data['KD_DEPO']; 
+            $data['TGL_TUTUP'] = $this->input->post('TGL_TUTUP');
+            $bulantahun = new DateTime($data['TGL_TUTUP']);
+            $data['BLTH'] = $bulantahun->format('Y-m');
+            $data['TGL_TUTUP'] = $this->input->post('TGL_TUTUP');
+            $data['PLANT']='0';
+           
             if ($id == '') {
-                if ($this->tbl_get->check_depo($kd_depo) == FALSE)
-                {
-                    $message = array(false, 'Proses GAGAL', ' Kode Depo '.$kd_depo.' Sudah Ada.', '');
-                }
-                else{
-                    $data['CD_DEPO'] = date("Y/m/d H:i:s");           
+                    $data['STATUS'] = $this->input->post('VALUE_SETTING');           
                     if ($this->tbl_get->save_as_new($data)) {
                         $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
                     }
-                }
-                
             }else{
-                $data_db = $this->tbl_get->data($id);
-                $hasil=$data_db->get()->row();
-                $kd=$hasil->KD_DEPO;
-                $data['UD_DEPO'] = date("Y/m/d H:i:s");
-                if($kd==$kd_depo){
+                $data['TGL_UPDATE']=date("Y/m/d H:i:s");
+                $data['UPDATE_BY']=$this->session->userdata('user_name');
                     if ($this->tbl_get->save($data, $id)) {
-                        $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
-                    }
-                }else{
-                    if ($this->tbl_get->check_depo($kd_depo) == FALSE)
-                    {
-                        $message = array(false, 'Proses GAGAL', ' Kode Depo '.$kd_depo.' Sudah Ada.', '');
-                    }
-                    else{           
-                        if ($this->tbl_get->save($data, $id)) {
+                        $data['ID_MUTASI'] =$id;
+                        $data['TGL_LOG']=date("Y/m/d H:i:s");
+                        if ($this->tbl_get->save_as_new_log($data)) {
                             $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
                         }
-                    }
-                }
-                    
+                    }     
             }
 
-        } else {
+        }else {
             $message = array(false, 'Proses gagal', validation_errors(), '');
         }
         echo json_encode($message, true);
