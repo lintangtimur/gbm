@@ -12,8 +12,8 @@ class permintaan_model extends CI_Model
         parent::__construct();
     }
 
-    private $_table1 = "VLOAD_LIST_PENERIMAAN_V2"; //nama table setelah mom_
-    private $_table2 = "MUTASI_PENERIMAAN"; //nama table setelah mom_
+    private $_table1 = "VLOAD_LIST_NOMINASI"; //nama table setelah mom_
+    private $_table2 = "MUTASI_NOMINASI"; //nama table setelah mom_
 
     private function _key($key) { //unit ID
         if (!is_array($key)) {
@@ -140,11 +140,11 @@ class permintaan_model extends CI_Model
 
     function getTableViewDetail(){
 
-        $this->db->from('VLOAD_LIST_DETAIL_PENERIMAAN_V2');
+        $this->db->from('VLOAD_LIST_DETAIL_NOMINASI');
 
 
         if ($_POST['TGL_PENGAKUAN'] !='') {
-            $this->db->where("DATE_FORMAT(TGL_PENGAKUAN,'%m%Y')",$_POST['TGL_PENGAKUAN']);
+            $this->db->where("DATE_FORMAT(TGL_MTS_NOMINASI,'%m%Y')",$_POST['TGL_PENGAKUAN']);
         }
         if ($_POST['ID_REGIONAL'] !='') {
             $this->db->where('ID_REGIONAL',$_POST['ID_REGIONAL']);
@@ -454,50 +454,44 @@ class permintaan_model extends CI_Model
     }
 
     public function save($data){
-        $sql = "CALL SAVE_PENERIMAAN ('"
-            .$data['ID_TRANSPORTIR']."','"
-            .$data['ID_PEMASOK']."','"
-            .$data['SLOC']."','"
-            .$data['TGL_PENGAKUAN']."',
-            '".$data['TGL_MUTASI']."','"
-            .$data['TGL_PENERIMAAN']."','"
-            .$data['VALUE_SETTING']."',"
-            .$data['VOL_PENERIMAAN'].","
-            .$data['VOL_PENERIMAAN_REAL'].",
-            '',
-            '0','".
-            $data['CREATE_BY']."','"
-            .$data['NO_PENERIMAAN']."','"
-            .$data['ID_JNS_BHN_BKR']."')";
+        $sql = "CALL SAVE_NOMINASI (
+            '".$data['ID_PEMASOK']."',
+            '".$data['SLOC']."',
+            '".$data['TGL_MTS_NOMINASI']."',
+            ".$data['VOLUME_NOMINASI'].",
+            '".$data['CREATE_BY']."',
+            '".$data['NO_NOMINASI']."',
+            '".$data['ID_JNS_BHN_BKR']."',
+            '".$data['PATH_FILE']."' )";
 //        echo $sql;
         $query = $this->db->query($sql);
         $this->db->close();
         return $query->result();
     }
 
-    public function save_edit($data){
-        $sql = "CALL EDIT_PENERIMAAN (
-            '".$data['ID_PENERIMAAN']."',
-            '".$data['STATUS']."',
-            '".$data['LEVEL_USER']."',
-            '".$data['KODE_LEVEL']."',
-            '".$data['CREATE_BY']."',
-            ".$data['VOL_PENERIMAAN'].",
-            ".$data['VOL_PENERIMAAN_REAL'].",
-            '".$data['ID_TRANSPORTIR']."',
-            '".$data['ID_PEMASOK']."',
-            '".$data['SLOC']."',
-            '".$data['TGL_PENGAKUAN']."',
-            '".$data['TGL_PENERIMAAN']."',
-            '".$data['VALUE_SETTING']."',
-            '',
-            '".$data['ID_JNS_BHN_BKR']."',
-            '".$data['NO_PENERIMAAN']."')";
-       // echo $sql; die;
-        $query = $this->db->query($sql);
-        $this->db->close();
-        return $query->result();
-    }
+    // public function save_edit($data){
+    //     $sql = "CALL EDIT_PENERIMAAN (
+    //         '".$data['ID_PENERIMAAN']."',
+    //         '".$data['STATUS']."',
+    //         '".$data['LEVEL_USER']."',
+    //         '".$data['KODE_LEVEL']."',
+    //         '".$data['CREATE_BY']."',
+    //         ".$data['VOL_PENERIMAAN'].",
+    //         ".$data['VOL_PENERIMAAN_REAL'].",
+    //         '".$data['ID_TRANSPORTIR']."',
+    //         '".$data['ID_PEMASOK']."',
+    //         '".$data['SLOC']."',
+    //         '".$data['TGL_PENGAKUAN']."',
+    //         '".$data['TGL_PENERIMAAN']."',
+    //         '".$data['VALUE_SETTING']."',
+    //         '',
+    //         '".$data['ID_JNS_BHN_BKR']."',
+    //         '".$data['NO_PENERIMAAN']."')";
+    //    // echo $sql; die;
+    //     $query = $this->db->query($sql);
+    //     $this->db->close();
+    //     return $query->result();
+    // }
 
 }
 ?>

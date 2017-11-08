@@ -55,7 +55,7 @@ class permintaan extends MX_Controller
 
     public function add($id = '')
     {
-        $page_title = 'Tambah Permintaan';
+        $page_title = 'Tambah Nominasi / Permintaan';
         $data = $this->get_level_user();
         $data['id'] = $id;
 
@@ -70,7 +70,7 @@ class permintaan extends MX_Controller
         }    
 
         if ($id != '') {
-            $page_title = 'Edit Permintaan';
+            $page_title = 'Edit Nominasi / Permintaan';
             $get_tbl = $this->tbl_get->data_detail($id);
             $data['default'] = $get_tbl->get()->row();
 
@@ -93,7 +93,7 @@ class permintaan extends MX_Controller
         $data = $this->get_level_user();
         $data['id'] = $id;
         if ($id != '') {
-            $page_title = 'Detail Permintaan';
+            $page_title = 'Detail Nominasi / Permintaan';
             $get_tbl = $this->tbl_get->data_detail($id);
             $data['default'] = $get_tbl->get()->row();
 
@@ -148,18 +148,14 @@ class permintaan extends MX_Controller
     public function proses()
     {
         $data = array();
-        $data['TGL_PENERIMAAN'] = str_replace('-', '', $this->input->post('TGL_PENERIMAAN'));
-        $data['TGL_MUTASI'] = date("dmY");
-        $data['TGL_PENGAKUAN'] = str_replace('-', '', $this->input->post('TGL_PENGAKUAN'));
+        $data['TGL_MTS_NOMINASI'] = str_replace('-', '', $this->input->post('TGL_MTS_NOMINASI'));
         $data['ID_PEMASOK'] = $this->input->post('ID_PEMASOK');
-        $data['ID_TRANSPORTIR'] = $this->input->post('ID_TRANSPORTIR');
         $data['SLOC'] = $this->input->post('SLOC');
-        $data['VALUE_SETTING'] = $this->input->post('VALUE_SETTING');
-        $data['NO_PENERIMAAN'] = $this->input->post('NO_PENERIMAAN');
+        $data['NO_NOMINASI'] = $this->input->post('NO_NOMINASI');
         $data['ID_JNS_BHN_BKR'] = $this->input->post('ID_JNS_BHN_BKR');
-        $data['VOL_PENERIMAAN'] =  str_replace(".","",$this->input->post('VOL_PENERIMAAN'));
-        $data['VOL_PENERIMAAN_REAL'] = str_replace(".","",$this->input->post('VOL_PENERIMAAN_REAL')); ;
+        $data['VOLUME_NOMINASI'] =  str_replace(".","",$this->input->post('VOLUME_NOMINASI'));
         $data['CREATE_BY'] = $this->session->userdata('user_name');
+        $data['PATH_FILE'] = '-';
 
         $id = $this->input->post('id');
 
@@ -167,10 +163,9 @@ class permintaan extends MX_Controller
             $level_user = $this->session->userdata('level_user');
             $kode_level = $this->session->userdata('kode_level');
 
-            $data['ID_PENERIMAAN']=$id;
+            $data['ID_PERMINTAAN']=$id;
             $data['LEVEL_USER']=$level_user;
             $data['KODE_LEVEL']=$kode_level;
-            $data['STATUS'] = $this->input->post('STATUS_MUTASI_TERIMA');
             $simpan_data = $this->tbl_get->save_edit($data);
             if ($simpan_data[0]->RCDB == 'RC00') {
                 $message = array(true, 'Proses Update Berhasil', $simpan_data[0]->PESANDB, '#content_table');

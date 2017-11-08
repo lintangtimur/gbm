@@ -17,15 +17,15 @@
         echo form_open_multipart($form_action, array('id' => 'finput', 'class' => 'form-horizontal'), $hidden_form);
             ?>
             <div class="control-group">
-                <label class="control-label">Nomor Permintaan<span class="required">*</span> : </label>
+                <label class="control-label">Nomor Nominasi<span class="required">*</span> : </label>
                 <div class="controls">
                     <?php echo form_input('NO_NOMINASI', !empty($default->NO_NOMINASI) ? $default->NO_NOMINASI : '', 'class="span4" placeholder="Nomor Nominasi / Permintaan"'); ?>
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">Tanggal Permintaan<span class="required">*</span> : </label>
+                <label class="control-label">Tanggal Nominasi<span class="required">*</span> : </label>
                 <div class="controls">
-                    <?php echo form_input('TGL_MTS_NOMINASI', !empty($default->TGL_MTS_NOMINASI) ? $default->TGL_MTS_NOMINASI : '', 'class="span12 input-append date form_datetime" placeholder="Tanggal Permintaan" id="TGL_MTS_NOMINASI"'); ?>
+                    <?php echo form_input('TGL_MTS_NOMINASI', !empty($default->TGL_MTS_NOMINASI) ? $default->TGL_MTS_NOMINASI : '', 'class="span12 input-append date form_datetime" placeholder="Tanggal Nominasi" id="TGL_MTS_NOMINASI"'); ?>
                 </div>
             </div>
             <div class="control-group">
@@ -74,7 +74,7 @@
             <div class="control-group">
                 <label class="control-label">Volume<span class="required">*</span> : </label>
                 <div class="controls">
-                    <?php echo form_input('VOLUME_NOMINASI', !empty($default->VOLUME_NOMINASI) ? $default->VOLUME_NOMINASI : '', 'class="span4" placeholder="Volume Permintaan"'); ?>
+                    <?php echo form_input('VOLUME_NOMINASI', !empty($default->VOLUME_NOMINASI) ? $default->VOLUME_NOMINASI : '', 'class="span4" placeholder="Volume Nominasi"'); ?>
                 </div>
             </div>
             <div class="form-actions">

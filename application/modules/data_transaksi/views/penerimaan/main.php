@@ -170,28 +170,43 @@
                 var data_detail = (JSON.parse(data));
                 var cekbox = '';
                 var vLevelUser = "<?php echo $this->session->userdata('level_user'); ?>";
+                var vIsAdd = "<?php echo $this->laccess->otoritas('add'); ?>";
+                var vIsApprove = "<?php echo $this->laccess->otoritas('approve'); ?>";
+                var vSetEdit='';
                 var vEdit='';
+                var vEditView='';
                 var vlink_url = '';
 
                 for (i = 0; i < data_detail.length; i++) {
 
                     cekbox = '<input type="checkbox" name="pilihan[' + i + ']" id="pilihan" value="'+data_detail[i].ID_PENERIMAAN+'">';
                     vlink_url = "<?php echo base_url()?>data_transaksi/penerimaan/edit_view/"+data_detail[i].ID_PENERIMAAN;
+                    vEditView = '<a href="javascript:void(0);" class="btn transparant" id="button-edit-'+data_detail[i].ID_PENERIMAAN+'" onclick="load_form(this.id)" data-source="'+vlink_url+'"> <i class="icon-edit"></i></a>'; 
+
+                    vlink_url = "<?php echo base_url()?>data_transaksi/penerimaan/edit/"+data_detail[i].ID_PENERIMAAN;
                     vEdit = '<a href="javascript:void(0);" class="btn transparant" id="button-edit-'+data_detail[i].ID_PENERIMAAN+'" onclick="load_form(this.id)" data-source="'+vlink_url+'"> <i class="icon-edit"></i></a>'; 
+
+                    vSetEdit = vEditView;
 
                     if (vLevelUser>=2){
                         if (vLevelUser==2){
+                            if (vIsAdd){
+                                if((data_detail[i].KODE_STATUS == "1") || (data_detail[i].KODE_STATUS == "2")){
+                                    cekbox = '';  
+                                } else {
+                                    vSetEdit = vEdit;    
+                                }                               
+                            }
 
-                            vlink_url = "<?php echo base_url()?>data_transaksi/penerimaan/edit/"+data_detail[i].ID_PENERIMAAN;
-                            vEdit = '<a href="javascript:void(0);" class="btn transparant" id="button-edit-'+data_detail[i].ID_PENERIMAAN+'" onclick="load_form(this.id)" data-source="'+vlink_url+'"> <i class="icon-edit"></i></a>'; 
+                            if (vIsApprove){
+                                if (data_detail[i].KODE_STATUS !== "1"){
+                                    cekbox = '';
+                                }  
 
-                            // if (data_detail[i].KODE_STATUS !== "1"){
-                            //     cekbox = '';
-                            // }  
-
-                            // if (data_detail[i].KODE_STATUS == "0"){
-                            //     vEdit = '';
-                            // }  
+                                if (data_detail[i].KODE_STATUS == "0"){
+                                    vSetEdit = '';
+                                }                                 
+                            }
                         }
 
                         if ((vLevelUser==3) || (vLevelUser==4)){
@@ -199,8 +214,7 @@
                                 cekbox = '';  
                             }
                             if((data_detail[i].KODE_STATUS == "0") || (data_detail[i].KODE_STATUS == "3")){
-                                vlink_url = "<?php echo base_url()?>data_transaksi/penerimaan/edit/"+data_detail[i].ID_PENERIMAAN;
-                                vEdit = '<a href="javascript:void(0);" class="btn transparant" id="button-edit-'+data_detail[i].ID_PENERIMAAN+'" onclick="load_form(this.id)" data-source="'+vlink_url+'"> <i class="icon-edit"></i></a>'; 
+                                vSetEdit = vEdit;
                             }
                         }
                     } else {
@@ -217,7 +231,7 @@
                         '<td align="right">' + toRupiah(data_detail[i].VOL_TERIMA) + '</td>' +
                         '<td align="right">' + toRupiah(data_detail[i].VOL_TERIMA_REAL) + '</td>' +
                         '<td align="center">' + data_detail[i].STATUS + '</td>' +
-                        '<td align="center">' + vEdit +' </td>' +
+                        '<td align="center">' + vSetEdit +' </td>' +
                         '<td align="center">' +
                         cekbox+
                         '<input type="hidden" id="idPenerimaan" name="idPenerimaan[' + i + ']" value="' + data_detail[i].ID_PENERIMAAN + '">' +
