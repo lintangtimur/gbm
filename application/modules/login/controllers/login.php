@@ -10,16 +10,19 @@ if (!defined("BASEPATH"))
 class login extends MX_Controller {
     public function __construct() {
         parent::__construct();
+		
+		// Protection
+        hprotection::login(false);
 		$this->load->model('user_model');
     }
 
     public function index() {
         
-        // Protection
-        hprotection::login(false);
-        
+		$this->load->module("template/asset");
+        $this->asset->set_plugin(array('crud'));
         $data['page_content'] = 'login/form';
         $data['form_action'] = base_url('login/run');
+		$data['form_reset'] = base_url('login/reset_session');
         echo Modules::run("template/login", $data);
     }
 
@@ -124,6 +127,18 @@ class login extends MX_Controller {
         redirect('login');
     }
 
+	public function reset_session(){
+		$this->form_validation->set_rules('email', 'Email','required');
+		if ($this->form_validation->run($this)) {
+			$email = $this->input->post('email');
+			$data_user = $this->user_model->reset($email);
+			$message = array(true, 'Proses Berhasil', 'Silahkan Coba Login Kembali', '');
+		}else {
+            $message = array(false, 'Proses gagal', validation_errors(), '');
+        }
+		echo json_encode($message, true);
+	}
+	
 }
 
 /* End of file login.php */

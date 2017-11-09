@@ -23,11 +23,18 @@ class template extends MX_Controller {
     }
 
     public function login($data = array()) {
+	
+		$this->asset->set_plugin(array(
+            'collapsible', 'mCustomScrollbar', 'mousewheel', 'uniform', 'sparkline',
+            'minicolors', 'tagsinput', 'autosize', 'chosen', 'charCount',
+            'flatpoint_core', 'msgbox'
+        ));
+	
         // Memanggil Javascript & CSS
         $data["favicon"] = $this->asset->get_favicon();
         $data["js_header"] = $this->asset->get_js();
         $data["css_header"] = $this->asset->get_css();
-
+		
         $dparam=$this->template_model->parameter();
 		$arr_setting = array();
 		foreach($dparam->result() as $row){

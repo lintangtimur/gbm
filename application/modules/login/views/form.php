@@ -40,16 +40,17 @@
                 <div class="form_row">
                     <label class="field_name">Email address</label>
                     <div class="field">
-						<form action="<?php echo base_url() ;?>" method="post" accept-charset="utf-8" id="finput" class="form-horizontal" enctype="multipart/form-data">
+						<?php echo form_open_multipart($form_reset, array('id' => 'finput', 'class' => 'form-horizontal'), '');?>
 							<div class="row-fluid">
 								<div class="span8">
-									<input type="text" class="span12" name="email" placeholder="example@domain.com">
+									<input type="text" class="span12" name="email" placeholder="example@pln.co.id">
 								</div>
 								<div class="span4">
-									<a href="#" class="btn btn-block blue" onClick="alert('Under Construction');">Kirim</a>
+									<!--<a href="#" class="btn btn-block blue" onClick="alert('Under Construction');">Kirim</a>-->
+									<?php echo anchor(null, '<i class="icon-send"></i> Simpan', array('id' => 'button-kirim', 'class' => 'blue btn', 'onclick' => "simpan_data(this.id, '#finput', '')")); ?>
 								</div>
 							</div>
-						</form>
+						<?php echo form_close(); ?>
                     </div>
                 </div>
             </div>
