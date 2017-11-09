@@ -40,6 +40,11 @@ class user_model extends CI_Model {
 		$this->db->update($this->_table1, array("IS_LOGIN"=> "0"));
 	}
 
+	public function reset($email){
+		$this->db->where("EMAIL_USER", $email);
+		$this->db->update($this->_table1, array("IS_LOGIN"=> "0"));
+	}
+	
     public function encrypt($str) {
         return md5($str);
     }

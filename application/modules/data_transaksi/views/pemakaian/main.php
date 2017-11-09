@@ -390,17 +390,20 @@
 					success: function (data) {
 					   $(".bootbox").modal("hide");
 						var message = '';
+						console.log(data[0]);
 						var content_id = data[3];
-						if (data[0]) {
+						if (data[0] === true) {
 							icon = 'icon-ok-sign';
 							color = '#0072c6;';
 						}
 						message += '<div class="box-title" style="color:' + color + '"><i class="' + icon + '"></i> ' + data[1] + '</div>';
 						message += data[2];
 						bootbox.alert(message, function() {
-							load_table("#content_table", 1);
-							$('#detailPenerimaan tbody tr').detach();
-							$('#table_detail').hide();
+							if (data[0] === true) {
+								load_table("#content_table", 1);
+								$('#detailPenerimaan tbody tr').detach();
+								$('#table_detail').hide();
+							}
 						});
 					}
 				});

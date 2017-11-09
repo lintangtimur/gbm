@@ -91,7 +91,7 @@
             <?php isset($page_content) ? $this->load->view($page_content) : 'Silahkan set $data["page_content"] = ""; '; ?>
         </div>
         <footer style="display: none;">
-            <span class="hidden-480">&copy; BBPBAT Sukabumi</span>
+            <span class="hidden-480">&copy; ICON+</span>
         </footer>
 
     </body>

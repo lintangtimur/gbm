@@ -24,7 +24,7 @@
         <button type="submit" class="pull-right btn btn-large blue">SIGN IN <i class="icon-arrow-right"></i></button>
     </div>
     <div class="forgot-password">
-        <a href="#forgot-pw" role="button" data-toggle="modal">Forgot password?</a>
+        <a href="#forgot-pw" role="button" data-toggle="modal">Reset Session</a>
     </div>
     <?php echo form_close(); ?>
 </div>
@@ -32,7 +32,7 @@
 <div id="forgot-pw" class="modal hide fade" tabindex="-1" data-width="760">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icon-remove"></i></button>
-        <h3>Forgot your password?</h3>
+        <h3>Reset Session</h3>
     </div>
     <div class="modal-body">
         <div class="row-fluid">
@@ -40,14 +40,17 @@
                 <div class="form_row">
                     <label class="field_name">Email address</label>
                     <div class="field">
-                        <div class="row-fluid">
-                            <div class="span8">
-                                <input type="text" class="span12" name="email" placeholder="example@domain.com">
-                            </div>
-                            <div class="span4">
-                                <a href="#" class="btn btn-block blue">Reset password</a>
-                            </div>
-                        </div>
+						<?php echo form_open_multipart($form_reset, array('id' => 'finput', 'class' => 'form-horizontal'), '');?>
+							<div class="row-fluid">
+								<div class="span8">
+									<input type="text" class="span12" name="email" placeholder="example@pln.co.id">
+								</div>
+								<div class="span4">
+									<!--<a href="#" class="btn btn-block blue" onClick="alert('Under Construction');">Kirim</a>-->
+									<?php echo anchor(null, '<i class="icon-send"></i> Simpan', array('id' => 'button-kirim', 'class' => 'blue btn', 'onclick' => "simpan_data(this.id, '#finput', '')")); ?>
+								</div>
+							</div>
+						<?php echo form_close(); ?>
                     </div>
                 </div>
             </div>

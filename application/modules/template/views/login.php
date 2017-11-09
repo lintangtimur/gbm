@@ -11,6 +11,9 @@
         echo $js_header;
         echo $favicon;
         ?>
+		<script type="text/javascript">
+            var $ = jQuery;
+        </script>
     </head>
 
     <body> 

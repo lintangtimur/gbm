@@ -158,7 +158,7 @@ if (!empty($key) || is_array($key))
             $this->db->where("KODE_STATUS",$_POST['STATUS']);   
         }
 		
-		$this->db->order_by("TGL_PENGAKUAN asc");
+		$this->db->order_by("TGL_PENGAKUAN, ID_PEMAKAIAN asc");
 		
         $data = $this->db->get();
 
