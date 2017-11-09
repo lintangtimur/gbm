@@ -8,7 +8,7 @@ if (!defined("BASEPATH"))
  */
 class master_level4 extends MX_Controller {
 
-    private $_title = 'Master Level 4';
+    private $_title = 'Master Pembangkit';
     private $_limit = 10;
     private $_module = 'master/master_level4';
 
