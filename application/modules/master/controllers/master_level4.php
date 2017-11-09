@@ -83,7 +83,7 @@ class master_level4 extends MX_Controller {
         $table->jumlah_kolom = 9;
         $table->header[] = array(
             "No", 1, 1,
-            "Level 4", 1, 1,
+            "Pembangkit", 1, 1,
             "Sloc", 1, 1,
             "Alamat", 1, 1,
             "Regional", 1, 1,

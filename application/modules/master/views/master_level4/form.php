@@ -43,7 +43,7 @@
             </div>
         </div> 
         <div class="control-group">
-            <label for="password" class="control-label">Level 4 <span class="required">*</span> : </label>
+            <label for="password" class="control-label">Pembangkit<span class="required">*</span> : </label>
             <div class="controls">
                 <?php echo form_input('LEVEL4', !empty($default->LEVEL4) ? $default->LEVEL4 : '', 'class="span6"'); ?>
             </div>
