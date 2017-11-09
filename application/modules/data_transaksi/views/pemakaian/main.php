@@ -19,95 +19,147 @@
         <div class="span12">
             <div id="index-content" class="well-content no-search">
                 <div class="well">
-                    <div class="content_table">
+                    <div class="pull-left">
                         <?php echo hgenerator::render_button_group($button_group); ?>
                     </div>
                 </div>
-                <?php echo form_open_multipart('', array('id' => 'ffilter')); ?>
-                <div class="form_row">
-                    <div class="pull-left span3">
-                        <label for="password" class="control-label">Regional : </label>
-                        <div class="controls">
-                            <?php echo form_dropdown('ID_REGIONAL', $reg_options, !empty($default->ID_REGIONAL) ? $default->ID_REGIONAL : '', 'id="lvl0"'); ?>
+                <div class="content_table">
+                    <div class="well-content clearfix">
+                        <?php echo form_open_multipart('', array('id' => 'ffilter')); ?>
+                        <div class="form_row">
+                            <div class="pull-left span3">
+                                <label for="password" class="control-label">Regional : </label>
+                                <div class="controls">
+                                    <?php echo form_dropdown('ID_REGIONAL', $reg_options, !empty($default->ID_REGIONAL) ? $default->ID_REGIONAL : '', 'id="lvl0"'); ?>
+                                </div>
+                            </div>
+                            <div class="pull-left span3">
+                                <label for="password" class="control-label">Level 1 : </label>
+                                <div class="controls">
+                                    <?php echo form_dropdown('COCODE', $lv1_options, !empty($default->COCODE) ? $default->COCODE : '', 'id="lvl1"'); ?>
+                                </div>
+                            </div>
+                            <div class="pull-left span3">
+                                <label for="password" class="control-label">Level 2 : </label>
+                                <div class="controls">
+                                    <?php echo form_dropdown('PLANT', $lv2_options, !empty($default->PLANT) ? $default->PLANT : '', 'id="lvl2"'); ?>
+                                </div>
+                            </div>
+                        </div><br/>
+                        <div class="form_row">
+                            <div class="pull-left span3">
+                                <label for="password" class="control-label">Level 3 : </label>
+                                <div class="controls">
+                                    <?php echo form_dropdown('STORE_SLOC', $lv3_options, !empty($default->STORE_SLOC) ? $default->STORE_SLOC : '', 'id="lvl3"'); ?>
+                                </div>
+                            </div>
+                            <div class="pull-left span3">
+                                <label for="password" class="control-label">Level 4 : </label>
+                                <div class="controls">
+                                    <?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : '', 'id="lvl4"'); ?>
+                                </div>
+                            </div>
+                            <div class="pull-left span3">
+                                <label for="password" class="control-label">Bulan <span class="required">*</span> : </label>
+                                <label for="password" class="control-label" style="margin-left:95px">Tahun <span class="required">*</span> : </label>
+                                <div class="controls">
+                                    <?php echo form_dropdown('BULAN', $opsi_bulan, '','style="width: 137px;", id="bln"'); ?>
+                                    <?php echo form_dropdown('TAHUN', $opsi_tahun, '','style="width: 80px;", id="thn"'); ?>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="pull-left span3">
-                        <label for="password" class="control-label">Level 1 : </label>
-                        <div class="controls">
-                            <?php echo form_dropdown('COCODE', $lv1_options, !empty($default->COCODE) ? $default->COCODE : '', 'id="lvl1"'); ?>
+                        <div class="form_row">
+                            <div class="pull-left span5">
+                                <div class="controls">
+                                    <table>
+                                        <tr>
+                                            <td colspan=2><label>Kata Kunci</label>
+                                            </td>
+                                            <td> &nbsp </td>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo form_input('kata_kunci', '', 'class="input-large"'); ?></td>
+                                            <td> &nbsp </td>
+                                            <td><?php echo anchor(NULL, "<i class='icon-search'></i> Filter", array('class' => 'btn', 'id' => 'button-filter')); ?></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="pull-left span3">
-                        <label for="password" class="control-label">Level 2 : </label>
-                        <div class="controls">
-                            <?php echo form_dropdown('PLANT', $lv2_options, !empty($default->PLANT) ? $default->PLANT : '', 'id="lvl2"'); ?>
-                        </div>
-                    </div>
-                </div><br/>
-                <div class="form_row">
-                    <div class="pull-left span3">
-                        <label for="password" class="control-label">Level 3 : </label>
-                        <div class="controls">
-                            <?php echo form_dropdown('STORE_SLOC', $lv3_options, !empty($default->STORE_SLOC) ? $default->STORE_SLOC : '', 'id="lvl3"'); ?>
-                        </div>
-                    </div>
-                    <div class="pull-left span3">
-                        <label for="password" class="control-label">Level 4 : </label>
-                        <div class="controls">
-                            <?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : '', 'id="lvl4"'); ?>
-                        </div>
-                    </div>
-                    <div class="pull-left span3">
-                        <label for="password" class="control-label">Bulan <span class="required">*</span> : </label>
-                        <label for="password" class="control-label" style="margin-left:95px">Tahun <span class="required">*</span> : </label>
-                        <div class="controls">
-                            <?php echo form_dropdown('BULAN', $opsi_bulan, '','style="width: 137px;", id="bln"'); ?>
-                            <?php echo form_dropdown('TAHUN', $opsi_tahun, '','style="width: 80px;", id="thn"'); ?>
-                        </div>
+                        <?php echo form_close(); ?>
                     </div>
                 </div>
-                <div class="form_row">
-                    <div class="pull-left span5">
-                        <div class="controls">
-                            <table>
-                                <tr>
-                                    <td colspan=2><label>Kata Kunci</label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><?php echo form_input('kata_kunci', '', 'class="input-large"'); ?></td>
-                                    <td> &nbsp </td>
-                                    <td><?php echo anchor(NULL, "<i class='icon-search'></i> Filter", array('class' => 'btn', 'id' => 'button-filter')); ?></td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <?php echo form_close(); ?>
                 <br>
                 <div id="content_table" data-source="<?php echo $data_sources; ?>" data-filter="#ffilter"></div>
                 <div id="table_detail" hidden>
                     <form method="POST" id="formKirimDetail">
                         <div class="well-content clearfix">
-                            <table class="pull-right">
-                                <tr>
-                                    <td>
-                                        <?php if (($this->laccess->otoritas('add') == true) && ($this->session->userdata('level_user') >= "2")) {?>
-                                                <button class="btn btn-primary" type="button" onclick="saveDetailKirim(this)">Kirim</button>
-                                        <?php }?>
-                                    </td>
-                                    <td>
-                                        <?php if (($this->laccess->otoritas('approve') == true) && ($this->session->userdata('level_user') == "2")) {?>
-                                                <button class="btn btn-primary" type="button" onclick="saveDetailApprove(this)">Approve</button>
-                                        <?php }?>
-                                    </td>
-                                    <td>
-                                        <?php if (($this->laccess->otoritas('approve') == true) && ($this->session->userdata('level_user') == "2")) {?>
-                                                <button class="btn btn-primary" type="button" onclick="saveDetailTolak(this)">Tolak</button>
-                                        <?php }?>
-                                    </td>
-                                </tr>
-                            </table>
+
+                            <div class="form_row">
+                                <div class="pull-left span3">
+                                    <div class="controls">
+                                        <table>
+                                            <tr>
+                                                <td><label>Total data</label></td><td><label>:</label></td><td><label><info id="TOTAL"></info></label></td>
+                                                <td><?php echo str_repeat("&nbsp;", 10); ?></td>
+                                                <td></td><td></td><td></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label>Belum Kirim</label></td><td><label>:</label></td><td><label><info id="BELUM_KIRIM"></info></label></td>
+                                                <td></td>
+                                                <td><label>Disetujui</label></td><td><label>:</label></td><td><label><info id="DISETUJUI"></info></label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label>Belum Disetujui</label></td><td><label>:</label></td><td><label><info id="BELUM_DISETUJUI"></info></label></td>
+                                                <td></td>
+                                                <td><label>Ditolak</label></td><td><label>:</label></td><td><label><info id="DITOLAK"></info></label></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="pull-left span4">
+                                    <div class="controls">
+                                        <table>
+                                            <tr>
+                                                <td colspan=2><label>Filter Status :</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><?php echo form_dropdown('CMB_STATUS', $status_options, !empty($default->VALUE_SETTING) ? $default->VALUE_SETTING : '', 'class="span15"'); ?></td>
+                                                <td> &nbsp </td>
+                                                <!-- <td><?php echo anchor(NULL, "<i class='icon-search'></i> Filter", array('class' => 'btn', 'id' => 'button-filter')); ?></td> -->
+                                            </tr>
+                                        </table>
+                                        <input type="hidden" name="vBLTH">
+                                        <input type="hidden" name="vSLOC">
+                                    </div>
+                                </div>
+                                <div class="pull-right">
+                                    <div class="controls">
+                                        <table>
+                                            <tr><td>&nbsp</td></tr>
+                                            <tr>
+                                                <td>
+                                                    <?php if (($this->laccess->otoritas('add') == true) && ($this->session->userdata('level_user') >= "2")) {?>
+                                                            <button class="btn btn-primary" type="button" onclick="saveDetailKirim(this)">Kirim</button>
+                                                    <?php }?>
+                                                </td>
+                                                <td>
+                                                    <?php if (($this->laccess->otoritas('approve') == true) && ($this->session->userdata('level_user') == "2")) {?>
+                                                            <button class="btn btn-primary" type="button" onclick="saveDetailApprove(this)">Approve</button>
+                                                    <?php }?>
+                                                </td>
+                                                <td>
+                                                    <?php if (($this->laccess->otoritas('approve') == true) && ($this->session->userdata('level_user') == "2")) {?>
+                                                            <button class="btn btn-primary" type="button" onclick="saveDetailTolak(this)">Tolak</button>
+                                                    <?php }?>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                         <div class="content">
                             <table class="table table-bordered table-striped" id="detailPenerimaan">
@@ -132,9 +184,12 @@
         </div>
     </div>
 </div>
+
+
 <script type="text/javascript">
 	var icon = 'icon-remove-sign';
 	var color = '#ac193d;';
+
     
     function toRupiah(angka){
         var rupiah = '';        
@@ -145,8 +200,26 @@
 
     function show_detail(tanggal) {
         if (!$('#table_detail').is(":visible")) {
+            bootbox.modal('<div class="loading-progress"></div>');
             var vId = tanggal;
             var strArray = vId.split("|");
+
+            $('input[name="vBLTH"]').val(strArray[0]);
+            $('input[name="vSLOC"]').val(strArray[1]);
+
+            if (strArray.length ==2){
+                $('select[name="CMB_STATUS"]').val('');  
+                get_sum_detail(tanggal);  
+
+// $('#TABLE_PENERIMAAN').bind('click', function(e) {
+//     $(e.target).closest('tr').children('td,th').css('background-color','#000');
+// }); 
+
+// $('#TABLE_PENERIMAAN tr').bind('click', function(e) {
+//     $(e.currentTarget).children('td, th').css('background-color','red');
+// });        
+
+            }
 
             var data = {ID_REGIONAL: $('select[name="ID_REGIONAL"]').val(),
                         COCODE: $('select[name="COCODE"]').val(),
@@ -156,12 +229,14 @@
                         TGL_PENGAKUAN:strArray[0],
                         BULAN: $('select[name="BULAN"]').val(),
                         TAHUN: $('select[name="TAHUN"]').val(),
+                        STATUS: $('select[name="CMB_STATUS"]').val(),
                         };
             // $.get("<?php echo base_url()?>data_transaksi/pemakaian/getDataDetail/" + tanggal, function (data) {
             $.post("<?php echo base_url()?>data_transaksi/pemakaian/getDataDetail/", data, function (data) {
                 var data_detail = (JSON.parse(data));
 				var cekbox = '';
                 var vLevelUser = "<?php echo $this->session->userdata('level_user'); ?>";
+                var vUserName = "<?php echo $this->session->userdata('user_name'); ?>";
                 var vIsAdd = "<?php echo $this->laccess->otoritas('add'); ?>";
                 var vIsApprove = "<?php echo $this->laccess->otoritas('approve'); ?>";
                 var vSetEdit='';
@@ -172,10 +247,10 @@
                 for (i = 0; i < data_detail.length; i++) {
                     cekbox = '<input type="checkbox" name="pilihan[' + i + ']" id="pilihan" value="'+data_detail[i].ID_PEMAKAIAN+'">';
                     vlink_url = "<?php echo base_url()?>data_transaksi/pemakaian/edit_view/"+data_detail[i].ID_PEMAKAIAN;
-                    vEditView = '<a href="javascript:void(0);" class="btn transparant" id="button-edit-'+data_detail[i].ID_PEMAKAIAN+'" onclick="load_form(this.id)" data-source="'+vlink_url+'"> <i class="icon-edit"></i></a>'; 
+                    vEditView = '<a href="javascript:void(0);" class="btn transparant" id="button-edit-'+data_detail[i].ID_PEMAKAIAN+'" onclick="load_form(this.id)" data-source="'+vlink_url+'"> <i class="icon-file-alt" title="Lihat Data"></i></a>'; 
 
                     vlink_url = "<?php echo base_url()?>data_transaksi/pemakaian/edit/"+data_detail[i].ID_PEMAKAIAN;
-                    vEdit = '<a href="javascript:void(0);" class="btn transparant" id="button-edit-'+data_detail[i].ID_PEMAKAIAN+'" onclick="load_form(this.id)" data-source="'+vlink_url+'"> <i class="icon-edit"></i></a>'; 
+                    vEdit = '<a href="javascript:void(0);" class="btn transparant" id="button-edit-'+data_detail[i].ID_PEMAKAIAN+'" onclick="load_form(this.id)" data-source="'+vlink_url+'"> <i class="icon-edit" title="Edit Data"></i></a>'; 
 
                     vSetEdit = vEditView;
 
@@ -185,7 +260,9 @@
                                 if((data_detail[i].KODE_STATUS == "1") || (data_detail[i].KODE_STATUS == "2")){
                                     cekbox = '';  
                                 } else {
-                                    vSetEdit = vEdit;    
+                                    if(data_detail[i].CREATED_BY==vUserName){
+                                        vSetEdit = vEdit;     
+                                    }    
                                 }                               
                             }
 
@@ -205,7 +282,9 @@
                                 cekbox = '';  
                             }
                             if((data_detail[i].KODE_STATUS == "0") || (data_detail[i].KODE_STATUS == "3")){
-                                vSetEdit = vEdit;
+                                if(data_detail[i].CREATED_BY==vUserName){
+                                        vSetEdit = vEdit;     
+                                    } 
                             }
                         }
                     } else {
@@ -230,6 +309,7 @@
 					cekbox = '';
                 }
             });
+            $(".bootbox").modal("hide");
             $('#table_detail').show();
         } else {
             $('#detailPenerimaan tbody tr').detach();
@@ -463,5 +543,37 @@
                 }
             });
         }
-    });    
+    });  
+
+    function formatNumber (num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    }
+
+    function get_sum_detail(tanggal) {
+        var vId = tanggal;
+        var strArray = vId.split("|");
+        var data = {SLOC: strArray[1],TGL_PENGAKUAN:strArray[0]};
+
+        $.post("<?php echo base_url()?>data_transaksi/pemakaian/get_sum_detail/", data, function (data) {
+            var data_detail = (JSON.parse(data));
+
+            for (i = 0; i < data_detail.length; i++) {
+                $('#TOTAL').html(formatNumber(data_detail[i].TOTAL));
+                $('#BELUM_KIRIM').html(formatNumber(data_detail[i].BELUM_KIRIM));
+                $('#BELUM_DISETUJUI').html(formatNumber(data_detail[i].BELUM_DISETUJUI));
+                $('#DISETUJUI').html(formatNumber(data_detail[i].DISETUJUI));
+                $('#DITOLAK').html(formatNumber(data_detail[i].DITOLAK));
+            }
+        });
+    }
+
+    $('select[name="CMB_STATUS"]').on('change', function() {
+        var vBLTH = $('input[name="vBLTH"]').val();
+        var vSLOC = $('input[name="vSLOC"]').val();
+        var vSTATUS = $(this).val();
+        var vParam = vBLTH+'|'+vSLOC+'|'+vSTATUS;
+
+        show_detail(vParam);
+        show_detail(vParam);
+    });  
 </script>

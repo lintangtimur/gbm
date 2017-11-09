@@ -37,49 +37,49 @@
         <div class="control-group">
             <label  class="control-label">Regional <span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_dropdown('ID_REGIONAL', $reg_options, !empty($default->ID_REGIONAL) ? $default->ID_REGIONAL : '', 'disabled'); ?>
+                <?php echo form_dropdown('ID_REGIONAL', $reg_options, !empty($default->ID_REGIONAL) ? $default->ID_REGIONAL : '', 'disabled class="span6"'); ?>
             </div>
         </div>
         <div class="control-group">
             <label  class="control-label">Level 1<span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_dropdown('COCODE', $lv1_options, !empty($default->COCODE) ? $default->COCODE : '', 'disabled'); ?>
+                <?php echo form_dropdown('COCODE', $lv1_options, !empty($default->COCODE) ? $default->COCODE : '', 'disabled class="span6"'); ?>
             </div>
         </div>
 		<div class="control-group">
             <label  class="control-label">Level 2<span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_dropdown('PLANT', $lv2_options, !empty($default->PLANT) ? $default->PLANT : '', 'disabled'); ?>
+                <?php echo form_dropdown('PLANT', $lv2_options, !empty($default->PLANT) ? $default->PLANT : '', 'disabled class="span6"'); ?>
             </div>
         </div>
 		<div class="control-group">
             <label  class="control-label">Level 3<span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_dropdown('STORE_SLOC', $lv3_options, !empty($default->STORE_SLOC) ? $default->STORE_SLOC : '', 'disabled'); ?>
+                <?php echo form_dropdown('STORE_SLOC', $lv3_options, !empty($default->STORE_SLOC) ? $default->STORE_SLOC : '', 'disabled class="span6"'); ?>
             </div>
         </div>
 		<div class="control-group">
             <label  class="control-label">Level 4<span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : '', 'disabled'); ?>
+                <?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : '', 'disabled class="span6"'); ?>
             </div>
         </div>
         <div class="control-group">
             <label class="control-label">Jenis Pemakaian<span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_dropdown('VALUE_SETTING', $option_jenis_pemakaian, !empty($default->JENIS_PEMAKAIAN) ? $default->JENIS_PEMAKAIAN : '', 'class="span6"  disabled'); ?>
+                <?php echo form_dropdown('VALUE_SETTING', $option_jenis_pemakaian, !empty($default->JENIS_PEMAKAIAN) ? $default->JENIS_PEMAKAIAN : '', 'class="span3"  disabled'); ?>
             </div>
         </div>
         <div class="control-group">
             <label class="control-label">NO TUG 8/9<span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_input('NO_TUG', !empty($default->NO_TUG) ? $default->NO_TUG : '', 'class="span4" placeholder="NO TUG 8/9" disabled'); ?>
+                <?php echo form_input('NO_TUG', !empty($default->NO_TUG) ? $default->NO_TUG : '', 'class="span3" placeholder="NO TUG 8/9" disabled'); ?>
             </div>
         </div>
         <div class="control-group">
             <label class="control-label">Jenis BBM<span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_dropdown('ID_JNS_BHN_BKR', $option_jenis_bbm, !empty($default->ID_JNS_BHN_BKR) ? $default->ID_JNS_BHN_BKR : '', 'class="span6" disabled'); ?>
+                <?php echo form_dropdown('ID_JNS_BHN_BKR', $option_jenis_bbm, !empty($default->ID_JNS_BHN_BKR) ? $default->ID_JNS_BHN_BKR : '', 'class="span3" disabled'); ?>
             </div>
         </div>
 

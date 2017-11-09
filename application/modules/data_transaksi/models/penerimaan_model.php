@@ -122,7 +122,7 @@ class penerimaan_model extends CI_Model
             // $count = $row->COUNT_VOLUME;
             // if ($count!=0) {
                 $id = $row->TANGGAL.'|'.$row->SLOC;;
-                $aksi = anchor(null, '<i class="icon-eye-open"></i>', array('class' => 'btn transparant button-detail', 'id' => 'button-view-' . $id, 'onClick' => 'show_detail(\''.$id.'\')'));
+                $aksi = anchor(null, '<i class="icon-zoom-in" title="Lihat Detail Data"></i>', array('class' => 'btn transparant button-detail', 'id' => 'button-view-' . $id, 'onClick' => 'show_detail(\''.$id.'\')'));
                 $rows[$num] = array(
                     'NO' => $num,
                     'BLTH' => $this->get_blth($row->BL,$row->TH),
@@ -166,6 +166,9 @@ class penerimaan_model extends CI_Model
         }
         if ($_POST['TAHUN'] !='') {
             $this->db->where("TH",$_POST['TAHUN']);   
+        }
+        if ($_POST['STATUS'] !='') {
+            $this->db->where("KODE_STATUS",$_POST['STATUS']);   
         }
 		
 		$this->db->order_by("TGL_PENGAKUAN asc");
@@ -343,6 +346,231 @@ class penerimaan_model extends CI_Model
         $query = $this->db->query($sql);
         $this->db->close();
         return $query->result();
+    }
+
+
+    public function options_reg($default = '--Pilih Regional--', $key = 'all') {
+        $option = array();
+
+        $this->db->from('MASTER_REGIONAL');
+        if ($key != 'all'){
+            $this->db->where('ID_REGIONAL',$key);
+        }   
+        $list = $this->db->get(); 
+
+        if (!empty($default)) {
+            $option[''] = $default;
+        }
+
+        foreach ($list->result() as $row) {
+            $option[$row->ID_REGIONAL] = $row->NAMA_REGIONAL;
+        }
+        return $option;
+    }
+
+    public function options_lv1($default = '--Pilih Level 1--', $key = 'all', $jenis=0) {
+        $this->db->from('MASTER_LEVEL1');
+        if ($key != 'all'){
+            $this->db->where('ID_REGIONAL',$key);
+        }    
+        if ($jenis==0){
+            return $this->db->get()->result(); 
+        } else {
+            $option = array();
+            $list = $this->db->get(); 
+
+            if (!empty($default)) {
+                $option[''] = $default;
+            }
+
+            foreach ($list->result() as $row) {
+                $option[$row->COCODE] = $row->LEVEL1;
+            }
+            return $option;    
+        }
+    }
+
+    public function options_lv2($default = '--Pilih Level 2--', $key = 'all', $jenis=0) {
+        $this->db->from('MASTER_LEVEL2');
+        if ($key != 'all'){
+            $this->db->where('COCODE',$key);
+        }    
+        if ($jenis==0){
+            return $this->db->get()->result(); 
+        } else {
+            $option = array();
+            $list = $this->db->get(); 
+
+            if (!empty($default)) {
+                $option[''] = $default;
+            }
+
+            foreach ($list->result() as $row) {
+                $option[$row->PLANT] = $row->LEVEL2;
+            }
+            return $option;    
+        }
+    }
+
+    public function options_lv3($default = '--Pilih Level 3--', $key = 'all', $jenis=0) {
+        $this->db->from('MASTER_LEVEL3');
+        if ($key != 'all'){
+            $this->db->where('PLANT',$key);
+        }    
+        if ($jenis==0){
+            return $this->db->get()->result(); 
+        } else {
+            $option = array();
+            $list = $this->db->get(); 
+
+            if (!empty($default)) {
+                $option[''] = $default;
+            }
+
+            foreach ($list->result() as $row) {
+                $option[$row->STORE_SLOC] = $row->LEVEL3;
+            }
+            return $option;    
+        }
+    }
+
+    public function options_lv4($default = '--Pilih Level 4--', $key = 'all', $jenis=0) {
+        $this->db->from('MASTER_LEVEL4');
+        if ($key != 'all'){
+            $this->db->where('STORE_SLOC',$key);
+        }    
+        if ($jenis==0){
+            return $this->db->get()->result(); 
+        } else {
+            $option = array();
+            $list = $this->db->get(); 
+
+            if (!empty($default)) {
+                $option[''] = $default;
+            }
+
+            foreach ($list->result() as $row) {
+                $option[$row->SLOC] = $row->LEVEL4;
+            }
+            return $option;    
+        }
+    }
+
+    public function options_bulan() {
+        $option = array();
+        $option[''] = '--Pilih Bulan--';
+        $option['01'] = 'Januari';
+        $option['02'] = 'Febuari';
+        $option['03'] = 'Maret';
+        $option['04'] = 'April';
+        $option['05'] = 'Mei';
+        $option['06'] = 'Juni';
+        $option['07'] = 'Juli';
+        $option['08'] = 'Agustus';
+        $option['09'] = 'September';
+        $option['10'] = 'Oktober';
+        $option['11'] = 'November';
+        $option['12'] = 'Desember';
+        return $option;
+    }
+
+    public function options_tahun() {
+        $year = date("Y"); 
+
+        $option[$year] = $year;
+        $option[$year + 1] = $year + 1;
+
+        return $option;
+    }
+
+    public function get_level($lv='', $key=''){ 
+        switch ($lv) {
+            case "R":
+                $q = "SELECT  E.ID_REGIONAL, E.NAMA_REGIONAL 
+                FROM MASTER_REGIONAL E
+                WHERE ID_REGIONAL='$key' ";
+                break;
+            case "0":
+                $q = "SELECT  E.ID_REGIONAL, E.NAMA_REGIONAL 
+                FROM MASTER_REGIONAL E
+                WHERE ID_REGIONAL='$key' ";
+                break;
+            case "1":
+                $q = "SELECT D.COCODE, D.LEVEL1, E.ID_REGIONAL, E.NAMA_REGIONAL 
+                FROM MASTER_LEVEL1 D 
+                LEFT JOIN MASTER_REGIONAL E ON E.ID_REGIONAL=D.ID_REGIONAL
+                WHERE COCODE='$key' ";
+                break;
+            case "2":
+                $q = "SELECT C.PLANT, C.LEVEL2,  D.COCODE,  D.LEVEL1, E.ID_REGIONAL, E.NAMA_REGIONAL
+                FROM MASTER_LEVEL2 C 
+                LEFT JOIN MASTER_LEVEL1 D ON D.COCODE=C.COCODE 
+                LEFT JOIN MASTER_REGIONAL E ON E.ID_REGIONAL=D.ID_REGIONAL
+                WHERE PLANT='$key' ";
+                break;
+            case "3":
+                $q = "SELECT B.STORE_SLOC, B.LEVEL3, C.PLANT, C.LEVEL2,  D.COCODE,  D.LEVEL1, E.ID_REGIONAL, E.NAMA_REGIONAL
+                FROM MASTER_LEVEL3 B
+                LEFT JOIN MASTER_LEVEL2 C ON C.PLANT=B.PLANT 
+                LEFT JOIN MASTER_LEVEL1 D ON D.COCODE=C.COCODE 
+                LEFT JOIN MASTER_REGIONAL E ON E.ID_REGIONAL=D.ID_REGIONAL
+                WHERE STORE_SLOC='$key' ";
+                break;
+            case "4":
+                $q = "SELECT A.SLOC, A.LEVEL4, B.STORE_SLOC, B.LEVEL3, C.PLANT, C.LEVEL2,  D.COCODE,  D.LEVEL1, E.ID_REGIONAL, E.NAMA_REGIONAL
+                FROM MASTER_LEVEL4 A
+                LEFT JOIN MASTER_LEVEL3 B ON B.STORE_SLOC=A.STORE_SLOC 
+                LEFT JOIN MASTER_LEVEL2 C ON C.PLANT=B.PLANT 
+                LEFT JOIN MASTER_LEVEL1 D ON D.COCODE=C.COCODE 
+                LEFT JOIN MASTER_REGIONAL E ON E.ID_REGIONAL=D.ID_REGIONAL
+                WHERE SLOC='$key' ";
+                break;
+            case "5":
+                $q = "SELECT a.LEVEL3, a.STORE_SLOC
+                FROM MASTER_LEVEL3 a
+                INNER JOIN MASTER_LEVEL2 b ON a.PLANT = b.PLANT
+                INNER JOIN MASTER_LEVEL4 c ON a.STORE_SLOC = c.STORE_SLOC AND a.PLANT = c.PLANT
+                WHERE c.STATUS_LVL2=1 AND a.PLANT = '$key' ";
+                break;
+        } 
+
+        $query = $this->db->query($q)->result();
+        return $query;
+    }
+
+    public function options_status() {
+        $this->db->from('DATA_SETTING');
+        $this->db->where('KEY_SETTING','STATUS_APPROVE');
+        $this->db->order_by("VALUE_SETTING ASC");
+        
+        $list = $this->db->get(); 
+        $option = array();
+        $option[''] = '-- Semua --';
+
+        foreach ($list->result() as $row) {
+            $option[$row->VALUE_SETTING] = $row->NAME_SETTING;
+        }
+        return $option;    
+    }
+
+    public function get_sum_detail() {
+        $SLOC = $_POST['SLOC'];
+        $TGL_PENGAKUAN = $_POST['TGL_PENGAKUAN'];
+
+        $q="SELECT 
+            SLOC, date_format(TGL_PENGAKUAN,'%m%Y') AS TGL_PENGAKUAN_FORMAT, 
+            sum( if( STATUS_MUTASI_TERIMA = '0', 1, 0 ) ) AS BELUM_KIRIM,  
+            sum( if( STATUS_MUTASI_TERIMA = '1', 1, 0 ) ) AS BELUM_DISETUJUI, 
+            sum( if( STATUS_MUTASI_TERIMA = '2', 1, 0 ) ) AS DISETUJUI,
+            sum( if( STATUS_MUTASI_TERIMA = '3', 1, 0 ) ) AS DITOLAK,
+            count(*) AS TOTAL 
+            FROM  MUTASI_PENERIMAAN
+            WHERE SLOC='$SLOC' AND date_format(TGL_PENGAKUAN,'%m%Y') = '$TGL_PENGAKUAN'     
+            GROUP BY SLOC, TGL_PENGAKUAN_FORMAT ";
+
+        $query = $this->db->query($q);
+
+        return $query->result();       
     }
 
 }

@@ -58,6 +58,9 @@ class stock_opname_model extends CI_Model {
         if ($_POST['TAHUN'] !='') {
             $this->db->where("YEAR(A.TGL_PENGAKUAN)",$_POST['TAHUN']);   
         }
+        if ($_POST['STATUS'] !='') {
+            $this->db->where("STATUS_APPROVE_STOCKOPNAME",$_POST['STATUS']);   
+        }
 		$this->db->order_by("A.TGL_PENGAKUAN asc");
 
         return $this->db;
@@ -505,6 +508,37 @@ class stock_opname_model extends CI_Model {
         return $query;
     }
 
+    public function options_status() {
+        $this->db->from('DATA_SETTING');
+        $this->db->where('KEY_SETTING','STATUS_APPROVE');
+        $this->db->order_by("VALUE_SETTING ASC");
+        
+        $list = $this->db->get(); 
+        $option = array();
+        $option[''] = '-- Semua --';
+
+        foreach ($list->result() as $row) {
+            $option[$row->VALUE_SETTING] = $row->NAME_SETTING;
+        }
+        return $option;    
+    }
+
+    public function get_sum_detail() {
+        // $SLOC = $_POST['SLOC'];
+        // $TGL_PENGAKUAN = $_POST['TGL_PENGAKUAN'];
+
+        $q="SELECT 
+            sum( if( STATUS_APPROVE_STOCKOPNAME = '0', 1, 0 ) ) AS BELUM_KIRIM,  
+            sum( if( STATUS_APPROVE_STOCKOPNAME = '1', 1, 0 ) ) AS BELUM_DISETUJUI, 
+            sum( if( STATUS_APPROVE_STOCKOPNAME = '2', 1, 0 ) ) AS DISETUJUI,
+            sum( if( STATUS_APPROVE_STOCKOPNAME = '3', 1, 0 ) ) AS DITOLAK,
+            count(*) AS TOTAL 
+            FROM  STOCK_OPNAME ";
+
+        $query = $this->db->query($q);
+
+        return $query->result();       
+    }
 
 }
 
