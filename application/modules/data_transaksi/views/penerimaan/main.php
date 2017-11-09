@@ -269,10 +269,10 @@
                         }
 
                         if ((vLevelUser==3) || (vLevelUser==4)){
-                            if((data_detail[i].KODE_STATUS == "1") || (data_detail[i].KODE_STATUS == "2")){
-                                cekbox = '';  
-                            }
-                            if((data_detail[i].KODE_STATUS == "0") || (data_detail[i].KODE_STATUS == "3")){
+                            if (data_detail[i].KODE_STATUS !== "0"){
+                                cekbox = '';
+                            } 
+                            if(data_detail[i].KODE_STATUS == "0"){
                                 if(data_detail[i].CREATED_BY==vUserName){
                                         vSetEdit = vEdit;     
                                     }
