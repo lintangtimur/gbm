@@ -89,6 +89,8 @@ class pemakaian extends MX_Controller
             $lv4 = $data['default']->STORE_SLOC;
             $tgl_catat = new DateTime($data['default']->TGL_PENCATATAN);
             $tgl_mutasi = new DateTime($data['default']->TGL_MUTASI_PENGAKUAN);
+			$data['default']->TGL_PENCATATAN = $tgl_catat->format('d-m-Y');
+            $data['default']->TGL_MUTASI_PENGAKUAN = $tgl_mutasi->format('d-m-Y');
         }
 
         $data['option_jenis_pemakaian'] = $this->tbl_get->options_jenis_pemakaian();
@@ -262,8 +264,8 @@ class pemakaian extends MX_Controller
         // print_r('idPenerimaan='.$idPenerimaan.' statusPenerimaan='.$statusPenerimaan.' level_user='.$level_user.' user_name='. $user_name.' jumlah='. $jumlah); die;
 
         $simpan = $this->tbl_get->saveDetailPenerimaan($idPenerimaan, $statusPenerimaan, $level_user, $user_name, $jumlah);
-
-        if ($simpan[0]->RCDB == "RC00") {
+		// print_debug($simpan);
+        if ($simpan[0]->RCDB == "RC01") {
             $message = array(true, 'Proses Berhasil', $simpan[0]->PESANDB, '#content_table');
         } else {
             $message = array(false, 'Proses Gagal', $simpan[0]->PESANDB, '');
