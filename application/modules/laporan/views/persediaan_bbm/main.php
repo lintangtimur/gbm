@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 <div class="pull-left span3">
-                    <label for="password" class="control-label">Level 4 <span class="required">*</span> : </label>
+                    <label for="password" class="control-label">Pembangkit<span class="required">*</span> : </label>
                     <div class="controls">
                         <?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : '', 'id="lvl4"'); ?>
                     </div>
@@ -80,7 +80,8 @@
             <thead>
                 <tr>
                     <th rowspan="2">No</th>
-                    <th colspan="5">Level</th>
+                    <th colspan="4">Level</th>
+                    <th rowspan="2">Pembangkit</th>
                     <th rowspan="2">Bahan Bakar</th>
                     <th rowspan="2">Tgl Mutasi Persediaan</th>
                     <th rowspan="2">Stok Awal (L)</th>
@@ -98,7 +99,7 @@
                     <th>1</th>
                     <th>2</th>
                     <th>3</th>
-                    <th>4</th>
+                    <!-- <th>4</th> -->
                     <th>Terima Pemasok</th>
                     <th>Terima Unit Lain</th>
                     <th>Sendiri</th>

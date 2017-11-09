@@ -8,7 +8,7 @@ if (!defined("BASEPATH"))
  */
 class master_level4 extends MX_Controller {
 
-    private $_title = 'Master Level 4';
+    private $_title = 'Master Pembangkit';
     private $_limit = 10;
     private $_module = 'master/master_level4';
 
@@ -83,7 +83,7 @@ class master_level4 extends MX_Controller {
         $table->jumlah_kolom = 9;
         $table->header[] = array(
             "No", 1, 1,
-            "Level 4", 1, 1,
+            "Pembangkit", 1, 1,
             "Sloc", 1, 1,
             "Alamat", 1, 1,
             "Regional", 1, 1,

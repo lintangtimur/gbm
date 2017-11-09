@@ -58,8 +58,8 @@
 				$this->db->trans_rollback();
 				return FALSE;
 				} else {
-				$this->save_as_new2($id, $nama_file);
 				$this->db->trans_commit();
+				$this->save_as_new2($id, $nama_file);
 				return TRUE;
 			}
 		}
@@ -89,10 +89,32 @@
 			}
 		}
 		
-		public function save($data, $key) {
+		public function save($data, $key, $nama_file) {
 			$this->db->trans_begin();
-			
 			$this->db->update($this->_table1, $data, $this->_key($key));
+			$id = $key;
+			
+			if ($this->db->trans_status() === FALSE) {
+				$this->db->trans_rollback();
+				return FALSE;
+				} else {
+				$this->db->trans_commit();
+				$this->save2($id, $nama_file);
+				return TRUE;
+			}
+		}
+
+		public function save2($id, $nama_file) {
+			$tera['ID_TANGKI'] = $id;
+			$tera['TGL_DET_TERA'] = $this->input->post('TGL_TERA');
+            $tera['UD_DET_TERA'] = date("Y-m-d");
+            $tera['CD_BY_DET_TERA'] = $this->session->userdata('user_name');
+            $tera['ID_TERA'] = $this->input->post('TERA');
+            $tera['ISAKTIF_DET_TERA'] = $this->input->post('STATUS');
+            $tera['PATH_DET_TERA'] = $nama_file;
+
+			$this->db->trans_begin();
+			$this->db->update($this->_table5, $tera, $this->_key($id));
 			
 			if ($this->db->trans_status() === FALSE) {
 				$this->db->trans_rollback();
@@ -102,6 +124,7 @@
 				return TRUE;
 			}
 		}
+
 		
 		public function delete($key) {
 			$this->db->trans_begin();

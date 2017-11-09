@@ -116,16 +116,14 @@
                             </table>
                         </div>
                         <div class="content">
-                            <table class="table table-bordered table-striped" id="detailPenerimaan">
+                            <table class="table table-bordered table-striped" id="detailPermintaan">
                                 <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>TGL PENGAKUAN</th>
+                                    <th>TGL NOMINASI</th>
                                     <th>NAMA PEMASOK</th>
-                                    <th>NAMA TRANSPORTIR</th>
                                     <th>NAMA JNS BHN BKR</th>
-                                    <th>VOL TERIMA (L)</th>
-                                    <th>VOL TERIMA REAL (L)</th>
+                                    <th>VOL NOMINASI (L)</th>
                                     <th>STATUS</th>
                                     <th>AKSI</th>
                                     <th>CHECK</th>
@@ -165,8 +163,8 @@
                 BULAN: $('select[name="BULAN"]').val(),
                 TAHUN: $('select[name="TAHUN"]').val(),
             };
-            $.post("<?php echo base_url()?>data_transaksi/penerimaan/getDataDetail/", data_kirim, function (data) {
-//            $.get("<?php //echo base_url()?>//data_transaksi/penerimaan/getDataDetail/" + tanggal, function (data) {
+            $.post("<?php echo base_url()?>data_transaksi/permintaan/getDataDetail/", data_kirim, function (data) {
+//            $.get("<?php //echo base_url()?>//data_transaksi/permintaan/getDataDetail/" + tanggal, function (data) {
                 var data_detail = (JSON.parse(data));
                 var cekbox = '';
                 var vLevelUser = "<?php echo $this->session->userdata('level_user'); ?>";
@@ -175,15 +173,15 @@
 
                 for (i = 0; i < data_detail.length; i++) {
 
-                    cekbox = '<input type="checkbox" name="pilihan[' + i + ']" id="pilihan" value="'+data_detail[i].ID_PENERIMAAN+'">';
-                    vlink_url = "<?php echo base_url()?>data_transaksi/penerimaan/edit_view/"+data_detail[i].ID_PENERIMAAN;
-                    vEdit = '<a href="javascript:void(0);" class="btn transparant" id="button-edit-'+data_detail[i].ID_PENERIMAAN+'" onclick="load_form(this.id)" data-source="'+vlink_url+'"> <i class="icon-edit"></i></a>'; 
+                    cekbox = '<input type="checkbox" name="pilihan[' + i + ']" id="pilihan" value="'+data_detail[i].ID_PERMINTAAN+'">';
+                    vlink_url = "<?php echo base_url()?>data_transaksi/permintaan/edit_view/"+data_detail[i].ID_PERMINTAAN;
+                    vEdit = '<a href="javascript:void(0);" class="btn transparant" id="button-edit-'+data_detail[i].ID_PERMINTAAN+'" onclick="load_form(this.id)" data-source="'+vlink_url+'"> <i class="icon-edit"></i></a>'; 
 
                     if (vLevelUser>=2){
                         if (vLevelUser==2){
 
-                            vlink_url = "<?php echo base_url()?>data_transaksi/penerimaan/edit/"+data_detail[i].ID_PENERIMAAN;
-                            vEdit = '<a href="javascript:void(0);" class="btn transparant" id="button-edit-'+data_detail[i].ID_PENERIMAAN+'" onclick="load_form(this.id)" data-source="'+vlink_url+'"> <i class="icon-edit"></i></a>'; 
+                            vlink_url = "<?php echo base_url()?>data_transaksi/permintaan/edit/"+data_detail[i].ID_PERMINTAAN;
+                            vEdit = '<a href="javascript:void(0);" class="btn transparant" id="button-edit-'+data_detail[i].ID_PERMINTAAN+'" onclick="load_form(this.id)" data-source="'+vlink_url+'"> <i class="icon-edit"></i></a>'; 
 
                             if (data_detail[i].KODE_STATUS !== "1"){
                                 cekbox = '';
@@ -199,28 +197,26 @@
                                 cekbox = '';  
                             }
                             if((data_detail[i].KODE_STATUS == "0") || (data_detail[i].KODE_STATUS == "3")){
-                                vlink_url = "<?php echo base_url()?>data_transaksi/penerimaan/edit/"+data_detail[i].ID_PENERIMAAN;
-                                vEdit = '<a href="javascript:void(0);" class="btn transparant" id="button-edit-'+data_detail[i].ID_PENERIMAAN+'" onclick="load_form(this.id)" data-source="'+vlink_url+'"> <i class="icon-edit"></i></a>'; 
+                                vlink_url = "<?php echo base_url()?>data_transaksi/permintaan/edit/"+data_detail[i].ID_PERMINTAAN;
+                                vEdit = '<a href="javascript:void(0);" class="btn transparant" id="button-edit-'+data_detail[i].ID_PERMINTAAN+'" onclick="load_form(this.id)" data-source="'+vlink_url+'"> <i class="icon-edit"></i></a>'; 
                             }
                         }
                     } else {
                        cekbox = ''; 
                     }
 
-                    $('#detailPenerimaan tbody').append(
+                    $('#detailPermintaan tbody').append(
                         '<tr>' +
-                        '<td align="center">' + data_detail[i].ID_PENERIMAAN + '</td>' +
-                        '<td align="center">' + data_detail[i].TGL_PENGAKUAN + '</td>' +
+                        '<td align="center">' + data_detail[i].ID_PERMINTAAN + '</td>' +
+                        '<td align="center">' + data_detail[i].TGL_MTS_NOMINASI + '</td>' +
                         '<td align="center">' + data_detail[i].NAMA_PEMASOK + '</td>' +
-                        '<td align="center">' + data_detail[i].NAMA_TRANSPORTIR + '</td>' +
                         '<td align="center">' + data_detail[i].NAMA_JNS_BHN_BKR + '</td>' +
-                        '<td align="right">' + toRupiah(data_detail[i].VOL_TERIMA) + '</td>' +
-                        '<td align="right">' + toRupiah(data_detail[i].VOL_TERIMA_REAL) + '</td>' +
+                        '<td align="right">' + toRupiah(data_detail[i].VOLUME_NOMINASI) + '</td>' +
                         '<td align="center">' + data_detail[i].STATUS + '</td>' +
                         '<td align="center">' + vEdit +' </td>' +
                         '<td align="center">' +
                         cekbox+
-                        '<input type="hidden" id="idPenerimaan" name="idPenerimaan[' + i + ']" value="' + data_detail[i].ID_PENERIMAAN + '">' +
+                        '<input type="hidden" id="idPermintaan" name="idPermintaan[' + i + ']" value="' + data_detail[i].ID_PERMINTAAN + '">' +
                         '<input type="hidden" id="status" name="status[' + i + ']" value="' + data_detail[i].STATUS + '">' +
                         '</td>' +
                         '</tr>'
@@ -229,7 +225,7 @@
             });
             $('#table_detail').show();
         } else {
-            $('#detailPenerimaan tbody tr').detach();
+            $('#detailPermintaan tbody tr').detach();
             $('#table_detail').hide();
         }
     }
@@ -266,7 +262,7 @@
 		bootbox.confirm('Yakin data ini akan dikirimkan ?', "Tidak", "Ya", function(e) {
 			if(e){
 				bootbox.modal('<div class="loading-progress"></div>');
-				var url = "<?php echo base_url() ?>data_transaksi/penerimaan/saveKiriman/kirim";
+				var url = "<?php echo base_url() ?>data_transaksi/permintaan/saveKiriman/kirim";
 				$.ajax({
 					type: "POST",
 					url: url,
@@ -298,7 +294,7 @@
 		bootbox.confirm('Yakin data ini akan di Setujui ?', "Tidak", "Ya", function(e) {
 			if(e){
 				bootbox.modal('<div class="loading-progress"></div>');
-				var url = "<?php echo base_url() ?>data_transaksi/penerimaan/saveKiriman/approve";
+				var url = "<?php echo base_url() ?>data_transaksi/permintaan/saveKiriman/approve";
 				$.ajax({
 					type: "POST",
 					url: url,
@@ -329,7 +325,7 @@
         if (cekChekBoxPilih('tolak')){return;}
 		bootbox.confirm('Yakin data ini akan ditolak ?', "Tidak", "Ya", function(e) {
 			if(e){
-				var url = "<?php echo base_url() ?>data_transaksi/penerimaan/saveKiriman/tolak";
+				var url = "<?php echo base_url() ?>data_transaksi/permintaan/saveKiriman/tolak";
 				bootbox.modal('<div class="loading-progress"></div>');
 				$.ajax({
 					type: "POST",
@@ -386,7 +382,7 @@
 
     $('select[name="ID_REGIONAL"]').on('change', function() {
         var stateID = $(this).val();
-        var vlink_url = '<?php echo base_url()?>master/master_level4/get_options_lv1/'+stateID;
+        var vlink_url = '<?php echo base_url()?>data_transaksi/permintaan/get_options_lv1/'+stateID;
         setDefaultLv1();
         setDefaultLv2();
         setDefaultLv3();
@@ -407,7 +403,7 @@
 
     $('select[name="COCODE"]').on('change', function() {
         var stateID = $(this).val();
-        var vlink_url = '<?php echo base_url()?>master/master_level4/get_options_lv2/'+stateID;
+        var vlink_url = '<?php echo base_url()?>data_transaksi/permintaan/get_options_lv2/'+stateID;
         setDefaultLv2();
         setDefaultLv3();
         setDefaultLv4();
@@ -427,7 +423,7 @@
 
     $('select[name="PLANT"]').on('change', function() {
         var stateID = $(this).val();
-        var vlink_url = '<?php echo base_url()?>master/master_level4/get_options_lv3/'+stateID;
+        var vlink_url = '<?php echo base_url()?>data_transaksi/permintaan/get_options_lv3/'+stateID;
         setDefaultLv3();
         setDefaultLv4();
         if(stateID) {
@@ -446,7 +442,7 @@
 
     $('select[name="STORE_SLOC"]').on('change', function() {
         var stateID = $(this).val();
-        var vlink_url = '<?php echo base_url()?>laporan/persediaan_bbm/get_options_lv4/'+stateID;
+        var vlink_url = '<?php echo base_url()?>data_transaksi/permintaan/get_options_lv4/'+stateID;
         setDefaultLv4();
         if(stateID) {
             $.ajax({
