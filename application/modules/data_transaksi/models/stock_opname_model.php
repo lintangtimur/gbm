@@ -311,7 +311,7 @@ class stock_opname_model extends CI_Model {
         }
     }
 
-    public function options_lv4($default = '--Pilih Level 41--', $key = 'all', $jenis=0) {
+    public function options_lv4($default = '--Pilih Pembangkit--', $key = 'all', $jenis=0) {
         $this->db->from('MASTER_LEVEL4');
         if ($key != 'all'){
             $this->db->where('STORE_SLOC',$key);
@@ -383,7 +383,7 @@ class stock_opname_model extends CI_Model {
         
     }
 
-    public function options_lv4_view($default = '--Pilih Level 4--') {
+    public function options_lv4_view($default = '--Pilih Pembangkit--') {
         $this->db->from('MASTER_LEVEL4');
     
         $option = array();

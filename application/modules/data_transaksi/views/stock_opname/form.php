@@ -51,7 +51,7 @@
                                 <?php echo form_dropdown('STORE_SLOC', $lv3_options, !empty($default->STORE_SLOC) ? $default->STORE_SLOC : ''); ?>
                             </div>
                             <br>
-                            <label  class="control-label">Level 4<span class="required">*</span> : </label>
+                            <label  class="control-label">Pembangkit<span class="required">*</span> : </label>
                             <div class="controls">
                                 <?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : ''); ?>
                             </div>
