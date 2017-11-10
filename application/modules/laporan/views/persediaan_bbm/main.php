@@ -92,7 +92,7 @@
                     <th colspan="2">Stok (L)</th>
                     <!-- <th rowspan="2">Stok Akhir Koreksi</th> -->
                     <th rowspan="2">SHO</th>
-                    <th rowspan="2">REV</th>
+                    <!--<th rowspan="2">REV</th>-->
                 </tr>
                 <tr>
                     <th>0</th>
@@ -206,7 +206,7 @@
                                     '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
                                     // '<td>' + value.STOCK_AKHIR_KOREKSI + '</td>' +
                                     '<td align="right">' + SHO + '</td>' +
-                                    '<td align="right">' +  REV + '</td>' +
+                                    //'<td align="right">' +  REV + '</td>' +
                                     '</tr>';
                             nomer++;
 

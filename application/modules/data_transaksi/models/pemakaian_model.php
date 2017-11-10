@@ -166,7 +166,7 @@ if (!empty($key) || is_array($key))
     }
 
     function saveDetailPenerimaan($idPenerimaan, $statusPenerimaan,$level_user,$user,$jumlah){
-		$query = "call SP_TEMP_PEMAKAIAN('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$user."',".$jumlah.")";
+		$query = "call PROSES_PEMAKAIAN('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$user."',".$jumlah.")";
 		// print_debug($query);
         $data = $this->db->query($query);
         return $data->result();

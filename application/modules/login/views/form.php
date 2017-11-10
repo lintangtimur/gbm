@@ -47,7 +47,7 @@
 								</div>
 								<div class="span4">
 									<!--<a href="#" class="btn btn-block blue" onClick="alert('Under Construction');">Kirim</a>-->
-									<?php echo anchor(null, '<i class="icon-send"></i> Simpan', array('id' => 'button-kirim', 'class' => 'blue btn', 'onclick' => "simpan_data(this.id, '#finput', '')")); ?>
+									<?php echo anchor(null, '<i class="icon-send"></i> Kirim', array('id' => 'button-kirim', 'class' => 'blue btn', 'onclick' => "simpan_data(this.id, '#finput', '')")); ?>
 								</div>
 							</div>
 						<?php echo form_close(); ?>

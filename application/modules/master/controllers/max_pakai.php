@@ -4,22 +4,24 @@ if (!defined("BASEPATH"))
     exit("No direct script access allowed");
 
 /**
- * @module Master Program
+ * @module Master Max Pemakaian
  */
-class program extends MX_Controller {
+class max_pakai extends MX_Controller {
 
-    private $_title = 'Master Program';
+    private $_title = 'Max Pemakaian';
     private $_limit = 10;
-    private $_module = 'master/program';
+    private $_module = 'master/max_pakai';
 
     public function __construct() {
         parent::__construct();
 
         // Protection
         hprotection::login();
+		$this->laccess->check();
+        $this->laccess->otoritas('view', true);
 
         /* Load Global Model */
-        $this->load->model('program_model');
+        $this->load->model('max_pakai_model');
     }
 
     public function index() {
@@ -27,11 +29,14 @@ class program extends MX_Controller {
         $this->load->module("template/asset");
 
         // Memanggil plugin JS Crud
-        $this->asset->set_plugin(array('crud'));
+        $this->asset->set_plugin(array('crud', 'format_number'));
 
-        $data['button_group'] = array(
-            anchor(null, '<i class="icon-plus"></i> Tambah Data', array('class' => 'btn yellow', 'id' => 'button-add', 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($this->_module . '/add')))
-        );
+		$data['button_group'] = array();
+        if ($this->laccess->otoritas('add')) {
+			$data['button_group'] = array(
+				anchor(null, '<i class="icon-plus"></i> Tambah Data', array('class' => 'btn yellow', 'id' => 'button-add', 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($this->_module . '/add')))
+			);
+		}
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $this->_title;
         $data['page_content'] = $this->_module . '/main';
         $data['data_sources'] = base_url($this->_module . '/load');
@@ -39,14 +44,15 @@ class program extends MX_Controller {
     }
 
     public function add($id = '') {
-        $page_title = 'Tambah Program';
+        $page_title = 'Tambah Max Pemakaian';
         $data['id'] = $id;
         if ($id != '') {
-            $page_title = 'Edit Program';
-            $program = $this->program_model->data($id);
+            $page_title = 'Edit Max Pemakaian';
+            $program = $this->max_pakai_model->data($id);
             $data['default'] = $program->get()->row();
         }
-        $data['parent_options'] = $this->program_model->options();
+        $data['lv4_options'] = $this->max_pakai_model->options();
+		$data['jnsbbm_options'] = $this->max_pakai_model->options_jnsbbm();
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses');
         $this->load->view($this->_module . '/form', $data);
@@ -57,18 +63,19 @@ class program extends MX_Controller {
     }
 
     public function load($page = 1) {
-        $data_table = $this->program_model->data_table($this->_module, $this->_limit, $page);
+        $data_table = $this->max_pakai_model->data_table($this->_module, $this->_limit, $page);
         $this->load->library("ltable");
         $table = new stdClass();
         $table->id = 'ID_PROGRAM';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('ID_PROGRAM' => 'center', 'NAMA_PROGRAM' => 'center', 'aksi' => 'center');
+        $table->align = array('no' => 'center', 'periode' => 'center', 'aksi' => 'center', 'volume' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
         $table->jumlah_kolom = 3;
         $table->header[] = array(
             "No", 1, 1,
-            "Nama Program", 1, 1,
+            "Periode", 1, 1,
+			"Volume", 1, 1,
             "Aksi", 1, 1
         );
         $table->total = $data_table['total'];
@@ -78,20 +85,27 @@ class program extends MX_Controller {
     }
 
     public function proses() {
-        $this->form_validation->set_rules('NAMA_PROGRAM', 'Nama Program', 'trim|required|max_length[50]');
+        $this->form_validation->set_rules('THBL_MAX_PAKAI', 'Periode Pemakaian', 'trim|required');
+		$this->form_validation->set_rules('VOLUME_MAX_PAKAI', 'Volume Pemakaian', 'trim|required');
+		$this->form_validation->set_rules('SLOC', 'Pembangkit', 'trim|required');
+		$this->form_validation->set_rules('ID_JNS_BHN_BKR', 'Jenis Bahan Bakar', 'trim|required');
         if ($this->form_validation->run($this)) {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
             $id = $this->input->post('id');
-
-            $data = array();
-            $data['NAMA_PROGRAM'] = $this->input->post('NAMA_PROGRAM');
+			
+            $thbl = $this->input->post('THBL_MAX_PAKAI');
+			$vol = $this->input->post('VOLUME_MAX_PAKAI');
+			$sloc = $this->input->post('SLOC');
+			$idjnsbbm = $this->input->post('ID_JNS_BHN_BKR');
 
             if ($id == '') {
-                if ($this->program_model->save_as_new($data)) {
-                    $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
-                }
+                $result = $this->max_pakai_model->save_as_new($thbl,$vol, $sloc, $idjnsbbm);
+				if ($result[0]->RCDB == "RC01")
+					$message = array(false, 'Proses Gagal', $result[0]->PESANDB, '');
+				else
+					$message = array(true, 'Proses Berhasil', $result[0]->PESANDB , '#content_table');
             } else {
-                if ($this->program_model->save($data, $id)) {
+                if ($this->max_pakai_model->save($data, $id)) {
                     $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
                 }
             }
@@ -104,7 +118,7 @@ class program extends MX_Controller {
     public function delete($id) {
         $message = array(false, 'Proses gagal', 'Proses hapus data gagal.', '');
 
-        if ($this->program_model->delete($id)) {
+        if ($this->max_pakai_model->delete($id)) {
             $message = array(true, 'Proses Berhasil', 'Proses hapus data berhasil.', '#content_table');
         }
         echo json_encode($message);

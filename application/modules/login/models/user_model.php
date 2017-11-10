@@ -41,8 +41,12 @@ class user_model extends CI_Model {
 	}
 
 	public function reset($email){
-		$this->db->where("EMAIL_USER", $email);
-		$this->db->update($this->_table1, array("IS_LOGIN"=> "0"));
+		// $this->db->where("EMAIL_USER", $email);
+		// $this->db->update($this->_table1, array("IS_LOGIN"=> "0"));
+		$query = "call RESET_SESSION('$email')";
+		$data = $this->db->query($query);
+		
+		return $data->result();
 	}
 	
     public function encrypt($str) {

@@ -130,7 +130,10 @@ class login extends MX_Controller {
 		if ($this->form_validation->run($this)) {
 			$email = $this->input->post('email');
 			$data_user = $this->user_model->reset($email);
-			$message = array(true, 'Proses Berhasil', 'Silahkan Coba Login Kembali', '');
+			if ($data_user[0]->RCDB == 'RC00')
+				$message = array(false, 'Proses Gagal', $data_user[0]->PESANDB, '');
+			else
+				$message = array(true, 'Proses Berhasil', $data_user[0]->PESANDB, '');
 		}else {
             $message = array(false, 'Proses gagal', validation_errors(), '');
         }

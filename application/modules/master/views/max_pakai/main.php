@@ -14,23 +14,6 @@
                             <?php echo hgenerator::render_button_group($button_group); ?>
                         </div>
                     </div>
-                    <div class="well">
-                        <div class="well-content clearfix">
-                            <?php echo form_open_multipart('', array('id' => 'ffilter')); ?>
-                            <table>
-								<tr>
-									<td colspan=2><label>Kata Kunci</label>
-									</td>
-								</tr>
-								<tr>
-									<td><?php echo form_input('kata_kunci', '', 'class="input-xlarge"'); ?></td>
-									<td> &nbsp </td>
-									<td><?php echo anchor(NULL, "<i class='icon-search'></i> Filter", array('class' => 'btn', 'id' => 'button-filter')); ?></td>
-								</tr>
-							</table>
-						<?php echo form_close(); ?>
-                        </div>
-                    </div> 
                     <div id="content_table" data-source="<?php echo $data_sources; ?>" data-filter="#ffilter"></div>
                     <div>&nbsp;</div>
                 </div>
