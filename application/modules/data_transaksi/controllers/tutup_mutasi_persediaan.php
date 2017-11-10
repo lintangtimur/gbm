@@ -100,10 +100,10 @@ class tutup_mutasi_persediaan extends MX_Controller {
             $bulantahun = new DateTime($data['TGL_TUTUP']);
             $data['BLTH'] = $bulantahun->format('Y-m');
             $data['TGL_TUTUP'] = $this->input->post('TGL_TUTUP');
-            $data['PLANT']='0';
+            $data['PLANT']='0'; 
            
             if ($id == '') {
-                    $data['STATUS'] = $this->input->post('VALUE_SETTING');           
+                    $data['STATUS'] = $this->input->post('VALUE_SETTING');         
                     if ($this->tbl_get->save_as_new($data)) {
                         $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
                     }
@@ -113,6 +113,7 @@ class tutup_mutasi_persediaan extends MX_Controller {
                     if ($this->tbl_get->save($data, $id)) {
                         $data['ID_MUTASI'] =$id;
                         $data['TGL_LOG']=date("Y/m/d H:i:s");
+                        $data['STATUS'] ='1';
                         if ($this->tbl_get->save_as_new_log($data)) {
                             $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
                         }
