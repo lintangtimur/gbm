@@ -65,7 +65,7 @@
                 </div>
             </div>
             <div class="control-group">
-                <label  class="control-label">Level 4<span class="required">*</span> : </label>
+                <label  class="control-label">Pembangkit<span class="required">*</span> : </label>
                 <div class="controls">
                     <?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : '', 'class="span6" disabled'); ?>
                 </div>
