@@ -75,7 +75,7 @@ class pemakaian extends MX_Controller
             if ($data_lv){
                 $option_lv3[$data_lv[0]->STORE_SLOC] = $data_lv[0]->LEVEL3;
                 $data['lv3_options'] = $option_lv3;
-                $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Level 4--', $data_lv[0]->STORE_SLOC, 1); 
+                $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Pembangkit--', $data_lv[0]->STORE_SLOC, 1); 
             }
         }        
 
@@ -150,7 +150,7 @@ class pemakaian extends MX_Controller
         $table->header[] = array(
             "NO", 1, 1,
             "BLTH", 1, 1,
-            "LEVEL4", 1, 1,
+            "PEMBANGKIT", 1, 1,
             "TOTAL_VOLUME (L)", 1, 1,
             "COUNT", 1, 1,
             "AKSI", 1, 1
@@ -171,7 +171,7 @@ class pemakaian extends MX_Controller
         $this->form_validation->set_rules('COCODE', 'Level l', 'required');
         $this->form_validation->set_rules('PLANT', 'Level 2', 'required');
         $this->form_validation->set_rules('STORE_SLOC', 'Level 3', 'required');
-        $this->form_validation->set_rules('SLOC', 'Level 4', 'required');
+        $this->form_validation->set_rules('SLOC', 'Pembangkit', 'required');
         $this->form_validation->set_rules('VALUE_SETTING', 'Jenis Pemakaian', 'required');
         $this->form_validation->set_rules('NO_TUG', 'No TUG', 'required');
         $this->form_validation->set_rules('ID_JNS_BHN_BKR', 'Jenis Bahan Bakar', 'required');
@@ -267,7 +267,7 @@ class pemakaian extends MX_Controller
         $data['lv1_options'] = $this->tbl_get->options_lv1('--Pilih Level 1--', '-', 1); 
         $data['lv2_options'] = $this->tbl_get->options_lv2('--Pilih Level 2--', '-', 1); 
         $data['lv3_options'] = $this->tbl_get->options_lv3('--Pilih Level 3--', '-', 1);  
-        $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Level 4--', '-', 1);  
+        $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Pembangkit--', '-', 1);  
 
         $level_user = $this->session->userdata('level_user');
         $kode_level = $this->session->userdata('kode_level');
@@ -294,7 +294,7 @@ class pemakaian extends MX_Controller
             $data['lv1_options'] = $option_lv1;
             $data['lv2_options'] = $option_lv2;
             $data['lv3_options'] = $option_lv3;
-            $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Level 4--', $data_lv[0]->STORE_SLOC, 1); 
+            $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Pembangkit--', $data_lv[0]->STORE_SLOC, 1); 
         } else if ($level_user==2){
             $option_reg[$data_lv[0]->ID_REGIONAL] = $data_lv[0]->NAMA_REGIONAL;
             $option_lv1[$data_lv[0]->COCODE] = $data_lv[0]->LEVEL1;
@@ -341,7 +341,7 @@ class pemakaian extends MX_Controller
     }
 
     public function get_options_lv4($key=null) {
-        $message = $this->tbl_get->options_lv4('--Pilih Level 4--', $key, 0);
+        $message = $this->tbl_get->options_lv4('--Pilih Pembangkit--', $key, 0);
         echo json_encode($message);
     }
 

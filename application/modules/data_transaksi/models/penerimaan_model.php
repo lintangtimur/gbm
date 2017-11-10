@@ -434,7 +434,7 @@ class penerimaan_model extends CI_Model
         }
     }
 
-    public function options_lv4($default = '--Pilih Level 4--', $key = 'all', $jenis=0) {
+    public function options_lv4($default = '--Pilih Pembangkit--', $key = 'all', $jenis=0) {
         $this->db->from('MASTER_LEVEL4');
         if ($key != 'all'){
             $this->db->where('STORE_SLOC',$key);
