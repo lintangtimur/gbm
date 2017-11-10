@@ -109,6 +109,11 @@ class user_model extends CI_Model {
         }
     }
 
+	public function logout($iduser){
+		$this->db->where("ID_USER", $iduser);
+		$this->db->update($this->_table1, array("IS_LOGIN"=> "0"));
+	}
+	
     public function data_table($module = '', $limit = 20, $offset = 1) {
         // data filtering
         $filter = array();

@@ -11,8 +11,6 @@ class login extends MX_Controller {
     public function __construct() {
         parent::__construct();
 		
-		// Protection
-        hprotection::login(false);
 		$this->load->model('user_model');
     }
 

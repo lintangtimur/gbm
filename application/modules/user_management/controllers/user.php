@@ -21,11 +21,11 @@ class user extends MX_Controller {
 		$this->load->model('master_level_model');
         // Protection
         hprotection::login();
-		$this->laccess->check();
-        $this->laccess->otoritas('view', true);
     }
 
     public function index() {
+		$this->laccess->check();
+		$this->laccess->otoritas('view', true);
         // Load Modules
         $this->load->module("template/asset");
 
@@ -207,7 +207,7 @@ class user extends MX_Controller {
         if ($user->num_rows() > 0) {
             $dataUser = $user->row();
             $data = array();
-            $data['user_password'] = md5($dataUser->user_username);
+            $data['PWD_USER'] = md5($dataUser->user_username);
             if ($this->user_model->save($data, $id)) {
                 $message = array(true, 'Proses Berhasil', 'Proses reset password berhasil.', '#content_table');
             }
@@ -259,7 +259,7 @@ class user extends MX_Controller {
     }
 
     public function proses_password() {
-        $this->form_validation->set_rules('password_lama', 'Password Lama', 'trim|required|min_length[5]|max_length[30]|callback_password_check_db');
+        $this->form_validation->set_rules('password_lama', 'Password Lama', 'trim|required|max_length[30]|callback_password_check_db');
         $this->form_validation->set_rules('password_baru', 'Password Baru', 'trim|required|min_length[5]|max_length[30]|matches[konf_password]|callback_password_check[password_lama]');
         $this->form_validation->set_rules('konf_password', 'Konfirmasi Password Baru', 'trim|required|min_length[5]|max_length[30]|');
         $this->form_validation->set_message('matches', 'Kedua Password Baru tidak cocok.');
@@ -270,8 +270,8 @@ class user extends MX_Controller {
             $passBaru = md5($this->input->post('password_baru'));
             $id = $this->session->userdata('user_id');
             $data_user = array();
-            $data_user['user_password'] = $passBaru;
-            $data_user['user_last_password_update'] = date('Y-m-d');
+            $data_user['PWD_USER'] = $passBaru;
+            $data_user['UD_USER'] = date('Y-m-d');
             if ($this->user_model->save($data_user, $id)) {
                 $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '');
             }
@@ -299,7 +299,7 @@ class user extends MX_Controller {
         $user = $this->user_model->data($id)->get();
         if ($user->num_rows() > 0) {
             $dataUser = $user->row();
-            if ($dataUser->user_password == $pass) {
+            if ($dataUser->PWD_USER == $pass) {
                 return TRUE;
             } else {
                 $this->form_validation->set_message('password_check_db', '%s salah.');
@@ -320,6 +320,8 @@ class user extends MX_Controller {
             $user = array();
             $user['nama_user'] = $this->input->post('user_nama');
                 if ($this->user_model->save($user, $id)) {
+					$this->user_model->logout($this->session->userdata('user_id'));
+					$this->session->sess_destroy();
                     $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', base_url());
                 }
             
