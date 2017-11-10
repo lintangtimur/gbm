@@ -74,6 +74,12 @@
                                     <?php echo form_dropdown('TAHUN', $opsi_tahun, '','style="width: 80px;"'); ?>
                                     </div>
                                 </div>
+                                <div class="pull-left span3">
+                                    <label for="password" class="control-label">Filter Status <span class="required">*</span> : </label>
+                                    <div class="controls">
+                                        <?php echo form_dropdown('STATUS', $status_options, !empty($default->VALUE_SETTING) ? $default->VALUE_SETTING : ''); ?>
+                                    </div>
+                                </div>
                             </div> 
                             <div class="form_row">
                             <div class="pull-left span5">

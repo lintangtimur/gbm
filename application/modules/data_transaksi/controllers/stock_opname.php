@@ -392,6 +392,7 @@ class stock_opname extends MX_Controller {
     }
 
     public function get_level_user(){
+        $data['status_options'] = $this->tbl_get->options_status();
         $data['lv1_options'] = $this->tbl_get_combo->options_lv1('--Pilih Level 1--', '-', 1); 
         $data['lv2_options'] = $this->tbl_get_combo->options_lv2('--Pilih Level 2--', '-', 1); 
         $data['lv3_options'] = $this->tbl_get_combo->options_lv3('--Pilih Level 3--', '-', 1);  
@@ -449,6 +450,11 @@ class stock_opname extends MX_Controller {
         }
 
         return $data;
+    }
+
+    public function get_sum_detail() {
+        $message = $this->tbl_get->get_sum_detail();
+        echo json_encode($message);
     }
   
 }

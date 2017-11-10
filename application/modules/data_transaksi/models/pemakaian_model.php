@@ -108,7 +108,7 @@ if (!empty($key) || is_array($key))
             // $count = $row->COUNT_VOLUME;
             // if ($count!=0) {
                 $id = $row->TANGGAL.'|'.$row->SLOC;
-                $aksi = anchor(null, '<i class="icon-eye-open"></i>', array('class' => 'btn transparant button-detail', 'id' => 'button-view-' . $id, 'onClick' => 'show_detail(\''.$id.'\')'));
+                $aksi = anchor(null, '<i class="icon-zoom-in" title="Lihat Detail Data"></i>', array('class' => 'btn transparant button-detail', 'id' => 'button-view-' . $id, 'onClick' => 'show_detail(\''.$id.'\')'));
                 $rows[$num] = array(
                     'NO' => $num,
                     'BLTH' =>  $this->get_blth($row->BL,$row->TH),
@@ -153,6 +153,9 @@ if (!empty($key) || is_array($key))
         }
         if ($_POST['TAHUN'] !='') {
             $this->db->where("TH",$_POST['TAHUN']);   
+        }
+        if ($_POST['STATUS'] !='') {
+            $this->db->where("KODE_STATUS",$_POST['STATUS']);   
         }
 		
 		$this->db->order_by("TGL_PENGAKUAN, ID_PEMAKAIAN asc");
@@ -565,6 +568,40 @@ if (!empty($key) || is_array($key))
         return $query;
     }
 
+    public function options_status() {
+        $this->db->from('DATA_SETTING');
+        $this->db->where('KEY_SETTING','STATUS_APPROVE');
+        $this->db->order_by("VALUE_SETTING ASC");
+        
+        $list = $this->db->get(); 
+        $option = array();
+        $option[''] = '-- Semua --';
+
+        foreach ($list->result() as $row) {
+            $option[$row->VALUE_SETTING] = $row->NAME_SETTING;
+        }
+        return $option;    
+    }
+
+    public function get_sum_detail() {
+        $SLOC = $_POST['SLOC'];
+        $TGL_PENGAKUAN = $_POST['TGL_PENGAKUAN'];
+
+        $q="SELECT 
+            SLOC, date_format(TGL_MUTASI_PENGAKUAN,'%m%Y') AS TGL_PENGAKUAN, 
+            sum( if( STATUS_MUTASI_PEMAKAIAN = '0', 1, 0 ) ) AS BELUM_KIRIM,  
+            sum( if( STATUS_MUTASI_PEMAKAIAN = '1', 1, 0 ) ) AS BELUM_DISETUJUI, 
+            sum( if( STATUS_MUTASI_PEMAKAIAN = '2', 1, 0 ) ) AS DISETUJUI,
+            sum( if( STATUS_MUTASI_PEMAKAIAN = '3', 1, 0 ) ) AS DITOLAK,
+            count(*) AS TOTAL 
+            FROM  MUTASI_PEMAKAIAN
+            WHERE SLOC='$SLOC' AND date_format(TGL_MUTASI_PENGAKUAN,'%m%Y') = '$TGL_PENGAKUAN'     
+            GROUP BY SLOC, TGL_PENGAKUAN ";
+
+        $query = $this->db->query($q);
+
+        return $query->result();       
+    }
 
 }
 ?>

@@ -122,7 +122,7 @@ class permintaan_model extends CI_Model
             // $count = $row->COUNT_VOLUME;
             // if ($count!=0) {
                 $id = $row->TANGGAL.'|'.$row->SLOC;;
-                $aksi = anchor(null, '<i class="icon-eye-open"></i>', array('class' => 'btn transparant button-detail', 'id' => 'button-view-' . $id, 'onClick' => 'show_detail(\''.$id.'\')'));
+                $aksi = anchor(null, '<i class="icon-zoom-in" title="Lihat Detail Data"></i>', array('class' => 'btn transparant button-detail', 'id' => 'button-view-' . $id, 'onClick' => 'show_detail(\''.$id.'\')'));
                 $rows[$num] = array(
                     'NO' => $num,
                     'BLTH' => $this->get_blth($row->BL,$row->TH),

@@ -21,7 +21,7 @@
             <div id="index-content" class="well-content no-search">
 
                 <div class="well">
-                    <div class="content_table">
+                    <div class="pull-left">
                         <?php echo hgenerator::render_button_group($button_group); ?>
                     </div>
                 </div>
@@ -90,11 +90,12 @@
                         <?php echo form_close(); ?>
                     </div>
                 </div>
+                <br>
                 <div id="content_table" data-source="<?php echo $data_sources; ?>" data-filter="#ffilter"></div>
                 <div id="table_detail" hidden>
                     <form method="POST" id="formKirimDetail">
                         <div class="well-content clearfix">
-                            <table class="pull-right">
+                            <!-- <table class="pull-right">
                                 <tr>
                                     <td>
 										<?php if ($this->session->userdata('level_user') >= "2" && $this->laccess->otoritas('add')){?>
@@ -113,7 +114,7 @@
 										<?php }?>
                                     </td>
                                 </tr>
-                            </table>
+                            </table> -->
                         </div>
                         <div class="content">
                             <table class="table table-bordered table-striped" id="detailPermintaan">

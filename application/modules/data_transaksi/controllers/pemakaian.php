@@ -224,17 +224,6 @@ class pemakaian extends MX_Controller
         echo json_encode($this->tbl_get->getTableViewDetail());
     }
 
-    /**
-     * Fungsi akan melakukan pengambilan di table bila checkbok dipilih
-     *
-     * procedure : PROSES_PEMAKAIAN2
-     * @param $idPenerimaan format idPenerimaan1#idPenerimaan2#idPenerimaan3
-     * @param $status format status1#status2#status3
-     * @param $level_user dari session
-     * @param $kode_level dari session
-     * @param $user_name dari session
-     * @param $jumlah jumlah data yang di inputkan
-     */
     public function saveKiriman($statusKirim)
     {
         $pilihan = $this->input->post('pilihan');
@@ -273,92 +262,8 @@ class pemakaian extends MX_Controller
         echo json_encode($message, true);
     }
 
-    public function proses_lama()
-    {
-        
-        $this->form_validation->set_rules('kode_regional', 'Kode Regional', 'required');
-        $this->form_validation->set_rules('kode_level1', 'Kode Level l', 'required');
-        $this->form_validation->set_rules('kode_level2', 'Kode Level 2', 'required');
-        $this->form_validation->set_rules('kode_level3', 'Kode Level 3', 'required');
-        $this->form_validation->set_rules('kode_level4', 'Kode Level 4', 'required');
-        
-        $kodelevel = $this->input->post("kode_level4");
-        $data = array();
-        $data['TGL_CATAT'] = str_replace('-', '', $this->input->post('TGL_CATAT'));
-        $data['TGL_MUTASI'] = date("dmY");
-        $data['TGL_PENGAKUAN'] = str_replace('-', '', $this->input->post('TGL_PENGAKUAN'));
-        $data['SLOC'] = $kodelevel;
-        $data['VALUE_SETTING'] = $this->input->post('VALUE_SETTING');
-        $data['ID_JNS_BHN_BKR'] = $this->input->post('ID_JNS_BHN_BKR');
-        $data['NO_TUG'] = $this->input->post('NO_TUG');
-        $data['VOL_PEMAKAIAN'] = $this->input->post('VOL_PEMAKAIAN');
-        $data['CREATE_BY'] = $this->session->userdata('user_name');
-        $data['KETERANGAN'] = $this->input->post('KETERANGAN');
-        $data['NO_PEMAKAIAN'] = $this->input->post('NO_PEMAKAIAN');
-        $this->load->library('encrypt');
-        if ($this->form_validation->run($this)) {
-            $simpan_data = $this->tbl_get->save($data);
-            if ($simpan_data[0]->RCDB == 'RC00') {
-                $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
-            } else {
-                $message = array(false, 'Proses Gagal', 'Proses penyimpanan data gagal.', '');
-            }
-        }else {
-            $message = array(false, 'Proses gagal', validation_errors(), '');
-        }
-        echo json_encode($message, true);
-    }
-
-    public function add_lama($id = '')
-    {
-        $page_title = 'Tambah Pemakaian';
-        $data['id'] = $id;
-        
-        $level_user = $this->session->userdata('level_user');
-        $kode_level = $this->session->userdata('kode_level');
-        //$data['option_level'] = $this->tbl_get->options_level($level_user, $kode_level);
-        $data['read'] = array("display:none;","display:none;","display:none;","display:none;");
-        $data['option_regional'] = array();
-        $data['option_level1'] = array();
-        $data['option_level2'] = array();
-        $data['option_level3'] = array();
-        $data['option_level4'] = array();
-        $data['loadlevel'] = base_url($this->_module). '/load_level/';
-        if ($level_user === "0"){ /* PUSAT */
-            $data['read'] = array("","","","","");
-            $data['option_regional'] = $this->tbl_get->load_option("R");
-        }else if($level_user === "R"){
-            $data['read'] = array("display:none;","","","","");
-            $data['option_level1'] = $this->tbl_get->load_option("1", $kode_level);
-        }else if($level_user === "1"){
-            $data['read'] = array("display:none;","display:none;","","","");
-            $data['option_level2'] = $this->tbl_get->load_option("2", $kode_level);
-        }else if($level_user === "2"){
-            $data['read'] = array("display:none;","display:none;","display:none;","","");
-            $data['option_level3'] = $this->tbl_get->load_option("3", $kode_level);
-        }else if($level_user === "3"){
-            $data['read'] = array("display:none;","display:none;","display:none;","display:none;","");
-            $data['option_level3'] = $this->tbl_get->load_option("4", $kode_level);
-            $data['option_level4'] = array('--Pilih Level 4--', array_values($data['option_level3'])[0]);
-        }else{
-            $data['read'] = array("display:none;","display:none;","display:none;","display:none;","");
-            $data['option_level4'] = array($kode_level, $kode_level);
-        }
-        // print_debug($data);
-        if ($id != '') {
-            $page_title = 'Edit Pemakaian';
-            $get_tbl = $this->tbl_get->data($id);
-            $data['default'] = $get_tbl->get()->row();
-        }
-        $data['option_jenis_pemakaian'] = $this->tbl_get->options_jenis_pemakaian();
-        $data['option_jenis_bbm'] = $this->tbl_get->options_jenis_bahan_bakar();
-        
-        $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
-        $data['form_action'] = base_url($this->_module . '/proses');
-        $this->load->view($this->_module . '/form', $data);
-    }
-
     public function get_level_user(){
+        $data['status_options'] = $this->tbl_get->options_status();
         $data['lv1_options'] = $this->tbl_get->options_lv1('--Pilih Level 1--', '-', 1); 
         $data['lv2_options'] = $this->tbl_get->options_lv2('--Pilih Level 2--', '-', 1); 
         $data['lv3_options'] = $this->tbl_get->options_lv3('--Pilih Level 3--', '-', 1);  
@@ -439,4 +344,11 @@ class pemakaian extends MX_Controller
         $message = $this->tbl_get->options_lv4('--Pilih Level 4--', $key, 0);
         echo json_encode($message);
     }
+
+    public function get_sum_detail() {
+        $message = $this->tbl_get->get_sum_detail();
+        echo json_encode($message);
+    }
+
+    
 }
