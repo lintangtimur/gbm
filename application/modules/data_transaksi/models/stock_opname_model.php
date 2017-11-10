@@ -159,23 +159,56 @@ class stock_opname_model extends CI_Model {
                 $aksi = '';
                 $id = $row->ID_STOCKOPNAME;
                 $status = $row->STATUS_APPROVE_STOCKOPNAME;
+                $CREATED_BY = $row->CD_BY_STOKOPNAME;
                 $status_hasil='';
+
                 if($level_user == 2){
-                    if ($status == 1) {
-                        $aksi .= anchor(null, '<i class="icon-zoom-in" title="View"></i>', array('class' => 'btn transparant', 'id' => 'button-load-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadApprove/' . $id)));
-                    }
-                    else if(($status==2) || ($status==3) ){
-                        $aksi .= anchor(null, '<i class="icon-zoom-in" title="View"></i>', array('class' => 'btn transparant', 'id' => 'button-load-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadView/' . $id)));
+                    if ($this->laccess->otoritas('add')){
+                        if($CREATED_BY==$this->session->userdata('user_name')){
+                            if (($status == 0) || ($status == 3)) {
+                                $aksi .= anchor(null, '<i class="icon-share" title="Kirim"></i>', array('class' => 'btn transparant', 'id' => 'button-kirim-' . $id, 'onclick' => 'kirim_row(this.id)', 'data-source' => base_url($module . '/sendAction/' . $id)));
+                                $aksi .= anchor(null, '<i class="icon-edit" title="Edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
+                            }else if(($status==2)||($status==1)){
+                                $aksi .= anchor(null, '<i class="icon-zoom-in" title="View"></i>', array('class' => 'btn transparant', 'id' => 'button-load-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadView/' . $id)));
+                            }
+                        }                               
+                    } else {
+                        if ($status == 1) {
+                            $aksi .= anchor(null, '<i class="icon-zoom-in" title="View"></i>', array('class' => 'btn transparant', 'id' => 'button-load-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadApprove/' . $id)));
+                        }
+                        else if(($status==2) || ($status==3) ){
+                            $aksi .= anchor(null, '<i class="icon-zoom-in" title="View"></i>', array('class' => 'btn transparant', 'id' => 'button-load-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadView/' . $id)));
+                        } 
                     }
                 } 
                 else if (($level_user == 3)||($level_user == 4)){
-                    if (($status == 0) || ($status == 3)) {
-                        $aksi .= anchor(null, '<i class="icon-share" title="Kirim"></i>', array('class' => 'btn transparant', 'id' => 'button-kirim-' . $id, 'onclick' => 'kirim_row(this.id)', 'data-source' => base_url($module . '/sendAction/' . $id)));
-                        $aksi .= anchor(null, '<i class="icon-edit" title="Edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
-                    }else if(($status==2)||($status==1)){
-                        $aksi .= anchor(null, '<i class="icon-zoom-in" title="View"></i>', array('class' => 'btn transparant', 'id' => 'button-load-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadView/' . $id)));
+                    if($CREATED_BY==$this->session->userdata('user_name')){
+                        if (($status == 0) || ($status == 3)) {
+                            $aksi .= anchor(null, '<i class="icon-share" title="Kirim"></i>', array('class' => 'btn transparant', 'id' => 'button-kirim-' . $id, 'onclick' => 'kirim_row(this.id)', 'data-source' => base_url($module . '/sendAction/' . $id)));
+                            $aksi .= anchor(null, '<i class="icon-edit" title="Edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
+                        }else if(($status==2)||($status==1)){
+                            $aksi .= anchor(null, '<i class="icon-zoom-in" title="View"></i>', array('class' => 'btn transparant', 'id' => 'button-load-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadView/' . $id)));
+                        }
                     }
                 }
+
+
+                // if($level_user == 2){
+                //     if ($status == 1) {
+                //         $aksi .= anchor(null, '<i class="icon-zoom-in" title="View"></i>', array('class' => 'btn transparant', 'id' => 'button-load-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadApprove/' . $id)));
+                //     }
+                //     else if(($status==2) || ($status==3) ){
+                //         $aksi .= anchor(null, '<i class="icon-zoom-in" title="View"></i>', array('class' => 'btn transparant', 'id' => 'button-load-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadView/' . $id)));
+                //     }
+                // } 
+                // else if (($level_user == 3)||($level_user == 4)){
+                //     if (($status == 0) || ($status == 3)) {
+                //         $aksi .= anchor(null, '<i class="icon-share" title="Kirim"></i>', array('class' => 'btn transparant', 'id' => 'button-kirim-' . $id, 'onclick' => 'kirim_row(this.id)', 'data-source' => base_url($module . '/sendAction/' . $id)));
+                //         $aksi .= anchor(null, '<i class="icon-edit" title="Edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
+                //     }else if(($status==2)||($status==1)){
+                //         $aksi .= anchor(null, '<i class="icon-zoom-in" title="View"></i>', array('class' => 'btn transparant', 'id' => 'button-load-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadView/' . $id)));
+                //     }
+                // }
 
                 if($status==0){
                    $status_hasil="Belum Dikirim";
@@ -524,16 +557,47 @@ class stock_opname_model extends CI_Model {
     }
 
     public function get_sum_detail() {
-        // $SLOC = $_POST['SLOC'];
-        // $TGL_PENGAKUAN = $_POST['TGL_PENGAKUAN'];
+        $filter='WHERE 1=1 ';
+        if ($_POST['ID_REGIONAL'] !='') {
+            $filter.=" AND R.ID_REGIONAL='".$_POST['ID_REGIONAL']."' ";   
+        }
+        if ($_POST['COCODE'] !='') {
+            $filter.=" AND M1.COCODE='".$_POST['COCODE']."' ";     
+        }
+        if ($_POST['PLANT'] !='') {
+            $filter.=" AND M2.PLANT='".$_POST['PLANT']."' ";    
+        }
+        if ($_POST['STORE_SLOC'] !='') {
+            $filter.=" AND M3.STORE_SLOC='".$_POST['STORE_SLOC']."' ";      
+        }
+        if ($_POST['SLOC'] !='') {
+            $filter.=" AND M4.SLOC='".$_POST['SLOC']."' ";      
+        }
+        if ($_POST['BBM'] !='') {
+            $filter.=" AND A.ID_JNS_BHN_BKR='".$_POST['BBM']."' ";     
+        }
+        if ($_POST['BULAN'] !='') {
+            $filter.=" AND MONTH(A.TGL_PENGAKUAN)='".$_POST['BULAN']."' ";     
+        }
+        if ($_POST['TAHUN'] !='') {
+            $filter.=" AND YEAR(A.TGL_PENGAKUAN)='".$_POST['TAHUN']."' ";     
+        }
+        if ($_POST['STATUS'] !='') {
+            $filter.=" AND A.STATUS_APPROVE_STOCKOPNAME='".$_POST['STATUS']."' ";    
+        }
 
         $q="SELECT 
-            sum( if( STATUS_APPROVE_STOCKOPNAME = '0', 1, 0 ) ) AS BELUM_KIRIM,  
-            sum( if( STATUS_APPROVE_STOCKOPNAME = '1', 1, 0 ) ) AS BELUM_DISETUJUI, 
-            sum( if( STATUS_APPROVE_STOCKOPNAME = '2', 1, 0 ) ) AS DISETUJUI,
-            sum( if( STATUS_APPROVE_STOCKOPNAME = '3', 1, 0 ) ) AS DITOLAK,
-            count(*) AS TOTAL 
-            FROM  STOCK_OPNAME ";
+        COALESCE(SUM( IF( A.STATUS_APPROVE_STOCKOPNAME = '0', 1, 0 ) ),0) AS BELUM_KIRIM,  
+        COALESCE(SUM( IF( A.STATUS_APPROVE_STOCKOPNAME = '1', 1, 0 ) ),0) AS BELUM_DISETUJUI, 
+        COALESCE(SUM( IF( A.STATUS_APPROVE_STOCKOPNAME = '2', 1, 0 ) ),0) AS DISETUJUI,
+        COALESCE(SUM( IF( A.STATUS_APPROVE_STOCKOPNAME = '3', 1, 0 ) ),0) AS DITOLAK,
+        COUNT(*) AS TOTAL 
+        FROM  STOCK_OPNAME A
+        LEFT JOIN MASTER_LEVEL4 M4 ON M4.SLOC=A.SLOC
+        LEFT JOIN MASTER_LEVEL3 M3 ON M3.STORE_SLOC=M4.STORE_SLOC
+        LEFT JOIN MASTER_LEVEL2 M2 ON M2.PLANT=M3.PLANT
+        LEFT JOIN MASTER_LEVEL1 M1 ON M1.COCODE=M2.COCODE
+        LEFT JOIN MASTER_REGIONAL R ON R.ID_REGIONAL=M1.ID_REGIONAL $filter ";  
 
         $query = $this->db->query($q);
 

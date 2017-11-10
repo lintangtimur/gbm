@@ -81,8 +81,9 @@
                                     </div>
                                 </div>
                             </div> 
+                            <br>
                             <div class="form_row">
-                            <div class="pull-left span5">
+                            <div class="pull-left span4">
                                 <div class="controls">
                                     <table>
                                         <tr>
@@ -93,6 +94,27 @@
                                             <td><?php echo form_input('kata_kunci', '', 'class="input-large"'); ?></td>
                                             <td> &nbsp </td>
                                             <td><?php echo anchor(NULL, "<i class='icon-search'></i> Filter", array('class' => 'btn', 'id' => 'button-filter')); ?></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="pull-left span5">
+                                <div class="controls">
+                                    <table>
+                                        <tr>
+                                            <td><label>Total data</label></td><td><label>:</label></td><td><label><info id="TOTAL"></info></label></td>
+                                            <td><?php echo str_repeat("&nbsp;", 10); ?></td>
+                                            <td></td><td></td><td></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Belum Kirim</label></td><td><label>:</label></td><td><label><info id="BELUM_KIRIM"></info></label></td>
+                                            <td></td>
+                                            <td><label>Disetujui</label></td><td><label>:</label></td><td><label><info id="DISETUJUI"></info></label></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Belum Disetujui</label></td><td><label>:</label></td><td><label><info id="BELUM_DISETUJUI"></info></label></td>
+                                            <td></td>
+                                            <td><label>Ditolak</label></td><td><label>:</label></td><td><label><info id="DITOLAK"></info></label></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -115,9 +137,11 @@
     jQuery(function($) {
 
         load_table('#content_table', 1, '#ffilter');
+        get_sum_detail();
 
         $('#button-filter').click(function() {
             load_table('#content_table', 1, '#ffilter');
+            get_sum_detail();
         });
 
     });
@@ -224,4 +248,24 @@
             }
         });
     });
+
+    function formatNumber (num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    }
+
+    function get_sum_detail() {
+        var data = $('#ffilter').serializeArray()
+
+        $.post("<?php echo base_url()?>data_transaksi/stock_opname/get_sum_detail/", data, function (data) {
+            var data_detail = (JSON.parse(data));
+
+            for (i = 0; i < data_detail.length; i++) {
+                $('#TOTAL').html(formatNumber(data_detail[i].TOTAL));
+                $('#BELUM_KIRIM').html(formatNumber(data_detail[i].BELUM_KIRIM));
+                $('#BELUM_DISETUJUI').html(formatNumber(data_detail[i].BELUM_DISETUJUI));
+                $('#DISETUJUI').html(formatNumber(data_detail[i].DISETUJUI));
+                $('#DITOLAK').html(formatNumber(data_detail[i].DITOLAK));
+            }
+        });
+    }
 </script>

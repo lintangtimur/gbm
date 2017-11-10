@@ -141,6 +141,7 @@
                                                 <td>
                                                     <?php if (($this->laccess->otoritas('add') == true) && ($this->session->userdata('level_user') >= "2")) {?>
                                                             <button class="btn btn-primary" type="button" onclick="saveDetailKirim(this)">Kirim</button>
+                                                            <button class="btn btn-primary" type="button" onclick="saveDetailKirimClossing(this)">Kirim Clossing</button>
                                                     <?php }?>
                                                 </td>
                                                 <td>
@@ -335,6 +336,10 @@
         }
 
         return vAda;
+    }
+
+    function saveDetailKirimClossing(obj) {
+        bootbox.alert('Kirim Clossing', function() {});    
     }
 
     function saveDetailKirim(obj) {
