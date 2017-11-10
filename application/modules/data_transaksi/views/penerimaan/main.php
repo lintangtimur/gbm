@@ -54,7 +54,7 @@
                                 </div>
                             </div>
                             <div class="pull-left span3">
-                                <label for="password" class="control-label">Level 4 : </label>
+                                <label for="password" class="control-label">Pembangkit : </label>
                                 <div class="controls">
                                     <?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : '', 'id="lvl4"'); ?>
                                 </div>
@@ -141,6 +141,7 @@
                                                 <td>
                                                     <?php if (($this->laccess->otoritas('add') == true) && ($this->session->userdata('level_user') >= "2")) {?>
                                                             <button class="btn btn-primary" type="button" onclick="saveDetailKirim(this)">Kirim</button>
+                                                            <button class="btn btn-primary" type="button" onclick="saveDetailKirimClossing(this)">Kirim Clossing</button>
                                                     <?php }?>
                                                 </td>
                                                 <td>
@@ -337,6 +338,10 @@
         return vAda;
     }
 
+    function saveDetailKirimClossing(obj) {
+        bootbox.alert('Kirim Clossing', function() {});    
+    }
+
     function saveDetailKirim(obj) {
         if (cekChekBoxPilih('kirim')){return;}
 		bootbox.confirm('Yakin data ini akan dikirimkan ?', "Tidak", "Ya", function(e) {
@@ -457,7 +462,7 @@
 
     function setDefaultLv4(){
         $('select[name="SLOC"]').empty();
-        $('select[name="SLOC"]').append('<option value="">--Pilih Level 4--</option>');
+        $('select[name="SLOC"]').append('<option value="">--Pilih Pembangkit--</option>');
     }
 
     $('select[name="ID_REGIONAL"]').on('change', function() {

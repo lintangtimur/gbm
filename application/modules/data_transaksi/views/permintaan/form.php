@@ -59,7 +59,7 @@
                 </div>
             </div>
             <div class="control-group">
-                <label  class="control-label">Level 4<span class="required">*</span> : </label>
+                <label  class="control-label">Pembangkit<span class="required">*</span> : </label>
                 <div class="controls">
                     <?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : '', 'class="span6"'); ?>
                 </div>
@@ -117,7 +117,7 @@
 
     function setDefaultLv4(){
         $('select[name="SLOC"]').empty();
-        $('select[name="SLOC"]').append('<option value="">--Pilih Level 4--</option>');
+        $('select[name="SLOC"]').append('<option value="">--Pilih Pembangkit--</option>');
     }
 
     $('select[name="ID_REGIONAL"]').on('change', function() {

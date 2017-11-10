@@ -17,7 +17,7 @@
         <div class="control-group">
             <label for="password" class="control-label">Status <span class="required">*</span> : </label>
             <div class="controls">
-            <?php echo form_dropdown('VALUE_SETTING', $parent_options, !empty($default->STATUS) ? $default->STATUS : '', 'class="span3", disabled="True'); ?> 
+            <?php echo form_dropdown('VALUE_SETTING', $parent_options, !empty($default->STATUS) ? $default->STATUS : '', 'class="span3", disabled="True"'); ?> 
             </div>
         </div>
         <div class="control-group">
