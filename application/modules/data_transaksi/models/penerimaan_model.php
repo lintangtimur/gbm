@@ -179,10 +179,36 @@ class penerimaan_model extends CI_Model
         return $data->result();
     }
 
+    // function call( $procedure )
+    // {
+    // $result = @$this->db->conn_id->query( $procedure );
+
+    // while ( $this->db->conn_id->next_result() )
+    // {
+    //     //free each result.
+    //     $not_used_result = $this->db->conn_id->use_result();
+
+    //     if ( $not_used_result instanceof mysqli_result )
+    //     {
+    //         $not_used_result->free();
+    //     }
+    // }
+
+    // return $result;
+
+    // }
+
     function saveDetailPenerimaan($idPenerimaan, $statusPenerimaan,$level_user,$kode_level,$user,$jumlah){
-		// print_debug("call SP_TEMP_PENERIMAAN('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$kode_level."','".$user."',".$jumlah.")");
+		// print_r("call SP_TEMP_PENERIMAAN('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$kode_level."','".$user."',".$jumlah.")"); die;
         $query = $this->db->query("call SP_TEMP_PENERIMAAN('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$kode_level."','".$user."',".$jumlah.")");
-        return $query->result();
+        // return $query->result();
+
+       $res = $query->result();
+
+       $query->next_result(); // Dump the extra resultset.
+       $query->free_result(); // Does what it says.
+
+       return $res;
     }
 
     function saveDetailClossing($sloc,$idPenerimaan,$level_user,$statusPenerimaan,$kode_level,$user_name,$jumlah){
