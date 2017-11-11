@@ -166,8 +166,15 @@ if (!empty($key) || is_array($key))
     }
 
     function saveDetailPenerimaan($idPenerimaan, $statusPenerimaan,$level_user,$user,$jumlah){
+		// $id = explode("#", $idPenerimaan);
+		// for($i = 0; $i <= $jumlah - 1; $i++){
+			// $query = "call SP_TEMP_PEMAKAIAN('".$id[$i]."','".$statusPenerimaan."','".$level_user."','".$user."',".$i.")";
+			// $data = $this->db->query($query);
+			// // $this->db->reconnect();
+		// }
+		$this->db->reconnect();
 		$query = "call SP_TEMP_PEMAKAIAN('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$user."',".$jumlah.")";
-		// print_debug($query);
+		print_debug($query);
         $data = $this->db->query($query);
         return $data->result();
     }
