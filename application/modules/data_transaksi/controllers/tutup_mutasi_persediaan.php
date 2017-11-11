@@ -105,6 +105,10 @@ class tutup_mutasi_persediaan extends MX_Controller {
             }else{
                 $bulan=$bulan-1;
             }
+
+            if($bulan<10){
+                $bulan='0'.$bulan;
+            }
             $data['BLTH']=$tahun.$bulan;
             $data['TGL_TUTUP'] = $this->input->post('TGL_TUTUP');
             $data['PLANT']='0'; 
