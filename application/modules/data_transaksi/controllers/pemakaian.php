@@ -257,6 +257,43 @@ class pemakaian extends MX_Controller
         echo json_encode($message, true);
     }
 
+    public function saveKirimanClossing($statusKirim)
+    {
+        $pilihan = $this->input->post('pilihan');
+        $idPenerimaan = $this->input->post('idPenerimaan');
+        $p = ""; //penampung pilihan
+        $s = ""; //penamping status
+        $level_user = $this->session->userdata('level_user');
+        $kode_level = $this->session->userdata('kode_level');
+        $user_name = $this->session->userdata('user_name');
+        $sloc = $this->input->post('vSLOC'); 
+        for ($i = 0; $i < count($idPenerimaan); $i++) {
+            if (isset($pilihan[$i])) {
+                $p = $p . $pilihan[$i] . "#";
+                if ($statusKirim == 'kirim') {
+                    $s = $s . "5" . "#";
+                } else if ($statusKirim == 'approve') {
+                    $s = $s . "6" . "#";
+                }
+            }
+        }
+
+        $idPenerimaan = substr($p, 0, strlen($p) - 1);
+        $statusPenerimaan = substr($s, 0, strlen($s) - 1);
+        $jumlah = count($pilihan);
+
+        // print_r('p_sloc='.$sloc.' p_id='.$idPenerimaan.' p_lvl_user='.$level_user.' p_status='.$statusPenerimaan.' p_kode_lvl='.$kode_level.' p_by_user='.$user_name.' p_totalcheck='.$jumlah); die;
+
+        $simpan = $this->tbl_get->saveDetailClossing($sloc,$idPenerimaan,$level_user,$statusPenerimaan,$kode_level,$user_name,$jumlah);
+
+        if ($simpan[0]->RCDB == "RC00") {
+            $message = array(true, 'Proses Berhasil', $simpan[0]->PESANDB, '#content_table');
+        } else {
+            $message = array(false, 'Proses Gagal', $simpan[0]->PESANDB, '');
+        }
+        echo json_encode($message, true);
+    }
+
     public function get_level_user(){
         $data['status_options'] = $this->tbl_get->options_status();
         $data['lv1_options'] = $this->tbl_get->options_lv1('--Pilih Level 1--', '-', 1); 

@@ -150,7 +150,7 @@
                                                 <td>
                                                     <?php if (($this->laccess->otoritas('approve') == true) && ($this->session->userdata('level_user') == "2")) {?>
                                                             <button class="btn btn-primary" type="button" onclick="saveDetailApprove(this)" id="btn_approve">Approve</button>
-                                                            <button class="btn btn-primary" type="button" onclick="saveDetailKirimClossing(this)" id="btn_approve_cls">Approve Clossing</button>
+                                                            <button class="btn btn-primary" type="button" onclick="saveDetailApproveClossing(this)" id="btn_approve_cls">Approve Clossing</button>
                                                     <?php }?>
                                                 </td>
                                                 <td>
@@ -253,6 +253,7 @@
                 var vEdit='';
                 var vEditView='';
                 var vlink_url = '';
+                var vCmbStatus = $('select[name="CMB_STATUS"]').val();
 
                 for (i = 0; i < data_detail.length; i++) {
                     cekbox = '<input type="checkbox" name="pilihan[' + i + ']" id="pilihan" value="'+data_detail[i].ID_PEMAKAIAN+'">';
@@ -277,18 +278,22 @@
                             }
 
                             if (vIsApprove){
-                                if (data_detail[i].KODE_STATUS !== "1"){
+                                if ((data_detail[i].KODE_STATUS == "0") || (data_detail[i].KODE_STATUS == "2") || (data_detail[i].KODE_STATUS == "3")){
                                     cekbox = '';
                                 }  
-
                                 if (data_detail[i].KODE_STATUS == "0"){
                                     vSetEdit = '';
-                                }                                 
+                                }    
+                                if (data_detail[i].KODE_STATUS == "4"){
+                                    if (vCmbStatus != "4"){
+                                        cekbox = '';
+                                    }
+                                }                               
                             }
                         }
 
                         if ((vLevelUser==3) || (vLevelUser==4)){
-                            if (data_detail[i].KODE_STATUS !== "0"){
+                            if ((data_detail[i].KODE_STATUS !== "0") && (data_detail[i].KODE_STATUS !== "4")){
                                 cekbox = '';
                             } 
                             if(data_detail[i].KODE_STATUS == "0"){
@@ -296,6 +301,11 @@
                                         vSetEdit = vEdit;     
                                     } 
                             }
+                            if (data_detail[i].KODE_STATUS == "4"){
+                                if (vCmbStatus != "4"){
+                                    cekbox = '';
+                                }
+                            }  
                         }
                     } else {
                        cekbox = ''; 
@@ -355,10 +365,6 @@
         return vAda;
     }
 
-    function saveDetailKirimClossing(obj) {
-        bootbox.alert('Kirim Clossing', function() {});    
-    }
-
     function saveDetailKirim(obj) {
         if (cekChekBoxPilih('kirim')){return;}
         var url = "<?php echo base_url() ?>data_transaksi/pemakaian/saveKiriman/kirim";
@@ -389,6 +395,38 @@
 				});
 			}
 		});
+    }
+
+    function saveDetailKirimClossing(obj) {
+        if (cekChekBoxPilih('kirim')){return;}
+        bootbox.confirm('Yakin data ini akan dikirimkan ?', "Tidak", "Ya", function(e) {
+            if(e){
+                bootbox.modal('<div class="loading-progress"></div>');
+                var url = "<?php echo base_url() ?>data_transaksi/pemakaian/saveKirimanClossing/kirim";
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: $('#formKirimDetail').serializeArray(),
+                    dataType:"json",
+                    success: function (data) {
+                        $(".bootbox").modal("hide");
+                        var message = '';
+                        var content_id = data[3];
+                        if (data[0]) {
+                            icon = 'icon-ok-sign';
+                            color = '#0072c6;';
+                        }
+                        message += '<div class="box-title" style="color:' + color + '"><i class="' + icon + '"></i> ' + data[1] + '</div>';
+                        message += data[2];
+                        bootbox.alert(message, function() {
+                            load_table("#content_table", 1);
+                            $('#detailPenerimaan tbody tr').detach();
+                            $('#table_detail').hide();
+                        });
+                    }
+                });
+            }
+        });  
     }
 
     function saveDetailApprove(obj) {
@@ -424,6 +462,38 @@
 				});
 			}
 		});
+    }
+
+    function saveDetailApproveClossing(obj) {
+        if (cekChekBoxPilih('approve')){return;}
+        bootbox.confirm('Yakin data ini akan di Setujui ?', "Tidak", "Ya", function(e) {
+            if(e){
+                bootbox.modal('<div class="loading-progress"></div>');
+                var url = "<?php echo base_url() ?>data_transaksi/pemakaian/saveKirimanClossing/approve";
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: $('#formKirimDetail').serializeArray(),
+                    dataType:"json",
+                    success: function (data) {
+                        $(".bootbox").modal("hide");
+                        var message = '';
+                        var content_id = data[3];
+                        if (data[0]) {
+                            icon = 'icon-ok-sign';
+                            color = '#0072c6;';
+                        }
+                        message += '<div class="box-title" style="color:' + color + '"><i class="' + icon + '"></i> ' + data[1] + '</div>';
+                        message += data[2];
+                        bootbox.alert(message, function() {
+                            load_table("#content_table", 1);
+                            $('#detailPenerimaan tbody tr').detach();
+                            $('#table_detail').hide();
+                        });
+                    }
+                });
+            }
+        });
     }
     
     function saveDetailTolak(obj) {
