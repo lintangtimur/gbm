@@ -173,11 +173,16 @@ class pemakaian_model extends CI_Model
 			// $data = $this->db->query($query);
 			// // $this->db->reconnect();
 		// }
-		$this->db->reconnect();
+		// $this->db->reconnect();
 		$query = "call SP_TEMP_PEMAKAIAN('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$user."',".$jumlah.")";
-		print_debug($query);
-        $data = $this->db->query($query);
-        return $data->result();
+		$data = $this->db->query($query);
+		 $res = $data->result();
+
+       $data->next_result(); // Dump the extra resultset.
+       $data->free_result(); // Does what it says.
+
+        // return $data->result();
+		 return $res;
     }
 
     function saveDetailClossing($sloc,$idPenerimaan,$level_user,$statusPenerimaan,$kode_level,$user_name,$jumlah){

@@ -229,25 +229,43 @@ class pemakaian extends MX_Controller
         $s = ""; //penamping status
         $level_user = $this->session->userdata('level_user');
         $user_name = $this->session->userdata('user_name');
+        // for ($i = 0; $i < count($idPenerimaan); $i++) {
+            // if (isset($pilihan[$i])) {
+                // $p = $p . $pilihan[$i] . "#";
+                // if ($statusKirim == 'kirim') {
+                    // $s = $s . "1" . "#";
+                // } else if ($statusKirim == 'approve') {
+                    // $s = $s . "2" . "#";
+                // } else {
+                    // $s = $s . "3" . "#";
+                // }
+            // }
+        // }
+		
+		$jumlah=1;
         for ($i = 0; $i < count($idPenerimaan); $i++) {
             if (isset($pilihan[$i])) {
-                $p = $p . $pilihan[$i] . "#";
+                $p = $pilihan[$i];
                 if ($statusKirim == 'kirim') {
-                    $s = $s . "1" . "#";
+                    $s = "1";
                 } else if ($statusKirim == 'approve') {
-                    $s = $s . "2" . "#";
+                    $s = "2";
                 } else {
-                    $s = $s . "3" . "#";
+                    $s = "3";
                 }
+                
+                // $simpan = $this->tbl_get->saveDetailPenerimaan($p, $s, $level_user, $kode_level, $user_name, $jumlah);
+				$simpan = $this->tbl_get->saveDetailPenerimaan($p, $s, $level_user, $user_name, $jumlah);
             }
         }
-        $idPenerimaan = substr($p, 0, strlen($p) - 1);
-        $statusPenerimaan = substr($s, 0, strlen($s) - 1);
-        $jumlah = count($pilihan);
+		
+        // $idPenerimaan = substr($p, 0, strlen($p) - 1);
+        // $statusPenerimaan = substr($s, 0, strlen($s) - 1);
+        // $jumlah = count($pilihan);
 
         // print_r('idPenerimaan='.$idPenerimaan.' statusPenerimaan='.$statusPenerimaan.' level_user='.$level_user.' user_name='. $user_name.' jumlah='. $jumlah); die;
 
-        $simpan = $this->tbl_get->saveDetailPenerimaan($idPenerimaan, $statusPenerimaan, $level_user, $user_name, $jumlah);
+        // $simpan = $this->tbl_get->saveDetailPenerimaan($idPenerimaan, $statusPenerimaan, $level_user, $user_name, $jumlah);
 		// print_debug($simpan);
         if ($simpan[0]->RCDB == "RC01") {
             $message = array(true, 'Proses Berhasil', $simpan[0]->PESANDB, '#content_table');
