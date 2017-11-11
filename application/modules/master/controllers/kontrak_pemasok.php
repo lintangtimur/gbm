@@ -79,17 +79,21 @@ class kontrak_pemasok extends MX_Controller {
         $page_title = 'Tambah '.$this->_title;
         $data['id'] = $id;
         $data['id_dok'] = '';
+        $data['pemasok_options'] = $this->tbl_get->options_pemasok();
+        $data['jns_kontrak_options'] = $this->tbl_get->options_jns_kontrak();
+        $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
+        $data['form_action'] = base_url($this->_module . '/proses');
+
         if ($id != '') {
             $page_title = 'View '.$this->_title;
             $get_data = $this->tbl_get->data($id);
             $data['default'] = $get_data->get()->row();
             $data['id_dok'] = $data['default']->PATH_DOC_PEMASOK; 
+            $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
+            $this->load->view($this->_module . '/form_edit', $data);
+        } else {
+            $this->load->view($this->_module . '/form', $data);    
         }
-        $data['pemasok_options'] = $this->tbl_get->options_pemasok();
-        $data['jns_kontrak_options'] = $this->tbl_get->options_jns_kontrak();
-        $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
-        $data['form_action'] = base_url($this->_module . '/proses');
-        $this->load->view($this->_module . '/form', $data);
     }
 
     public function add_adendum($id = '') {
