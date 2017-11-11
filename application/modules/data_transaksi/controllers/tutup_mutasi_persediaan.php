@@ -97,8 +97,15 @@ class tutup_mutasi_persediaan extends MX_Controller {
 
             $data = array();
             $data['TGL_TUTUP'] = $this->input->post('TGL_TUTUP');
-            $bulantahun = new DateTime($data['TGL_TUTUP']);
-            $data['BLTH'] = $bulantahun->format('Y-m');
+            $tanggal = new DateTime($data['TGL_TUTUP']);
+            $tahun = $tanggal->format('Y');
+            $bulan = $tanggal->format('m');
+            if($bulan==1){
+                $bulan=12;
+            }else{
+                $bulan=$bulan-1;
+            }
+            $data['BLTH']=$tahun.$bulan;
             $data['TGL_TUTUP'] = $this->input->post('TGL_TUTUP');
             $data['PLANT']='0'; 
            

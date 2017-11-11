@@ -48,7 +48,7 @@
 											</div>
 										</div>
 										<div class="pull-left span3">
-											<label for="password" class="control-label">Level 4 : </label>
+											<label for="password" class="control-label">Pembangkit : </label>
 											<div class="controls">
 												<?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : '', 'id="lvl4"'); ?>
 											</div>
@@ -714,7 +714,7 @@
         var bln = $('#bln').val();
         var thn = $('#thn').val();
         if (lvl0 == '') {
-            bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
+            
         } else {
             bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
                 $.ajax({
@@ -752,7 +752,7 @@
         var bln = $('#bln').val();
         var thn = $('#thn').val();
         if (lvl0 == '') {
-            bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
+            
         } else {
             bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
                 $.ajax({
@@ -790,7 +790,7 @@
         var bln = $('#bln').val();
         var thn = $('#thn').val();
         if (lvl0 == '') {
-            bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
+           
         } else {
             bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
                 $.ajax({
@@ -828,7 +828,7 @@
         var bln = $('#bln').val();
         var thn = $('#thn').val();
         if (lvl0 == '') {
-            bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
+            
         } else {
             bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
                 $.ajax({

@@ -37,6 +37,19 @@ class tutup_mutasi_persediaan_model extends CI_Model {
 
     }
 
+    // function check_tutup_periode($tanggal_input){
+    //     $query = $this->db->get_where($this->_table2, array('COCODE' => $id_co));
+       
+    //     if ($query->num_rows() > 0)
+    //     {
+    //         return FALSE;
+    //     }
+    //     else
+    //     {
+    //         return TRUE;
+    //     }
+    //  }
+
     public function save_as_new($data) {
         $this->db->trans_begin();
         $this->db->set_id($this->_table1, 'ID_MUTASI', 'no_prefix', 5);

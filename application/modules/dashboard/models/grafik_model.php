@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @module MASTER TRANSPORTIR
+ * @module DASHBOARD
  * @author  RAKHMAT WIJAYANTO
- * @created at 17 OKTOBER 2017
- * @modified at 17 OKTOBER 2017
+ * @created at 10 NOVEMBER 2017
+ * @modified at 10 NOVEMBER 2017
  */
 class grafik_model extends CI_Model {
 
@@ -32,11 +32,9 @@ class grafik_model extends CI_Model {
         $COCODE = $data['COCODE']; 
         $PLANT = $data['PLANT'];
         $STORE_SLOC = $data['STORE_SLOC'];
-        $SLOC = $data['SLOC'];
-        // $BBM = $data['BBM'];   
+        $SLOC = $data['SLOC'];  
         $BULAN = $data['BULAN'];   
         $TAHUN = $data['TAHUN'];   
-        // $JENIS_BBM = '';
         $PARAM = '';
 
         
@@ -74,11 +72,9 @@ class grafik_model extends CI_Model {
         $COCODE = $data['COCODE']; 
         $PLANT = $data['PLANT'];
         $STORE_SLOC = $data['STORE_SLOC'];
-        $SLOC = $data['SLOC'];
-        // $BBM = $data['BBM'];   
+        $SLOC = $data['SLOC'];  
         $BULAN = $data['BULAN'];   
         $TAHUN = $data['TAHUN'];   
-        // $JENIS_BBM = '';
         $PARAM = '';
 
         
@@ -117,11 +113,9 @@ class grafik_model extends CI_Model {
         $COCODE = $data['COCODE']; 
         $PLANT = $data['PLANT'];
         $STORE_SLOC = $data['STORE_SLOC'];
-        $SLOC = $data['SLOC'];
-        // $BBM = $data['BBM'];   
+        $SLOC = $data['SLOC']; 
         $BULAN = $data['BULAN'];   
         $TAHUN = $data['TAHUN'];   
-        // $JENIS_BBM = '';
         $PARAM = '';
 
         
@@ -160,11 +154,9 @@ class grafik_model extends CI_Model {
         $COCODE = $data['COCODE']; 
         $PLANT = $data['PLANT'];
         $STORE_SLOC = $data['STORE_SLOC'];
-        $SLOC = $data['SLOC'];
-        // $BBM = $data['BBM'];   
+        $SLOC = $data['SLOC'];  
         $BULAN = $data['BULAN'];   
         $TAHUN = $data['TAHUN'];   
-        // $JENIS_BBM = '';
         $PARAM = '';
 
         
@@ -203,11 +195,9 @@ class grafik_model extends CI_Model {
         $COCODE = $data['COCODE']; 
         $PLANT = $data['PLANT'];
         $STORE_SLOC = $data['STORE_SLOC'];
-        $SLOC = $data['SLOC'];
-        // $BBM = $data['BBM'];   
+        $SLOC = $data['SLOC'];  
         $BULAN = $data['BULAN'];   
         $TAHUN = $data['TAHUN'];   
-        // $JENIS_BBM = '';
         $PARAM = '';
 
         
@@ -570,7 +560,7 @@ class grafik_model extends CI_Model {
         }
     }
 
-    public function options_lv4($default = '--Pilih Level 4--', $key = 'all', $jenis=0) {
+    public function options_lv4($default = '--Pilih Pembangkit--', $key = 'all', $jenis=0) {
         $this->db->from('MASTER_LEVEL4');
         if ($key != 'all'){
             $this->db->where('STORE_SLOC',$key);
