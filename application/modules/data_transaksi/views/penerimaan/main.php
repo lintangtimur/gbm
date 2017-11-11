@@ -280,7 +280,7 @@
                             }
 
                             if (vIsApprove){
-                                if ((data_detail[i].KODE_STATUS == "0") || (data_detail[i].KODE_STATUS == "2") || (data_detail[i].KODE_STATUS == "3") || (data_detail[i].KODE_STATUS == "4")){
+                                if ((data_detail[i].KODE_STATUS !== "1") && (data_detail[i].KODE_STATUS !== "5")){
                                     cekbox = '';
                                 }  
                                 if (data_detail[i].KODE_STATUS == "0"){
