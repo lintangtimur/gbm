@@ -26,9 +26,6 @@ class pemakaian_model extends CI_Model
         $this->db->select('a.*, sum(a.COUNT_VOLUME) as JML, sum(a.SUM_volume) as JML_VOLUME');
         $this->db->from($this->_table1.' a' );
 
-if (!empty($key) || is_array($key))
-            $this->db->where_condition($this->_key($key));
-
         if ($_POST['ID_REGIONAL'] !='') {
             $this->db->where('ID_REGIONAL',$_POST['ID_REGIONAL']);
         }
@@ -49,6 +46,10 @@ if (!empty($key) || is_array($key))
         }
         if ($_POST['TAHUN'] !='') {
             $this->db->where("TH",$_POST['TAHUN']);   
+        }
+
+        if (!empty($key) || is_array($key)){
+            $this->db->where_condition($this->_key($key));
         }
 
         $this->db->group_by('ID_REGIONAL');
