@@ -119,9 +119,8 @@ class pemakaian extends MX_Controller
 
             $data['default']->TGL_PENCATATAN = $tgl_catat->format('d-m-Y');
             $data['default']->TGL_MUTASI_PENGAKUAN = $tgl_mutasi->format('d-m-Y');
-    
-            // print_r($data['default']); die;
         }
+
         $data['option_jenis_pemakaian'] = $this->tbl_get->options_jenis_pemakaian();
         $data['option_jenis_bbm'] = $this->tbl_get->options_jenis_bahan_bakar();
         
@@ -164,7 +163,6 @@ class pemakaian extends MX_Controller
 
     public function proses()
     {
-        // $this->form_validation->set_rules('NO_PEMAKAIAN', 'No Pemakaian', 'trim|required|max_length[40]');
         $this->form_validation->set_rules('TGL_CATAT', 'Tgl Catat', 'required');
         $this->form_validation->set_rules('TGL_PENGAKUAN', 'Tgl Pengakuan', 'required');
         $this->form_validation->set_rules('ID_REGIONAL', 'Regional', 'required');
@@ -220,7 +218,6 @@ class pemakaian extends MX_Controller
 
     public function getDataDetail($tanggal=null)
     {
-        // echo json_encode($this->tbl_get->getTableViewDetail($tanggal));
         echo json_encode($this->tbl_get->getTableViewDetail());
     }
 
@@ -247,8 +244,6 @@ class pemakaian extends MX_Controller
         $idPenerimaan = substr($p, 0, strlen($p) - 1);
         $statusPenerimaan = substr($s, 0, strlen($s) - 1);
         $jumlah = count($pilihan);
-//        echo "call PROSES_PENERIMAAN_V2('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$kode_level."','".$user_name."',".$jumlah.")";
-//        echo "<br/>";
 
         // print_r('idPenerimaan='.$idPenerimaan.' statusPenerimaan='.$statusPenerimaan.' level_user='.$level_user.' user_name='. $user_name.' jumlah='. $jumlah); die;
 
@@ -349,6 +344,4 @@ class pemakaian extends MX_Controller
         $message = $this->tbl_get->get_sum_detail();
         echo json_encode($message);
     }
-
-    
 }

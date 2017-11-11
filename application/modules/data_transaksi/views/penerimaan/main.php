@@ -192,6 +192,7 @@
 <script type="text/javascript">
     var icon = 'icon-remove-sign';
 	var color = '#ac193d;';
+    var offset = -100;
 
     function toRupiah(angka){
         var rupiah = '';        
@@ -200,13 +201,11 @@
         return rupiah.split('',rupiah.length-1).reverse().join('');
     }
 
-    var offset = -100;
     function pageScroll() {
-        window.scrollBy(0,100); // horizontal and vertical scroll increments
+        window.scrollBy(0,100); 
         if(window.pageYOffset == offset) return;
         offset = window.pageYOffset;
-        scrolldelay = setTimeout('pageScroll()',100); // scrolls every 100 milliseconds
-        console.log(offset);
+        scrolldelay = setTimeout('pageScroll()',100); 
     }
 
     function show_detail(tanggal) {
@@ -215,7 +214,6 @@
 
             var vId = tanggal;
             var strArray = vId.split("|");
-
             var tr = document.getElementById(strArray[2]);
             var tds = tr.getElementsByTagName("td");
 
@@ -242,8 +240,8 @@
                 TAHUN: $('select[name="TAHUN"]').val(),
                 STATUS: $('select[name="CMB_STATUS"]').val(),
             };
+
             $.post("<?php echo base_url()?>data_transaksi/penerimaan/getDataDetail/", data_kirim, function (data) {
-//            $.get("<?php //echo base_url()?>//data_transaksi/penerimaan/getDataDetail/" + tanggal, function (data) {
                 var data_detail = (JSON.parse(data));
                 var cekbox = '';
                 var vLevelUser = "<?php echo $this->session->userdata('level_user'); ?>";
@@ -335,7 +333,6 @@
 
     function cekChekBoxPilih(vJenis){
         var data = $('#formKirimDetail').serializeArray();
-
         var arrNames = [];
         Object.keys(data).forEach(function(key) {
           var val = data[key]["name"];

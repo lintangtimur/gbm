@@ -132,6 +132,7 @@
                                         </table>
                                         <input type="hidden" name="vBLTH">
                                         <input type="hidden" name="vSLOC">
+                                        <input type="hidden" name="vAKTIF">
                                     </div>
                                 </div>
                                 <div class="pull-right">
@@ -187,6 +188,7 @@
 <script type="text/javascript">
     var icon = 'icon-remove-sign';
 	var color = '#ac193d;';
+    var offset = -100;
 
     function toRupiah(angka){
         var rupiah = '';        
@@ -195,17 +197,31 @@
         return rupiah.split('',rupiah.length-1).reverse().join('');
     }
 
+    function pageScroll() {
+        window.scrollBy(0,100); 
+        if(window.pageYOffset == offset) return;
+        offset = window.pageYOffset;
+        scrolldelay = setTimeout('pageScroll()',100); 
+    }
+
     function show_detail(tanggal) {
         if (!$('#table_detail').is(":visible")) {
             bootbox.modal('<div class="loading-progress"></div>');
             var vId = tanggal;
             var strArray = vId.split("|");
+            var tr = document.getElementById(strArray[2]);
+            var tds = tr.getElementsByTagName("td");
+
+            for(var i = 0; i < tds.length; i++) {
+              tds[i].style.backgroundColor ="#E0E6F8";
+            }
 
             $('input[name="vBLTH"]').val(strArray[0]);
             $('input[name="vSLOC"]').val(strArray[1]);
+            $('input[name="vAKTIF"]').val(strArray[2]);
             $('#detailPermintaan tbody tr').detach();
 
-            if (strArray.length ==2){
+            if (strArray.length ==3){
                 $('select[name="CMB_STATUS"]').val('');  
                 get_sum_detail(tanggal);  
             }
@@ -220,8 +236,8 @@
                 TAHUN: $('select[name="TAHUN"]').val(),
                 STATUS: $('select[name="CMB_STATUS"]').val(),
             };
+
             $.post("<?php echo base_url()?>data_transaksi/permintaan/getDataDetail/", data_kirim, function (data) {
-//            $.get("<?php //echo base_url()?>//data_transaksi/permintaan/getDataDetail/" + tanggal, function (data) {
                 var data_detail = (JSON.parse(data));
                 var cekbox = '';
                 var vLevelUser = "<?php echo $this->session->userdata('level_user'); ?>";
@@ -302,15 +318,16 @@
             });     
             $(".bootbox").modal("hide");
             $('#table_detail').show();
+            pageScroll();
         } else {
             $('#detailPermintaan tbody tr').detach();
             $('#table_detail').hide();
+            $('td').removeAttr('style');
         }
     }
 
     function cekChekBoxPilih(vJenis){
         var data = $('#formKirimDetail').serializeArray();
-
         var arrNames = [];
         Object.keys(data).forEach(function(key) {
           var val = data[key]["name"];
@@ -562,8 +579,9 @@
     $('select[name="CMB_STATUS"]').on('change', function() {
         var vBLTH = $('input[name="vBLTH"]').val();
         var vSLOC = $('input[name="vSLOC"]').val();
+        var vAKTIF = $('input[name="vAKTIF"]').val();
         var vSTATUS = $(this).val();
-        var vParam = vBLTH+'|'+vSLOC+'|'+vSTATUS;
+        var vParam = vBLTH+'|'+vSLOC+'|'+vAKTIF+'|'+vSTATUS;
 
         show_detail(vParam);
         show_detail(vParam);
