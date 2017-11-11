@@ -121,7 +121,7 @@ class penerimaan_model extends CI_Model
         foreach ($record->result() as $row) {
             // $count = $row->COUNT_VOLUME;
             // if ($count!=0) {
-                $id = $row->TANGGAL.'|'.$row->SLOC;;
+                $id = $row->TANGGAL.'|'.$row->SLOC.'|'.$num;
                 $aksi = anchor(null, '<i class="icon-zoom-in" title="Lihat Detail Data"></i>', array('class' => 'btn transparant button-detail', 'id' => 'button-view-' . $id, 'onClick' => 'show_detail(\''.$id.'\')'));
                 $rows[$num] = array(
                     'NO' => $num,

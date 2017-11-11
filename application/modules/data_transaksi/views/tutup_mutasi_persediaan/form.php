@@ -35,10 +35,12 @@
     </div>
 </div>
 <script>
-  $(".form_datetime").datepicker({
-        format: "yyyy-mm-dd",
+  $(".form_datetime").datetimepicker({
+        dateformat: "yyyy-mm-dd",
+        timeFormat:  "hh:mm:ss",
         autoclose: true,
         todayBtn: true,
         pickerPosition: "bottom-left"
     });
+
 </script>

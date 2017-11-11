@@ -74,11 +74,9 @@ class permintaan extends MX_Controller
             $get_tbl = $this->tbl_get->data_detail($id);
             $data['default'] = $get_tbl->get()->row();
 
-            $tgl_catat = new DateTime($data['default']->TGL_PENERIMAAN);
-            $tgl_pengakuan = new DateTime($data['default']->TGL_PENGAKUAN);
+            $tgl_catat = new DateTime($data['default']->TGL_MTS_NOMINASI);
 
-            $data['default']->TGL_PENERIMAAN = $tgl_catat->format('d-m-Y');
-            $data['default']->TGL_PENGAKUAN = $tgl_pengakuan->format('d-m-Y');
+            $data['default']->TGL_MTS_NOMINASI = $tgl_catat->format('d-m-Y');
         }
 
         $data['option_pemasok'] = $this->tbl_get->options_pemasok();
@@ -97,16 +95,12 @@ class permintaan extends MX_Controller
             $get_tbl = $this->tbl_get->data_detail($id);
             $data['default'] = $get_tbl->get()->row();
 
-            $tgl_catat = new DateTime($data['default']->TGL_PENERIMAAN);
-            $tgl_pengakuan = new DateTime($data['default']->TGL_PENGAKUAN);
+            $tgl_catat = new DateTime($data['default']->TGL_MTS_NOMINASI);
 
-            $data['default']->TGL_PENERIMAAN = $tgl_catat->format('d-m-Y');
-            $data['default']->TGL_PENGAKUAN = $tgl_pengakuan->format('d-m-Y');
+            $data['default']->TGL_MTS_NOMINASI = $tgl_catat->format('d-m-Y');
         }
 
         $data['option_pemasok'] = $this->tbl_get->options_pemasok();
-        $data['option_transportir'] = $this->tbl_get->options_transpotir();
-        $data['option_jenis_penerimaan'] = $this->tbl_get->options_jenis_penerimaan();
         $data['option_jenis_bbm'] = $this->tbl_get->options_jenis_bahan_bakar();
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses');
@@ -171,12 +165,7 @@ class permintaan extends MX_Controller
             $id = $this->input->post('id');
 
             if ($id!=null || $id!="") {
-                $level_user = $this->session->userdata('level_user');
-                $kode_level = $this->session->userdata('kode_level');
-
                 $data['ID_PERMINTAAN']=$id;
-                $data['LEVEL_USER']=$level_user;
-                $data['KODE_LEVEL']=$kode_level;
                 $simpan_data = $this->tbl_get->save_edit($data);
                 if ($simpan_data[0]->RCDB == 'RC00') {
                     $message = array(true, 'Proses Update Berhasil', $simpan_data[0]->PESANDB, '#content_table');
@@ -205,13 +194,13 @@ class permintaan extends MX_Controller
     public function saveKiriman($statusKirim)
     {
         $pilihan = $this->input->post('pilihan');
-        $idPenerimaan = $this->input->post('idPenerimaan');
+        $idPermintaan = $this->input->post('idPermintaan');
         $p = ""; //penampung pilihan
         $s = ""; //penamping status
         $level_user = $this->session->userdata('level_user');
         $kode_level = $this->session->userdata('kode_level');
         $user_name = $this->session->userdata('user_name');
-        for ($i = 0; $i < count($idPenerimaan); $i++) {
+        for ($i = 0; $i < count($idPermintaan); $i++) {
             if (isset($pilihan[$i])) {
                 $p = $p . $pilihan[$i] . "#";
                 if ($statusKirim == 'kirim') {
@@ -224,12 +213,12 @@ class permintaan extends MX_Controller
             }
         }
 
-        $idPenerimaan = substr($p, 0, strlen($p) - 1);
-        $statusPenerimaan = substr($s, 0, strlen($s) - 1);
+        $idPermintaan = substr($p, 0, strlen($p) - 1);
+        $statusPermintaan = substr($s, 0, strlen($s) - 1);
         $jumlah = count($pilihan);
-//        echo "call PROSES_PENERIMAAN_V2('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$kode_level."','".$user_name."',".$jumlah.")";
+//        echo "call PROSES_PENERIMAAN_V2('".$idPermintaan."','".$statusPermintaan."','".$level_user."','".$kode_level."','".$user_name."',".$jumlah.")";
 //        echo "<br/>";
-        $simpan = $this->tbl_get->saveDetailPenerimaan($idPenerimaan, $statusPenerimaan, $level_user, $kode_level, $user_name, $jumlah);
+        $simpan = $this->tbl_get->saveDetailPenerimaan($idPermintaan, $statusPermintaan, $level_user, $kode_level, $user_name, $jumlah);
 
         if ($simpan[0]->RCDB == "RC00") {
             $message = array(true, 'Proses Berhasil', $simpan[0]->PESANDB, '#content_table');
@@ -241,6 +230,7 @@ class permintaan extends MX_Controller
 
     public function get_level_user()
     {
+        $data['status_options'] = $this->tbl_get->options_status();    
         $data['lv1_options'] = $this->tbl_get->options_lv1('--Pilih Level 1--', '-', 1);
         $data['lv2_options'] = $this->tbl_get->options_lv2('--Pilih Level 2--', '-', 1);
         $data['lv3_options'] = $this->tbl_get->options_lv3('--Pilih Level 3--', '-', 1);
@@ -319,6 +309,11 @@ class permintaan extends MX_Controller
 
     public function get_options_lv4($key=null) {
         $message = $this->tbl_get->options_lv4('--Pilih Pembangkit--', $key, 0);
+        echo json_encode($message);
+    }
+
+    public function get_sum_detail() {
+        $message = $this->tbl_get->get_sum_detail();
         echo json_encode($message);
     }
 

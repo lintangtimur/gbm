@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: mrapry
+ * User: cf
  * Date: 10/20/17
  * Time: 10:51 PM
  */ ?>
@@ -17,27 +17,21 @@
         echo form_open_multipart($form_action, array('id' => 'finput', 'class' => 'form-horizontal'), $hidden_form);
             ?>
             <div class="control-group">
-                <label class="control-label">Tanggal Penerimaan Fisik<span class="required">*</span> : </label>
+                <label class="control-label">Nomor Nominasi<span class="required">*</span> : </label>
                 <div class="controls">
-                    <?php echo form_input('TGL_PENERIMAAN', !empty($default->TGL_PENERIMAAN) ? $default->TGL_PENERIMAAN : '', 'class="span12 input-append date form_datetime" placeholder="Tanggal Catat" id="TGL_PENERIMAAN" disabled'); ?>
+                    <?php echo form_input('NO_NOMINASI', !empty($default->NO_NOMINASI) ? $default->NO_NOMINASI : '', 'class="span4" placeholder="Nomor Nominasi / Permintaan" disabled'); ?>
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">Tanggal Pengakuan<span class="required">*</span> : </label>
+                <label class="control-label">Tanggal Nominasi<span class="required">*</span> : </label>
                 <div class="controls">
-                     <?php echo form_input('TGL_PENGAKUAN', !empty($default->TGL_PENGAKUAN) ? $default->TGL_PENGAKUAN : '', 'class="span12 input-append date form_datetime" placeholder="Tanggal Pengakuan" id="TGL_PENGAKUAN" disabled'); ?>
+                    <?php echo form_input('TGL_MTS_NOMINASI', !empty($default->TGL_MTS_NOMINASI) ? $default->TGL_MTS_NOMINASI : '', 'class="span12 input-append date form_datetime" placeholder="Tanggal Nominasi" id="TGL_MTS_NOMINASI" disabled'); ?>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">Pemasok<span class="required">*</span> : </label>
                 <div class="controls">
                     <?php echo form_dropdown('ID_PEMASOK', $option_pemasok, !empty($default->ID_PEMASOK) ? $default->ID_PEMASOK : '', 'class="span6" disabled'); ?>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label">Transportir<span class="required">*</span> : </label>
-                <div class="controls">
-                    <?php echo form_dropdown('ID_TRANSPORTIR', $option_transportir, !empty($default->ID_TRANSPORTIR) ? $default->ID_TRANSPORTIR : '', 'class="span6" disabled'); ?>
                 </div>
             </div>
             <div class="control-group">
@@ -71,18 +65,6 @@
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">Jenis Penerimaan<span class="required">*</span> : </label>
-                <div class="controls">
-                    <?php echo form_dropdown('VALUE_SETTING', $option_jenis_penerimaan, !empty($default->JNS_PENERIMAAN) ? $default->JNS_PENERIMAAN : '', 'class="span3" disabled'); ?>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label">Nomor Penerimaan<span class="required">*</span> : </label>
-                <div class="controls">
-                    <?php echo form_input('NO_PENERIMAAN', !empty($default->NO_MUTASI_TERIMA) ? $default->NO_MUTASI_TERIMA : '', 'class="span4" placeholder="Nomor Penerimaan" disabled'); ?>
-                </div>
-            </div>
-            <div class="control-group">
                 <label class="control-label">Jenis BBM<span class="required">*</span> : </label>
                 <div class="controls">
                     <?php echo form_dropdown('ID_JNS_BHN_BKR', $option_jenis_bbm, !empty($default->ID_JNS_BHN_BKR) ? $default->ID_JNS_BHN_BKR : '', 'class="span3" disabled'); ?>
@@ -90,19 +72,10 @@
             </div>
 
             <div class="control-group">
-                <label class="control-label">Volume DO/TUG<span class="required">*</span> : </label>
+                <label class="control-label">Volume<span class="required">*</span> : </label>
                 <div class="controls">
-                    <?php echo form_input('VOL_PENERIMAAN', !empty($default->VOL_TERIMA) ? $default->VOL_TERIMA : '', 'class="span4" placeholder="Volume DO / TUG" disabled'); ?>
+                    <?php echo form_input('VOLUME_NOMINASI', !empty($default->VOLUME_NOMINASI) ? $default->VOLUME_NOMINASI : '', 'class="span4" placeholder="Volume Nominasi" disabled'); ?>
                 </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label">Volume Penerimaan<span class="required">*</span> : </label>
-                <div class="controls">
-                    <?php echo form_input('VOL_PENERIMAAN_REAL', !empty($default->VOL_TERIMA_REAL) ? $default->VOL_TERIMA_REAL : '', 'class="span4" placeholder="Volume Penerimaan" disabled'); ?>
-                </div>
-                <div style="display:none">
-                    <?php echo form_input('STATUS_MUTASI_TERIMA', !empty($default->STATUS_MUTASI_TERIMA) ? $default->STATUS_MUTASI_TERIMA : '0', 'disabled'); ?>
-                </div> 
             </div>
             <div class="form-actions">
                 <?php echo anchor(null, '<i class="icon-circle-arrow-left"></i> Tutup', array('id' => 'button-back', 'class' => 'btn', 'onclick' => 'close_form(this.id)')); ?>
@@ -113,10 +86,6 @@
 </div>
 
 <script type="text/javascript">
-    $(".form_datetime").datepicker({
-        format: "dd-mm-yyyy",
-        autoclose: true,
-        todayBtn: true,
-        pickerPosition: "bottom-left"
+    $('input[name=VOLUME_NOMINASI]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
     });
 </script>

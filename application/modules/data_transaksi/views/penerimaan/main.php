@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: mrapry
+ * User: cf
  * Date: 10/20/17
  * Time: 12:59 AM
  */
@@ -90,6 +90,7 @@
                 </div>
                 <br>
                 <div id="content_table" data-source="<?php echo $data_sources; ?>" data-filter="#ffilter"></div>
+                <hr>
                 <div id="table_detail" hidden>
                     <form method="POST" id="formKirimDetail">
                         <div class="well-content clearfix">
@@ -131,6 +132,7 @@
                                         </table>
                                         <input type="hidden" name="vBLTH">
                                         <input type="hidden" name="vSLOC">
+                                        <input type="hidden" name="vAKTIF">
                                     </div>
                                 </div>
                                 <div class="pull-right">
@@ -140,18 +142,19 @@
                                             <tr>
                                                 <td>
                                                     <?php if (($this->laccess->otoritas('add') == true) && ($this->session->userdata('level_user') >= "2")) {?>
-                                                            <button class="btn btn-primary" type="button" onclick="saveDetailKirim(this)">Kirim</button>
-                                                            <button class="btn btn-primary" type="button" onclick="saveDetailKirimClossing(this)">Kirim Clossing</button>
+                                                            <button class="btn btn-primary" type="button" onclick="saveDetailKirim(this)" id="btn_kirim">Kirim</button>
+                                                            <button class="btn btn-primary" type="button" onclick="saveDetailKirimClossing(this)" id="btn_kirim_cls">Kirim Clossing</button>
                                                     <?php }?>
                                                 </td>
                                                 <td>
                                                     <?php if (($this->laccess->otoritas('approve') == true) && ($this->session->userdata('level_user') == "2")) {?>
-                                                            <button class="btn btn-primary" type="button" onclick="saveDetailApprove(this)">Approve</button>
+                                                            <button class="btn btn-primary" type="button" onclick="saveDetailApprove(this)" id="btn_approve">Approve</button>
+                                                            <button class="btn btn-primary" type="button" onclick="saveDetailKirimClossing(this)" id="btn_approve_cls">Approve Clossing</button>
                                                     <?php }?>
                                                 </td>
                                                 <td>
                                                     <?php if (($this->laccess->otoritas('approve') == true) && ($this->session->userdata('level_user') == "2")) {?>
-                                                            <button class="btn btn-primary" type="button" onclick="saveDetailTolak(this)">Tolak</button>
+                                                            <button class="btn btn-primary" type="button" onclick="saveDetailTolak(this)" id="btn_tolak">Tolak</button>
                                                     <?php }?>
                                                 </td>
                                             </tr>
@@ -190,6 +193,7 @@
 <script type="text/javascript">
     var icon = 'icon-remove-sign';
 	var color = '#ac193d;';
+    var offset = -100;
 
     function toRupiah(angka){
         var rupiah = '';        
@@ -198,18 +202,34 @@
         return rupiah.split('',rupiah.length-1).reverse().join('');
     }
 
+    function pageScroll() {
+        window.scrollBy(0,100); 
+        if(window.pageYOffset == offset) return;
+        offset = window.pageYOffset;
+        scrolldelay = setTimeout('pageScroll()',100); 
+    }
+
     function show_detail(tanggal) {
         if (!$('#table_detail').is(":visible")) {
             bootbox.modal('<div class="loading-progress"></div>');
+
             var vId = tanggal;
             var strArray = vId.split("|");
+            var tr = document.getElementById(strArray[2]);
+            var tds = tr.getElementsByTagName("td");
+
+            for(var i = 0; i < tds.length; i++) {
+              tds[i].style.backgroundColor ="#E0E6F8";
+            }
 
             $('input[name="vBLTH"]').val(strArray[0]);
             $('input[name="vSLOC"]').val(strArray[1]);
+            $('input[name="vAKTIF"]').val(strArray[2]);
 
-            if (strArray.length ==2){
+            if (strArray.length ==3){
                 $('select[name="CMB_STATUS"]').val('');  
-                get_sum_detail(tanggal);  
+                get_sum_detail(tanggal); 
+                setTombolClossing(0); 
             }
 
             var data_kirim = {ID_REGIONAL: $('select[name="ID_REGIONAL"]').val(),
@@ -222,8 +242,8 @@
                 TAHUN: $('select[name="TAHUN"]').val(),
                 STATUS: $('select[name="CMB_STATUS"]').val(),
             };
+
             $.post("<?php echo base_url()?>data_transaksi/penerimaan/getDataDetail/", data_kirim, function (data) {
-//            $.get("<?php //echo base_url()?>//data_transaksi/penerimaan/getDataDetail/" + tanggal, function (data) {
                 var data_detail = (JSON.parse(data));
                 var cekbox = '';
                 var vLevelUser = "<?php echo $this->session->userdata('level_user'); ?>";
@@ -305,15 +325,16 @@
             });
             $(".bootbox").modal("hide");
             $('#table_detail').show();
+            pageScroll();
         } else {
             $('#detailPenerimaan tbody tr').detach();
             $('#table_detail').hide();
+            $('td').removeAttr('style');
         }
     }
 
     function cekChekBoxPilih(vJenis){
         var data = $('#formKirimDetail').serializeArray();
-
         var arrNames = [];
         Object.keys(data).forEach(function(key) {
           var val = data[key]["name"];
@@ -568,10 +589,45 @@
     $('select[name="CMB_STATUS"]').on('change', function() {
         var vBLTH = $('input[name="vBLTH"]').val();
         var vSLOC = $('input[name="vSLOC"]').val();
+        var vAKTIF = $('input[name="vAKTIF"]').val();
         var vSTATUS = $(this).val();
-        var vParam = vBLTH+'|'+vSLOC+'|'+vSTATUS;
+        var vParam = vBLTH+'|'+vSLOC+'|'+vAKTIF+'|'+vSTATUS;
+
+        if (vSTATUS==4) {
+            setTombolClossing(1);   
+        } else {
+            setTombolClossing(0);    
+        }
 
         show_detail(vParam);
         show_detail(vParam);
     });  
+
+    function setTombolClossing(stat){
+        var vIsApprove = "<?php echo $this->laccess->otoritas('approve'); ?>";
+        var vIsAdd = "<?php echo $this->laccess->otoritas('add'); ?>";
+
+        if (stat==1){
+            if (vIsApprove){
+                $("#btn_approve").hide(); 
+                $("#btn_approve_cls").show();  
+            } 
+            if (vIsAdd){
+                $("#btn_kirim").hide(); 
+                $("#btn_kirim_cls").show();  
+
+            }
+        } else {
+            if (vIsApprove){
+                $("#btn_approve").show(); 
+                $("#btn_approve_cls").hide();  
+            } 
+            if (vIsAdd){
+                $("#btn_kirim").show(); 
+                $("#btn_kirim_cls").hide();  
+
+            }
+        }
+    }
+
 </script>

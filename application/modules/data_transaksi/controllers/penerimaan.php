@@ -10,7 +10,7 @@ if (!defined("BASEPATH"))
     exit("No direct script access allowed");
 
 /**
- * @module Master Wilayah
+ * @module Transaksi
  */
 class penerimaan extends MX_Controller
 {
@@ -217,17 +217,6 @@ class penerimaan extends MX_Controller
         echo json_encode($this->tbl_get->getTableViewDetail());
     }
 
-    /**
-     * Fungsi akan melakukan pengambilan di table bila checkbok dipilih
-     *
-     * procedure : PROSES_PENERIMAAN_V2
-     * @param $idPenerimaan format idPenerimaan1#idPenerimaan2#idPenerimaan3
-     * @param $status format status1#status2#status3
-     * @param $level_user dari session
-     * @param $kode_level dari session
-     * @param $user_name dari session
-     * @param $jumlah jumlah data yang di inputkan
-     */
     public function saveKiriman($statusKirim)
     {
         $pilihan = $this->input->post('pilihan');
@@ -250,12 +239,10 @@ class penerimaan extends MX_Controller
             }
         }
 
-
         $idPenerimaan = substr($p, 0, strlen($p) - 1);
         $statusPenerimaan = substr($s, 0, strlen($s) - 1);
         $jumlah = count($pilihan);
-//        echo "call PROSES_PENERIMAAN_V2('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$kode_level."','".$user_name."',".$jumlah.")";
-//        echo "<br/>";
+
         $simpan = $this->tbl_get->saveDetailPenerimaan($idPenerimaan, $statusPenerimaan, $level_user, $kode_level, $user_name, $jumlah);
 
         if ($simpan[0]->RCDB == "RC00") {
