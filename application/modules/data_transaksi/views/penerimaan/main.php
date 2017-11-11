@@ -165,7 +165,7 @@
 
                         </div>
                         <div class="content">
-                            <table class="table table-bordered table-striped" id="detailPenerimaan">
+                            <table class="table table-bordered table-striped table-hover" id="detailPenerimaan">
                                 <thead>
                                 <tr>
                                     <th>ID</th>
