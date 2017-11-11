@@ -280,14 +280,14 @@
                             }
 
                             if (vIsApprove){
-                                if ((data_detail[i].KODE_STATUS == "0") || (data_detail[i].KODE_STATUS == "2") || (data_detail[i].KODE_STATUS == "3")){
+                                if ((data_detail[i].KODE_STATUS == "0") || (data_detail[i].KODE_STATUS == "2") || (data_detail[i].KODE_STATUS == "3") || (data_detail[i].KODE_STATUS == "4")){
                                     cekbox = '';
                                 }  
                                 if (data_detail[i].KODE_STATUS == "0"){
                                     vSetEdit = '';
                                 }    
-                                if (data_detail[i].KODE_STATUS == "4"){
-                                    if (vCmbStatus != "4"){
+                                if (data_detail[i].KODE_STATUS == "5"){
+                                    if (vCmbStatus != "5"){
                                         cekbox = '';
                                     }
                                 }                              
@@ -663,11 +663,7 @@
         var vSTATUS = $(this).val();
         var vParam = vBLTH+'|'+vSLOC+'|'+vAKTIF+'|'+vSTATUS;
 
-        if (vSTATUS==4) {
-            setTombolClossing(1);   
-        } else {
-            setTombolClossing(0);    
-        }
+        setTombolClossing(vSTATUS);   
 
         show_detail(vParam);
         show_detail(vParam);
@@ -677,26 +673,27 @@
         var vIsApprove = "<?php echo $this->laccess->otoritas('approve'); ?>";
         var vIsAdd = "<?php echo $this->laccess->otoritas('add'); ?>";
 
-        if (stat==1){
-            if (vIsApprove){
-                $("#btn_approve").hide(); 
-                $("#btn_approve_cls").show();  
-            } 
+        if (vIsApprove){
+            $("#btn_approve").show(); 
+            $("#btn_approve_cls").hide();  
+        } 
+        if (vIsAdd){
+            $("#btn_kirim").show(); 
+            $("#btn_kirim_cls").hide();  
+
+        }    
+
+        if (stat==4){
             if (vIsAdd){
                 $("#btn_kirim").hide(); 
                 $("#btn_kirim_cls").show();  
 
-            }
-        } else {
-            if (vIsApprove){
-                $("#btn_approve").show(); 
-                $("#btn_approve_cls").hide();  
-            } 
-            if (vIsAdd){
-                $("#btn_kirim").show(); 
-                $("#btn_kirim_cls").hide();  
-
-            }
+            }            
+        } else if (stat==5){
+             if (vIsApprove){
+                $("#btn_approve").hide(); 
+                $("#btn_approve_cls").show();  
+            }            
         }
     }
 
