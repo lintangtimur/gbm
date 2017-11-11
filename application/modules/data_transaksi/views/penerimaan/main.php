@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: mrapry
+ * User: cf
  * Date: 10/20/17
  * Time: 12:59 AM
  */
@@ -90,6 +90,7 @@
                 </div>
                 <br>
                 <div id="content_table" data-source="<?php echo $data_sources; ?>" data-filter="#ffilter"></div>
+                <hr>
                 <div id="table_detail" hidden>
                     <form method="POST" id="formKirimDetail">
                         <div class="well-content clearfix">
@@ -131,6 +132,7 @@
                                         </table>
                                         <input type="hidden" name="vBLTH">
                                         <input type="hidden" name="vSLOC">
+                                        <input type="hidden" name="vAKTIF">
                                     </div>
                                 </div>
                                 <div class="pull-right">
@@ -198,18 +200,36 @@
         return rupiah.split('',rupiah.length-1).reverse().join('');
     }
 
+    var offset = -100;
+    function pageScroll() {
+        window.scrollBy(0,100); // horizontal and vertical scroll increments
+        if(window.pageYOffset == offset) return;
+        offset = window.pageYOffset;
+        scrolldelay = setTimeout('pageScroll()',100); // scrolls every 100 milliseconds
+        console.log(offset);
+    }
+
     function show_detail(tanggal) {
         if (!$('#table_detail').is(":visible")) {
             bootbox.modal('<div class="loading-progress"></div>');
+
             var vId = tanggal;
             var strArray = vId.split("|");
 
+            var tr = document.getElementById(strArray[2]);
+            var tds = tr.getElementsByTagName("td");
+
+            for(var i = 0; i < tds.length; i++) {
+              tds[i].style.backgroundColor ="#E0E6F8";
+            }
+
             $('input[name="vBLTH"]').val(strArray[0]);
             $('input[name="vSLOC"]').val(strArray[1]);
+            $('input[name="vAKTIF"]').val(strArray[2]);
 
-            if (strArray.length ==2){
+            if (strArray.length ==3){
                 $('select[name="CMB_STATUS"]').val('');  
-                get_sum_detail(tanggal);  
+                get_sum_detail(tanggal); 
             }
 
             var data_kirim = {ID_REGIONAL: $('select[name="ID_REGIONAL"]').val(),
@@ -305,9 +325,11 @@
             });
             $(".bootbox").modal("hide");
             $('#table_detail').show();
+            pageScroll();
         } else {
             $('#detailPenerimaan tbody tr').detach();
             $('#table_detail').hide();
+            $('td').removeAttr('style');
         }
     }
 
@@ -568,8 +590,9 @@
     $('select[name="CMB_STATUS"]').on('change', function() {
         var vBLTH = $('input[name="vBLTH"]').val();
         var vSLOC = $('input[name="vSLOC"]').val();
+        var vAKTIF = $('input[name="vAKTIF"]').val();
         var vSTATUS = $(this).val();
-        var vParam = vBLTH+'|'+vSLOC+'|'+vSTATUS;
+        var vParam = vBLTH+'|'+vSLOC+'|'+vAKTIF+'|'+vSTATUS;
 
         show_detail(vParam);
         show_detail(vParam);

@@ -24,7 +24,7 @@ class permintaan_model extends CI_Model
 
     private function _key_edit($key){
         if (!is_array($key)) {
-            $key = array('ID_PENERIMAAN' => $key);
+            $key = array('ID_PERMINTAAN' => $key);
         }
         return $key;
     }
@@ -167,15 +167,20 @@ class permintaan_model extends CI_Model
         if ($_POST['TAHUN'] !='') {
             $this->db->where("TH",$_POST['TAHUN']);   
         }
+        if ($_POST['STATUS'] !='') {
+            $this->db->where("KODE_STATUS",$_POST['STATUS']);   
+        }
+
+        $this->db->order_by("TGL_MTS_NOMINASI, ID_PERMINTAAN asc");
+
         $data = $this->db->get();
 
         return $data->result();
     }
 
-    function saveDetailPenerimaan($idPenerimaan, $statusPenerimaan,$level_user,$kode_level,$user,$jumlah){
-        $query = $this->db->query("call SP_PENERIMAAN('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$kode_level."','".$user."',".$jumlah.")");
+    function saveDetailPenerimaan($id, $status, $level_user, $kode_level, $user, $jumlah){
+        $query = $this->db->query("call SP_NOMINASI('".$id."','".$status."','".$level_user."','".$kode_level."','".$user."',".$jumlah.")");
         return $query->result();
-        // print_debug("call PROSES_PENERIMAAN_V2('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$kode_level."','".$user."',".$jumlah.")");
     }
 
     public function options_pemasok($default = '--Pilih Pemasok--') {
@@ -469,29 +474,57 @@ class permintaan_model extends CI_Model
         return $query->result();
     }
 
-    // public function save_edit($data){
-    //     $sql = "CALL EDIT_PENERIMAAN (
-    //         '".$data['ID_PENERIMAAN']."',
-    //         '".$data['STATUS']."',
-    //         '".$data['LEVEL_USER']."',
-    //         '".$data['KODE_LEVEL']."',
-    //         '".$data['CREATE_BY']."',
-    //         ".$data['VOL_PENERIMAAN'].",
-    //         ".$data['VOL_PENERIMAAN_REAL'].",
-    //         '".$data['ID_TRANSPORTIR']."',
-    //         '".$data['ID_PEMASOK']."',
-    //         '".$data['SLOC']."',
-    //         '".$data['TGL_PENGAKUAN']."',
-    //         '".$data['TGL_PENERIMAAN']."',
-    //         '".$data['VALUE_SETTING']."',
-    //         '',
-    //         '".$data['ID_JNS_BHN_BKR']."',
-    //         '".$data['NO_PENERIMAAN']."')";
-    //    // echo $sql; die;
-    //     $query = $this->db->query($sql);
-    //     $this->db->close();
-    //     return $query->result();
-    // }
+    public function save_edit($data){
+        $sql = "CALL EDIT_NOMINASI (
+            '".$data['ID_PEMASOK']."',
+            '".$data['SLOC']."',
+            '".$data['TGL_MTS_NOMINASI']."',
+            ".$data['VOLUME_NOMINASI'].",
+            '".$data['CREATE_BY']."',
+            '".$data['NO_NOMINASI']."',
+            '".$data['ID_JNS_BHN_BKR']."',
+            '".$data['PATH_FILE']."',
+            '".$data['ID_PERMINTAAN']."' )";
+       // echo $sql; die;
+        $query = $this->db->query($sql);
+        $this->db->close();
+        return $query->result();
+    }
+
+    public function options_status() {
+        $this->db->from('DATA_SETTING');
+        $this->db->where('KEY_SETTING','STATUS_APPROVE');
+        $this->db->order_by("VALUE_SETTING ASC");
+        
+        $list = $this->db->get(); 
+        $option = array();
+        $option[''] = '-- Semua --';
+
+        foreach ($list->result() as $row) {
+            $option[$row->VALUE_SETTING] = $row->NAME_SETTING;
+        }
+        return $option;    
+    }
+
+    public function get_sum_detail() {
+        $SLOC = $_POST['SLOC'];
+        $TGL_PENGAKUAN = $_POST['TGL_PENGAKUAN'];
+
+        $q="SELECT 
+            SLOC, date_format(TGL_MTS_NOMINASI,'%m%Y') AS TGL_PENGAKUAN, 
+            sum( if( STATUS_APPROVE = '0', 1, 0 ) ) AS BELUM_KIRIM,  
+            sum( if( STATUS_APPROVE = '1', 1, 0 ) ) AS BELUM_DISETUJUI, 
+            sum( if( STATUS_APPROVE = '2', 1, 0 ) ) AS DISETUJUI,
+            sum( if( STATUS_APPROVE = '3', 1, 0 ) ) AS DITOLAK,
+            count(*) AS TOTAL 
+            FROM  MUTASI_NOMINASI
+            WHERE SLOC='$SLOC' AND date_format(TGL_MTS_NOMINASI,'%m%Y') = '$TGL_PENGAKUAN'     
+            GROUP BY SLOC, TGL_PENGAKUAN ";
+
+        $query = $this->db->query($q);
+
+        return $query->result();       
+    }
 
 }
 ?>

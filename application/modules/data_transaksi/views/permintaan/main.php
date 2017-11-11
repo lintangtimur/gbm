@@ -95,26 +95,70 @@
                 <div id="table_detail" hidden>
                     <form method="POST" id="formKirimDetail">
                         <div class="well-content clearfix">
-                            <!-- <table class="pull-right">
-                                <tr>
-                                    <td>
-										<?php if ($this->session->userdata('level_user') >= "2" && $this->laccess->otoritas('add')){?>
-
-												<button class="btn btn-primary" type="button" onclick="saveDetailKirim(this)">Kirim</button>
-										<?php }?>
-                                    </td>
-                                    <td>
-										<?php if ($this->laccess->otoritas('approve') == true && $this->session->userdata('level_user') == "2") {?>
-												<button class="btn btn-primary" type="button" onclick="saveDetailApprove(this)">Approve</button>
-										<?php }?>
-                                    </td>
-                                    <td>
-										<?php if ($this->laccess->otoritas('approve') == true && $this->session->userdata('level_user') == "2") {?>
-												<button class="btn btn-primary" type="button" onclick="saveDetailTolak(this)">Tolak</button>
-										<?php }?>
-                                    </td>
-                                </tr>
-                            </table> -->
+                            <div class="form_row">
+                                <div class="pull-left span3">
+                                    <div class="controls">
+                                        <table>
+                                            <tr>
+                                                <td><label>Total data</label></td><td><label>:</label></td><td><label><info id="TOTAL"></info></label></td>
+                                                <td><?php echo str_repeat("&nbsp;", 10); ?></td>
+                                                <td></td><td></td><td></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label>Belum Kirim</label></td><td><label>:</label></td><td><label><info id="BELUM_KIRIM"></info></label></td>
+                                                <td></td>
+                                                <td><label>Disetujui</label></td><td><label>:</label></td><td><label><info id="DISETUJUI"></info></label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label>Belum Disetujui</label></td><td><label>:</label></td><td><label><info id="BELUM_DISETUJUI"></info></label></td>
+                                                <td></td>
+                                                <td><label>Ditolak</label></td><td><label>:</label></td><td><label><info id="DITOLAK"></info></label></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="pull-left span4">
+                                    <div class="controls">
+                                        <table>
+                                            <tr>
+                                                <td colspan=2><label>Filter Status :</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><?php echo form_dropdown('CMB_STATUS', $status_options, !empty($default->VALUE_SETTING) ? $default->VALUE_SETTING : '', 'class="span15"'); ?></td>
+                                                <td> &nbsp </td>
+                                                <!-- <td><?php echo anchor(NULL, "<i class='icon-search'></i> Filter", array('class' => 'btn', 'id' => 'button-filter')); ?></td> -->
+                                            </tr>
+                                        </table>
+                                        <input type="hidden" name="vBLTH">
+                                        <input type="hidden" name="vSLOC">
+                                    </div>
+                                </div>
+                                <div class="pull-right">
+                                    <div class="controls">
+                                        <table>
+                                            <tr><td>&nbsp</td></tr>
+                                            <tr>
+                                                <td>
+                                                    <?php if (($this->laccess->otoritas('add') == true) && ($this->session->userdata('level_user') >= "2")) {?>
+                                                            <button class="btn btn-primary" type="button" onclick="saveDetailKirim(this)">Kirim</button>
+                                                    <?php }?>
+                                                </td>
+                                                <td>
+                                                    <?php if (($this->laccess->otoritas('approve') == true) && ($this->session->userdata('level_user') == "2")) {?>
+                                                            <button class="btn btn-primary" type="button" onclick="saveDetailApprove(this)">Approve</button>
+                                                    <?php }?>
+                                                </td>
+                                                <td>
+                                                    <?php if (($this->laccess->otoritas('approve') == true) && ($this->session->userdata('level_user') == "2")) {?>
+                                                            <button class="btn btn-primary" type="button" onclick="saveDetailTolak(this)">Tolak</button>
+                                                    <?php }?>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="content">
                             <table class="table table-bordered table-striped" id="detailPermintaan">
@@ -153,8 +197,19 @@
 
     function show_detail(tanggal) {
         if (!$('#table_detail').is(":visible")) {
+            bootbox.modal('<div class="loading-progress"></div>');
             var vId = tanggal;
             var strArray = vId.split("|");
+
+            $('input[name="vBLTH"]').val(strArray[0]);
+            $('input[name="vSLOC"]').val(strArray[1]);
+            $('#detailPermintaan tbody tr').detach();
+
+            if (strArray.length ==2){
+                $('select[name="CMB_STATUS"]').val('');  
+                get_sum_detail(tanggal);  
+            }
+
             var data_kirim = {ID_REGIONAL: $('select[name="ID_REGIONAL"]').val(),
                 COCODE: $('select[name="COCODE"]').val(),
                 PLANT: $('select[name="PLANT"]').val(),
@@ -163,43 +218,64 @@
                 TGL_PENGAKUAN:strArray[0],
                 BULAN: $('select[name="BULAN"]').val(),
                 TAHUN: $('select[name="TAHUN"]').val(),
+                STATUS: $('select[name="CMB_STATUS"]').val(),
             };
             $.post("<?php echo base_url()?>data_transaksi/permintaan/getDataDetail/", data_kirim, function (data) {
 //            $.get("<?php //echo base_url()?>//data_transaksi/permintaan/getDataDetail/" + tanggal, function (data) {
                 var data_detail = (JSON.parse(data));
                 var cekbox = '';
                 var vLevelUser = "<?php echo $this->session->userdata('level_user'); ?>";
+                var vUserName = "<?php echo $this->session->userdata('user_name'); ?>";
+                var vIsAdd = "<?php echo $this->laccess->otoritas('add'); ?>";
+                var vIsApprove = "<?php echo $this->laccess->otoritas('approve'); ?>";
+                var vSetEdit='';
                 var vEdit='';
+                var vEditView='';
                 var vlink_url = '';
 
                 for (i = 0; i < data_detail.length; i++) {
 
                     cekbox = '<input type="checkbox" name="pilihan[' + i + ']" id="pilihan" value="'+data_detail[i].ID_PERMINTAAN+'">';
+
                     vlink_url = "<?php echo base_url()?>data_transaksi/permintaan/edit_view/"+data_detail[i].ID_PERMINTAAN;
-                    vEdit = '<a href="javascript:void(0);" class="btn transparant" id="button-edit-'+data_detail[i].ID_PERMINTAAN+'" onclick="load_form(this.id)" data-source="'+vlink_url+'"> <i class="icon-edit"></i></a>'; 
+                    vEditView = '<a href="javascript:void(0);" class="btn transparant" id="button-edit-'+data_detail[i].ID_PERMINTAAN+'" onclick="load_form(this.id)" data-source="'+vlink_url+'"> <i class="icon-file-alt" title="Lihat Data"></i></a>'; 
+
+                    vlink_url = "<?php echo base_url()?>data_transaksi/permintaan/edit/"+data_detail[i].ID_PERMINTAAN;
+                    vEdit = '<a href="javascript:void(0);" class="btn transparant" id="button-edit-'+data_detail[i].ID_PERMINTAAN+'" onclick="load_form(this.id)" data-source="'+vlink_url+'"> <i class="icon-edit" title="Edit Data"></i></a>'; 
+
+                    vSetEdit = vEditView;
 
                     if (vLevelUser>=2){
                         if (vLevelUser==2){
+                            if (vIsAdd){
+                                if((data_detail[i].KODE_STATUS == "1") || (data_detail[i].KODE_STATUS == "2")){
+                                    cekbox = '';  
+                                } else {
+                                    if(data_detail[i].CREATED_BY==vUserName){
+                                        vSetEdit = vEdit;     
+                                    }    
+                                }                               
+                            }
 
-                            vlink_url = "<?php echo base_url()?>data_transaksi/permintaan/edit/"+data_detail[i].ID_PERMINTAAN;
-                            vEdit = '<a href="javascript:void(0);" class="btn transparant" id="button-edit-'+data_detail[i].ID_PERMINTAAN+'" onclick="load_form(this.id)" data-source="'+vlink_url+'"> <i class="icon-edit"></i></a>'; 
+                            if (vIsApprove){
+                                if (data_detail[i].KODE_STATUS !== "1"){
+                                    cekbox = '';
+                                }  
 
-                            if (data_detail[i].KODE_STATUS !== "1"){
-                                cekbox = '';
-                            }  
-
-                            // if (data_detail[i].KODE_STATUS == "0"){
-                            //     vEdit = '';
-                            // }  
+                                if (data_detail[i].KODE_STATUS == "0"){
+                                    vSetEdit = '';
+                                }                                 
+                            }
                         }
 
                         if ((vLevelUser==3) || (vLevelUser==4)){
-                            if((data_detail[i].KODE_STATUS == "1") || (data_detail[i].KODE_STATUS == "2")){
-                                cekbox = '';  
-                            }
-                            if((data_detail[i].KODE_STATUS == "0") || (data_detail[i].KODE_STATUS == "3")){
-                                vlink_url = "<?php echo base_url()?>data_transaksi/permintaan/edit/"+data_detail[i].ID_PERMINTAAN;
-                                vEdit = '<a href="javascript:void(0);" class="btn transparant" id="button-edit-'+data_detail[i].ID_PERMINTAAN+'" onclick="load_form(this.id)" data-source="'+vlink_url+'"> <i class="icon-edit"></i></a>'; 
+                            if (data_detail[i].KODE_STATUS !== "0"){
+                                cekbox = '';
+                            } 
+                            if(data_detail[i].KODE_STATUS == "0"){
+                                if(data_detail[i].CREATED_BY==vUserName){
+                                        vSetEdit = vEdit;     
+                                    }
                             }
                         }
                     } else {
@@ -214,7 +290,7 @@
                         '<td align="center">' + data_detail[i].NAMA_JNS_BHN_BKR + '</td>' +
                         '<td align="right">' + toRupiah(data_detail[i].VOLUME_NOMINASI) + '</td>' +
                         '<td align="center">' + data_detail[i].STATUS + '</td>' +
-                        '<td align="center">' + vEdit +' </td>' +
+                        '<td align="center">' + vSetEdit +' </td>' +
                         '<td align="center">' +
                         cekbox+
                         '<input type="hidden" id="idPermintaan" name="idPermintaan[' + i + ']" value="' + data_detail[i].ID_PERMINTAAN + '">' +
@@ -223,7 +299,8 @@
                         '</tr>'
                     );
                 }
-            });
+            });     
+            $(".bootbox").modal("hide");
             $('#table_detail').show();
         } else {
             $('#detailPermintaan tbody tr').detach();
@@ -458,4 +535,38 @@
             });
         }
     });
+
+
+    function formatNumber (num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    }
+
+    function get_sum_detail(tanggal) {
+        var vId = tanggal;
+        var strArray = vId.split("|");
+        var data = {SLOC: strArray[1],TGL_PENGAKUAN:strArray[0]};
+
+        $.post("<?php echo base_url()?>data_transaksi/permintaan/get_sum_detail/", data, function (data) {
+            var data_detail = (JSON.parse(data));
+
+            for (i = 0; i < data_detail.length; i++) {
+                $('#TOTAL').html(formatNumber(data_detail[i].TOTAL));
+                $('#BELUM_KIRIM').html(formatNumber(data_detail[i].BELUM_KIRIM));
+                $('#BELUM_DISETUJUI').html(formatNumber(data_detail[i].BELUM_DISETUJUI));
+                $('#DISETUJUI').html(formatNumber(data_detail[i].DISETUJUI));
+                $('#DITOLAK').html(formatNumber(data_detail[i].DITOLAK));
+            }
+        });
+    }
+
+    $('select[name="CMB_STATUS"]').on('change', function() {
+        var vBLTH = $('input[name="vBLTH"]').val();
+        var vSLOC = $('input[name="vSLOC"]').val();
+        var vSTATUS = $(this).val();
+        var vParam = vBLTH+'|'+vSLOC+'|'+vSTATUS;
+
+        show_detail(vParam);
+        show_detail(vParam);
+    });  
+
 </script>
