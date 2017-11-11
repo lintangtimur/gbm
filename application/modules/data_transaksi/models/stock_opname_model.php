@@ -12,6 +12,7 @@ class stock_opname_model extends CI_Model {
     }
 
     private $_table1 = "STOCK_OPNAME"; 
+	private $_datasetting = "DATA_SETTING"; 
 
     private function _key($key) { 
         if (!is_array($key)) {
@@ -22,7 +23,7 @@ class stock_opname_model extends CI_Model {
 
     
     public function data($key = '') {
-        $this->db->select('A.*, R.ID_REGIONAL, R.NAMA_REGIONAL, M1.COCODE, M1.LEVEL1, M2.PLANT, M2.LEVEL2, M3.STORE_SLOC, M3.LEVEL3, M4.LEVEL4, JB.NAMA_JNS_BHN_BKR,   A.TGL_PENGAKUAN');
+        $this->db->select('A.*, R.ID_REGIONAL, R.NAMA_REGIONAL, M1.COCODE, M1.LEVEL1, M2.PLANT, M2.LEVEL2, M3.STORE_SLOC, M3.LEVEL3, M4.LEVEL4, JB.NAMA_JNS_BHN_BKR,   A.TGL_PENGAKUAN, DS.NAME_SETTING');
         $this->db->from($this->_table1.' A');
         $this->db->join('MASTER_LEVEL4 M4', 'M4.SLOC = A.SLOC','left');
         $this->db->join('MASTER_LEVEL3 M3', 'M3.STORE_SLOC = M4.STORE_SLOC','left');
@@ -30,6 +31,7 @@ class stock_opname_model extends CI_Model {
         $this->db->join('MASTER_LEVEL1 M1', 'M1.COCODE = M2.COCODE','left');
         $this->db->join('MASTER_REGIONAL R', 'R.ID_REGIONAL = M1.ID_REGIONAL','left');
         $this->db->join('M_JNS_BHN_BKR JB', 'JB.ID_JNS_BHN_BKR = A.ID_JNS_BHN_BKR','left');
+		$this->db->join($this->_datasetting .' DS', "A.STATUS_APPROVE_STOCKOPNAME = DS.VALUE_SETTING AND DS.KEY_SETTING = 'STATUS_APPROVE'");
 
         if (!empty($key) || is_array($key))
         $this->db->where_condition($this->_key($key));
@@ -86,7 +88,7 @@ class stock_opname_model extends CI_Model {
         $myDate = new DateTime($TGL_PENGAKUAN);
         $TGL_PENGAKUAN = $myDate->format('dmY');
 
-        $query="CALL PROSES_STOCKOPNAME('$ID_STOCKOPNAME', '$SLOC', '$ID_JNS_BHN_BKR', '$TGL_PENGAKUAN', '$LEVEL_USER', '$STATUS', '$USER')";
+        $query="CALL SP_TEMP_SO('$ID_STOCKOPNAME', '$SLOC', '$ID_JNS_BHN_BKR', '$TGL_PENGAKUAN', '$LEVEL_USER', '$STATUS', '$USER')";
 		// print_debug($query);
         $data = $this->db->query($query);
         return $data->result();
@@ -228,7 +230,7 @@ class stock_opname_model extends CI_Model {
                     'NAMA_JNS_BHN_BKR' => $row->NAMA_JNS_BHN_BKR,
                     'LEVEL4' => $row->LEVEL4,
                     'VOLUME_STOCKOPNAME' => number_format($row->VOLUME_STOCKOPNAME,0,',','.'),
-                    'STATUS_APPROVE_STOCKOPNAME' => $status_hasil,
+                    'STATUS_APPROVE_STOCKOPNAME' => $row->NAME_SETTING,
                     'aksi' => $aksi
                 );
             }    

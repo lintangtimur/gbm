@@ -77,6 +77,7 @@ class user extends MX_Controller {
     }
 
     public function load($page = 1) {
+		$this->laccess->check();
         $data_table = $this->user_model->data_table($this->_module, $this->_limit, $page);
 
         $this->load->library("ltable");
@@ -102,6 +103,7 @@ class user extends MX_Controller {
     }
 
     public function proses() {
+		$this->laccess->check();
 		if ($this->laccess->otoritas('add') || $this->laccess->otoritas('edit')) {
 			$level = array();
 			$role = $this->input->post("level_user");
@@ -174,6 +176,7 @@ class user extends MX_Controller {
     }
 
     public function delete($id) {
+		$this->laccess->check();
         $message = array(false, 'Proses gagal', 'Proses hapus data gagal.', '');
 
         if ($this->user_model->delete($id)) {
@@ -183,6 +186,7 @@ class user extends MX_Controller {
     }
 	
 	public function nonaktif($id) {
+		$this->laccess->check();
         $message = array(false, 'Proses gagal', 'Proses Non Aktif User gagal.', '');
 
         if ($this->user_model->edit($id, array("ISAKTIF_USER"=> "0"))) {
@@ -192,6 +196,7 @@ class user extends MX_Controller {
     }
 	
 	public function aktif($id) {
+		$this->laccess->check();
         $message = array(false, 'Proses gagal', 'Proses Aktif User gagal.', '');
 
         if ($this->user_model->edit($id, array("ISAKTIF_USER"=> "1"))) {
