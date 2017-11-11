@@ -113,11 +113,13 @@ class kontrak_pemasok extends MX_Controller {
         $get_data = $this->tbl_get_adendum->data($id);
         $data['default'] = $get_data->get()->row();
 
+        // print_r($data['default']); die;
+
         $data['pemasok_options'] = $this->tbl_get->options_pemasok();
         $data['jns_kontrak_options'] = $this->tbl_get->options_jns_kontrak();
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses_adendum');
-        $this->load->view($this->_module . '/form_adendum', $data);
+        $this->load->view($this->_module . '/form_adendum_edit', $data);
     }
 
 
@@ -221,10 +223,11 @@ class kontrak_pemasok extends MX_Controller {
             // $data['ISAKTIF_KONTRAK_PEMASOK'] = $this->input->post('ID_REGIONAL');
 
             if ($id == '') {
-                $data['CD_BY_KONTRAK_PEMASOK'] = $this->session->userdata('user_id');
+                $data['CD_BY_KONTRAK_PEMASOK'] = $this->session->userdata('user_name');
                 $data['CD_KONTRAK_PEMASOK'] = date('Y-m-d');
 
                 $new_name = date('Ymd').'_'.$this->input->post('NOPJBBM_KONTRAK_PEMASOK').'_'.$_FILES["ID_DOC_PEMASOK"]['name'];
+                $new_name = str_replace(" ","_",$new_name);
                 $config['file_name'] = $new_name;
                 $config['upload_path'] = 'assets/upload_kontrak/';
                 $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
@@ -264,9 +267,9 @@ class kontrak_pemasok extends MX_Controller {
         $this->form_validation->set_rules('JUDUL_ADENDUM_PEMASOK', 'Judul Kontrak', 'trim|required|max_length[100]');
         $id = $this->input->post('id');
         if ($id == '') {
-            // if (empty($_FILES['ID_DOC_PEMASOK']['name'])){
-            //     $this->form_validation->set_rules('ID_DOC_PEMASOK', 'Upload Dokumen', 'required');
-            // }
+            if (empty($_FILES['PATH_DOC']['name'])){
+                $this->form_validation->set_rules('PATH_DOC', 'Upload Dokumen', 'required');
+            }
         }
         if ($this->form_validation->run($this)) {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
@@ -290,31 +293,38 @@ class kontrak_pemasok extends MX_Controller {
             // $data['ISAKTIF_KONTRAK_PEMASOK'] = $this->input->post('ID_REGIONAL');
 
             if ($id == '') {
-                $data['CD_BY_ADENDUM_PEMASOK'] = $this->session->userdata('user_id');
+                $data['CD_BY_ADENDUM_PEMASOK'] = $this->session->userdata('user_name');
                 $data['CD_ADENDUM_PEMASOK'] = date('Y-m-d');
 
-                //upload file
-                // $msg_doc ='';
-                // $file_element_name = $this->input->post('ID_DOC_PEMASOK');
-                // $config['upload_path'] = 'assets/upload_kontrak';
-                // $config['allowed_types'] = 'jpg|jpeg|png|pdf';
-                // $this->load->library('upload', $config);
+                if (!empty($_FILES['PATH_DOC']['name'])){
+                    $new_name = 'A'.date('Ymd').'_'.$this->input->post('NO_ADENDUM_PEMASOK').'_'.$_FILES["PATH_DOC"]['name'];
+                    $new_name = str_replace(" ","_",$new_name);
+                    $config['file_name'] = $new_name;
+                    $config['upload_path'] = 'assets/upload_kontrak/';
+                    $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
+                    $config['max_size'] = 1024 * 4; 
+                    // $config['encrypt_name'] = TRUE;
+                    $data['PATH_DOC'] = $new_name;
 
-                // if (!$this->upload->do_upload($file_element_name)){
-                //     $status = 'error';
-                //     $msg = $this->upload->display_errors('', '');
-                // } else {
-                //     $data = $this->upload->data();
-                //     if ($data){
-                //         $status = 'Upload dokumen tersimpan';
-                //     }
-                // }
-                // @unlink($_FILES[$file_element_name]);
+                    $this->load->library('upload', $config);
 
+                    if (!$this->upload->do_upload('PATH_DOC')){
+                        $err = $this->upload->display_errors('', '');
+                        $message = array(false, 'Proses gagal', $err, '');
+                    } else {
+                        $res = $this->upload->data();
+                        if ($res){
+                            $nama_file= $res['file_name'];
+                            if ($this->tbl_get_adendum->save_as_new($data,$nama_file)) {
+                                $message = array(true, 'Proses Berhasil ', 'Proses penyimpanan data berhasil.', '#content_table');
+                            }
+                        }
+                    }
 
-                if ($this->tbl_get_adendum->save_as_new($data)) {
-                    $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
                 }
+                // if ($this->tbl_get_adendum->save_as_new($data)) {
+                //     $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
+                // }
             } else {
                 $data['UD_ADENDUM_PEMASOK'] = date('Y-m-d');
                 if ($this->tbl_get_adendum->save($data, $id)) {

@@ -15,10 +15,6 @@
             <br>
             <label for="password" class="control-label">Tgl Kontrak <span class="required">*</span> : </label>
             <div class="controls">
-                <!-- <div class="input-append date form_datetime">
-                    <input size="16" type="text" value="" id="TGL_KONTRAK_PEMASOK" name="TGL_KONTRAK_PEMASOK">
-                    <span class="add-on"><i class="icon-th"></i></span>
-                </div> -->
                 <?php echo form_input('TGL_KONTRAK_PEMASOK', !empty($default->TGL_KONTRAK_PEMASOK) ? $default->TGL_KONTRAK_PEMASOK : '', 'class="span2 input-append date form_datetime"'); ?>
             </div>
             <br>

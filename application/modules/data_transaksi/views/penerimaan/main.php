@@ -142,18 +142,19 @@
                                             <tr>
                                                 <td>
                                                     <?php if (($this->laccess->otoritas('add') == true) && ($this->session->userdata('level_user') >= "2")) {?>
-                                                            <button class="btn btn-primary" type="button" onclick="saveDetailKirim(this)">Kirim</button>
-                                                            <button class="btn btn-primary" type="button" onclick="saveDetailKirimClossing(this)">Kirim Clossing</button>
+                                                            <button class="btn btn-primary" type="button" onclick="saveDetailKirim(this)" id="btn_kirim">Kirim</button>
+                                                            <button class="btn btn-primary" type="button" onclick="saveDetailKirimClossing(this)" id="btn_kirim_cls">Kirim Clossing</button>
                                                     <?php }?>
                                                 </td>
                                                 <td>
                                                     <?php if (($this->laccess->otoritas('approve') == true) && ($this->session->userdata('level_user') == "2")) {?>
-                                                            <button class="btn btn-primary" type="button" onclick="saveDetailApprove(this)">Approve</button>
+                                                            <button class="btn btn-primary" type="button" onclick="saveDetailApprove(this)" id="btn_approve">Approve</button>
+                                                            <button class="btn btn-primary" type="button" onclick="saveDetailKirimClossing(this)" id="btn_approve_cls">Approve Clossing</button>
                                                     <?php }?>
                                                 </td>
                                                 <td>
                                                     <?php if (($this->laccess->otoritas('approve') == true) && ($this->session->userdata('level_user') == "2")) {?>
-                                                            <button class="btn btn-primary" type="button" onclick="saveDetailTolak(this)">Tolak</button>
+                                                            <button class="btn btn-primary" type="button" onclick="saveDetailTolak(this)" id="btn_tolak">Tolak</button>
                                                     <?php }?>
                                                 </td>
                                             </tr>
@@ -228,6 +229,7 @@
             if (strArray.length ==3){
                 $('select[name="CMB_STATUS"]').val('');  
                 get_sum_detail(tanggal); 
+                setTombolClossing(0); 
             }
 
             var data_kirim = {ID_REGIONAL: $('select[name="ID_REGIONAL"]').val(),
@@ -591,7 +593,41 @@
         var vSTATUS = $(this).val();
         var vParam = vBLTH+'|'+vSLOC+'|'+vAKTIF+'|'+vSTATUS;
 
+        if (vSTATUS==4) {
+            setTombolClossing(1);   
+        } else {
+            setTombolClossing(0);    
+        }
+
         show_detail(vParam);
         show_detail(vParam);
     });  
+
+    function setTombolClossing(stat){
+        var vIsApprove = "<?php echo $this->laccess->otoritas('approve'); ?>";
+        var vIsAdd = "<?php echo $this->laccess->otoritas('add'); ?>";
+
+        if (stat==1){
+            if (vIsApprove){
+                $("#btn_approve").hide(); 
+                $("#btn_approve_cls").show();  
+            } 
+            if (vIsAdd){
+                $("#btn_kirim").hide(); 
+                $("#btn_kirim_cls").show();  
+
+            }
+        } else {
+            if (vIsApprove){
+                $("#btn_approve").show(); 
+                $("#btn_approve_cls").hide();  
+            } 
+            if (vIsAdd){
+                $("#btn_kirim").show(); 
+                $("#btn_kirim_cls").hide();  
+
+            }
+        }
+    }
+
 </script>

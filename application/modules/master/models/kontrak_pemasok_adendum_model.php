@@ -52,9 +52,9 @@ class kontrak_pemasok_adendum_model extends CI_Model {
         return $this->db;
     }
 
-    public function save_as_new($data) {
+    public function save_as_new($data,$nama_file) {
         $this->db->trans_begin();
-        $this->db->set_id($this->_table1, 'ID_ADENDUM_PEMASOK', 'no_prefix', 5);
+        $id_kontrak = $this->db->set_id($this->_table1, 'ID_ADENDUM_PEMASOK', 'no_prefix', 5);
         $this->db->insert($this->_table1, $data);
 
         if ($this->db->trans_status() === FALSE) {
@@ -112,7 +112,7 @@ class kontrak_pemasok_adendum_model extends CI_Model {
         $idkontrak = $this->session->userdata('ID_KONTRAK_PEMASOK'); 
         $id=$idkontrak;
 
-        $aksi = anchor(null, '<i class="icon-zoom-in" title="View"></i>', array('class' => 'btn transparant', 'id' => 'button-edit2-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
+        $aksi = anchor(null, '<i class="icon-zoom-in" title="Lihat Data"></i>', array('class' => 'btn transparant', 'id' => 'button-edit2-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
         $rows['A'.$id] = array(
             'NO' => $no++,
             'NO_ADENDUM_PEMASOK' => '-',
@@ -126,10 +126,10 @@ class kontrak_pemasok_adendum_model extends CI_Model {
             $aksi = '';
 
             if ($this->laccess->otoritas('edit')) {
-                $aksi .= anchor(null, '<i class="icon-edit" title="Edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit3-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit_adendum/' . $id)));
+                $aksi .= anchor(null, '<i class="icon-zoom-in" title="Lihat Data"></i>', array('class' => 'btn transparant', 'id' => 'button-edit3-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit_adendum/' . $id)));
             }
             if ($this->laccess->otoritas('delete')) {
-                $aksi .= anchor(null, '<i class="icon-trash" title="Hapus"></i>', array('class' => 'btn transparant', 'id' => 'button-delete2-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete_adendum/' . $id)));
+                $aksi .= anchor(null, '<i class="icon-trash" title="Hapus Data"></i>', array('class' => 'btn transparant', 'id' => 'button-delete2-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete_adendum/' . $id)));
             }
 
             $rows[$id] = array(
