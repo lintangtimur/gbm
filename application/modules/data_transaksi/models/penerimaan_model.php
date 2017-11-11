@@ -184,6 +184,11 @@ class penerimaan_model extends CI_Model
         return $query->result();
     }
 
+    function saveDetailClossing($sloc,$idPenerimaan,$level_user,$statusPenerimaan,$kode_level,$user_name,$jumlah){
+        $query = $this->db->query("call SP_TEMP_CLOSSING('".$sloc."','".$idPenerimaan."','".$level_user."','".$statusPenerimaan."','".$kode_level."','".$user_name."',".$jumlah.")");
+        return $query->result();
+    }
+
     public function options_pemasok($default = '--Pilih Pemasok--') {
         $this->db->from('MASTER_PEMASOK');
 

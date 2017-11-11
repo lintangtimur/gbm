@@ -172,6 +172,11 @@ if (!empty($key) || is_array($key))
         return $data->result();
     }
 
+    function saveDetailClossing($sloc,$idPenerimaan,$level_user,$statusPenerimaan,$kode_level,$user_name,$jumlah){
+        $query = $this->db->query("call SP_TEMP_CLOSSING('".$sloc."','".$idPenerimaan."','".$level_user."','".$statusPenerimaan."','".$kode_level."','".$user_name."',".$jumlah.")");
+        return $query->result();
+    }
+
     public function options_jenis_bahan_bakar($default = '--Pilih Jenis Bahan Bakar--') {
         $this->db->from('M_JNS_BHN_BKR');
 
