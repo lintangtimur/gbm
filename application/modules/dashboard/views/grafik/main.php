@@ -67,7 +67,7 @@
 										<div class="pull-left span5">
 										<br>
 											<div class="controls">
-												<?php echo anchor(NULL, "<i class='icon-search'></i> Filter", array('class' => 'btn', 'id' => 'button-filter', 'onclick'=> 'loadDataIdo();loadDataBio();loadDataHsd();loadDataMfo();loadDataHsdBio();')); ?></td>
+												<?php echo anchor(NULL, "<i class='icon-search'></i> Filter", array('class' => 'btn', 'id' => 'button-filter', 'onclick'=> 'loadDataIdo();loadDataBio();loadDataHsd();loadDataMfo();loadDataHsdBio();hiddenTable();')); ?></td>
 											</div>
 										</div>
 									</div>
@@ -857,19 +857,25 @@
         };
 	}
 
+    function hiddenTable(){
+    document.getElementById("divTable").style.visibility = "hidden";
+    }
+  
+	function showTable(){
+		 document.getElementById("divTable").style.visibility = "visible";
+	}
+
   $(function() {
    loadDataIdo();
    loadDataMfo();
    loadDataHsd();
    loadDataHsdBio();
    loadDataBio();
+   hiddenTable();
    
-   document.getElementById("divTable").style.visibility = "hidden";
   });
-  
-	function showTable(){
-		 document.getElementById("divTable").style.visibility = "visible";
-	}
+
+   
 
 	function loadTableHsdBio(){
 			var lvl0 = $('#lvl0').val();
@@ -891,7 +897,9 @@
 						success:function(response) {
 							var obj = JSON.parse(response);
 							if (obj == "" || obj == null) {
-								$('#divIdo').text("0");
+								$('#dataTable tbody').empty();
+                                var str = '<tr><td colspan="18" align="center">Data Tidak Ditemukan</td></tr>';
+                                $("#dataTable tbody").append(str);
 								  bootbox.hideAll();
 								 } else {
 							$('#dataTable tbody').empty();
@@ -950,7 +958,9 @@
 						success:function(response) {
 							var obj = JSON.parse(response);
 							if (obj == "" || obj == null) {
-								$('#divIdo').text("0");
+								$('#dataTable tbody').empty();
+                                var str = '<tr><td colspan="18" align="center">Data Tidak Ditemukan</td></tr>';
+                                $("#dataTable tbody").append(str);
 								  bootbox.hideAll();
 								 } else {
 							$('#dataTable tbody').empty();
@@ -1009,7 +1019,9 @@
 						success:function(response) {
 							var obj = JSON.parse(response);
 							if (obj == "" || obj == null) {
-								$('#divIdo').text("0");
+								$('#dataTable tbody').empty();
+                                var str = '<tr><td colspan="18" align="center">Data Tidak Ditemukan</td></tr>';
+                                $("#dataTable tbody").append(str);
 								  bootbox.hideAll();
 								 } else {
 							$('#dataTable tbody').empty();
@@ -1068,7 +1080,9 @@
 						success:function(response) {
 							var obj = JSON.parse(response);
 							if (obj == "" || obj == null) {
-								$('#divIdo').text("0");
+								$('#dataTable tbody').empty();
+                                var str = '<tr><td colspan="18" align="center">Data Tidak Ditemukan</td></tr>';
+                                $("#dataTable tbody").append(str);
 								  bootbox.hideAll();
 								 } else {
 							$('#dataTable tbody').empty();
@@ -1127,7 +1141,9 @@
 						success:function(response) {
 							var obj = JSON.parse(response);
 							if (obj == "" || obj == null) {
-								$('#divIdo').text("0");
+								$('#dataTable tbody').empty();
+                                var str = '<tr><td colspan="18" align="center">Data Tidak Ditemukan</td></tr>';
+                                $("#dataTable tbody").append(str);
 								  bootbox.hideAll();
 								 } else {
 							$('#dataTable tbody').empty();

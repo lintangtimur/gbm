@@ -33,9 +33,6 @@ class stock_opname_model extends CI_Model {
         $this->db->join('M_JNS_BHN_BKR JB', 'JB.ID_JNS_BHN_BKR = A.ID_JNS_BHN_BKR','left');
 		$this->db->join($this->_datasetting .' DS', "A.STATUS_APPROVE_STOCKOPNAME = DS.VALUE_SETTING AND DS.KEY_SETTING = 'STATUS_APPROVE'");
 
-        if (!empty($key) || is_array($key))
-        $this->db->where_condition($this->_key($key));
-
         if ($_POST['ID_REGIONAL'] !='') {
             $this->db->where("R.ID_REGIONAL",$_POST['ID_REGIONAL']);   
         }
@@ -63,6 +60,11 @@ class stock_opname_model extends CI_Model {
         if ($_POST['STATUS'] !='') {
             $this->db->where("STATUS_APPROVE_STOCKOPNAME",$_POST['STATUS']);   
         }
+
+        if (!empty($key) || is_array($key)){
+            $this->db->where_condition($this->_key($key));
+        }
+        
 		$this->db->order_by("A.TGL_PENGAKUAN asc");
 
         return $this->db;
@@ -80,7 +82,7 @@ class stock_opname_model extends CI_Model {
 
         if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
-
+        
         return $this->db;
     }
 
@@ -151,7 +153,7 @@ class stock_opname_model extends CI_Model {
         $level_user = $this->session->userdata('level_user');
 
         if (!empty($kata_kunci))
-            $filter[$this->_table1 . ".SLOC LIKE '%{$kata_kunci}%' "] = NULL;
+            $filter["(JB.NAMA_JNS_BHN_BKR LIKE '%{$kata_kunci}%' OR A.NO_STOCKOPNAME LIKE '%{$kata_kunci}%' OR A.VOLUME_STOCKOPNAME LIKE '%{$kata_kunci}%')"]= NULL;
             $total = $this->data($filter)->count_all_results();
             $this->db->limit($limit, ($offset * $limit) - $limit);
             $record = $this->data($filter)->get();
