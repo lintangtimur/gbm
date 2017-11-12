@@ -122,6 +122,28 @@
     </div>
 </div>
 
+<form id="export_excel" action="<?php echo base_url('laporan/persediaan_bbm/export_excel'); ?>" method="post">
+    <input type="hidden" name="xlvl0">
+    <input type="hidden" name="xlvl1">
+    <input type="hidden" name="xlvl2">
+    <input type="hidden" name="xlvl3">
+    <input type="hidden" name="xlvl4">
+    <input type="hidden" name="xbbm">
+    <input type="hidden" name="xbln">
+    <input type="hidden" name="xthn">
+</form>
+
+<form id="export_pdf" action="<?php echo base_url('laporan/persediaan_bbm/export_pdf'); ?>" method="post" >
+    <input type="hidden" name="plvl0">
+    <input type="hidden" name="plvl1">
+    <input type="hidden" name="plvl2">
+    <input type="hidden" name="plvl3">
+    <input type="hidden" name="plvl4">
+    <input type="hidden" name="pbbm">
+    <input type="hidden" name="pbln">
+    <input type="hidden" name="pthn">
+</form>
+
 <script type="text/javascript">
     function convertToRupiah(angka)
         {
@@ -131,14 +153,13 @@
             return rupiah.split('',rupiah.length-1).reverse().join('');
         }
 
-     $('#button-load').click(function(e) {
+    $('#button-load').click(function(e) {
         var lvl0 = $('#lvl0').val();
         var lvl1 = $('#lvl1').val();
         var lvl2 = $('#lvl2').val();
         var lvl3 = $('#lvl3').val();
         var lvl4 = $('#lvl4').val();
         var bbm = $('#bbm').val();
-        var bln = $('#bln').val();
         var bln = $('#bln').val();
         var thn = $('#thn').val();
         if (lvl0 == '') {
@@ -218,6 +239,52 @@
                 });
         };
     });
+
+
+    $('#button-excel').click(function(e) {
+        var lvl0 = $('#lvl0').val();
+        if (lvl0 == '') {
+            bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
+        } else { 
+            $('input[name="xlvl0"]').val($('#lvl0').val());
+            $('input[name="xlvl1"]').val($('#lvl1').val());
+            $('input[name="xlvl2"]').val($('#lvl2').val());
+            $('input[name="xlvl3"]').val($('#lvl3').val());
+            $('input[name="xlvl4"]').val($('#lvl4').val());
+            $('input[name="xbbm"]').val($('#bbm').val());
+            $('input[name="xbln"]').val($('#bln').val());
+            $('input[name="xthn"]').val($('#thn').val());
+
+            bootbox.confirm('Apakah yakin akan export data ?', "Tidak", "Ya", function(e) {
+                if(e){
+                    $('#export_excel').submit();
+                }
+            });
+        }
+    });
+
+    $('#button-pdf').click(function(e) {
+        var lvl0 = $('#lvl0').val();
+        if (lvl0 == '') {
+            bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
+        } else { 
+            $('input[name="plvl0"]').val($('#lvl0').val());
+            $('input[name="plvl1"]').val($('#lvl1').val());
+            $('input[name="plvl2"]').val($('#lvl2').val());
+            $('input[name="plvl3"]').val($('#lvl3').val());
+            $('input[name="plvl4"]').val($('#lvl4').val());
+            $('input[name="pbbm"]').val($('#bbm').val());
+            $('input[name="pbln"]').val($('#bln').val());
+            $('input[name="pthn"]').val($('#thn').val());
+
+            bootbox.confirm('Apakah yakin akan export data ?', "Tidak", "Ya", function(e) {
+                if(e){
+                    $('#export_pdf').submit();
+                }
+            });
+        }
+    });
+
 </script>
 
 <script type="text/javascript">

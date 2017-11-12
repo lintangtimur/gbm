@@ -114,6 +114,42 @@ class persediaan_bbm extends MX_Controller {
         echo json_encode($data);
     }
 
+    public function export_excel(){
+        $data['ID_REGIONAL'] = $this->input->post('xlvl0');
+        $data['COCODE'] = $this->input->post('xlvl1');
+        $data['PLANT'] = $this->input->post('xlvl02');
+        $data['STORE_SLOC'] = $this->input->post('xlvl3');
+        $data['SLOC'] = $this->input->post('xlvl4');
+        $data['BBM'] = $this->input->post('xbbm');
+        $data['BULAN'] = $this->input->post('xbln');
+        $data['TAHUN'] = $this->input->post('xthn');
+        $data['JENIS'] = 'XLS'; 
+
+        $data['data'] = $this->tbl_get->getData_Model($data);
+        $this->load->view($this->_module . '/export_excel', $data);
+    }
+
+    public function export_pdf(){
+        $data['ID_REGIONAL'] = $this->input->post('plvl0');
+        $data['COCODE'] = $this->input->post('plvl1');
+        $data['PLANT'] = $this->input->post('plvl02');
+        $data['STORE_SLOC'] = $this->input->post('plvl3');
+        $data['SLOC'] = $this->input->post('plvl4');
+        $data['BBM'] = $this->input->post('pbbm');
+        $data['BULAN'] = $this->input->post('pbln');
+        $data['TAHUN'] = $this->input->post('pthn');
+        $data['JENIS'] = 'PDF'; 
+
+        $data['data'] = $this->tbl_get->getData_Model($data);
+        $this->load->view($this->_module . '/export_excel', $data);
+
+        $this->load->library('pdf');
+        $this->pdf->load_view($this->_module . '/export_excel', $data);
+        $this->pdf->set_paper('a4', 'landscape');
+        $this->pdf->render();
+        $this->pdf->stream("Laporan_Persediaan_BBM.pdf");
+    }
+
     public function get_options_lv1($key=null) {
         $message = $this->tbl_get->options_lv1('--Pilih Level 1--', $key, 0);
         echo json_encode($message);
