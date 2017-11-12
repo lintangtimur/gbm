@@ -28,7 +28,7 @@
          <div class="control-group">
             <label for="password" class="control-label">Role <span class="required">*</span> : </label>
             <div class="controls">
-				<input type="hidden" name="level_user" id="level_user" value="<?php echo !empty($default->LEVEL_USER) ? '': $default->ROLES_ID ."..".$default->LEVEL_USER ;?>"/>
+				<input type="hidden" name="level_user" id="level_user" value="<?php echo empty($default->ROLES_ID) ? '': $default->ROLES_ID ."..".$default->LEVEL_USER ;?>"/>
                 <?php echo form_dropdown('role_id', $role_options, !empty($default->ROLES_ID) ? $default->ROLES_ID ."..".$default->LEVEL_USER : '', 'class="span6 chosen" id="role_id"'); ?>
             </div>
         </div>

@@ -1,6 +1,6 @@
 <div class="login-container">
     <div class="login-header bordered">
-        <h4>SIGN IN GBM ONLINE</h4>
+        <h4>SIGN IN GBM ONLINE Versi 1.0</h4>
     </div>
     <?php
     $login_message = $this->session->flashdata('login_message');

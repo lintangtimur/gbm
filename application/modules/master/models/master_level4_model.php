@@ -12,9 +12,9 @@ class master_level4_model extends CI_Model {
         parent::__construct();
     }
 
-    private $_table1 = "MASTER_LEVEL4"; //nama table setelah mom_
+    private $_table1 = "MASTER_LEVEL4"; 
 
-    private function _key($key) { //unit ID
+    private function _key($key) { 
         if (!is_array($key)) {
             $key = array('SLOC' => $key);
         }
