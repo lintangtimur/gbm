@@ -116,7 +116,7 @@
                 $DEAD_STOCK = !empty($row->DEAD_STOCK) ? number_format($row->DEAD_STOCK,0,',','.') : '0';
                 $STOCK_AKHIR_REAL = !empty($row->STOCK_AKHIR_REAL) ? number_format($row->STOCK_AKHIR_REAL,0,',','.') : '0';
                 $STOCK_AKHIR_EFEKTIF = !empty($row->STOCK_AKHIR_EFEKTIF) ? number_format($row->STOCK_AKHIR_EFEKTIF,0,',','.') : '0';
-                $SHO = !empty($row->SHO) ? number_format($row->SHO,1,',','.') : '0'; 
+                $SHO = !empty($row->SHO) ? number_format($row->SHO,3,',','.') : '0'; 
             }
         ?>
         <td style="text-align:right;"><?php echo $STOCK_AWAL ?></td>
