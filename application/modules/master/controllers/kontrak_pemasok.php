@@ -342,10 +342,13 @@ class kontrak_pemasok extends MX_Controller {
     }
 
     public function delete($id) {
+
         $message = array(false, 'Proses gagal', 'Proses hapus data gagal.', '');
 
-        if ($this->tbl_get->delete($id)) {
-            $message = array(true, 'Proses Berhasil', 'Proses hapus data berhasil.', '#content_table');
+        if ($this->tbl_get->deleteDocumen($id)) {
+            if ($this->tbl_get->delete($id)) {
+                $message = array(true, 'Proses Berhasil', 'Proses hapus data berhasil.', '#content_table');
+            }
         }
         echo json_encode($message);
     }

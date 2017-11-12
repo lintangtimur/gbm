@@ -24,7 +24,7 @@ class kontrak_pemasok_adendum_model extends CI_Model {
     public function data($key = '') {
         $idkontrak = $this->session->userdata('ID_KONTRAK_PEMASOK'); 
 
-        $this->db->select('a.*, (SELECT ID_PEMASOK fROM DATA_KONTRAK_PEMASOK b WHERE b.ID_KONTRAK_PEMASOK = a.ID_KONTRAK_PEMASOK) ID_PEMASOK ');
+        $this->db->select('a.*, (SELECT ID_PEMASOK FROM DATA_KONTRAK_PEMASOK b WHERE b.ID_KONTRAK_PEMASOK = a.ID_KONTRAK_PEMASOK) ID_PEMASOK ');
         $this->db->from($this->_table1.' a');
         $this->db->where('ID_KONTRAK_PEMASOK',$idkontrak);
 
@@ -93,6 +93,7 @@ class kontrak_pemasok_adendum_model extends CI_Model {
             return TRUE;
         }
     }
+
 
     public function data_table($module = '', $limit = 20, $offset = 1) {
 		$filter = array();
