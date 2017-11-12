@@ -24,6 +24,8 @@
 		}
 		
 		public function data($key = '') {
+			$perubahan = ' ,(SELECT COUNT(*) FROM ADENDUM_KONTRAK_TRANSPORTIR b WHERE b.ID_KONTRAK_TRANS=a.ID_KONTRAK_TRANS) AS PERUBAHAN';
+			$this->db->select('a.*, b.NAMA_TRANSPORTIR '.$perubahan);
 			$this->db->from($this->_table1 . ' a');
 			$this->db->join($this->_table2 . ' b', 'b.ID_TRANSPORTIR = a.ID_TRANSPORTIR');
 			// $this->db->join($this->_table5 . ' c', 'c.ID_KONTRAK_TRANS = a.ID_KONTRAK_TRANS');
@@ -239,17 +241,23 @@
 				$aksi = '';
 				$id = $row->ID_KONTRAK_TRANS;
 				if ($this->laccess->otoritas('edit')) {
-				$aksi = anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
+				$aksi = anchor(null, '<i class="icon-zoom-in"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadKontrakOriginal/' . $id)));
+				}
+				if ($this->laccess->otoritas('add')) {
+					$aksi .= anchor(null, '<i class="icon-copy" title="Lihat Adendum"></i>', array('class' => 'btn transparant', 'id' => 'button-adendum-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/adendum/' . $id)));
 				}
 				if ($this->laccess->otoritas('delete')) {
+					if ($row->PERUBAHAN == 0){
 				$aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
+					}
 				}
 				$rows[$id] = array(
                 'no_kontrak' => $row->KD_KONTRAK_TRANS,
                 'nama_transportir' => $row->NAMA_TRANSPORTIR,
                 'periode' => $row->TGL_KONTRAK_TRANS,
                 'nilai_kontrak' => number_format($row->NILAI_KONTRAK_TRANS,0,',','.'),
-                'keterangan' => $row->KET_KONTRAK_TRANS,
+				'keterangan' => $row->KET_KONTRAK_TRANS,
+				'perubahan' => $row->PERUBAHAN,
                 'aksi' => $aksi
 				);
 			}
