@@ -111,6 +111,7 @@ class user extends MX_Controller {
 			$this->form_validation->set_rules('email_user', 'Email User', 'trim|required|max_length[50]|valid_email');
 			$this->form_validation->set_rules('level_user', 'Level User', 'required');
 			$level = explode("..", $role);
+			
 			$kodelevel = '0';
 			if ($level[1] == "R"){
 				$this->form_validation->set_rules('kode_regional', 'Kode Regional', 'required');

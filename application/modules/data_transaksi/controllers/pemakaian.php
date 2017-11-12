@@ -270,7 +270,7 @@ class pemakaian extends MX_Controller
         if ($simpan[0]->RCDB == "RC01") {
             $message = array(true, 'Proses Berhasil', $simpan[0]->PESANDB, '#content_table');
         } else {
-            $message = array(false, 'Proses Gagal', $simpan[0]->PESANDB, '');
+            $message = array(false, 'Proses Gagals', $simpan[0]->PESANDB, '');
         }
         echo json_encode($message, true);
     }

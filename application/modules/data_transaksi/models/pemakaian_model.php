@@ -175,6 +175,7 @@ class pemakaian_model extends CI_Model
 		// }
 		// $this->db->reconnect();
 		$query = "call SP_TEMP_PEMAKAIAN('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$user."',".$jumlah.")";
+		print_debug($query);
 		$data = $this->db->query($query);
 		 $res = $data->result();
 

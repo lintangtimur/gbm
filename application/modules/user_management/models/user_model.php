@@ -145,12 +145,12 @@ class user_model extends CI_Model {
 			$aksi = '';
 			if ($this->laccess->otoritas('edit'))
 				$aksi = anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
-			if ($this->laccess->otoritas('delete'))
+			/*if ($this->laccess->otoritas('delete'))
 				if($row->ISAKTIF_USER <> "1")
 					$aksi .= anchor(null, '<i class="icon-close"></i>', array('class' => 'btn transparant', 'id' => 'button-aktif-' . $id, 'onclick' => 'aktivasi_user(this.id, "Mengaktifkan")', 'data-source' => base_url($module . '/aktif/' . $id)));
 				else
 					$aksi .= anchor(null, '<i class="icon-check"></i>', array('class' => 'btn transparant', 'id' => 'button-aktif-' . $id, 'onclick' => 'aktivasi_user(this.id, "Menonaktifkan")', 'data-source' => base_url($module . '/nonaktif/' . $id)));
-         
+			*/
             $rows[$no] = array(
 				'no' => $no,
                 'user_nama' => $row->NAMA_USER,
@@ -160,6 +160,7 @@ class user_model extends CI_Model {
                 'aksi' => $aksi
             );
 			$no++;
+			$aksi = '';
         }
 
         return array('total' => $total, 'rows' => $rows);
