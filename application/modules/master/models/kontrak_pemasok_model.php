@@ -13,10 +13,11 @@ class kontrak_pemasok_model extends CI_Model {
     }
 
     private $_table1 = "DATA_KONTRAK_PEMASOK"; //nama table setelah mom_
+    private $_table2 = "DOC_KONTRAK_PEMASOK"; //nama table setelah mom_
 
     private function _key($key) { //unit ID
         if (!is_array($key)) {
-            $key = array('a.ID_KONTRAK_PEMASOK' => $key);
+            $key = array('ID_KONTRAK_PEMASOK' => $key);
         }
         return $key;
     }
@@ -86,6 +87,21 @@ class kontrak_pemasok_model extends CI_Model {
         $this->db->trans_begin();
 
         $this->db->delete($this->_table1, $this->_key($key));
+
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return FALSE;
+        } else {
+            $this->db->trans_commit();
+            return TRUE;
+        }
+    }
+
+    
+    public function deleteDocumen($key) {
+        $this->db->trans_begin();
+
+        $this->db->delete($this->_table2, $this->_key($key));
 
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
