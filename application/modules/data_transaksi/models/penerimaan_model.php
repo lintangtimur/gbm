@@ -12,7 +12,7 @@ class penerimaan_model extends CI_Model
         parent::__construct();
     }
 
-    private $_table1 = "VLOAD_LIST_PENERIMAAN_V2"; //nama table setelah mom_
+    // private $_table1 = "VLOAD_LIST_PENERIMAAN_V2"; //nama table setelah mom_
     private $_table2 = "MUTASI_PENERIMAAN"; //nama table setelah mom_
 
     private function _key($key) { //unit ID
@@ -31,7 +31,13 @@ class penerimaan_model extends CI_Model
 
     public function data($key = ''){
         $this->db->select('a.*, sum(a.COUNT_VOLUME) as JML, sum(a.SUM_volume) as JML_VOLUME');
-        $this->db->from($this->_table1.' a' );
+
+        // $this->db->from($this->_table1.' a' );
+        if ($this->laccess->otoritas('add')){
+            $this->db->from('VLOAD_LIST_PENERIMAAN_lV3 a' );
+        } else {
+            $this->db->from('VLOAD_LIST_PENERIMAAN_lV2 a' );
+        }
 
         if ($_POST['ID_REGIONAL'] !='') {
             $this->db->where('ID_REGIONAL',$_POST['ID_REGIONAL']);
@@ -170,6 +176,10 @@ class penerimaan_model extends CI_Model
         }
         if ($_POST['STATUS'] !='') {
             $this->db->where("KODE_STATUS",$_POST['STATUS']);   
+        }
+
+        if (!$this->laccess->otoritas('add')){
+            $this->db->where("STATUS !=","Belum Dikirim");    
         }
 		
 		$this->db->order_by("TGL_PENGAKUAN asc");

@@ -226,7 +226,22 @@
             $('input[name="vAKTIF"]').val(strArray[2]);
 
             if (strArray.length ==3){
-                $('select[name="CMB_STATUS"]').val('');  
+                var vLevelUser = "<?php echo $this->session->userdata('level_user'); ?>";
+                var vIsAdd = "<?php echo $this->laccess->otoritas('add'); ?>";
+
+                if (vLevelUser==2){
+                    if (vIsAdd){
+                        $('select[name="CMB_STATUS"]').val('0');
+                    } else {
+                        $('select[name="CMB_STATUS"]').val('1');    
+                    }
+                    
+                } else if (vLevelUser>2){
+                    $('select[name="CMB_STATUS"]').val('0');
+                } else {
+                    $('select[name="CMB_STATUS"]').val(''); 
+                }
+                 
                 get_sum_detail(tanggal); 
                 setTombolClossing(0);
             }
@@ -313,7 +328,7 @@
 
                     $('#detailPenerimaan tbody').append(
                         '<tr>' +
-                        '<td align="center">' + data_detail[i].ID_PEMAKAIAN + '</td>' +
+                        '<td align="center">' + data_detail[i].NO_TUG + '</td>' +
                         '<td align="center">' + data_detail[i].TGL_PENGAKUAN + '</td>' +
                         '<td align="center">' + data_detail[i].NAMA_JNS_BHN_BKR + '</td>' +
                         '<td align="right">' + toRupiah(data_detail[i].VOLUME_PEMAKAIAN) + '</td>' +
@@ -529,10 +544,17 @@
 
     }
 
+    $('#button-add').click(function(e) {
+        $('#detailPenerimaan tbody tr').detach();
+        $('#table_detail').hide();
+    });
+
     jQuery(function ($) {
         load_table('#content_table', 1, '#ffilter');
         $('#button-filter').click(function () {
             load_table('#content_table', 1, '#ffilter');
+            $('#detailPenerimaan tbody tr').detach();
+            $('#table_detail').hide();
         });
     });
 
@@ -640,6 +662,7 @@
 
     function get_sum_detail(tanggal) {
         var vId = tanggal;
+        var vIsAdd = "<?php echo $this->laccess->otoritas('add'); ?>";
         var strArray = vId.split("|");
         var data = {SLOC: strArray[1],TGL_PENGAKUAN:strArray[0]};
 
@@ -648,7 +671,11 @@
 
             for (i = 0; i < data_detail.length; i++) {
                 $('#TOTAL').html(formatNumber(data_detail[i].TOTAL));
-                $('#BELUM_KIRIM').html(formatNumber(data_detail[i].BELUM_KIRIM));
+                if (!vIsAdd){
+                    $('#BELUM_KIRIM').html(formatNumber(0));    
+                } else  {
+                    $('#BELUM_KIRIM').html(formatNumber(data_detail[i].BELUM_KIRIM));
+                }
                 $('#BELUM_DISETUJUI').html(formatNumber(data_detail[i].BELUM_DISETUJUI));
                 $('#DISETUJUI').html(formatNumber(data_detail[i].DISETUJUI));
                 $('#DITOLAK').html(formatNumber(data_detail[i].DITOLAK));
