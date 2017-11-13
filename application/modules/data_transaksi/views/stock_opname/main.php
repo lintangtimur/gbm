@@ -60,7 +60,7 @@
                                 <div class="pull-left span3">
                                     <label for="password" class="control-label">Jenis Bahan Bakar <span class="required">*</span> : </label>
                                     <div class="controls">
-                                        <?php echo form_dropdown('BBM', $opsi_bbm, !empty($default->ID_JENIS_BHN_BKR) ? $default->ID_JENIS_BHN_BKR : ''); ?>
+                                        <?php echo form_dropdown('BBM', $parent_options_jns, !empty($default->ID_JENIS_BHN_BKR) ? $default->ID_JENIS_BHN_BKR : ''); ?>
                                     </div>
                                 </div>
                             </div><br/>
@@ -169,6 +169,11 @@
             $('select[name="SLOC"]').empty();
             $('select[name="SLOC"]').append('<option value="">--Pilih Pembangkit--</option>');
         }
+        
+        function setDefaultJnsBhnBkr(){
+            $('select[name="ID_JNS_BHN_BKR"]').empty();
+            $('select[name="ID_JNS_BHN_BKR"]').append('<option value="">--Pilih Jenis Bahan Bakar--</option>');
+        }
 
         $('select[name="ID_REGIONAL"]').on('change', function() {
             var stateID = $(this).val();
@@ -177,6 +182,7 @@
             setDefaultLv2();
             setDefaultLv3();
             setDefaultLv4();
+            setDefaultJnsBhnBkr();
             if(stateID) {
                 $.ajax({
                     url: vlink_url,
@@ -197,6 +203,7 @@
             setDefaultLv2();
             setDefaultLv3();
             setDefaultLv4();
+            setDefaultJnsBhnBkr();
             if(stateID) {
                 $.ajax({
                     url: vlink_url,
@@ -216,6 +223,7 @@
             var vlink_url = '<?php echo base_url()?>data_transaksi/stock_opname/get_options_lv3/'+stateID;
             setDefaultLv3();
             setDefaultLv4();
+            setDefaultJnsBhnBkr();
             if(stateID) {
                 $.ajax({
                     url: vlink_url,
@@ -234,6 +242,7 @@
             var stateID = $(this).val();
             var vlink_url = '<?php echo base_url()?>data_transaksi/stock_opname/get_options_lv4/'+stateID;
             setDefaultLv4();
+            setDefaultJnsBhnBkr();
             if(stateID) {
                 $.ajax({
                     url: vlink_url,
@@ -247,6 +256,25 @@
                 });
             }
         });
+
+        // $('select[name="SLOC"]').on('change', function() {
+        //     var stateID = $(this).val();
+        //     var vlink_url = '<?php echo base_url()?>data_transaksi/stock_opname/get_options_bbm/'+stateID;
+        //     setDefaultJnsBhnBkr();
+        //     if(stateID) {
+        //         $.ajax({
+        //             url: vlink_url,
+        //             type: "GET",
+        //             dataType: "json",
+        //             success:function(data) {
+        //                 $.each(data, function(key, value) {
+        //                     $('select[name="BBM"]').append('<option value="'+ value.ID_JNS_BHN_BKR +'">'+ value.NAMA_JNS_BHN_BKR +'</option>');
+        //                 });
+        //             }
+        //         });
+        //     }
+        // });
+
     });
 
     function formatNumber (num) {
