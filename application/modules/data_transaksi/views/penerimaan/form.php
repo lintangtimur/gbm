@@ -67,7 +67,7 @@
             <div class="control-group">
                 <label  class="control-label">Pembangkit<span class="required">*</span> : </label>
                 <div class="controls">
-                    <?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : '', 'class="span6"'); ?>
+                    <?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : '', 'class="span6" id="pembangkit"'); ?>
                 </div>
             </div>
             <div class="control-group">
@@ -85,7 +85,7 @@
             <div class="control-group">
                 <label class="control-label">Jenis BBM<span class="required">*</span> : </label>
                 <div class="controls">
-                    <?php echo form_dropdown('ID_JNS_BHN_BKR', $option_jenis_bbm, !empty($default->ID_JNS_BHN_BKR) ? $default->ID_JNS_BHN_BKR : '', 'class="span3"'); ?>
+                    <?php echo form_dropdown('ID_JNS_BHN_BKR', $option_jenis_bbm, !empty($default->ID_JNS_BHN_BKR) ? $default->ID_JNS_BHN_BKR : '', 'class="span3" id="jnsbbm"'); ?>
                 </div>
             </div>
 
@@ -117,6 +117,12 @@
 </div>
 
 <script type="text/javascript">
+	
+	$( "#pembangkit" ).change(function() {
+		var sloc = $(this).val();
+		load_jenis_bbm('<?php echo $urljnsbbm; ?>/' + sloc, "#jnsbbm");
+	});
+	
     $(".form_datetime").datepicker({
         format: "dd-mm-yyyy",
         autoclose: true,

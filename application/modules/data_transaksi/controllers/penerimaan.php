@@ -83,7 +83,7 @@ class penerimaan extends MX_Controller
             $data['default']->TGL_PENERIMAAN = $tgl_catat->format('d-m-Y');
             $data['default']->TGL_PENGAKUAN = $tgl_pengakuan->format('d-m-Y');
         }
-
+		$data['urljnsbbm'] = base_url($this->_module) .'/load_jenisbbm';
         $data['option_pemasok'] = $this->tbl_get->options_pemasok();
         $data['option_transportir'] = $this->tbl_get->options_transpotir();
         $data['option_jenis_penerimaan'] = $this->tbl_get->options_jenis_penerimaan();
@@ -397,4 +397,10 @@ class penerimaan extends MX_Controller
         echo json_encode($message);
     }
 
+	public function load_jenisbbm($idsloc = ''){
+		$this->load->model('stock_opname_model');
+		$message = $this->stock_opname_model->options_jns_bhn_bkr('--Pilih Jenis BBM--', $idsloc);
+		echo json_encode($message);
+	}
+	
 }

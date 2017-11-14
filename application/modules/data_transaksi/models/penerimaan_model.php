@@ -16,8 +16,15 @@ class penerimaan_model extends CI_Model
     private $_table2 = "MUTASI_PENERIMAAN"; //nama table setelah mom_
 
     private function _key($key) { //unit ID
+		$level_user = $this->session->userdata('level_user');
+        $kode_level = $this->session->userdata('kode_level');
         if (!is_array($key)) {
-            $key = array('TANGGAL' => $key);
+			if ($level_user == '2')
+				$key = array('TANGGAL' => $key, 'PLANT' => $kode_level);
+			else if($level_user == '3')
+				$key = array('TANGGAL' => $key, 'STORE_SLOC' => $kode_level);
+			else
+				$key = array('TANGGAL' => $key);
         }
         return $key;
     }

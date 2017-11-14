@@ -46,7 +46,7 @@ class stock_opname extends MX_Controller {
         $data = $this->get_level_user(); 
 
 
-        $data['opsi_bbm'] = $this->tbl_get->options_jns_bhn_bkr();  
+        $data['opsi_bbm'] = $this->tbl_get->options_jns_bhn_bkr();
         $data['opsi_bulan'] = $this->tbl_get->options_bulan();  
         $data['opsi_tahun'] = $this->tbl_get->options_tahun(); 
 
@@ -79,7 +79,7 @@ class stock_opname extends MX_Controller {
                 $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Level 4--', $data_lv[0]->STORE_SLOC, 1);
             }
         }  
-        
+        $data['urljnsbbm'] = base_url($this->_module) .'/load_jenisbbm';
         if ($id != '') {
             $page_title = 'Edit Stock Opname';
             $get_tbl = $this->tbl_get->dataToUpdate($id);
@@ -456,6 +456,12 @@ class stock_opname extends MX_Controller {
         $message = $this->tbl_get->get_sum_detail();
         echo json_encode($message);
     }
+  
+	public function load_jenisbbm($idsloc = ''){
+		$this->load->model('stock_opname_model');
+		$message = $this->stock_opname_model->options_jns_bhn_bkr('--Pilih Jenis BBM--', $idsloc);
+		echo json_encode($message);
+	}
   
 }
 

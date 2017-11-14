@@ -78,7 +78,7 @@ class permintaan extends MX_Controller
 
             $data['default']->TGL_MTS_NOMINASI = $tgl_catat->format('d-m-Y');
         }
-
+		$data['urljnsbbm'] = base_url($this->_module) .'/load_jenisbbm';
         $data['option_pemasok'] = $this->tbl_get->options_pemasok();
         $data['option_jenis_bbm'] = $this->tbl_get->options_jenis_bahan_bakar();
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
@@ -317,4 +317,10 @@ class permintaan extends MX_Controller
         echo json_encode($message);
     }
 
+	public function load_jenisbbm($idsloc = ''){
+		$this->load->model('stock_opname_model');
+		$message = $this->stock_opname_model->options_jns_bhn_bkr('--Pilih Jenis BBM--', $idsloc);
+		echo json_encode($message);
+	}
+	
 }

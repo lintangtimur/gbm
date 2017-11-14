@@ -92,7 +92,7 @@ class pemakaian extends MX_Controller
 			$data['default']->TGL_PENCATATAN = $tgl_catat->format('d-m-Y');
             $data['default']->TGL_MUTASI_PENGAKUAN = $tgl_mutasi->format('d-m-Y');
         }
-
+		$data['urljnsbbm'] = base_url($this->_module) .'/load_jenisbbm';
         $data['option_jenis_pemakaian'] = $this->tbl_get->options_jenis_pemakaian();
         $data['option_jenis_bbm'] = $this->tbl_get->options_jenis_bahan_bakar();
         
@@ -399,4 +399,11 @@ class pemakaian extends MX_Controller
         $message = $this->tbl_get->get_sum_detail();
         echo json_encode($message);
     }
+	
+	public function load_jenisbbm($idsloc = ''){
+		$this->load->model('stock_opname_model');
+		$message = $this->stock_opname_model->options_jns_bhn_bkr('--Pilih Jenis BBM--', $idsloc);
+		echo json_encode($message);
+	}
+	
 }
