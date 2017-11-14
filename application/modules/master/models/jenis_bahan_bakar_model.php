@@ -114,7 +114,20 @@
 			return array('total' => $total, 'rows' => $rows);
 		}
 		
-		public function options($default = '--Pilih Unit Kerja--') {
+		public function options_komponen1($default = '--Pilih Komponen Bahan Bakar 1--') {
+			$option = array();
+			$list = $this->data()->get();
+			
+			if (!empty($default))
+            $option[''] = $default;
+			
+			foreach ($list->result() as $row) {
+				$option[$row->ID_JNS_BHN_BKR] = $row->NAMA_JNS_BHN_BKR;
+			}
+			
+			return $option;
+		}
+		public function options_komponen2($default = '--Pilih Komponen Bahan Bakar 2--') {
 			$option = array();
 			$list = $this->data()->get();
 			
