@@ -16,10 +16,17 @@
         echo form_open_multipart($form_action, array('id' => 'finput', 'class' => 'form-horizontal'), $hidden_form);
         ?>
 
-        <div class="control-group">
+<!--         <div class="control-group">
             <label class="control-label">No Pemakaian<span class="required">*</span> : </label>
             <div class="controls">
                 <?php echo form_input('NO_PEMAKAIAN', !empty($default->NO_MUTASI_PEMAKAIAN) ? $default->NO_MUTASI_PEMAKAIAN : '', 'class="span6" placeholder="Nomor Pemakaian" disabled'); ?>
+            </div>
+        </div> -->
+        
+        <div class="control-group">
+            <label class="control-label">NO TUG 8/9<span class="required">*</span> : </label>
+            <div class="controls">
+                <?php echo form_input('NO_TUG', !empty($default->NO_TUG) ? $default->NO_TUG : '', 'class="span3" placeholder="NO TUG 8/9" disabled'); ?>
             </div>
         </div>
         <div class="control-group">
@@ -68,12 +75,6 @@
             <label class="control-label">Jenis Pemakaian<span class="required">*</span> : </label>
             <div class="controls">
                 <?php echo form_dropdown('VALUE_SETTING', $option_jenis_pemakaian, !empty($default->JENIS_PEMAKAIAN) ? $default->JENIS_PEMAKAIAN : '', 'class="span3"  disabled'); ?>
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">NO TUG 8/9<span class="required">*</span> : </label>
-            <div class="controls">
-                <?php echo form_input('NO_TUG', !empty($default->NO_TUG) ? $default->NO_TUG : '', 'class="span3" placeholder="NO TUG 8/9" disabled'); ?>
             </div>
         </div>
         <div class="control-group">

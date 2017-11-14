@@ -34,9 +34,9 @@ class penerimaan_model extends CI_Model
 
         // $this->db->from($this->_table1.' a' );
         if ($this->laccess->otoritas('add')){
-            $this->db->from('VLOAD_LIST_PENERIMAAN_lV3 a' );
+            $this->db->from('VLOAD_LIST_PENERIMAAN_LV3 a' );
         } else {
-            $this->db->from('VLOAD_LIST_PENERIMAAN_lV2 a' );
+            $this->db->from('VLOAD_LIST_PENERIMAAN_LV2 a' );
         }
 
         if ($_POST['ID_REGIONAL'] !='') {
@@ -87,6 +87,8 @@ class penerimaan_model extends CI_Model
             $this->db->group_by('SLOC');
         // }
 
+        $this->db->order_by($_POST['ORDER_BY'].' '.$_POST['ORDER_ASC']);
+
         return $this->db;
     }
 
@@ -115,10 +117,11 @@ class penerimaan_model extends CI_Model
 
     public function data_table($module = '', $limit = 20, $offset = 1) {
         $filter = array();
-        $kata_kunci = $this->input->post('kata_kunci');
+        $kata_kunci = $this->input->post('kata_kunci'); 
 
         if (!empty($kata_kunci))
-            $filter["a.LEVEL4 LIKE '%{$kata_kunci}%' OR a.BLTH LIKE '%{$kata_kunci}%' "] = NULL;
+            $filter["(a.LEVEL4 LIKE '%{$kata_kunci}%' OR a.BLTH LIKE '%{$kata_kunci}%' )"] = NULL;
+        
         $total = $this->data($filter)->count_all_results();
         $this->db->limit($limit, ($offset * $limit) - $limit);
         $record = $this->data($filter)->get();
@@ -146,9 +149,8 @@ class penerimaan_model extends CI_Model
     }
 
     function getTableViewDetail(){
-
+        
         $this->db->from('VLOAD_LIST_DETAIL_PENERIMAAN_V2');
-
 
         if ($_POST['TGL_PENGAKUAN'] !='') {
             $this->db->where("DATE_FORMAT(TGL_PENGAKUAN,'%m%Y')",$_POST['TGL_PENGAKUAN']);
@@ -181,8 +183,15 @@ class penerimaan_model extends CI_Model
         if (!$this->laccess->otoritas('add')){
             $this->db->where("STATUS !=","Belum Dikirim");    
         }
+
+        if ($_POST['KATA_KUNCI_DETAIL'] !=''){
+
+            $filter="NO_PENERIMAAN LIKE '%".$_POST['KATA_KUNCI_DETAIL']."%' NAMA_PEMASOK LIKE '%".$_POST['KATA_KUNCI_DETAIL']."%' OR NAMA_TRANSPORTIR LIKE '%".$_POST['KATA_KUNCI_DETAIL']."%' OR NAMA_JNS_BHN_BKR LIKE '%".$_POST['KATA_KUNCI_DETAIL']."%' ";
+
+            $this->db->where("(".$filter.")", NULL, FALSE);
+        }
 		
-		$this->db->order_by("TGL_PENGAKUAN asc");
+		$this->db->order_by($_POST['ORDER_BY_D'].' '.$_POST['ORDER_ASC_D']);
 		
         $data = $this->db->get();
 
@@ -524,6 +533,35 @@ class penerimaan_model extends CI_Model
         $option[$year] = $year;
         $option[$year + 1] = $year + 1;
 
+        return $option;
+    }
+
+    public function options_order() {
+        $option = array();
+        // $option[''] = '--Pilih--';
+        $option['BLTH'] = 'BLTH';
+        $option['LEVEL4'] = 'PEMBANGKIT';
+        // $option['JML'] = 'JML';
+        // $option['JML_VOLUME'] = 'JML_VOLUME';
+        return $option;
+    }
+
+    public function options_order_d() {
+        $option = array();
+        // $option[''] = '--Pilih--';
+        $option['NO_PENERIMAAN'] = 'NO PENERIMAAN';
+        $option['TGL_PENGAKUAN'] = 'TGL PENGAKUAN';
+        $option['NAMA_PEMASOK'] = 'NAMA PEMASOK';
+        $option['NAMA_TRANSPORTIR'] = 'TRANSPORTIR';
+        $option['NAMA_JNS_BHN_BKR'] = 'JNS BHN BKR';
+        return $option;
+    }
+
+    public function options_asc() {
+        $option = array();
+        // $option[''] = '--Pilih--';
+        $option['ASC'] = 'ASC';
+        $option['DESC'] = 'DESC';
         return $option;
     }
 

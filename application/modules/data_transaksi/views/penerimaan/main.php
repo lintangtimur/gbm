@@ -68,8 +68,23 @@
                                 </div>
                             </div>
                         </div>
+                        <br>
                         <div class="form_row">
-                            <div class="pull-left span5">
+                            <div class="pull-left span3">
+                                <label for="password" class="control-label">Order by :</label>
+                                <label for="password" class="control-label" style="margin-left:95px"></label>
+                                <div class="controls">
+                                    <?php echo form_dropdown('ORDER_BY', $options_order, '','style="width: 137px;", id="order"'); ?>
+                                    <?php echo form_dropdown('ORDER_ASC', $options_asc, '','style="width: 80px;", id="asc"'); ?>
+                                </div>
+                            </div>
+                            <div class="pull-left span3">
+                                <label for="password" class="control-label"><span class="required"></span></label>
+                                <div class="controls">
+                                    <?php echo anchor(NULL, "<i class='icon-search'></i> Filter", array('class' => 'btn', 'id' => 'button-filter')); ?>
+                                </div>
+                            </div>
+                            <!-- <div class="pull-left span5">
                                 <div class="controls">
                                     <table>
                                         <tr>
@@ -77,20 +92,23 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td><?php echo form_input('kata_kunci', '', 'class="input-large"'); ?></td>
-                                            <td> &nbsp </td>
+                                            <td><?php echo form_input('kata_kunci', '', 'class="input-large"'); ?></td> 
+                                            <td> &nbsp </td> 
                                             <td><?php echo anchor(NULL, "<i class='icon-search'></i> Filter", array('class' => 'btn', 'id' => 'button-filter')); ?></td>
                                         </tr>
                                     </table>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
+                        <br>
                         <?php echo form_close(); ?>
                     </div>
                 </div>
                 <br>
+
                 <div id="content_table" data-source="<?php echo $data_sources; ?>" data-filter="#ffilter"></div>
                 <hr>
+
                 <div id="table_detail" hidden>
                     <form method="POST" id="formKirimDetail">
                         <div class="well-content clearfix">
@@ -117,24 +135,42 @@
                                         </table>
                                     </div>
                                 </div>
-                                <div class="pull-left span4">
+                            </div>
+                            <hr>
+                            <div class="form_row">
+                                <div class="pull-left span3">
+                                    <label for="password" class="control-label">Order by :</label>
+                                    <label for="password" class="control-label" style="margin-left:95px"></label>
                                     <div class="controls">
-                                        <table>
-                                            <tr>
-                                                <td colspan=2><label>Filter Status :</label>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><?php echo form_dropdown('CMB_STATUS', $status_options, !empty($default->VALUE_SETTING) ? $default->VALUE_SETTING : '', 'class="span15"'); ?></td>
-                                                <td> &nbsp </td>
-                                                <!-- <td><?php echo anchor(NULL, "<i class='icon-search'></i> Filter", array('class' => 'btn', 'id' => 'button-filter')); ?></td> -->
-                                            </tr>
-                                        </table>
-                                        <input type="hidden" name="vBLTH">
-                                        <input type="hidden" name="vSLOC">
-                                        <input type="hidden" name="vAKTIF">
+                                        <?php echo form_dropdown('ORDER_BY_D', $options_order_d, '','style="width: 137px;", id="order_d"'); ?>
+                                        <?php echo form_dropdown('ORDER_ASC_D', $options_asc_d, '','style="width: 80px;", id="asc_d"'); ?>
                                     </div>
                                 </div>
+                                <div class="pull-left span3">
+                                    <label for="password" class="control-label">Filter Status : </label>
+                                    <div class="controls">
+                                        <?php echo form_dropdown('CMB_STATUS', $status_options, !empty($default->VALUE_SETTING) ? $default->VALUE_SETTING : '', 'class="span15"'); ?>
+                                    </div>
+                                    <input type="hidden" name="vBLTH">
+                                    <input type="hidden" name="vSLOC">
+                                    <input type="hidden" name="vAKTIF">
+                                </div>
+
+                                <!-- <div class="pull-left span3">
+                                    <label for="password" class="control-label"><span class="required"></span></label>
+                                    <div class="controls">
+                                        <?php echo anchor(NULL, "<i class='icon-search'></i> Filter", array('class' => 'btn', 'id' => 'button-filter')); ?>
+                                    </div>
+                                </div> -->
+
+                                <div class="pull-left span4">
+                                    <label for="password" class="control-label">Kata Kunci :</label>
+                                    <div class="controls">
+                                        <?php echo form_input('kata_kunci_detail', '', 'class="input-large"'); ?>
+                                        <?php echo anchor(NULL, "<i class='icon-search'></i> Filter", array('class' => 'btn', 'id' => 'button-filter-detail')); ?>
+                                    </div>
+                                </div>
+
                                 <div class="pull-right">
                                     <div class="controls">
                                         <table>
@@ -164,11 +200,12 @@
                             </div>
 
                         </div>
+                        <br>
                         <div class="content">
-                            <table class="table table-bordered table-striped table-hover" id="detailPenerimaan">
+                            <table class="table table-bordered table-striped table-hover " id="detailPenerimaan">
                                 <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>NO PENERIMAAN</th>
                                     <th>TGL PENGAKUAN</th>
                                     <th>NAMA PEMASOK</th>
                                     <th>NAMA TRANSPORTIR</th>
@@ -190,6 +227,7 @@
         </div>
     </div>
 </div>
+
 <script type="text/javascript">
     var icon = 'icon-remove-sign';
 	var color = '#ac193d;';
@@ -242,6 +280,8 @@
                 } else {
                     $('select[name="CMB_STATUS"]').val(''); 
                 }
+
+                $('input[name="kata_kunci_detail"]').val('');
                  
                 get_sum_detail(tanggal); 
                 setTombolClossing(0); 
@@ -256,6 +296,9 @@
                 BULAN: $('select[name="BULAN"]').val(),
                 TAHUN: $('select[name="TAHUN"]').val(),
                 STATUS: $('select[name="CMB_STATUS"]').val(),
+                KATA_KUNCI_DETAIL: $('input[name="kata_kunci_detail"]').val(),
+                ORDER_BY_D: $('select[name="ORDER_BY_D"]').val(),
+                ORDER_ASC_D: $('select[name="ORDER_ASC_D"]').val(),
             };
 
             $.post("<?php echo base_url()?>data_transaksi/penerimaan/getDataDetail/", data_kirim, function (data) {
@@ -547,6 +590,10 @@
     $('#button-add').click(function(e) {
         $('#detailPenerimaan tbody tr').detach();
         $('#table_detail').hide();
+    });
+
+    $('#button-filter-detail').click(function(e) {
+        $('select[name="CMB_STATUS"]').change();
     });
 
 
