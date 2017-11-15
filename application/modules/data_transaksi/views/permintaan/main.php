@@ -455,6 +455,8 @@
         load_table('#content_table', 1, '#ffilter');
         $('#button-filter').click(function () {
             load_table('#content_table', 1, '#ffilter');
+            $('#detailPenerimaan tbody tr').detach();
+            $('#table_detail').hide();
         });
     });
 

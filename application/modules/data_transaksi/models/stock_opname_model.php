@@ -169,16 +169,16 @@ class stock_opname_model extends CI_Model {
                 if($level_user == 2){
                     if ($this->laccess->otoritas('add')){
                         if($CREATED_BY==$this->session->userdata('user_name')){
-                            if (($status == 0) || ($status == 3)) {
+                            if ($status == 0) {
                                 $aksi .= anchor(null, '<i class="icon-share" title="Kirim"></i>', array('class' => 'btn transparant', 'id' => 'button-kirim-' . $id, 'onclick' => 'kirim_row(this.id)', 'data-source' => base_url($module . '/sendAction/' . $id)));
                                 $aksi .= anchor(null, '<i class="icon-edit" title="Edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
-                            }else if(($status==2)||($status==1)){
+                            }else if(($status==2)||($status==1)||($status == 3) ){
                                 $aksi .= anchor(null, '<i class="icon-zoom-in" title="View"></i>', array('class' => 'btn transparant', 'id' => 'button-load-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadView/' . $id)));
                             }
                         }                               
-                    } else {
+                    } else if($this->laccess->otoritas('approve')){
                         if ($status == 1) {
-                            $aksi .= anchor(null, '<i class="icon-zoom-in" title="View"></i>', array('class' => 'btn transparant', 'id' => 'button-load-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadApprove/' . $id)));
+                            $aksi .= anchor(null, '<i class="icon-zoom-in" title="Approve"></i>', array('class' => 'btn transparant', 'id' => 'button-load-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadApprove/' . $id)));
                         }
                         else if(($status==2) || ($status==3) ){
                             $aksi .= anchor(null, '<i class="icon-zoom-in" title="View"></i>', array('class' => 'btn transparant', 'id' => 'button-load-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadView/' . $id)));
@@ -186,12 +186,14 @@ class stock_opname_model extends CI_Model {
                     }
                 } 
                 else if (($level_user == 3)||($level_user == 4)){
-                    if($CREATED_BY==$this->session->userdata('user_name')){
-                        if (($status == 0) || ($status == 3)) {
-                            $aksi .= anchor(null, '<i class="icon-share" title="Kirim"></i>', array('class' => 'btn transparant', 'id' => 'button-kirim-' . $id, 'onclick' => 'kirim_row(this.id)', 'data-source' => base_url($module . '/sendAction/' . $id)));
-                            $aksi .= anchor(null, '<i class="icon-edit" title="Edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
-                        }else if(($status==2)||($status==1)){
-                            $aksi .= anchor(null, '<i class="icon-zoom-in" title="View"></i>', array('class' => 'btn transparant', 'id' => 'button-load-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadView/' . $id)));
+                    if ($this->laccess->otoritas('add')){
+                        if($CREATED_BY==$this->session->userdata('user_name')){
+                            if ($status == 0) {
+                                $aksi .= anchor(null, '<i class="icon-share" title="Kirim"></i>', array('class' => 'btn transparant', 'id' => 'button-kirim-' . $id, 'onclick' => 'kirim_row(this.id)', 'data-source' => base_url($module . '/sendAction/' . $id)));
+                                $aksi .= anchor(null, '<i class="icon-edit" title="Edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
+                            }else if(($status==2)||($status==1) || ($status == 3)){
+                                $aksi .= anchor(null, '<i class="icon-zoom-in" title="View"></i>', array('class' => 'btn transparant', 'id' => 'button-load-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadView/' . $id)));
+                            }
                         }
                     }
                 }
@@ -240,6 +242,7 @@ class stock_opname_model extends CI_Model {
         return array('total' => $total, 'rows' => $rows);
     }
 
+
     public function data_option($key = '', $id = '') {
 		if ($id)
 			$this->db->where("b.SLOC", $id);
@@ -267,6 +270,7 @@ class stock_opname_model extends CI_Model {
         return $option;    
         
     }
+
 
 
  public function options_reg($default = '--Pilih Regional--', $key = 'all') {
@@ -374,7 +378,47 @@ class stock_opname_model extends CI_Model {
             }
             return $option;    
         }
-    }
+    } 
+    public function options_bhn_bkr($default = '--Pilih Jenis Bahan Bakar--', $key = 'all', $jenis=0) {
+        $this->db->select('a.ID_JNS_BHN_BKR, b.NAMA_JNS_BHN_BKR');
+        $this->db->from('MASTER_TANGKI a');
+        $this->db->join('M_JNS_BHN_BKR b', 'a.ID_JNS_BHN_BKR = b.ID_JNS_BHN_BKR ','left');
+        if ($key != 'all'){
+            $this->db->where('a.SLOC',$key);
+        }    
+        if ($jenis==0){
+            return $this->db->get()->result(); 
+        } else {
+            $option = array();
+            $list = $this->db->get(); 
+
+            if (!empty($default)) {
+                $option[''] = $default;
+            }
+
+            foreach ($list->result() as $row) {
+                $option[$row->ID_JNS_BHN_BKR] = $row->NAMA_JNS_BHN_BKR;
+            }
+            return $option;    
+        }
+    }    
+// jangan dihapus dulu untuk jaga jaga
+    // public function options_jns_bhn_bkr($default = '--Pilih Jenis Bahan Bakar--') {
+        
+              // $option = array();
+              // $list = $this->data_option()->get();
+    
+            // if (!empty($default)) {
+                // $option[''] = $default;
+            // }
+    
+            // foreach ($list->result() as $row) {
+                // $option[$row->ID_JNS_BHN_BKR] = $row->NAMA_JNS_BHN_BKR;
+            // }
+            // return $option;    
+            
+        // }
+
     public function options_lv1_view($default = '--Pilih Level 1--') {
         $this->db->from('MASTER_LEVEL1');
     
@@ -469,33 +513,6 @@ class stock_opname_model extends CI_Model {
         $option[$year + 1] = $year + 1;
 
         return $option;
-    }
-
-    public function options_get_lv($lv = '', $key=''){
-        switch ($lv) {
-            case "1":
-                $this->db->select("ID_REGIONAL AS KODE");
-                $this->db->from('MASTER_LEVEL1');
-                $this->db->where('COCODE',$key);
-                break;
-            case "2":
-                $this->db->select("COCODE AS KODE");
-                $this->db->from('MASTER_LEVEL2');
-                $this->db->where('PLANT',$key);
-                break;
-            case "3":
-                $this->db->select("PLANT AS KODE");
-                $this->db->from('MASTER_LEVEL3');
-                $this->db->where('STORE_SLOC',$key);
-                break;
-            case "4":
-                $this->db->select("STORE_SLOC AS KODE");
-                $this->db->from('MASTER_LEVEL4');
-                $this->db->where('SLOC',$key);
-                break;
-        } 
-
-        return $this->db->get()->result();
     }
 
     public function get_level($lv='', $key=''){ 

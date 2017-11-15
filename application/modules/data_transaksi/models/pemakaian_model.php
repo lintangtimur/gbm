@@ -12,7 +12,7 @@ class pemakaian_model extends CI_Model
         parent::__construct();
     }
 
-    private $_table1 = "VLOAD_LIST_PEMAKAIAN_V2"; //nama table setelah mom_
+    // private $_table1 = "VLOAD_LIST_PEMAKAIAN_V2"; //nama table setelah mom_
     private $_table2 = "MUTASI_PEMAKAIAN"; //nama table setelah mom_
 
     private function _key($key) { //unit ID
@@ -24,7 +24,13 @@ class pemakaian_model extends CI_Model
 
     private function data($key = ''){
         $this->db->select('a.*, sum(a.COUNT_VOLUME) as JML, sum(a.SUM_volume) as JML_VOLUME');
-        $this->db->from($this->_table1.' a' );
+
+        // $this->db->from($this->_table1.' a' );
+        if ($this->laccess->otoritas('add')){
+            $this->db->from('VLOAD_LIST_PEMAKAIAN_lV3 a' );
+        } else {
+            $this->db->from('VLOAD_LIST_PEMAKAIAN_lV2 a' );
+        }
 
         if ($_POST['ID_REGIONAL'] !='') {
             $this->db->where('ID_REGIONAL',$_POST['ID_REGIONAL']);
@@ -98,7 +104,7 @@ class pemakaian_model extends CI_Model
         $kata_kunci = $this->input->post('kata_kunci');
 
         if (!empty($kata_kunci))
-            $filter["a.LEVEL4 LIKE '%{$kata_kunci}%' OR a.BLTH LIKE '%{$kata_kunci}%' "] = NULL;
+            $filter["(a.LEVEL4 LIKE '%{$kata_kunci}%' OR a.BLTH LIKE '%{$kata_kunci}%' )"] = NULL;
         $total = $this->data($filter)->count_all_results();
         $this->db->limit($limit, ($offset * $limit) - $limit);
         $record = $this->data($filter)->get();
@@ -157,6 +163,10 @@ class pemakaian_model extends CI_Model
         if ($_POST['STATUS'] !='') {
             $this->db->where("KODE_STATUS",$_POST['STATUS']);   
         }
+
+        if (!$this->laccess->otoritas('add')){
+            $this->db->where('STATUS_PEMAKAIAN !=','Belum Dikirim');    
+        }
 		
 		$this->db->order_by("TGL_PENGAKUAN, ID_PEMAKAIAN asc");
 		
@@ -174,7 +184,7 @@ class pemakaian_model extends CI_Model
 		// }
 		// $this->db->reconnect();
 		// print_debug("call SP_TEMP_PEMAKAIAN('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$user."',".$jumlah.")");
-		$query = "call SP_TEMP_PEMAKAIAN('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$user."',".$jumlah.")";
+		$query = "call PROSES_PEMAKAIAN('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$user."',".$jumlah.")";
 		
 		$data = $this->db->query($query);
 		 $res = $data->result();
