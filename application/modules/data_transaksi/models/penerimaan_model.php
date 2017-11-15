@@ -193,7 +193,7 @@
             
             if ($_POST['KATA_KUNCI_DETAIL'] !=''){
                 
-                $filter="NO_PENERIMAAN LIKE '%".$_POST['KATA_KUNCI_DETAIL']."%' NAMA_PEMASOK LIKE '%".$_POST['KATA_KUNCI_DETAIL']."%' OR NAMA_TRANSPORTIR LIKE '%".$_POST['KATA_KUNCI_DETAIL']."%' OR NAMA_JNS_BHN_BKR LIKE '%".$_POST['KATA_KUNCI_DETAIL']."%' ";
+                $filter="NO_PENERIMAAN LIKE '%".$_POST['KATA_KUNCI_DETAIL']."%' OR NAMA_PEMASOK LIKE '%".$_POST['KATA_KUNCI_DETAIL']."%' OR NAMA_TRANSPORTIR LIKE '%".$_POST['KATA_KUNCI_DETAIL']."%' OR NAMA_JNS_BHN_BKR LIKE '%".$_POST['KATA_KUNCI_DETAIL']."%' ";
                 
                 $this->db->where("(".$filter.")", NULL, FALSE);
             }
