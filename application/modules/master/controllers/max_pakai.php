@@ -74,9 +74,12 @@ class max_pakai extends MX_Controller {
         $table->jumlah_kolom = 3;
         $table->header[] = array(
             "No", 1, 1,
+			'Level 2', 1,1,
+			'Level 3', 1,1,
+			'Level 4', 1,1,
+			'Jenis BBM', 1,1,
             "Periode", 1, 1,
-			"Volume", 1, 1,
-            "Aksi", 1, 1
+			"Volume", 1, 1
         );
         $table->total = $data_table['total'];
         $table->content = $data_table['rows'];

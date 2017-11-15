@@ -7,18 +7,19 @@
 
         echo "
         <style>
-        table {
+
+        table.tdetail {
             border-collapse: collapse;
             width:100%;
             font-size: 10px;
             font-family:arial;
         }
 
-        table, td, th {
+        table.tdetail, table.tdetail td, table.tdetail th {
             border: 1px solid black;  
         }
 
-        thead {background-color: #CED8F6}
+        table.tdetail thead {background-color: #CED8F6}
 
         </style>
 
@@ -26,7 +27,7 @@
     } else {
         echo "
         <style>
-        table {
+        table.tdetail {
             border-collapse: collapse;
             width:100%;
             font-size: 10px;
@@ -34,12 +35,12 @@
             font-family:arial;
         }
 
-        table, td, th {
+        table.tdetail, table.tdetail td, table.tdetail th {
             border: 1px solid black;  
         }
 
-        tbody tr:nth-child(even) {background-color: #f2f2f2}
-        tbody tr:nth-child(odd) {background-color: #FFF}
+        table.tdetail tbody tr:nth-child(even) {background-color: #f2f2f2}
+        table.tdetail tbody tr:nth-child(odd) {background-color: #FFF}
 
         </style>
 
@@ -47,12 +48,55 @@
     }
 ?>
 
-<h3>Laporan Persediaan BBM</h3>
-<table>
+<table border="0" style="width:100%;">
+    <tr>
+        <td style="width:15%;text-align:left"><img src="<?php echo base_url();?>assets/img/logo_pln.jpg" height="90" width="75"></td>
+        <!-- <td style="width:15%;text-align:left"><img src="<?php echo base_url();?>assets/img/logo_pln.jpg" height="130" width="115"></td> -->
+        <td style="width:70%;text-align:center"><h3>LAPORAN PERSEDIAAN BBM</h3></td>
+        <td style="width:15%;text-align:center"></td>
+    </tr>       
+</table>
+
+<table border="0" style="width:100%;">
+    <?php 
+        $jml_lv=4;
+        if ($ID_REGIONAL){
+            $jml_lv= $jml_lv-1;
+            echo '<tr><td style="text-align:left;font-size: 12px;">REGIONAL '.$ID_REGIONAL_NAMA.'</td></tr>';
+        }
+        if ($COCODE){
+            $jml_lv= $jml_lv-1;
+            echo '<tr><td style="text-align:left;font-size: 12px;">WILAYAH '.$COCODE_NAMA.'</td></tr>';
+        }
+        if ($PLANT){
+            $jml_lv= $jml_lv-1;
+            echo '<tr><td style="text-align:left;font-size: 12px;">AREA '.$PLANT_NAMA.'</td></tr>';
+        }
+        if ($STORE_SLOC){
+            $jml_lv= $jml_lv-1;
+            echo '<tr><td style="text-align:left;font-size: 12px;">RAYON '.$STORE_SLOC_NAMA.'</td></tr>';
+        }
+        if ($BULAN){
+            echo '<tr><td style="text-align:left;font-size: 12px;">BLTH '.$TAHUN.''.$BULAN.'</td></tr>';
+        } else {
+            echo '<tr><td style="text-align:left;font-size: 12px;">Tahun '.$TAHUN.'</td></tr>';
+        }
+    ?> 
+    <tr><td></td></tr> 
+</table>
+
+<table class="tdetail">
     <thead>
     <tr>
         <th rowspan="2">No</th>
-        <th colspan="4">Level</th>
+        <?php
+            if ($jml_lv>1){
+                echo '<th colspan="'.$jml_lv.'">Level</th>';
+            } else if ($jml_lv==1){
+                echo '<th rowspan="2">Level 3</th>';
+            }
+        ?>
+        <!-- <th colspan="4">Level</th> -->
         <th rowspan="2">Pembangkit</th>
         <th rowspan="2">Bahan Bakar</th>
         <th rowspan="2">Tgl Mutasi Persediaan</th>
@@ -65,10 +109,20 @@
         <th rowspan="2">SHO</th>
     </tr>
     <tr>
-        <th>0</th>
+        <?php
+            if ($jml_lv == 3){
+                echo '<th>1</th>';
+                echo '<th>2</th>';
+                echo '<th>3</th>';
+            } else if ($jml_lv == 2) {
+                echo '<th>2</th>';
+                echo '<th>3</th>';
+            }
+        ?>
+        <!-- <th>0</th>
         <th>1</th>
         <th>2</th>
-        <th>3</th>
+        <th>3</th> -->
         <th>Terima Pemasok</th>
         <th>Terima Unit Lain</th>
         <th>Sendiri</th>
@@ -86,10 +140,24 @@
     ?>
     <tr>
         <td style="text-align:center;"><?php echo $x ?></td>
-        <td><?php echo $row->LEVEL0 ?></td>
+
+        <?php
+            if ($jml_lv == 3){
+                echo '<td>'.$row->LEVEL1.'</td>';
+                echo '<td>'.$row->LEVEL2.'</td>';
+                echo '<td>'.$row->LEVEL3.'</td>';
+            } else if ($jml_lv == 2) {
+                echo '<td>'.$row->LEVEL2.'</td>';
+                echo '<td>'.$row->LEVEL3.'</td>';
+            } else if ($jml_lv == 1) {
+                echo '<td>'.$row->LEVEL3.'</td>';
+            }
+        ?>
+
+        <!-- <td><?php echo $row->LEVEL0 ?></td>
         <td><?php echo $row->LEVEL1 ?></td>
         <td><?php echo $row->LEVEL2 ?></td>
-        <td><?php echo $row->LEVEL3 ?></td>
+        <td><?php echo $row->LEVEL3 ?></td> -->
         <td><?php echo $row->LEVEL4 ?></td>
         <td><?php echo $row->NAMA_JNS_BHN_BKR ?></td>
         <td style="text-align:center;"><?php echo $row->TGL_MUTASI_PERSEDIAAN ?></td>
@@ -116,7 +184,7 @@
                 $DEAD_STOCK = !empty($row->DEAD_STOCK) ? number_format($row->DEAD_STOCK,0,',','.') : '0';
                 $STOCK_AKHIR_REAL = !empty($row->STOCK_AKHIR_REAL) ? number_format($row->STOCK_AKHIR_REAL,0,',','.') : '0';
                 $STOCK_AKHIR_EFEKTIF = !empty($row->STOCK_AKHIR_EFEKTIF) ? number_format($row->STOCK_AKHIR_EFEKTIF,0,',','.') : '0';
-                $SHO = !empty($row->SHO) ? number_format($row->SHO,3,',','.') : '0'; 
+                $SHO = !empty($row->SHO) ? number_format($row->SHO,2,',','.') : '0'; 
             }
         ?>
         <td style="text-align:right;"><?php echo $STOCK_AWAL ?></td>
@@ -140,3 +208,7 @@
 
     </tbody>
 </table>
+<table border="0" style="width:100%;">
+    <tr><td></td></tr> 
+    <tr><td style="text-align:left;font-size: 10px;"><?php echo date('d M Y '); ?></td></tr> 
+</table><br>

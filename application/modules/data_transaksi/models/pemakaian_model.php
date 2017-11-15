@@ -564,8 +564,8 @@ class pemakaian_model extends CI_Model
     public function options_order_d() {
         $option = array();
         // $option[''] = '--Pilih--';
-        $option['NO_TUG'] = 'NO TUG';
         $option['TGL_PENGAKUAN'] = 'TGL PENGAKUAN';
+        $option['NO_TUG'] = 'NO TUG';
         $option['NAMA_JNS_BHN_BKR'] = 'JNS BHN BKR';
         return $option;
     }

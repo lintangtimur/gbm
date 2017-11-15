@@ -11,6 +11,11 @@
 		}
 		
 		private $_table1 = "MAX_PEMAKAIAN"; 
+		private $_table2 = "MASTER_LEVEL2";
+		private $_table3 = "MASTER_LEVEL3";
+		private $_table4 = "MASTER_LEVEL4";
+		private $_table5 = "M_JNS_BHN_BKR";
+		
 		
 		private function _key($key) { //unit ID
 			if (!is_array($key)) {
@@ -20,7 +25,13 @@
 		}
 		
 		public function data($key = '') {
-			$this->db->from($this->_table1);
+			$this->db->select("a.VOLUME_MAX_PAKAI, a.THBL_MAX_PAKAI, e.NAMA_JNS_BHN_BKR, a.ID_MAX_PAKAI, b.LEVEL4, c.LEVEL3, d.LEVEL2, a.STATUS_MAX_PAKAI");
+			$this->db->from($this->_table1 . " as a");
+			$this->db->join($this->_table4 . " as b", "a.SLOC = b.SLOC", "left");
+			$this->db->join($this->_table3 . " as c", "c.STORE_SLOC = b.STORE_SLOC", "left");
+			$this->db->join($this->_table2 . " as d", "d.PLANT = c.PLANT", "left");
+			$this->db->join($this->_table5 . " as e", "e.ID_JNS_BHN_BKR = a.ID_JNS_BHN_BKR", "left");
+			$this->db->order_by("a.THBL_MAX_PAKAI", "desc");
 			
 			if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
@@ -83,11 +94,14 @@
 					if ($this->laccess->otoritas('edit'))
 						$aksi = anchor(null, '<i class="icon-close"></i>', array('class' => 'btn transparant', 'id' => 'button-deactive-' . $id, 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($module . '/deactive/' . $id)));
 				
-				$rows[$id] = array(
+				$rows[$no] = array(
 				'no' => $no++,
+				'level2' => $row->LEVEL2,
+				'level3' => $row->LEVEL3,
+				'level4' => $row->LEVEL4,
+				'jenis_bbm' => $row->NAMA_JNS_BHN_BKR,
                 'periode' => $row->THBL_MAX_PAKAI,
-                'volume' => $row->VOLUME_MAX_PAKAI,
-                'aksi' => $aksi
+                'volume' => number_format($row->VOLUME_MAX_PAKAI,0,"",".")
 				);
 			}
 			

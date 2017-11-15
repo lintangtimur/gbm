@@ -244,13 +244,16 @@ class stock_opname_model extends CI_Model {
 
 
     public function data_option($key = '', $id = '') {
-		if ($id)
-			$this->db->where("b.SLOC", $id);
+		if ($key !== ''){
+			$key["b.SLOC"] = $id;
+		}
+			// $this->db->where("b.SLOC", $id);
+		
 		$this->db->from('M_JNS_BHN_BKR as a');
 		$this->db->join("MASTER_TANGKI as b", "a.ID_JNS_BHN_BKR = b.ID_JNS_BHN_BKR");
 		
 		if (!empty($key) || is_array($key))
-		$this->db->where_condition($this->_key($key));
+			$this->db->where_condition($this->_key($key));
 		
 		return $this->db;
 	}
@@ -258,7 +261,7 @@ class stock_opname_model extends CI_Model {
     public function options_jns_bhn_bkr($default = '--Pilih Jenis Bahan Bakar--', $id = '') {
     
 		  $option = array();
-		  $list = $this->data_option()->get('', $id);
+		  $list = $this->data_option('', $id)->get();
 
         if (!empty($default)) {
             $option[''] = $default;

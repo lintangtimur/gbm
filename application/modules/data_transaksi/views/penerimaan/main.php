@@ -282,6 +282,7 @@
                 }
 
                 $('input[name="kata_kunci_detail"]').val('');
+                $('select[name="ORDER_BY_D"]').val('TGL_PENGAKUAN');
                  
                 get_sum_detail(tanggal); 
                 setTombolClossing(0); 
