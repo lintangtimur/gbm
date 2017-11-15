@@ -212,7 +212,7 @@
 						<td>Tanggal Stok Terakhir</td>
 						<td>Dead Stok</td>
 						<td>Volume Stok Akhir Real</td>
-						<td>Volume Stok Akhir Efektir</td>
+						<td>Volume Stok Akhir Efektif</td>
 						<td>SHO</td>
 						</tr>
 						</thead>

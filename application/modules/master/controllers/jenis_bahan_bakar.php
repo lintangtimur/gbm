@@ -51,7 +51,8 @@ class jenis_bahan_bakar extends MX_Controller {
             $bhn_bakar = $this->jenis_bahan_bakar_model->data($id);
             $data['default'] = $bhn_bakar->get()->row();
         }
-        $data['parent_options'] = $this->jenis_bahan_bakar_model->options();
+        $data['options_komponen1'] = $this->jenis_bahan_bakar_model->options_komponen1();
+        $data['options_komponen2'] = $this->jenis_bahan_bakar_model->options_komponen2();
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses');
         $this->load->view($this->_module . '/form', $data);
@@ -93,7 +94,10 @@ class jenis_bahan_bakar extends MX_Controller {
             $data = array();
             $data['KODE_JNS_BHN_BKR'] = $this->input->post('KODE_JNS_BHN_BKR');
             $data['NAMA_JNS_BHN_BKR'] = $this->input->post('NAMA_JNS_BHN_BKR');
-
+            $data['IS_MIX_JNS_BHN_BKR'] = $this->input->post("IS_MIX_JNS_BHN_BKR");
+            $data['KOMPONEN_1'] = $this->input->post("KOMPONEN_1");
+            $data['KOMPONEN_2'] = $this->input->post("KOMPONEN_2");
+            
             $kd_jns=$data['KODE_JNS_BHN_BKR']; 
             if ($id == '') {
                 if ($this->jenis_bahan_bakar_model->check_jns($kd_jns) == FALSE)

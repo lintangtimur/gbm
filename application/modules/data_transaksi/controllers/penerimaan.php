@@ -310,6 +310,10 @@ class penerimaan extends MX_Controller
 
     public function get_level_user()
     {
+        $data['options_order'] = $this->tbl_get->options_order();
+        $data['options_asc'] = $this->tbl_get->options_asc();
+        $data['options_order_d'] = $this->tbl_get->options_order_d();
+        $data['options_asc_d'] = $this->tbl_get->options_asc();
         $data['status_options'] = $this->tbl_get->options_status();
         $data['lv1_options'] = $this->tbl_get->options_lv1('--Pilih Level 1--', '-', 1);
         $data['lv2_options'] = $this->tbl_get->options_lv2('--Pilih Level 2--', '-', 1);
