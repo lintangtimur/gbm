@@ -17,6 +17,9 @@ function load_table(id, page, callback) {
     var pagination = $(id).attr('pagination');
     var st_paging = 'true';
 
+    $('#detailPenerimaan tbody tr').detach();
+    $('#table_detail').hide();
+
     if (typeof filter !== 'undefined') {
 
         /*$(filter).submit(function() {

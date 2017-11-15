@@ -127,6 +127,10 @@
     <input type="hidden" name="xlvl1">
     <input type="hidden" name="xlvl2">
     <input type="hidden" name="xlvl3">
+    <input type="hidden" name="xlvl0_nama">
+    <input type="hidden" name="xlvl1_nama">
+    <input type="hidden" name="xlvl2_nama">
+    <input type="hidden" name="xlvl3_nama">
     <input type="hidden" name="xlvl4">
     <input type="hidden" name="xbbm">
     <input type="hidden" name="xbln">
@@ -138,6 +142,10 @@
     <input type="hidden" name="plvl1">
     <input type="hidden" name="plvl2">
     <input type="hidden" name="plvl3">
+    <input type="hidden" name="plvl0_nama">
+    <input type="hidden" name="plvl1_nama">
+    <input type="hidden" name="plvl2_nama">
+    <input type="hidden" name="plvl3_nama">
     <input type="hidden" name="plvl4">
     <input type="hidden" name="pbbm">
     <input type="hidden" name="pbln">
@@ -250,12 +258,18 @@
             $('input[name="xlvl1"]').val($('#lvl1').val());
             $('input[name="xlvl2"]').val($('#lvl2').val());
             $('input[name="xlvl3"]').val($('#lvl3').val());
+
+            $('input[name="xlvl0_nama"]').val($('#lvl0 option:selected').text()); 
+            $('input[name="xlvl1_nama"]').val($('#lvl1 option:selected').text()); 
+            $('input[name="xlvl2_nama"]').val($('#lvl2 option:selected').text()); 
+            $('input[name="xlvl3_nama"]').val($('#lvl3 option:selected').text()); 
+
             $('input[name="xlvl4"]').val($('#lvl4').val());
             $('input[name="xbbm"]').val($('#bbm').val());
             $('input[name="xbln"]').val($('#bln').val());
             $('input[name="xthn"]').val($('#thn').val());
 
-            bootbox.confirm('Apakah yakin akan export data ?', "Tidak", "Ya", function(e) {
+            bootbox.confirm('Apakah yakin akan export data excel ?', "Tidak", "Ya", function(e) {
                 if(e){
                     $('#export_excel').submit();
                 }
@@ -272,12 +286,18 @@
             $('input[name="plvl1"]').val($('#lvl1').val());
             $('input[name="plvl2"]').val($('#lvl2').val());
             $('input[name="plvl3"]').val($('#lvl3').val());
+
+            $('input[name="plvl0_nama"]').val($('#lvl0 option:selected').text()); 
+            $('input[name="plvl1_nama"]').val($('#lvl1 option:selected').text()); 
+            $('input[name="plvl2_nama"]').val($('#lvl2 option:selected').text()); 
+            $('input[name="plvl3_nama"]').val($('#lvl3 option:selected').text()); 
+
             $('input[name="plvl4"]').val($('#lvl4').val());
             $('input[name="pbbm"]').val($('#bbm').val());
             $('input[name="pbln"]').val($('#bln').val());
             $('input[name="pthn"]').val($('#thn').val());
 
-            bootbox.confirm('Apakah yakin akan export data ?', "Tidak", "Ya", function(e) {
+            bootbox.confirm('Apakah yakin akan export data pdf ?', "Tidak", "Ya", function(e) {
                 if(e){
                     $('#export_pdf').submit();
                 }

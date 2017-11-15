@@ -117,8 +117,14 @@ class persediaan_bbm extends MX_Controller {
     public function export_excel(){
         $data['ID_REGIONAL'] = $this->input->post('xlvl0');
         $data['COCODE'] = $this->input->post('xlvl1');
-        $data['PLANT'] = $this->input->post('xlvl02');
+        $data['PLANT'] = $this->input->post('xlvl2');
         $data['STORE_SLOC'] = $this->input->post('xlvl3');
+
+        $data['ID_REGIONAL_NAMA'] = $this->input->post('xlvl0_nama');
+        $data['COCODE_NAMA'] = $this->input->post('xlvl1_nama');
+        $data['PLANT_NAMA'] = $this->input->post('xlvl2_nama');
+        $data['STORE_SLOC_NAMA'] = $this->input->post('xlvl3_nama');
+
         $data['SLOC'] = $this->input->post('xlvl4');
         $data['BBM'] = $this->input->post('xbbm');
         $data['BULAN'] = $this->input->post('xbln');
@@ -132,8 +138,15 @@ class persediaan_bbm extends MX_Controller {
     public function export_pdf(){
         $data['ID_REGIONAL'] = $this->input->post('plvl0');
         $data['COCODE'] = $this->input->post('plvl1');
-        $data['PLANT'] = $this->input->post('plvl02');
+        $data['PLANT'] = $this->input->post('plvl2');
         $data['STORE_SLOC'] = $this->input->post('plvl3');
+
+
+        $data['ID_REGIONAL_NAMA'] = $this->input->post('plvl0_nama');
+        $data['COCODE_NAMA'] = $this->input->post('plvl1_nama');
+        $data['PLANT_NAMA'] = $this->input->post('plvl2_nama');
+        $data['STORE_SLOC_NAMA'] = $this->input->post('plvl3_nama');
+
         $data['SLOC'] = $this->input->post('plvl4');
         $data['BBM'] = $this->input->post('pbbm');
         $data['BULAN'] = $this->input->post('pbln');

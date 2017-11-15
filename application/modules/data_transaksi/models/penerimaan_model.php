@@ -186,7 +186,7 @@ class penerimaan_model extends CI_Model
 
         if ($_POST['KATA_KUNCI_DETAIL'] !=''){
 
-            $filter="NO_PENERIMAAN LIKE '%".$_POST['KATA_KUNCI_DETAIL']."%' NAMA_PEMASOK LIKE '%".$_POST['KATA_KUNCI_DETAIL']."%' OR NAMA_TRANSPORTIR LIKE '%".$_POST['KATA_KUNCI_DETAIL']."%' OR NAMA_JNS_BHN_BKR LIKE '%".$_POST['KATA_KUNCI_DETAIL']."%' ";
+            $filter="NO_PENERIMAAN LIKE '%".$_POST['KATA_KUNCI_DETAIL']."%' OR NAMA_PEMASOK LIKE '%".$_POST['KATA_KUNCI_DETAIL']."%' OR NAMA_TRANSPORTIR LIKE '%".$_POST['KATA_KUNCI_DETAIL']."%' OR NAMA_JNS_BHN_BKR LIKE '%".$_POST['KATA_KUNCI_DETAIL']."%' ";
 
             $this->db->where("(".$filter.")", NULL, FALSE);
         }
@@ -549,8 +549,8 @@ class penerimaan_model extends CI_Model
     public function options_order_d() {
         $option = array();
         // $option[''] = '--Pilih--';
-        $option['NO_PENERIMAAN'] = 'NO PENERIMAAN';
         $option['TGL_PENGAKUAN'] = 'TGL PENGAKUAN';
+        $option['NO_PENERIMAAN'] = 'NO PENERIMAAN';
         $option['NAMA_PEMASOK'] = 'NAMA PEMASOK';
         $option['NAMA_TRANSPORTIR'] = 'TRANSPORTIR';
         $option['NAMA_JNS_BHN_BKR'] = 'JNS BHN BKR';
