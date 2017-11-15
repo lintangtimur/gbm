@@ -727,8 +727,10 @@
             for (i = 0; i < data_detail.length; i++) {
                 $('#TOTAL').html(formatNumber(data_detail[i].TOTAL));
                 if (!vIsAdd){
+                    $('#TOTAL').html(formatNumber(data_detail[i].TOTAL - data_detail[i].BELUM_KIRIM));
                     $('#BELUM_KIRIM').html(formatNumber(0));    
                 } else  {
+                    $('#TOTAL').html(formatNumber(data_detail[i].TOTAL));
                     $('#BELUM_KIRIM').html(formatNumber(data_detail[i].BELUM_KIRIM));
                 }
                 $('#BELUM_DISETUJUI').html(formatNumber(data_detail[i].BELUM_DISETUJUI));
