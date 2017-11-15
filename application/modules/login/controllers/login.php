@@ -103,7 +103,7 @@ class login extends MX_Controller {
             } else {
                 if ($ldap_user){
                     $login_message = 'Maaf, Username anda tidak terdaftar di sistem GBM, silahkan hubungi helpdesk untuk info lebih lanjut'; 
-                } else {
+                }else {
                     $login_message = 'Maaf, Username dan Password tidak sesuai.';    
                 }
             }

@@ -25,11 +25,6 @@
                             <div class="controls">
                             <?php echo form_input('NO_STOCKOPNAME', !empty($default->NO_STOCKOPNAME) ? $default->NO_STOCKOPNAME : '', 'class="span6"'); ?>
                              </div>
-                             <br>
-                            <label for="password" class="control-label">Pilih Jenis Bahan Bakar <span class="required">*</span> : </label>
-                            <div class="controls">
-                            <?php echo form_dropdown('ID_JNS_BHN_BKR', $parent_options_jns, !empty($default->ID_JNS_BHN_BKR) ? $default->ID_JNS_BHN_BKR : ''); ?> 
-                            </div>
                             <br>
                             <label  class="control-label">Regional <span class="required">*</span> : </label>
                             <div class="controls">
@@ -53,7 +48,12 @@
                             <br>
                             <label  class="control-label">Pembangkit<span class="required">*</span> : </label>
                             <div class="controls">
-                                <?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : ''); ?>
+                                <?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : '', "id='pembangkit'"); ?>
+                            </div>
+							 <br>
+                            <label for="password" class="control-label">Pilih Jenis Bahan Bakar <span class="required">*</span> : </label>
+                            <div class="controls">
+                            <?php echo form_dropdown('ID_JNS_BHN_BKR', $parent_options_jns, !empty($default->ID_JNS_BHN_BKR) ? $default->ID_JNS_BHN_BKR : '', "id='jnsbbm'"); ?> 
                             </div>
                             </div>                          
                         </div>
@@ -108,7 +108,10 @@
         todayBtn: true,
         pickerPosition: "bottom-left"
     });
-
+	$( "#pembangkit" ).change(function() {
+		var sloc = $(this).val();
+		load_jenis_bbm('<?php echo $urljnsbbm; ?>/' + sloc, "#jnsbbm");
+	});
     function cekTanggalBa(){
         var vDateStart = $("input[name=TGL_BA_STOCKOPNAME]").val();
         var vDateEnd = $("input[name=TGL_PENGAKUAN]").val();

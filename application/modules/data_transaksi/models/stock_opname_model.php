@@ -242,14 +242,35 @@ class stock_opname_model extends CI_Model {
         return array('total' => $total, 'rows' => $rows);
     }
 
-    public function data_option($key = '') {
-            $this->db->from('M_JNS_BHN_BKR');
-            
-            if (!empty($key) || is_array($key))
-            $this->db->where_condition($this->_key($key));
-            
-            return $this->db;
+
+    public function data_option($key = '', $id = '') {
+		if ($id)
+			$this->db->where("b.SLOC", $id);
+		$this->db->from('M_JNS_BHN_BKR as a');
+		$this->db->join("MASTER_TANGKI as b", "a.ID_JNS_BHN_BKR = b.ID_JNS_BHN_BKR");
+		
+		if (!empty($key) || is_array($key))
+		$this->db->where_condition($this->_key($key));
+		
+		return $this->db;
+	}
+
+    public function options_jns_bhn_bkr($default = '--Pilih Jenis Bahan Bakar--', $id = '') {
+    
+		  $option = array();
+		  $list = $this->data_option()->get('', $id);
+
+        if (!empty($default)) {
+            $option[''] = $default;
         }
+
+        foreach ($list->result() as $row) {
+            $option[$row->ID_JNS_BHN_BKR] = $row->NAMA_JNS_BHN_BKR;
+        }
+        return $option;    
+        
+    }
+
 
 
  public function options_reg($default = '--Pilih Regional--', $key = 'all') {
@@ -382,21 +403,21 @@ class stock_opname_model extends CI_Model {
         }
     }    
 // jangan dihapus dulu untuk jaga jaga
-    public function options_jns_bhn_bkr($default = '--Pilih Jenis Bahan Bakar--') {
+    // public function options_jns_bhn_bkr($default = '--Pilih Jenis Bahan Bakar--') {
         
-              $option = array();
-              $list = $this->data_option()->get();
+              // $option = array();
+              // $list = $this->data_option()->get();
     
-            if (!empty($default)) {
-                $option[''] = $default;
-            }
+            // if (!empty($default)) {
+                // $option[''] = $default;
+            // }
     
-            foreach ($list->result() as $row) {
-                $option[$row->ID_JNS_BHN_BKR] = $row->NAMA_JNS_BHN_BKR;
-            }
-            return $option;    
+            // foreach ($list->result() as $row) {
+                // $option[$row->ID_JNS_BHN_BKR] = $row->NAMA_JNS_BHN_BKR;
+            // }
+            // return $option;    
             
-        }
+        // }
 
     public function options_lv1_view($default = '--Pilih Level 1--') {
         $this->db->from('MASTER_LEVEL1');

@@ -133,8 +133,7 @@ class pemakaian_model extends CI_Model
     }
 
     function getTableViewDetail($tanggal=null){
-        // $data = $this->db->query("select * from VLOAD_LIST_DETAIL_PEMAKAIAN where DATE_FORMAT(TGL_PENGAKUAN,'%m%Y') = '".$tanggal."'");
-        // return $data->result();
+        $this->db->query("call PROC_EDIT_STATUS('".$this->input->post('TGL_PENGAKUAN')."', '3')");
 
         $this->db->from('VLOAD_LIST_DETAIL_PEMAKAIAN_V2');
 
@@ -193,7 +192,8 @@ class pemakaian_model extends CI_Model
 			// // $this->db->reconnect();
 		// }
 		// $this->db->reconnect();
-		$query = "call SP_TEMP_PEMAKAIAN('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$user."',".$jumlah.")";
+		// print_debug("call SP_TEMP_PEMAKAIAN('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$user."',".$jumlah.")");
+		$query = "call PROSES_PEMAKAIAN('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$user."',".$jumlah.")";
 		
 		$data = $this->db->query($query);
 		 $res = $data->result();

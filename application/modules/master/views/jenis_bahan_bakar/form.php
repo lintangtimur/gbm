@@ -74,13 +74,13 @@
             // document.getElementById('OPTION_KOMPONEN_1').required = true;
             // document.getElementById('OPTION_KOMPONEN_2').required = true;
             }   
-        }else{
+        else{
             hiddenKomponen();
             // $("#KOMPONEN_1").removeAttr('required');
             // $("#KOMPONEN_2").removeAttr('required');
             // document.getElementById('OPTION_KOMPONEN_1').required = false;
             // document.getElementById('OPTION_KOMPONEN_2').required = false;
-            }   
+		}   
     }
 
     $(function() {
