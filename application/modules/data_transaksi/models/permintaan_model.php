@@ -31,7 +31,13 @@ class permintaan_model extends CI_Model
 
     public function data($key = ''){
         $this->db->select('a.*, sum(a.COUNT_VOLUME) as JML, sum(a.SUM_volume) as JML_VOLUME');
-        $this->db->from($this->_table1.' a' );
+        // $this->db->from($this->_table1.' a' );
+
+        if ($this->laccess->otoritas('add')){
+            $this->db->from('VLOAD_LIST_NOMINASI_LV3 a' );
+        } else {
+            $this->db->from('VLOAD_LIST_NOMINASI_LV2 a' );
+        }
 
         if ($_POST['ID_REGIONAL'] !='') {
             $this->db->where('ID_REGIONAL',$_POST['ID_REGIONAL']);
@@ -80,6 +86,8 @@ class permintaan_model extends CI_Model
         // if ($_POST['SLOC'] !='') {
             $this->db->group_by('SLOC');
         // }
+
+        $this->db->order_by($_POST['ORDER_BY'].' '.$_POST['ORDER_ASC']);
 
         return $this->db;
     }
@@ -172,7 +180,18 @@ class permintaan_model extends CI_Model
             $this->db->where("KODE_STATUS",$_POST['STATUS']);   
         }
 
-        $this->db->order_by("TGL_MTS_NOMINASI, ID_PERMINTAAN asc");
+        if (!$this->laccess->otoritas('add')){
+            $this->db->where('STATUS !=','Belum Dikirim');    
+        }
+
+        if ($_POST['KATA_KUNCI_DETAIL'] !=''){
+
+            $filter="NO_NOMINASI LIKE '%".$_POST['KATA_KUNCI_DETAIL']."%' OR NAMA_JNS_BHN_BKR LIKE '%".$_POST['KATA_KUNCI_DETAIL']."%' OR NAMA_PEMASOK LIKE '%".$_POST['KATA_KUNCI_DETAIL']."%' ";
+
+            $this->db->where("(".$filter.")", NULL, FALSE);
+        }
+        
+        $this->db->order_by($_POST['ORDER_BY_D'].' '.$_POST['ORDER_ASC_D']);
 
         $data = $this->db->get();
 
@@ -400,6 +419,34 @@ class permintaan_model extends CI_Model
         $option[$year] = $year;
         $option[$year + 1] = $year + 1;
 
+        return $option;
+    }
+
+    public function options_order() {
+        $option = array();
+        // $option[''] = '--Pilih--';
+        $option['BLTH'] = 'BLTH';
+        $option['LEVEL4'] = 'PEMBANGKIT';
+        // $option['JML'] = 'JML';
+        // $option['JML_VOLUME'] = 'JML_VOLUME';
+        return $option;
+    }
+
+    public function options_order_d() {
+        $option = array();
+        // $option[''] = '--Pilih--';
+        $option['TGL_MTS_NOMINASI'] = 'TGL NOMINASI';
+        $option['NO_NOMINASI'] = 'NO NOMINASI';
+        $option['NAMA_PEMASOK'] = 'NAMA PEMASOK';
+        $option['NAMA_JNS_BHN_BKR'] = 'JNS BHN BKR';
+        return $option;
+    }
+
+    public function options_asc() {
+        $option = array();
+        // $option[''] = '--Pilih--';
+        $option['ASC'] = 'ASC';
+        $option['DESC'] = 'DESC';
         return $option;
     }
 

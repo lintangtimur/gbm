@@ -71,7 +71,22 @@
                             </div>
                         </div>
                         <div class="form_row">
-                            <div class="pull-left span5">
+                            <div class="pull-left span3">
+                                <label for="password" class="control-label">Order by :</label>
+                                <label for="password" class="control-label" style="margin-left:95px"></label>
+                                <div class="controls">
+                                    <?php echo form_dropdown('ORDER_BY', $options_order, '','style="width: 137px;", id="order"'); ?>
+                                    <?php echo form_dropdown('ORDER_ASC', $options_asc, '','style="width: 80px;", id="asc"'); ?>
+                                </div>
+                            </div>
+                            <div class="pull-left span3">
+                                <label for="password" class="control-label"><span class="required"></span></label>
+                                <div class="controls">
+                                    <?php echo anchor(NULL, "<i class='icon-search'></i> Filter", array('class' => 'btn', 'id' => 'button-filter')); ?>
+                                </div>
+                            </div>
+
+                            <!-- <div class="pull-left span5">
                                 <div class="controls">
                                     <table>
                                         <tr>
@@ -85,7 +100,7 @@
                                         </tr>
                                     </table>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <?php echo form_close(); ?>
                     </div>
@@ -117,24 +132,33 @@
                                         </table>
                                     </div>
                                 </div>
-                                <div class="pull-left span4">
+                            </div>
+                            <hr>
+                            <div class="form_row">
+                                <div class="pull-left span3">
+                                    <label for="password" class="control-label">Order by :</label>
+                                    <label for="password" class="control-label" style="margin-left:95px"></label>
                                     <div class="controls">
-                                        <table>
-                                            <tr>
-                                                <td colspan=2><label>Filter Status :</label>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><?php echo form_dropdown('CMB_STATUS', $status_options, !empty($default->VALUE_SETTING) ? $default->VALUE_SETTING : '', 'class="span15"'); ?></td>
-                                                <td> &nbsp </td>
-                                                <!-- <td><?php echo anchor(NULL, "<i class='icon-search'></i> Filter", array('class' => 'btn', 'id' => 'button-filter')); ?></td> -->
-                                            </tr>
-                                        </table>
-                                        <input type="hidden" name="vBLTH">
-                                        <input type="hidden" name="vSLOC">
-                                        <input type="hidden" name="vAKTIF">
+                                        <?php echo form_dropdown('ORDER_BY_D', $options_order_d, '','style="width: 137px;", id="order_d"'); ?>
+                                        <?php echo form_dropdown('ORDER_ASC_D', $options_asc_d, '','style="width: 80px;", id="asc_d"'); ?>
+                                    </div> 
+                                </div> 
+                                <div class="pull-left span3">
+                                    <label for="password" class="control-label">Filter Status : </label>
+                                    <div class="controls">
+                                        <?php echo form_dropdown('CMB_STATUS', $status_options, !empty($default->VALUE_SETTING) ? $default->VALUE_SETTING : '', 'class="span15"'); ?>
                                     </div>
-                                </div>
+                                    <input type="hidden" name="vBLTH">
+                                    <input type="hidden" name="vSLOC">
+                                    <input type="hidden" name="vAKTIF">
+                                </div> 
+                                <div class="pull-left span4">
+                                    <label for="password" class="control-label">Kata Kunci :</label>
+                                    <div class="controls">
+                                        <?php echo form_input('kata_kunci_detail', '', 'class="input-large"'); ?>
+                                        <?php echo anchor(NULL, "<i class='icon-search'></i> Filter", array('class' => 'btn', 'id' => 'button-filter-detail')); ?>
+                                    </div>
+                                </div>    
                                 <div class="pull-right">
                                     <div class="controls">
                                         <table>
@@ -163,11 +187,12 @@
                                 </div>
                             </div>
                         </div>
+                        <br>
                         <div class="content">
-                            <table class="table table-bordered table-striped" id="detailPermintaan">
+                            <table class="table table-bordered table-striped" id="detailPenerimaan">
                                 <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>NO NOMINASI</th>
                                     <th>TGL NOMINASI</th>
                                     <th>NAMA PEMASOK</th>
                                     <th>NAMA JNS BHN BKR</th>
@@ -221,12 +246,30 @@
             $('input[name="vBLTH"]').val(strArray[0]);
             $('input[name="vSLOC"]').val(strArray[1]);
             $('input[name="vAKTIF"]').val(strArray[2]);
-            $('#detailPermintaan tbody tr').detach();
+            $('#detailPenerimaan tbody tr').detach();
 
             if (strArray.length ==3){
-                $('select[name="CMB_STATUS"]').val('');  
+                var vLevelUser = "<?php echo $this->session->userdata('level_user'); ?>";
+                var vIsAdd = "<?php echo $this->laccess->otoritas('add'); ?>";
+
+                if (vLevelUser==2){
+                    if (vIsAdd){
+                        $('select[name="CMB_STATUS"]').val('0');
+                    } else {
+                        $('select[name="CMB_STATUS"]').val('1');    
+                    }
+                    
+                } else if (vLevelUser>2){
+                    $('select[name="CMB_STATUS"]').val('0');
+                } else {
+                    $('select[name="CMB_STATUS"]').val(''); 
+                }
+
+                $('input[name="kata_kunci_detail"]').val('');
+                $('select[name="ORDER_BY_D"]').val('NO_NOMINASI');
+                 
                 get_sum_detail(tanggal); 
-                setTombolClossing(0); 
+                setTombolClossing(0);
             }
 
             var data_kirim = {ID_REGIONAL: $('select[name="ID_REGIONAL"]').val(),
@@ -238,6 +281,9 @@
                 BULAN: $('select[name="BULAN"]').val(),
                 TAHUN: $('select[name="TAHUN"]').val(),
                 STATUS: $('select[name="CMB_STATUS"]').val(),
+                KATA_KUNCI_DETAIL: $('input[name="kata_kunci_detail"]').val(),
+                ORDER_BY_D: $('select[name="ORDER_BY_D"]').val(),
+                ORDER_ASC_D: $('select[name="ORDER_ASC_D"]').val(),
             };
 
             $.post("<?php echo base_url()?>data_transaksi/permintaan/getDataDetail/", data_kirim, function (data) {
@@ -273,37 +319,52 @@
                                     if(data_detail[i].CREATED_BY==vUserName){
                                         vSetEdit = vEdit;     
                                     }    
-                                }                               
+                                }  
+                                if(data_detail[i].CREATED_BY!=vUserName){
+                                         cekbox = '';   
+                                }                              
                             }
 
                             if (vIsApprove){
-                                if (data_detail[i].KODE_STATUS !== "1"){
+                                if ((data_detail[i].KODE_STATUS !== "1") && (data_detail[i].KODE_STATUS !== "5")){
                                     cekbox = '';
-                                }  
-
+                                } 
                                 if (data_detail[i].KODE_STATUS == "0"){
                                     vSetEdit = '';
-                                }                                 
+                                }    
+                                if (data_detail[i].KODE_STATUS == "5"){
+                                    if (vCmbStatus != "5"){
+                                        cekbox = '';
+                                    }
+                                }                               
                             }
                         }
 
                         if ((vLevelUser==3) || (vLevelUser==4)){
-                            if (data_detail[i].KODE_STATUS !== "0"){
+                            if ((data_detail[i].KODE_STATUS !== "0") && (data_detail[i].KODE_STATUS !== "4")){
                                 cekbox = '';
                             } 
                             if(data_detail[i].KODE_STATUS == "0"){
                                 if(data_detail[i].CREATED_BY==vUserName){
                                         vSetEdit = vEdit;     
-                                    }
+                                } 
                             }
+                            if (data_detail[i].KODE_STATUS == "4"){
+                                if (vCmbStatus != "4"){
+                                    cekbox = '';
+                                }
+                            }  
+                            if(data_detail[i].CREATED_BY!=vUserName){
+                                     cekbox = '';   
+                            } 
                         }
                     } else {
                        cekbox = ''; 
                     }
 
-                    $('#detailPermintaan tbody').append(
+                    $('#detailPenerimaan tbody').append(
                         '<tr>' +
-                        '<td align="center">' + data_detail[i].ID_PERMINTAAN + '</td>' +
+                        '<td align="center">' + data_detail[i].NO_NOMINASI + '</td>' +
                         '<td align="center">' + data_detail[i].TGL_MTS_NOMINASI + '</td>' +
                         '<td align="center">' + data_detail[i].NAMA_PEMASOK + '</td>' +
                         '<td align="center">' + data_detail[i].NAMA_JNS_BHN_BKR + '</td>' +
@@ -323,7 +384,7 @@
             $('#table_detail').show();
             pageScroll();
         } else {
-            $('#detailPermintaan tbody tr').detach();
+            $('#detailPenerimaan tbody tr').detach();
             $('#table_detail').hide();
             $('td').removeAttr('style');
         }
@@ -451,6 +512,15 @@
 		});
     }
 
+    $('#button-add').click(function(e) {
+        $('#detailPenerimaan tbody tr').detach();
+        $('#table_detail').hide();
+    });
+
+    $('#button-filter-detail').click(function(e) {
+        $('select[name="CMB_STATUS"]').change();
+    });
+
     jQuery(function ($) {
         load_table('#content_table', 1, '#ffilter');
         $('#button-filter').click(function () {
@@ -565,6 +635,7 @@
 
     function get_sum_detail(tanggal) {
         var vId = tanggal;
+        var vIsAdd = "<?php echo $this->laccess->otoritas('add'); ?>";
         var strArray = vId.split("|");
         var data = {SLOC: strArray[1],TGL_PENGAKUAN:strArray[0]};
 
@@ -572,8 +643,13 @@
             var data_detail = (JSON.parse(data));
 
             for (i = 0; i < data_detail.length; i++) {
-                $('#TOTAL').html(formatNumber(data_detail[i].TOTAL));
-                $('#BELUM_KIRIM').html(formatNumber(data_detail[i].BELUM_KIRIM));
+                if (!vIsAdd){
+                    $('#TOTAL').html(formatNumber(data_detail[i].TOTAL - data_detail[i].BELUM_KIRIM));
+                    $('#BELUM_KIRIM').html(formatNumber(0));    
+                } else  {
+                    $('#TOTAL').html(formatNumber(data_detail[i].TOTAL));
+                    $('#BELUM_KIRIM').html(formatNumber(data_detail[i].BELUM_KIRIM));
+                }
                 $('#BELUM_DISETUJUI').html(formatNumber(data_detail[i].BELUM_DISETUJUI));
                 $('#DISETUJUI').html(formatNumber(data_detail[i].DISETUJUI));
                 $('#DITOLAK').html(formatNumber(data_detail[i].DITOLAK));
@@ -588,11 +664,7 @@
         var vSTATUS = $(this).val();
         var vParam = vBLTH+'|'+vSLOC+'|'+vAKTIF+'|'+vSTATUS;
 
-        if (vSTATUS==4) {
-            setTombolClossing(1);   
-        } else {
-            setTombolClossing(0);    
-        }
+        setTombolClossing(vSTATUS); 
 
         show_detail(vParam);
         show_detail(vParam);
@@ -602,26 +674,27 @@
         var vIsApprove = "<?php echo $this->laccess->otoritas('approve'); ?>";
         var vIsAdd = "<?php echo $this->laccess->otoritas('add'); ?>";
 
-        if (stat==1){
-            if (vIsApprove){
-                $("#btn_approve").hide(); 
-                $("#btn_approve_cls").show();  
-            } 
+        if (vIsApprove){
+            $("#btn_approve").show(); 
+            $("#btn_approve_cls").hide();  
+        } 
+        if (vIsAdd){
+            $("#btn_kirim").show(); 
+            $("#btn_kirim_cls").hide();  
+
+        }    
+
+        if (stat==4){
             if (vIsAdd){
                 $("#btn_kirim").hide(); 
                 $("#btn_kirim_cls").show();  
 
-            }
-        } else {
-            if (vIsApprove){
-                $("#btn_approve").show(); 
-                $("#btn_approve_cls").hide();  
-            } 
-            if (vIsAdd){
-                $("#btn_kirim").show(); 
-                $("#btn_kirim_cls").hide();  
-
-            }
+            }            
+        } else if (stat==5){
+             if (vIsApprove){
+                $("#btn_approve").hide(); 
+                $("#btn_approve_cls").show();  
+            }            
         }
     }
 

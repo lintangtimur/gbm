@@ -320,7 +320,10 @@
                                     if(data_detail[i].CREATED_BY==vUserName){
                                         vSetEdit = vEdit;     
                                     }    
-                                }                               
+                                }  
+                                if(data_detail[i].CREATED_BY!=vUserName){
+                                         cekbox = '';   
+                                }                              
                             }
 
                             if (vIsApprove){
@@ -351,6 +354,9 @@
                                 if (vCmbStatus != "4"){
                                     cekbox = '';
                                 }
+                            } 
+                            if(data_detail[i].CREATED_BY!=vUserName){
+                                     cekbox = '';   
                             }  
                         }
                     } else {
