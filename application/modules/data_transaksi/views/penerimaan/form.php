@@ -88,6 +88,14 @@
                     <?php echo form_dropdown('ID_JNS_BHN_BKR', $option_jenis_bbm, !empty($default->ID_JNS_BHN_BKR) ? $default->ID_JNS_BHN_BKR : '', 'class="span3" id="jnsbbm"'); ?>
                 </div>
             </div>
+			
+			<div class="control-group" id="komponen" style="<?php echo !empty($default->IS_MIX_BBM) ? '' : 'display:none;' ;?>">
+                <label class="control-label">Komponen BBM<span class="required">*</span> : </label>
+                <div class="controls">
+                    <?php echo form_dropdown('KOMPONEN', $option_komponen, !empty($default->ID_KOMPONEN_BBM) ? $default->ID_KOMPONEN_BBM : '', 'class="span3" id="cbokomponen"'); ?>
+					<input type="hidden" id="ismix" name="ismix" value="<?php echo !empty($default->IS_MIX_BBM) ? $default->IS_MIX_BBM : '' ;?>" />
+                </div>
+            </div>
 
             <div class="control-group">
                 <label class="control-label">Volume DO/TUG<span class="required">*</span> : </label>
@@ -121,6 +129,11 @@
 	$( "#pembangkit" ).change(function() {
 		var sloc = $(this).val();
 		load_jenis_bbm('<?php echo $urljnsbbm; ?>/' + sloc, "#jnsbbm");
+	});
+	
+	$("#jnsbbm").change(function(){
+		var id  = $(this).val();
+		check_jenis_bbm('<?php echo $urlcheckjnsbbm;?>/' + id, "#komponen", "#cbokomponen");
 	});
 	
     $(".form_datetime").datepicker({

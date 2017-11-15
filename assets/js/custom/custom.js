@@ -197,3 +197,26 @@ function load_jenis_bbm(url, id){
 		$(id).html(html);
 	});
 }
+
+function check_jenis_bbm(url, div_komponen, cbo_komponen){
+	bootbox.modal('<div class="loading-progress"></div>');
+	$.ajax({
+		url: url,
+		method: "GET",
+		dataType: "json"
+	}).done(function(result) {
+		$(".bootbox").modal("hide");
+		html = "";
+		$("#ismix").val("0");
+		if (Object.keys(result).length > 1){
+			$(div_komponen).show();
+			for (val in result){
+				html += "<option value='"+val+"'>" + result[val] + "</option>";
+			}
+			$("#ismix").val("1");
+			$(cbo_komponen).html(html);
+		}else
+			$(div_komponen).hide();
+	});
+}
+

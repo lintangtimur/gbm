@@ -62,7 +62,7 @@ class penerimaan extends MX_Controller
 
         $level_user = $this->session->userdata('level_user');
         $kode_level = $this->session->userdata('kode_level');
-
+		$data['option_komponen'] = array();
         if ($level_user==2){
             $data_lv = $this->tbl_get->get_level($level_user+3,$kode_level);
             if ($data_lv){
@@ -76,13 +76,14 @@ class penerimaan extends MX_Controller
             $page_title = 'Edit Penerimaan';
             $get_tbl = $this->tbl_get->data_detail($id);
             $data['default'] = $get_tbl->get()->row();
-
+			
             $tgl_catat = new DateTime($data['default']->TGL_PENERIMAAN);
             $tgl_pengakuan = new DateTime($data['default']->TGL_PENGAKUAN);
 
             $data['default']->TGL_PENERIMAAN = $tgl_catat->format('d-m-Y');
             $data['default']->TGL_PENGAKUAN = $tgl_pengakuan->format('d-m-Y');
         }
+		$data['urlcheckjnsbbm'] = base_url($this->_module) .'/load_komponen';
 		$data['urljnsbbm'] = base_url($this->_module) .'/load_jenisbbm';
         $data['option_pemasok'] = $this->tbl_get->options_pemasok();
         $data['option_transportir'] = $this->tbl_get->options_transpotir();
@@ -90,6 +91,8 @@ class penerimaan extends MX_Controller
         $data['option_jenis_bbm'] = $this->tbl_get->options_jenis_bahan_bakar();
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses');
+		if ($id != '')
+			$data['option_komponen'] = $this->tbl_get->option_komponen($data['default']->ID_JNS_BHN_BKR);
         $this->load->view($this->_module . '/form', $data);
     }
 
@@ -165,6 +168,10 @@ class penerimaan extends MX_Controller
         $this->form_validation->set_rules('ID_JNS_BHN_BKR', 'Jenis Bahan Bakar', 'required');
         $this->form_validation->set_rules('VOL_PENERIMAAN', 'Volume DO/TUG', 'required|max_length[16]');
         $this->form_validation->set_rules('VOL_PENERIMAAN_REAL', 'Volume Penerimaan', 'required|max_length[16]');
+		
+		$ismix = $this->input->post('ismix');
+		if ($ismix == '1')
+			$this->form_validation->set_rules('KOMPONEN', 'Komponen Jenis BBm', 'required');
 
         if ($this->form_validation->run($this)) {
 
@@ -181,6 +188,8 @@ class penerimaan extends MX_Controller
             $data['VOL_PENERIMAAN'] =  str_replace(".","",$this->input->post('VOL_PENERIMAAN'));
             $data['VOL_PENERIMAAN_REAL'] = str_replace(".","",$this->input->post('VOL_PENERIMAAN_REAL')); ;
             $data['CREATE_BY'] = $this->session->userdata('user_name');
+			$data['IS_MIX'] = $this->input->post("ismix");
+			$data['ID_KOMPONEN'] = $this->input->post("KOMPONEN");
 
             $id = $this->input->post('id');
 
@@ -407,4 +416,8 @@ class penerimaan extends MX_Controller
 		echo json_encode($message);
 	}
 	
+	public function load_komponen($id = ''){
+		$message = $this->tbl_get->option_komponen($id);
+		echo json_encode($message);
+	}
 }
