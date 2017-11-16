@@ -5,6 +5,52 @@
  * @created at 17 OKTOBER 2017
  * @modified at 17 OKTOBER 2017
  */ -->
+ <style>
+    .author_bio_toggle_wrapper    
+    {
+            
+    }
+
+    #author_bio_wrap 
+    {
+        margin-top: 0px;  
+        margin-bottom: 30px; 
+        width: auto;
+        height: 150px; 
+    }
+    #author_bio_wrap_toggle 
+{
+    display: block;
+    width: 100%;
+    height: 35px;
+    line-height: 35px;
+    background: #337ab7;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    box-shadow: 2px 2px 3px #888888;
+    text-decoration:none;
+}
+
+#author_bio_wrap_toggle:hover 
+{
+    text-decoration:none;
+    border-top: 1px groove white;
+    border-left: 1px groove white;
+    border-bottom: 1px solid #7B7B78;
+    border-right: 1px solid #7B7B78;
+    color: #663200;
+    background: #EBEBB3;
+    box-shadow: 1px 1px 2px #888888;
+}
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    #author_bio_wrap {
+        height: 400px;
+    }
+}
+ </style>
  <div class="inner_content">
     <div class="statistic clearfix">
         <div class="current_page pull-left">
@@ -17,8 +63,12 @@
                 <div class="well-content no-search">
 					<div class="well">
                         <!-- <div class="pull-left"> -->
-                          <!-- /.row -->
-						  <div class="row">
+                        <!-- /.row -->
+
+                        <div class="author_bio_toggle_wrapper">
+                        <a href="#0" id="author_bio_wrap_toggle">Fitur Pencarian</a>
+                        </div> 
+                        <div id="author_bio_wrap" style="display: none;">
                                 <div class="col-md-12">
 									 <div class="form_row">
 										<div class="pull-left span3">
@@ -1193,4 +1243,28 @@
 		}
 
 
+</script>
+
+<script>
+jQuery(document).ready(function($)
+{
+  
+  $("#author_bio_wrap_toggle").click(function()
+  {
+    
+    $("#author_bio_wrap").slideToggle( "slow");
+    
+	  if ($("#author_bio_wrap_toggle").text() == "Pilih Pencarian")
+      {			
+        $("#author_bio_wrap_toggle").html("Hide Author Details")
+        $("#author_bio_wrap_toggle").text("Fitur Pencarian")
+      }
+	  else 
+      {		
+        $("#author_bio_wrap_toggle").text("Pilih Pencarian")
+      }
+    
+  });  
+  
+});
 </script>
