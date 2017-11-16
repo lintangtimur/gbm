@@ -375,13 +375,13 @@ class grafik_model extends CI_Model {
           
       
         if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == ''&& $ID =='00') {
-            $sql="CALL dashboard ('MFO','$BULAN','$TAHUN','Pusat','$PARAM')";
+            $sql="CALL dashboard ('BIO','$BULAN','$TAHUN','Pusat','$PARAM')";
             $query = $this->db->query($sql);
             
             return $query->result();
         }
         elseif ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == ''&& $ID =='') {
-            $sql="CALL dashboard ('MFO','$BULAN','$TAHUN','Pusat','$PARAM')";
+            $sql="CALL dashboard ('BIO','$BULAN','$TAHUN','Pusat','$PARAM')";
             $query = $this->db->query($sql);
             
             return $query->result();
@@ -440,13 +440,13 @@ class grafik_model extends CI_Model {
           
       
         if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == ''&& $ID =='00') {
-            $sql="CALL dashboard ('MFO','$BULAN','$TAHUN','Pusat','$PARAM')";
+            $sql="CALL dashboard ('HSD','$BULAN','$TAHUN','Pusat','$PARAM')";
             $query = $this->db->query($sql);
             
             return $query->result();
         }
         elseif ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == ''&& $ID =='') {
-            $sql="CALL dashboard ('MFO','$BULAN','$TAHUN','Pusat','$PARAM')";
+            $sql="CALL dashboard ('HSD','$BULAN','$TAHUN','Pusat','$PARAM')";
             $query = $this->db->query($sql);
             
             return $query->result();
@@ -507,13 +507,13 @@ class grafik_model extends CI_Model {
           
       
         if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == ''&& $ID =='00') {
-            $sql="CALL dashboard ('MFO','$BULAN','$TAHUN','Pusat','$PARAM')";
+            $sql="CALL dashboard ('HSD+BIO','$BULAN','$TAHUN','Pusat','$PARAM')";
             $query = $this->db->query($sql);
             
             return $query->result();
         }
         elseif ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == ''&& $ID =='') {
-            $sql="CALL dashboard ('MFO','$BULAN','$TAHUN','Pusat','$PARAM')";
+            $sql="CALL dashboard ('HSD+BIO','$BULAN','$TAHUN','Pusat','$PARAM')";
             $query = $this->db->query($sql);
             
             return $query->result();
@@ -573,13 +573,13 @@ class grafik_model extends CI_Model {
           
       
         if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == ''&& $ID =='00') {
-            $sql="CALL dashboard ('MFO','$BULAN','$TAHUN','Pusat','$PARAM')";
+            $sql="CALL dashboard ('IDO','$BULAN','$TAHUN','Pusat','$PARAM')";
             $query = $this->db->query($sql);
             
             return $query->result();
         }
         elseif ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == ''&& $ID =='') {
-            $sql="CALL dashboard ('MFO','$BULAN','$TAHUN','Pusat','$PARAM')";
+            $sql="CALL dashboard ('IDO','$BULAN','$TAHUN','Pusat','$PARAM')";
             $query = $this->db->query($sql);
             
             return $query->result();
