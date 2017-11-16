@@ -107,6 +107,27 @@ class permintaan extends MX_Controller
         $this->load->view($this->_module . '/form_edit', $data);
     }
 
+    public function edit_detail($id = '')
+    {
+        $data = $this->get_level_user();
+        $data['id'] = $id;
+        if ($id != '') {
+            $page_title = 'Detail Nominasi / Permintaan';
+            $get_tbl = $this->tbl_get->data_detail($id);
+            $data['default'] = $get_tbl->get()->row();
+
+            $tgl_catat = new DateTime($data['default']->TGL_MTS_NOMINASI);
+
+            $data['default']->TGL_MTS_NOMINASI = $tgl_catat->format('d-m-Y');
+        }
+
+        $data['option_pemasok'] = $this->tbl_get->options_pemasok();
+        $data['option_jenis_bbm'] = $this->tbl_get->options_jenis_bahan_bakar();
+        $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
+        $data['form_action'] = base_url($this->_module . '/proses');
+        $this->load->view($this->_module . '/form_detail', $data);
+    }
+
     public function edit($id)
     {
         $this->add($id);
@@ -150,6 +171,19 @@ class permintaan extends MX_Controller
         $this->form_validation->set_rules('SLOC', 'Pembangkit', 'required');
         $this->form_validation->set_rules('ID_JNS_BHN_BKR', 'Jenis Bahan Bakar', 'required');
         $this->form_validation->set_rules('VOLUME_NOMINASI', 'Volume Nominasi', 'required|max_length[16]');
+        $this->form_validation->set_rules('JML_KIRIM', 'Jumlah Pengiriman', 'required');
+
+        $x = $this->input->post('JML_KIRIM');
+
+        if ($x>0){
+            if ($x>31){
+                $x=31;
+            }
+            for ($i=1; $i<=$x; $i++) {
+                $this->form_validation->set_rules('tgl_ke'.$i, 'Tgl Kirim ke '.$i, 'required');
+                $this->form_validation->set_rules('vol_ke'.$i, 'Volume Kirim ke '.$i, 'required');
+            }
+        }
 
         if ($this->form_validation->run($this)) {
             $data = array();
@@ -162,12 +196,24 @@ class permintaan extends MX_Controller
             $data['CREATE_BY'] = $this->session->userdata('user_name');
             $data['PATH_FILE'] = '-';
 
+            $data_detail = array();
+            for ($i=1; $i<=$x; $i++)
+            {
+                $data_detail[$i] = array(
+                    'NO_NOMINASI' => $this->input->post('NO_NOMINASI'),
+                    'TGL_KIRIM' => date('Y-m-d', strtotime($this->input->post('tgl_ke'.$i))),
+                    'VOLUME_NOMINASI' => $this->input->post('vol_ke'.$i),
+                );
+            }
+
             $id = $this->input->post('id');
 
             if ($id!=null || $id!="") {
                 $data['ID_PERMINTAAN']=$id;
                 $simpan_data = $this->tbl_get->save_edit($data);
                 if ($simpan_data[0]->RCDB == 'RC00') {
+                    $simpan_data_detail = $this->tbl_get->delete_detail($data['NO_NOMINASI']);
+                    $simpan_data_detail = $this->tbl_get->save_detail($data_detail);
                     $message = array(true, 'Proses Update Berhasil', $simpan_data[0]->PESANDB, '#content_table');
                 } else {
                     $message = array(false, 'Proses Update Gagal', $simpan_data[0]->PESANDB, '');
@@ -175,6 +221,7 @@ class permintaan extends MX_Controller
             } else {
                 $simpan_data = $this->tbl_get->save($data);
                 if ($simpan_data[0]->RCDB == 'RC00') {
+                    $simpan_data_detail = $this->tbl_get->save_detail($data_detail);
                     $message = array(true, 'Proses Simpan Berhasil', $simpan_data[0]->PESANDB, '#content_table');
                 } else {
                     $message = array(false, 'Proses Simpan Gagal', $simpan_data[0]->PESANDB, '');
@@ -318,6 +365,11 @@ class permintaan extends MX_Controller
 
     public function get_sum_detail() {
         $message = $this->tbl_get->get_sum_detail();
+        echo json_encode($message);
+    }
+
+    public function get_detail_kirim($key=null) {
+        $message = $this->tbl_get->get_detail_kirim($key);
         echo json_encode($message);
     }
 

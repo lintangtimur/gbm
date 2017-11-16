@@ -100,7 +100,9 @@ class permintaan_model extends CI_Model
     }
 
     public function data_detail($key = ''){
-        $this->db->select('a.*, b.STORE_SLOC, c.PLANT, d.COCODE, e.ID_REGIONAL');
+
+        $sumKirim = ', (select COUNT(NO_NOMINASI) FROM MUTASI_NOMINASI_KIRIM mk WHERE mk.NO_NOMINASI=a.NO_NOMINASI) AS JML_KIRIM ';
+        $this->db->select('a.*, b.STORE_SLOC, c.PLANT, d.COCODE, e.ID_REGIONAL '.$sumKirim);
         $this->db->from($this->_table2.' a');
         $this->db->join('MASTER_LEVEL4 f', 'f.SLOC = a.SLOC','left');
         $this->db->join('MASTER_LEVEL3 b', 'b.STORE_SLOC = f.STORE_SLOC','left');
@@ -395,6 +397,16 @@ class permintaan_model extends CI_Model
         }
     }
 
+    public function get_detail_kirim($key) {
+        $q="SELECT date_format(TGL_KIRIM,'%d-%m-%Y') AS TGL_KIRIM, VOLUME_NOMINASI
+            FROM  MUTASI_NOMINASI_KIRIM
+            WHERE NO_NOMINASI='$key' ";
+
+        $query = $this->db->query($q);
+
+        return $query->result();  
+    }
+
     public function options_bulan() {
         $option = array();
         $option[''] = '--Pilih Bulan--';
@@ -536,6 +548,24 @@ class permintaan_model extends CI_Model
         $query = $this->db->query($sql);
         $this->db->close();
         return $query->result();
+    }
+
+    public function save_detail($data) {
+        $this->db->insert_batch('MUTASI_NOMINASI_KIRIM', $data);
+    }
+
+    public function delete_detail($key) {
+        $this->db->trans_begin();
+
+        $this->db->delete('MUTASI_NOMINASI_KIRIM', array('NO_NOMINASI' => $key)); 
+
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return FALSE;
+        } else {
+            $this->db->trans_commit();
+            return TRUE;
+        }
     }
 
     public function options_status() {

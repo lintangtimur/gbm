@@ -70,13 +70,50 @@
                     <?php echo form_dropdown('ID_JNS_BHN_BKR', $option_jenis_bbm, !empty($default->ID_JNS_BHN_BKR) ? $default->ID_JNS_BHN_BKR : '', 'class="span3" id="jnsbbm"'); ?>
                 </div>
             </div>
-
             <div class="control-group">
                 <label class="control-label">Volume<span class="required">*</span> : </label>
                 <div class="controls">
                     <?php echo form_input('VOLUME_NOMINASI', !empty($default->VOLUME_NOMINASI) ? $default->VOLUME_NOMINASI : '', 'class="span4" placeholder="Volume Nominasi"'); ?>
                 </div>
             </div>
+            <div class="control-group">
+                <label class="control-label">Jumlah Pengiriman<span class="required">*</span> : </label>
+                <div class="controls">
+                    <?php echo form_input('JML_KIRIM', !empty($default->JML_KIRIM) ? $default->JML_KIRIM : '', 'class="span4" placeholder="Jumlah Pengiriman" id="JML_KIRIM" '); ?>
+                     <?php echo anchor(null, 'Generate', array('id' => 'button-jml-kirim', 'class' => 'green btn', 'onclick' => "simpan_datax(this.id, '#finput', '#button-back')")); ?>
+                </div>
+            </div>
+
+            <br>
+            
+            <div class="content_table">
+                <div class="well-content clearfix">
+                        <div id='TextBoxesGroup'>
+                            <div id="TextBoxDiv0">
+                                <!-- <div class="form_row">
+                                    <div class="pull-left">
+                                        <label for="password" class="control-label">Tgl Kirim ke : 1</label>
+                                        <div class="controls">
+                                            <input type='text' id='textbox1' class="input-append date form_datetime">
+                                        </div>
+                                    </div>
+                                    <div class="pull-left">
+                                        <label for="password" class="control-label">Volume (L) ke : 1</label>
+                                        <div class="controls">
+                                            <input type='text' id='textbox1' class="input-append date form_datetime">
+                                        </div>
+                                    </div>
+                                </div><br>  -->   
+                            </div>
+                        </div>
+                        <input type='button' value='Add Button' id='addButton'>
+                        <input type='button' value='Remove Button' id='removeButton'>
+                        <input type='button' value='Get TextBox Value' id='getButtonValue'>                            
+                </div>
+
+            </div>
+
+
             <div class="form-actions">
                 <?php 
                 if ($this->laccess->otoritas('edit')) {
@@ -90,6 +127,97 @@
 </div>
 
 <script type="text/javascript">
+
+$(document).ready(function(){
+
+    var counter = 1;
+
+    $("#addButton").click(function () {
+
+        if(counter>31){
+                alert("Max 31 data yang diperbolehkan");
+                return false;
+        }
+
+        var newTextBoxDiv = $(document.createElement('div'))
+             .attr("id", 'TextBoxDiv' + counter);
+
+
+        var visi = '<div class="form_row"><div class="pull-left"><label for="password" class="control-label">Tgl Kirim ke : '+ counter + '</label><div class="controls"><input type="text" id="tgl_ke'+ counter + '" name="tgl_ke'+ counter + '" class="input-append date form_datetime" placeholder="Tanggal Kirim"></div></div><div class="pull-left"><label for="password" class="control-label">Volume (L) ke : '+ counter + '</label><div class="controls"><input type="text" id="vol_ke'+ counter + '" name="vol_ke'+ counter + '" placeholder="Volume (L)"></div></div></div><br>';     
+
+        // newTextBoxDiv.after().html('<label>Textbox #'+ counter + ' : </label>' +
+        //       '<input type="text" name="textbox' + counter +
+        //       '" id="textbox' + counter + '" value="" >');
+
+        newTextBoxDiv.after().html(visi);
+
+        newTextBoxDiv.appendTo("#TextBoxesGroup");
+
+
+        counter++;
+    });
+
+    $("#removeButton").click(function () {
+        if(counter==1){
+            //alert("No more textbox to remove");
+            return false;
+        }
+
+        counter--;
+
+        $("#TextBoxDiv" + counter).remove();
+
+    });
+
+    $("#getButtonValue").click(function () {
+        var msg = '';
+        for(i=1; i<counter; i++){
+            msg += "\n Textbox #" + i + " : " + $('#tgl_ke' + i).val();
+        }
+        alert(msg);
+    });
+
+    $("#button-jml-kirim").click(function () {
+        var x = $('#JML_KIRIM').val(); 
+
+        if(x>31){
+            var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i> Max 31 data jumlah pengiriman yang diperbolehkan</div>';
+            bootbox.alert(message, function() {});
+            $('#JML_KIRIM').val('31');
+        }
+
+        for (i = 1; i <= 31; i++) {
+            $("#TextBoxDiv"+i).hide();
+        }
+
+        for (i = 1; i <= x; i++) {
+            // $("#tgl_ke"+i).val('');
+            // $("#vol_ke"+i).val('');
+            $("#TextBoxDiv"+i).show();
+
+        }
+
+    });
+
+    for (i = 0; i < 31; i++) {
+        $("#addButton").click();
+    }
+
+    for (i = 1; i <= 31; i++) {
+        $("#TextBoxDiv"+i).hide();
+    }
+    $("#addButton").hide();
+    $("#removeButton").hide();
+    $("#getButtonValue").hide();
+
+    
+    if ($('input[name=id]').val()){
+        get_detail($('input[name=NO_NOMINASI]').val());    
+    }
+});
+
+
+
     $(".form_datetime").datepicker({
         format: "dd-mm-yyyy",
         autoclose: true,
@@ -103,6 +231,12 @@
 	});
 
     $('input[name=VOLUME_NOMINASI]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    });
+
+    $('input[name=JML_KIRIM]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    });
+
+    $('input[name=vol_ke]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
     });
     
     function setDefaultLv1(){
@@ -202,4 +336,23 @@
             });
         }
     });
+
+    function get_detail(vId) {
+        var vlink_url = '<?php echo base_url()?>data_transaksi/permintaan/get_detail_kirim/'+vId;
+        var i=0;
+        $.ajax({
+            url: vlink_url,
+            type: "GET",
+            dataType: "json",
+            success:function(data) {
+                $.each(data, function(key, value) {
+                    i = i+1;
+                    $("#tgl_ke"+i).val(value.TGL_KIRIM);
+                    $("#vol_ke"+i).val(value.VOLUME_NOMINASI);
+                    $("#TextBoxDiv"+i).show();
+                });
+            }
+        });
+    };
+
 </script>
