@@ -253,7 +253,7 @@
                     </div>
                     
                      <div class="well-content clearfix" id="divTable">
-					  <table id="dataTable" class="table table-bordered table-striped">
+					  <table id="dataTable" class="table table-bordered table-striped" style="max-height:600px; overflow-y:auto; display:block">
 						<thead>
 						<tr>
 						<td>No</td>
