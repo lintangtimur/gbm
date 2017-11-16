@@ -207,7 +207,7 @@
 						<thead>
 						<tr>
 						<td>No</td>
-						<td>Pembangkit</td>
+						<td>Unit</td>
 						<td>Jenis Bahan Bakar</td>
 						<td>Tanggal Stok Terakhir</td>
 						<td>Dead Stok</td>
@@ -675,9 +675,9 @@
         var lvl4 = $('#lvl4').val();
         var bln = $('#bln').val();
         var thn = $('#thn').val();
-        if (lvl0 == '') {
-            bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
-        } else {
+        // if (lvl0 == '') {
+        //     bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
+        // } else {
             bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
                 $.ajax({
                     type: "POST",
@@ -702,7 +702,7 @@
                         };
                     }
                 });
-        };
+        // };
 	}
 	
 	function loadDataHsd(){
@@ -713,9 +713,9 @@
         var lvl4 = $('#lvl4').val();
         var bln = $('#bln').val();
         var thn = $('#thn').val();
-        if (lvl0 == '') {
+        // if (lvl0 == '') {
             
-        } else {
+        // } else {
             bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
                 $.ajax({
                     type: "POST",
@@ -740,7 +740,7 @@
                         };
                     }
                 });
-        };
+        // };
 	}
 	
 	function loadDataMfo(){
@@ -751,9 +751,9 @@
         var lvl4 = $('#lvl4').val();
         var bln = $('#bln').val();
         var thn = $('#thn').val();
-        if (lvl0 == '') {
+        // if (lvl0 == '') {
             
-        } else {
+        // } else {
             bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
                 $.ajax({
                     type: "POST",
@@ -778,7 +778,7 @@
                         };
                     }
                 });
-        };
+        // };
 	}
 	
 	function loadDataHsdBio(){
@@ -789,9 +789,9 @@
         var lvl4 = $('#lvl4').val();
         var bln = $('#bln').val();
         var thn = $('#thn').val();
-        if (lvl0 == '') {
+        // if (lvl0 == '') {
            
-        } else {
+        // } else {
             bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
                 $.ajax({
                     type: "POST",
@@ -816,7 +816,7 @@
                         };
                     }
                 });
-        };
+        // };
 	}
 	
 	function loadDataIdo(){
@@ -827,9 +827,9 @@
         var lvl4 = $('#lvl4').val();
         var bln = $('#bln').val();
         var thn = $('#thn').val();
-        if (lvl0 == '') {
+        // if (lvl0 == '') {
             
-        } else {
+        // } else {
             bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
                 $.ajax({
                     type: "POST",
@@ -854,7 +854,7 @@
                         };
                     }
                 });
-        };
+        // };
 	}
 
     function hiddenTable(){
@@ -885,9 +885,9 @@
 			var lvl4 = $('#lvl4').val();
 			var bln = $('#bln').val();
 			var thn = $('#thn').val();
-			if (lvl0 == '') {
-				bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
-			} else {
+			// if (lvl0 == '') {
+			// 	// bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
+			// } else {
 				bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
 					$.ajax({
 						type: "POST",
@@ -906,26 +906,28 @@
                          var nomer = 1;
                          $.each(obj, function (index, value) {
                            
-                            var LEVEL4 = value.LEVEL4 == null ? "" : value.LEVEL4;
+                            var UNIT = value.UNIT == null ? "" : value.UNIT;
                             var NAMA_JNS_BHN_BKR = value.NAMA_JNS_BHN_BKR == null ? "" : value.NAMA_JNS_BHN_BKR;
                             var TGL_MUTASI_PERSEDIAAN = value.TGL_MUTASI_PERSEDIAAN == null ? "" : value.TGL_MUTASI_PERSEDIAAN;
                             var DEAD_STOCK = value.DEAD_STOCK == null ? "" : value.DEAD_STOCK;
                             var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
                             var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
                             var SHO = value.SHO == null ? "" : value.SHO;
-                            var SHO = SHO.toString().replace(/\./g, ',');  
+                            // var SHO = SHO.toString().replace(/\./g, ',');  
+                            var SHO1 = Number(SHO).toFixed(2);  
+                            
                             
 
                             var strRow =
                                     '<tr>' +
                                     '<td>' + nomer + '</td>' +
-                                    '<td>' + LEVEL4 + '</td>' +
+                                    '<td>' + UNIT + '</td>' +
                                     '<td>' + NAMA_JNS_BHN_BKR + '</td>' +
                                     '<td>' + TGL_MUTASI_PERSEDIAAN + '</td>' +
                                     '<td align="right">' + convertToRupiah(DEAD_STOCK) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
-                                    '<td align="right">' + SHO + '</td>' +
+                                    '<td align="right">' + SHO1 + '</td>' +
                                     '</tr>';
                             nomer++;
 
@@ -935,7 +937,7 @@
 							};
 						}
 					});
-			};
+			// };
 		}
 
 		function loadTableHsd(){
@@ -946,9 +948,9 @@
 			var lvl4 = $('#lvl4').val();
 			var bln = $('#bln').val();
 			var thn = $('#thn').val();
-			if (lvl0 == '') {
-				bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
-			} else {
+			// if (lvl0 == '') {
+			// 	bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
+			// } else {
 				bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
 					$.ajax({
 						type: "POST",
@@ -967,26 +969,28 @@
                          var nomer = 1;
                          $.each(obj, function (index, value) {
                            
-                            var LEVEL4 = value.LEVEL4 == null ? "" : value.LEVEL4;
+                            var UNIT = value.UNIT == null ? "" : value.UNIT;
                             var NAMA_JNS_BHN_BKR = value.NAMA_JNS_BHN_BKR == null ? "" : value.NAMA_JNS_BHN_BKR;
                             var TGL_MUTASI_PERSEDIAAN = value.TGL_MUTASI_PERSEDIAAN == null ? "" : value.TGL_MUTASI_PERSEDIAAN;
                             var DEAD_STOCK = value.DEAD_STOCK == null ? "" : value.DEAD_STOCK;
                             var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
                             var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
                             var SHO = value.SHO == null ? "" : value.SHO;
-                            var SHO = SHO.toString().replace(/\./g, ',');  
+                            // var SHO = SHO.toString().replace(/\./g, ',');  
+                            var SHO1 = Number(SHO).toFixed(2);  
+                            
                             
 
                             var strRow =
                                     '<tr>' +
                                     '<td>' + nomer + '</td>' +
-                                    '<td>' + LEVEL4 + '</td>' +
+                                    '<td>' + UNIT + '</td>' +
                                     '<td>' + NAMA_JNS_BHN_BKR + '</td>' +
                                     '<td>' + TGL_MUTASI_PERSEDIAAN + '</td>' +
                                     '<td align="right">' + convertToRupiah(DEAD_STOCK) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
-                                    '<td align="right">' + SHO + '</td>' +
+                                    '<td align="right">' + SHO1 + '</td>' +
                                     '</tr>';
                             nomer++;
 
@@ -996,7 +1000,7 @@
 							};
 						}
 					});
-			};
+			// };
 		}
 
 		function loadTableBio(){
@@ -1007,9 +1011,9 @@
 			var lvl4 = $('#lvl4').val();
 			var bln = $('#bln').val();
 			var thn = $('#thn').val();
-			if (lvl0 == '') {
-				bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
-			} else {
+			// if (lvl0 == '') {
+			// 	bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
+			// } else {
 				bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
 					$.ajax({
 						type: "POST",
@@ -1028,26 +1032,28 @@
                          var nomer = 1;
                          $.each(obj, function (index, value) {
                            
-                            var LEVEL4 = value.LEVEL4 == null ? "" : value.LEVEL4;
+                            var UNIT = value.UNIT == null ? "" : value.UNIT;
                             var NAMA_JNS_BHN_BKR = value.NAMA_JNS_BHN_BKR == null ? "" : value.NAMA_JNS_BHN_BKR;
                             var TGL_MUTASI_PERSEDIAAN = value.TGL_MUTASI_PERSEDIAAN == null ? "" : value.TGL_MUTASI_PERSEDIAAN;
                             var DEAD_STOCK = value.DEAD_STOCK == null ? "" : value.DEAD_STOCK;
                             var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
                             var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
                             var SHO = value.SHO == null ? "" : value.SHO;
-                            var SHO = SHO.toString().replace(/\./g, ',');  
+                            // var SHO = SHO.toString().replace(/\./g, ',');  
+                            var SHO1 = Number(SHO).toFixed(2);  
+                            
                             
 
                             var strRow =
                                     '<tr>' +
                                     '<td>' + nomer + '</td>' +
-                                    '<td>' + LEVEL4 + '</td>' +
+                                    '<td>' + UNIT + '</td>' +
                                     '<td>' + NAMA_JNS_BHN_BKR + '</td>' +
                                     '<td>' + TGL_MUTASI_PERSEDIAAN + '</td>' +
                                     '<td align="right">' + convertToRupiah(DEAD_STOCK) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
-                                    '<td align="right">' + SHO + '</td>' +
+                                    '<td align="right">' + SHO1 + '</td>' +
                                     '</tr>';
                             nomer++;
 
@@ -1057,7 +1063,7 @@
 							};
 						}
 					});
-			};
+			// };
 		}
 
 		function loadTableMfo(){
@@ -1068,9 +1074,9 @@
 			var lvl4 = $('#lvl4').val();
 			var bln = $('#bln').val();
 			var thn = $('#thn').val();
-			if (lvl0 == '') {
-				bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
-			} else {
+			// if (lvl0 == '') {
+			// 	bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
+			// } else {
 				bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
 					$.ajax({
 						type: "POST",
@@ -1089,26 +1095,28 @@
                          var nomer = 1;
                          $.each(obj, function (index, value) {
                            
-                            var LEVEL4 = value.LEVEL4 == null ? "" : value.LEVEL4;
+                            var UNIT = value.UNIT == null ? "" : value.UNIT;
                             var NAMA_JNS_BHN_BKR = value.NAMA_JNS_BHN_BKR == null ? "" : value.NAMA_JNS_BHN_BKR;
                             var TGL_MUTASI_PERSEDIAAN = value.TGL_MUTASI_PERSEDIAAN == null ? "" : value.TGL_MUTASI_PERSEDIAAN;
                             var DEAD_STOCK = value.DEAD_STOCK == null ? "" : value.DEAD_STOCK;
                             var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
                             var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
                             var SHO = value.SHO == null ? "" : value.SHO;
-                            var SHO = SHO.toString().replace(/\./g, ',');  
+                            // var SHO = SHO.toString().replace(/\./g, ',');  
+                            var SHO1 = Number(SHO).toFixed(2);  
+                            
                             
 
                             var strRow =
                                     '<tr>' +
                                     '<td>' + nomer + '</td>' +
-                                    '<td>' + LEVEL4 + '</td>' +
+                                    '<td>' + UNIT + '</td>' +
                                     '<td>' + NAMA_JNS_BHN_BKR + '</td>' +
                                     '<td>' + TGL_MUTASI_PERSEDIAAN + '</td>' +
                                     '<td align="right">' + convertToRupiah(DEAD_STOCK) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
-                                    '<td align="right">' + SHO + '</td>' +
+                                    '<td align="right">' + SHO1 + '</td>' +
                                     '</tr>';
                             nomer++;
 
@@ -1118,7 +1126,7 @@
 							};
 						}
 					});
-			};
+			// };
 		}
 		
 		function loadTableIdo(){
@@ -1129,9 +1137,9 @@
 			var lvl4 = $('#lvl4').val();
 			var bln = $('#bln').val();
 			var thn = $('#thn').val();
-			if (lvl0 == '') {
-				bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
-			} else {
+			// if (lvl0 == '') {
+			// 	bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
+			// } else {
 				bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
 					$.ajax({
 						type: "POST",
@@ -1150,26 +1158,28 @@
                          var nomer = 1;
                          $.each(obj, function (index, value) {
                            
-                            var LEVEL4 = value.LEVEL4 == null ? "" : value.LEVEL4;
+                            var UNIT = value.UNIT == null ? "" : value.UNIT;
                             var NAMA_JNS_BHN_BKR = value.NAMA_JNS_BHN_BKR == null ? "" : value.NAMA_JNS_BHN_BKR;
                             var TGL_MUTASI_PERSEDIAAN = value.TGL_MUTASI_PERSEDIAAN == null ? "" : value.TGL_MUTASI_PERSEDIAAN;
                             var DEAD_STOCK = value.DEAD_STOCK == null ? "" : value.DEAD_STOCK;
                             var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
                             var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
                             var SHO = value.SHO == null ? "" : value.SHO;
-                            var SHO = SHO.toString().replace(/\./g, ',');  
+                            // var SHO = SHO.toString().replace(/\./g, ',');  
+                            var SHO1 = Number(SHO).toFixed(2);  
+                            
                             
 
                             var strRow =
                                     '<tr>' +
                                     '<td>' + nomer + '</td>' +
-                                    '<td>' + LEVEL4 + '</td>' +
+                                    '<td>' + UNIT + '</td>' +
                                     '<td>' + NAMA_JNS_BHN_BKR + '</td>' +
                                     '<td>' + TGL_MUTASI_PERSEDIAAN + '</td>' +
                                     '<td align="right">' + convertToRupiah(DEAD_STOCK) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
-                                    '<td align="right">' + SHO + '</td>' +
+                                    '<td align="right">' + SHO1 + '</td>' +
                                     '</tr>';
                             nomer++;
 
@@ -1179,7 +1189,7 @@
 							};
 						}
 					});
-			};
+			// };
 		}
 
 

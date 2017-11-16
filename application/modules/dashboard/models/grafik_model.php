@@ -37,8 +37,11 @@ class grafik_model extends CI_Model {
         $TAHUN = $data['TAHUN'];   
         $PARAM = '';
 
-        
-        if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == '') {
+
+        if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == ''&& $ID =='') {
+            $PARAM = "F.ID_REGIONAL != '' ";
+        }
+        else if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == '') {
             $PARAM = "F.ID_REGIONAL = '$ID'";
         } elseif ($PLANT == '' && $STORE_SLOC == '' && $SLOC == '') {
             $PARAM = "E.COCODE  = '$COCODE'";
@@ -46,24 +49,25 @@ class grafik_model extends CI_Model {
             $PARAM = "D.PLANT = '$PLANT'";
         } elseif ($SLOC == '') {
             $PARAM = "C.STORE_SLOC = '$STORE_SLOC'";
-        } else {
+        } 
+        else {
            $PARAM = "B.SLOC = '$SLOC'";
         }
-        $sql = "SELECT SUM(A.STOCK_AKHIR_REAL) AS STOK FROM (SELECT B.LEVEL4,G.NAMA_JNS_BHN_BKR,
-                A.TGL_MUTASI_PERSEDIAAN,
+        $sql = "SELECT SUM(B.STOCK_AKHIR_REAL) AS STOK FROM(SELECT * FROM (SELECT B.LEVEL4, A.TGL_MUTASI_PERSEDIAAN,G.NAMA_JNS_BHN_BKR,
                 A.DEAD_STOCK,
-                A.STOCK_AKHIR_REAL,A.STOCK_AKHIR_EFEKTIF,A.SHO
-                FROM REKAP_MUTASI_PERSEDIAAN A
+                A.STOCK_AKHIR_REAL,A.STOCK_AKHIR_EFEKTIF,A.SHO,F.NAMA_REGIONAL,E.LEVEL1, D.LEVEL2, C.LEVEL3
+		        FROM REKAP_MUTASI_PERSEDIAAN A
                 INNER JOIN MASTER_LEVEL4 B ON B.SLOC=A.SLOC 
                 INNER JOIN MASTER_LEVEL3 C ON C.STORE_SLOC = B.STORE_SLOC
                 INNER JOIN MASTER_LEVEL2 D ON D.PLANT = B.PLANT
                 INNER JOIN MASTER_LEVEL1 E ON E.COCODE=D.COCODE
                 INNER JOIN MASTER_REGIONAL F ON F.ID_REGIONAL=E.ID_REGIONAL
                 INNER JOIN M_JNS_BHN_BKR G ON G.ID_JNS_BHN_BKR=A.ID_JNS_BHN_BKR
-                WHERE $PARAM AND G.NAMA_JNS_BHN_BKR = 'MFO' AND MONTH(A.TGL_MUTASI_PERSEDIAAN) = '$BULAN' AND YEAR(A.TGL_MUTASI_PERSEDIAAN) = '$TAHUN' 
-                AND A.IS_AKTIF_MUTASI_PERSEDIAAN = '1' 
-				GROUP BY F.NAMA_REGIONAL, E.LEVEL1,D.LEVEL2,C.LEVEL3,B.LEVEL4,G.NAMA_JNS_BHN_BKR
-                ORDER BY A.TGL_MUTASI_PERSEDIAAN DESC) A
+                WHERE $PARAM AND G.NAMA_JNS_BHN_BKR = 'MFO' AND MONTH(A.TGL_MUTASI_PERSEDIAAN) = '11' AND YEAR(A.TGL_MUTASI_PERSEDIAAN) = '2017' 
+                AND A.IS_AKTIF_MUTASI_PERSEDIAAN = '1'
+                ORDER BY A.TGL_MUTASI_PERSEDIAAN DESC)
+                AS A 
+                GROUP BY A.NAMA_REGIONAL, A.LEVEL1,A.LEVEL2,A.LEVEL3,A.LEVEL4,A.NAMA_JNS_BHN_BKR) AS B
         ";
          
        $query = $this->db->query($sql);
@@ -83,8 +87,11 @@ class grafik_model extends CI_Model {
         $TAHUN = $data['TAHUN'];   
         $PARAM = '';
 
-        
-        if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == '') {
+
+        if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == ''&& $ID =='') {
+            $PARAM = "F.ID_REGIONAL != '' ";
+        }
+        else if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == '') {
             $PARAM = "F.ID_REGIONAL = '$ID'";
         } elseif ($PLANT == '' && $STORE_SLOC == '' && $SLOC == '') {
             $PARAM = "E.COCODE  = '$COCODE'";
@@ -92,24 +99,25 @@ class grafik_model extends CI_Model {
             $PARAM = "D.PLANT = '$PLANT'";
         } elseif ($SLOC == '') {
             $PARAM = "C.STORE_SLOC = '$STORE_SLOC'";
-        } else {
+        } 
+        else {
            $PARAM = "B.SLOC = '$SLOC'";
         }
-        $sql = "SELECT SUM(A.STOCK_AKHIR_REAL) AS STOK FROM (SELECT B.LEVEL4,G.NAMA_JNS_BHN_BKR,
-                A.TGL_MUTASI_PERSEDIAAN,
+        $sql = "SELECT SUM(B.STOCK_AKHIR_REAL) AS STOK FROM(SELECT * FROM (SELECT B.LEVEL4, A.TGL_MUTASI_PERSEDIAAN,G.NAMA_JNS_BHN_BKR,
                 A.DEAD_STOCK,
-                A.STOCK_AKHIR_REAL,A.STOCK_AKHIR_EFEKTIF,A.SHO
-                FROM REKAP_MUTASI_PERSEDIAAN A
+                A.STOCK_AKHIR_REAL,A.STOCK_AKHIR_EFEKTIF,A.SHO,F.NAMA_REGIONAL,E.LEVEL1, D.LEVEL2, C.LEVEL3
+		        FROM REKAP_MUTASI_PERSEDIAAN A
                 INNER JOIN MASTER_LEVEL4 B ON B.SLOC=A.SLOC 
                 INNER JOIN MASTER_LEVEL3 C ON C.STORE_SLOC = B.STORE_SLOC
                 INNER JOIN MASTER_LEVEL2 D ON D.PLANT = B.PLANT
                 INNER JOIN MASTER_LEVEL1 E ON E.COCODE=D.COCODE
                 INNER JOIN MASTER_REGIONAL F ON F.ID_REGIONAL=E.ID_REGIONAL
                 INNER JOIN M_JNS_BHN_BKR G ON G.ID_JNS_BHN_BKR=A.ID_JNS_BHN_BKR
-                WHERE $PARAM AND G.NAMA_JNS_BHN_BKR = 'HSD' AND MONTH(A.TGL_MUTASI_PERSEDIAAN) = '$BULAN' AND YEAR(A.TGL_MUTASI_PERSEDIAAN) = '$TAHUN' 
-                AND A.IS_AKTIF_MUTASI_PERSEDIAAN = '1' 
-				GROUP BY F.NAMA_REGIONAL, E.LEVEL1,D.LEVEL2,C.LEVEL3,B.LEVEL4,G.NAMA_JNS_BHN_BKR
-                ORDER BY A.TGL_MUTASI_PERSEDIAAN DESC) A
+                WHERE $PARAM AND G.NAMA_JNS_BHN_BKR = 'HSD' AND MONTH(A.TGL_MUTASI_PERSEDIAAN) = '11' AND YEAR(A.TGL_MUTASI_PERSEDIAAN) = '2017' 
+                AND A.IS_AKTIF_MUTASI_PERSEDIAAN = '1'
+                ORDER BY A.TGL_MUTASI_PERSEDIAAN DESC)
+                AS A 
+                GROUP BY A.NAMA_REGIONAL, A.LEVEL1,A.LEVEL2,A.LEVEL3,A.LEVEL4,A.NAMA_JNS_BHN_BKR) AS B
         ";
          
        $query = $this->db->query($sql);
@@ -125,13 +133,16 @@ class grafik_model extends CI_Model {
         $COCODE = $data['COCODE']; 
         $PLANT = $data['PLANT'];
         $STORE_SLOC = $data['STORE_SLOC'];
-        $SLOC = $data['SLOC']; 
+        $SLOC = $data['SLOC'];  
         $BULAN = $data['BULAN'];   
         $TAHUN = $data['TAHUN'];   
         $PARAM = '';
 
-        
-        if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == '') {
+
+        if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == ''&& $ID =='') {
+            $PARAM = "F.ID_REGIONAL != '' ";
+        }
+        else if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == '') {
             $PARAM = "F.ID_REGIONAL = '$ID'";
         } elseif ($PLANT == '' && $STORE_SLOC == '' && $SLOC == '') {
             $PARAM = "E.COCODE  = '$COCODE'";
@@ -139,24 +150,25 @@ class grafik_model extends CI_Model {
             $PARAM = "D.PLANT = '$PLANT'";
         } elseif ($SLOC == '') {
             $PARAM = "C.STORE_SLOC = '$STORE_SLOC'";
-        } else {
+        } 
+        else {
            $PARAM = "B.SLOC = '$SLOC'";
         }
-        $sql = "SELECT SUM(A.STOCK_AKHIR_REAL) AS STOK FROM (SELECT B.LEVEL4,G.NAMA_JNS_BHN_BKR,
-                A.TGL_MUTASI_PERSEDIAAN,
+        $sql = "SELECT SUM(B.STOCK_AKHIR_REAL) AS STOK FROM(SELECT * FROM (SELECT B.LEVEL4, A.TGL_MUTASI_PERSEDIAAN,G.NAMA_JNS_BHN_BKR,
                 A.DEAD_STOCK,
-                A.STOCK_AKHIR_REAL,A.STOCK_AKHIR_EFEKTIF,A.SHO
-                FROM REKAP_MUTASI_PERSEDIAAN A
+                A.STOCK_AKHIR_REAL,A.STOCK_AKHIR_EFEKTIF,A.SHO,F.NAMA_REGIONAL,E.LEVEL1, D.LEVEL2, C.LEVEL3
+		        FROM REKAP_MUTASI_PERSEDIAAN A
                 INNER JOIN MASTER_LEVEL4 B ON B.SLOC=A.SLOC 
                 INNER JOIN MASTER_LEVEL3 C ON C.STORE_SLOC = B.STORE_SLOC
                 INNER JOIN MASTER_LEVEL2 D ON D.PLANT = B.PLANT
                 INNER JOIN MASTER_LEVEL1 E ON E.COCODE=D.COCODE
                 INNER JOIN MASTER_REGIONAL F ON F.ID_REGIONAL=E.ID_REGIONAL
                 INNER JOIN M_JNS_BHN_BKR G ON G.ID_JNS_BHN_BKR=A.ID_JNS_BHN_BKR
-                WHERE $PARAM AND G.NAMA_JNS_BHN_BKR = 'BIO' AND MONTH(A.TGL_MUTASI_PERSEDIAAN) = '$BULAN' AND YEAR(A.TGL_MUTASI_PERSEDIAAN) = '$TAHUN' 
-                AND A.IS_AKTIF_MUTASI_PERSEDIAAN = '1' 
-				GROUP BY F.NAMA_REGIONAL, E.LEVEL1,D.LEVEL2,C.LEVEL3,B.LEVEL4,G.NAMA_JNS_BHN_BKR
-                ORDER BY A.TGL_MUTASI_PERSEDIAAN DESC) A
+                WHERE $PARAM AND G.NAMA_JNS_BHN_BKR = 'BIO' AND MONTH(A.TGL_MUTASI_PERSEDIAAN) = '11' AND YEAR(A.TGL_MUTASI_PERSEDIAAN) = '2017' 
+                AND A.IS_AKTIF_MUTASI_PERSEDIAAN = '1'
+                ORDER BY A.TGL_MUTASI_PERSEDIAAN DESC)
+                AS A 
+                GROUP BY A.NAMA_REGIONAL, A.LEVEL1,A.LEVEL2,A.LEVEL3,A.LEVEL4,A.NAMA_JNS_BHN_BKR) AS B
         ";
          
        $query = $this->db->query($sql);
@@ -167,7 +179,6 @@ class grafik_model extends CI_Model {
     
 
      public function getVolHsdBio($data){
-      
         $ID = $data['ID_REGIONAL'];
         $COCODE = $data['COCODE']; 
         $PLANT = $data['PLANT'];
@@ -177,8 +188,11 @@ class grafik_model extends CI_Model {
         $TAHUN = $data['TAHUN'];   
         $PARAM = '';
 
-        
-        if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == '') {
+
+        if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == ''&& $ID =='') {
+            $PARAM = "F.ID_REGIONAL != '' ";
+        }
+        else if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == '') {
             $PARAM = "F.ID_REGIONAL = '$ID'";
         } elseif ($PLANT == '' && $STORE_SLOC == '' && $SLOC == '') {
             $PARAM = "E.COCODE  = '$COCODE'";
@@ -186,24 +200,25 @@ class grafik_model extends CI_Model {
             $PARAM = "D.PLANT = '$PLANT'";
         } elseif ($SLOC == '') {
             $PARAM = "C.STORE_SLOC = '$STORE_SLOC'";
-        } else {
+        } 
+        else {
            $PARAM = "B.SLOC = '$SLOC'";
         }
-        $sql = "SELECT SUM(A.STOCK_AKHIR_REAL) AS STOK FROM (SELECT B.LEVEL4,G.NAMA_JNS_BHN_BKR,
-                A.TGL_MUTASI_PERSEDIAAN,
+        $sql = "SELECT SUM(B.STOCK_AKHIR_REAL) AS STOK FROM(SELECT * FROM (SELECT B.LEVEL4, A.TGL_MUTASI_PERSEDIAAN,G.NAMA_JNS_BHN_BKR,
                 A.DEAD_STOCK,
-                A.STOCK_AKHIR_REAL,A.STOCK_AKHIR_EFEKTIF,A.SHO
-                FROM REKAP_MUTASI_PERSEDIAAN A
+                A.STOCK_AKHIR_REAL,A.STOCK_AKHIR_EFEKTIF,A.SHO,F.NAMA_REGIONAL,E.LEVEL1, D.LEVEL2, C.LEVEL3
+		        FROM REKAP_MUTASI_PERSEDIAAN A
                 INNER JOIN MASTER_LEVEL4 B ON B.SLOC=A.SLOC 
                 INNER JOIN MASTER_LEVEL3 C ON C.STORE_SLOC = B.STORE_SLOC
                 INNER JOIN MASTER_LEVEL2 D ON D.PLANT = B.PLANT
                 INNER JOIN MASTER_LEVEL1 E ON E.COCODE=D.COCODE
                 INNER JOIN MASTER_REGIONAL F ON F.ID_REGIONAL=E.ID_REGIONAL
                 INNER JOIN M_JNS_BHN_BKR G ON G.ID_JNS_BHN_BKR=A.ID_JNS_BHN_BKR
-                WHERE $PARAM AND G.NAMA_JNS_BHN_BKR = 'HSD+BIO' AND MONTH(A.TGL_MUTASI_PERSEDIAAN) = '$BULAN' AND YEAR(A.TGL_MUTASI_PERSEDIAAN) = '$TAHUN' 
-                AND A.IS_AKTIF_MUTASI_PERSEDIAAN = '1' 
-				GROUP BY F.NAMA_REGIONAL, E.LEVEL1,D.LEVEL2,C.LEVEL3,B.LEVEL4,G.NAMA_JNS_BHN_BKR
-                ORDER BY A.TGL_MUTASI_PERSEDIAAN DESC) A
+                WHERE $PARAM AND G.NAMA_JNS_BHN_BKR = 'HSD+BIO' AND MONTH(A.TGL_MUTASI_PERSEDIAAN) = '11' AND YEAR(A.TGL_MUTASI_PERSEDIAAN) = '2017' 
+                AND A.IS_AKTIF_MUTASI_PERSEDIAAN = '1'
+                ORDER BY A.TGL_MUTASI_PERSEDIAAN DESC)
+                AS A 
+                GROUP BY A.NAMA_REGIONAL, A.LEVEL1,A.LEVEL2,A.LEVEL3,A.LEVEL4,A.NAMA_JNS_BHN_BKR) AS B
         ";
          
        $query = $this->db->query($sql);
@@ -224,8 +239,11 @@ class grafik_model extends CI_Model {
         $TAHUN = $data['TAHUN'];   
         $PARAM = '';
 
-        
-        if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == '') {
+
+        if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == ''&& $ID =='') {
+            $PARAM = "F.ID_REGIONAL != '' ";
+        }
+        else if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == '') {
             $PARAM = "F.ID_REGIONAL = '$ID'";
         } elseif ($PLANT == '' && $STORE_SLOC == '' && $SLOC == '') {
             $PARAM = "E.COCODE  = '$COCODE'";
@@ -233,70 +251,26 @@ class grafik_model extends CI_Model {
             $PARAM = "D.PLANT = '$PLANT'";
         } elseif ($SLOC == '') {
             $PARAM = "C.STORE_SLOC = '$STORE_SLOC'";
-        } else {
+        } 
+        else {
            $PARAM = "B.SLOC = '$SLOC'";
         }
-        $sql = "SELECT SUM(A.STOCK_AKHIR_REAL) AS STOK FROM (SELECT B.LEVEL4,G.NAMA_JNS_BHN_BKR,
-                A.TGL_MUTASI_PERSEDIAAN,
+        $sql = "SELECT SUM(B.STOCK_AKHIR_REAL) AS STOK FROM(SELECT * FROM (SELECT B.LEVEL4, A.TGL_MUTASI_PERSEDIAAN,G.NAMA_JNS_BHN_BKR,
                 A.DEAD_STOCK,
-                A.STOCK_AKHIR_REAL,A.STOCK_AKHIR_EFEKTIF,A.SHO
-                FROM REKAP_MUTASI_PERSEDIAAN A
+                A.STOCK_AKHIR_REAL,A.STOCK_AKHIR_EFEKTIF,A.SHO,F.NAMA_REGIONAL,E.LEVEL1, D.LEVEL2, C.LEVEL3
+		        FROM REKAP_MUTASI_PERSEDIAAN A
                 INNER JOIN MASTER_LEVEL4 B ON B.SLOC=A.SLOC 
                 INNER JOIN MASTER_LEVEL3 C ON C.STORE_SLOC = B.STORE_SLOC
                 INNER JOIN MASTER_LEVEL2 D ON D.PLANT = B.PLANT
                 INNER JOIN MASTER_LEVEL1 E ON E.COCODE=D.COCODE
                 INNER JOIN MASTER_REGIONAL F ON F.ID_REGIONAL=E.ID_REGIONAL
                 INNER JOIN M_JNS_BHN_BKR G ON G.ID_JNS_BHN_BKR=A.ID_JNS_BHN_BKR
-                WHERE $PARAM AND G.NAMA_JNS_BHN_BKR = 'IDO' AND MONTH(A.TGL_MUTASI_PERSEDIAAN) = '$BULAN' AND YEAR(A.TGL_MUTASI_PERSEDIAAN) = '$TAHUN' 
-                AND A.IS_AKTIF_MUTASI_PERSEDIAAN = '1' 
-				GROUP BY F.NAMA_REGIONAL, E.LEVEL1,D.LEVEL2,C.LEVEL3,B.LEVEL4,G.NAMA_JNS_BHN_BKR
-                ORDER BY A.TGL_MUTASI_PERSEDIAAN DESC) A
+                WHERE $PARAM AND G.NAMA_JNS_BHN_BKR = 'IDO' AND MONTH(A.TGL_MUTASI_PERSEDIAAN) = '11' AND YEAR(A.TGL_MUTASI_PERSEDIAAN) = '2017' 
+                AND A.IS_AKTIF_MUTASI_PERSEDIAAN = '1'
+                ORDER BY A.TGL_MUTASI_PERSEDIAAN DESC)
+                AS A 
+                GROUP BY A.NAMA_REGIONAL, A.LEVEL1,A.LEVEL2,A.LEVEL3,A.LEVEL4,A.NAMA_JNS_BHN_BKR) AS B
         ";
-
-       $query = $this->db->query($sql);
-      
-        return $query->result();
-
-     }
-
-     public function getTableMfo($data)
-     {
-        $ID = $data['ID_REGIONAL'];
-        $COCODE = $data['COCODE']; 
-        $PLANT = $data['PLANT'];
-        $STORE_SLOC = $data['STORE_SLOC'];
-        $SLOC = $data['SLOC']; 
-        $BULAN = $data['BULAN'];   
-        $TAHUN = $data['TAHUN'];   
-        $PARAM = '';
-
-        
-        if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == '') {
-            $PARAM = "F.ID_REGIONAL = '$ID'";
-        } elseif ($PLANT == '' && $STORE_SLOC == '' && $SLOC == '') {
-            $PARAM = "E.COCODE  = '$COCODE'";
-        } elseif ($STORE_SLOC == '' && $SLOC == '') {
-            $PARAM = "D.PLANT = '$PLANT'";
-        } elseif ($SLOC == '') {
-            $PARAM = "C.STORE_SLOC = '$STORE_SLOC'";
-        } else {
-           $PARAM = "B.SLOC = '$SLOC'";
-        }
-        $sql = "SELECT B.LEVEL4,G.NAMA_JNS_BHN_BKR,
-                A.TGL_MUTASI_PERSEDIAAN,
-                A.DEAD_STOCK,
-                A.STOCK_AKHIR_REAL,A.STOCK_AKHIR_EFEKTIF,A.SHO
-                FROM REKAP_MUTASI_PERSEDIAAN A
-                INNER JOIN MASTER_LEVEL4 B ON B.SLOC=A.SLOC 
-                INNER JOIN MASTER_LEVEL3 C ON C.STORE_SLOC = B.STORE_SLOC
-                INNER JOIN MASTER_LEVEL2 D ON D.PLANT = B.PLANT
-                INNER JOIN MASTER_LEVEL1 E ON E.COCODE=D.COCODE
-                INNER JOIN MASTER_REGIONAL F ON F.ID_REGIONAL=E.ID_REGIONAL
-                INNER JOIN M_JNS_BHN_BKR G ON G.ID_JNS_BHN_BKR=A.ID_JNS_BHN_BKR
-                WHERE $PARAM AND G.NAMA_JNS_BHN_BKR = 'MFO' AND MONTH(A.TGL_MUTASI_PERSEDIAAN) = '$BULAN' AND YEAR(A.TGL_MUTASI_PERSEDIAAN) = '$TAHUN' 
-                AND A.IS_AKTIF_MUTASI_PERSEDIAAN = '1' 
-				GROUP BY F.NAMA_REGIONAL, E.LEVEL1,D.LEVEL2,C.LEVEL3,B.LEVEL4,G.NAMA_JNS_BHN_BKR
-                ORDER BY A.TGL_MUTASI_PERSEDIAAN DESC";
          
        $query = $this->db->query($sql);
         
@@ -304,9 +278,9 @@ class grafik_model extends CI_Model {
 
      }
 
-     public function getTableBio($data)
+     public function getTableMfo($data)
      {
-
+        
         $ID = $data['ID_REGIONAL'];
         $COCODE = $data['COCODE']; 
         $PLANT = $data['PLANT'];
@@ -316,37 +290,110 @@ class grafik_model extends CI_Model {
         $TAHUN = $data['TAHUN'];   
         $PARAM = '';
 
-        
-        if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == '') {
-            $PARAM = "F.ID_REGIONAL = '$ID'";
-        } elseif ($PLANT == '' && $STORE_SLOC == '' && $SLOC == '') {
-            $PARAM = "E.COCODE  = '$COCODE'";
-        } elseif ($STORE_SLOC == '' && $SLOC == '') {
-            $PARAM = "D.PLANT = '$PLANT'";
-        } elseif ($SLOC == '') {
-            $PARAM = "C.STORE_SLOC = '$STORE_SLOC'";
-        } else {
-           $PARAM = "B.SLOC = '$SLOC'";
+          
+      
+        if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == ''&& $ID =='') {
+            $sql="CALL dashboard ('MFO','$BULAN','$TAHUN','Pusat','$PARAM')";
+            $query = $this->db->query($sql);
+            
+            return $query->result();
         }
-        $sql = "SELECT B.LEVEL4,G.NAMA_JNS_BHN_BKR,
-                A.TGL_MUTASI_PERSEDIAAN,
-                A.DEAD_STOCK,
-                A.STOCK_AKHIR_REAL,A.STOCK_AKHIR_EFEKTIF,A.SHO
-                FROM REKAP_MUTASI_PERSEDIAAN A
-                INNER JOIN MASTER_LEVEL4 B ON B.SLOC=A.SLOC 
-                INNER JOIN MASTER_LEVEL3 C ON C.STORE_SLOC = B.STORE_SLOC
-                INNER JOIN MASTER_LEVEL2 D ON D.PLANT = B.PLANT
-                INNER JOIN MASTER_LEVEL1 E ON E.COCODE=D.COCODE
-                INNER JOIN MASTER_REGIONAL F ON F.ID_REGIONAL=E.ID_REGIONAL
-                INNER JOIN M_JNS_BHN_BKR G ON G.ID_JNS_BHN_BKR=A.ID_JNS_BHN_BKR
-                WHERE $PARAM AND G.NAMA_JNS_BHN_BKR = 'BIO' AND MONTH(A.TGL_MUTASI_PERSEDIAAN) = '$BULAN' AND YEAR(A.TGL_MUTASI_PERSEDIAAN) = '$TAHUN' 
-                AND A.IS_AKTIF_MUTASI_PERSEDIAAN = '1' 
-				GROUP BY F.NAMA_REGIONAL, E.LEVEL1,D.LEVEL2,C.LEVEL3,B.LEVEL4,G.NAMA_JNS_BHN_BKR
-                ORDER BY A.TGL_MUTASI_PERSEDIAAN DESC";
-                
-       $query = $this->db->query($sql);
+        elseif ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == '') {
+            $PARAM = "$ID";
+
+            $sql="CALL dashboard ('MFO','$BULAN','$TAHUN','Regional','$PARAM')";
+            $query = $this->db->query($sql);
+            
+            return $query->result();
+        } elseif ($PLANT == '' && $STORE_SLOC == '' && $SLOC == '') {
+            $PARAM = "$COCODE";
+
+            $sql="CALL dashboard ('MFO','$BULAN','$TAHUN','Level 1','$PARAM')";
+            $query = $this->db->query($sql);
+            
+            return $query->result();
+        } elseif ($STORE_SLOC == '' && $SLOC == '') {
+            $PARAM = "$PLANT";
+
+            $sql="CALL dashboard ('MFO','$BULAN','$TAHUN','Level 2','$PARAM')";
+            $query = $this->db->query($sql);
+            
+            return $query->result();
+        } elseif ($SLOC == '') {
+            $PARAM = "$STORE_SLOC";
+
+            $sql="CALL dashboard ('MFO','$BULAN','$TAHUN','Level 3','$PARAM')";
+            $query = $this->db->query($sql);
+            
+            return $query->result();
+        } else{
+           $PARAM = "$SLOC";
+
+           $sql="CALL dashboard ('MFO','$BULAN','$TAHUN','Level 4','$PARAM')";
+           $query = $this->db->query($sql);
+           
+           return $query->result();
+        }
+
+     }
+
+     public function getTableBio($data)
+     {
+
         
-        return $query->result();
+        $ID = $data['ID_REGIONAL'];
+        $COCODE = $data['COCODE']; 
+        $PLANT = $data['PLANT'];
+        $STORE_SLOC = $data['STORE_SLOC'];
+        $SLOC = $data['SLOC']; 
+        $BULAN = $data['BULAN'];   
+        $TAHUN = $data['TAHUN'];   
+        $PARAM = '';
+
+          
+      
+        if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == ''&& $ID =='') {
+            $sql="CALL dashboard ('BIO','$BULAN','$TAHUN','Pusat','$PARAM')";
+            $query = $this->db->query($sql);
+            
+            return $query->result();
+        }
+        elseif ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == '') {
+            $PARAM = "$ID";
+
+            $sql="CALL dashboard ('BIO','$BULAN','$TAHUN','Regional','$PARAM')";
+            $query = $this->db->query($sql);
+            
+            return $query->result();
+        } elseif ($PLANT == '' && $STORE_SLOC == '' && $SLOC == '') {
+            $PARAM = "$COCODE";
+
+            $sql="CALL dashboard ('BIO','$BULAN','$TAHUN','Level 1','$PARAM')";
+            $query = $this->db->query($sql);
+            
+            return $query->result();
+        } elseif ($STORE_SLOC == '' && $SLOC == '') {
+            $PARAM = "$PLANT";
+
+            $sql="CALL dashboard ('BIO','$BULAN','$TAHUN','Level 2','$PARAM')";
+            $query = $this->db->query($sql);
+            
+            return $query->result();
+        } elseif ($SLOC == '') {
+            $PARAM = "$STORE_SLOC";
+
+            $sql="CALL dashboard ('BIO','$BULAN','$TAHUN','Level 3','$PARAM')";
+            $query = $this->db->query($sql);
+            
+            return $query->result();
+        } else{
+           $PARAM = "$SLOC";
+
+           $sql="CALL dashboard ('BIO','$BULAN','$TAHUN','Level 4','$PARAM')";
+           $query = $this->db->query($sql);
+           
+           return $query->result();
+        }
 
      }
 
@@ -362,44 +409,58 @@ class grafik_model extends CI_Model {
         $TAHUN = $data['TAHUN'];   
         $PARAM = '';
 
-        
-        if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == '') {
-            $PARAM = "F.ID_REGIONAL = '$ID'";
-        } elseif ($PLANT == '' && $STORE_SLOC == '' && $SLOC == '') {
-            $PARAM = "E.COCODE  = '$COCODE'";
-        } elseif ($STORE_SLOC == '' && $SLOC == '') {
-            $PARAM = "D.PLANT = '$PLANT'";
-        } elseif ($SLOC == '') {
-            $PARAM = "C.STORE_SLOC = '$STORE_SLOC'";
-        } else {
-           $PARAM = "B.SLOC = '$SLOC'";
+          
+      
+        if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == ''&& $ID =='') {
+            $sql="CALL dashboard ('HSD','$BULAN','$TAHUN','Pusat','$PARAM')";
+            $query = $this->db->query($sql);
+            
+            return $query->result();
         }
-        $sql = "SELECT B.LEVEL4,G.NAMA_JNS_BHN_BKR,
-                A.TGL_MUTASI_PERSEDIAAN,
-                A.DEAD_STOCK,
-                A.STOCK_AKHIR_REAL,A.STOCK_AKHIR_EFEKTIF,A.SHO
-                FROM REKAP_MUTASI_PERSEDIAAN A
-                INNER JOIN MASTER_LEVEL4 B ON B.SLOC=A.SLOC 
-                INNER JOIN MASTER_LEVEL3 C ON C.STORE_SLOC = B.STORE_SLOC
-                INNER JOIN MASTER_LEVEL2 D ON D.PLANT = B.PLANT
-                INNER JOIN MASTER_LEVEL1 E ON E.COCODE=D.COCODE
-                INNER JOIN MASTER_REGIONAL F ON F.ID_REGIONAL=E.ID_REGIONAL
-                INNER JOIN M_JNS_BHN_BKR G ON G.ID_JNS_BHN_BKR=A.ID_JNS_BHN_BKR
-                WHERE $PARAM AND G.NAMA_JNS_BHN_BKR = 'HSD' AND MONTH(A.TGL_MUTASI_PERSEDIAAN) = '$BULAN' AND YEAR(A.TGL_MUTASI_PERSEDIAAN) = '$TAHUN' 
-                AND A.IS_AKTIF_MUTASI_PERSEDIAAN = '1' 
-				GROUP BY F.NAMA_REGIONAL, E.LEVEL1,D.LEVEL2,C.LEVEL3,B.LEVEL4,G.NAMA_JNS_BHN_BKR
-                ORDER BY A.TGL_MUTASI_PERSEDIAAN DESC";
+        elseif ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == '') {
+            $PARAM = "$ID";
 
-         
-       $query = $this->db->query($sql);
+            $sql="CALL dashboard ('HSD','$BULAN','$TAHUN','Regional','$PARAM')";
+            $query = $this->db->query($sql);
+            
+            return $query->result();
+        } elseif ($PLANT == '' && $STORE_SLOC == '' && $SLOC == '') {
+            $PARAM = "$COCODE";
+
+            $sql="CALL dashboard ('HSD','$BULAN','$TAHUN','Level 1','$PARAM')";
+            $query = $this->db->query($sql);
+            
+            return $query->result();
+        } elseif ($STORE_SLOC == '' && $SLOC == '') {
+            $PARAM = "$PLANT";
+
+            $sql="CALL dashboard ('HSD','$BULAN','$TAHUN','Level 2','$PARAM')";
+            $query = $this->db->query($sql);
+            
+            return $query->result();
+        } elseif ($SLOC == '') {
+            $PARAM = "$STORE_SLOC";
+
+            $sql="CALL dashboard ('HSD','$BULAN','$TAHUN','Level 3','$PARAM')";
+            $query = $this->db->query($sql);
+            
+            return $query->result();
+        } else{
+           $PARAM = "$SLOC";
+
+           $sql="CALL dashboard ('HSD','$BULAN','$TAHUN','Level 4','$PARAM')";
+           $query = $this->db->query($sql);
+           
+           return $query->result();
+        }
         
-        return $query->result();
 
      }
 
      public function getTableHsdBio($data)
      {
 
+        
         $ID = $data['ID_REGIONAL'];
         $COCODE = $data['COCODE']; 
         $PLANT = $data['PLANT'];
@@ -409,43 +470,57 @@ class grafik_model extends CI_Model {
         $TAHUN = $data['TAHUN'];   
         $PARAM = '';
 
-        
-        if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == '') {
-            $PARAM = "F.ID_REGIONAL = '$ID'";
-        } elseif ($PLANT == '' && $STORE_SLOC == '' && $SLOC == '') {
-            $PARAM = "E.COCODE  = '$COCODE'";
-        } elseif ($STORE_SLOC == '' && $SLOC == '') {
-            $PARAM = "D.PLANT = '$PLANT'";
-        } elseif ($SLOC == '') {
-            $PARAM = "C.STORE_SLOC = '$STORE_SLOC'";
-        } else {
-           $PARAM = "B.SLOC = '$SLOC'";
+          
+      
+        if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == ''&& $ID =='') {
+            $sql="CALL dashboard ('HSD+BIO','$BULAN','$TAHUN','Pusat','$PARAM')";
+            $query = $this->db->query($sql);
+            
+            return $query->result();
         }
-        $sql = "SELECT B.LEVEL4,G.NAMA_JNS_BHN_BKR,
-                A.TGL_MUTASI_PERSEDIAAN,
-                A.DEAD_STOCK,
-                A.STOCK_AKHIR_REAL,A.STOCK_AKHIR_EFEKTIF,A.SHO
-                FROM REKAP_MUTASI_PERSEDIAAN A
-                INNER JOIN MASTER_LEVEL4 B ON B.SLOC=A.SLOC 
-                INNER JOIN MASTER_LEVEL3 C ON C.STORE_SLOC = B.STORE_SLOC
-                INNER JOIN MASTER_LEVEL2 D ON D.PLANT = B.PLANT
-                INNER JOIN MASTER_LEVEL1 E ON E.COCODE=D.COCODE
-                INNER JOIN MASTER_REGIONAL F ON F.ID_REGIONAL=E.ID_REGIONAL
-                INNER JOIN M_JNS_BHN_BKR G ON G.ID_JNS_BHN_BKR=A.ID_JNS_BHN_BKR
-                WHERE $PARAM AND G.NAMA_JNS_BHN_BKR = 'HSD+BIO' AND MONTH(A.TGL_MUTASI_PERSEDIAAN) = '$BULAN' AND YEAR(A.TGL_MUTASI_PERSEDIAAN) = '$TAHUN' 
-                AND A.IS_AKTIF_MUTASI_PERSEDIAAN = '1' 
-				GROUP BY F.NAMA_REGIONAL, E.LEVEL1,D.LEVEL2,C.LEVEL3,B.LEVEL4,G.NAMA_JNS_BHN_BKR
-                ORDER BY A.TGL_MUTASI_PERSEDIAAN DESC";
-         
-       $query = $this->db->query($sql);
-        
-        return $query->result();
+        elseif ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == '') {
+            $PARAM = "$ID";
+
+            $sql="CALL dashboard ('HSD+BIO','$BULAN','$TAHUN','Regional','$PARAM')";
+            $query = $this->db->query($sql);
+            
+            return $query->result();
+        } elseif ($PLANT == '' && $STORE_SLOC == '' && $SLOC == '') {
+            $PARAM = "$COCODE";
+
+            $sql="CALL dashboard ('HSD+BIO','$BULAN','$TAHUN','Level 1','$PARAM')";
+            $query = $this->db->query($sql);
+            
+            return $query->result();
+        } elseif ($STORE_SLOC == '' && $SLOC == '') {
+            $PARAM = "$PLANT";
+
+            $sql="CALL dashboard ('HSD+BIO','$BULAN','$TAHUN','Level 2','$PARAM')";
+            $query = $this->db->query($sql);
+            
+            return $query->result();
+        } elseif ($SLOC == '') {
+            $PARAM = "$STORE_SLOC";
+
+            $sql="CALL dashboard ('HSD+BIO','$BULAN','$TAHUN','Level 3','$PARAM')";
+            $query = $this->db->query($sql);
+            
+            return $query->result();
+        } else{
+           $PARAM = "$SLOC";
+
+           $sql="CALL dashboard ('HSD+BIO','$BULAN','$TAHUN','Level 4','$PARAM')";
+           $query = $this->db->query($sql);
+           
+           return $query->result();
+        }
 
      }
 
      public function getTableIdo($data)
      {
 
+        
         $ID = $data['ID_REGIONAL'];
         $COCODE = $data['COCODE']; 
         $PLANT = $data['PLANT'];
@@ -455,39 +530,50 @@ class grafik_model extends CI_Model {
         $TAHUN = $data['TAHUN'];   
         $PARAM = '';
 
-        
-        if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == '') {
-            $PARAM = "F.ID_REGIONAL = '$ID'";
-        } elseif ($PLANT == '' && $STORE_SLOC == '' && $SLOC == '') {
-            $PARAM = "E.COCODE  = '$COCODE'";
-        } elseif ($STORE_SLOC == '' && $SLOC == '') {
-            $PARAM = "D.PLANT = '$PLANT'";
-        } elseif ($SLOC == '') {
-            $PARAM = "C.STORE_SLOC = '$STORE_SLOC'";
-        } else {
-           $PARAM = "B.SLOC = '$SLOC'";
+          
+      
+        if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == ''&& $ID =='') {
+            $sql="CALL dashboard ('IDO','$BULAN','$TAHUN','Pusat','$PARAM')";
+            $query = $this->db->query($sql);
+            
+            return $query->result();
         }
-        $sql = "SELECT B.LEVEL4,G.NAMA_JNS_BHN_BKR,
-                A.TGL_MUTASI_PERSEDIAAN,
-                A.DEAD_STOCK,
-                A.STOCK_AKHIR_REAL,A.STOCK_AKHIR_EFEKTIF,A.SHO
-                FROM REKAP_MUTASI_PERSEDIAAN A
-                INNER JOIN MASTER_LEVEL4 B ON B.SLOC=A.SLOC 
-                INNER JOIN MASTER_LEVEL3 C ON C.STORE_SLOC = B.STORE_SLOC
-                INNER JOIN MASTER_LEVEL2 D ON D.PLANT = B.PLANT
-                INNER JOIN MASTER_LEVEL1 E ON E.COCODE=D.COCODE
-                INNER JOIN MASTER_REGIONAL F ON F.ID_REGIONAL=E.ID_REGIONAL
-                INNER JOIN M_JNS_BHN_BKR G ON G.ID_JNS_BHN_BKR=A.ID_JNS_BHN_BKR
-                WHERE $PARAM AND G.NAMA_JNS_BHN_BKR = 'IDO' AND MONTH(A.TGL_MUTASI_PERSEDIAAN) = '$BULAN' AND YEAR(A.TGL_MUTASI_PERSEDIAAN) = '$TAHUN' 
-                AND A.IS_AKTIF_MUTASI_PERSEDIAAN = '1' 
-				GROUP BY F.NAMA_REGIONAL, E.LEVEL1,D.LEVEL2,C.LEVEL3,B.LEVEL4,G.NAMA_JNS_BHN_BKR
-                ORDER BY A.TGL_MUTASI_PERSEDIAAN DESC";
-                
+        elseif ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == '') {
+            $PARAM = "$ID";
 
-         
-       $query = $this->db->query($sql);
-        
-        return $query->result();
+            $sql="CALL dashboard ('IDO','$BULAN','$TAHUN','Regional','$PARAM')";
+            $query = $this->db->query($sql);
+            
+            return $query->result();
+        } elseif ($PLANT == '' && $STORE_SLOC == '' && $SLOC == '') {
+            $PARAM = "$COCODE";
+
+            $sql="CALL dashboard ('IDO','$BULAN','$TAHUN','Level 1','$PARAM')";
+            $query = $this->db->query($sql);
+            
+            return $query->result();
+        } elseif ($STORE_SLOC == '' && $SLOC == '') {
+            $PARAM = "$PLANT";
+
+            $sql="CALL dashboard ('IDO','$BULAN','$TAHUN','Level 2','$PARAM')";
+            $query = $this->db->query($sql);
+            
+            return $query->result();
+        } elseif ($SLOC == '') {
+            $PARAM = "$STORE_SLOC";
+
+            $sql="CALL dashboard ('IDO','$BULAN','$TAHUN','Level 3','$PARAM')";
+            $query = $this->db->query($sql);
+            
+            return $query->result();
+        } else{
+           $PARAM = "$SLOC";
+
+           $sql="CALL dashboard ('IDO','$BULAN','$TAHUN','Level 4','$PARAM')";
+           $query = $this->db->query($sql);
+           
+           return $query->result();
+        }
 
      }
 
