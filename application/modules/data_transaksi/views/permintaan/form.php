@@ -73,14 +73,14 @@
             <div class="control-group">
                 <label class="control-label">Volume<span class="required">*</span> : </label>
                 <div class="controls">
-                    <?php echo form_input('VOLUME_NOMINASI', !empty($default->VOLUME_NOMINASI) ? $default->VOLUME_NOMINASI : '', 'class="span4" placeholder="Volume Nominasi"'); ?>
+                    <?php echo form_input('VOLUME_NOMINASI', !empty($default->VOLUME_NOMINASI) ? $default->VOLUME_NOMINASI : '0', 'class="span4" placeholder="0" id="VOLUME_NOMINASI" readonly'); ?>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">Jumlah Pengiriman<span class="required">*</span> : </label>
                 <div class="controls">
                     <?php echo form_input('JML_KIRIM', !empty($default->JML_KIRIM) ? $default->JML_KIRIM : '', 'class="span4" placeholder="Jumlah Pengiriman" id="JML_KIRIM" '); ?>
-                     <?php echo anchor(null, 'Generate', array('id' => 'button-jml-kirim', 'class' => 'green btn', 'onclick' => "simpan_datax(this.id, '#finput', '#button-back')")); ?>
+                     <?php echo anchor(null, 'Generate', array('id' => 'button-jml-kirim', 'class' => 'green btn')); ?>
                 </div>
             </div>
 
@@ -108,9 +108,8 @@
                         </div>
                         <input type='button' value='Add Button' id='addButton'>
                         <input type='button' value='Remove Button' id='removeButton'>
-                        <input type='button' value='Get TextBox Value' id='getButtonValue'>                            
+                        <input type='button' value='Get TextBox Value' id='getButtonValue'>                        
                 </div>
-
             </div>
 
 
@@ -133,7 +132,6 @@ $(document).ready(function(){
     var counter = 1;
 
     $("#addButton").click(function () {
-
         if(counter>31){
                 alert("Max 31 data yang diperbolehkan");
                 return false;
@@ -142,18 +140,14 @@ $(document).ready(function(){
         var newTextBoxDiv = $(document.createElement('div'))
              .attr("id", 'TextBoxDiv' + counter);
 
-
-        var visi = '<div class="form_row"><div class="pull-left"><label for="password" class="control-label">Tgl Kirim ke : '+ counter + '</label><div class="controls"><input type="text" id="tgl_ke'+ counter + '" name="tgl_ke'+ counter + '" class="input-append date form_datetime" placeholder="Tanggal Kirim"></div></div><div class="pull-left"><label for="password" class="control-label">Volume (L) ke : '+ counter + '</label><div class="controls"><input type="text" id="vol_ke'+ counter + '" name="vol_ke'+ counter + '" placeholder="Volume (L)"></div></div></div><br>';     
+        var visi = '<div class="form_row"><div class="pull-left"><label for="password" class="control-label">Tgl Kirim ke : '+ counter + '</label><div class="controls"><input type="text" id="tgl_ke'+ counter + '" name="tgl_ke'+ counter + '" class="input-append date form_datetime" placeholder="Tanggal Kirim"></div></div><div class="pull-left"><label for="password" class="control-label">Volume (L) ke : '+ counter + '</label><div class="controls"><input type="text" id="vol_ke'+ counter + '" name="vol_ke'+ counter + '" placeholder="Volume (L)" onChange="setHitungKirim()"></div></div></div><br>';     
 
         // newTextBoxDiv.after().html('<label>Textbox #'+ counter + ' : </label>' +
         //       '<input type="text" name="textbox' + counter +
         //       '" id="textbox' + counter + '" value="" >');
 
         newTextBoxDiv.after().html(visi);
-
         newTextBoxDiv.appendTo("#TextBoxesGroup");
-
-
         counter++;
     });
 
@@ -164,9 +158,7 @@ $(document).ready(function(){
         }
 
         counter--;
-
         $("#TextBoxDiv" + counter).remove();
-
     });
 
     $("#getButtonValue").click(function () {
@@ -191,12 +183,10 @@ $(document).ready(function(){
         }
 
         for (i = 1; i <= x; i++) {
-            // $("#tgl_ke"+i).val('');
-            // $("#vol_ke"+i).val('');
             $("#TextBoxDiv"+i).show();
 
         }
-
+        setHitungKirim();
     });
 
     for (i = 0; i < 31; i++) {
@@ -206,17 +196,35 @@ $(document).ready(function(){
     for (i = 1; i <= 31; i++) {
         $("#TextBoxDiv"+i).hide();
     }
-    $("#addButton").hide();
-    $("#removeButton").hide();
-    $("#getButtonValue").hide();
-
     
     if ($('input[name=id]').val()){
         get_detail($('input[name=NO_NOMINASI]').val());    
     }
+
+    for (i = 1; i <= 31; i++) {
+        var val="input[name=vol_ke"+i+"]";
+        $('input[name=vol_ke'+i+']').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+        });
+    }
+
+    $("#addButton").hide();
+    $("#removeButton").hide();
+    $("#getButtonValue").hide();
+
 });
 
-
+    function setHitungKirim(){
+        var vSum=0;
+        for (i = 1; i <= 5; i++) {
+            if($("#TextBoxDiv"+i).is(":visible")){
+                var vol = $("#vol_ke"+i).val();
+                var new_vol = vol.replace(/\./g, "");
+                new_vol = Number(new_vol);
+                vSum += new_vol;     
+            }
+        }
+        $("#VOLUME_NOMINASI").val(vSum);
+    }
 
     $(".form_datetime").datepicker({
         format: "dd-mm-yyyy",
@@ -235,6 +243,7 @@ $(document).ready(function(){
 
     $('input[name=JML_KIRIM]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
     });
+
 
     $('input[name=vol_ke]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
     });

@@ -199,10 +199,12 @@ class permintaan extends MX_Controller
             $data_detail = array();
             for ($i=1; $i<=$x; $i++)
             {
+                $vol_ke = $this->input->post('vol_ke'.$i);
+                $vol_ke = str_replace(".","",$vol_ke);
                 $data_detail[$i] = array(
                     'NO_NOMINASI' => $this->input->post('NO_NOMINASI'),
                     'TGL_KIRIM' => date('Y-m-d', strtotime($this->input->post('tgl_ke'.$i))),
-                    'VOLUME_NOMINASI' => $this->input->post('vol_ke'.$i),
+                    'VOLUME_NOMINASI' => $vol_ke,
                 );
             }
 
@@ -213,7 +215,9 @@ class permintaan extends MX_Controller
                 $simpan_data = $this->tbl_get->save_edit($data);
                 if ($simpan_data[0]->RCDB == 'RC00') {
                     $simpan_data_detail = $this->tbl_get->delete_detail($data['NO_NOMINASI']);
-                    $simpan_data_detail = $this->tbl_get->save_detail($data_detail);
+                    if ($x>0){
+                        $simpan_data_detail = $this->tbl_get->save_detail($data_detail);    
+                    }
                     $message = array(true, 'Proses Update Berhasil', $simpan_data[0]->PESANDB, '#content_table');
                 } else {
                     $message = array(false, 'Proses Update Gagal', $simpan_data[0]->PESANDB, '');
@@ -221,7 +225,9 @@ class permintaan extends MX_Controller
             } else {
                 $simpan_data = $this->tbl_get->save($data);
                 if ($simpan_data[0]->RCDB == 'RC00') {
-                    $simpan_data_detail = $this->tbl_get->save_detail($data_detail);
+                    if ($x>0){
+                        $simpan_data_detail = $this->tbl_get->save_detail($data_detail);    
+                    }
                     $message = array(true, 'Proses Simpan Berhasil', $simpan_data[0]->PESANDB, '#content_table');
                 } else {
                     $message = array(false, 'Proses Simpan Gagal', $simpan_data[0]->PESANDB, '');
