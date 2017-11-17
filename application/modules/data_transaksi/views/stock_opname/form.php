@@ -140,6 +140,41 @@
     $("input[name=TGL_PENGAKUAN]").click(cekTanggalBa);
     $("input[name=button-save]").click(cekTanggalPengakuan);
 
+        // start
+    function setDefaulthTglBa(){
+        var date = new Date();
+        date.setDate(date.getDate() + 1);
+        var currentMonth = date.getMonth();
+        var currentDate = date.getDate();
+        var currentYear = date.getFullYear();
+
+        $('input[name=TGL_BA_STOCKOPNAME]').datepicker('setEndDate', new Date(currentYear, currentMonth, currentDate));
+    }
+
+    function checkDefaulthTglBa(){
+        var date = new Date();
+ 
+
+        var dateBatasan =  formatDateDepan(date);
+        var dateCatat = $("input[name=TGL_BA_STOCKOPNAME]").val();
+
+        if (dateCatat > dateBatasan) {
+            var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Berita Acara tidak boleh melebihi Tanggal Hari ini</div>';
+            bootbox.alert(message, function() {});
+            $('input[name=TGL_BA_STOCKOPNAME').datepicker('update', date);
+         
+        }
+
+    }
+
+    $("input[name=TGL_BA_STOCKOPNAME]").focusout(checkDefaulthTglBa);
+    
+    $(function() {
+        setDefaulthTglBa();
+    });
+
+    // end
+
     $('input[name=VOLUME_STOCKOPNAME]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
     });
 
