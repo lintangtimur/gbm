@@ -115,7 +115,7 @@
             <div class="form-actions">
                 <?php 
                 if ($this->laccess->otoritas('edit')) {
-                    echo anchor(null, '<i class="icon-save"></i> Simpan', array('id' => 'button-save', 'class' => 'blue btn', 'onclick' => "simpan_data(this.id, '#finput', '#button-back')"));
+                    echo anchor(null, '<i class="icon-save"></i> Simpan', array('id' => 'button-save', 'class' => 'blue btn', 'onclick' => "simpan_data(this.id, '#finput', '#button-back');"));
                 }?>
                 <?php echo anchor(null, '<i class="icon-circle-arrow-left"></i> Tutup', array('id' => 'button-back', 'class' => 'btn', 'onclick' => 'close_form(this.id)')); ?>
             </div>
@@ -125,7 +125,7 @@
 </div>
 
 <script type="text/javascript">
-	
+
 	$( "#pembangkit" ).change(function() {
 		var sloc = $(this).val();
 		load_jenis_bbm('<?php echo $urljnsbbm; ?>/' + sloc, "#jnsbbm");
@@ -143,7 +143,8 @@
         pickerPosition: "bottom-left"
     });
 
-    $("input[name=TGL_PENERIMAAN]").change(function() {
+    // start
+    function checkTanggalPenerimaan(){
         var vDateStart = $("input[name=TGL_PENERIMAAN]").val();
         var vDateEnd = $("input[name=TGL_PENGAKUAN]").val();
 
@@ -152,18 +153,64 @@
         }
 
         $('input[name=TGL_PENGAKUAN]').datepicker('setEndDate', $("input[name=TGL_PENERIMAAN]").val());
-    });
+    }
 
-    $("input[name=TGL_PENGAKUAN]").focusout(function() {
+    function checkTanggalPengakuan(){
         var vDateStart = $("input[name=TGL_PENERIMAAN]").val();
         var vDateEnd = $("input[name=TGL_PENGAKUAN]").val();
 
         if (vDateEnd > vDateStart) {
-            var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Pengakuan tidak boleh melebihi Tanggal Catat</div>';
+            var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Pengakuan tidak boleh melebihi Tanggal Penerimaan Fisik</div>';
             bootbox.alert(message, function() {});
             $('input[name=TGL_PENGAKUAN').datepicker('update', vDateStart);
         }
-    });
+    }
+
+    $("input[name=TGL_PENERIMAAN]").change(checkTanggalPenerimaan);
+    $("input[name=TGL_PENGAKUAN]").focusout(checkTanggalPengakuan);
+    $("input[name=TGL_PENGAKUAN]").click(checkTanggalPenerimaan);
+    $("input[name=button-save]").click(checkTanggalPengakuan);
+
+    // end
+
+    // start
+    function formatDateDepan(date) {
+     return date.getDate()+1 + "-" + date.getMonth() + "-" + date.getFullYear();
+    }
+
+    function setDefaulthTglPenerimaan(){
+        var date = new Date();
+        date.setDate(date.getDate() + 1);
+        var currentMonth = date.getMonth();
+        var currentDate = date.getDate();
+        var currentYear = date.getFullYear();
+
+        $('input[name=TGL_PENERIMAAN]').datepicker('setEndDate', new Date(currentYear, currentMonth, currentDate));
+    }
+
+    function checkDefaulthTglPenerimaan(){
+         var date = new Date();
+ 
+
+        var dateBatasan =  formatDateDepan(date);
+        var datePenerimaan = $("input[name=TGL_PENERIMAAN]").val();
+
+        if (datePenerimaan > dateBatasan) {
+            var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Penerimaan Fisik tidak boleh melebihi Tanggal Hari ini</div>';
+            bootbox.alert(message, function() {});
+            $('input[name=TGL_PENERIMAAN').datepicker('update', date);
+         
+        }
+
+    }
+    $("input[name=TGL_PENERIMAAN]").focusout(checkDefaulthTglPenerimaan);
+
+    // set tanggal penerimaan fisik
+    $(function() {
+    setDefaulthTglPenerimaan();
+  });
+  
+    // end
 
     $('input[name=VOL_PENERIMAAN]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
     });
@@ -267,4 +314,8 @@
             });
         }
     });
+
 </script>
+
+
+
