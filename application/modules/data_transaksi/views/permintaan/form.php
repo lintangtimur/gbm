@@ -83,9 +83,7 @@
                      <?php echo anchor(null, 'Generate', array('id' => 'button-jml-kirim', 'class' => 'green btn')); ?>
                 </div>
             </div>
-
-            <br>
-            
+            <br>           
             <div class="content_table">
                 <div class="well-content clearfix">
                         <div id='TextBoxesGroup'>
@@ -111,7 +109,6 @@
                         <input type='button' value='Get TextBox Value' id='getButtonValue'>                        
                 </div>
             </div>
-
 
             <div class="form-actions">
                 <?php 
@@ -210,7 +207,6 @@ $(document).ready(function(){
     $("#addButton").hide();
     $("#removeButton").hide();
     $("#getButtonValue").hide();
-
 });
 
     function setHitungKirim(){
@@ -226,6 +222,10 @@ $(document).ready(function(){
         $("#VOLUME_NOMINASI").val(vSum);
     }
 
+    $("#button-save").click(function () {
+        $("#button-jml-kirim").click();
+    });
+
     $(".form_datetime").datepicker({
         format: "dd-mm-yyyy",
         autoclose: true,
@@ -233,10 +233,6 @@ $(document).ready(function(){
         pickerPosition: "bottom-left"
     });
 	
-	$( "#pembangkit" ).change(function() {
-		var sloc = $(this).val();
-		load_jenis_bbm('<?php echo $urljnsbbm; ?>/' + sloc, "#jnsbbm");
-	});
 
     $('input[name=VOLUME_NOMINASI]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
     });
@@ -246,6 +242,11 @@ $(document).ready(function(){
 
 
     $('input[name=vol_ke]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    });
+
+    $( "#pembangkit" ).change(function() {
+        var sloc = $(this).val();
+        load_jenis_bbm('<?php echo $urljnsbbm; ?>/' + sloc, "#jnsbbm");
     });
     
     function setDefaultLv1(){
