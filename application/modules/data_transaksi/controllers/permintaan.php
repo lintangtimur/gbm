@@ -107,27 +107,6 @@ class permintaan extends MX_Controller
         $this->load->view($this->_module . '/form_edit', $data);
     }
 
-    public function edit_detail($id = '')
-    {
-        $data = $this->get_level_user();
-        $data['id'] = $id;
-        if ($id != '') {
-            $page_title = 'Detail Nominasi / Permintaan';
-            $get_tbl = $this->tbl_get->data_detail($id);
-            $data['default'] = $get_tbl->get()->row();
-
-            $tgl_catat = new DateTime($data['default']->TGL_MTS_NOMINASI);
-
-            $data['default']->TGL_MTS_NOMINASI = $tgl_catat->format('d-m-Y');
-        }
-
-        $data['option_pemasok'] = $this->tbl_get->options_pemasok();
-        $data['option_jenis_bbm'] = $this->tbl_get->options_jenis_bahan_bakar();
-        $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
-        $data['form_action'] = base_url($this->_module . '/proses');
-        $this->load->view($this->_module . '/form_detail', $data);
-    }
-
     public function edit($id)
     {
         $this->add($id);
@@ -173,6 +152,13 @@ class permintaan extends MX_Controller
         $this->form_validation->set_rules('VOLUME_NOMINASI', 'Volume Nominasi', 'required|max_length[16]');
         $this->form_validation->set_rules('JML_KIRIM', 'Jumlah Pengiriman', 'required');
 
+        $id = $this->input->post('id');
+        if ($id == '') {
+            if (empty($_FILES['PATH_FILE_NOMINASI']['name'])){
+                $this->form_validation->set_rules('PATH_FILE_NOMINASI', 'Upload File', 'required');
+            }
+        }       
+
         $x = $this->input->post('JML_KIRIM');
 
         if ($x>0){
@@ -194,8 +180,20 @@ class permintaan extends MX_Controller
             $data['ID_JNS_BHN_BKR'] = $this->input->post('ID_JNS_BHN_BKR');
             $data['VOLUME_NOMINASI'] =  str_replace(".","",$this->input->post('VOLUME_NOMINASI'));
             $data['CREATE_BY'] = $this->session->userdata('user_name');
-            $data['PATH_FILE'] = '-';
+            $data['PATH_FILE_NOMINASI'] = $this->input->post('PATH_FILE_NOMINASI');
+            $data['PATH_NAMA'] = '';
 
+            if (!empty($_FILES['PATH_FILE_NOMINASI']['name'])){
+                $new_name = $this->input->post('NO_NOMINASI');
+                $new_name = str_replace(" ","_",$new_name);
+                $config['file_name'] = $new_name;
+                $config['upload_path'] = 'assets/upload_nominasi/';
+                $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+                $config['max_size'] = 1024 * 10; 
+                // $config['encrypt_name'] = TRUE;
+                $this->load->library('upload', $config);
+            }
+            
             $data_detail = array();
             for ($i=1; $i<=$x; $i++)
             {
@@ -208,29 +206,63 @@ class permintaan extends MX_Controller
                 );
             }
 
-            $id = $this->input->post('id');
-
             if ($id!=null || $id!="") {
                 $data['ID_PERMINTAAN']=$id;
-                $simpan_data = $this->tbl_get->save_edit($data);
-                if ($simpan_data[0]->RCDB == 'RC00') {
-                    $simpan_data_detail = $this->tbl_get->delete_detail($data['NO_NOMINASI']);
-                    if ($x>0){
-                        $simpan_data_detail = $this->tbl_get->save_detail($data_detail);    
+
+                $res='1';
+                if (!empty($_FILES['PATH_FILE_NOMINASI']['name'])){
+
+                    $target='assets/upload_nominasi/'.$this->input->post('PATH_FILE_EDIT');
+
+                    if(file_exists($target)){
+                        unlink($target);
                     }
-                    $message = array(true, 'Proses Update Berhasil', $simpan_data[0]->PESANDB, '#content_table');
-                } else {
-                    $message = array(false, 'Proses Update Gagal', $simpan_data[0]->PESANDB, '');
+
+                    if (!$this->upload->do_upload('PATH_FILE_NOMINASI')){
+                        $err = $this->upload->display_errors('', '');
+                        $message = array(false, 'Proses gagal', $err, '');
+                        $res='';
+                    } else {
+                        $res = $this->upload->data();
+                        if ($res){
+                            $data['PATH_NAMA'] = $res['file_name'];
+
+                        }
+                    }
+                }
+
+                if ($res){
+                    $simpan_data = $this->tbl_get->save_edit($data);
+                    if ($simpan_data[0]->RCDB == 'RC00') {
+                        $simpan_data_detail = $this->tbl_get->delete_detail($data['NO_NOMINASI']);
+                        if ($x>0){
+                            $simpan_data_detail = $this->tbl_get->save_detail($data_detail);    
+                        }
+                        $message = array(true, 'Proses Update Berhasil', $simpan_data[0]->PESANDB, '#content_table');
+                    } else {
+                        $message = array(false, 'Proses Update Gagal', $simpan_data[0]->PESANDB, '');
+                    }
                 }
             } else {
-                $simpan_data = $this->tbl_get->save($data);
-                if ($simpan_data[0]->RCDB == 'RC00') {
-                    if ($x>0){
-                        $simpan_data_detail = $this->tbl_get->save_detail($data_detail);    
-                    }
-                    $message = array(true, 'Proses Simpan Berhasil', $simpan_data[0]->PESANDB, '#content_table');
+
+                if (!$this->upload->do_upload('PATH_FILE_NOMINASI')){
+                    $err = $this->upload->display_errors('', '');
+                    $message = array(false, 'Proses gagal', $err, '');
                 } else {
-                    $message = array(false, 'Proses Simpan Gagal', $simpan_data[0]->PESANDB, '');
+                    $res = $this->upload->data();
+                    if ($res){
+                        $data['PATH_NAMA'] = $res['file_name'];
+
+                        $simpan_data = $this->tbl_get->save($data);
+                        if ($simpan_data[0]->RCDB == 'RC00') {
+                            if ($x>0){
+                                $simpan_data_detail = $this->tbl_get->save_detail($data_detail);    
+                            }
+                            $message = array(true, 'Proses Simpan Berhasil', $simpan_data[0]->PESANDB, '#content_table');
+                        } else {
+                            $message = array(false, 'Proses Simpan Gagal', $simpan_data[0]->PESANDB, '');
+                        }
+                    }
                 }
             }
         }else {

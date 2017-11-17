@@ -526,7 +526,7 @@ class permintaan_model extends CI_Model
             '".$data['CREATE_BY']."',
             '".$data['NO_NOMINASI']."',
             '".$data['ID_JNS_BHN_BKR']."',
-            '".$data['PATH_FILE']."' )";
+            '".$data['PATH_NAMA']."' )";
 //        echo $sql;
         $query = $this->db->query($sql);
         $this->db->close();
@@ -542,7 +542,7 @@ class permintaan_model extends CI_Model
             '".$data['CREATE_BY']."',
             '".$data['NO_NOMINASI']."',
             '".$data['ID_JNS_BHN_BKR']."',
-            '".$data['PATH_FILE']."',
+            '".$data['PATH_NAMA']."',
             '".$data['ID_PERMINTAAN']."' )";
        // echo $sql; die;
         $query = $this->db->query($sql);

@@ -70,14 +70,21 @@
                     <?php echo form_dropdown('ID_JNS_BHN_BKR', $option_jenis_bbm, !empty($default->ID_JNS_BHN_BKR) ? $default->ID_JNS_BHN_BKR : '', 'class="span3" disabled'); ?>
                 </div>
             </div>
-
+            <div class="control-group">
+                <label for="control-label" class="control-label"> </label> 
+                <div class="controls" id="dokumen">
+                    <?php
+                        $link = !empty($default->PATH_FILE_NOMINASI) ? $default->PATH_FILE_NOMINASI : ''     
+                    ?>
+                    <a href="<?php echo base_url().'assets/upload_nominasi/'.$link;?>" target="_blank"><b><?php echo (empty($link)) ? $link : 'Lihat Dokumen'; ?></b></a>
+                </div>
+            </div>
             <div class="control-group">
                 <label class="control-label">Volume<span class="required">*</span> : </label>
                 <div class="controls">
                     <?php echo form_input('VOLUME_NOMINASI', !empty($default->VOLUME_NOMINASI) ? $default->VOLUME_NOMINASI : '', 'class="span4" placeholder="Volume Nominasi" disabled'); ?>
                 </div>
             </div>
-
             <div class="control-group">
                 <label class="control-label">Jumlah Pengiriman<span class="required">*</span> : </label>
                 <div class="controls">
@@ -155,10 +162,6 @@ $(document).ready(function(){
              .attr("id", 'TextBoxDiv' + counter);
 
         var visi = '<div class="form_row"><div class="pull-left"><label for="password" class="control-label">Tgl Kirim ke : '+ counter + '</label><div class="controls"><input type="text" id="tgl_ke'+ counter + '" name="tgl_ke'+ counter + '" class="input-append date form_datetime" placeholder="Tanggal Kirim" disabled></div></div><div class="pull-left"><label for="password" class="control-label">Volume (L) ke : '+ counter + '</label><div class="controls"><input type="text" id="vol_ke'+ counter + '" name="vol_ke'+ counter + '" placeholder="Volume (L)" onChange="setHitungKirim()" disabled></div></div></div><br>';     
-
-        // newTextBoxDiv.after().html('<label>Textbox #'+ counter + ' : </label>' +
-        //       '<input type="text" name="textbox' + counter +
-        //       '" id="textbox' + counter + '" value="" >');
 
         newTextBoxDiv.after().html(visi);
         newTextBoxDiv.appendTo("#TextBoxesGroup");
