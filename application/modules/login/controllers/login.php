@@ -50,18 +50,23 @@ class login extends MX_Controller {
 
                 $bind = @ldap_bind($ldap, $ldaprdn, $password);
                 if ($bind) {
+                    $ldap_user ='';
                     $filter="(sAMAccountName=$username)";
                     $result = ldap_search($ldap,"DC=".$domain.",DC=corp,DC=pln,DC=co,DC=id",$filter);
                     // ldap_sort($ldap,$result,"sn");
                     $info = ldap_get_entries($ldap, $result);
+                    // var_dump($info); die;
+
                     for ($i=0; $i<$info["count"]; $i++)
                     {
                         if($info['count'] > 1)
                             break;
+
                         // echo "<p>You are accessing <strong> ". $info[$i]["sn"][0] .", " . $info[$i]["givenname"][0] ."</strong><br /> (" . $info[$i]["samaccountname"][0] .") email= ".$info[$i]["mail"][0]."  NIK= ".$info[$i]["employeenumber"][0]." </p>\n";
                         // echo '<pre>';
                         // var_dump($info);
                         // echo '</pre>';
+
                         $userDn = $info[$i]["distinguishedname"][0]; 
                         $ldap_user = $info[$i]["samaccountname"][0];
                         $ldap_nik = $info[$i]["employeenumber"][0];
@@ -73,6 +78,9 @@ class login extends MX_Controller {
 					// $filter['USERNAME'] = $ldap_user;
 					// $filter['EMAIL_USER'] = $ldap_email;
 					// $data_user = $this->user_model->data($filter)->get();
+                    if (!$ldap_user){
+                        $ldap_user = $username;    
+                    }
 					$data_user = $this->user_model->dataldap($ldap_user, $ldap_email);
                 } 
                 else {
