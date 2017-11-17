@@ -27,7 +27,10 @@ class persediaan_bbm_model extends CI_Model {
         $JENIS_BBM = '';
         $PARAM = '';
 
-        if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == '') {
+        if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == ''&& $ID=='00') {
+            $PARAM = "F.ID_REGIONAL != '$PARAM'";
+        }
+        else if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == '') {
             $PARAM = "F.ID_REGIONAL = '$ID'";
         } elseif ($PLANT == '' && $STORE_SLOC == '' && $SLOC == '') {
             $PARAM = "E.COCODE  = '$COCODE'";

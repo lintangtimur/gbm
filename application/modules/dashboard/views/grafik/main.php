@@ -5,6 +5,52 @@
  * @created at 17 OKTOBER 2017
  * @modified at 17 OKTOBER 2017
  */ -->
+ <style>
+    .author_bio_toggle_wrapper    
+    {
+            
+    }
+
+    #author_bio_wrap 
+    {
+        margin-top: 0px;  
+        margin-bottom: 30px; 
+        width: auto;
+        height: 150px; 
+    }
+    #author_bio_wrap_toggle 
+{
+    display: block;
+    width: 100%;
+    height: 35px;
+    line-height: 35px;
+    background: #337ab7;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    box-shadow: 2px 2px 3px #888888;
+    text-decoration:none;
+}
+
+#author_bio_wrap_toggle:hover 
+{
+    text-decoration:none;
+    border-top: 1px groove white;
+    border-left: 1px groove white;
+    border-bottom: 1px solid #7B7B78;
+    border-right: 1px solid #7B7B78;
+    color: #663200;
+    background: #EBEBB3;
+    box-shadow: 1px 1px 2px #888888;
+}
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    #author_bio_wrap {
+        height: 400px;
+    }
+}
+ </style>
  <div class="inner_content">
     <div class="statistic clearfix">
         <div class="current_page pull-left">
@@ -17,8 +63,12 @@
                 <div class="well-content no-search">
 					<div class="well">
                         <!-- <div class="pull-left"> -->
-                          <!-- /.row -->
-						  <div class="row">
+                        <!-- /.row -->
+
+                        <div class="author_bio_toggle_wrapper">
+                        <a href="#0" id="author_bio_wrap_toggle">Fitur Pencarian</a>
+                        </div> 
+                        <div id="author_bio_wrap" style="display: none;">
                                 <div class="col-md-12">
 									 <div class="form_row">
 										<div class="pull-left span3">
@@ -203,11 +253,11 @@
                     </div>
                     
                      <div class="well-content clearfix" id="divTable">
-					  <table id="dataTable" class="table table-bordered table-striped">
+					  <table id="dataTable" class="table table-bordered table-striped" style="max-height:600px; overflow-y:auto; display:block">
 						<thead>
 						<tr>
 						<td>No</td>
-						<td>Pembangkit</td>
+						<td>Unit</td>
 						<td>Jenis Bahan Bakar</td>
 						<td>Tanggal Stok Terakhir</td>
 						<td>Dead Stok</td>
@@ -675,9 +725,9 @@
         var lvl4 = $('#lvl4').val();
         var bln = $('#bln').val();
         var thn = $('#thn').val();
-        if (lvl0 == '') {
-            bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
-        } else {
+        // if (lvl0 == '') {
+        //     bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
+        // } else {
             bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
                 $.ajax({
                     type: "POST",
@@ -702,7 +752,7 @@
                         };
                     }
                 });
-        };
+        // };
 	}
 	
 	function loadDataHsd(){
@@ -713,9 +763,9 @@
         var lvl4 = $('#lvl4').val();
         var bln = $('#bln').val();
         var thn = $('#thn').val();
-        if (lvl0 == '') {
+        // if (lvl0 == '') {
             
-        } else {
+        // } else {
             bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
                 $.ajax({
                     type: "POST",
@@ -740,7 +790,7 @@
                         };
                     }
                 });
-        };
+        // };
 	}
 	
 	function loadDataMfo(){
@@ -751,9 +801,9 @@
         var lvl4 = $('#lvl4').val();
         var bln = $('#bln').val();
         var thn = $('#thn').val();
-        if (lvl0 == '') {
+        // if (lvl0 == '') {
             
-        } else {
+        // } else {
             bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
                 $.ajax({
                     type: "POST",
@@ -778,7 +828,7 @@
                         };
                     }
                 });
-        };
+        // };
 	}
 	
 	function loadDataHsdBio(){
@@ -789,9 +839,9 @@
         var lvl4 = $('#lvl4').val();
         var bln = $('#bln').val();
         var thn = $('#thn').val();
-        if (lvl0 == '') {
+        // if (lvl0 == '') {
            
-        } else {
+        // } else {
             bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
                 $.ajax({
                     type: "POST",
@@ -816,7 +866,7 @@
                         };
                     }
                 });
-        };
+        // };
 	}
 	
 	function loadDataIdo(){
@@ -827,9 +877,9 @@
         var lvl4 = $('#lvl4').val();
         var bln = $('#bln').val();
         var thn = $('#thn').val();
-        if (lvl0 == '') {
+        // if (lvl0 == '') {
             
-        } else {
+        // } else {
             bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
                 $.ajax({
                     type: "POST",
@@ -854,7 +904,7 @@
                         };
                     }
                 });
-        };
+        // };
 	}
 
     function hiddenTable(){
@@ -885,9 +935,9 @@
 			var lvl4 = $('#lvl4').val();
 			var bln = $('#bln').val();
 			var thn = $('#thn').val();
-			if (lvl0 == '') {
-				bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
-			} else {
+			// if (lvl0 == '') {
+			// 	// bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
+			// } else {
 				bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
 					$.ajax({
 						type: "POST",
@@ -906,26 +956,28 @@
                          var nomer = 1;
                          $.each(obj, function (index, value) {
                            
-                            var LEVEL4 = value.LEVEL4 == null ? "" : value.LEVEL4;
+                            var UNIT = value.UNIT == null ? "" : value.UNIT;
                             var NAMA_JNS_BHN_BKR = value.NAMA_JNS_BHN_BKR == null ? "" : value.NAMA_JNS_BHN_BKR;
                             var TGL_MUTASI_PERSEDIAAN = value.TGL_MUTASI_PERSEDIAAN == null ? "" : value.TGL_MUTASI_PERSEDIAAN;
                             var DEAD_STOCK = value.DEAD_STOCK == null ? "" : value.DEAD_STOCK;
                             var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
                             var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
                             var SHO = value.SHO == null ? "" : value.SHO;
-                            var SHO = SHO.toString().replace(/\./g, ',');  
+                            // var SHO = SHO.toString().replace(/\./g, ',');  
+                            var SHO1 = Number(SHO).toFixed(2);  
+                            
                             
 
                             var strRow =
                                     '<tr>' +
                                     '<td>' + nomer + '</td>' +
-                                    '<td>' + LEVEL4 + '</td>' +
+                                    '<td>' + UNIT + '</td>' +
                                     '<td>' + NAMA_JNS_BHN_BKR + '</td>' +
                                     '<td>' + TGL_MUTASI_PERSEDIAAN + '</td>' +
                                     '<td align="right">' + convertToRupiah(DEAD_STOCK) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
-                                    '<td align="right">' + SHO + '</td>' +
+                                    '<td align="right">' + SHO1 + '</td>' +
                                     '</tr>';
                             nomer++;
 
@@ -935,7 +987,7 @@
 							};
 						}
 					});
-			};
+			// };
 		}
 
 		function loadTableHsd(){
@@ -946,9 +998,9 @@
 			var lvl4 = $('#lvl4').val();
 			var bln = $('#bln').val();
 			var thn = $('#thn').val();
-			if (lvl0 == '') {
-				bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
-			} else {
+			// if (lvl0 == '') {
+			// 	bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
+			// } else {
 				bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
 					$.ajax({
 						type: "POST",
@@ -967,26 +1019,28 @@
                          var nomer = 1;
                          $.each(obj, function (index, value) {
                            
-                            var LEVEL4 = value.LEVEL4 == null ? "" : value.LEVEL4;
+                            var UNIT = value.UNIT == null ? "" : value.UNIT;
                             var NAMA_JNS_BHN_BKR = value.NAMA_JNS_BHN_BKR == null ? "" : value.NAMA_JNS_BHN_BKR;
                             var TGL_MUTASI_PERSEDIAAN = value.TGL_MUTASI_PERSEDIAAN == null ? "" : value.TGL_MUTASI_PERSEDIAAN;
                             var DEAD_STOCK = value.DEAD_STOCK == null ? "" : value.DEAD_STOCK;
                             var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
                             var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
                             var SHO = value.SHO == null ? "" : value.SHO;
-                            var SHO = SHO.toString().replace(/\./g, ',');  
+                            // var SHO = SHO.toString().replace(/\./g, ',');  
+                            var SHO1 = Number(SHO).toFixed(2);  
+                            
                             
 
                             var strRow =
                                     '<tr>' +
                                     '<td>' + nomer + '</td>' +
-                                    '<td>' + LEVEL4 + '</td>' +
+                                    '<td>' + UNIT + '</td>' +
                                     '<td>' + NAMA_JNS_BHN_BKR + '</td>' +
                                     '<td>' + TGL_MUTASI_PERSEDIAAN + '</td>' +
                                     '<td align="right">' + convertToRupiah(DEAD_STOCK) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
-                                    '<td align="right">' + SHO + '</td>' +
+                                    '<td align="right">' + SHO1 + '</td>' +
                                     '</tr>';
                             nomer++;
 
@@ -996,7 +1050,7 @@
 							};
 						}
 					});
-			};
+			// };
 		}
 
 		function loadTableBio(){
@@ -1007,9 +1061,9 @@
 			var lvl4 = $('#lvl4').val();
 			var bln = $('#bln').val();
 			var thn = $('#thn').val();
-			if (lvl0 == '') {
-				bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
-			} else {
+			// if (lvl0 == '') {
+			// 	bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
+			// } else {
 				bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
 					$.ajax({
 						type: "POST",
@@ -1028,26 +1082,28 @@
                          var nomer = 1;
                          $.each(obj, function (index, value) {
                            
-                            var LEVEL4 = value.LEVEL4 == null ? "" : value.LEVEL4;
+                            var UNIT = value.UNIT == null ? "" : value.UNIT;
                             var NAMA_JNS_BHN_BKR = value.NAMA_JNS_BHN_BKR == null ? "" : value.NAMA_JNS_BHN_BKR;
                             var TGL_MUTASI_PERSEDIAAN = value.TGL_MUTASI_PERSEDIAAN == null ? "" : value.TGL_MUTASI_PERSEDIAAN;
                             var DEAD_STOCK = value.DEAD_STOCK == null ? "" : value.DEAD_STOCK;
                             var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
                             var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
                             var SHO = value.SHO == null ? "" : value.SHO;
-                            var SHO = SHO.toString().replace(/\./g, ',');  
+                            // var SHO = SHO.toString().replace(/\./g, ',');  
+                            var SHO1 = Number(SHO).toFixed(2);  
+                            
                             
 
                             var strRow =
                                     '<tr>' +
                                     '<td>' + nomer + '</td>' +
-                                    '<td>' + LEVEL4 + '</td>' +
+                                    '<td>' + UNIT + '</td>' +
                                     '<td>' + NAMA_JNS_BHN_BKR + '</td>' +
                                     '<td>' + TGL_MUTASI_PERSEDIAAN + '</td>' +
                                     '<td align="right">' + convertToRupiah(DEAD_STOCK) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
-                                    '<td align="right">' + SHO + '</td>' +
+                                    '<td align="right">' + SHO1 + '</td>' +
                                     '</tr>';
                             nomer++;
 
@@ -1057,7 +1113,7 @@
 							};
 						}
 					});
-			};
+			// };
 		}
 
 		function loadTableMfo(){
@@ -1068,9 +1124,9 @@
 			var lvl4 = $('#lvl4').val();
 			var bln = $('#bln').val();
 			var thn = $('#thn').val();
-			if (lvl0 == '') {
-				bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
-			} else {
+			// if (lvl0 == '') {
+			// 	bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
+			// } else {
 				bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
 					$.ajax({
 						type: "POST",
@@ -1089,26 +1145,28 @@
                          var nomer = 1;
                          $.each(obj, function (index, value) {
                            
-                            var LEVEL4 = value.LEVEL4 == null ? "" : value.LEVEL4;
+                            var UNIT = value.UNIT == null ? "" : value.UNIT;
                             var NAMA_JNS_BHN_BKR = value.NAMA_JNS_BHN_BKR == null ? "" : value.NAMA_JNS_BHN_BKR;
                             var TGL_MUTASI_PERSEDIAAN = value.TGL_MUTASI_PERSEDIAAN == null ? "" : value.TGL_MUTASI_PERSEDIAAN;
                             var DEAD_STOCK = value.DEAD_STOCK == null ? "" : value.DEAD_STOCK;
                             var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
                             var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
                             var SHO = value.SHO == null ? "" : value.SHO;
-                            var SHO = SHO.toString().replace(/\./g, ',');  
+                            // var SHO = SHO.toString().replace(/\./g, ',');  
+                            var SHO1 = Number(SHO).toFixed(2);  
+                            
                             
 
                             var strRow =
                                     '<tr>' +
                                     '<td>' + nomer + '</td>' +
-                                    '<td>' + LEVEL4 + '</td>' +
+                                    '<td>' + UNIT + '</td>' +
                                     '<td>' + NAMA_JNS_BHN_BKR + '</td>' +
                                     '<td>' + TGL_MUTASI_PERSEDIAAN + '</td>' +
                                     '<td align="right">' + convertToRupiah(DEAD_STOCK) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
-                                    '<td align="right">' + SHO + '</td>' +
+                                    '<td align="right">' + SHO1 + '</td>' +
                                     '</tr>';
                             nomer++;
 
@@ -1118,7 +1176,7 @@
 							};
 						}
 					});
-			};
+			// };
 		}
 		
 		function loadTableIdo(){
@@ -1129,9 +1187,9 @@
 			var lvl4 = $('#lvl4').val();
 			var bln = $('#bln').val();
 			var thn = $('#thn').val();
-			if (lvl0 == '') {
-				bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
-			} else {
+			// if (lvl0 == '') {
+			// 	bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
+			// } else {
 				bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
 					$.ajax({
 						type: "POST",
@@ -1150,26 +1208,28 @@
                          var nomer = 1;
                          $.each(obj, function (index, value) {
                            
-                            var LEVEL4 = value.LEVEL4 == null ? "" : value.LEVEL4;
+                            var UNIT = value.UNIT == null ? "" : value.UNIT;
                             var NAMA_JNS_BHN_BKR = value.NAMA_JNS_BHN_BKR == null ? "" : value.NAMA_JNS_BHN_BKR;
                             var TGL_MUTASI_PERSEDIAAN = value.TGL_MUTASI_PERSEDIAAN == null ? "" : value.TGL_MUTASI_PERSEDIAAN;
                             var DEAD_STOCK = value.DEAD_STOCK == null ? "" : value.DEAD_STOCK;
                             var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
                             var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
                             var SHO = value.SHO == null ? "" : value.SHO;
-                            var SHO = SHO.toString().replace(/\./g, ',');  
+                            // var SHO = SHO.toString().replace(/\./g, ',');  
+                            var SHO1 = Number(SHO).toFixed(2);  
+                            
                             
 
                             var strRow =
                                     '<tr>' +
                                     '<td>' + nomer + '</td>' +
-                                    '<td>' + LEVEL4 + '</td>' +
+                                    '<td>' + UNIT + '</td>' +
                                     '<td>' + NAMA_JNS_BHN_BKR + '</td>' +
                                     '<td>' + TGL_MUTASI_PERSEDIAAN + '</td>' +
                                     '<td align="right">' + convertToRupiah(DEAD_STOCK) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
-                                    '<td align="right">' + SHO + '</td>' +
+                                    '<td align="right">' + SHO1 + '</td>' +
                                     '</tr>';
                             nomer++;
 
@@ -1179,8 +1239,32 @@
 							};
 						}
 					});
-			};
+			// };
 		}
 
 
+</script>
+
+<script>
+jQuery(document).ready(function($)
+{
+  
+  $("#author_bio_wrap_toggle").click(function()
+  {
+    
+    $("#author_bio_wrap").slideToggle( "slow");
+    
+	  if ($("#author_bio_wrap_toggle").text() == "Pilih Pencarian")
+      {			
+        $("#author_bio_wrap_toggle").html("Hide Author Details")
+        $("#author_bio_wrap_toggle").text("Fitur Pencarian")
+      }
+	  else 
+      {		
+        $("#author_bio_wrap_toggle").text("Pilih Pencarian")
+      }
+    
+  });  
+  
+});
 </script>

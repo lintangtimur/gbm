@@ -150,6 +150,26 @@ class permintaan extends MX_Controller
         $this->form_validation->set_rules('SLOC', 'Pembangkit', 'required');
         $this->form_validation->set_rules('ID_JNS_BHN_BKR', 'Jenis Bahan Bakar', 'required');
         $this->form_validation->set_rules('VOLUME_NOMINASI', 'Volume Nominasi', 'required|max_length[16]');
+        $this->form_validation->set_rules('JML_KIRIM', 'Jumlah Pengiriman', 'required');
+
+        $id = $this->input->post('id');
+        if ($id == '') {
+            if (empty($_FILES['PATH_FILE_NOMINASI']['name'])){
+                $this->form_validation->set_rules('PATH_FILE_NOMINASI', 'Upload File', 'required');
+            }
+        }       
+
+        $x = $this->input->post('JML_KIRIM');
+
+        if ($x>0){
+            if ($x>31){
+                $x=31;
+            }
+            for ($i=1; $i<=$x; $i++) {
+                $this->form_validation->set_rules('tgl_ke'.$i, 'Tgl Kirim ke '.$i, 'required');
+                $this->form_validation->set_rules('vol_ke'.$i, 'Volume Kirim ke '.$i, 'required');
+            }
+        }
 
         if ($this->form_validation->run($this)) {
             $data = array();
@@ -160,24 +180,89 @@ class permintaan extends MX_Controller
             $data['ID_JNS_BHN_BKR'] = $this->input->post('ID_JNS_BHN_BKR');
             $data['VOLUME_NOMINASI'] =  str_replace(".","",$this->input->post('VOLUME_NOMINASI'));
             $data['CREATE_BY'] = $this->session->userdata('user_name');
-            $data['PATH_FILE'] = '-';
+            $data['PATH_FILE_NOMINASI'] = $this->input->post('PATH_FILE_NOMINASI');
+            $data['PATH_NAMA'] = '';
 
-            $id = $this->input->post('id');
+            if (!empty($_FILES['PATH_FILE_NOMINASI']['name'])){
+                $new_name = $this->input->post('NO_NOMINASI');
+                $new_name = str_replace(" ","_",$new_name);
+                $config['file_name'] = $new_name;
+                $config['upload_path'] = 'assets/upload_nominasi/';
+                $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+                $config['max_size'] = 1024 * 10; 
+                // $config['encrypt_name'] = TRUE;
+                $this->load->library('upload', $config);
+            }
+            
+            $data_detail = array();
+            for ($i=1; $i<=$x; $i++)
+            {
+                $vol_ke = $this->input->post('vol_ke'.$i);
+                $vol_ke = str_replace(".","",$vol_ke);
+                $data_detail[$i] = array(
+                    'NO_NOMINASI' => $this->input->post('NO_NOMINASI'),
+                    'TGL_KIRIM' => date('Y-m-d', strtotime($this->input->post('tgl_ke'.$i))),
+                    'VOLUME_NOMINASI' => $vol_ke,
+                );
+            }
 
             if ($id!=null || $id!="") {
                 $data['ID_PERMINTAAN']=$id;
-                $simpan_data = $this->tbl_get->save_edit($data);
-                if ($simpan_data[0]->RCDB == 'RC00') {
-                    $message = array(true, 'Proses Update Berhasil', $simpan_data[0]->PESANDB, '#content_table');
-                } else {
-                    $message = array(false, 'Proses Update Gagal', $simpan_data[0]->PESANDB, '');
+
+                $res='1';
+                if (!empty($_FILES['PATH_FILE_NOMINASI']['name'])){
+
+                    $target='assets/upload_nominasi/'.$this->input->post('PATH_FILE_EDIT');
+
+                    if(file_exists($target)){
+                        unlink($target);
+                    }
+
+                    if (!$this->upload->do_upload('PATH_FILE_NOMINASI')){
+                        $err = $this->upload->display_errors('', '');
+                        $message = array(false, 'Proses gagal', $err, '');
+                        $res='';
+                    } else {
+                        $res = $this->upload->data();
+                        if ($res){
+                            $data['PATH_NAMA'] = $res['file_name'];
+
+                        }
+                    }
+                }
+
+                if ($res){
+                    $simpan_data = $this->tbl_get->save_edit($data);
+                    if ($simpan_data[0]->RCDB == 'RC00') {
+                        $simpan_data_detail = $this->tbl_get->delete_detail($data['NO_NOMINASI']);
+                        if ($x>0){
+                            $simpan_data_detail = $this->tbl_get->save_detail($data_detail);    
+                        }
+                        $message = array(true, 'Proses Update Berhasil', $simpan_data[0]->PESANDB, '#content_table');
+                    } else {
+                        $message = array(false, 'Proses Update Gagal', $simpan_data[0]->PESANDB, '');
+                    }
                 }
             } else {
-                $simpan_data = $this->tbl_get->save($data);
-                if ($simpan_data[0]->RCDB == 'RC00') {
-                    $message = array(true, 'Proses Simpan Berhasil', $simpan_data[0]->PESANDB, '#content_table');
+
+                if (!$this->upload->do_upload('PATH_FILE_NOMINASI')){
+                    $err = $this->upload->display_errors('', '');
+                    $message = array(false, 'Proses gagal', $err, '');
                 } else {
-                    $message = array(false, 'Proses Simpan Gagal', $simpan_data[0]->PESANDB, '');
+                    $res = $this->upload->data();
+                    if ($res){
+                        $data['PATH_NAMA'] = $res['file_name'];
+
+                        $simpan_data = $this->tbl_get->save($data);
+                        if ($simpan_data[0]->RCDB == 'RC00') {
+                            if ($x>0){
+                                $simpan_data_detail = $this->tbl_get->save_detail($data_detail);    
+                            }
+                            $message = array(true, 'Proses Simpan Berhasil', $simpan_data[0]->PESANDB, '#content_table');
+                        } else {
+                            $message = array(false, 'Proses Simpan Gagal', $simpan_data[0]->PESANDB, '');
+                        }
+                    }
                 }
             }
         }else {
@@ -318,6 +403,11 @@ class permintaan extends MX_Controller
 
     public function get_sum_detail() {
         $message = $this->tbl_get->get_sum_detail();
+        echo json_encode($message);
+    }
+
+    public function get_detail_kirim($key=null) {
+        $message = $this->tbl_get->get_detail_kirim($key);
         echo json_encode($message);
     }
 

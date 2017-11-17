@@ -122,6 +122,7 @@
 		load_jenis_bbm('<?php echo $urljnsbbm; ?>/' + sloc, "#jnsbbm");
 	});
 	
+    // start
     function cekTanggalCatat(){
         var strStart = $("input[name=TGL_CATAT]").val();
         var strEnd = $("input[name=TGL_PENGAKUAN]").val();
@@ -172,6 +173,46 @@
     $("input[name=TGL_PENGAKUAN]").click(cekTanggalCatat);
     $("input[name=button-save]").click(cekTanggalPengakuan);
 
+    // end
+
+    // start
+    function formatDateDepan(date) {
+     return date.getDate()+1 + "-" + date.getMonth() + "-" + date.getFullYear();
+    }
+
+    function setDefaulthTglCatat(){
+        var date = new Date();
+        date.setDate(date.getDate() + 1);
+        var currentMonth = date.getMonth();
+        var currentDate = date.getDate();
+        var currentYear = date.getFullYear();
+
+        $('input[name=TGL_CATAT]').datepicker('setEndDate', new Date(currentYear, currentMonth, currentDate));
+    }
+
+    function checkDefaulthTglCatat(){
+         var date = new Date();
+ 
+
+        var dateBatasan =  formatDateDepan(date);
+        var dateCatat = $("input[name=TGL_CATAT]").val();
+
+        if (dateCatat > dateBatasan) {
+            var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Catat Pemakaian tidak boleh melebihi Tanggal Hari ini</div>';
+            bootbox.alert(message, function() {});
+            $('input[name=TGL_CATAT').datepicker('update', date);
+         
+        }
+
+    }
+
+    $("input[name=TGL_CATAT]").focusout(checkDefaulthTglCatat);
+    
+    $(function() {
+        setDefaulthTglCatat();
+    });
+
+    // end
 
     // var vLevelUser = "<?php echo $this->session->userdata('level_user'); ?>";
 

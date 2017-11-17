@@ -306,7 +306,7 @@ class kontrak_pemasok extends MX_Controller {
                     $config['file_name'] = $new_name;
                     $config['upload_path'] = 'assets/upload_kontrak/';
                     $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
-                    $config['max_size'] = 1024 * 4; 
+                    $config['max_size'] = 1024 * 10; 
                     // $config['encrypt_name'] = TRUE;
                     $data['PATH_DOC'] = $new_name;
 

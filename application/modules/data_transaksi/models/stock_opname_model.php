@@ -382,29 +382,30 @@ class stock_opname_model extends CI_Model {
             return $option;    
         }
     } 
-    public function options_bhn_bkr($default = '--Pilih Jenis Bahan Bakar--', $key = 'all', $jenis=0) {
-        $this->db->select('a.ID_JNS_BHN_BKR, b.NAMA_JNS_BHN_BKR');
-        $this->db->from('MASTER_TANGKI a');
-        $this->db->join('M_JNS_BHN_BKR b', 'a.ID_JNS_BHN_BKR = b.ID_JNS_BHN_BKR ','left');
-        if ($key != 'all'){
-            $this->db->where('a.SLOC',$key);
-        }    
-        if ($jenis==0){
-            return $this->db->get()->result(); 
-        } else {
-            $option = array();
-            $list = $this->db->get(); 
+    // public function options_bhn_bkr($default = '--Pilih Jenis Bahan Bakar--', $key = 'all', $jenis=0) {
+    //     $this->db->select('a.ID_JNS_BHN_BKR, b.NAMA_JNS_BHN_BKR');
+    //     $this->db->from('MASTER_TANGKI a');
+    //     $this->db->join('M_JNS_BHN_BKR b', 'a.ID_JNS_BHN_BKR = b.ID_JNS_BHN_BKR ','left');
+    //     if ($key != 'all'){
+    //         $this->db->where('a.SLOC',$key);
+    //     }    
+    //     if ($jenis==0){
+    //         return $this->db->get()->result(); 
+    //     } else {
+    //         $option = array();
+    //         $list = $this->db->get(); 
 
-            if (!empty($default)) {
-                $option[''] = $default;
-            }
+    //         if (!empty($default)) {
+    //             $option[''] = $default;
+    //         }
 
-            foreach ($list->result() as $row) {
-                $option[$row->ID_JNS_BHN_BKR] = $row->NAMA_JNS_BHN_BKR;
-            }
-            return $option;    
-        }
-    }    
+    //         foreach ($list->result() as $row) {
+    //             $option[$row->ID_JNS_BHN_BKR] = $row->NAMA_JNS_BHN_BKR;
+    //         }
+    //         return $option;    
+    //     }
+    // }    
+    
 // jangan dihapus dulu untuk jaga jaga
     // public function options_jns_bhn_bkr($default = '--Pilih Jenis Bahan Bakar--') {
         
