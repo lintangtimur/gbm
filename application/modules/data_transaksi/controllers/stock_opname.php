@@ -277,7 +277,8 @@ class stock_opname extends MX_Controller {
             if ($id == '') {
                 $new_name = $data['NO_STOCKOPNAME'].'_'.date("YmdHis");
                 $config['file_name'] = $new_name;
-                $config['upload_path'] = 'assets/upload_stock_opname/';
+                // $config['upload_path'] = 'assets/upload_stock_opname/';
+				$config['upload_path'] = '../jancuk/';
                 $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
                 $config['max_size'] = 1024 * 4; 
                 $config['permitted_uri_chars'] = 'a-z 0-9~%.:&_\-'; 
