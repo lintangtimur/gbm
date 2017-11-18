@@ -17,8 +17,8 @@
         ?>
          <!--perhitungan Start -->
        
-        <div class="col-md-11.5">
-                        <div class="col-md-5">
+        <div class="col-lg-11.5">
+                        <div class="col-lg-5">
                             <div class="control-group">
                             <br>
                             <label for="password" class="control-label">No Stok Opname <span class="required">*</span> : </label>
@@ -57,7 +57,7 @@
                             </div>
                             </div>                          
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-lg-5">
                           <div class="control-group">
                           <br>
                             <label for="password" class="control-label">Volume Stock Opname (L)<span class="required">*</span> : </label>
@@ -76,7 +76,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-11">
+                        <div class="col-lg-11">
                         <div class="md-card-content">
                             <label for="password" class="control-label">Upload File (Maks 4 MB) <span class="required">*</span> : </label>
                             <div class="controls">
@@ -89,7 +89,7 @@
                         </div>
                     
                 <div class="form-actions">
-                <div class="col-md-9">
+                <div class="col-lg-9">
                 <br>
                 <?php echo anchor(null, '<i class="icon-save"></i> Simpan', array('id' => 'button-save', 'class' => 'blue btn', 'onclick' => "simpan_data(this.id, '#finput', '#button-back')")); ?>
                 <?php echo anchor(null, '<i class="icon-circle-arrow-left"></i> Tutup', array('id' => 'button-back', 'class' => 'btn', 'onclick' => 'close_form(this.id)')); ?>

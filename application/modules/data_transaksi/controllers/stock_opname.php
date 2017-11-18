@@ -45,8 +45,7 @@ class stock_opname extends MX_Controller {
         $this->asset->set_plugin(array('crud'));
 
         $data = $this->get_level_user(); 
-        $data['opsi_bbm'] = $this->tbl_get->options_jns_bhn_bkr();
-        $data['parent_options_jns'] = $this->tbl_get->options_jns_bhn_bkr();
+        $data['parent_options_jns'] = $this->tbl_get->options_jns_bhn_bkr_main();
         $data['opsi_bulan'] = $this->tbl_get->options_bulan();  
         $data['opsi_tahun'] = $this->tbl_get->options_tahun(); 
 
