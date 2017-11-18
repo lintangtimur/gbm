@@ -26,19 +26,19 @@
                         <?php echo form_open_multipart('', array('id' => 'ffilter')); ?>
                             <div class="form_row">
                                 <div class="pull-left span3">
-                                <label for="password" class="control-label">Regional <span class="required">*</span> : </label>
+                                <label for="password" class="control-label">Regional : </label>
                                     <div class="controls">
                                     <?php echo form_dropdown('ID_REGIONAL', $reg_options, !empty($default->ID_REGIONAL) ? $default->ID_REGIONAL : ''); ?>
                                      </div>
                                 </div>
                                 <div class="pull-left span3">
-                                    <label for="password" class="control-label">Level 1 <span class="required">*</span> : </label>
+                                    <label for="password" class="control-label">Level 1 : </label>
                                     <div class="controls">
                                     <?php echo form_dropdown('COCODE', $lv1_options, !empty($default->COCODE) ? $default->COCODE : ''); ?>
                                     </div>
                                 </div>
                                 <div class="pull-left span3">
-                                <label for="password" class="control-label">Level 2 <span class="required">*</span> : </label>
+                                <label for="password" class="control-label">Level 2 : </label>
                                     <div class="controls">
                                     <?php echo form_dropdown('PLANT', $lv2_options, !empty($default->PLANT) ? $default->PLANT : ''); ?>
                                     </div>
@@ -46,19 +46,19 @@
                             </div><br/>
                             <div class="form_row">
                                 <div class="pull-left span3">
-                                    <label for="password" class="control-label">Level 3 <span class="required">*</span> : </label>
+                                    <label for="password" class="control-label">Level 3 : </label>
                                     <div class="controls">
                                         <?php echo form_dropdown('STORE_SLOC', $lv3_options, !empty($default->STORE_SLOC) ? $default->STORE_SLOC : ''); ?>
                                     </div>
                                 </div>
                                 <div class="pull-left span3">
-                                    <label for="password" class="control-label">Pembangkit <span class="required">*</span> : </label>
+                                    <label for="password" class="control-label">Pembangkit : </label>
                                     <div class="controls">
                                         <?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : ''); ?>
                                     </div>
                                 </div>
                                 <div class="pull-left span3">
-                                    <label for="password" class="control-label">Jenis Bahan Bakar <span class="required">*</span> : </label>
+                                    <label for="password" class="control-label">Jenis Bahan Bakar : </label>
                                     <div class="controls">
                                         <?php echo form_dropdown('BBM', $parent_options_jns, !empty($default->ID_JENIS_BHN_BKR) ? $default->ID_JENIS_BHN_BKR : ''); ?>
                                     </div>

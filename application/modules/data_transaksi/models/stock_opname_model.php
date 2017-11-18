@@ -404,21 +404,23 @@ class stock_opname_model extends CI_Model {
     // }    
     
 // jangan dihapus dulu untuk jaga jaga
-    // public function options_jns_bhn_bkr($default = '--Pilih Jenis Bahan Bakar--') {
+    public function options_jns_bhn_bkr_main($default = '--Pilih Jenis Bahan Bakar--') {
         
-              // $option = array();
-              // $list = $this->data_option()->get();
+        $this->db->from('M_JNS_BHN_BKR');
+        
+            $option = array();
+            $list = $this->db->get(); 
     
-            // if (!empty($default)) {
-                // $option[''] = $default;
-            // }
+            if (!empty($default)) {
+                $option[''] = $default;
+            }
     
-            // foreach ($list->result() as $row) {
-                // $option[$row->ID_JNS_BHN_BKR] = $row->NAMA_JNS_BHN_BKR;
-            // }
-            // return $option;    
+            foreach ($list->result() as $row) {
+                $option[$row->ID_JNS_BHN_BKR] = $row->NAMA_JNS_BHN_BKR;
+            }
+            return $option;  
             
-        // }
+        }
 
     public function options_lv1_view($default = '--Pilih Level 1--') {
         $this->db->from('MASTER_LEVEL1');
