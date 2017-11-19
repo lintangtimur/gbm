@@ -103,12 +103,13 @@ class tutup_mutasi_persediaan extends MX_Controller {
         $table = new stdClass();
         $table->id = 'ID_BUKA_MUTASI';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('ID_BUKA_MUTASI' => 'center', 'PLANT' => 'center','LEVEL2' => 'center', 'LEVEL1' => 'center', 'NAMA_REGIONAL' => 'center', 'TGL_BUKA' => 'center', 'TGL_TUTUP' => 'center', 'aksi' => 'center');
+        $table->align = array('ID_BUKA_MUTASI' => 'center', 'STATUS' => 'center', 'PLANT' => 'center','LEVEL2' => 'center', 'LEVEL1' => 'center', 'NAMA_REGIONAL' => 'center', 'TGL_BUKA' => 'center', 'TGL_TUTUP' => 'center', 'aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
         $table->jumlah_kolom = 8;
         $table->header[] = array(
             "No", 1, 1,
+            "Status", 1, 1,
             "PLANT", 1, 1,
             "LEVEL 2", 1, 1,
             "LEVEL 1", 1, 1,

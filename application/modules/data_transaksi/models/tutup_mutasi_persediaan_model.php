@@ -181,12 +181,22 @@ class tutup_mutasi_persediaan_model extends CI_Model {
         $rows = array();
         foreach ($record->result() as $row) {
             $id = $row->ID_BUKA_MUTASI;
+            $status='';
+            $tgl_tutup=$row->TGL_TUTUP;
+            $today= new DateTime();
+            $hari_ini=$today->format('Y-m-d');
+            if($tgl_tutup>=$hari_ini){
+                $status="Buka";
+            }else{
+                $status="Tutup";
+            }
 
             if ($this->laccess->otoritas('edit')) {
             $aksi = anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-buka' . $id, 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($module . '/edit_buka/' . $id)));
             }
             $rows[$id] = array(
                 'ID_BUKA_MUTASI' => $no++,
+                'STATUS'=>$status,
                 'PLANT' => $row->PLANT,
                 'LEVEL2' => $row->LEVEL2,
                 'LEVEL1' => $row->LEVEL1,
