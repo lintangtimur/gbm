@@ -40,12 +40,16 @@ class tutup_mutasi_persediaan extends MX_Controller {
         $data['button_group'] = array();
         if ($this->laccess->otoritas('add')) {
         $data['button_group'] = array(
-            anchor(null, '<i class="icon-plus"></i> Tambah Data', array('class' => 'btn yellow', 'id' => 'button-add', 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($this->_module . '/add')))
+            anchor(null, '<i class="icon-plus"></i> Tambah Data', array('class' => 'btn yellow', 'id' => 'button-add', 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($this->_module . '/add_buka')))
              );
         }
+        $data['reg_options'] = $this->tbl_get->options_reg(); 
+        $data['lv1_options'] = $this->tbl_get->options_lv1('--Pilih Level 1--', '-', 1); 
+        $data['lv2_options'] = $this->tbl_get->options_lv2('--Pilih Level 2--', '-', 1); ; 
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $this->_title;
         $data['page_content'] = $this->_module . '/main';
         $data['data_sources'] = base_url($this->_module . '/load');
+        $data['data_sources_buka_mutasi'] = base_url($this->_module . '/load_buka');
         echo Modules::run("template/admin", $data);
     }
 
@@ -57,7 +61,10 @@ class tutup_mutasi_persediaan extends MX_Controller {
             $get_tbl = $this->tbl_get->data($id);
             $data['default'] = $get_tbl->get()->row();
         }
-        $data['parent_options'] = $this->tbl_get->options_status_mutasi();
+       
+        $data['parent_options'] = $this->tbl_get->options_status_mutasi(); 
+
+
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses');
         $this->load->view($this->_module . '/form', $data);
@@ -89,6 +96,60 @@ class tutup_mutasi_persediaan extends MX_Controller {
         echo $data;
     }
 
+
+    public function load_buka($page = 1) {
+        $data_table = $this->tbl_get->data_table_buka($this->_module, $this->_limit, $page);
+        $this->load->library("ltable");
+        $table = new stdClass();
+        $table->id = 'ID_BUKA_MUTASI';
+        $table->style = "table table-striped table-bordered table-hover datatable dataTable";
+        $table->align = array('ID_BUKA_MUTASI' => 'center', 'PLANT' => 'center','LEVEL2' => 'center', 'LEVEL1' => 'center', 'NAMA_REGIONAL' => 'center', 'TGL_BUKA' => 'center', 'TGL_TUTUP' => 'center', 'aksi' => 'center');
+        $table->page = $page;
+        $table->limit = $this->_limit;
+        $table->jumlah_kolom = 8;
+        $table->header[] = array(
+            "No", 1, 1,
+            "PLANT", 1, 1,
+            "LEVEL 2", 1, 1,
+            "LEVEL 1", 1, 1,
+            "REGIONAL", 1, 1,
+            "Tanggal Buka", 1, 1,
+            "Tanggal Tutup", 1, 1,
+            "Aksi", 1, 1
+        );
+        $table->total = $data_table['total'];
+        $table->content = $data_table['rows'];
+        $data = $this->ltable->generate($table, 'js', true);
+        echo $data;
+    }
+
+    public function add_buka($id = '') {
+        $page_title = 'Tambah '.$this->_title;
+        $data['id'] = $id;
+        $lv1 = '-';
+        $lv2 = '-';
+        if ($id != '') {
+            $page_title = 'Edit '.$this->_title;
+            $get_tbl = $this->tbl_get->data_buka($id);
+            $data['default'] = $get_tbl->get()->row();
+            $lv1 = $data['default']->ID_REGIONAL; 
+            $lv2 = $data['default']->COCODE;
+        }
+        $data['parent_options_buka'] = $this->tbl_get->options_status_mutasi_buka(); 
+        $data['reg_options'] = $this->tbl_get->options_reg(); 
+        $data['lv1_options'] = $this->tbl_get->options_lv1('--Pilih Level 1--', $lv1, 1); 
+        $data['lv2_options'] = $this->tbl_get->options_lv2('--Pilih Level 2--', $lv2, 1); 
+
+        $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
+        $data['form_action'] = base_url($this->_module . '/proses_buka');
+        $this->load->view($this->_module . '/form_buka', $data);
+    }
+
+    public function edit_buka($id) {
+        $this->add_buka($id);
+    }
+
+
     public function proses() {
         $this->form_validation->set_rules('TGL_TUTUP', 'required');
         if ($this->form_validation->run($this)) {
@@ -110,7 +171,6 @@ class tutup_mutasi_persediaan extends MX_Controller {
                 $bulan='0'.$bulan;
             }
             $data['BLTH']=$tahun.$bulan;
-            $data['TGL_TUTUP'] = $this->input->post('TGL_TUTUP');
             $data['PLANT']='0'; 
            
             if ($id == '') {
@@ -136,14 +196,65 @@ class tutup_mutasi_persediaan extends MX_Controller {
         }
         echo json_encode($message, true);
     }
-    public function delete($id) {
-        $message = array(false, 'Proses gagal', 'Proses hapus data gagal.', '');
 
-        if ($this->tbl_get->delete($id)) {
-            $message = array(true, 'Proses Berhasil', 'Proses hapus data berhasil.', '#content_table');
+    public function proses_buka() {
+        $this->form_validation->set_rules('PLANT', 'required');
+        $this->form_validation->set_rules('TGL_BUKA', 'required');
+        $this->form_validation->set_rules('TGL_TUTUP', 'required');
+        if ($this->form_validation->run($this)) {
+            $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
+            $id = $this->input->post('id');
+
+            $data = array();
+            $data['PLANT'] = $this->input->post('PLANT');
+            $data['TGL_BUKA'] = $this->input->post('TGL_BUKA');
+            $data['TGL_TUTUP'] = $this->input->post('TGL_TUTUP');
+            $tanggal = new DateTime($data['TGL_TUTUP']);
+            $tahun = $tanggal->format('Y');
+            $bulan = $tanggal->format('m');
+            if($bulan==1){
+                $bulan=12;
+            }else{
+                $bulan=$bulan-1;
+            }
+
+            if($bulan<10){
+                $bulan='0'.$bulan;
+            }
+            $data['BLTH']=$tahun.$bulan;
+           
+            if ($id == '') {      
+                    if ($this->tbl_get->save_as_new_buka($data)) {
+                        $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table_buka');
+                    }
+            }else{
+                $data['UPDATE_DATE']=date("Y/m/d H:i:s");
+                $data['UPDATE_BY']=$this->session->userdata('user_name');
+                    if ($this->tbl_get->save_buka($data, $id)) {
+                        $data['ID_BUKA_MUTASI'] =$id;
+                        $data['TGL_LOG']=date("Y/m/d H:i:s");
+                        if ($this->tbl_get->save_as_new_buka_log($data)) {
+                            $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table_buka');
+                        }
+                    }     
+            }
+
+        }else {
+            $message = array(false, 'Proses gagal', validation_errors(), '');
         }
+        echo json_encode($message, true);
+    }
+
+    public function get_options_lv1($key=null) {
+        $message = $this->tbl_get->options_lv1('--Pilih Level 1--', $key, 0);
         echo json_encode($message);
     }
+
+    public function get_options_lv2($key=null) {
+        $message = $this->tbl_get->options_lv2('--Pilih Level 2--', $key, 0);
+        echo json_encode($message);
+    }
+
 
 }
 

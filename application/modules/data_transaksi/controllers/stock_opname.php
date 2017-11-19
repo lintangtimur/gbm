@@ -35,7 +35,7 @@ class stock_opname extends MX_Controller {
     public function index() {
         // Load Modules
         $this->load->module("template/asset");
-        $this->asset->set_plugin(array('bootstrap-column','format_number'));
+        $this->asset->set_plugin(array('format_number'));
         $this->asset->set_plugin(array('jquery'));
         $this->asset->set_plugin(array('file-upload'));
         // $this->asset->set_plugin(array('DataTableCustom'));

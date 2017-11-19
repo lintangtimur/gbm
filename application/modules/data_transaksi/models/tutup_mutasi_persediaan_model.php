@@ -15,12 +15,20 @@ class tutup_mutasi_persediaan_model extends CI_Model {
 
     private $_table1 = "TUTUP_MUTASI"; //nama table setelah mom_
     private $_table2 = "TUTUP_MUTASI_LOG";
+    private $_table3 = "BUKA_MUTASI";
+    private $_table4 = "BUKA_MUTASI_LOG";
 
     private function _key($key) { //unit ID
         if (!is_array($key)) {
             $key = array('ID_MUTASI' => $key);
         }
         return $key;
+    }
+    private function _key_buka($key_buka) { //unit ID
+        if (!is_array($key_buka)) {
+            $key_buka = array('ID_BUKA_MUTASI' => $key_buka);
+        }
+        return $key_buka;
     }
 
     public function data($key = '') {
@@ -37,18 +45,18 @@ class tutup_mutasi_persediaan_model extends CI_Model {
 
     }
 
-    // function check_tutup_periode($tanggal_input){
-    //     $query = $this->db->get_where($this->_table2, array('COCODE' => $id_co));
-       
-    //     if ($query->num_rows() > 0)
-    //     {
-    //         return FALSE;
-    //     }
-    //     else
-    //     {
-    //         return TRUE;
-    //     }
-    //  }
+    public function data_buka($key_buka = '') {
+        $this->db->select('A.*, R.ID_REGIONAL, R.NAMA_REGIONAL, M1.COCODE, M1.LEVEL1, M2.LEVEL2  ');
+        $this->db->from($this->_table3. ' A');
+        $this->db->join('MASTER_LEVEL2 M2', 'M2.PLANT = a.PLANT','left');
+        $this->db->join('MASTER_LEVEL1 M1', 'M1.COCODE = M2.COCODE','left');
+        $this->db->join('MASTER_REGIONAL R', 'R.ID_REGIONAL = M1.ID_REGIONAL','left');
+        
+        if (!empty($key_buka) || is_array($key_buka))
+        $this->db->where_condition($this->_key_buka($key_buka));
+        
+        return $this->db;
+    }
 
     public function save_as_new($data) {
         $this->db->trans_begin();
@@ -92,10 +100,38 @@ class tutup_mutasi_persediaan_model extends CI_Model {
         }
     }
 
-    public function delete($key) {
+    public function save_as_new_buka($data) {
+        $this->db->trans_begin();
+        $this->db->set_id($this->_table4, 'ID_BUKA_MUTASI', 'no_prefix', 10);
+        $this->db->insert($this->_table4, $data);
+
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return FALSE;
+        } else {
+            $this->db->trans_commit();
+            return TRUE;
+        }
+    }
+
+    public function save_as_new_buka_log($data) {
+        $this->db->trans_begin();
+        $this->db->set_id($this->_table4, 'ID_BUKA_MUTASI_LOG', 'no_prefix', 10);
+        $this->db->insert($this->_table4, $data);
+
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return FALSE;
+        } else {
+            $this->db->trans_commit();
+            return TRUE;
+        }
+    }
+
+    public function save_buka($data, $key_buka) {
         $this->db->trans_begin();
 
-        $this->db->delete($this->_table1, $this->_key($key));
+        $this->db->update($this->_table3, $data, $this->_key_buka($key_buka));
 
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
@@ -122,10 +158,7 @@ class tutup_mutasi_persediaan_model extends CI_Model {
             if ($this->laccess->otoritas('edit')) {
             $aksi = anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
             }
-            
-            if ($this->laccess->otoritas('delete')) {
-            $aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
-            }
+
             $rows[$id] = array(
                 'ID_MUTASI' => $no++,
                 'TGL_TUTUP' => $row->TGL_TUTUP,
@@ -136,6 +169,37 @@ class tutup_mutasi_persediaan_model extends CI_Model {
 
         return array('total' => $total, 'rows' => $rows);
     }
+    public function data_table_buka($module = '', $limit = 20, $offset = 1) {
+		$filter = array();
+        $kata_kunci = $this->input->post('kata_kunci');
+        if (!empty($kata_kunci))
+        $filter[ "A.LEVEL2 LIKE '%{$kata_kunci}%' OR A.LEVEL1 LIKE '%{$kata_kunci}%'"]  = NULL;
+        $total = $this->data_buka($filter)->count_all_results();
+		$this->db->limit($limit, ($offset * $limit) - $limit);
+        $record = $this->data_buka($filter)->get();
+		$no=(($offset-1) * $limit) +1;
+        $rows = array();
+        foreach ($record->result() as $row) {
+            $id = $row->ID_BUKA_MUTASI;
+
+            if ($this->laccess->otoritas('edit')) {
+            $aksi = anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-buka' . $id, 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($module . '/edit_buka/' . $id)));
+            }
+            $rows[$id] = array(
+                'ID_BUKA_MUTASI' => $no++,
+                'PLANT' => $row->PLANT,
+                'LEVEL2' => $row->LEVEL2,
+                'LEVEL1' => $row->LEVEL1,
+                'NAMA_REGIONAL' => $row->NAMA_REGIONAL,
+                'TGL_BUKA' => $row->TGL_BUKA,
+                'TGL_TUTUP'=> $row->TGL_TUTUP,
+                'aksi' => $aksi
+            );
+        }
+
+        return array('total' => $total, 'rows' => $rows);
+    }
+
 
     public function options_status_mutasi($default = '--Pilih Status--') {
         $this->db->from('DATA_SETTING');
@@ -152,6 +216,85 @@ class tutup_mutasi_persediaan_model extends CI_Model {
         }
         return $option;
 
+    }
+    public function options_status_mutasi_buka($default = 'BUKA') {
+        $this->db->from('DATA_SETTING');
+        $this->db->where('KEY_SETTING','STATUS_MUTASI');
+        $option = array();
+        $list = $this->db->get();
+
+        if (!empty($default)) {
+            $option[''] = $default;
+        }
+
+        foreach ($list->result() as $row) {
+            $option[$row->VALUE_SETTING] = $row->NAME_SETTING;
+        }
+        return $option;
+
+    }
+
+    public function options_reg($default = '--Pilih Regional--', $key = 'all') {
+        $option = array();
+
+        $this->db->from('MASTER_REGIONAL');
+        if ($key != 'all'){
+            $this->db->where('ID_REGIONAL',$key);
+        }   
+        $list = $this->db->get(); 
+
+        if (!empty($default)) {
+            $option[''] = $default;
+        }
+
+        foreach ($list->result() as $row) {
+            $option[$row->ID_REGIONAL] = $row->NAMA_REGIONAL;
+        }
+        return $option;
+    }
+
+    public function options_lv1($default = '--Pilih Level 1--', $key = 'all', $jenis=0) {
+        $this->db->from('MASTER_LEVEL1');
+        if ($key != 'all'){
+            $this->db->where('ID_REGIONAL',$key);
+        }    
+        if ($jenis==0){
+            return $this->db->get()->result(); 
+        } else {
+            $option = array();
+            $list = $this->db->get(); 
+
+            if (!empty($default)) {
+                $option[''] = $default;
+            }
+
+            foreach ($list->result() as $row) {
+                $option[$row->COCODE] = $row->LEVEL1;
+            }
+            return $option;    
+        }
+    }
+
+    public function options_lv2($default = '--Pilih Level 2--', $key = 'all', $jenis=0) {
+        $this->db->from('MASTER_LEVEL2');
+        if ($key != 'all'){
+            $this->db->where('COCODE',$key);
+        }    
+        if ($jenis==0){
+            return $this->db->get()->result(); 
+        } else {
+            $option = array();
+            $list = $this->db->get(); 
+
+            if (!empty($default)) {
+                $option[''] = $default;
+            }
+
+            foreach ($list->result() as $row) {
+                $option[$row->PLANT] = $row->LEVEL2;
+            }
+            return $option;    
+        }
     }
 	 
 
