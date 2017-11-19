@@ -18,6 +18,7 @@ class stock_opname extends MX_Controller {
     private $_title = 'Stock Opname';
     private $_limit = 10;
     private $_module = 'data_transaksi/stock_opname';
+	private $_urlgetfile = "http://localhost:8888/geturl";
 
     public function __construct() {
         parent::__construct();
@@ -69,7 +70,7 @@ class stock_opname extends MX_Controller {
 
         $level_user = $this->session->userdata('level_user');
         $kode_level = $this->session->userdata('kode_level');
-
+		$data["url_getfile"] = $this->_urlgetfile;
         if ($level_user==2){
             $data_lv = $this->tbl_get->get_level($level_user+3,$kode_level);
             if ($data_lv){
@@ -276,8 +277,8 @@ class stock_opname extends MX_Controller {
             if ($id == '') {
                 $new_name = $data['NO_STOCKOPNAME'].'_'.date("YmdHis");
                 $config['file_name'] = $new_name;
-                // $config['upload_path'] = 'assets/upload_stock_opname/';
-				$config['upload_path'] = '../jancuk/';
+                $config['upload_path'] = 'assets/upload/stockopname/';
+				// $config['upload_path'] = '../jancuk/';
                 $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
                 $config['max_size'] = 1024 * 4; 
                 $config['permitted_uri_chars'] = 'a-z 0-9~%.:&_\-'; 
@@ -296,6 +297,34 @@ class stock_opname extends MX_Controller {
                         $data['CD_DATE_STOKOPNAME'] = date('Y-m-d');
                         if ($this->tbl_get->save_as_new($data)) {
                              $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
+							
+							//extract data from the post
+							//set POST variables
+							$url = 'http://localhost:8888/move';
+							$fields = array(
+								'filename' => urlencode($nama_file),
+								'modul' => urlencode('SO')
+							);
+							$fields_string = '';
+							//url-ify the data for the POST
+							foreach($fields as $key=>$value) {
+								$fields_string .= $key.'='.$value.'&'; 
+							}
+							rtrim($fields_string, '&');
+
+							//open connection
+							$ch = curl_init();
+
+							//set the url, number of POST vars, POST data
+							curl_setopt($ch,CURLOPT_URL, $url);
+							curl_setopt($ch,CURLOPT_POST, count($fields));
+							curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+
+							//execute post
+							$result = curl_exec($ch);
+
+							//close connection
+							curl_close($ch);
                         }
                     }
                 }

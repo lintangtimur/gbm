@@ -5,7 +5,7 @@
  * @created at 17 OKTOBER 2017
  * @modified at 17 OKTOBER 2017
  */ -->
-
+<?php header('Access-Control-Allow-Origin: *'); ?>
 <div class="row-fluid">
     <div class="box-title">
         <?php echo (isset($page_title)) ? $page_title : 'Untitle'; ?>
@@ -83,7 +83,7 @@
                             <?php echo form_upload('FILE_UPLOAD', !empty($default->PATH_STOCKOPNAME) ? $default->PATH_STOCKOPNAME : '', 'class="span6"'); ?>
                             </div>
                             <div class="controls" id="dokumen">
-                             <a href="<?php echo base_url().'assets/upload_stock_opname/'.$id_dok;?>" target="_blank"><b><?php echo (empty($id_dok)) ? $id_dok : 'Lihat Dokumen'; ?></b></a>
+							 <a href="javascript:void(0);" id="lihatdoc" onclick="lihat_dokumen(this.id)" data-modul="SO" data-url="<?php echo $url_getfile;?>" data-filename="<?php echo !empty($default->PATH_STOCKOPNAME) ? $default->PATH_STOCKOPNAME : '';?>"><b><?php echo (empty($id_dok)) ? $id_dok : 'Lihat Dokumen'; ?></b></a>
                             </div>
                         </div>
                         </div>

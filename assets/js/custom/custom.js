@@ -220,3 +220,42 @@ function check_jenis_bbm(url, div_komponen, cbo_komponen){
 	});
 }
 
+function lihat_dokumen(id){
+	// header("Access-Control-Allow-Methods: GET, OPTIONS");
+	// header("Access-Control-Allow-Headers: Content-Type, Content-Length, Accept-Encoding");
+	bootbox.modal('<div class="loading-progress"></div>');
+	var modul = $("#"+id).data("modul");
+	var url = $("#"+id).data("url");
+	var filename = $("#"+id).data("filename");
+	// $.ajax({
+		// url: url,
+		// method: "POST",
+		// crossDomain: true,
+		// dataType: 'jsonp',
+		// data:{"modul": modul, "filename":encodeURI(filename)}
+	// }).done(function(result) {
+		// $(".bootbox").modal("hide");
+		// console.log(result);
+		// window.open(result, '_blank');
+	// }).type("text");
+	$.ajax({
+          url: url,
+          type: 'POST',
+          dataType: 'jsonp',
+          cors: true ,
+          contentType:'application/json',
+		  data:{"modul": modul, "filename":encodeURI(filename)},
+          secure: true,
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                    },
+          beforeSend: function (xhr) {
+              xhr.setRequestHeader ("Authorization", "Basic " + btoa(""));
+			  $(".bootbox").modal("hide");
+          },
+          success: function (data){
+			$(".bootbox").modal("hide");
+          }
+      })
+}
+
