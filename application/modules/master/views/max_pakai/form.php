@@ -10,7 +10,7 @@
 		<div class="control-group">
             <label for="password" class="control-label">Periode<span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_input('THBL_MAX_PAKAI', !empty($default->THBL_MAX_PAKAI) ? $default->THBL_MAX_PAKAI : '', 'class="span6" placeholder="TahunBulan" maxlength=6'); ?>
+                <?php echo form_input('THBL_MAX_PAKAI', !empty($default->THBL_MAX_PAKAI) ? $default->THBL_MAX_PAKAI : '', 'class="span6 input-append date form_datetime" '); ?>
             </div>
         </div>
 		<div class="control-group">
@@ -42,5 +42,12 @@
 <script type="text/javascript">
 	$('.chosen').chosen();
 	$('input[name=VOLUME_MAX_PAKAI]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared:function () { self.Value(''); }
+    });
+
+    $(".form_datetime").datepicker({
+        format: "yyyy-mm",
+        autoclose: true,
+        viewMode: "months", 
+         minViewMode: "months"
     });
 </script>
