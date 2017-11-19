@@ -102,8 +102,8 @@ class tutup_mutasi_persediaan_model extends CI_Model {
 
     public function save_as_new_buka($data) {
         $this->db->trans_begin();
-        $this->db->set_id($this->_table4, 'ID_BUKA_MUTASI', 'no_prefix', 10);
-        $this->db->insert($this->_table4, $data);
+        $this->db->set_id($this->_table3, 'ID_BUKA_MUTASI', 'no_prefix', 10);
+        $this->db->insert($this->_table3, $data);
 
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
