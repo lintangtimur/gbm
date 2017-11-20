@@ -48,7 +48,7 @@ class tutup_mutasi_persediaan_model extends CI_Model {
     public function data_buka($key_buka = '') {
         $this->db->select('A.*, R.ID_REGIONAL, R.NAMA_REGIONAL, M1.COCODE, M1.LEVEL1, M2.LEVEL2  ');
         $this->db->from($this->_table3. ' A');
-        $this->db->join('MASTER_LEVEL2 M2', 'M2.PLANT = a.PLANT','left');
+        $this->db->join('MASTER_LEVEL2 M2', 'M2.PLANT = A.PLANT','left');
         $this->db->join('MASTER_LEVEL1 M1', 'M1.COCODE = M2.COCODE','left');
         $this->db->join('MASTER_REGIONAL R', 'R.ID_REGIONAL = M1.ID_REGIONAL','left');
         
@@ -173,7 +173,7 @@ class tutup_mutasi_persediaan_model extends CI_Model {
 		$filter = array();
         $kata_kunci = $this->input->post('kata_kunci');
         if (!empty($kata_kunci))
-        $filter[ "A.LEVEL2 LIKE '%{$kata_kunci}%' OR A.LEVEL1 LIKE '%{$kata_kunci}%'"]  = NULL;
+        $filter["M2.LEVEL2 LIKE '%{$kata_kunci}%' OR M1.LEVEL1 LIKE '%{$kata_kunci}%'"]= NULL;
         $total = $this->data_buka($filter)->count_all_results();
 		$this->db->limit($limit, ($offset * $limit) - $limit);
         $record = $this->data_buka($filter)->get();

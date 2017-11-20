@@ -11,9 +11,10 @@
             <span><?php echo isset($page_title) ? $page_title : 'Untitle'; ?></span>
         </div>
     </div>
+</div>
     <div class="widgets_area">
         <div class="row-fluid">
-            <div class="span6">
+            <div class="span12">
                 <div id ="index-content" class="well-content no-search">
 
                     <div class="well">
@@ -127,11 +128,10 @@
                     <div>&nbsp;</div>
                 </div>
                 <div id="form-content" class="well-content"></div>
-                
             </div>
         </div>
     </div>
-</div>
+
 
 <script type="text/javascript">
     jQuery(function($) {

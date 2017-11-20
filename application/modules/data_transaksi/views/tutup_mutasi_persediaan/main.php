@@ -62,7 +62,7 @@
                     <div>&nbsp;</div>
                     <div>&nbsp;</div>
                     <div>&nbsp;</div>
-                    <div id="content_table_buka" data-source="<?php echo $data_sources_buka_mutasi; ?>" data-filter-buka="#ffilter_buka_mutasi"></div>
+                    <div id="content_table_buka" data-source="<?php echo $data_sources_buka_mutasi; ?>" data-filter="#ffilter_buka_mutasi"></div>
                 </div>
                 <div id="form-content" class="modal fade modal-xlarge"></div>
             </div>
@@ -76,10 +76,10 @@
         load_table('#content_table', 1, '#ffilter');
 
         $('#button-filter').click(function() {
-            load_table('#content_table_buka', 1, '#ffilter');
+            load_table('#content_table_buka', 1, '#ffilter_buka_mutasi');
         });
 
-        load_table('#content_table_buka', 1, '#ffilter');
+        load_table('#content_table_buka', 1, '#ffilter_buka_mutasi');
 
         function setDefaultLv1(){
             $('select[name="COCODE"]').empty();
