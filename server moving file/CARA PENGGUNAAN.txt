@@ -1,0 +1,8 @@
+1. cek terlebih dahulu version java di komputer dengan cara ketik "java -version" di command prompt / terminal (linux)
+2. Ubah pathsource, path apps, pathurl di config.json
+	keterangan : patsource adalah folder tujuan dari folder aplikasi upload.
+path apps adalah folder upload yang berada pada aplikasi.
+pathurl adalah link / alamat sesuai dengan nama url di local masing2 .
+3. execute perintah java -jar path jar
+	contoh : java -jar C:\xampp\htdocs\pln\gbmci\server moving file\result.jar 8888
+4. rubah pada controller kontrak transportir, kontrak pemasok, tangki, permintaan, stock opname di variable $_urlgetfile dan $_url_movefile.
