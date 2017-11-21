@@ -51,6 +51,16 @@ class tutup_mutasi_persediaan_model extends CI_Model {
         $this->db->join('MASTER_LEVEL2 M2', 'M2.PLANT = A.PLANT','left');
         $this->db->join('MASTER_LEVEL1 M1', 'M1.COCODE = M2.COCODE','left');
         $this->db->join('MASTER_REGIONAL R', 'R.ID_REGIONAL = M1.ID_REGIONAL','left');
+
+        if ($_POST['ID_REGIONAL'] !='') {
+            $this->db->where("R.ID_REGIONAL",$_POST['ID_REGIONAL']);   
+        }
+        if ($_POST['COCODE'] !='') {
+            $this->db->where("M1.COCODE",$_POST['COCODE']);   
+        }
+        if ($_POST['PLANT'] !='') {
+            $this->db->where("M2.PLANT",$_POST['PLANT']);   
+        }
         
         if (!empty($key_buka) || is_array($key_buka))
         $this->db->where_condition($this->_key_buka($key_buka));
