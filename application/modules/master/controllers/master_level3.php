@@ -109,6 +109,7 @@ class master_level3 extends MX_Controller {
             $data['LEVEL3'] = $this->input->post('LEVEL3');
             $data['STORE_SLOC'] = $this->input->post('STORE_SLOC');
             $data['PLANT'] = $this->input->post('PLANT');
+            $data['IS_AKTIF_LVL3'] = $this->input->post('IS_AKTIF_LVL3');
 
             $store_sloc=$data['STORE_SLOC']; 
             if ($id == '') {

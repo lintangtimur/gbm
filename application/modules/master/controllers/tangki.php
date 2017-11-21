@@ -45,6 +45,7 @@ class tangki extends MX_Controller {
 
     public function add($id = '') {
         $page_title = 'Tambah Tangki';
+        $data = $this->cekLevelUser();
         $data['id_dok'] = $id;
         $data['id'] = $id;
         if ($id != '') {
@@ -56,7 +57,8 @@ class tangki extends MX_Controller {
             $data['id_dok'] = $data['default']->PATH_DET_TERA;
 
         }
-        $data['unit_pembangkit'] = $this->tangki_model->option_pembangkit('--Pilih Unit Pembangkit--', array('master_tangki.SLOC' => NULL));
+       
+        // $data['unit_pembangkit'] = $this->tangki_model->option_pembangkit_all('--Pilih Unit Pembangkit--', array('master_tangki.SLOC' => NULL));
         $data['jenis_bbm'] = $this->tangki_model->option_jenisbbm('--Pilih Jenis BBM--', array('master_tangki.ID_JNS_BHN_BKR' => NULL));
         $data['tera'] = $this->tangki_model->option_tera();
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
@@ -209,6 +211,23 @@ class tangki extends MX_Controller {
             $message = array(true, 'Proses Berhasil', 'Proses hapus data berhasil.', '#content_table');
         }
         echo json_encode($message);
+    }
+    
+    public function cekLevelUser(){
+        
+     $level_user = $this->session->userdata('level_user');
+     $kode_level = $this->session->userdata('kode_level');
+        
+    $data_lv = $this->tangki_model->get_level($level_user,$kode_level);
+            
+        if ($level_user==3|| $level_user==4){
+            $data['unit_pembangkit'] = $this->tangki_model->option_pembangkit_filter('--Pilih Level 4--', $data_lv[0]->STORE_SLOC, 1); 
+        } else{
+            $data['unit_pembangkit'] = $this->tangki_model->option_pembangkit_all(); 
+                    
+        } 
+        
+    return $data;
     }
 
 }
