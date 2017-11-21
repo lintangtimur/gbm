@@ -187,7 +187,7 @@ class permintaan extends MX_Controller
                 $new_name = $this->input->post('NO_NOMINASI');
                 $new_name = str_replace(" ","_",$new_name);
                 $config['file_name'] = $new_name;
-                $config['upload_path'] = 'assets/upload_nominasi/';
+                $config['upload_path'] = 'assets/upload/permintaan';
                 $config['allowed_types'] = 'jpg|jpeg|png|pdf';
                 $config['max_size'] = 1024 * 10; 
                 // $config['encrypt_name'] = TRUE;
@@ -212,7 +212,7 @@ class permintaan extends MX_Controller
                 $res='1';
                 if (!empty($_FILES['PATH_FILE_NOMINASI']['name'])){
 
-                    $target='assets/upload_nominasi/'.$this->input->post('PATH_FILE_EDIT');
+                    $target='assets/upload/permintaan/'.$this->input->post('PATH_FILE_EDIT');
 
                     if(file_exists($target)){
                         unlink($target);

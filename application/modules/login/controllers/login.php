@@ -15,7 +15,7 @@ class login extends MX_Controller {
     }
 
     public function index() {
-        
+        hprotection::login(false);
 		$this->load->module("template/asset");
         $this->asset->set_plugin(array('crud'));
         $data['page_content'] = 'login/form';

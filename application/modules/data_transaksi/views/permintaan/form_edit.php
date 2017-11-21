@@ -72,12 +72,15 @@
             </div>
             <div class="control-group">
                 <label for="control-label" class="control-label"> </label> 
-                <div class="controls" id="dokumen">
+                <!-- <div class="controls" id="dokumen">
                     <?php
-                        $link = !empty($default->PATH_FILE_NOMINASI) ? $default->PATH_FILE_NOMINASI : ''     
+                        // $link = !empty($default->PATH_FILE_NOMINASI) ? $default->PATH_FILE_NOMINASI : ''     
                     ?>
-                    <a href="<?php echo base_url().'assets/upload_nominasi/'.$link;?>" target="_blank"><b><?php echo (empty($link)) ? $link : 'Lihat Dokumen'; ?></b></a>
-                </div>
+                    <a href="<?php //echo base_url().'assets/upload_nominasi/'.$link;?>" target="_blank"><b><?php //echo (empty($link)) ? $link : 'Lihat Dokumen'; ?></b></a>
+                </div>-->
+				<div class="controls" id="dokumen">
+					<a href="javascript:void(0);" id="lihatdoc" onclick="lihat_dokumen(this.id)" data-modul="MINTA" data-url="<?php echo $url_getfile;?>" data-filename="<?php echo !empty($default->PATH_FILE_NOMINASI) ? $default->PATH_FILE_NOMINASI : '';?>"><b><?php echo (empty($id_dok)) ? $id_dok : 'Lihat Dokumen'; ?></b></a>
+				</div>
             </div>
             <div class="control-group">
                 <label class="control-label">Volume<span class="required">*</span> : </label>
