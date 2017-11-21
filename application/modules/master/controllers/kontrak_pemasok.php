@@ -11,6 +11,8 @@ class kontrak_pemasok extends MX_Controller {
     private $_title = 'Data Kontrak Pemasok';
     private $_limit = 10;
     private $_module = 'master/kontrak_pemasok';
+	private $_urlgetfile = "http://localhost:8888/geturl";
+	private $_url_movefile = 'http://localhost:8888/move';
 
     public function __construct() {
         parent::__construct();
@@ -83,6 +85,7 @@ class kontrak_pemasok extends MX_Controller {
         $data['jns_kontrak_options'] = $this->tbl_get->options_jns_kontrak();
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses');
+		$data["url_getfile"] = $this->_urlgetfile;
 
         if ($id != '') {
             $page_title = 'View '.$this->_title;
@@ -233,7 +236,7 @@ class kontrak_pemasok extends MX_Controller {
                 $new_name = date('Ymd').'_'.$this->input->post('NOPJBBM_KONTRAK_PEMASOK').'_'.$_FILES["ID_DOC_PEMASOK"]['name'];
                 $new_name = str_replace(" ","_",$new_name);
                 $config['file_name'] = $new_name;
-                $config['upload_path'] = 'assets/upload_kontrak/';
+                $config['upload_path'] = 'assets/upload/kontrak_pemasok/';
                 $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
                 $config['max_size'] = 1024 * 4; 
                 // $config['encrypt_name'] = TRUE;
@@ -249,6 +252,33 @@ class kontrak_pemasok extends MX_Controller {
                         $nama_file= $res['file_name'];
                         if ($this->tbl_get->save_as_new($data,$nama_file)) {
                             $message = array(true, 'Proses Berhasil ', 'Proses penyimpanan data berhasil.', '#content_table');
+							//extract data from the post
+							//set POST variables
+							$url = $this->_url_movefile;
+							$fields = array(
+								'filename' => urlencode($nama_file),
+								'modul' => urlencode('KONTRAKPEMASOK')
+							);
+							$fields_string = '';
+							//url-ify the data for the POST
+							foreach($fields as $key=>$value) {
+								$fields_string .= $key.'='.$value.'&'; 
+							}
+							rtrim($fields_string, '&');
+
+							//open connection
+							$ch = curl_init();
+
+							//set the url, number of POST vars, POST data
+							curl_setopt($ch,CURLOPT_URL, $url);
+							curl_setopt($ch,CURLOPT_POST, count($fields));
+							curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+
+							//execute post
+							$result = curl_exec($ch);
+
+							//close connection
+							curl_close($ch);
                         }
                     }
                 }
@@ -256,6 +286,33 @@ class kontrak_pemasok extends MX_Controller {
                 $data['UD_KONTRAK_PEMASOK'] = date('Y-m-d');
                 if ($this->tbl_get->save($data, $id)) {
                     $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+					//extract data from the post
+					//set POST variables
+					$url = $this->_url_movefile;
+					$fields = array(
+						'filename' => urlencode($nama_file),
+						'modul' => urlencode('KONTRAKTRANSPORTIR')
+					);
+					$fields_string = '';
+					//url-ify the data for the POST
+					foreach($fields as $key=>$value) {
+						$fields_string .= $key.'='.$value.'&'; 
+					}
+					rtrim($fields_string, '&');
+
+					//open connection
+					$ch = curl_init();
+
+					//set the url, number of POST vars, POST data
+					curl_setopt($ch,CURLOPT_URL, $url);
+					curl_setopt($ch,CURLOPT_POST, count($fields));
+					curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+
+					//execute post
+					$result = curl_exec($ch);
+
+					//close connection
+					curl_close($ch);
                 }
             }
         } else {

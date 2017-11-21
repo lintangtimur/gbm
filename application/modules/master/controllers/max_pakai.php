@@ -96,7 +96,9 @@ class max_pakai extends MX_Controller {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
             $id = $this->input->post('id');
 			
-            $thbl = $this->input->post('THBL_MAX_PAKAI');
+            $thbl_input = $this->input->post('THBL_MAX_PAKAI');
+            $date = new DateTime($thbl_input);
+            $thbl = $date->format('Ym');
 			$vol = $this->input->post('VOLUME_MAX_PAKAI');
 			$sloc = $this->input->post('SLOC');
 			$idjnsbbm = $this->input->post('ID_JNS_BHN_BKR');

@@ -91,7 +91,6 @@ class stock_opname_model extends CI_Model {
         $TGL_PENGAKUAN = $myDate->format('dmY');
 
         $query="CALL SP_TEMP_SO('$ID_STOCKOPNAME', '$SLOC', '$ID_JNS_BHN_BKR', '$TGL_PENGAKUAN', '$LEVEL_USER', '$STATUS', '$USER')";
-		// print_debug($query);
         $data = $this->db->query($query);
         return $data->result();
 
@@ -110,14 +109,6 @@ class stock_opname_model extends CI_Model {
             return TRUE;
         }
     }
-    
-    
-    // versi store prosecure
-    // public function save_as_new($data) {
-    //      $query="CALL SAVE_STOCK_OPNAME('$data')";
-    //      $data = $this->db->query($query);
-    //      return $data->result();
-    //  }
 
     public function save($data, $key) {
         $this->db->trans_begin();
@@ -198,24 +189,6 @@ class stock_opname_model extends CI_Model {
                     }
                 }
 
-
-                // if($level_user == 2){
-                //     if ($status == 1) {
-                //         $aksi .= anchor(null, '<i class="icon-zoom-in" title="View"></i>', array('class' => 'btn transparant', 'id' => 'button-load-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadApprove/' . $id)));
-                //     }
-                //     else if(($status==2) || ($status==3) ){
-                //         $aksi .= anchor(null, '<i class="icon-zoom-in" title="View"></i>', array('class' => 'btn transparant', 'id' => 'button-load-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadView/' . $id)));
-                //     }
-                // } 
-                // else if (($level_user == 3)||($level_user == 4)){
-                //     if (($status == 0) || ($status == 3)) {
-                //         $aksi .= anchor(null, '<i class="icon-share" title="Kirim"></i>', array('class' => 'btn transparant', 'id' => 'button-kirim-' . $id, 'onclick' => 'kirim_row(this.id)', 'data-source' => base_url($module . '/sendAction/' . $id)));
-                //         $aksi .= anchor(null, '<i class="icon-edit" title="Edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
-                //     }else if(($status==2)||($status==1)){
-                //         $aksi .= anchor(null, '<i class="icon-zoom-in" title="View"></i>', array('class' => 'btn transparant', 'id' => 'button-load-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadView/' . $id)));
-                //     }
-                // }
-
                 if($status==0){
                    $status_hasil="Belum Dikirim";
                 }else if($status==1){
@@ -250,7 +223,7 @@ class stock_opname_model extends CI_Model {
 			// $this->db->where("b.SLOC", $id);
 		
 		$this->db->from('M_JNS_BHN_BKR as a');
-		$this->db->join("MASTER_TANGKI as b", "a.ID_JNS_BHN_BKR = b.ID_JNS_BHN_BKR");
+        $this->db->join("MASTER_TANGKI as b", "a.ID_JNS_BHN_BKR = b.ID_JNS_BHN_BKR");
 		
 		if (!empty($key) || is_array($key))
 			$this->db->where_condition($this->_key($key));
@@ -280,6 +253,7 @@ class stock_opname_model extends CI_Model {
         $option = array();
 
         $this->db->from('MASTER_REGIONAL');
+        $this->db->where('IS_AKTIF_REGIONAL','1');
         if ($key != 'all'){
             $this->db->where('ID_REGIONAL',$key);
         }   
@@ -297,6 +271,7 @@ class stock_opname_model extends CI_Model {
 
     public function options_lv1($default = '--Pilih Level 1--', $key = 'all', $jenis=0) {
         $this->db->from('MASTER_LEVEL1');
+        $this->db->where('IS_AKTIF_LVL1','1');
         if ($key != 'all'){
             $this->db->where('ID_REGIONAL',$key);
         }    
@@ -319,6 +294,7 @@ class stock_opname_model extends CI_Model {
 
     public function options_lv2($default = '--Pilih Level 2--', $key = 'all', $jenis=0) {
         $this->db->from('MASTER_LEVEL2');
+        $this->db->where('IS_AKTIF_LVL2','1');
         if ($key != 'all'){
             $this->db->where('COCODE',$key);
         }    
@@ -341,6 +317,7 @@ class stock_opname_model extends CI_Model {
 
     public function options_lv3($default = '--Pilih Level 3--', $key = 'all', $jenis=0) {
         $this->db->from('MASTER_LEVEL3');
+        $this->db->where('IS_AKTIF_LVL3','1');
         if ($key != 'all'){
             $this->db->where('PLANT',$key);
         }    
@@ -363,6 +340,7 @@ class stock_opname_model extends CI_Model {
 
     public function options_lv4($default = '--Pilih Pembangkit--', $key = 'all', $jenis=0) {
         $this->db->from('MASTER_LEVEL4');
+        $this->db->where('IS_AKTIF_LVL4','1');
         if ($key != 'all'){
             $this->db->where('STORE_SLOC',$key);
         }    
@@ -427,6 +405,7 @@ class stock_opname_model extends CI_Model {
 
     public function options_lv1_view($default = '--Pilih Level 1--') {
         $this->db->from('MASTER_LEVEL1');
+        $this->db->where('IS_AKTIF_LVL1','1');
     
         $option = array();
         $list = $this->db->get(); 
@@ -444,6 +423,7 @@ class stock_opname_model extends CI_Model {
 
     public function options_lv2_view($default = '--Pilih Level 2--') {
         $this->db->from('MASTER_LEVEL2');
+        $this->db->where('IS_AKTIF_LVL2','1');
     
         $option = array();
         $list = $this->db->get(); 
@@ -461,6 +441,7 @@ class stock_opname_model extends CI_Model {
 
     public function options_lv3_view($default = '--Pilih Level 3--') {
         $this->db->from('MASTER_LEVEL3');
+        $this->db->where('IS_AKTIF_LVL3','1');
     
         $option = array();
         $list = $this->db->get(); 
@@ -478,6 +459,7 @@ class stock_opname_model extends CI_Model {
 
     public function options_lv4_view($default = '--Pilih Pembangkit--') {
         $this->db->from('MASTER_LEVEL4');
+        $this->db->where('IS_AKTIF_LVL4','1');
     
         $option = array();
         $list = $this->db->get(); 

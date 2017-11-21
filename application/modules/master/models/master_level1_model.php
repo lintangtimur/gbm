@@ -129,6 +129,7 @@ class master_level1_model extends CI_Model {
         $option = array();
 
         $this->db->from('MASTER_REGIONAL');
+        $this->db->where('IS_AKTIF_REGIONAL','1');
         if ($key != 'all'){
             $this->db->where('ID_REGIONAL',$key);
         }   

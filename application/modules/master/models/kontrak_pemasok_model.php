@@ -17,7 +17,7 @@ class kontrak_pemasok_model extends CI_Model {
 
     private function _key($key) { //unit ID
         if (!is_array($key)) {
-            $key = array('ID_KONTRAK_PEMASOK' => $key);
+            $key = array('a.ID_KONTRAK_PEMASOK' => $key);
         }
         return $key;
     }

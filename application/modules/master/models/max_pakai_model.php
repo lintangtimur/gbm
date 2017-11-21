@@ -90,7 +90,7 @@
 				if ($row->STATUS_MAX_PAKAI == '0') /*TIDAK AKTIVE*/
 					if ($this->laccess->otoritas('edit'))
 						$aksi = anchor(null, '<i class="icon-check"></i>', array('class' => 'btn transparant', 'id' => 'button-aktif-' . $id, 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($module . '/aktif/' . $id)));
-				ELSE
+				else
 					if ($this->laccess->otoritas('edit'))
 						$aksi = anchor(null, '<i class="icon-close"></i>', array('class' => 'btn transparant', 'id' => 'button-deactive-' . $id, 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($module . '/deactive/' . $id)));
 				

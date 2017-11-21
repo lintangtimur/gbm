@@ -5,7 +5,7 @@
  * @created at 17 OKTOBER 2017
  * @modified at 17 OKTOBER 2017
  */ -->
-<?php header('Access-Control-Allow-Origin: *'); ?>
+
 <div class="row-fluid">
     <div class="box-title">
         <?php echo (isset($page_title)) ? $page_title : 'Untitle'; ?>
@@ -16,88 +16,76 @@
         echo form_open_multipart($form_action, array('id' => 'finput', 'class' => 'form-horizontal'), $hidden_form);
         ?>
          <!--perhitungan Start -->
-       
-        <div class="col-lg-11.5">
-                        <div class="col-lg-5">
-                            <div class="control-group">
-                            <br>
-                            <label for="password" class="control-label">No Stok Opname <span class="required">*</span> : </label>
-                            <div class="controls">
-                            <?php echo form_input('NO_STOCKOPNAME', !empty($default->NO_STOCKOPNAME) ? $default->NO_STOCKOPNAME : '', 'class="span6"'); ?>
-                             </div>
-                            <br>
-                            <label  class="control-label">Regional <span class="required">*</span> : </label>
-                            <div class="controls">
-                                <?php echo form_dropdown('ID_REGIONAL', $reg_options, !empty($default->ID_REGIONAL) ? $default->ID_REGIONAL : ''); ?>
-                            </div>
-                            <br>
-                            <label  class="control-label">Level 1<span class="required">*</span> : </label>
-                            <div class="controls">
-                                <?php echo form_dropdown('COCODE', $lv1_options, !empty($default->COCODE) ? $default->COCODE : ''); ?>
-                            </div>
-                            <br>
-                            <label  class="control-label">Level 2<span class="required">*</span> : </label>
-                            <div class="controls">
-                                <?php echo form_dropdown('PLANT', $lv2_options, !empty($default->PLANT) ? $default->PLANT : ''); ?>
-                            </div>
-                            <br>
-                            <label  class="control-label">Level 3<span class="required">*</span> : </label>
-                            <div class="controls">
-                                <?php echo form_dropdown('STORE_SLOC', $lv3_options, !empty($default->STORE_SLOC) ? $default->STORE_SLOC : ''); ?>
-                            </div>
-                            <br>
-                            <label  class="control-label">Pembangkit<span class="required">*</span> : </label>
-                            <div class="controls">
-                                <?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : '', "id='pembangkit'"); ?>
-                            </div>
-							 <br>
-                            <label for="password" class="control-label">Pilih Jenis Bahan Bakar <span class="required">*</span> : </label>
-                            <div class="controls">
-                            <?php echo form_dropdown('ID_JNS_BHN_BKR', $parent_options_jns, !empty($default->ID_JNS_BHN_BKR) ? $default->ID_JNS_BHN_BKR : '', "id='jnsbbm'"); ?> 
-                            </div>
-                            </div>                          
-                        </div>
-                        <div class="col-lg-5">
-                          <div class="control-group">
-                          <br>
-                            <label for="password" class="control-label">Volume Stock Opname (L)<span class="required">*</span> : </label>
-                            <div class="controls">
-                            <?php echo form_input('VOLUME_STOCKOPNAME', !empty($default->VOLUME_STOCKOPNAME) ? $default->VOLUME_STOCKOPNAME : '', 'class="span6"'); ?>
-                             </div>
-                             <br>
-                            <label for="password" class="control-label">Tanggal BA Stock Opname <span class="required">*</span> : </label>
-                            <div class="controls">
-                            <?php echo form_input('TGL_BA_STOCKOPNAME', !empty($default->TGL_BA_STOCKOPNAME) ? $default->TGL_BA_STOCKOPNAME : '', 'class="span6 input-append date form_datetime", id="datepicker"'); ?>
-                            </div>
-                            <br>
-                            <label for="password" class="control-label">Tanggal Pengakuan <span class="required">*</span> : </label>
-                            <div class="controls">
-                            <?php echo form_input('TGL_PENGAKUAN', !empty($default->TGL_PENGAKUAN) ? $default->TGL_PENGAKUAN : '', 'class="span6 input-append date form_datetime"'); ?>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-lg-11">
-                        <div class="md-card-content">
-                            <label for="password" class="control-label">Upload File (Maks 4 MB) <span class="required">*</span> : </label>
-                            <div class="controls">
-                            <?php echo form_upload('FILE_UPLOAD', !empty($default->PATH_STOCKOPNAME) ? $default->PATH_STOCKOPNAME : '', 'class="span6"'); ?>
-                            </div>
-                            <div class="controls" id="dokumen">
+			<div class="control-group">
+                <br>
+                <label for="password" class="control-label">No Stok Opname <span class="required">*</span> : </label>
+                <div class="controls">
+                <?php echo form_input('NO_STOCKOPNAME', !empty($default->NO_STOCKOPNAME) ? $default->NO_STOCKOPNAME : '', 'class="span3"'); ?>
+                </div>
+                <br>
+                <label  class="control-label">Regional <span class="required">*</span> : </label>
+                <div class="controls">
+                <?php echo form_dropdown('ID_REGIONAL', $reg_options, !empty($default->ID_REGIONAL) ? $default->ID_REGIONAL : '', 'class="span6"'); ?>
+                </div>
+                <br>
+                <label  class="control-label">Level 1<span class="required">*</span> : </label>
+                <div class="controls">
+                <?php echo form_dropdown('COCODE', $lv1_options, !empty($default->COCODE) ? $default->COCODE : '', 'class="span6"'); ?>
+                </div>
+                <br>
+                <label  class="control-label">Level 2<span class="required">*</span> : </label>
+                <div class="controls">
+                <?php echo form_dropdown('PLANT', $lv2_options, !empty($default->PLANT) ? $default->PLANT : '', 'class="span6"'); ?>
+                </div>
+                <br>
+                <label  class="control-label">Level 3<span class="required">*</span> : </label>
+                <div class="controls">
+                <?php echo form_dropdown('STORE_SLOC', $lv3_options, !empty($default->STORE_SLOC) ? $default->STORE_SLOC : '', 'class="span6"'); ?>
+                </div>
+                <br>
+                <label  class="control-label">Pembangkit<span class="required">*</span> : </label>
+                <div class="controls">
+                <?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : '', 'id="pembangkit", class="span6"'); ?>
+                </div>
+				<br>
+                <label for="password" class="control-label">Pilih Jenis Bahan Bakar <span class="required">*</span> : </label>
+                <div class="controls">
+                <?php echo form_dropdown('ID_JNS_BHN_BKR', $parent_options_jns, !empty($default->ID_JNS_BHN_BKR) ? $default->ID_JNS_BHN_BKR : '', 'id="jnsbbm", class="span3"'); ?> 
+                </div>
+            </div>                          
+            <div class="control-group">
+                <br>
+                <label for="password" class="control-label">Volume Stock Opname (L)<span class="required">*</span> : </label>
+                <div class="controls">
+                <?php echo form_input('VOLUME_STOCKOPNAME', !empty($default->VOLUME_STOCKOPNAME) ? $default->VOLUME_STOCKOPNAME : '', 'class="span3"'); ?>
+                </div>
+                <br>
+                <label for="password" class="control-label">Tanggal BA Stock Opname <span class="required">*</span> : </label>
+                <div class="controls">
+                <?php echo form_input('TGL_BA_STOCKOPNAME', !empty($default->TGL_BA_STOCKOPNAME) ? $default->TGL_BA_STOCKOPNAME : '', 'class="span3 input-append date form_datetime", id="datepicker"'); ?>
+                </div>
+                <br>
+                <label for="password" class="control-label">Tanggal Pengakuan <span class="required">*</span> : </label>
+                <div class="controls">
+                <?php echo form_input('TGL_PENGAKUAN', !empty($default->TGL_PENGAKUAN) ? $default->TGL_PENGAKUAN : '', 'class="span3 input-append date form_datetime"'); ?>
+                </div>
+                </div>
+                <div class="md-card-content">
+                <label for="password" class="control-label">Upload File (Maks 4 MB) <span class="required">*</span> : </label>
+                <div class="controls">
+                <?php echo form_upload('FILE_UPLOAD', !empty($default->PATH_STOCKOPNAME) ? $default->PATH_STOCKOPNAME : '', 'class="span6"'); ?>
+                </div>
+                <div class="controls" id="dokumen">
 							 <a href="javascript:void(0);" id="lihatdoc" onclick="lihat_dokumen(this.id)" data-modul="SO" data-url="<?php echo $url_getfile;?>" data-filename="<?php echo !empty($default->PATH_STOCKOPNAME) ? $default->PATH_STOCKOPNAME : '';?>"><b><?php echo (empty($id_dok)) ? $id_dok : 'Lihat Dokumen'; ?></b></a>
                             </div>
-                        </div>
-                        </div>
-                    
+                </div>		 
                 <div class="form-actions">
-                <div class="col-lg-9">
                 <br>
                 <?php echo anchor(null, '<i class="icon-save"></i> Simpan', array('id' => 'button-save', 'class' => 'blue btn', 'onclick' => "simpan_data(this.id, '#finput', '#button-back')")); ?>
                 <?php echo anchor(null, '<i class="icon-circle-arrow-left"></i> Tutup', array('id' => 'button-back', 'class' => 'btn', 'onclick' => 'close_form(this.id)')); ?>
                 </div>
-			</div>
             <!-- perhitungan End -->
         <?php echo form_close(); ?>
-		</div>
 		</div>
 </div>
  

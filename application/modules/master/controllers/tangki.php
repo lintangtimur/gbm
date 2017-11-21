@@ -11,6 +11,8 @@ class tangki extends MX_Controller {
     private $_title = 'Master Tangki';
     private $_limit = 10;
     private $_module = 'master/tangki';
+	private $_urlgetfile = "http://localhost:8888/geturl";
+	private $_url_movefile = 'http://localhost:8888/move';
 
     public function __construct() {
         parent::__construct();
@@ -47,6 +49,8 @@ class tangki extends MX_Controller {
         $page_title = 'Tambah Tangki';
         $data['id_dok'] = $id;
         $data['id'] = $id;
+		$data['id_dok'] = '';
+		$data["url_getfile"] = $this->_urlgetfile;
         if ($id != '') {
             $page_title = 'Edit Tangki';
             $tangki = $this->tangki_model->dataEdit($id);
@@ -124,7 +128,7 @@ class tangki extends MX_Controller {
 
                 $new_name = date('Ymd').'_'.$_FILES["FILE_UPLOAD"]['name'];
                 $config['file_name'] = $new_name;
-                $config['upload_path'] = 'assets/upload_tangki/';
+                $config['upload_path'] = 'assets/upload/tangki/';
                 $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
                 $config['max_size'] = 1024 * 4; 
 
@@ -141,6 +145,33 @@ class tangki extends MX_Controller {
                             $nama_file= $res['file_name'];
                             if ($this->tangki_model->save_as_new($data,$nama_file)) {
                                 $message = array(true, 'Proses Berhasil ', 'Proses penyimpanan data berhasil.', '#content_table');
+								//extract data from the post
+								//set POST variables
+								$url = $this->_url_movefile;
+								$fields = array(
+									'filename' => urlencode($nama_file),
+									'modul' => urlencode('TANGKI')
+								);
+								$fields_string = '';
+								//url-ify the data for the POST
+								foreach($fields as $key=>$value) {
+									$fields_string .= $key.'='.$value.'&'; 
+								}
+								rtrim($fields_string, '&');
+
+								//open connection
+								$ch = curl_init();
+
+								//set the url, number of POST vars, POST data
+								curl_setopt($ch,CURLOPT_URL, $url);
+								curl_setopt($ch,CURLOPT_POST, count($fields));
+								curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+
+								//execute post
+								$result = curl_exec($ch);
+
+								//close connection
+								curl_close($ch);
                             }
                     }
                 }
@@ -174,7 +205,7 @@ class tangki extends MX_Controller {
                     $tera['TGL_TERA'] = $this->input->post('TGL_TERA');
                     $new_name = $tera['TGL_TERA'].'_'.date("YmdHis");
                     $config['file_name'] = $new_name;
-                    $config['upload_path'] = 'assets/upload_tangki/';
+                    $config['upload_path'] = 'assets/upload/tangki/';
                     $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
                     $config['max_size'] = 1024 * 4; 
                     $config['permitted_uri_chars'] = 'a-z 0-9~%.:&_\-'; 
@@ -189,7 +220,34 @@ class tangki extends MX_Controller {
                         if ($res){
                             $nama_file= $res['file_name'];
                             if ($this->tangki_model->save($data, $id, $nama_file)) {
-                                $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+									$message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+									//extract data from the post
+									//set POST variables
+									$url = $this->_url_movefile;
+									$fields = array(
+										'filename' => urlencode($nama_file),
+										'modul' => urlencode('TANGKI')
+									);
+									$fields_string = '';
+									//url-ify the data for the POST
+									foreach($fields as $key=>$value) {
+										$fields_string .= $key.'='.$value.'&'; 
+									}
+									rtrim($fields_string, '&');
+
+									//open connection
+									$ch = curl_init();
+
+									//set the url, number of POST vars, POST data
+									curl_setopt($ch,CURLOPT_URL, $url);
+									curl_setopt($ch,CURLOPT_POST, count($fields));
+									curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+
+									//execute post
+									$result = curl_exec($ch);
+
+									//close connection
+									curl_close($ch);
                                 }
                             }
                         }

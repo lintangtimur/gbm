@@ -392,6 +392,7 @@
         
         public function options_pemasok($default = '--Pilih Pemasok--') {
             $this->db->from('MASTER_PEMASOK');
+            $this->db->where('ISAKTIF_PEMASOK','1');
             
             $option = array();
             $list = $this->db->get();
@@ -561,6 +562,7 @@
             $option = array();
             
             $this->db->from('MASTER_REGIONAL');
+            $this->db->where('IS_AKTIF_REGIONAL','1');
             if ($key != 'all'){
                 $this->db->where('ID_REGIONAL',$key);
             }   
@@ -578,6 +580,7 @@
         
         public function options_lv1($default = '--Pilih Level 1--', $key = 'all', $jenis=0) {
             $this->db->from('MASTER_LEVEL1');
+            $this->db->where('IS_AKTIF_LVL1','1');
             if ($key != 'all'){
                 $this->db->where('ID_REGIONAL',$key);
             }    
@@ -600,6 +603,7 @@
         
         public function options_lv2($default = '--Pilih Level 2--', $key = 'all', $jenis=0) {
             $this->db->from('MASTER_LEVEL2');
+            $this->db->where('IS_AKTIF_LVL2','1');
             if ($key != 'all'){
                 $this->db->where('COCODE',$key);
             }    
@@ -622,6 +626,7 @@
         
         public function options_lv3($default = '--Pilih Level 3--', $key = 'all', $jenis=0) {
             $this->db->from('MASTER_LEVEL3');
+            $this->db->where('IS_AKTIF_LVL3','1');
             if ($key != 'all'){
                 $this->db->where('PLANT',$key);
             }    
@@ -644,6 +649,7 @@
         
         public function options_lv4($default = '--Pilih Pembangkit--', $key = 'all', $jenis=0) {
             $this->db->from('MASTER_LEVEL4');
+            $this->db->where('IS_AKTIF_LVL4','1');
             if ($key != 'all'){
                 $this->db->where('STORE_SLOC',$key);
             }    

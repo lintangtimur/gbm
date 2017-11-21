@@ -164,9 +164,12 @@
                 <div class="controls">
                     <?php echo form_upload('FILE_UPLOAD', !empty($default->PATH_KONTRAK_TRANS) ? $default->PATH_KONTRAK_TRANS : '', 'class="span6" disabled'); ?>
                 </div>
-                <div class="controls" id="dokumen">
-                    <a href="<?php echo base_url().'assets/upload_kontrak_trans/'.$id_dok;?>" target="_blank"><b><?php echo (empty($id_dok)) ? $id_dok : 'Lihat Dokumen'; ?></b></a>
-                </div>
+                <!--<div class="controls" id="dokumen">
+                    <a href="<?php //echo base_url().'assets/upload_kontrak_trans/'.$id_dok;?>" target="_blank"><b><?php //echo (empty($id_dok)) ? $id_dok : 'Lihat Dokumen'; ?></b></a>
+                </div>-->
+				<div class="controls" id="dokumen">
+					<a href="javascript:void(0);" id="lihatdoc" onclick="lihat_dokumen(this.id)" data-modul="KONTRAKTRANSPORTIR" data-url="<?php echo $url_getfile;?>" data-filename="<?php echo !empty($default->PATH_KONTRAK_TRANS) ? $default->PATH_KONTRAK_TRANS : '';?>"><b><?php echo (empty($id_dok)) ? $id_dok : 'Lihat Dokumen'; ?></b></a>
+				</div>
             </div>
        
         <div class="well-content" id="content_table">
@@ -225,7 +228,7 @@
     $('input[name=JARAK1]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
     });
     $('input[name=HARGA2]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
-    });
+		});
     $('input[name=JARAK2]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
     });
     $('input[name=HARGA3]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
