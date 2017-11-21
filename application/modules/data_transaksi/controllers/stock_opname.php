@@ -18,8 +18,8 @@ class stock_opname extends MX_Controller {
     private $_title = 'Stock Opname';
     private $_limit = 10;
     private $_module = 'data_transaksi/stock_opname';
-	private $_urlgetfile = "http://localhost:8888/geturl";
-	private $_url_movefile = 'http://localhost:8888/move';
+	private $_urlgetfile = "";
+	private $_url_movefile = '';
 
     public function __construct() {
         parent::__construct();
@@ -28,6 +28,8 @@ class stock_opname extends MX_Controller {
         hprotection::login();
         $this->laccess->check();
         $this->laccess->otoritas('view', true);
+		$this->_url_movefile = $this->laccess->url_serverfile()."move";
+		$this->_urlgetfile = $this->laccess->url_serverfile()."geturl";
 
         /* Load Global Model */
         $this->load->model('stock_opname_model', 'tbl_get');

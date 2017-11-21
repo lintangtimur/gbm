@@ -106,4 +106,9 @@ class laccess {
         redirect('dashboard');
     }
 
+	public function url_serverfile(){
+		return "http://10.1.18.201:8888/";
+	}
+
+	
 }

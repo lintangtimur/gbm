@@ -33,8 +33,9 @@
 			   
 
 			$data_lv = $this->get_level($level_user,$kode_level);
-			if ($level_user==3|| $level_user==4){
-				 $this->db->where("b.SLOC",$data_lv[0]->SLOC);
+			// print_debug($data_lv);
+			if ($level_user==3 || $level_user==4){
+				 $this->db->where("b.STORE_SLOC",$data_lv[0]->STORE_SLOC);
 			}
 
 			if (!empty($key) || is_array($key))
@@ -160,6 +161,7 @@
 			$record = $this->data($filter)->get();
 			$no=(($offset-1) * $limit) +1;
 			$rows = array();
+			// print_debug($record);
 			foreach ($record->result() as $row) {
 				$aksi = '';
 				$id = $row->ID_TANGKI;
@@ -169,7 +171,7 @@
 				if ($this->laccess->otoritas('delete')) {
 				$aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
 				}
-				$rows[$id] = array(
+				$rows[$no] = array(
                 'number' => $no++,
                 'unit_pembangkit' => $row->LEVEL4,
                 'jenis_bbm' => $row->NAMA_JNS_BHN_BKR,
