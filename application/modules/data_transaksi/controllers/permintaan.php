@@ -62,14 +62,14 @@ class permintaan extends MX_Controller
         $level_user = $this->session->userdata('level_user');
         $kode_level = $this->session->userdata('kode_level');
 
-        if ($level_user==2){
-            $data_lv = $this->tbl_get->get_level($level_user+3,$kode_level);
-            if($data_lv){
-                $option_lv3[$data_lv[0]->STORE_SLOC] = $data_lv[0]->LEVEL3;
-                $data['lv3_options'] = $option_lv3;
-                $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Pembangkit--', $data_lv[0]->STORE_SLOC, 1); 
-            }
-        }    
+        // if ($level_user==2){
+        //     $data_lv = $this->tbl_get->get_level($level_user+3,$kode_level);
+        //     if($data_lv){
+        //         $option_lv3[$data_lv[0]->STORE_SLOC] = $data_lv[0]->LEVEL3;
+        //         $data['lv3_options'] = $option_lv3;
+        //         $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Pembangkit--', $data_lv[0]->STORE_SLOC, 1); 
+        //     }
+        // }    
 
         if ($id != '') {
             $page_title = 'Edit Nominasi / Permintaan';
