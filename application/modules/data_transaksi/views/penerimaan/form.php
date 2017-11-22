@@ -213,7 +213,7 @@
 
     }
     $("input[name=TGL_PENERIMAAN]").focusout(checkDefaulthTglPenerimaan);
-    $("input[name=TGL_PENGAKUAN]").focusout(checkDefaulthTglPenerimaan);
+    $("input[name=TGL_PENGAKUAN]").change(checkDefaulthTglPenerimaan);
 
     // set tanggal penerimaan fisik
     $(function() {
