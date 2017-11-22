@@ -261,8 +261,8 @@
 						<td>Jenis Bahan Bakar</td>
 						<td>Tanggal Stok Terakhir</td>
 						<td>Dead Stok</td>
-						<td>Volume Stok Akhir Real</td>
-						<td>Volume Stok Akhir Efektif</td>
+						<td>Volume Stok Akhir Real (L)</td>
+						<td>Volume Stok Akhir Efektif (L)</td>
 						<td>SHO</td>
 						</tr>
 						</thead>
