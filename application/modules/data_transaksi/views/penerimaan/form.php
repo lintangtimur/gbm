@@ -143,36 +143,32 @@
         pickerPosition: "bottom-left"
     });
 
-    // start
-    function checkTanggalPenerimaan(){
-        var vDateStart = $("input[name=TGL_PENERIMAAN]").val();
-        var vDateEnd = $("input[name=TGL_PENGAKUAN]").val();
+    // start jangan dihapus dlu
+    // function checkTanggalPenerimaan(){
+    //     var vDateStart = $("input[name=TGL_PENERIMAAN]").val();
+    //     var vDateEnd = $("input[name=TGL_PENGAKUAN]").val();
 
-         // var vDateStart = $("input[name=TGL_PENGAKUAN]").val();
-        // var vDateEnd = $("input[name=TGL_PENERIMAAN]").val();
+    //     if (vDateEnd > vDateStart) {
+    //         $('input[name=TGL_PENGAKUAN').datepicker('update', vDateStart);
+    //     }
 
+    //     $('input[name=TGL_PENGAKUAN]').datepicker('setEndDate', $("input[name=TGL_PENERIMAAN]").val());
+    // }
 
-        if (vDateEnd > vDateStart) {
-            $('input[name=TGL_PENGAKUAN').datepicker('update', vDateStart);
-        }
+    // function checkTanggalPengakuan(){
+    //     var vDateStart = $("input[name=TGL_PENERIMAAN]").val();
+    //     var vDateEnd = $("input[name=TGL_PENGAKUAN]").val();
 
-        $('input[name=TGL_PENGAKUAN]').datepicker('setEndDate', $("input[name=TGL_PENERIMAAN]").val());
-    }
+    //     if (vDateEnd > vDateStart) {
+    //         var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Pengakuan Fisik tidak boleh melebihi Tanggal Penerimaan (DO/TUG)</div>';
+    //         bootbox.alert(message, function() {});
+    //         $('input[name=TGL_PENGAKUAN').datepicker('update', vDateStart);
+    //     }
+    // }
 
-    function checkTanggalPengakuan(){
-        var vDateStart = $("input[name=TGL_PENERIMAAN]").val();
-        var vDateEnd = $("input[name=TGL_PENGAKUAN]").val();
-
-        if (vDateEnd > vDateStart) {
-            var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Pengakuan Fisik tidak boleh melebihi Tanggal Penerimaan (DO/TUG)</div>';
-            bootbox.alert(message, function() {});
-            $('input[name=TGL_PENGAKUAN').datepicker('update', vDateStart);
-        }
-    }
-
-    $("input[name=TGL_PENERIMAAN]").change(checkTanggalPenerimaan);
-    $("input[name=TGL_PENGAKUAN]").click(checkTanggalPenerimaan);
-    $("input[name=button-save]").click(checkTanggalPengakuan);
+    // $("input[name=TGL_PENERIMAAN]").change(checkTanggalPenerimaan);
+    // $("input[name=TGL_PENGAKUAN]").click(checkTanggalPenerimaan);
+    // $("input[name=button-save]").click(checkTanggalPengakuan);
 
     // end
 
