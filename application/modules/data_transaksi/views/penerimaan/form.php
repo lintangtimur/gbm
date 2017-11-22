@@ -171,7 +171,6 @@
     }
 
     $("input[name=TGL_PENERIMAAN]").change(checkTanggalPenerimaan);
-    $("input[name=TGL_PENGAKUAN]").focusout(checkTanggalPengakuan);
     $("input[name=TGL_PENGAKUAN]").click(checkTanggalPenerimaan);
     $("input[name=button-save]").click(checkTanggalPengakuan);
 
@@ -214,6 +213,7 @@
 
     }
     $("input[name=TGL_PENERIMAAN]").focusout(checkDefaulthTglPenerimaan);
+    $("input[name=TGL_PENGAKUAN]").focusout(checkDefaulthTglPenerimaan);
 
     // set tanggal penerimaan fisik
     $(function() {
