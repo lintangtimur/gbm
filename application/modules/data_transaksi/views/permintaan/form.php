@@ -227,7 +227,7 @@ $(document).ready(function(){
 
     function setHitungKirim(){
         var vSum=0;
-        for (i = 1; i <= 5; i++) {
+        for (i = 1; i <= 31; i++) {
             if($("#TextBoxDiv"+i).is(":visible")){
                 var vol = $("#vol_ke"+i).val();
                 var new_vol = vol.replace(/\./g, "");

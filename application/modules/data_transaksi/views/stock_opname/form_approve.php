@@ -23,6 +23,16 @@
                 <?php echo form_input('NO_STOCKOPNAME', !empty($default->NO_STOCKOPNAME) ? $default->NO_STOCKOPNAME : '', 'class="span3", disabled="true"'); ?>
                 </div>
                 <br>
+                <label for="password" class="control-label">Tanggal BA Stock Opname <span class="required">*</span> : </label>
+                <div class="controls">
+                <?php echo form_input('TGL_BA_STOCKOPNAME', !empty($default->TGL_BA_STOCKOPNAME) ? $default->TGL_BA_STOCKOPNAME : '', 'class="span3 input-append date form_datetime", id="datepicker", disabled="true"'); ?>
+                </div>
+                <br>
+                <label for="password" class="control-label">Tanggal Pengakuan <span class="required">*</span> : </label>
+                <div class="controls">
+                <?php echo form_input('TGL_PENGAKUAN', !empty($default->TGL_PENGAKUAN) ? $default->TGL_PENGAKUAN : '', 'class="span3 input-append date form_datetime", disabled="true"'); ?>
+                </div>
+                <br>
                 <label  class="control-label">Regional <span class="required">*</span> : </label>
                 <div class="controls">
                 <?php echo form_dropdown('ID_REGIONAL', $reg_options, !empty($default->ID_REGIONAL) ? $default->ID_REGIONAL : '','disabled="true", class="span6"'); ?>
@@ -59,16 +69,7 @@
                 <div class="controls">
                 <?php echo form_input('VOLUME_STOCKOPNAME', !empty($default->VOLUME_STOCKOPNAME) ? $default->VOLUME_STOCKOPNAME : '', 'class="span3", disabled="true"'); ?>
                 </div>
-                <br>
-                <label for="password" class="control-label">Tanggal BA Stock Opname <span class="required">*</span> : </label>
-                <div class="controls">
-                <?php echo form_input('TGL_BA_STOCKOPNAME', !empty($default->TGL_BA_STOCKOPNAME) ? $default->TGL_BA_STOCKOPNAME : '', 'class="span3 input-append date form_datetime", id="datepicker", disabled="true"'); ?>
-                </div>
-                <br>
-                <label for="password" class="control-label">Tanggal Pengakuan <span class="required">*</span> : </label>
-                <div class="controls">
-                <?php echo form_input('TGL_PENGAKUAN', !empty($default->TGL_PENGAKUAN) ? $default->TGL_PENGAKUAN : '', 'class="span3 input-append date form_datetime", disabled="true"'); ?>
-                </div>
+               
             </div>
                 <div style="display:none">
                 <input type="text" id="setuju" name="setuju">

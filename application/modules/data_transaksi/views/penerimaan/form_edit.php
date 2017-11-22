@@ -17,15 +17,15 @@
         echo form_open_multipart($form_action, array('id' => 'finput', 'class' => 'form-horizontal'), $hidden_form);
             ?>
             <div class="control-group">
-                <label class="control-label">Tanggal Penerimaan Fisik<span class="required">*</span> : </label>
+                <label class="control-label">Tanggal Penerimaan (DO/TUG)<span class="required">*</span> : </label>
                 <div class="controls">
-                    <?php echo form_input('TGL_PENERIMAAN', !empty($default->TGL_PENERIMAAN) ? $default->TGL_PENERIMAAN : '', 'class="span12 input-append date form_datetime" placeholder="Tanggal Catat" id="TGL_PENERIMAAN" disabled'); ?>
+                    <?php echo form_input('TGL_PENERIMAAN', !empty($default->TGL_PENERIMAAN) ? $default->TGL_PENERIMAAN : '', 'class="span12 input-append date form_datetime" placeholder="Tanggal Penerimaan (DO/TUG)" id="TGL_PENERIMAAN" disabled'); ?>
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">Tanggal Pengakuan<span class="required">*</span> : </label>
+                <label class="control-label">Tanggal Pengakuan Fisik<span class="required">*</span> : </label>
                 <div class="controls">
-                     <?php echo form_input('TGL_PENGAKUAN', !empty($default->TGL_PENGAKUAN) ? $default->TGL_PENGAKUAN : '', 'class="span12 input-append date form_datetime" placeholder="Tanggal Pengakuan" id="TGL_PENGAKUAN" disabled'); ?>
+                     <?php echo form_input('TGL_PENGAKUAN', !empty($default->TGL_PENGAKUAN) ? $default->TGL_PENGAKUAN : '', 'class="span12 input-append date form_datetime" placeholder="Tanggal Pengakuan Fisik" id="TGL_PENGAKUAN" disabled'); ?>
                 </div>
             </div>
             <div class="control-group">

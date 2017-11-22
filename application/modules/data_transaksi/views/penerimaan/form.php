@@ -17,15 +17,15 @@
         echo form_open_multipart($form_action, array('id' => 'finput', 'class' => 'form-horizontal'), $hidden_form);
             ?>
             <div class="control-group">
-                <label class="control-label">Tanggal Penerimaan Fisik<span class="required">*</span> : </label>
+                <label class="control-label">Tanggal Penerimaan (DO/TUG)<span class="required">*</span> : </label>
                 <div class="controls">
-                    <?php echo form_input('TGL_PENERIMAAN', !empty($default->TGL_PENERIMAAN) ? $default->TGL_PENERIMAAN : '', 'class="span12 input-append date form_datetime" placeholder="Tanggal Catat" id="TGL_PENERIMAAN"'); ?>
+                    <?php echo form_input('TGL_PENERIMAAN', !empty($default->TGL_PENERIMAAN) ? $default->TGL_PENERIMAAN : '', 'class="span12 input-append date form_datetime" placeholder="Tanggal Penerimaan (DO/TUG)" id="TGL_PENERIMAAN"'); ?>
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">Tanggal Pengakuan<span class="required">*</span> : </label>
+                <label class="control-label">Tanggal Pengakuan Fisik<span class="required">*</span> : </label>
                 <div class="controls">
-                     <?php echo form_input('TGL_PENGAKUAN', !empty($default->TGL_PENGAKUAN) ? $default->TGL_PENGAKUAN : '', 'class="span12 input-append date form_datetime" placeholder="Tanggal Pengakuan" id="TGL_PENGAKUAN"'); ?>
+                     <?php echo form_input('TGL_PENGAKUAN', !empty($default->TGL_PENGAKUAN) ? $default->TGL_PENGAKUAN : '', 'class="span12 input-append date form_datetime" placeholder="Tanggal Pengakuan Fisik" id="TGL_PENGAKUAN"'); ?>
                 </div>
             </div>
             <div class="control-group">
@@ -143,33 +143,32 @@
         pickerPosition: "bottom-left"
     });
 
-    // start
-    function checkTanggalPenerimaan(){
-        var vDateStart = $("input[name=TGL_PENERIMAAN]").val();
-        var vDateEnd = $("input[name=TGL_PENGAKUAN]").val();
+    // start jangan dihapus dlu
+    // function checkTanggalPenerimaan(){
+    //     var vDateStart = $("input[name=TGL_PENERIMAAN]").val();
+    //     var vDateEnd = $("input[name=TGL_PENGAKUAN]").val();
 
-        if (vDateEnd > vDateStart) {
-            $('input[name=TGL_PENGAKUAN').datepicker('update', vDateStart);
-        }
+    //     if (vDateEnd > vDateStart) {
+    //         $('input[name=TGL_PENGAKUAN').datepicker('update', vDateStart);
+    //     }
 
-        $('input[name=TGL_PENGAKUAN]').datepicker('setEndDate', $("input[name=TGL_PENERIMAAN]").val());
-    }
+    //     $('input[name=TGL_PENGAKUAN]').datepicker('setEndDate', $("input[name=TGL_PENERIMAAN]").val());
+    // }
 
-    function checkTanggalPengakuan(){
-        var vDateStart = $("input[name=TGL_PENERIMAAN]").val();
-        var vDateEnd = $("input[name=TGL_PENGAKUAN]").val();
+    // function checkTanggalPengakuan(){
+    //     var vDateStart = $("input[name=TGL_PENERIMAAN]").val();
+    //     var vDateEnd = $("input[name=TGL_PENGAKUAN]").val();
 
-        if (vDateEnd > vDateStart) {
-            var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Pengakuan tidak boleh melebihi Tanggal Penerimaan Fisik</div>';
-            bootbox.alert(message, function() {});
-            $('input[name=TGL_PENGAKUAN').datepicker('update', vDateStart);
-        }
-    }
+    //     if (vDateEnd > vDateStart) {
+    //         var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Pengakuan Fisik tidak boleh melebihi Tanggal Penerimaan (DO/TUG)</div>';
+    //         bootbox.alert(message, function() {});
+    //         $('input[name=TGL_PENGAKUAN').datepicker('update', vDateStart);
+    //     }
+    // }
 
-    $("input[name=TGL_PENERIMAAN]").change(checkTanggalPenerimaan);
-    $("input[name=TGL_PENGAKUAN]").focusout(checkTanggalPengakuan);
-    $("input[name=TGL_PENGAKUAN]").click(checkTanggalPenerimaan);
-    $("input[name=button-save]").click(checkTanggalPengakuan);
+    // $("input[name=TGL_PENERIMAAN]").change(checkTanggalPenerimaan);
+    // $("input[name=TGL_PENGAKUAN]").click(checkTanggalPenerimaan);
+    // $("input[name=button-save]").click(checkTanggalPengakuan);
 
     // end
 
@@ -190,20 +189,27 @@
 
     function checkDefaulthTglPenerimaan(){
          var date = new Date();
+         var datePengakuan = $("input[name=TGL_PENGAKUAN]").val();
  
 
         var dateBatasan =  formatDateDepan(date);
         var datePenerimaan = $("input[name=TGL_PENERIMAAN]").val();
 
         if (datePenerimaan > dateBatasan) {
-            var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Penerimaan Fisik tidak boleh melebihi Tanggal Hari ini</div>';
+            var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Penerimaan (DO/TUG) tidak boleh melebihi Tanggal Hari ini</div>';
             bootbox.alert(message, function() {});
             $('input[name=TGL_PENERIMAAN').datepicker('update', date);
          
         }
+        else if(datePenerimaan>datePengakuan){
+            var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Penerimaan (DO/TUG) tidak boleh melebihi Tanggal Pengakuan Fisik</div>';
+            bootbox.alert(message, function() {});
+            $('input[name=TGL_PENERIMAAN').datepicker('update', datePengakuan);
+        }
 
     }
     $("input[name=TGL_PENERIMAAN]").focusout(checkDefaulthTglPenerimaan);
+    $("input[name=TGL_PENGAKUAN]").change(checkDefaulthTglPenerimaan);
 
     // set tanggal penerimaan fisik
     $(function() {
