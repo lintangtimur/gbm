@@ -110,12 +110,11 @@
         pickerPosition: "bottom-left"
     });
 
-    if( $('input[name=id]').val() != '') {
-        // $('#button-save').attr('disabled',true); 
-        $("#button-save").hide();
-        $("#up_nama").hide();
-        $("#up_file").hide();
-    }
+    // if( $('input[name=id]').val() != '') {
+    //     $("#button-save").hide();
+    //     $("#up_nama").hide();
+    //     $("#up_file").hide();
+    // }
 
     $('input[name=VOLUME_KONTRAK_PEMASOK]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
     });

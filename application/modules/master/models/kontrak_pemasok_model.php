@@ -72,7 +72,7 @@ class kontrak_pemasok_model extends CI_Model {
     public function save($data, $key) {
         $this->db->trans_begin();
 
-        $this->db->update($this->_table1, $data, $this->_key($key));
+        $this->db->update($this->_table1, $data, array('ID_KONTRAK_PEMASOK' => $key));
 
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
@@ -128,7 +128,7 @@ class kontrak_pemasok_model extends CI_Model {
             $aksi = '';
 
             if ($this->laccess->otoritas('edit')) {
-                $aksi .= anchor(null, '<i class="icon-zoom-in" title="Lihat Data"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
+                $aksi .= anchor(null, '<i class="icon-edit" title="Edit Data"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
             }
             if ($this->laccess->otoritas('add')) {
                 $aksi .= anchor(null, '<i class="icon-copy" title="Lihat Adendum"></i>', array('class' => 'btn transparant', 'id' => 'button-adendum-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/adendum/' . $id)));

@@ -30,6 +30,11 @@
             <div class="controls" id="up_file">
                     <?php echo form_upload('PATH_DOC', !empty($default->PATH_DOC) ? $default->PATH_DOC : '', 'class="span6"'); ?>
             </div>
+            <br>
+            <label for="password" class="control-label"> </label> 
+            <div class="controls" id="dokumen">
+                   <a href="<?php echo base_url().'assets/upload_kontrak/'.$default->PATH_DOC;?>" target="_blank"><b><?php echo (empty($default->PATH_DOC)) ? $default->PATH_DOC : 'Lihat Dokumen'; ?></b></a>
+            </div>
             <hr>
             <label for="password" class="control-label">Tgl Kontrak <span class="required">*</span> : </label>
             <div class="controls">
