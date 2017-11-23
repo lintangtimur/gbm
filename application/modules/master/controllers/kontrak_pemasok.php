@@ -90,15 +90,16 @@ class kontrak_pemasok extends MX_Controller {
 		$data["url_getfile"] = $this->_urlgetfile;
 
         if ($id != '') {
-            $page_title = 'View '.$this->_title;
+            $page_title = 'Edit '.$this->_title;
             $get_data = $this->tbl_get->data($id);
             $data['default'] = $get_data->get()->row();
             $data['id_dok'] = $data['default']->PATH_DOC_PEMASOK; 
             $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
-            $this->load->view($this->_module . '/form_edit', $data);
-        } else {
-            $this->load->view($this->_module . '/form', $data);    
-        }
+            // $this->load->view($this->_module . '/form_edit', $data);
+        } 
+
+        $this->load->view($this->_module . '/form', $data);
+
     }
 
     public function add_adendum($id = '') {
@@ -128,7 +129,7 @@ class kontrak_pemasok extends MX_Controller {
         $data['jns_kontrak_options'] = $this->tbl_get->options_jns_kontrak();
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses_adendum');
-        $this->load->view($this->_module . '/form_adendum_edit', $data);
+        $this->load->view($this->_module . '/form_adendum', $data);
     }
 
 
@@ -286,35 +287,67 @@ class kontrak_pemasok extends MX_Controller {
                 }
             } else {
                 $data['UD_KONTRAK_PEMASOK'] = date('Y-m-d');
+                $nama_file='';
+
+                if (!empty($_FILES['ID_DOC_PEMASOK']['name'])){
+                    $new_name = date('Ymd').'_'.$this->input->post('NOPJBBM_KONTRAK_PEMASOK').'_'.$_FILES["ID_DOC_PEMASOK"]['name'];
+
+                    $new_name = str_replace(" ","_",$new_name);
+                    $config['file_name'] = $new_name;
+                    $config['upload_path'] = 'assets/upload/kontrak_pemasok/';
+                    $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
+                    $config['max_size'] = 1024 * 10; 
+                    // $config['encrypt_name'] = TRUE;
+
+                    $this->load->library('upload', $config);
+
+                    if (!$this->upload->do_upload('ID_DOC_PEMASOK')){
+                        $err = $this->upload->display_errors('', '');
+                        $message = array(false, 'Proses gagal', $err, '');
+                    } else {
+                        $res = $this->upload->data();
+                        if ($res){
+                            $nama_file= $res['file_name'];
+                                //extract data from the post
+                                //set POST variables
+                                $url = $this->_url_movefile;
+                                $fields = array(
+                                    'filename' => urlencode($nama_file),
+                                    'modul' => urlencode('KONTRAKPEMASOK')
+                                );
+                                $fields_string = '';
+                                //url-ify the data for the POST
+                                foreach($fields as $key=>$value) {
+                                    $fields_string .= $key.'='.$value.'&'; 
+                                }
+                                rtrim($fields_string, '&');
+
+                                //open connection
+                                $ch = curl_init();
+
+                                //set the url, number of POST vars, POST data
+                                curl_setopt($ch,CURLOPT_URL, $url);
+                                curl_setopt($ch,CURLOPT_POST, count($fields));
+                                curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+
+                                //execute post
+                                $result = curl_exec($ch);
+
+                                //close connection
+                                curl_close($ch);
+                        }
+                    }
+                }
+                
                 if ($this->tbl_get->save($data, $id)) {
+                    if ($nama_file){
+                        $data_file['ID_KONTRAK_PEMASOK'] = $id;
+                        $data_file['PATH_DOC_PEMASOK'] = $nama_file;
+                        $data_file['CD_DOC_PEMASOK'] = $data['CD_KONTRAK_PEMASOK'];
+                        $data_file['CD_BY_DOC_PEMASOK'] = $data['CD_BY_KONTRAK_PEMASOK'];
+                        $this->tbl_get->save_as_new_file($data_file);
+                    }
                     $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
-					//extract data from the post
-					//set POST variables
-					$url = $this->_url_movefile;
-					$fields = array(
-						'filename' => urlencode($nama_file),
-						'modul' => urlencode('KONTRAKTRANSPORTIR')
-					);
-					$fields_string = '';
-					//url-ify the data for the POST
-					foreach($fields as $key=>$value) {
-						$fields_string .= $key.'='.$value.'&'; 
-					}
-					rtrim($fields_string, '&');
-
-					//open connection
-					$ch = curl_init();
-
-					//set the url, number of POST vars, POST data
-					curl_setopt($ch,CURLOPT_URL, $url);
-					curl_setopt($ch,CURLOPT_POST, count($fields));
-					curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
-
-					//execute post
-					$result = curl_exec($ch);
-
-					//close connection
-					curl_close($ch);
                 }
             }
         } else {
@@ -389,6 +422,32 @@ class kontrak_pemasok extends MX_Controller {
                 //     $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
                 // }
             } else {
+                if (!empty($_FILES['PATH_DOC']['name'])){
+                    $new_name = 'A'.date('Ymd').'_'.$this->input->post('NO_ADENDUM_PEMASOK').'_'.$_FILES["PATH_DOC"]['name'];
+                    $new_name = str_replace(" ","_",$new_name);
+                    $config['file_name'] = $new_name;
+                    $config['upload_path'] = 'assets/upload_kontrak/';
+                    $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
+                    $config['max_size'] = 1024 * 10; 
+                    // $config['encrypt_name'] = TRUE;
+                    $data['PATH_DOC'] = $new_name;
+
+                    $this->load->library('upload', $config);
+
+                    if (!$this->upload->do_upload('PATH_DOC')){
+                        $err = $this->upload->display_errors('', '');
+                        $message = array(false, 'Proses gagal', $err, '');
+                    } else {
+                        $res = $this->upload->data();
+                        if ($res){
+                            $nama_file= $res['file_name'];
+                            
+                        }
+                    }                   
+
+
+                }
+
                 $data['UD_ADENDUM_PEMASOK'] = date('Y-m-d');
                 if ($this->tbl_get_adendum->save($data, $id)) {
                     $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');

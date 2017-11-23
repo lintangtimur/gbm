@@ -113,7 +113,7 @@ class kontrak_pemasok_adendum_model extends CI_Model {
         $idkontrak = $this->session->userdata('ID_KONTRAK_PEMASOK'); 
         $id=$idkontrak;
 
-        $aksi = anchor(null, '<i class="icon-zoom-in" title="Lihat Data"></i>', array('class' => 'btn transparant', 'id' => 'button-edit2-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
+        $aksi = anchor(null, '<i class="icon-edit" title="Edit Data"></i>', array('class' => 'btn transparant', 'id' => 'button-edit2-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
         $rows['A'.$id] = array(
             'NO' => $no++,
             'NO_ADENDUM_PEMASOK' => '-',
@@ -127,7 +127,7 @@ class kontrak_pemasok_adendum_model extends CI_Model {
             $aksi = '';
 
             if ($this->laccess->otoritas('edit')) {
-                $aksi .= anchor(null, '<i class="icon-zoom-in" title="Lihat Data"></i>', array('class' => 'btn transparant', 'id' => 'button-edit3-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit_adendum/' . $id)));
+                $aksi .= anchor(null, '<i class="icon-edit" title="Edit Data"></i>', array('class' => 'btn transparant', 'id' => 'button-edit3-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit_adendum/' . $id)));
             }
             if ($this->laccess->otoritas('delete')) {
                 $aksi .= anchor(null, '<i class="icon-trash" title="Hapus Data"></i>', array('class' => 'btn transparant', 'id' => 'button-delete2-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete_adendum/' . $id)));
