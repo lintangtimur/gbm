@@ -363,6 +363,7 @@ function simpan_data(button, form, disable, content) {
                         o.dataType = 'json';
                     },
                     success: function(res) {
+						
                         var message = '';
                         var icon = 'icon-remove-sign';
                         var color = '#ac193d;';
@@ -371,6 +372,8 @@ function simpan_data(button, form, disable, content) {
                         if (res[0]) {
                             icon = 'icon-ok-sign';
                             color = '#0072c6;';
+							if ("#login")
+								$("#closeforgot").click();
                         }
 
                         message += '<div class="box-title" style="color:' + color + '"><i class="' + icon + '"></i> ' + res[1] + '</div>';
@@ -426,6 +429,8 @@ function simpan_data(button, form, disable, content) {
             }
         });
     }
+	
+	
 }
 
 /*

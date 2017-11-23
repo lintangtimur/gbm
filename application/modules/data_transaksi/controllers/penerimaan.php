@@ -70,6 +70,7 @@ class penerimaan extends MX_Controller
                 $data['lv3_options'] = $option_lv3;
                 $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Pembangkit--', $data_lv[0]->STORE_SLOC, 1); 
             }
+			// print_debug($this->db->last_query());
         }    
 
         if ($id != '') {

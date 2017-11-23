@@ -653,9 +653,10 @@
             if ($key != 'all'){
                 $this->db->where('STORE_SLOC',$key);
             }    
+			$this->db->where('STATUS_LVL2','1');
             if ($jenis==0){
                 return $this->db->get()->result(); 
-                } else {
+			} else {
                 $option = array();
                 $list = $this->db->get(); 
                 

@@ -111,7 +111,7 @@ class stock_opname extends MX_Controller {
         $page_title = 'Approve '.$this->_title;
         $data = $this->get_level_user(); 
         $data['id'] = $id;
-
+		$data["url_getfile"] = $this->_urlgetfile;
         $get_tbl = $this->tbl_get->dataToUpdate($id);
         $data['default'] = $get_tbl->get()->row();
         $data['id_dok'] = $data['default']->PATH_STOCKOPNAME; 
@@ -126,7 +126,7 @@ class stock_opname extends MX_Controller {
         $page_title = 'View '.$this->_title;
         $data = $this->get_level_user(); 
         $data['id'] = $id;
-
+		$data["url_getfile"] = $this->_urlgetfile;
         $get_tbl = $this->tbl_get->dataToUpdate($id);
         $data['default'] = $get_tbl->get()->row();
         $data['id_dok'] = $data['default']->PATH_STOCKOPNAME; 
