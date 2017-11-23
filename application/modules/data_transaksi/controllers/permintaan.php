@@ -17,6 +17,9 @@ class permintaan extends MX_Controller
     private $_title = 'Mutasi Nominasi / Permintaan';
     private $_limit = 10;
     private $_module = 'data_transaksi/permintaan';
+	private $_urlgetfile = "";
+	private $_url_movefile = '';
+
 
     public function __construct()
     {
@@ -26,6 +29,8 @@ class permintaan extends MX_Controller
         hprotection::login();
         $this->laccess->check();
         $this->laccess->otoritas('view', true);
+		$this->load->model('stock_opname_model', 'tbl_get');
+        $this->load->model('laporan/persediaan_bbm_model','tbl_get_combo');
 
         /* Load Global Model */
         $this->load->model('permintaan_model', 'tbl_get');
@@ -61,7 +66,8 @@ class permintaan extends MX_Controller
 
         $level_user = $this->session->userdata('level_user');
         $kode_level = $this->session->userdata('kode_level');
-
+		$data["url_getfile"] = $this->_urlgetfile;
+		$data['id_dok'] = '';
         // if ($level_user==2){
         //     $data_lv = $this->tbl_get->get_level($level_user+3,$kode_level);
         //     if($data_lv){
@@ -79,6 +85,7 @@ class permintaan extends MX_Controller
             $tgl_catat = new DateTime($data['default']->TGL_MTS_NOMINASI);
 
             $data['default']->TGL_MTS_NOMINASI = $tgl_catat->format('d-m-Y');
+			$data['id_dok'] = $data['default']->PATH_FILE_NOMINASI; 
         }
 		$data['urljnsbbm'] = base_url($this->_module) .'/load_jenisbbm';
         $data['option_pemasok'] = $this->tbl_get->options_pemasok();
@@ -92,6 +99,8 @@ class permintaan extends MX_Controller
     {
         $data = $this->get_level_user();
         $data['id'] = $id;
+		$data["url_getfile"] = $this->_urlgetfile;
+		$data['id_dok'] = '';
         if ($id != '') {
             $page_title = 'Detail Nominasi / Permintaan';
             $get_tbl = $this->tbl_get->data_detail($id);
@@ -100,6 +109,7 @@ class permintaan extends MX_Controller
             $tgl_catat = new DateTime($data['default']->TGL_MTS_NOMINASI);
 
             $data['default']->TGL_MTS_NOMINASI = $tgl_catat->format('d-m-Y');
+			$data['id_dok'] = $data['default']->PATH_FILE_NOMINASI; 
         }
 
         $data['option_pemasok'] = $this->tbl_get->options_pemasok();
