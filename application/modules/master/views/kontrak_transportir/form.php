@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="control-group">
-                <label for="password" class="control-label">Tanggal Tera<span class="required">*</span> : </label>
+                <label for="password" class="control-label">Tanggal Kontrak<span class="required">*</span> : </label>
                 <div class="controls">
                 <?php echo form_input('TGL_KONTRAK_TRANS', !empty($default->TGL_KONTRAK_TRANS) ? $default->TGL_KONTRAK_TRANS : '', 'class="span3", id="TGL_KONTRAK_TRANS"'); ?>
                 </div>
