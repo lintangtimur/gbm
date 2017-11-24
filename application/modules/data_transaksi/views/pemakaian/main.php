@@ -194,7 +194,7 @@
                             <table class="table table-bordered table-striped table-hover" id="detailPenerimaan">
                                 <thead>
                                 <tr>
-                                    <th>NO TUG</th>
+                                    <th>NO PEMAKAIAN</th>
                                     <th>TGL PENGAKUAN</th>
                                     <th>NAMA JNS BHN BKR</th>
                                     <th>VOL PEMAKAIAN (L)</th>
