@@ -24,9 +24,9 @@
         </div> -->
         
         <div class="control-group">
-            <label class="control-label">NO PEMAKAIAN<span class="required">*</span> : </label>
+            <label class="control-label">NO Pemakaian<span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_input('NO_TUG', !empty($default->NO_TUG) ? $default->NO_TUG : '', 'class="span3" placeholder="NO PEMAKAIAN" disabled'); ?>
+                <?php echo form_input('NO_TUG', !empty($default->NO_TUG) ? $default->NO_TUG : '', 'class="span3" placeholder="NO Pemakaian" disabled'); ?>
             </div>
         </div>
         <div class="control-group">
