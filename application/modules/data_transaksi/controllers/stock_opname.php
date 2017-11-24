@@ -251,7 +251,7 @@ class stock_opname extends MX_Controller {
 
 
     public function proses() {
-        $this->form_validation->set_rules('NO_STOCKOPNAME', 'NO STOCKOPNAME', 'trim|required|max_length[25]');
+        $this->form_validation->set_rules('NO_STOCKOPNAME', 'NO STOCKOPNAME', 'trim|required|max_length[30]');
         $this->form_validation->set_rules('ID_JNS_BHN_BKR', 'JENIS BAHAN BAKAR', 'required');
         $this->form_validation->set_rules('TGL_BA_STOCKOPNAME', 'TANGGAL BA STOCKOPNAME', 'required');
         $this->form_validation->set_rules('TGL_PENGAKUAN', 'TANGGAL PENGAKUAN STOCKOPNAME', 'required');

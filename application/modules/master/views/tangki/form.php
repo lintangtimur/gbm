@@ -44,7 +44,7 @@
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label for="password" class="control-label">Stock Efektif (L)<span class="required">*</span> : </label>
+                                <label for="password" class="control-label">Kapasitas Efektif (L)<span class="required">*</span> : </label>
                                 <div class="controls">
                                     <?php echo form_input('STOCK_EFEKTIF', !empty($default->STOCKEFEKTIF_TANGKI) ? $default->STOCKEFEKTIF_TANGKI : '', 'class="span10"'); ?>
                                 </div>

@@ -70,7 +70,6 @@ class penerimaan extends MX_Controller
                 $data['lv3_options'] = $option_lv3;
                 $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Pembangkit--', $data_lv[0]->STORE_SLOC, 1); 
             }
-			// print_debug($this->db->last_query());
         }    
 
         if ($id != '') {
@@ -155,8 +154,8 @@ class penerimaan extends MX_Controller
 
 
     public function proses(){
-        $this->form_validation->set_rules('TGL_PENERIMAAN', 'Tanggal Penerimaan', 'required');
-        $this->form_validation->set_rules('TGL_PENGAKUAN', 'Tanggal Pengakuan', 'required');
+        $this->form_validation->set_rules('TGL_PENERIMAAN', 'Tanggal Penerimaan (DO/TUG)', 'required');
+        $this->form_validation->set_rules('TGL_PENGAKUAN', 'Tanggal Pengakuan Fisik', 'required');
         $this->form_validation->set_rules('ID_PEMASOK', 'Pemasok', 'required');
         $this->form_validation->set_rules('ID_TRANSPORTIR', 'Transportir', 'required');
         $this->form_validation->set_rules('ID_REGIONAL', 'Regional', 'required');
@@ -165,7 +164,7 @@ class penerimaan extends MX_Controller
         $this->form_validation->set_rules('STORE_SLOC', 'Level 3', 'required');
         $this->form_validation->set_rules('SLOC', 'Pembangkit', 'required');
         $this->form_validation->set_rules('VALUE_SETTING', 'Jenis Penerimaan', 'required');
-        $this->form_validation->set_rules('NO_PENERIMAAN', 'No Penerimaan', 'required|max_length[20]');
+        $this->form_validation->set_rules('NO_PENERIMAAN', 'No Penerimaan', 'required|max_length[30]');
         $this->form_validation->set_rules('ID_JNS_BHN_BKR', 'Jenis Bahan Bakar', 'required');
         $this->form_validation->set_rules('VOL_PENERIMAAN', 'Volume DO/TUG', 'required|max_length[16]');
         $this->form_validation->set_rules('VOL_PENERIMAAN_REAL', 'Volume Penerimaan', 'required|max_length[16]');

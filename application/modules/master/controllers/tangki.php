@@ -92,7 +92,7 @@ class tangki extends MX_Controller {
             "Jenis BBM", 1, 1,
             "Volume (L)", 1, 1,
             "Dead Stok (L)", 1, 1,
-            "Stok Efektif (L)", 1, 1,
+            "Kapasitas Efektif (L)", 1, 1,
             "Aksi", 1, 1
         );
         $table->total = $data_table['total'];
@@ -107,7 +107,7 @@ class tangki extends MX_Controller {
         // $this->form_validation->set_rules('TERA', 'Tera', 'trim|required');
         $this->form_validation->set_rules('KAPASITAS', 'Kapasitas', 'trim|required');
         $this->form_validation->set_rules('DEAD_STOCK', 'Dead Stok', 'trim|required');
-        $this->form_validation->set_rules('STOCK_EFEKTIF', 'Stock Efektif', 'trim|required');
+        $this->form_validation->set_rules('STOCK_EFEKTIF', 'Kapasitas Efektif', 'trim|required');
         $id = $this->input->post('id');
          if ($id == '') {
             if (empty($_FILES['FILE_UPLOAD']['name'])){
