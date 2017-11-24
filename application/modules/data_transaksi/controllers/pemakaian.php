@@ -171,7 +171,7 @@ class pemakaian extends MX_Controller
         $this->form_validation->set_rules('STORE_SLOC', 'Level 3', 'required');
         $this->form_validation->set_rules('SLOC', 'Pembangkit', 'required');
         $this->form_validation->set_rules('VALUE_SETTING', 'Jenis Pemakaian', 'required');
-        $this->form_validation->set_rules('NO_TUG', 'No TUG', 'required');
+        $this->form_validation->set_rules('NO_TUG', 'No TUG', 'required|max_length[10]');
         $this->form_validation->set_rules('ID_JNS_BHN_BKR', 'Jenis Bahan Bakar', 'required');
         $this->form_validation->set_rules('VOL_PEMAKAIAN', 'Vol. Pakai', 'required|max_length[25]');
 
