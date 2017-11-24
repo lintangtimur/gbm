@@ -229,7 +229,7 @@ class stock_opname extends MX_Controller {
         $table->align = array('ID_STOCKOPNAME' => 'center', 'NO_STOCKOPNAME' => 'center', 'TGL_PENGAKUAN' => 'center', 'NAMA_JNS_BHN_BKR' => 'center', 'LEVEL4' => 'center', 'VOLUME_STOCKOPNAME' => 'right', 'CD_BY_STOKOPNAME' => 'center' , 'CD_DATE_STOKOPNAME' => 'center', 'STATUS_APPROVE_STOCKOPNAME' => 'center' , 'aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
-        $table->jumlah_kolom = 8;
+        $table->jumlah_kolom = 10;
         $table->header[] = array(
             "No", 1, 1,
             "No Stok Opname", 1, 1,
