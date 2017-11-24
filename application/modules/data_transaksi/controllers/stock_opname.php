@@ -226,7 +226,7 @@ class stock_opname extends MX_Controller {
         $table = new stdClass();
         $table->id = 'ID_STOCKOPNAME';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('ID_STOCKOPNAME' => 'center', 'NO_STOCKOPNAME' => 'center', 'TGL_PENGAKUAN' => 'center', 'NAMA_JNS_BHN_BKR' => 'center', 'LEVEL4' => 'center', 'VOLUME_STOCKOPNAME' => 'right', 'STATUS_APPROVE_STOCKOPNAME' => 'center' , 'aksi' => 'center');
+        $table->align = array('ID_STOCKOPNAME' => 'center', 'NO_STOCKOPNAME' => 'center', 'TGL_PENGAKUAN' => 'center', 'NAMA_JNS_BHN_BKR' => 'center', 'LEVEL4' => 'center', 'VOLUME_STOCKOPNAME' => 'right', 'CD_BY_STOKOPNAME' => 'center' , 'CD_DATE_STOKOPNAME' => 'center', 'STATUS_APPROVE_STOCKOPNAME' => 'center' , 'aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
         $table->jumlah_kolom = 8;
@@ -237,6 +237,8 @@ class stock_opname extends MX_Controller {
             "Jenis Bahan Bakar", 1, 1,
             "Nama Pembangkit", 1, 1,
             "Total Volume (L)", 1, 1,
+            "Created By", 1, 1,
+            "Created Time", 1, 1,
             "Status", 1, 1,
             "Aksi", 1, 1
         );

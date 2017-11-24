@@ -188,9 +188,8 @@
     }
 
     function checkDefaulthTglPenerimaan(){
-         var date = new Date();
-         var datePengakuan = $("input[name=TGL_PENGAKUAN]").val();
- 
+        var date = new Date();
+        var datePengakuan = $("input[name=TGL_PENGAKUAN]").val();
 
         var dateBatasan =  formatDateDepan(date);
         var datePenerimaan = $("input[name=TGL_PENERIMAAN]").val();
@@ -210,6 +209,7 @@
     }
     $("input[name=TGL_PENERIMAAN]").focusout(checkDefaulthTglPenerimaan);
     $("input[name=TGL_PENGAKUAN]").change(checkDefaulthTglPenerimaan);
+    $("input[name=button-save]").click(checkDefaulthTglPenerimaan);
 
     // set tanggal penerimaan fisik
     $(function() {

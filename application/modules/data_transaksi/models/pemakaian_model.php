@@ -83,6 +83,7 @@ class pemakaian_model extends CI_Model
         $this->db->order_by($_POST['ORDER_BY'].' '.$_POST['ORDER_ASC']);
 
         return $this->db;
+
     }
 
     public function data_detail($key = ''){
@@ -101,13 +102,13 @@ class pemakaian_model extends CI_Model
         return $this->db;
     }
 
-    public function data_table($module = '', $limit = 20, $offset = 1) {
+    public function data_table($module = '', $limit = 20, $offset = 0) {
         $filter = array();
         $kata_kunci = $this->input->post('kata_kunci');
 
         if (!empty($kata_kunci))
-            $filter["(a.LEVEL4 LIKE '%{$kata_kunci}%' OR a.BLTH LIKE '%{$kata_kunci}%' )"] = NULL;
-        $total = $this->data($filter)->count_all_results();
+        $filter["(a.LEVEL4 LIKE '%{$kata_kunci}%' OR a.BLTH LIKE '%{$kata_kunci}%' )"] = NULL;
+        $total = $this->data($filter)->count_all_results(); 
         $this->db->limit($limit, ($offset * $limit) - $limit);
         $record = $this->data($filter)->get();
         $no=(($offset-1) * $limit) +1;

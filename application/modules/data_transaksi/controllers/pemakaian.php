@@ -139,7 +139,7 @@ class pemakaian extends MX_Controller
         $data_table = $this->tbl_get->data_table($this->_module, $this->_limit, $page);
         $this->load->library("ltable");
         $table = new stdClass();
-        $table->id = 'TABLE_PENERIMAAN';
+        $table->id = 'ID_PEMAKAIAN';
         $table->drildown = true;
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
         $table->align = array('NO' => 'center', 'BLTH' => 'center', 'LEVEL4' => 'center', 'TOTAL_VOLUME' => 'right', 'COUNT' => 'right', 'AKSI' => 'center');
@@ -154,7 +154,7 @@ class pemakaian extends MX_Controller
             "COUNT", 1, 1,
             "AKSI", 1, 1
         );
-        $table->total = $data_table['total'];
+        $table->total = $data_table['total']; 
         $table->content = $data_table['rows'];
         $data = $this->ltable->generate($table, 'js', true);
         echo $data;

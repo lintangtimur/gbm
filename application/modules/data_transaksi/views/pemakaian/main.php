@@ -198,6 +198,8 @@
                                     <th>TGL PENGAKUAN</th>
                                     <th>NAMA JNS BHN BKR</th>
                                     <th>VOL PEMAKAIAN (L)</th>
+                                    <th>Created By</th>
+                                    <th>Created Time</th>
                                     <th>STATUS</th>
                                     <th>AKSI</th>
                                     <th>CHECK</th>
@@ -216,9 +218,20 @@
 
 
 <script type="text/javascript">
+
 	var icon = 'icon-remove-sign';
 	var color = '#ac193d;';
     var offset = -100;
+    
+    function formatDateDepan(strEnd) {
+     var d= strEnd.substring(0, 4);
+     var m=  strEnd.substring(5, 7);
+     var y= strEnd.substring(8, 10);
+
+     var tanggal= y + "-" + m + "-" + d;
+
+     return tanggal;
+    }
 
     function toRupiah(angka){
         var rupiah = '';        
@@ -369,6 +382,8 @@
                         '<td align="center">' + data_detail[i].TGL_PENGAKUAN + '</td>' +
                         '<td align="center">' + data_detail[i].NAMA_JNS_BHN_BKR + '</td>' +
                         '<td align="right">' + toRupiah(data_detail[i].VOLUME_PEMAKAIAN) + '</td>' +
+                        '<td align="center">' + data_detail[i].CREATED_BY + '</td>' +
+                        '<td align="center">' + formatDateDepan(data_detail[i].CREATED_DATE) + '</td>' +
                         '<td align="center">' + data_detail[i].STATUS_PEMAKAIAN + '</td>' +
                         '<td align="center">' + vSetEdit +' </td>' +
                         '<td align="center">' +

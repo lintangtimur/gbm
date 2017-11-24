@@ -212,6 +212,8 @@
                                     <th>NAMA JNS BHN BKR</th>
                                     <th>VOL TERIMA (L)</th>
                                     <th>VOL TERIMA REAL (L)</th>
+                                    <th>Created By</th>
+                                    <th>Created Time</th>
                                     <th>STATUS</th>
                                     <th>AKSI</th>
                                     <th>CHECK</th>
@@ -387,6 +389,8 @@
                         '<td align="center">' + data_detail[i].NAMA_JNS_BHN_BKR + '</td>' +
                         '<td align="right">' + toRupiah(data_detail[i].VOL_TERIMA) + '</td>' +
                         '<td align="right">' + toRupiah(data_detail[i].VOL_TERIMA_REAL) + '</td>' +
+                        '<td align="center">' + data_detail[i].CREATED_BY + '</td>' +
+                        '<td align="center">' + data_detail[i].CREATED_DATE + '</td>' +
                         '<td align="center">' + data_detail[i].STATUS + '</td>' +
                         '<td align="center">' + vSetEdit +' </td>' +
                         '<td align="center">' +
