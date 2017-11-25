@@ -105,7 +105,9 @@ class kontrak_pemasok extends MX_Controller {
     public function add_adendum($id = '') {
         $page_title = 'Tambah ' . $this->_title.' (Adendum)';
         $data['id'] = '';
-
+		$data['id_dok'] = '';
+		
+		$data["url_getfile"] = $this->_urlgetfile;
         $get_data = $this->tbl_get_adendum->data_awal($id);
         $data['default'] = $get_data->get()->row();
 
@@ -119,9 +121,10 @@ class kontrak_pemasok extends MX_Controller {
     public function edit_adendum($id = '') {
         $page_title = 'Edit ' . $this->_title.' (Adendum)';
         $data['id'] = $id;
-
+		$data["url_getfile"] = $this->_urlgetfile;
         $get_data = $this->tbl_get_adendum->data($id);
         $data['default'] = $get_data->get()->row();
+		$data['id_dok'] =$data['default']->PATH_DOC_PEMASOK; 
 
         // print_r($data['default']); die;
 
@@ -396,7 +399,7 @@ class kontrak_pemasok extends MX_Controller {
                     $new_name = 'A'.date('Ymd').'_'.$this->input->post('NO_ADENDUM_PEMASOK').'_'.$_FILES["PATH_DOC"]['name'];
                     $new_name = str_replace(" ","_",$new_name);
                     $config['file_name'] = $new_name;
-                    $config['upload_path'] = 'assets/upload_kontrak/';
+                    $config['upload_path'] = 'assets/upload/kontrak_pemasok/';
                     $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
                     $config['max_size'] = 1024 * 10; 
                     // $config['encrypt_name'] = TRUE;
@@ -413,6 +416,33 @@ class kontrak_pemasok extends MX_Controller {
                             $nama_file= $res['file_name'];
                             if ($this->tbl_get_adendum->save_as_new($data,$nama_file)) {
                                 $message = array(true, 'Proses Berhasil ', 'Proses penyimpanan data berhasil.', '#content_table');
+								//extract data from the post
+								//set POST variables
+								$url = $this->_url_movefile;
+								$fields = array(
+									'filename' => urlencode($nama_file),
+									'modul' => urlencode('KONTRAKPEMASOK')
+								);
+								$fields_string = '';
+								//url-ify the data for the POST
+								foreach($fields as $key=>$value) {
+									$fields_string .= $key.'='.$value.'&'; 
+								}
+								rtrim($fields_string, '&');
+
+								//open connection
+								$ch = curl_init();
+
+								//set the url, number of POST vars, POST data
+								curl_setopt($ch,CURLOPT_URL, $url);
+								curl_setopt($ch,CURLOPT_POST, count($fields));
+								curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+
+								//execute post
+								$result = curl_exec($ch);
+
+								//close connection
+								curl_close($ch);
                             }
                         }
                     }
@@ -426,7 +456,7 @@ class kontrak_pemasok extends MX_Controller {
                     $new_name = 'A'.date('Ymd').'_'.$this->input->post('NO_ADENDUM_PEMASOK').'_'.$_FILES["PATH_DOC"]['name'];
                     $new_name = str_replace(" ","_",$new_name);
                     $config['file_name'] = $new_name;
-                    $config['upload_path'] = 'assets/upload_kontrak/';
+                    $config['upload_path'] = 'assets/upload/kontrak_pemasok/';
                     $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
                     $config['max_size'] = 1024 * 10; 
                     // $config['encrypt_name'] = TRUE;
@@ -451,6 +481,33 @@ class kontrak_pemasok extends MX_Controller {
                 $data['UD_ADENDUM_PEMASOK'] = date('Y-m-d');
                 if ($this->tbl_get_adendum->save($data, $id)) {
                     $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+					//extract data from the post
+					//set POST variables
+					$url = $this->_url_movefile;
+					$fields = array(
+						'filename' => urlencode($nama_file),
+						'modul' => urlencode('KONTRAKPEMASOK')
+					);
+					$fields_string = '';
+					//url-ify the data for the POST
+					foreach($fields as $key=>$value) {
+						$fields_string .= $key.'='.$value.'&'; 
+					}
+					rtrim($fields_string, '&');
+
+					//open connection
+					$ch = curl_init();
+
+					//set the url, number of POST vars, POST data
+					curl_setopt($ch,CURLOPT_URL, $url);
+					curl_setopt($ch,CURLOPT_POST, count($fields));
+					curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+
+					//execute post
+					$result = curl_exec($ch);
+
+					//close connection
+					curl_close($ch);
                 }
             }
         } else {
