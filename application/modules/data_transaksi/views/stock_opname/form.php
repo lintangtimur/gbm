@@ -130,6 +130,11 @@
     $("input[name=button-save]").click(cekTanggalPengakuan);
 
         // start
+
+    function formatDateBelakang(date) {
+        return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+    }
+
     function setDefaulthTglBa(){
         var date = new Date();
         date.setDate(date.getDate() + 1);
@@ -143,8 +148,7 @@
     function checkDefaulthTglBa(){
         var date = new Date();
  
-
-        var dateBatasan =  date;
+        var dateBatasan =formatDateBelakang(date);
         var dateCatat = $("input[name=TGL_BA_STOCKOPNAME]").val();
 
         if (dateCatat > dateBatasan) {
