@@ -144,7 +144,7 @@
         var date = new Date();
  
 
-        var dateBatasan =  formatDateDepan(date);
+        var dateBatasan =  date;
         var dateCatat = $("input[name=TGL_BA_STOCKOPNAME]").val();
 
         if (dateCatat > dateBatasan) {
