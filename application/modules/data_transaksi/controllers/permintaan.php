@@ -106,6 +106,10 @@ class permintaan extends MX_Controller
             $get_tbl = $this->tbl_get->data_detail($id);
             $data['default'] = $get_tbl->get()->row();
 
+            if ($data['default']->STORE_SLOC){
+                $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Pembangkit--', $data['default']->STORE_SLOC, 1);    
+            }
+
             $tgl_catat = new DateTime($data['default']->TGL_MTS_NOMINASI);
 
             $data['default']->TGL_MTS_NOMINASI = $tgl_catat->format('d-m-Y');
