@@ -494,6 +494,31 @@ class kontrak_transportir extends MX_Controller {
                         $data['PATH_KONTRAK_TRANS'] = $nama_file;
                         if ($this->tbl_get_adendum->save_as_new($data)) {
                             $message = array(true, 'Proses Berhasil ', 'Proses penyimpanan data berhasil.', '#content_table');
+							$url = $this->_url_movefile;
+							$fields = array(
+								'filename' => urlencode($nama_file),
+								'modul' => urlencode('KONTRAKTRANSPORTIR')
+							);
+							$fields_string = '';
+							//url-ify the data for the POST
+							foreach($fields as $key=>$value) {
+								$fields_string .= $key.'='.$value.'&'; 
+							}
+							rtrim($fields_string, '&');
+
+							//open connection
+							$ch = curl_init();
+
+							//set the url, number of POST vars, POST data
+							curl_setopt($ch,CURLOPT_URL, $url);
+							curl_setopt($ch,CURLOPT_POST, count($fields));
+							curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+
+							//execute post
+							$result = curl_exec($ch);
+
+							//close connection
+							curl_close($ch);
                         }
                     }
                 }
