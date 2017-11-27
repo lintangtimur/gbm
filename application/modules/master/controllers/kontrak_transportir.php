@@ -45,14 +45,14 @@ class kontrak_transportir extends MX_Controller {
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $this->_title;
         $data['page_content'] = $this->_module . '/main';
         $data['data_sources'] = base_url($this->_module . '/load');
-        $data['data_sources'] = base_url($this->_module . '/load');
-        // $data['data_detaijl'] = base_url($this->_module . '/load_detail');
+
         echo Modules::run("template/admin", $data);
     }
 
+
     public function add($id = '') {
         $page_title = 'Tambah Kontrak';
-        $data['detail'] = '';
+        $data = $this->cekLevelUser();
         $data['id'] = $id;
 		$data['id_dok'] = '';
 		$data["url_getfile"] = $this->_urlgetfile;
@@ -61,13 +61,12 @@ class kontrak_transportir extends MX_Controller {
             $trans = $this->kontrak_transportir_model->data($id);
             $data['default'] = $trans->get()->row();
             $data['id_dok'] = $data['default']->PATH_KONTRAK_TRANS; 
-            $trans = $this->kontrak_transportir_model->dataEdit($id);
-            $data['detail'] = $trans->get()->result();
+            // $trans = $this->kontrak_transportir_model->dataEdit($id);
+            // $data['detail'] = $trans->get()->result();
         }
         $data['option_transportir'] = $this->kontrak_transportir_model->options('--Pilih Transportir--', array('master_transportir.ID_TRANSPORTIR' => NULL));
-        $data['option_depo'] = $this->kontrak_transportir_model->optionsDepo();
-        $data['option_pembangkit'] = $this->kontrak_transportir_model->optionsPembangkit();
-        $data['option_jalur'] = $this->kontrak_transportir_model->optionsJalur();
+        $data['option_depo'] = $this->kontrak_transportir_model->getDepo();
+        $data['option_jalur'] = $this->kontrak_transportir_model->getJalur();
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses');
         $this->load->view($this->_module . '/form', $data);
@@ -108,18 +107,27 @@ class kontrak_transportir extends MX_Controller {
         $this->form_validation->set_rules('NILAI_KONTRAK', 'Nilai Kontrak Transportir', 'trim|required|');
         $this->form_validation->set_rules('JML_PASOKAN', 'Pasokan', 'trim|required|');
         $pasokan = $this->input->post('JML_PASOKAN');
-        if ($pasokan == 1) {
-            $this->form_validation->set_rules('option_depo1', 'Depo', 'trim|required');
-            $this->form_validation->set_rules('option_pembangkit1', 'Pembangkit', 'trim|required');
-            $this->form_validation->set_rules('option_jalur1', 'Jalur Transportir', 'trim|required|');
-            $this->form_validation->set_rules('HARGA1', 'Harga', 'trim|required|');
-            $this->form_validation->set_rules('JARAK1', 'Jarak', 'trim|required|');
-        } 
 
         $id = $this->input->post('id');
          if ($id == '') {
             if (empty($_FILES['FILE_UPLOAD']['name'])){
                 $this->form_validation->set_rules('FILE_UPLOAD', 'Upload Dokumen', 'required');
+            }
+        }
+
+        $x = $this->input->post('JML_PASOKAN');
+
+        if ($x>0){
+            if ($x>5){
+                $x=5;
+            }
+            for ($i=1; $i<=$x; $i++) {
+                $this->form_validation->set_rules('depo_ke'.$i, 'Depo ke '.$i, 'required');
+                $this->form_validation->set_rules('pembangkit_ke'.$i, 'Pembangkit ke '.$i, 'required');
+
+                $this->form_validation->set_rules('jalur_ke'.$i, 'Jalur ke '.$i, 'required');
+                $this->form_validation->set_rules('harga_ke'.$i, 'Harga ke '.$i, 'required');
+                $this->form_validation->set_rules('jarak_ke'.$i, 'Jarak ke '.$i, 'required');
             }
         }
 
@@ -132,17 +140,47 @@ class kontrak_transportir extends MX_Controller {
             $data['TGL_KONTRAK_TRANS'] = $this->input->post('TGL_KONTRAK_TRANS');
             $data['NILAI_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('NILAI_KONTRAK'));
             $data['KET_KONTRAK_TRANS'] = $this->input->post('KETERANGAN');
+            
+            $level_user = $this->session->userdata('level_user');
+            $kode_level = $this->session->userdata('kode_level');
+               
+            $data_lv = $this->kontrak_transportir_model->get_level($level_user,$kode_level);
+
+            $data['PLANT'] = $data_lv[0]->PLANT;
+
+            $data_detail = array();
+            for ($i=1; $i<=$x; $i++)
+            {
+                $depo_ke = $this->input->post('depo_ke'.$i);
+                $pembangkit_ke = $this->input->post('pembangkit_ke'.$i);
+                $jalur_ke = $this->input->post('jalur_ke'.$i);
+                $harga_ke = $this->input->post('harga_ke'.$i);
+                $harga_ke = str_replace(".","",$harga_ke);
+                $jarak_ke = $this->input->post('jarak_ke'.$i);
+                $jarak_ke = str_replace(".","",$jarak_ke);
+                $data['KD_KONTRAK_TRANS'] = $this->input->post('KD_KONTRAK_TRANS');
+                $data['CD_DET_KONTRAK_TRANS'] = date("Y/m/d");
+                $data['CD_BY_DET_KONTRAK_TRANS'] = $this->session->userdata('user_name');
+                $data_detail[$i] = array(
+                    'KD_KONTRAK_TRANS' => $this->input->post('KD_KONTRAK_TRANS'),
+                    'ID_DEPO' => $depo_ke,
+                    'SLOC' => $pembangkit_ke,
+                    'TYPE_KONTRAK_TRANS' => $jalur_ke,
+                    'HARGA_KONTRAK_TRANS' => $vol_ke,
+                    'JARAK_DET_KONTRAK_TRANS' => $jarak_ke,
+                );
+            }
+
+            if (!empty($_FILES['PATH_FILE_NOMINASI']['name'])){
+                $new_name = $data['KD_KONTRAK_TRANS'].'_'.date('Ymd').'_'.$_FILES["FILE_UPLOAD"]['name'];
+                $config['file_name'] = $new_name;
+                $config['upload_path'] = 'assets/upload/kontrak_transportir/';
+                $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
+                $config['max_size'] = 1024 * 10; 
+                $this->load->library('upload', $config);
+            }
 
             if ($id == '') {
-
-            $new_name = $data['KD_KONTRAK_TRANS'].'_'.date('Ymd').'_'.$_FILES["FILE_UPLOAD"]['name'];
-            $config['file_name'] = $new_name;
-            $config['upload_path'] = 'assets/upload/kontrak_transportir/';
-            $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
-            $config['max_size'] = 1024 * 10; 
-
-                $this->load->library('upload', $config);
-
                 if (!$this->upload->do_upload('FILE_UPLOAD')){
                     $err = $this->upload->display_errors('', '');
                     $message = array(false, 'Proses gagal', $err, '');
@@ -208,13 +246,7 @@ class kontrak_transportir extends MX_Controller {
                             }
                     }
                             
-                    $new_name = $data['KD_KONTRAK_TRANS'].'_'.date('Ymd').'_'.$_FILES["FILE_UPLOAD"]['name'];
-                    $config['file_name'] = $new_name;
-                    $config['upload_path'] = 'assets/upload/kontrak_transportir/';
-                    $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
-                    $config['max_size'] = 1024 * 4; 
-                
-                    $this->load->library('upload', $config);
+                   
                     if (!$this->upload->do_upload('FILE_UPLOAD')){
                         $err = $this->upload->display_errors('', '');
                         $message = array(false, 'Proses gagal', $err, '');
@@ -279,21 +311,18 @@ class kontrak_transportir extends MX_Controller {
 
     public function loadKontrakOriginal($id = ''){
         $page_title = 'View Kontrak';
-        $data['detail'] = '';
+        $data = $this->cekLevelUser();
         $data['id_dok'] = '';
         $data['id'] = $id;
 		$data["url_getfile"] = $this->_urlgetfile;
 
-            $trans = $this->kontrak_transportir_model->data($id);
-            $data['default'] = $trans->get()->row();
-            $data['id_dok'] = $data['default']->PATH_KONTRAK_TRANS; 
-            $trans = $this->kontrak_transportir_model->dataEdit($id);
-            $data['detail'] = $trans->get()->result();
-
+        $trans = $this->kontrak_transportir_model->data($id);
+        $data['default'] = $trans->get()->row();
+        $data['id_dok'] = $data['default']->PATH_KONTRAK_TRANS; 
+           
         $data['option_transportir'] = $this->kontrak_transportir_model->options('--Pilih Transportir--', array('master_transportir.ID_TRANSPORTIR' => NULL));
-        $data['option_depo'] = $this->kontrak_transportir_model->optionsDepo();
-        $data['option_pembangkit'] = $this->kontrak_transportir_model->optionsPembangkit();
-        $data['option_jalur'] = $this->kontrak_transportir_model->optionsJalur();
+        $data['option_depo'] = $this->kontrak_transportir_model->getDepo();
+        $data['option_jalur'] = $this->kontrak_transportir_model->getJalur();
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses');
         $this->load->view($this->_module . '/form_view', $data);
@@ -301,21 +330,18 @@ class kontrak_transportir extends MX_Controller {
 
     public function loadKontrakAdendum($id = ''){
         $page_title = 'View Kontrak';
-        $data['detail'] = '';
+        $data = $this->cekLevelUser();
         $data['id_dok'] = '';
         $data['id'] = $id;
 
-            $trans = $this->tbl_get_adendum->data($id);
-            $data['default'] = $trans->get()->row();
-            $data['id_dok'] = $data['default']->PATH_KONTRAK_TRANS; 
-            $trans = $this->tbl_get_adendum->dataEdit($id);
-            $data['detail'] = $trans->get()->result();
+        $trans = $this->tbl_get_adendum->data($id);
+        $data['default'] = $trans->get()->row();
+        $data['id_dok'] = $data['default']->PATH_KONTRAK_TRANS; 
 
 
         $data['option_transportir'] = $this->kontrak_transportir_model->options('--Pilih Transportir--', array('master_transportir.ID_TRANSPORTIR' => NULL));
-        $data['option_depo'] = $this->kontrak_transportir_model->optionsDepo();
-        $data['option_pembangkit'] = $this->kontrak_transportir_model->optionsPembangkit();
-        $data['option_jalur'] = $this->kontrak_transportir_model->optionsJalur();
+        $data['option_depo'] = $this->kontrak_transportir_model->getDepo();
+        $data['option_jalur'] = $this->kontrak_transportir_model->getJalur();
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses');
         $this->load->view($this->_module . '/form_view', $data);
@@ -376,20 +402,18 @@ class kontrak_transportir extends MX_Controller {
 
     public function add_adendum($id = '') {
         $page_title = 'Tambah Adendum';
-        $data['detail'] = '';
+        $data = $this->cekLevelUser();
+        $data['id_dok'] = '';
         $data['id'] = $id;
-       $data['id_dok'] = '';
-		$data["url_getfile"] = $this->_urlgetfile;
-            $trans = $this->kontrak_transportir_model->data($id);
-            $data['default'] = $trans->get()->row();
-            $data['id_dok'] = $data['default']->PATH_KONTRAK_TRANS; 
-            $trans = $this->kontrak_transportir_model->dataEdit($id);
-            $data['detail'] = $trans->get()->result();
+       
+        $trans = $this->kontrak_transportir_model->data($id);
+        $data['default'] = $trans->get()->row();
+        $data['id_dok'] = $data['default']->PATH_KONTRAK_TRANS; 
+
         
         $data['option_transportir'] = $this->kontrak_transportir_model->options('--Pilih Transportir--', array('master_transportir.ID_TRANSPORTIR' => NULL));
-        $data['option_depo'] = $this->kontrak_transportir_model->optionsDepo();
-        $data['option_pembangkit'] = $this->kontrak_transportir_model->optionsPembangkit();
-        $data['option_jalur'] = $this->kontrak_transportir_model->optionsJalur();
+        $data['option_depo'] = $this->kontrak_transportir_model->getDepo();
+        $data['option_jalur'] = $this->kontrak_transportir_model->getJalur();
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses_adendum');
         $this->load->view($this->_module . '/form_adendum', $data);
@@ -431,7 +455,7 @@ class kontrak_transportir extends MX_Controller {
 
             $new_name = $data['KD_KONTRAK_TRANS'].'_'.date('Ymd').'_'.$_FILES["FILE_UPLOAD"]['name'];
             $config['file_name'] = $new_name;
-            $config['upload_path'] = 'assets/upload/kontrak_transportir/';
+            $config['upload_path'] = 'assets/upload_kontrak_trans/';
             $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
             $config['max_size'] = 1024 * 4; 
 
@@ -447,31 +471,6 @@ class kontrak_transportir extends MX_Controller {
                         $data['PATH_KONTRAK_TRANS'] = $nama_file;
                         if ($this->tbl_get_adendum->save_as_new($data)) {
                             $message = array(true, 'Proses Berhasil ', 'Proses penyimpanan data berhasil.', '#content_table');
-							$url = $this->_url_movefile;
-							$fields = array(
-								'filename' => urlencode($nama_file),
-								'modul' => urlencode('KONTRAKTRANSPORTIR')
-							);
-							$fields_string = '';
-							//url-ify the data for the POST
-							foreach($fields as $key=>$value) {
-								$fields_string .= $key.'='.$value.'&'; 
-							}
-							rtrim($fields_string, '&');
-
-							//open connection
-							$ch = curl_init();
-
-							//set the url, number of POST vars, POST data
-							curl_setopt($ch,CURLOPT_URL, $url);
-							curl_setopt($ch,CURLOPT_POST, count($fields));
-							curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
-
-							//execute post
-							$result = curl_exec($ch);
-
-							//close connection
-							curl_close($ch);
                         }
                     }
                 }
@@ -481,6 +480,7 @@ class kontrak_transportir extends MX_Controller {
         }
         echo json_encode($message, true);
     }
+
     public function delete_adendum($id) {
         $message = array(false, 'Proses gagal', 'Proses hapus data gagal.', '');
 
@@ -488,6 +488,28 @@ class kontrak_transportir extends MX_Controller {
             $message = array(true, 'Proses Berhasil', 'Proses hapus data berhasil.', '#content_table');
         }
         echo json_encode($message);
+    }
+
+    public function get_detail_kirim($key=null) {
+        $message = $this->kontrak_transportir_model->get_detail_kirim($key);
+        echo json_encode($message);
+    }
+
+    public function cekLevelUser(){
+        
+     $level_user = $this->session->userdata('level_user');
+     $kode_level = $this->session->userdata('kode_level');
+        
+     $data_lv = $this->kontrak_transportir_model->get_level($level_user,$kode_level);
+            
+        if ($level_user==2){
+            $data['option_pembangkit'] = $this->kontrak_transportir_model->getPembangkitFilter( $data_lv[0]->PLANT, 1); 
+        } else{
+            $data['option_pembangkit'] = $this->kontrak_transportir_model->getPembangkitAll(); 
+                    
+        } 
+        
+     return $data;
     }
 
 

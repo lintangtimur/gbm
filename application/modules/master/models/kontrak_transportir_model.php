@@ -24,11 +24,11 @@
 		}
 		
 		public function data($key = '') {
-			$perubahan = ' ,(SELECT COUNT(*) FROM ADENDUM_KONTRAK_TRANSPORTIR b WHERE b.ID_KONTRAK_TRANS=a.ID_KONTRAK_TRANS) AS PERUBAHAN';
-			$this->db->select('a.*, b.NAMA_TRANSPORTIR '.$perubahan);
+			$perubahan = ' ,(SELECT COUNT(*) FROM ADENDUM_KONTRAK_TRANSPORTIR b WHERE b.KD_KONTRAK_TRANS=a.KD_KONTRAK_TRANS) AS PERUBAHAN';
+			$sumKirim = ', (select COUNT(KD_KONTRAK_TRANS) FROM DET_KONTRAK_TRANS mk WHERE mk.KD_KONTRAK_TRANS=a.KD_KONTRAK_TRANS) AS JML_PASOKAN ';
+			$this->db->select('a.*, b.NAMA_TRANSPORTIR '.$perubahan.$sumKirim);
 			$this->db->from($this->_table1 . ' a');
 			$this->db->join($this->_table2 . ' b', 'b.ID_TRANSPORTIR = a.ID_TRANSPORTIR');
-			// $this->db->join($this->_table5 . ' c', 'c.ID_KONTRAK_TRANS = a.ID_KONTRAK_TRANS');
 			
 			if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
@@ -36,21 +36,7 @@
 			return $this->db;
 		}
 
-		public function dataEdit($key = '') {
-			$this->db->from($this->_table1 . ' a');
-			$this->db->join($this->_table2 . ' b', 'b.ID_TRANSPORTIR = a.ID_TRANSPORTIR');
-			$this->db->join($this->_table5 . ' c', 'c.ID_KONTRAK_TRANS = a.ID_KONTRAK_TRANS');
-			$this->db->join($this->_table6 . ' f', 'f.VALUE_SETTING = c.TYPE_KONTRAK_TRANS');
-			$this->db->join($this->_table3 . ' d', 'd.ID_DEPO = c.ID_DEPO');
-			$this->db->join($this->_table4 . ' e', 'e.SLOC = c.SLOC');
-			
-			if (!empty($key) || is_array($key))
-				$this->db->where("f.KEY_SETTING = 'TYPE_KONTRAK_TRANSPORTIR' AND a.ID_KONTRAK_TRANS =", $key);
-            // $this->db->where_condition($this->_key($key));
-			
-			return $this->db;
-		}
-		
+
 		public function save_as_new($data) {
 			$this->db->trans_begin();
 			$id = $this->db->set_id($this->_table1, 'ID_KONTRAK_TRANS', 'no_prefix', 11);
@@ -59,157 +45,40 @@
 			if ($this->db->trans_status() === FALSE) {
 				$this->db->trans_rollback();
 				return FALSE;
-				} else {
+			} else {
 				$this->db->trans_commit();
-				$this->save_as_new2($id);
 				return TRUE;
 			}
 		}
+		public function save_as_new_detail($id) {
+			$this->db->trans_begin();
+			$this->db->set_id($this->_table5, 'ID_DET_KONTRAK_TRANS', 'no_prefix', 11);
+			$this->db->insert($this->_table5, $data);
 
-		public function save_as_new2($id) {
-			// $jumlah = $this->input->post('JML_PASOKAN');
-			$data['ID_KONTRAK_TRANS'] = $id;
-            $data['CD_DET_KONTRAK_TRANS'] = date("Y/m/d");
-            $data['UD_DET_KONTRAK_TRANS'] = date("Y/m/d");
-            $data['CD_BY_DET_KONTRAK_TRANS'] = $this->session->userdata('user_name');
-
-            if ($this->input->post('option_depo1') != '') {
-            	$data['ID_DEPO'] = $this->input->post('option_depo1');
-				$data['SLOC'] = $this->input->post('option_pembangkit1');
-	            $data['TYPE_KONTRAK_TRANS'] = $this->input->post('option_jalur1');
-	            $data['JARAK_DET_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('JARAK1'));
-	            $data['HARGA_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('HARGA1'));
-	           	$this->db->trans_begin();
-				$this->db->set_id($this->_table5, 'ID_DET_KONTRAK_TRANS', 'no_prefix', 11);
-				$this->db->insert($this->_table5, $data);
-            }
-
-            if ($this->input->post('option_depo2') != '') {
-            	$data['ID_DEPO'] = $this->input->post('option_depo2');
-				$data['SLOC'] = $this->input->post('option_pembangkit2');
-	            $data['TYPE_KONTRAK_TRANS'] = $this->input->post('option_jalur2');
-	            $data['JARAK_DET_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('JARAK2'));
-	            $data['HARGA_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('HARGA2'));
-	           	$this->db->trans_begin();
-				$this->db->set_id($this->_table5, 'ID_DET_KONTRAK_TRANS', 'no_prefix', 11);
-				$this->db->insert($this->_table5, $data);
-            }
-            if ($this->input->post('option_depo3') != '') {
-            	$data['ID_DEPO'] = $this->input->post('option_depo3');
-				$data['SLOC'] = $this->input->post('option_pembangkit3');
-	            $data['TYPE_KONTRAK_TRANS'] = $this->input->post('option_jalur3');
-	            $data['JARAK_DET_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('JARAK3'));
-	            $data['HARGA_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('HARGA3'));
-	           	$this->db->trans_begin();
-				$this->db->set_id($this->_table5, 'ID_DET_KONTRAK_TRANS', 'no_prefix', 11);
-				$this->db->insert($this->_table5, $data);
-            }
-            if ($this->input->post('option_depo4') != '') {
-				$data['SLOC'] = $this->input->post('option_pembangkit4');
-            	$data['ID_DEPO'] = $this->input->post('option_depo4');
-	            $data['TYPE_KONTRAK_TRANS'] = $this->input->post('option_jalur4');
-	            $data['JARAK_DET_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('JARAK4'));
-	            $data['HARGA_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('HARGA4'));
-	           	$this->db->trans_begin();
-				$this->db->set_id($this->_table5, 'ID_DET_KONTRAK_TRANS', 'no_prefix', 11);
-				$this->db->insert($this->_table5, $data);
-            }
-            if ($this->input->post('option_depo5') != '') {
-				$data['SLOC'] = $this->input->post('option_pembangkit5');
-            	$data['ID_DEPO'] = $this->input->post('option_depo5');
-	            $data['TYPE_KONTRAK_TRANS'] = $this->input->post('option_jalur5');
-	            $data['JARAK_DET_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('JARAK5'));
-	            $data['HARGA_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('HARGA5'));
-	           	$this->db->trans_begin();
-				$this->db->set_id($this->_table5, 'ID_DET_KONTRAK_TRANS', 'no_prefix', 11);
-				$this->db->insert($this->_table5, $data);
-            }
-            
 			if ($this->db->trans_status() === FALSE) {
 				$this->db->trans_rollback();
 				return FALSE;
-				} else {
+			} else {
 				$this->db->trans_commit();
 				return TRUE;
 			}
+           
 		}
-		
+
 		public function save($data, $key) {
 			$this->db->trans_begin();
+	
 			$this->db->update($this->_table1, $data, $this->_key($key));
-			$id = $key;
-			
+	
 			if ($this->db->trans_status() === FALSE) {
 				$this->db->trans_rollback();
 				return FALSE;
-				} else {
+			} else {
 				$this->db->trans_commit();
-				$this->save2($id);
 				return TRUE;
 			}
 		}
 		
-		public function save2($id) {
-			// $jumlah = $this->input->post('JML_PASOKAN');
-			$data['ID_KONTRAK_TRANS'] = $id;
-            $data['UD_DET_KONTRAK_TRANS'] = date("Y/m/d");
-            $data['CD_BY_DET_KONTRAK_TRANS'] = $this->session->userdata('user_name');
-
-            if ($this->input->post('option_depo1') != '') {
-            	$data['ID_DEPO'] = $this->input->post('option_depo1');
-				$data['SLOC'] = $this->input->post('option_pembangkit1');
-	            $data['TYPE_KONTRAK_TRANS'] = $this->input->post('option_jalur1');
-	            $data['JARAK_DET_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('JARAK1'));
-	            $data['HARGA_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('HARGA1'));
-	           	$this->db->trans_begin();
-				$this->db->update($this->_table5, $data, $this->_key($id));
-            }
-
-    //         if ($this->input->post('option_depo2') != '') {
-    //         	$data['ID_DEPO'] = $this->input->post('option_depo2');
-				// $data['SLOC'] = $this->input->post('option_pembangkit2');
-	   //          $data['TYPE_KONTRAK_TRANS'] = $this->input->post('option_jalur2');
-	   //          $data['JARAK_DET_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('JARAK2'));
-	   //          $data['HARGA_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('HARGA2'));
-	   //         	$this->db->trans_begin();
-				// $this->db->update($this->_table5, $data, $this->_key($id));
-    //         }
-    //         if ($this->input->post('option_depo3') != '') {
-    //         	$data['ID_DEPO'] = $this->input->post('option_depo3');
-				// $data['SLOC'] = $this->input->post('option_pembangkit3');
-	   //          $data['TYPE_KONTRAK_TRANS'] = $this->input->post('option_jalur3');
-	   //          $data['JARAK_DET_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('JARAK3'));
-	   //          $data['HARGA_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('HARGA3'));
-	   //         	$this->db->trans_begin();
-				// $this->db->update($this->_table5, $data, $this->_key($id));
-    //         }
-    //         if ($this->input->post('option_depo4') != '') {
-				// $data['SLOC'] = $this->input->post('option_pembangkit4');
-    //         	$data['ID_DEPO'] = $this->input->post('option_depo4');
-	   //          $data['TYPE_KONTRAK_TRANS'] = $this->input->post('option_jalur4');
-	   //          $data['JARAK_DET_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('JARAK4'));
-	   //          $data['HARGA_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('HARGA4'));
-	   //         	$this->db->trans_begin();
-				// $this->db->update($this->_table5, $data, $this->_key($id));
-    //         }
-    //         if ($this->input->post('option_depo5') != '') {
-				// $data['SLOC'] = $this->input->post('option_pembangkit5');
-    //         	$data['ID_DEPO'] = $this->input->post('option_depo5');
-	   //          $data['TYPE_KONTRAK_TRANS'] = $this->input->post('option_jalur5');
-	   //          $data['JARAK_DET_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('JARAK5'));
-	   //          $data['HARGA_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('HARGA5'));
-	   //         	$this->db->trans_begin();
-				// $this->db->update($this->_table5, $data, $this->_key($id));
-    //         }
-            
-			if ($this->db->trans_status() === FALSE) {
-				$this->db->trans_rollback();
-				return FALSE;
-				} else {
-				$this->db->trans_commit();
-				return TRUE;
-			}
-		}
 
 		public function delete($key) {
 			$this->db->trans_begin();
@@ -241,14 +110,15 @@
 				$aksi = '';
 				$id = $row->ID_KONTRAK_TRANS;
 				if ($this->laccess->otoritas('edit')) {
-				$aksi = anchor(null, '<i class="icon-zoom-in"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadKontrakOriginal/' . $id)));
+					$aksi = anchor(null, '<i class="icon-zoom-in" title="Lihat Kontrak"></i>', array('class' => 'btn transparant', 'id' => 'button-original-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadKontrakOriginal/' . $id)));
+					$aksi .= anchor(null, '<i class="icon-edit" title="Edit Kontrak"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
 				}
 				if ($this->laccess->otoritas('add')) {
 					$aksi .= anchor(null, '<i class="icon-copy" title="Lihat Adendum"></i>', array('class' => 'btn transparant', 'id' => 'button-adendum-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/adendum/' . $id)));
 				}
 				if ($this->laccess->otoritas('delete')) {
 					if ($row->PERUBAHAN == 0){
-				$aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
+					$aksi .= anchor(null, '<i class="icon-trash" title="Hapus Kontrak"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
 					}
 				}
 				$rows[$id] = array(
@@ -288,78 +158,124 @@
 			return $option;
 		}
 		
-		public function optionDepo($key = '') {
-			$this->db->from($this->_table3);
-			
-			if (!empty($key) || is_array($key))
-            $this->db->where_condition($this->_key($key));
-			
-			return $this->db;
-		}
-
-		public function optionsDepo($default = '--Pilih Depo--') {
-			$option = array();
-			$list = $this->optionDepo()->get();
-			
-			if (!empty($default))
-            $option[''] = $default;
-			
-			foreach ($list->result() as $row) {
-				$option[$row->ID_DEPO] = $row->NAMA_DEPO;
+		function getDepo() {
+			$data = array();
+			$query = $this->db->get('MASTER_DEPO');
+			if ($query->num_rows() > 0) {
+				foreach ($query->result_array() as $row){
+						$data[] = $row;
+					}
 			}
-			
-			return $option;
+			$query->free_result();
+			return $data;
 		}
-
-		public function optionPembangkit($key = '') {
-			$this->db->from($this->_table4);
-			
-			if (!empty($key) || is_array($key))
-            $this->db->where_condition($this->_key($key));
-			
-			return $this->db;
-		}
-
-		public function optionsPembangkit($default = '--Pilih Pembangkit--') {
-			$option = array();
-			$list = $this->optionPembangkit()->get();
-			
-			if (!empty($default))
-            $option[''] = $default;
-			
-			foreach ($list->result() as $row) {
-				$option[$row->SLOC] = $row->LEVEL4;
+		function getPembangkitAll() {
+			$data = array();
+			$query = $this->db->get('MASTER_LEVEL4');
+			if ($query->num_rows() > 0) {
+				foreach ($query->result_array() as $row){
+						$data[] = $row;
+					}
 			}
-			
-			return $option;
+			$query->free_result();
+			return $data;
+		}
+		function getPembangkitFilter($key = 'all', $jenis=0) {
+	
+			$this->db->from('MASTER_LEVEL4');
+			$this->db->where('IS_AKTIF_LVL4','1');
+			if ($key != 'all'){
+				$this->db->where('PLANT',$key);
+			}
+			$data = array();
+			$query = $this->db->get();
+			if ($query->num_rows() > 0) {
+				foreach ($query->result_array() as $row){
+						$data[] = $row;
+					}
+			}
+			$query->free_result();
+			return $data;
 		}
 
-		
-		public function opsiJalur($key = '') {
-			$this->db->from('DATA_SETTING');
+
+		public function getJalur() {
 			
+		    $this->db->from('DATA_SETTING');
 			$key = 'TYPE_KONTRAK_TRANSPORTIR';
-			if (!empty($key) || is_array($key))
 			$this->db->where("KEY_SETTING",$key);
+			$data = array();
+			$query = $this->db->get();
 			
-			return $this->db;
-		}
-
-
-
-		public function optionsJalur($default = '--Pilih Jalur Transportasi--') {
-			$option = array();
-			$list = $this->opsiJalur()->get();
-
-			if (!empty($default))
-            $option[''] = $default;
-			
-			foreach ($list->result() as $row) {
-				$option[$row->VALUE_SETTING] = $row->NAME_SETTING;
+			if ($query->num_rows() > 0) {
+				foreach ($query->result_array() as $row){
+						$data[] = $row;
+					}
 			}
-			
-			return $option;
+			$query->free_result();
+			return $data;
+
 		}
+		public function get_detail_kirim($key) {
+			$q="SELECT a.HARGA_KONTRAK_TRANS, a.SLOC, a.ID_DEPO, a.JARAK_DET_KONTRAK_TRANS, a.TYPE_KONTRAK_TRANS
+				FROM  DET_KONTRAK_TRANS a
+				WHERE a.KD_KONTRAK_TRANS='$key' ";
+	
+			$query = $this->db->query($q);
+	
+			return $query->result();  
+		}
+
+		public function get_level($lv='', $key=''){ 
+			switch ($lv) {
+				case "0":
+					$q = "SELECT  E.ID_REGIONAL, E.NAMA_REGIONAL 
+					FROM MASTER_REGIONAL E
+					WHERE ID_REGIONAL='$key' ";
+					break;
+				case "1":
+					$q = "SELECT D.COCODE, D.LEVEL1, E.ID_REGIONAL, E.NAMA_REGIONAL 
+					FROM MASTER_LEVEL1 D 
+					LEFT JOIN MASTER_REGIONAL E ON E.ID_REGIONAL=D.ID_REGIONAL
+					WHERE COCODE='$key' ";
+					break;
+				case "2":
+					$q = "SELECT C.PLANT, C.LEVEL2,  D.COCODE,  D.LEVEL1, E.ID_REGIONAL, E.NAMA_REGIONAL
+					FROM MASTER_LEVEL2 C 
+					LEFT JOIN MASTER_LEVEL1 D ON D.COCODE=C.COCODE 
+					LEFT JOIN MASTER_REGIONAL E ON E.ID_REGIONAL=D.ID_REGIONAL
+					WHERE PLANT='$key' ";
+					break;
+				case "3":
+					$q = "SELECT B.STORE_SLOC, B.LEVEL3, C.PLANT, C.LEVEL2,  D.COCODE,  D.LEVEL1, E.ID_REGIONAL, E.NAMA_REGIONAL
+					FROM MASTER_LEVEL3 B
+					LEFT JOIN MASTER_LEVEL2 C ON C.PLANT=B.PLANT 
+					LEFT JOIN MASTER_LEVEL1 D ON D.COCODE=C.COCODE 
+					LEFT JOIN MASTER_REGIONAL E ON E.ID_REGIONAL=D.ID_REGIONAL
+					WHERE STORE_SLOC='$key' ";
+					break;
+				case "4":
+					$q = "SELECT A.SLOC, A.LEVEL4, B.STORE_SLOC, B.LEVEL3, C.PLANT, C.LEVEL2,  D.COCODE,  D.LEVEL1, E.ID_REGIONAL, E.NAMA_REGIONAL
+					FROM MASTER_LEVEL4 A
+					LEFT JOIN MASTER_LEVEL3 B ON B.STORE_SLOC=A.STORE_SLOC 
+					LEFT JOIN MASTER_LEVEL2 C ON C.PLANT=B.PLANT 
+					LEFT JOIN MASTER_LEVEL1 D ON D.COCODE=C.COCODE 
+					LEFT JOIN MASTER_REGIONAL E ON E.ID_REGIONAL=D.ID_REGIONAL
+					WHERE SLOC='$key' ";
+					break;
+				case "5":
+					$q = "SELECT a.LEVEL3, a.STORE_SLOC
+					FROM MASTER_LEVEL3 a
+					INNER JOIN MASTER_LEVEL2 b ON a.PLANT = b.PLANT
+					INNER JOIN MASTER_LEVEL4 c ON a.STORE_SLOC = c.STORE_SLOC AND a.PLANT = c.PLANT
+					WHERE c.STATUS_LVL2=1 AND a.PLANT = '$key' ";
+					break;
+			} 
+	
+			$query = $this->db->query($q)->result();
+			return $query;
+		}
+		
 		
 	}
 	
