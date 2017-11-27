@@ -29,7 +29,7 @@ class permintaan extends MX_Controller
         hprotection::login();
         $this->laccess->check();
         $this->laccess->otoritas('view', true);
-		$this->load->model('permintaan_model', 'tbl_get');
+		// $this->load->model('stock_opname_model', 'tbl_get');
         $this->load->model('laporan/persediaan_bbm_model','tbl_get_combo');
 
         /* Load Global Model */
@@ -81,10 +81,6 @@ class permintaan extends MX_Controller
             $page_title = 'Edit Nominasi / Permintaan';
             $get_tbl = $this->tbl_get->data_detail($id);
             $data['default'] = $get_tbl->get()->row();
-
-            if ($data['default']->STORE_SLOC){
-                $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Pembangkit--', $data['default']->STORE_SLOC, 1);    
-            }
 
             $tgl_catat = new DateTime($data['default']->TGL_MTS_NOMINASI);
 
