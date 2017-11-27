@@ -50,20 +50,25 @@
 				return TRUE;
 			}
 		}
-		public function save_as_new_detail($id) {
-			$this->db->trans_begin();
-			$this->db->set_id($this->_table5, 'ID_DET_KONTRAK_TRANS', 'no_prefix', 11);
-			$this->db->insert($this->_table5, $data);
 
-			if ($this->db->trans_status() === FALSE) {
-				$this->db->trans_rollback();
-				return FALSE;
-			} else {
-				$this->db->trans_commit();
-				return TRUE;
-			}
+	    public function save_detail($data) {
+	        $this->db->insert_batch('DET_KONTRAK_TRANS', $data);
+	    }
+
+		// public function save_as_new_detail($id) {
+		// 	$this->db->trans_begin();
+		// 	$this->db->set_id($this->_table5, 'ID_DET_KONTRAK_TRANS', 'no_prefix', 11);
+		// 	$this->db->insert($this->_table5, $data);
+
+		// 	if ($this->db->trans_status() === FALSE) {
+		// 		$this->db->trans_rollback();
+		// 		return FALSE;
+		// 	} else {
+		// 		$this->db->trans_commit();
+		// 		return TRUE;
+		// 	}
            
-		}
+		// }
 
 		public function save($data, $key) {
 			$this->db->trans_begin();
@@ -78,8 +83,21 @@
 				return TRUE;
 			}
 		}
-		
 
+	    public function delete_detail($key) {
+	        $this->db->trans_begin();
+
+	        $this->db->delete('DET_KONTRAK_TRANS', array('KD_KONTRAK_TRANS' => $key)); 
+
+	        if ($this->db->trans_status() === FALSE) {
+	            $this->db->trans_rollback();
+	            return FALSE;
+	        } else {
+	            $this->db->trans_commit();
+	            return TRUE;
+	        }
+	    }
+		
 		public function delete($key) {
 			$this->db->trans_begin();
 			

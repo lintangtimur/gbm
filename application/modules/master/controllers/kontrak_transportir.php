@@ -102,8 +102,8 @@ class kontrak_transportir extends MX_Controller {
     }
 
     public function proses() {
-        $this->form_validation->set_rules('NO_KONTRAK', 'Nomor Kontrak Transportir', 'trim|required');
-        $this->form_validation->set_rules('TRANSPORTIR', 'Transportir', 'trim|required');
+        $this->form_validation->set_rules('KD_KONTRAK_TRANS', 'Nomor Kontrak Transportir', 'trim|required|max_length[30]');
+        $this->form_validation->set_rules('ID_TRANSPORTIR', 'Transportir', 'trim|required');
         $this->form_validation->set_rules('NILAI_KONTRAK', 'Nilai Kontrak Transportir', 'trim|required|');
         $this->form_validation->set_rules('JML_PASOKAN', 'Pasokan', 'trim|required|');
         $pasokan = $this->input->post('JML_PASOKAN');
@@ -135,18 +135,26 @@ class kontrak_transportir extends MX_Controller {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
 
             $data = array();
-            $data['KD_KONTRAK_TRANS'] = $this->input->post('NO_KONTRAK');
-            $data['ID_TRANSPORTIR'] = $this->input->post('TRANSPORTIR');
+            // $data['KD_KONTRAK_TRANS'] = $this->input->post('NO_KONTRAK');
+            $data['ID_TRANSPORTIR'] = $this->input->post('ID_TRANSPORTIR');
             $data['TGL_KONTRAK_TRANS'] = $this->input->post('TGL_KONTRAK_TRANS');
             $data['NILAI_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('NILAI_KONTRAK'));
             $data['KET_KONTRAK_TRANS'] = $this->input->post('KETERANGAN');
+            $data['KD_KONTRAK_TRANS'] = $this->input->post('KD_KONTRAK_TRANS');
+            $data['CD_DET_KONTRAK_TRANS'] = date("Y/m/d");
+            $data['CD_BY_DET_KONTRAK_TRANS'] = $this->session->userdata('user_name');
             
             $level_user = $this->session->userdata('level_user');
             $kode_level = $this->session->userdata('kode_level');
                
             $data_lv = $this->kontrak_transportir_model->get_level($level_user,$kode_level);
 
-            $data['PLANT'] = $data_lv[0]->PLANT;
+            if ($data_lv){
+                $data['PLANT'] = $data_lv[0]->PLANT;    
+            } else {
+                $data['PLANT'] = '';
+            }
+            
 
             $data_detail = array();
             for ($i=1; $i<=$x; $i++)
@@ -158,20 +166,19 @@ class kontrak_transportir extends MX_Controller {
                 $harga_ke = str_replace(".","",$harga_ke);
                 $jarak_ke = $this->input->post('jarak_ke'.$i);
                 $jarak_ke = str_replace(".","",$jarak_ke);
-                $data['KD_KONTRAK_TRANS'] = $this->input->post('KD_KONTRAK_TRANS');
-                $data['CD_DET_KONTRAK_TRANS'] = date("Y/m/d");
-                $data['CD_BY_DET_KONTRAK_TRANS'] = $this->session->userdata('user_name');
                 $data_detail[$i] = array(
                     'KD_KONTRAK_TRANS' => $this->input->post('KD_KONTRAK_TRANS'),
                     'ID_DEPO' => $depo_ke,
                     'SLOC' => $pembangkit_ke,
                     'TYPE_KONTRAK_TRANS' => $jalur_ke,
-                    'HARGA_KONTRAK_TRANS' => $vol_ke,
+                    'HARGA_KONTRAK_TRANS' => $harga_ke,
                     'JARAK_DET_KONTRAK_TRANS' => $jarak_ke,
+                    'CD_DET_KONTRAK_TRANS' => $data['CD_DET_KONTRAK_TRANS'],
+                    'CD_BY_DET_KONTRAK_TRANS' => $data['CD_BY_DET_KONTRAK_TRANS'],
                 );
             }
 
-            if (!empty($_FILES['PATH_FILE_NOMINASI']['name'])){
+            if (!empty($_FILES['FILE_UPLOAD']['name'])){
                 $new_name = $data['KD_KONTRAK_TRANS'].'_'.date('Ymd').'_'.$_FILES["FILE_UPLOAD"]['name'];
                 $config['file_name'] = $new_name;
                 $config['upload_path'] = 'assets/upload/kontrak_transportir/';
@@ -190,6 +197,11 @@ class kontrak_transportir extends MX_Controller {
                         $nama_file= $res['file_name'];
                         $data['PATH_KONTRAK_TRANS'] = $nama_file;
                         if ($this->kontrak_transportir_model->save_as_new($data)) {
+
+                            if ($x>0){
+                                $simpan_data_detail = $this->kontrak_transportir_model->save_detail($data_detail);    
+                            }
+
                             $message = array(true, 'Proses Berhasil ', 'Proses penyimpanan data berhasil.', '#content_table');
 							//extract data from the post
 							//set POST variables
@@ -225,6 +237,11 @@ class kontrak_transportir extends MX_Controller {
 
                 if (empty($_FILES['FILE_UPLOAD']['name'])){
                     if ($this->kontrak_transportir_model->save($data, $id)) {
+
+                        $simpan_data_detail = $this->kontrak_transportir_model->delete_detail($data['KD_KONTRAK_TRANS']);
+                        if ($x>0){
+                            $simpan_data_detail = $this->kontrak_transportir_model->save_detail($data_detail);    
+                        }                        
                         $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
                     }
                 }
@@ -257,6 +274,12 @@ class kontrak_transportir extends MX_Controller {
                             $nama_file= $res['file_name'];
                             $data['PATH_KONTRAK_TRANS'] = $nama_file;
                             if ($this->kontrak_transportir_model->save($data, $id)) {
+
+                                $simpan_data_detail = $this->tbl_get->delete_detail($data['KD_KONTRAK_TRANS']);
+                                if ($x>0){
+                                    $simpan_data_detail = $this->tbl_get->save_detail($data_detail);    
+                                }
+
                                 $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
 								//extract data from the post
 								//set POST variables

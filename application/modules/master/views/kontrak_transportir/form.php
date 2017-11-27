@@ -106,7 +106,7 @@ var counter = 1;
              .attr("id", 'TextBoxDiv' + counter);
 
 
-        var combo_depo ="<select class='form-control' id='depo_ke"+ counter + "'>"+
+        var combo_depo ="<select class='form-control' id='depo_ke"+ counter + "' name='depo_ke"+ counter + "'>"+
         "<option value='' disabled selected>--Pilih Depo--</option>"+
         <?php if ($option_depo != '')
             { foreach ($option_depo as $depo)
@@ -117,7 +117,7 @@ var counter = 1;
             }?>
            "</select>";
 
-        var combo_pembangkit ="<select class='form-control' id='pembangkit_ke"+ counter + "'>"+
+        var combo_pembangkit ="<select class='form-control' id='pembangkit_ke"+ counter + "' name='pembangkit_ke"+ counter + "'>"+
         "<option value='' disabled selected>--Pilih Pembangkit--</option>"+
         <?php if ($option_pembangkit != '')
             { foreach ($option_pembangkit as $pembangkit)
@@ -128,7 +128,7 @@ var counter = 1;
             }?>
            "</select>";
 
-        var combo_jalur ="<select class='form-control' id='jalur_ke"+ counter + "'>"+
+        var combo_jalur ="<select class='form-control' id='jalur_ke"+ counter + "' name='jalur_ke"+ counter + "'>"+
         "<option value='' disabled selected>--Pilih Jalur--</option>"+
         <?php if ($option_jalur != '')
             { foreach ($option_jalur as $jalur)
