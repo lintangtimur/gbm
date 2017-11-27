@@ -201,7 +201,8 @@ class permintaan extends MX_Controller
                 $config['file_name'] = $new_name;
                 $config['upload_path'] = 'assets/upload/permintaan';
                 $config['allowed_types'] = 'jpg|jpeg|png|pdf';
-                $config['max_size'] = 1024 * 10; 
+                $config['max_size'] = 1024 * 4; 
+				$config['permitted_uri_chars'] = 'a-z 0-9~%.:&_\-'; 
                 // $config['encrypt_name'] = TRUE;
                 $this->load->library('upload', $config);
             }
