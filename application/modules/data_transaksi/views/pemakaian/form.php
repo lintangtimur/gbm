@@ -177,7 +177,8 @@
 
     // start
     function formatDateDepan(date) {
-     return date.getDate()+1 + "-" + date.getMonth() + "-" + date.getFullYear();
+        var date = new Date();
+        return date.getDate()+1 + "-" + date.getMonth() + "-" + date.getFullYear();
     }
 
     function setDefaulthTglCatat(){
