@@ -300,34 +300,36 @@ class stock_opname extends MX_Controller {
                         $data['CD_DATE_STOKOPNAME'] = date('Y-m-d');
                         if ($this->tbl_get->save_as_new($data)) {
                              $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
-							
-							//extract data from the post
-							//set POST variables
-							$url = $this->_url_movefile;
-							$fields = array(
-								'filename' => urlencode($nama_file),
-								'modul' => urlencode('SO')
-							);
-							$fields_string = '';
-							//url-ify the data for the POST
-							foreach($fields as $key=>$value) {
-								$fields_string .= $key.'='.$value.'&'; 
-							}
-							rtrim($fields_string, '&');
+                            
+                            // koding versi prod
 
-							//open connection
-							$ch = curl_init();
+							// //extract data from the post
+							// //set POST variables
+							// $url = $this->_url_movefile;
+							// $fields = array(
+							// 	'filename' => urlencode($nama_file),
+							// 	'modul' => urlencode('SO')
+							// );
+							// $fields_string = '';
+							// //url-ify the data for the POST
+							// foreach($fields as $key=>$value) {
+							// 	$fields_string .= $key.'='.$value.'&'; 
+							// }
+							// rtrim($fields_string, '&');
 
-							//set the url, number of POST vars, POST data
-							curl_setopt($ch,CURLOPT_URL, $url);
-							curl_setopt($ch,CURLOPT_POST, count($fields));
-							curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+							// //open connection
+							// $ch = curl_init();
 
-							//execute post
-							$result = curl_exec($ch);
+							// //set the url, number of POST vars, POST data
+							// curl_setopt($ch,CURLOPT_URL, $url);
+							// curl_setopt($ch,CURLOPT_POST, count($fields));
+							// curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
 
-							//close connection
-							curl_close($ch);
+							// //execute post
+							// $result = curl_exec($ch);
+
+							// //close connection
+							// curl_close($ch);
                         }
                     }
                 }
@@ -379,33 +381,36 @@ class stock_opname extends MX_Controller {
                             $data['UD_DATE_STOKOPNAME'] = date('Y-m-d');
                             if ($this->tbl_get->save($data, $id)) {
 									$message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
-									//extract data from the post
-									//set POST variables
-									$url = $this->_url_movefile;
-									$fields = array(
-										'filename' => urlencode($nama_file),
-										'modul' => urlencode('SO')
-									);
-									$fields_string = '';
-									//url-ify the data for the POST
-									foreach($fields as $key=>$value) {
-										$fields_string .= $key.'='.$value.'&'; 
-									}
-									rtrim($fields_string, '&');
+                                    
+                                    // koding versi prod
+                                    
+                                    // //extract data from the post
+									// //set POST variables
+									// $url = $this->_url_movefile;
+									// $fields = array(
+									// 	'filename' => urlencode($nama_file),
+									// 	'modul' => urlencode('SO')
+									// );
+									// $fields_string = '';
+									// //url-ify the data for the POST
+									// foreach($fields as $key=>$value) {
+									// 	$fields_string .= $key.'='.$value.'&'; 
+									// }
+									// rtrim($fields_string, '&');
 
-									//open connection
-									$ch = curl_init();
+									// //open connection
+									// $ch = curl_init();
 
-									//set the url, number of POST vars, POST data
-									curl_setopt($ch,CURLOPT_URL, $url);
-									curl_setopt($ch,CURLOPT_POST, count($fields));
-									curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+									// //set the url, number of POST vars, POST data
+									// curl_setopt($ch,CURLOPT_URL, $url);
+									// curl_setopt($ch,CURLOPT_POST, count($fields));
+									// curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
 
-									//execute post
-									$result = curl_exec($ch);
+									// //execute post
+									// $result = curl_exec($ch);
 
-									//close connection
-									curl_close($ch);
+									// //close connection
+									// curl_close($ch);
                                 }
                             }
                         }
