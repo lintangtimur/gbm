@@ -416,33 +416,36 @@ class kontrak_pemasok extends MX_Controller {
                             $nama_file= $res['file_name'];
                             if ($this->tbl_get_adendum->save_as_new($data,$nama_file)) {
                                 $message = array(true, 'Proses Berhasil ', 'Proses penyimpanan data berhasil.', '#content_table');
-								//extract data from the post
-								//set POST variables
-								$url = $this->_url_movefile;
-								$fields = array(
-									'filename' => urlencode($nama_file),
-									'modul' => urlencode('KONTRAKPEMASOK')
-								);
-								$fields_string = '';
-								//url-ify the data for the POST
-								foreach($fields as $key=>$value) {
-									$fields_string .= $key.'='.$value.'&'; 
-								}
-								rtrim($fields_string, '&');
 
-								//open connection
-								$ch = curl_init();
+                                // koding versi prod
 
-								//set the url, number of POST vars, POST data
-								curl_setopt($ch,CURLOPT_URL, $url);
-								curl_setopt($ch,CURLOPT_POST, count($fields));
-								curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+								// //extract data from the post
+								// //set POST variables
+								// $url = $this->_url_movefile;
+								// $fields = array(
+								// 	'filename' => urlencode($nama_file),
+								// 	'modul' => urlencode('KONTRAKPEMASOK')
+								// );
+								// $fields_string = '';
+								// //url-ify the data for the POST
+								// foreach($fields as $key=>$value) {
+								// 	$fields_string .= $key.'='.$value.'&'; 
+								// }
+								// rtrim($fields_string, '&');
 
-								//execute post
-								$result = curl_exec($ch);
+								// //open connection
+								// $ch = curl_init();
 
-								//close connection
-								curl_close($ch);
+								// //set the url, number of POST vars, POST data
+								// curl_setopt($ch,CURLOPT_URL, $url);
+								// curl_setopt($ch,CURLOPT_POST, count($fields));
+								// curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+
+								// //execute post
+								// $result = curl_exec($ch);
+
+								// //close connection
+								// curl_close($ch);
                             }
                         }
                     }
@@ -481,33 +484,36 @@ class kontrak_pemasok extends MX_Controller {
                 $data['UD_ADENDUM_PEMASOK'] = date('Y-m-d');
                 if ($this->tbl_get_adendum->save($data, $id)) {
                     $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
-					//extract data from the post
-					//set POST variables
-					$url = $this->_url_movefile;
-					$fields = array(
-						'filename' => urlencode($nama_file),
-						'modul' => urlencode('KONTRAKPEMASOK')
-					);
-					$fields_string = '';
-					//url-ify the data for the POST
-					foreach($fields as $key=>$value) {
-						$fields_string .= $key.'='.$value.'&'; 
-					}
-					rtrim($fields_string, '&');
 
-					//open connection
-					$ch = curl_init();
+                    // koding versi prod
 
-					//set the url, number of POST vars, POST data
-					curl_setopt($ch,CURLOPT_URL, $url);
-					curl_setopt($ch,CURLOPT_POST, count($fields));
-					curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+					// //extract data from the post
+					// //set POST variables
+					// $url = $this->_url_movefile;
+					// $fields = array(
+					// 	'filename' => urlencode($nama_file),
+					// 	'modul' => urlencode('KONTRAKPEMASOK')
+					// );
+					// $fields_string = '';
+					// //url-ify the data for the POST
+					// foreach($fields as $key=>$value) {
+					// 	$fields_string .= $key.'='.$value.'&'; 
+					// }
+					// rtrim($fields_string, '&');
 
-					//execute post
-					$result = curl_exec($ch);
+					// //open connection
+					// $ch = curl_init();
 
-					//close connection
-					curl_close($ch);
+					// //set the url, number of POST vars, POST data
+					// curl_setopt($ch,CURLOPT_URL, $url);
+					// curl_setopt($ch,CURLOPT_POST, count($fields));
+					// curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+
+					// //execute post
+					// $result = curl_exec($ch);
+
+					// //close connection
+					// curl_close($ch);
                 }
             }
         } else {

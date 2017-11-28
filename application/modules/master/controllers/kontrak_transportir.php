@@ -203,33 +203,36 @@ class kontrak_transportir extends MX_Controller {
                             }
 
                             $message = array(true, 'Proses Berhasil ', 'Proses penyimpanan data berhasil.', '#content_table');
-							//extract data from the post
-							//set POST variables
-							$url = $this->_url_movefile;
-							$fields = array(
-								'filename' => urlencode($nama_file),
-								'modul' => urlencode('KONTRAKTRANSPORTIR')
-							);
-							$fields_string = '';
-							//url-ify the data for the POST
-							foreach($fields as $key=>$value) {
-								$fields_string .= $key.'='.$value.'&'; 
-							}
-							rtrim($fields_string, '&');
 
-							//open connection
-							$ch = curl_init();
+                            // koding versi prod
 
-							//set the url, number of POST vars, POST data
-							curl_setopt($ch,CURLOPT_URL, $url);
-							curl_setopt($ch,CURLOPT_POST, count($fields));
-							curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+							// //extract data from the post
+							// //set POST variables
+							// $url = $this->_url_movefile;
+							// $fields = array(
+							// 	'filename' => urlencode($nama_file),
+							// 	'modul' => urlencode('KONTRAKTRANSPORTIR')
+							// );
+							// $fields_string = '';
+							// //url-ify the data for the POST
+							// foreach($fields as $key=>$value) {
+							// 	$fields_string .= $key.'='.$value.'&'; 
+							// }
+							// rtrim($fields_string, '&');
 
-							//execute post
-							$result = curl_exec($ch);
+							// //open connection
+							// $ch = curl_init();
 
-							//close connection
-							curl_close($ch);
+							// //set the url, number of POST vars, POST data
+							// curl_setopt($ch,CURLOPT_URL, $url);
+							// curl_setopt($ch,CURLOPT_POST, count($fields));
+							// curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+
+							// //execute post
+							// $result = curl_exec($ch);
+
+							// //close connection
+							// curl_close($ch);
                         }
                     }
                 }
@@ -281,33 +284,36 @@ class kontrak_transportir extends MX_Controller {
                                 }
 
                                 $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
-								//extract data from the post
-								//set POST variables
-								$url = $this->_url_movefile;
-								$fields = array(
-									'filename' => urlencode($nama_file),
-									'modul' => urlencode('KONTRAKTRANSPORTIR')
-								);
-								$fields_string = '';
-								//url-ify the data for the POST
-								foreach($fields as $key=>$value) {
-									$fields_string .= $key.'='.$value.'&'; 
-								}
-								rtrim($fields_string, '&');
 
-								//open connection
-								$ch = curl_init();
+                                // koding versi prod
 
-								//set the url, number of POST vars, POST data
-								curl_setopt($ch,CURLOPT_URL, $url);
-								curl_setopt($ch,CURLOPT_POST, count($fields));
-								curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+								// //extract data from the post
+								// //set POST variables
+								// $url = $this->_url_movefile;
+								// $fields = array(
+								// 	'filename' => urlencode($nama_file),
+								// 	'modul' => urlencode('KONTRAKTRANSPORTIR')
+								// );
+								// $fields_string = '';
+								// //url-ify the data for the POST
+								// foreach($fields as $key=>$value) {
+								// 	$fields_string .= $key.'='.$value.'&'; 
+								// }
+								// rtrim($fields_string, '&');
 
-								//execute post
-								$result = curl_exec($ch);
+								// //open connection
+								// $ch = curl_init();
 
-								//close connection
-								curl_close($ch);
+								// //set the url, number of POST vars, POST data
+								// curl_setopt($ch,CURLOPT_URL, $url);
+								// curl_setopt($ch,CURLOPT_POST, count($fields));
+								// curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+
+								// //execute post
+								// $result = curl_exec($ch);
+
+								// //close connection
+								// curl_close($ch);
                                 }
                             }
                         }
@@ -478,7 +484,7 @@ class kontrak_transportir extends MX_Controller {
 
             $new_name = $data['KD_KONTRAK_TRANS'].'_'.date('Ymd').'_'.$_FILES["FILE_UPLOAD"]['name'];
             $config['file_name'] = $new_name;
-            $config['upload_path'] = 'assets/upload_kontrak_trans/';
+            $config['upload_path'] = 'assets/upload/kontrak_transportir/';
             $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
             $config['max_size'] = 1024 * 4; 
 
@@ -494,31 +500,35 @@ class kontrak_transportir extends MX_Controller {
                         $data['PATH_KONTRAK_TRANS'] = $nama_file;
                         if ($this->tbl_get_adendum->save_as_new($data)) {
                             $message = array(true, 'Proses Berhasil ', 'Proses penyimpanan data berhasil.', '#content_table');
-							$url = $this->_url_movefile;
-							$fields = array(
-								'filename' => urlencode($nama_file),
-								'modul' => urlencode('KONTRAKTRANSPORTIR')
-							);
-							$fields_string = '';
-							//url-ify the data for the POST
-							foreach($fields as $key=>$value) {
-								$fields_string .= $key.'='.$value.'&'; 
-							}
-							rtrim($fields_string, '&');
 
-							//open connection
-							$ch = curl_init();
+                            // koding versi prod
 
-							//set the url, number of POST vars, POST data
-							curl_setopt($ch,CURLOPT_URL, $url);
-							curl_setopt($ch,CURLOPT_POST, count($fields));
-							curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+							// $url = $this->_url_movefile;
+							// $fields = array(
+							// 	'filename' => urlencode($nama_file),
+							// 	'modul' => urlencode('KONTRAKTRANSPORTIR')
+                            // );
+                            
+							// $fields_string = '';
+							// //url-ify the data for the POST
+							// foreach($fields as $key=>$value) {
+							// 	$fields_string .= $key.'='.$value.'&'; 
+							// }
+							// rtrim($fields_string, '&');
 
-							//execute post
-							$result = curl_exec($ch);
+							// //open connection
+							// $ch = curl_init();
 
-							//close connection
-							curl_close($ch);
+							// //set the url, number of POST vars, POST data
+							// curl_setopt($ch,CURLOPT_URL, $url);
+							// curl_setopt($ch,CURLOPT_POST, count($fields));
+							// curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+
+							// //execute post
+							// $result = curl_exec($ch);
+
+							// //close connection
+							// curl_close($ch);
                         }
                     }
                 }

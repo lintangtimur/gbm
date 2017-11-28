@@ -62,12 +62,12 @@
                 <div class="controls">
                     <?php echo form_upload('FILE_UPLOAD', !empty($default->PATH_KONTRAK_TRANS) ? $default->PATH_KONTRAK_TRANS : '', 'class="span6"'); ?>
                 </div>
-                <!--<div class="controls" id="dokumen">
-                    <a href="<?php //echo base_url().'assets/upload_kontrak_trans/'.$id_dok;?>" target="_blank"><b><?php //echo (empty($id_dok)) ? $id_dok : 'Lihat Dokumen'; ?></b></a>
-                </div>-->
-				<div class="controls" id="dokumen">
+            <div class="controls" id="dokumen">
+                <a href="<?php echo base_url().'assets/upload/kontrak_transportir/'.$id_dok;?>" target="_blank"><b><?php echo (empty($id_dok)) ? $id_dok : 'Lihat Dokumen'; ?></b></a>
+            </div>
+				<!-- <div class="controls" id="dokumen">
 					<a href="javascript:void(0);" id="lihatdoc" onclick="lihat_dokumen(this.id)" data-modul="KONTRAKTRANSPORTIR" data-url="<?php echo $url_getfile;?>" data-filename="<?php echo !empty($default->PATH_KONTRAK_TRANS) ? $default->PATH_KONTRAK_TRANS : '';?>"><b><?php echo (empty($id_dok)) ? $id_dok : 'Lihat Dokumen'; ?></b></a>
-				</div>
+				</div> -->
             </div>
 
 
