@@ -84,6 +84,10 @@ class permintaan extends MX_Controller
 
             $tgl_catat = new DateTime($data['default']->TGL_MTS_NOMINASI);
 
+            if ($data['default']->STORE_SLOC){
+                $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Pembangkit--', $data['default']->STORE_SLOC, 1);    
+            }
+
             $data['default']->TGL_MTS_NOMINASI = $tgl_catat->format('d-m-Y');
 			$data['id_dok'] = $data['default']->PATH_FILE_NOMINASI; 
         }
