@@ -89,6 +89,14 @@
                 </div>
             </div>
 
+            <div class="control-group" id="komponen" style="<?php echo !empty($default->IS_MIX_BBM) ? '' : 'display:none;' ;?>">
+                <label class="control-label">Komponen BBM<span class="required">*</span> : </label>
+                <div class="controls">
+                    <?php echo form_dropdown('KOMPONEN', $option_komponen, !empty($default->ID_KOMPONEN_BBM) ? $default->ID_KOMPONEN_BBM : '', 'class="span3" id="cbokomponen" disabled'); ?>
+					<input type="hidden" id="ismix" name="ismix" value="<?php echo !empty($default->IS_MIX_BBM) ? $default->IS_MIX_BBM : '' ;?>" />
+                </div>
+            </div>
+
             <div class="control-group">
                 <label class="control-label">Volume DO/TUG<span class="required">*</span> : </label>
                 <div class="controls">
