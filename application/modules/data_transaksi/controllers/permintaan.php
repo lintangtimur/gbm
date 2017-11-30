@@ -204,8 +204,7 @@ class permintaan extends MX_Controller
             $data['PATH_NAMA'] = '';
 
             if (!empty($_FILES['PATH_FILE_NOMINASI']['name'])){
-                $new_name = $this->input->post('NO_NOMINASI');
-                $new_name = str_replace(" ","_",$new_name);
+                $new_name = str_replace(".","",$data['NO_NOMINASI']).'_'.date("YmdHis");
                 $config['file_name'] = $new_name;
                 $config['upload_path'] = 'assets/upload/permintaan';
                 $config['allowed_types'] = 'jpg|jpeg|png|pdf';

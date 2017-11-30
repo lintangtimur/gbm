@@ -279,7 +279,7 @@ class stock_opname extends MX_Controller {
             $data['STATUS_APPROVE_STOCKOPNAME'] = $this->input->post('0');
 
             if ($id == '') {
-                $new_name = $data['NO_STOCKOPNAME'].'_'.date("YmdHis");
+                $new_name = str_replace(".","",$data['NO_STOCKOPNAME']).'_'.date("YmdHis");
                 $config['file_name'] = $new_name;
                 $config['upload_path'] = 'assets/upload/stockopname/';
                 $config['allowed_types'] = 'jpg|jpeg|png|pdf';
@@ -360,7 +360,7 @@ class stock_opname extends MX_Controller {
                             }
                     }
                             
-                    $new_name = $data['NO_STOCKOPNAME'].'_'.date("YmdHis");
+                    $new_name = str_replace(".","",$data['NO_STOCKOPNAME']).'_'.date("YmdHis");
                     $config['file_name'] = $new_name;
                     $config['upload_path'] = 'assets/upload/stockopname/';
                     $config['allowed_types'] = 'jpg|jpeg|png|pdf';

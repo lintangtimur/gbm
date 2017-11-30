@@ -130,7 +130,8 @@ class tangki extends MX_Controller {
                 $data['CD_TANGKI'] = date("Y/m/d");
                 $data['UD_TANGKI'] = date("Y/m/d");
 
-                $new_name = date('Ymd').'_'.$_FILES["FILE_UPLOAD"]['name'];
+                $new_name = str_replace(".","",$data['NAMA_TANGKI']).'_'.date("YmdHis");
+                $new_name = str_replace(" ","_",$new_name);
                 $config['file_name'] = $new_name;
                 $config['upload_path'] = 'assets/upload/tangki/';
                 $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
