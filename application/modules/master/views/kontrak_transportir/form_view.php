@@ -138,7 +138,7 @@ $("#addButton").click(function () {
         }?>
        "</select>";
 
-    var text_harga_kontrak="<input type='text' id='harga_ke"+ counter + "' name='harga_ke"+ counter + "' placeholder='Harga (Rp)' disabled>";
+    var text_harga_kontrak="<input type='text' id='harga_ke"+ counter + "' name='harga_ke"+ counter + "' placeholder='Harga (Rp) / L' disabled>";
     var text_jarak="<input type='text' id='jarak_ke"+ counter + "' name='jarak_ke"+ counter + "' placeholder='Jarak (KL / ML)' disabled>";
    
     var visi = '<div class="form_row">'+
@@ -150,7 +150,7 @@ $("#addButton").click(function () {
     '<div class="form_row">'+
     '<div class="pull-left"><label for="password" class="control-label">Jalur ke : '+ counter + '</label>'+
     '<div class="controls">'+combo_jalur+'</div></div>'+
-    '<div class="pull-left"><label for="password" class="control-label">Harga (Rp) ke : '+ counter + '</label>'+
+    '<div class="pull-left"><label for="password" class="control-label">Harga (Rp) / L ke : '+ counter + '</label>'+
     '<div class="controls">'+text_harga_kontrak+'</div></div>'+
     '</div><br>'+
     '<div class="form_row">'+

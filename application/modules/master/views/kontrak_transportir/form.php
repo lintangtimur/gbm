@@ -28,7 +28,7 @@
             <div class="control-group">
                 <label for="password" class="control-label">Jumlah Pasokan <span class="required"> *</span> : </label>
                 <div class="controls">
-                    <?php echo form_input('JML_PASOKAN', !empty($default->JML_PASOKAN) ? $default->JML_PASOKAN : '', 'class="span2", id="JML_KIRIM", placeholder="Max 5"'); ?>
+                    <?php echo form_input('JML_PASOKAN', !empty($default->JML_PASOKAN) ? $default->JML_PASOKAN : '', 'class="span2", id="JML_KIRIM", placeholder="Max 20"'); ?>
                     <?php echo anchor(null, 'Generate', array('id' => 'button-jml-kirim', 'class' => 'green btn')); ?>
                 </div>
             </div>
@@ -97,8 +97,8 @@ $(document).ready(function(){
 var counter = 1;
 
     $("#addButton").click(function () {
-        if(counter>5){
-                alert("Max 5 data yang diperbolehkan");
+        if(counter>20){
+                alert("Max 20 data yang diperbolehkan");
                 return false;
         }
 
@@ -139,7 +139,7 @@ var counter = 1;
             }?>
            "</select>";
 
-        var text_harga_kontrak="<input type='text' id='harga_ke"+ counter + "' name='harga_ke"+ counter + "' placeholder='Harga (Rp)'>";
+        var text_harga_kontrak="<input type='text' id='harga_ke"+ counter + "' name='harga_ke"+ counter + "' placeholder='Harga (Rp) / L'>";
         var text_jarak="<input type='text' id='jarak_ke"+ counter + "' name='jarak_ke"+ counter + "' placeholder='Jarak (KL / ML)'>";
        
         var visi = '<div class="form_row">'+
@@ -151,7 +151,7 @@ var counter = 1;
         '<div class="form_row">'+
         '<div class="pull-left"><label for="password" class="control-label">Jalur ke : '+ counter + '</label>'+
         '<div class="controls">'+combo_jalur+'</div></div>'+
-        '<div class="pull-left"><label for="password" class="control-label">Harga (Rp) ke : '+ counter + '</label>'+
+        '<div class="pull-left"><label for="password" class="control-label">Harga (Rp) / L ke : '+ counter + '</label>'+
         '<div class="controls">'+text_harga_kontrak+'</div></div>'+
         '</div><br>'+
         '<div class="form_row">'+
@@ -185,13 +185,13 @@ var counter = 1;
     $("#button-jml-kirim").click(function () {
         var x = $('#JML_KIRIM').val(); 
 
-        if(x>5){
-            var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i> Max 5 data jumlah pengiriman yang diperbolehkan</div>';
+        if(x>20){
+            var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i> Max 20 data jumlah pasokan yang diperbolehkan</div>';
             bootbox.alert(message, function() {});
-            $('#JML_KIRIM').val('5');
+            $('#JML_KIRIM').val('20');
         }
 
-        for (i = 1; i <= 5; i++) {
+        for (i = 1; i <= 20; i++) {
             $("#TextBoxDiv"+i).hide();
         }
 
@@ -202,11 +202,11 @@ var counter = 1;
         
     });
 
-    for (i = 0; i < 5; i++) {
+    for (i = 0; i < 20; i++) {
         $("#addButton").click();
     }
 
-    for (i = 1; i <= 5; i++) {
+    for (i = 1; i <= 20; i++) {
         $("#TextBoxDiv"+i).hide();
     }
     
@@ -214,16 +214,11 @@ var counter = 1;
         get_detail($('input[name=KD_KONTRAK_TRANS]').val());    
     }
 
-    for (i = 1; i <= 5; i++) {
-        var val_harga="input[name=harga_ke"+i+"]";
-        
+    for (i = 1; i <= 20; i++) {
         $('input[name=harga_ke'+i+']').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
 
         });
-    }
 
-    for (i = 1; i <= 5; i++) {
-       var val_jarak="input[name=jarak_ke"+i+"]";
 
         $('input[name=jarak_ke'+i+']').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
        
