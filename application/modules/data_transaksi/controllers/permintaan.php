@@ -29,6 +29,8 @@ class permintaan extends MX_Controller
         hprotection::login();
         $this->laccess->check();
         $this->laccess->otoritas('view', true);
+		$this->_url_movefile = $this->laccess->url_serverfile()."move";
+		$this->_urlgetfile = $this->laccess->url_serverfile()."geturl";
 		// $this->load->model('stock_opname_model', 'tbl_get');
         $this->load->model('laporan/persediaan_bbm_model','tbl_get_combo');
 
