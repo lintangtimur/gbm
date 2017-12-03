@@ -219,7 +219,7 @@ class stock_opname_model extends CI_Model {
 
 
     public function data_option($key = '', $id = '') {
-		if ($key !== ''){
+		if ($id !== ''){
 			$key["b.SLOC"] = $id;
 		}
 			// $this->db->where("b.SLOC", $id);
@@ -241,7 +241,7 @@ class stock_opname_model extends CI_Model {
         if (!empty($default)) {
             $option[''] = $default;
         }
-
+		
         foreach ($list->result() as $row) {
             $option[$row->ID_JNS_BHN_BKR] = $row->NAMA_JNS_BHN_BKR;
         }

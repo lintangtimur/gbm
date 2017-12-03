@@ -51,14 +51,14 @@ if (!defined('BASEPATH'))
 $active_group = 'default';
 $active_record = TRUE;
 
-// $db['default']['hostname'] = '10.14.152.87';
- $db['default']['hostname'] = '10.1.18.206';
-$db['default']['username'] = 'root';
-// $db['default']['password'] = 'VvBZh8ZETswV6FjD';
+$db['default']['hostname'] = '10.14.152.87';
+ // $db['default']['hostname'] = '10.1.18.206';
+$db['default']['username'] = 'gbmon';
+$db['default']['password'] = 'VvBZh8ZETswV6FjD';
 // $db['default']['password'] = '';
-$db['default']['password'] = 'nicky.astria';
-// $db['default']['database'] = 'gbm_new_dev';
-$db['default']['database'] = 'gbm_prod';
+// $db['default']['password'] = 'nicky.astria';
+$db['default']['database'] = 'gbm_new_dev';
+// $db['default']['database'] = 'gbm_prod';
 $db['default']['dbdriver'] = 'mysqli';
 $db['default']['dbprefix'] = '';
 $db['default']['port']     = 3306;

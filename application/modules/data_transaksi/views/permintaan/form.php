@@ -85,15 +85,15 @@
                     ?>
                     <a href="<?php //echo base_url().'assets/upload_nominasi/'.$link;?>" target="_blank"><b><?php //echo (empty($link)) ? $link : 'Lihat Dokumen'; ?></b></a>
                 </div>-->
-				 <!-- <div class="controls" id="dokumen">
+				 <div class="controls" id="dokumen">
 					 <a href="javascript:void(0);" id="lihatdoc" onclick="lihat_dokumen(this.id)" data-modul="MINTA" data-url="<?php echo $url_getfile;?>" data-filename="<?php echo !empty($default->PATH_FILE_NOMINASI) ? $default->PATH_FILE_NOMINASI : '';?>"><b><?php echo (empty($id_dok)) ? $id_dok : 'Lihat Dokumen'; ?></b></a>
-					</div> -->
-                <div class="controls" id="dokumen">
-                    <a href="<?php echo base_url().'assets/upload/permintaan/'.$id_dok;?>" target="_blank"><b><?php echo (empty($id_dok)) ? $id_dok : 'Lihat Dokumen'; ?></b></a>
-                  </div>
+					</div>
+                <!--<div class="controls" id="dokumen">
+                    <a href="<?php #echo base_url().'assets/upload/permintaan/'.$id_dok;?>" target="_blank"><b><?php #echo (empty($id_dok)) ? $id_dok : 'Lihat Dokumen'; ?></b></a>
+                  </div>-->
             </div>
             <div class="control-group">
-                <label class="control-label">Volume<span class="required">*</span> : </label>
+                <label class="control-label">Volume (L)<span class="required">*</span> : </label>
                 <div class="controls">
                     <?php echo form_input('VOLUME_NOMINASI', !empty($default->VOLUME_NOMINASI) ? $default->VOLUME_NOMINASI : '0', 'class="span4" placeholder="0" id="VOLUME_NOMINASI" readonly'); ?>
                 </div>

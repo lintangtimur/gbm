@@ -11,7 +11,7 @@
                     <tr>
                         <td>
                             <div class="control-group">
-                                <label for="password" class="control-label">Pembangkit <span class="required">*</span> : </label>
+                                <label for="password" class="control-label">Pembangkits <span class="required">*</span> : </label>
                                 <div class="controls">
                                     <?php echo form_dropdown('unit_pembangkit', $unit_pembangkit, !empty($default->SLOC) ? $default->SLOC : '', 'class="span10"'); ?>
                                 </div>
@@ -73,12 +73,12 @@
                                 <div class="controls" id="up_file">
                                     <?php echo form_upload('FILE_UPLOAD', !empty($default->PATH_DET_TERA) ? $default->PATH_DET_TERA : '', 'class="span6"'); ?>
                                 </div>
-                            <div class="controls" id="dokumen">
-                                <a href="<?php echo base_url().'assets/upload/tangki/'.$id_dok;?>" target="_blank"><b><?php echo (empty($id_dok)) ? $id_dok : 'Lihat Dokumen'; ?></b></a>
-                            </div>
-								<!-- <div class="controls" id="dokumen">
+                            <!--<div class="controls" id="dokumen">
+                                <a href="<?php #echo base_url().'assets/upload/tangki/'.$id_dok;?>" target="_blank"><b><?php #echo (empty($id_dok)) ? $id_dok : 'Lihat Dokumen'; ?></b></a>
+                            </div>-->
+								<div class="controls" id="dokumen">
 									<a href="javascript:void(0);" id="lihatdoc" onclick="lihat_dokumen(this.id)" data-modul="TANGKI" data-url="<?php echo $url_getfile;?>" data-filename="<?php echo !empty($default->PATH_DET_TERA) ? $default->PATH_DET_TERA : '';?>"><b><?php echo (empty($id_dok)) ? $id_dok : 'Lihat Dokumen'; ?></b></a>
-								</div> -->
+								</div> 
                             </div>
                             <div class="control-group">
                                 <label for="password" class="control-label">Aktif <span class="required">*</span> : </label>
@@ -88,13 +88,13 @@
                             </div>
                             <!-- <div class="control-group">
                                 <div class="controls">
-                                    <?php echo anchor(null, '<i class="icon-plus"></i> Tambah', array( 'id' => 'tambah', 'class' => 'blue btn')); ?>
+                                    <?php #echo anchor(null, '<i class="icon-plus"></i> Tambah', array( 'id' => 'tambah', 'class' => 'blue btn')); ?>
                                 </div>
                             </div> -->
                         </td>
                     </tr>
             </table>
-            <!-- <div id="content_table" data-source="<?php echo $data_detail; ?>" data-filter="#ffilter"></div> -->
+            <!-- <div id="content_table" data-source="<?php #echo $data_detail; ?>" data-filter="#ffilter"></div> -->
        <!--  <div class="well-content" id="content_table">
             <table id="data_tera" class="table table-striped table-bordered table-hover datatable dataTable">
                 <thead>
@@ -106,10 +106,10 @@
                     </tr>
                 </thead>
                     <tr>
-                        <td><?php echo $data_detail->ID_TERA; ?></td>
-                        <td><?php echo $data_detail->PATH_DET_TERA; ?></td>
-                        <td><?php echo $data_detail->TGL_DET_TERA; ?></td>
-                        <td><?php echo $data_detail->ISAKTIF_DET_TERA; ?></td>
+                        <td><?php #echo $data_detail->ID_TERA; ?></td>
+                        <td><?php #echo $data_detail->PATH_DET_TERA; ?></td>
+                        <td><?php #echo $data_detail->TGL_DET_TERA; ?></td>
+                        <td><?php #echo $data_detail->ISAKTIF_DET_TERA; ?></td>
                     </tr>
                     
                 </tbody>

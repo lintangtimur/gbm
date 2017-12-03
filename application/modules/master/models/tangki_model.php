@@ -9,11 +9,11 @@
 			parent::__construct();
 		}
 		
-		private $_table1 = "MASTER_TANGKI"; //nama table setelah mom_
-		private $_table2 = "MASTER_LEVEL4"; //nama table setelah mom_
-		private $_table3 = "M_JNS_BHN_BKR"; //nama table setelah mom_
-		private $_table4 = "MASTER_TERA"; //nama table setelah mom_
-		private $_table5 = "DET_TERA_TANGKI"; //nama table setelah mom_
+		private $_table1 = "MASTER_TANGKI"; 
+		private $_table2 = "MASTER_LEVEL4"; 
+		private $_table3 = "M_JNS_BHN_BKR"; 
+		private $_table4 = "MASTER_TERA"; 
+		private $_table5 = "DET_TERA_TANGKI"; 
 		
 		private function _key($key) { //unit ID
 			if (!is_array($key)) {
@@ -29,7 +29,7 @@
 			$this->db->from($this->_table1 . ' a');
 			$this->db->join($this->_table2 . ' b', 'b.SLOC = a.SLOC');
 			$this->db->join($this->_table3 . ' c', 'c.ID_JNS_BHN_BKR = a.ID_JNS_BHN_BKR');
-			// $this->db->join($this->_table5 . ' d', 'd.ID_TANGKI = a.ID_TANGKI');
+			$this->db->join($this->_table5 . ' d', 'd.ID_TANGKI = a.ID_TANGKI', 'left');
 			   
 
 			$data_lv = $this->get_level($level_user,$kode_level);

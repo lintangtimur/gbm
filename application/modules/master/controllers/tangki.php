@@ -56,8 +56,9 @@ class tangki extends MX_Controller {
 		$data["url_getfile"] = $this->_urlgetfile;
         if ($id != '') {
             $page_title = 'Edit Tangki';
-            $tangki = $this->tangki_model->dataEdit($id);
+            $tangki = $this->tangki_model->data(array("a.ID_TANGKI = '$id'" => null));
             $data['default'] = $tangki->get()->row();
+			// print_debug($data['default']);
             // $trans = $this->tangki_model->get_detail($id);
             // $data['data_detail'] = $trans->get()->row();
             $data['id_dok'] = $data['default']->PATH_DET_TERA;
@@ -130,7 +131,8 @@ class tangki extends MX_Controller {
                 $data['CD_TANGKI'] = date("Y/m/d");
                 $data['UD_TANGKI'] = date("Y/m/d");
 
-                $new_name = date('Ymd').'_'.$_FILES["FILE_UPLOAD"]['name'];
+                $new_name = str_replace(".","",$data['NAMA_TANGKI']).'_'.date("YmdHis");
+                $new_name = str_replace(" ","_",$new_name);
                 $config['file_name'] = $new_name;
                 $config['upload_path'] = 'assets/upload/tangki/';
                 $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
@@ -152,33 +154,33 @@ class tangki extends MX_Controller {
 
                                 // koding versi prod
 
-								// //extract data from the post
-								// //set POST variables
-								// $url = $this->_url_movefile;
-								// $fields = array(
-								// 	'filename' => urlencode($nama_file),
-								// 	'modul' => urlencode('TANGKI')
-								// );
-								// $fields_string = '';
-								// //url-ify the data for the POST
-								// foreach($fields as $key=>$value) {
-								// 	$fields_string .= $key.'='.$value.'&'; 
-								// }
-								// rtrim($fields_string, '&');
+								//extract data from the post
+								//set POST variables
+								$url = $this->_url_movefile;
+								$fields = array(
+									'filename' => urlencode($nama_file),
+									'modul' => urlencode('TANGKI')
+								);
+								$fields_string = '';
+								//url-ify the data for the POST
+								foreach($fields as $key=>$value) {
+									$fields_string .= $key.'='.$value.'&'; 
+								}
+								rtrim($fields_string, '&');
 
-								// //open connection
-								// $ch = curl_init();
+								//open connection
+								$ch = curl_init();
 
-								// //set the url, number of POST vars, POST data
-								// curl_setopt($ch,CURLOPT_URL, $url);
-								// curl_setopt($ch,CURLOPT_POST, count($fields));
-								// curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+								//set the url, number of POST vars, POST data
+								curl_setopt($ch,CURLOPT_URL, $url);
+								curl_setopt($ch,CURLOPT_POST, count($fields));
+								curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
 
-								// //execute post
-								// $result = curl_exec($ch);
+								//execute post
+								$result = curl_exec($ch);
 
-								// //close connection
-								// curl_close($ch);
+								//close connection
+								curl_close($ch);
                             }
                     }
                 }
@@ -231,33 +233,33 @@ class tangki extends MX_Controller {
                                     
                                     // koding versi prod
 
-									// //extract data from the post
-									// //set POST variables
-									// $url = $this->_url_movefile;
-									// $fields = array(
-									// 	'filename' => urlencode($nama_file),
-									// 	'modul' => urlencode('TANGKI')
-									// );
-									// $fields_string = '';
-									// //url-ify the data for the POST
-									// foreach($fields as $key=>$value) {
-									// 	$fields_string .= $key.'='.$value.'&'; 
-									// }
-									// rtrim($fields_string, '&');
+									//extract data from the post
+									//set POST variables
+									$url = $this->_url_movefile;
+									$fields = array(
+										'filename' => urlencode($nama_file),
+										'modul' => urlencode('TANGKI')
+									);
+									$fields_string = '';
+									//url-ify the data for the POST
+									foreach($fields as $key=>$value) {
+										$fields_string .= $key.'='.$value.'&'; 
+									}
+									rtrim($fields_string, '&');
 
-									// //open connection
-									// $ch = curl_init();
+									//open connection
+									$ch = curl_init();
 
-									// //set the url, number of POST vars, POST data
-									// curl_setopt($ch,CURLOPT_URL, $url);
-									// curl_setopt($ch,CURLOPT_POST, count($fields));
-									// curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+									//set the url, number of POST vars, POST data
+									curl_setopt($ch,CURLOPT_URL, $url);
+									curl_setopt($ch,CURLOPT_POST, count($fields));
+									curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
 
-									// //execute post
-									// $result = curl_exec($ch);
+									//execute post
+									$result = curl_exec($ch);
 
-									// //close connection
-									// curl_close($ch);
+									//close connection
+									curl_close($ch);
                                 }
                             }
                         }

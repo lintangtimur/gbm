@@ -86,7 +86,7 @@
                   </div>-->
             </div>
             <div class="control-group">
-                <label class="control-label">Volume<span class="required">*</span> : </label>
+                <label class="control-label">Volume (L)<span class="required">*</span> : </label>
                 <div class="controls">
                     <?php echo form_input('VOLUME_NOMINASI', !empty($default->VOLUME_NOMINASI) ? $default->VOLUME_NOMINASI : '', 'class="span4" placeholder="Volume Nominasi" disabled'); ?>
                 </div>

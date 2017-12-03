@@ -88,23 +88,23 @@
                     <?php echo form_dropdown('ID_JNS_BHN_BKR', $option_jenis_bbm, !empty($default->ID_JNS_BHN_BKR) ? $default->ID_JNS_BHN_BKR : '', 'class="span3" disabled'); ?>
                 </div>
             </div>
-			
-			<div class="control-group" id="komponen" style="<?php echo !empty($default->IS_MIX_BBM) ? '' : 'display:none;' ;?>">
+
+            <div class="control-group" id="komponen" style="<?php echo !empty($default->IS_MIX_BBM) ? '' : 'display:none;' ;?>">
                 <label class="control-label">Komponen BBM<span class="required">*</span> : </label>
                 <div class="controls">
                     <?php echo form_dropdown('KOMPONEN', $option_komponen, !empty($default->ID_KOMPONEN_BBM) ? $default->ID_KOMPONEN_BBM : '', 'class="span3" id="cbokomponen" disabled'); ?>
 					<input type="hidden" id="ismix" name="ismix" value="<?php echo !empty($default->IS_MIX_BBM) ? $default->IS_MIX_BBM : '' ;?>" />
                 </div>
             </div>
-			
+
             <div class="control-group">
-                <label class="control-label">Volume DO/TUG<span class="required">*</span> : </label>
+                <label class="control-label">Volume DO/TUG (L)<span class="required">*</span> : </label>
                 <div class="controls">
                     <?php echo form_input('VOL_PENERIMAAN', !empty($default->VOL_TERIMA) ? $default->VOL_TERIMA : '', 'class="span4" placeholder="Volume DO / TUG" disabled'); ?>
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">Volume Penerimaan<span class="required">*</span> : </label>
+                <label class="control-label">Volume Penerimaan (L)<span class="required">*</span> : </label>
                 <div class="controls">
                     <?php echo form_input('VOL_PENERIMAAN_REAL', !empty($default->VOL_TERIMA_REAL) ? $default->VOL_TERIMA_REAL : '', 'class="span4" placeholder="Volume Penerimaan" disabled'); ?>
                 </div>

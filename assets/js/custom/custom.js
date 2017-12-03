@@ -190,7 +190,7 @@ function load_jenis_bbm(url, id){
 	}).done(function(result) {
 		$(".bootbox").modal("hide");
 		html = '';
-		
+		$(id).html("");
 		for (val in result){
 			html += "<option value='"+val+"'>" + result[val] + "</option>";
 		}

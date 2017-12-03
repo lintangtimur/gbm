@@ -98,13 +98,13 @@
             </div>
 
             <div class="control-group">
-                <label class="control-label">Volume DO/TUG<span class="required">*</span> : </label>
+                <label class="control-label">Volume DO/TUG (L)<span class="required">*</span> : </label>
                 <div class="controls">
                     <?php echo form_input('VOL_PENERIMAAN', !empty($default->VOL_TERIMA) ? $default->VOL_TERIMA : '', 'class="span4" placeholder="Volume DO / TUG"'); ?>
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">Volume Penerimaan<span class="required">*</span> : </label>
+                <label class="control-label">Volume Penerimaan (L)<span class="required">*</span> : </label>
                 <div class="controls">
                     <?php echo form_input('VOL_PENERIMAAN_REAL', !empty($default->VOL_TERIMA_REAL) ? $default->VOL_TERIMA_REAL : '', 'class="span4" placeholder="Volume Penerimaan"'); ?>
                 </div>

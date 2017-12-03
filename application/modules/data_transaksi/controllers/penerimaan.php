@@ -100,7 +100,6 @@ class penerimaan extends MX_Controller
     {
         $data = $this->get_level_user();
         $data['id'] = $id;
-		$data['option_komponen'] = array();
         if ($id != '') {
             $page_title = 'Detail Penerimaan';
             $get_tbl = $this->tbl_get->data_detail($id);
@@ -112,13 +111,15 @@ class penerimaan extends MX_Controller
             $data['default']->TGL_PENERIMAAN = $tgl_catat->format('d-m-Y');
             $data['default']->TGL_PENGAKUAN = $tgl_pengakuan->format('d-m-Y');
         }
+
         $data['option_pemasok'] = $this->tbl_get->options_pemasok();
         $data['option_transportir'] = $this->tbl_get->options_transpotir();
         $data['option_jenis_penerimaan'] = $this->tbl_get->options_jenis_penerimaan();
         $data['option_jenis_bbm'] = $this->tbl_get->options_jenis_bahan_bakar();
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses');
-		$data['option_komponen'] = $this->tbl_get->option_komponen($data['default']->ID_JNS_BHN_BKR);
+        if ($id != '')
+        $data['option_komponen'] = $this->tbl_get->option_komponen($data['default']->ID_JNS_BHN_BKR);
         $this->load->view($this->_module . '/form_edit', $data);
     }
 
