@@ -134,7 +134,7 @@ class pemakaian_model extends CI_Model
     }
 
     function getTableViewDetail($tanggal=null){
-        $this->db->query("call PROC_EDIT_STATUS('".$this->input->post('TGL_PENGAKUAN')."', '3')");
+        // $this->db->query("call PROC_EDIT_STATUS('".$this->input->post('TGL_PENGAKUAN')."', '3')");
 
         $this->db->from('VLOAD_LIST_DETAIL_PEMAKAIAN_V2');
 
@@ -411,7 +411,7 @@ class pemakaian_model extends CI_Model
             .$data['VALUE_SETTING']."','"
             .$data['KETERANGAN']."','"
             .$data['NO_TUG']."')";
-//print_debug($sql);
+print_debug($sql);
         $query = $this->db->query($sql);
         $this->db->close();
         return $query->result();
