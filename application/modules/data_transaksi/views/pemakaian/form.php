@@ -177,8 +177,19 @@
 
     // start
     function formatDateDepan(date) {
-        var date = new Date();
-        return date.getDate()+1 + "-" + date.getMonth() + "-" + date.getFullYear();
+      var tanggal =date.getDate()+1;
+      var bulan = date.getMonth();
+      var tahun = date.getFullYear();
+
+      if(tanggal<10){
+         tanggal='0'+tanggal;
+        } 
+
+      if(bulan<10){
+         bulan='0'+bulan;
+        } 
+
+      return tanggal + "-" + bulan + "-" + tahun;
     }
 
     function setDefaulthTglCatat(){

@@ -264,6 +264,7 @@
 						<td>Volume Stok Akhir Real (L)</td>
 						<td>Volume Stok Akhir Efektif (L)</td>
 						<td>SHO</td>
+                        <td>MAX PEMAKAIAN</td>
 						</tr>
 						</thead>
 						<tbody>
@@ -963,6 +964,7 @@
                             var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
                             var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
                             var SHO = value.SHO == null ? "" : value.SHO;
+                            var MAX_PEMAKAIAN = value.MAX_PEMAKAIAN == null ? "" : value.MAX_PEMAKAIAN;
                             // var SHO = SHO.toString().replace(/\./g, ',');  
                             var SHO1 = Number(SHO).toFixed(2);  
                             
@@ -978,6 +980,7 @@
                                     '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
                                     '<td align="right">' + SHO1 + '</td>' +
+                                    '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
                                     '</tr>';
                             nomer++;
 
@@ -1026,6 +1029,7 @@
                             var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
                             var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
                             var SHO = value.SHO == null ? "" : value.SHO;
+                            var MAX_PEMAKAIAN = value.MAX_PEMAKAIAN == null ? "" : value.MAX_PEMAKAIAN;
                             // var SHO = SHO.toString().replace(/\./g, ',');  
                             var SHO1 = Number(SHO).toFixed(2);  
                             
@@ -1041,6 +1045,7 @@
                                     '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
                                     '<td align="right">' + SHO1 + '</td>' +
+                                    '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
                                     '</tr>';
                             nomer++;
 
@@ -1089,6 +1094,7 @@
                             var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
                             var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
                             var SHO = value.SHO == null ? "" : value.SHO;
+                            var MAX_PEMAKAIAN = value.MAX_PEMAKAIAN == null ? "" : value.MAX_PEMAKAIAN;
                             // var SHO = SHO.toString().replace(/\./g, ',');  
                             var SHO1 = Number(SHO).toFixed(2);  
                             
@@ -1104,6 +1110,7 @@
                                     '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
                                     '<td align="right">' + SHO1 + '</td>' +
+                                    '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
                                     '</tr>';
                             nomer++;
 
@@ -1152,6 +1159,7 @@
                             var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
                             var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
                             var SHO = value.SHO == null ? "" : value.SHO;
+                            var MAX_PEMAKAIAN = value.MAX_PEMAKAIAN == null ? "" : value.MAX_PEMAKAIAN;
                             // var SHO = SHO.toString().replace(/\./g, ',');  
                             var SHO1 = Number(SHO).toFixed(2);  
                             
@@ -1167,6 +1175,7 @@
                                     '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
                                     '<td align="right">' + SHO1 + '</td>' +
+                                    '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
                                     '</tr>';
                             nomer++;
 
@@ -1215,6 +1224,7 @@
                             var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
                             var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
                             var SHO = value.SHO == null ? "" : value.SHO;
+                            var MAX_PEMAKAIAN = value.MAX_PEMAKAIAN == null ? "" : value.MAX_PEMAKAIAN;
                             // var SHO = SHO.toString().replace(/\./g, ',');  
                             var SHO1 = Number(SHO).toFixed(2);  
                             
@@ -1230,6 +1240,7 @@
                                     '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
                                     '<td align="right">' + SHO1 + '</td>' +
+                                    '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
                                     '</tr>';
                             nomer++;
 
