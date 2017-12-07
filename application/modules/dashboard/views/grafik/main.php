@@ -125,8 +125,7 @@
 						  </div>
 					</div>
                     <div class="well">
-                        <!-- <div class="pull-left"> -->
-                          <!-- /.row -->
+
                             <div class="row">
                                 <div class="col-md-2 col-md-6">
                                     <div class="panel panel-primary">
