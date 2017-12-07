@@ -71,19 +71,19 @@
                         <div id="author_bio_wrap" style="display: none;">
                                 <div class="col-md-12">
 									 <div class="form_row">
-										<div class="pull-left span3">
+										<div class="pull-left span4">
 											<label for="password" class="control-label">Regional : </label>
 											<div class="controls">
 												<?php echo form_dropdown('ID_REGIONAL', $reg_options, !empty($default->ID_REGIONAL) ? $default->ID_REGIONAL : '', 'id="lvl0"'); ?>
 											</div>
 										</div>
-										<div class="pull-left span3">
+										<div class="pull-left span4">
 											<label for="password" class="control-label">Level 1 : </label>
 											<div class="controls">
 												<?php echo form_dropdown('COCODE', $lv1_options, !empty($default->COCODE) ? $default->COCODE : '', 'id="lvl1"'); ?>
 											</div>
 										</div>
-										<div class="pull-left span3">
+										<div class="pull-left span4">
 											<label for="password" class="control-label">Level 2 : </label>
 											<div class="controls">
 												<?php echo form_dropdown('PLANT', $lv2_options, !empty($default->PLANT) ? $default->PLANT : '', 'id="lvl2"'); ?>
@@ -91,19 +91,19 @@
 										</div>
 									</div><br/>
 									<div class="form_row">
-										<div class="pull-left span3">
+										<div class="pull-left span4">
 											<label for="password" class="control-label">Level 3 : </label>
 											<div class="controls">
 												<?php echo form_dropdown('STORE_SLOC', $lv3_options, !empty($default->STORE_SLOC) ? $default->STORE_SLOC : '', 'id="lvl3"'); ?>
 											</div>
 										</div>
-										<div class="pull-left span3">
+										<div class="pull-left span4">
 											<label for="password" class="control-label">Pembangkit : </label>
 											<div class="controls">
 												<?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : '', 'id="lvl4"'); ?>
 											</div>
 										</div>
-										<div class="pull-left span3">
+										<div class="pull-left span4">
 											<label for="password" class="control-label">Bulan <span class="required">*</span> : </label>
 											<label for="password" class="control-label" style="margin-left:95px">Tahun <span class="required">*</span> : </label>
 											<div class="controls">
