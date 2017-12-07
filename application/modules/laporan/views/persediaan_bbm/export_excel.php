@@ -50,11 +50,10 @@
 
 <table border="0" style="width:100%;">
     <tr>
-        <td style="width:15%;text-align:left"><img src="<?php echo base_url();?>assets/img/logo_pln.jpg" height="90" width="75"></td>
-        <!-- <td style="width:15%;text-align:left"><img src="<?php echo base_url();?>assets/img/logo_pln.jpg" height="130" width="115"></td> -->
-        <td style="width:70%;text-align:center"><h3>LAPORAN PERSEDIAAN BBM</h3></td>
-        <td style="width:15%;text-align:center"></td>
-    </tr>       
+        <td style="width:10%;text-align:left"><img src="<?php echo base_url();?>assets/img/logo_pln.jpg" height="90" width="75"></td>
+        <td style="width:80%;text-align:center" colspan="8"><h3>LAPORAN PERSEDIAAN BBM</h3></td>
+        <td style="width:10%;text-align:center"></td>
+    </tr>    
 </table>
 
 <table border="0" style="width:100%;">
@@ -62,27 +61,27 @@
         $jml_lv=4;
         if ($ID_REGIONAL){
             $jml_lv= $jml_lv-1;
-            echo '<tr><td style="text-align:left;font-size: 12px;">REGIONAL '.$ID_REGIONAL_NAMA.'</td></tr>';
+            echo '<tr><td style="text-align:left;font-size: 12px;" colspan="5">REGIONAL '.$ID_REGIONAL_NAMA.'</td></tr>';
         }
         if ($COCODE){
             $jml_lv= $jml_lv-1;
-            echo '<tr><td style="text-align:left;font-size: 12px;">WILAYAH '.$COCODE_NAMA.'</td></tr>';
+            echo '<tr><td style="text-align:left;font-size: 12px;" colspan="5">WILAYAH '.$COCODE_NAMA.'</td></tr>';
         }
         if ($PLANT){
             $jml_lv= $jml_lv-1;
-            echo '<tr><td style="text-align:left;font-size: 12px;">AREA '.$PLANT_NAMA.'</td></tr>';
+            echo '<tr><td style="text-align:left;font-size: 12px;" colspan="5">AREA '.$PLANT_NAMA.'</td></tr>';
         }
         if ($STORE_SLOC){
             $jml_lv= $jml_lv-1;
-            echo '<tr><td style="text-align:left;font-size: 12px;">RAYON '.$STORE_SLOC_NAMA.'</td></tr>';
+            echo '<tr><td style="text-align:left;font-size: 12px;" colspan="5">RAYON '.$STORE_SLOC_NAMA.'</td></tr>';
         }
         if ($BULAN){
-            echo '<tr><td style="text-align:left;font-size: 12px;">BLTH '.$TAHUN.''.$BULAN.'</td></tr>';
+            echo '<tr><td style="text-align:left;font-size: 12px;" colspan="5">BLTH '.$TAHUN.''.$BULAN.'</td></tr>';
         } else {
-            echo '<tr><td style="text-align:left;font-size: 12px;">Tahun '.$TAHUN.'</td></tr>';
+            echo '<tr><td style="text-align:left;font-size: 12px;" colspan="5">Tahun '.$TAHUN.'</td></tr>';
         }
     ?> 
-    <tr><td></td></tr> 
+    <tr><td></td><td></td><td></td><td></td><td></td></tr> 
 </table>
 
 <table class="tdetail">
@@ -163,18 +162,18 @@
         <td style="text-align:center;"><?php echo $row->TGL_MUTASI_PERSEDIAAN ?></td>
 
         <?php
-            if ($JENIS=='XLS'){
-                $STOCK_AWAL = !empty($row->STOCK_AWAL) ? $row->STOCK_AWAL : '0';
-                $TERIMA_PEMASOK = !empty($row->TERIMA_PEMASOK) ? $row->TERIMA_PEMASOK : '0';
-                $TERIMA_UNITLAIN = !empty($row->TERIMA_UNITLAIN) ? $row->TERIMA_UNITLAIN : '0';
-                $PEMAKAIAN_SENDIRI = !empty($row->PEMAKAIAN_SENDIRI) ? $row->PEMAKAIAN_SENDIRI : '0';
-                $PEMAKAIAN_KIRIM = !empty($row->PEMAKAIAN_KIRIM) ? $row->PEMAKAIAN_KIRIM : '0';
-                $VOLUME_STOCKOPNAME = !empty($row->VOLUME_STOCKOPNAME) ? $row->VOLUME_STOCKOPNAME : '0';
-                $DEAD_STOCK = !empty($row->DEAD_STOCK) ? $row->DEAD_STOCK : '0';
-                $STOCK_AKHIR_REAL = !empty($row->STOCK_AKHIR_REAL) ? $row->STOCK_AKHIR_REAL : '0';
-                $STOCK_AKHIR_EFEKTIF = !empty($row->STOCK_AKHIR_EFEKTIF) ? $row->STOCK_AKHIR_EFEKTIF : '0';
-                $SHO = !empty($row->SHO) ? $row->SHO : '0'; 
-            } else {
+            // if ($JENIS=='XLS'){
+            //     $STOCK_AWAL = !empty($row->STOCK_AWAL) ? $row->STOCK_AWAL : '0';
+            //     $TERIMA_PEMASOK = !empty($row->TERIMA_PEMASOK) ? $row->TERIMA_PEMASOK : '0';
+            //     $TERIMA_UNITLAIN = !empty($row->TERIMA_UNITLAIN) ? $row->TERIMA_UNITLAIN : '0';
+            //     $PEMAKAIAN_SENDIRI = !empty($row->PEMAKAIAN_SENDIRI) ? $row->PEMAKAIAN_SENDIRI : '0';
+            //     $PEMAKAIAN_KIRIM = !empty($row->PEMAKAIAN_KIRIM) ? $row->PEMAKAIAN_KIRIM : '0';
+            //     $VOLUME_STOCKOPNAME = !empty($row->VOLUME_STOCKOPNAME) ? $row->VOLUME_STOCKOPNAME : '0';
+            //     $DEAD_STOCK = !empty($row->DEAD_STOCK) ? $row->DEAD_STOCK : '0';
+            //     $STOCK_AKHIR_REAL = !empty($row->STOCK_AKHIR_REAL) ? $row->STOCK_AKHIR_REAL : '0';
+            //     $STOCK_AKHIR_EFEKTIF = !empty($row->STOCK_AKHIR_EFEKTIF) ? $row->STOCK_AKHIR_EFEKTIF : '0';
+            //     $SHO = !empty($row->SHO) ? $row->SHO : '0'; 
+            // } else {
                 $STOCK_AWAL = !empty($row->STOCK_AWAL) ? number_format($row->STOCK_AWAL,0,',','.') : '0';
                 $TERIMA_PEMASOK = !empty($row->TERIMA_PEMASOK) ? number_format($row->TERIMA_PEMASOK,0,',','.') : '0';
                 $TERIMA_UNITLAIN = !empty($row->TERIMA_UNITLAIN) ? number_format($row->TERIMA_UNITLAIN,0,',','.') : '0';
@@ -185,7 +184,7 @@
                 $STOCK_AKHIR_REAL = !empty($row->STOCK_AKHIR_REAL) ? number_format($row->STOCK_AKHIR_REAL,0,',','.') : '0';
                 $STOCK_AKHIR_EFEKTIF = !empty($row->STOCK_AKHIR_EFEKTIF) ? number_format($row->STOCK_AKHIR_EFEKTIF,0,',','.') : '0';
                 $SHO = !empty($row->SHO) ? number_format($row->SHO,2,',','.') : '0'; 
-            }
+            // }
         ?>
         <td style="text-align:right;"><?php echo $STOCK_AWAL ?></td>
         <td style="text-align:right;"><?php echo $TERIMA_PEMASOK ?></td>
