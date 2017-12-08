@@ -73,7 +73,7 @@
             <div class="control-group">
                 <label for="control-label" class="control-label" id="up_nama">Upload File (Max 10 MB)<span class="required">*</span> : </label> 
                 <div class="controls" id="up_file">
-                        <?php echo form_upload('PATH_FILE_NOMINASI', !empty($default->PATH_FILE_NOMINASI) ? $default->PATH_FILE_NOMINASI : '', 'class="span6"'); ?>
+                        <?php echo form_upload('PATH_FILE_NOMINASI', 'class="span6"'); ?>
                 </div>
                 <input type="hidden" name="PATH_FILE_EDIT" value="<?php echo !empty($default->PATH_FILE_NOMINASI) ? $default->PATH_FILE_NOMINASI : ''?>">
             </div>
