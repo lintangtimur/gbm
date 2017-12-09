@@ -225,22 +225,23 @@
          
         }
         else if(datePengakuan > dateBatasan){
-             var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Pengakuan Fisik tidak boleh melebihi Tanggal Hari ini</div>';
+            var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Pengakuan Fisik tidak boleh melebihi Tanggal Hari ini</div>';
             bootbox.alert(message, function() {});
             $('input[name=TGL_PENGAKUAN').datepicker('update', date);
         }
         else if(datePenerimaan > datePengakuan){
-            var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Penerimaan (DO/TUG) tidak boleh melebihi Tanggal Pengakuan Fisik</div>';
-            bootbox.alert(message, function() {});
-            $('input[name=TGL_PENERIMAAN').datepicker('update', datePengakuan);
+            if(datePenerimaan!="" && datePengakuan!=""){
+                var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Penerimaan (DO/TUG) tidak boleh melebihi Tanggal Pengakuan Fisik</div>';
+                bootbox.alert(message, function() {});
+                $('input[name=TGL_PENERIMAAN').datepicker('update', datePengakuan);
+            }
+            
         }
-
-       
-        
 
     }
 
     $("input[name=TGL_PENERIMAAN]").focusout(checkDefaulthTglPenerimaan);
+    $("input[name=TGL_PENERIMAAN]").change(checkDefaulthTglPenerimaan);
     $("input[name=TGL_PENGAKUAN]").change(checkDefaulthTglPenerimaan);
     $("input[name=button-save]").click(checkDefaulthTglPenerimaan);
 
