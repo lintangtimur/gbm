@@ -22,7 +22,12 @@
                 <?php echo form_input('NO_PEMAKAIAN', !empty($default->NO_MUTASI_PEMAKAIAN) ? $default->NO_MUTASI_PEMAKAIAN : '', 'class="span6" placeholder="Nomor Pemakaian" disabled'); ?>
             </div>
         </div> -->
-        
+        <div class="control-group">
+            <label class="control-label">Jenis Pemakaian<span class="required">*</span> : </label>
+            <div class="controls">
+                <?php echo form_dropdown('VALUE_SETTING', $option_jenis_pemakaian, !empty($default->JENIS_PEMAKAIAN) ? $default->JENIS_PEMAKAIAN : '', 'class="span3"  disabled'); ?>
+            </div>
+        </div>
         <div class="control-group">
             <label class="control-label">NO Pemakaian<span class="required">*</span> : </label>
             <div class="controls">
@@ -69,12 +74,6 @@
             <label  class="control-label">Pembangkit<span class="required">*</span> : </label>
             <div class="controls">
                 <?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : '', 'disabled class="span6"'); ?>
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">Jenis Pemakaian<span class="required">*</span> : </label>
-            <div class="controls">
-                <?php echo form_dropdown('VALUE_SETTING', $option_jenis_pemakaian, !empty($default->JENIS_PEMAKAIAN) ? $default->JENIS_PEMAKAIAN : '', 'class="span3"  disabled'); ?>
             </div>
         </div>
         <div class="control-group">

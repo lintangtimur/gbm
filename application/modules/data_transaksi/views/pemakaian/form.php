@@ -22,6 +22,12 @@
                 <?php //echo form_input('NO_PEMAKAIAN', !empty($default->NO_MUTASI_PEMAKAIAN) ? $default->NO_MUTASI_PEMAKAIAN : '', 'class="span6" placeholder="Nomor Pemakaian"'); ?>
             </div>
         </div>-->
+        <div class="control-group">
+            <label class="control-label">Jenis Pemakaian<span class="required">*</span> : </label>
+            <div class="controls">
+                <?php echo form_dropdown('VALUE_SETTING', $option_jenis_pemakaian, !empty($default->JENIS_PEMAKAIAN) ? $default->JENIS_PEMAKAIAN : '', 'class="span3"'); ?>
+            </div>
+        </div>
 		<div class="control-group">
             <label class="control-label">NO Pemakaian<span class="required">*</span> : </label>
             <div class="controls">
@@ -68,12 +74,6 @@
             <label  class="control-label">Pembangkit<span class="required">*</span> : </label>
             <div class="controls">
                 <?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : '', 'class="span6" id="pembangkit"'); ?>
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">Jenis Pemakaian<span class="required">*</span> : </label>
-            <div class="controls">
-                <?php echo form_dropdown('VALUE_SETTING', $option_jenis_pemakaian, !empty($default->JENIS_PEMAKAIAN) ? $default->JENIS_PEMAKAIAN : '', 'class="span3"'); ?>
             </div>
         </div>
         <div class="control-group">
@@ -176,7 +176,8 @@
     // end
 
     // start
-    function formatDateDepan(date) {
+    function formatDateDepan() {
+      var date = new Date();
       var tanggal =date.getDate()+1;
       var bulan = date.getMonth();
       var tahun = date.getFullYear();
@@ -203,10 +204,7 @@
     }
 
     function checkDefaulthTglCatat(){
-         var date = new Date();
- 
-
-        var dateBatasan =  formatDateDepan(date);
+        var dateBatasan =  formatDateDepan();
         var dateCatat = $("input[name=TGL_CATAT]").val();
 
         if (dateCatat > dateBatasan) {

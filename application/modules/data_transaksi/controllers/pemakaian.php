@@ -163,6 +163,10 @@ class pemakaian extends MX_Controller
 
     public function proses()
     {
+        $this->form_validation->set_rules('VALUE_SETTING', 'Jenis Pemakaian', 'required');
+        if ($this->input->post('VALUE_SETTING')==2){
+            $this->form_validation->set_rules('NO_TUG', 'No Pemakaian', 'required|max_length[30]');    
+        }
         $this->form_validation->set_rules('TGL_CATAT', 'Tgl Catat Pemakaian', 'required');
         $this->form_validation->set_rules('TGL_PENGAKUAN', 'Tgl Pengakuan', 'required');
         $this->form_validation->set_rules('ID_REGIONAL', 'Regional', 'required');
@@ -170,8 +174,6 @@ class pemakaian extends MX_Controller
         $this->form_validation->set_rules('PLANT', 'Level 2', 'required');
         $this->form_validation->set_rules('STORE_SLOC', 'Level 3', 'required');
         $this->form_validation->set_rules('SLOC', 'Pembangkit', 'required');
-        $this->form_validation->set_rules('VALUE_SETTING', 'Jenis Pemakaian', 'required');
-        $this->form_validation->set_rules('NO_TUG', 'No Pemakaian', 'required|max_length[30]');
         $this->form_validation->set_rules('ID_JNS_BHN_BKR', 'Jenis Bahan Bakar', 'required');
         $this->form_validation->set_rules('VOL_PEMAKAIAN', 'Vol. Pakai', 'required|max_length[25]');
 
