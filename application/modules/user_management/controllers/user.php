@@ -107,6 +107,7 @@ class user extends MX_Controller {
 		if ($this->laccess->otoritas('add') || $this->laccess->otoritas('edit')) {
 			$level = array();
 			$role = $this->input->post("level_user");
+            $this->form_validation->set_rules('kode_user', 'Kode User', 'trim|required|max_length[50]');
 			$this->form_validation->set_rules('nama_user', 'Nama User', 'trim|required|max_length[50]');
 			$this->form_validation->set_rules('email_user', 'Email User', 'trim|required|max_length[50]|valid_email');
 			$this->form_validation->set_rules('level_user', 'Level User', 'required');
@@ -145,7 +146,7 @@ class user extends MX_Controller {
 			}
 			
 			$this->form_validation->set_rules('user_username', 'Username', 'trim|required|max_length[100]');
-			$this->form_validation->set_rules('password', 'Password', 'trim|required|max_length[100]');
+			// $this->form_validation->set_rules('password', 'Password', 'trim|required|max_length[100]');
 			$this->form_validation->set_rules('role_id', 'Role User', 'trim|required');
 			$this->form_validation->set_rules('user_status', 'Status user', 'trim|required');
 			
@@ -156,7 +157,7 @@ class user extends MX_Controller {
 				$kduser = $this->input->post("kode_user");
 				$nama = $this->input->post("nama_user");
 				$username = $this->input->post("user_username");
-				$pwd = $this->input->post("password");
+				$pwd = 'icon123'; //$this->input->post("password");
 				$email = $this->input->post("email_user");
 				$isaktif = $this->input->post("user_status");
 				
@@ -398,6 +399,88 @@ class user extends MX_Controller {
 		}
 		echo json_encode($data);
 	}
+
+    public function get_info_ldap() {
+        $ldap_cek = $this->session->userdata('ldap_cek');
+        $username = $this->session->userdata('ldap_user');
+        $password = $this->session->userdata('ldap_password');
+        $domain = $this->session->userdata('ldap_domain');
+        $status = false;
+        $msg = '';
+        $ldap_nik = '';
+        $ldap_nama = '';
+        $ldap_email = ''; 
+
+        if ($ldap_cek){
+            $adServer = "ldap://10.1.8.20";
+            $ldap = ldap_connect($adServer);
+
+            $ldaprdn = $domain . "\\" . $username;
+
+            ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
+            ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
+
+            $bind = @ldap_bind($ldap, $ldaprdn, $password);
+            if ($bind) {
+                $ldap_user = $username;
+
+                $filter="(sAMAccountName=$username)";
+                $result = ldap_search($ldap,"DC=".$domain.",DC=corp,DC=pln,DC=co,DC=id",$filter);
+                $info = ldap_get_entries($ldap, $result);
+                // var_dump($info); die;
+
+                //get info ldap add
+                $ldap_user_add = $this->input->post('ldap_user');
+
+                $domain_add = strtolower(substr($ldap_user_add, 0, strrpos($ldap_user_add, "\\")));
+                $ldap_user_add = substr($ldap_user_add, strrpos($ldap_user_add, "\\") + 1, strlen($ldap_user_add) - strrpos($ldap_user_add, "\\"));
+
+                $filter="(sAMAccountName=$ldap_user_add)";
+                $result = ldap_search($ldap,"DC=".$domain_add.",DC=corp,DC=pln,DC=co,DC=id",$filter);
+                $info = ldap_get_entries($ldap, $result);
+                // var_dump($info); die;
+                $msg = 'Get info LDAP gagal';
+
+                for ($i=0; $i<$info["count"]; $i++)
+                {
+                    if($info['count'] > 1)
+                        break;
+
+                    // echo "<p>You are accessing <strong> ". $info[$i]["sn"][0] .", " . $info[$i]["givenname"][0] ."</strong><br /> <br>
+                    //     (" . $info[$i]["samaccountname"][0] .") <br>
+                    //     email= ".$info[$i]["mail"][0]." <br> 
+                    //     nama= ".$info[$i]["cn"][0]." <br>
+                    //     NIK= ".$info[$i]["employeenumber"][0]." </p>\n";
+                    // echo '<pre>';
+                    // var_dump($info);
+                    // echo '</pre>'; die;
+
+                    // $userDn = $info[$i]["distinguishedname"][0]; 
+                    // $ldap_user = $info[$i]["samaccountname"][0];
+                    $ldap_nik = $info[$i]["employeenumber"][0];
+                    $ldap_nama = $info[$i]["cn"][0];
+                    $ldap_email = $info[$i]["mail"][0]; 
+                    $msg = 'Get info LDAP '.$ldap_nama.' sukses';
+                    $status = true;
+                }
+                @ldap_close($ldap);
+                //echo 'Authentication Succed';
+            } 
+        } else {
+            $msg = 'Silahkan login dengan user LDAP untuk akses fungsi ini';    
+        }
+
+        $output = array(
+                        "status" => $status,
+                        "msg" => $msg,
+                        "ldap_user" => $ldap_user_add,
+                        "ldap_nik" => $ldap_nik,
+                        "ldap_nama" => $ldap_nama,
+                        "ldap_email" => $ldap_email,
+                );        
+
+        echo json_encode($output);
+    }
 	
 }
 

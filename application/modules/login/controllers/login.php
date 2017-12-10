@@ -30,6 +30,8 @@ class login extends MX_Controller {
 
         $login_status = false;
         $login_message = '';
+        $ldap_cek = false;
+        $ldap_user = '';
         if ($this->form_validation->run($this)) {
             if(isset($_POST['username']) && isset($_POST['password'])){
                 
@@ -50,8 +52,11 @@ class login extends MX_Controller {
 
                 $bind = @ldap_bind($ldap, $ldaprdn, $password);
                 if ($bind) {
-                    $ldap_user ='';
+                    $ldap_user = $username;
+                    $ldap_cek = true;
                     $filter="(sAMAccountName=$username)";
+                    // $filter = "(&(objectCategory=person)(sAMAccountName=*))";
+
                     $result = ldap_search($ldap,"DC=".$domain.",DC=corp,DC=pln,DC=co,DC=id",$filter);
                     // ldap_sort($ldap,$result,"sn");
                     $info = ldap_get_entries($ldap, $result);
@@ -59,25 +64,24 @@ class login extends MX_Controller {
 
                     for ($i=0; $i<$info["count"]; $i++)
                     {
-                        if($info['count'] > 1)
-                            break;
+                        // if($info['count'] > 1)
+                        //     break;
 
-                        // echo "<p>You are accessing <strong> ". $info[$i]["sn"][0] .", " . $info[$i]["givenname"][0] ."</strong><br /> (" . $info[$i]["samaccountname"][0] .") email= ".$info[$i]["mail"][0]."  NIK= ".$info[$i]["employeenumber"][0]." </p>\n";
+                        // echo "<p>".$i." You are accessing <strong> ". $info[$i]["sn"][0] .", " . $info[$i]["givenname"][0] ."</strong><br /> (" . $info[$i]["samaccountname"][0] .") email= ".$info[$i]["mail"][0]."  NIK= ".$info[$i]["employeenumber"][0]." </p>\n";
                         // echo '<pre>';
-                        // var_dump($info);
-                        // echo '</pre>';
+                        // // var_dump($info);
+                        // echo '</pre>'; 
+                        // echo '<br><br>';
 
                         $userDn = $info[$i]["distinguishedname"][0]; 
                         $ldap_user = $info[$i]["samaccountname"][0];
                         $ldap_nik = $info[$i]["employeenumber"][0];
                         $ldap_email = $info[$i]["mail"][0]; 
                     }
+                    // echo '<br><br> TOTAL : '.$i;
                     @ldap_close($ldap);
+                    // die;
                     //echo 'Authentication Succed';
-					// $filter = array();
-					// $filter['USERNAME'] = $ldap_user;
-					// $filter['EMAIL_USER'] = $ldap_email;
-					// $data_user = $this->user_model->data($filter)->get();
                     if (!$ldap_user){
                         $ldap_user = $username;    
                     }
@@ -102,7 +106,11 @@ class login extends MX_Controller {
                         'roles_id' => $user->ROLES_ID,
                         'user_name' => $user->NAMA_USER,
 						'level_user' => $user->LEVEL_USER,
-						'kode_level' =>$user->KODE_LEVEL
+						'kode_level' =>$user->KODE_LEVEL,
+                        'ldap_cek' =>$ldap_cek,
+                        'ldap_user' =>$ldap_user,
+                        'ldap_domain' =>$domain,
+                        'ldap_password' =>$password
                     );
 					$this->session->set_userdata($info_login);
                 }else{
