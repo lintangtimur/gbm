@@ -174,8 +174,8 @@
 
     // start
     function formatDateDepan(date) {
-      var tanggal =date.getDate()+1;
-      var bulan = date.getMonth();
+      var tanggal =date.getDate();
+      var bulan = date.getMonth()+1;
       var tahun = date.getFullYear();
 
       if(tanggal<10){
@@ -192,27 +192,20 @@
 
     function setDefaulthTglPenerimaan(){
         var date = new Date();
-        date.setDate(date.getDate() + 1);
-        var currentMonth = date.getMonth();
-        var currentDate = date.getDate();
-        var currentYear = date.getFullYear();
+        var tanggal = formatDateDepan(date);
 
-        $('input[name=TGL_PENERIMAAN]').datepicker('setEndDate', new Date(currentYear, currentMonth, currentDate));
+        $('input[name=TGL_PENERIMAAN]').datepicker('setEndDate', tanggal);
     }
 
      function setDefaulthTglPengakuan(){
         var date = new Date();
-        date.setDate(date.getDate() + 1);
-        var currentMonth = date.getMonth();
-        var currentDate = date.getDate();
-        var currentYear = date.getFullYear();
+        var tanggal = formatDateDepan(date);
 
-        $('input[name=TGL_PENGAKUAN]').datepicker('setEndDate', new Date(currentYear, currentMonth, currentDate));
+        $('input[name=TGL_PENGAKUAN]').datepicker('setEndDate', tanggal);
     }
 
     function checkDefaulthTglPenerimaan(){
         var date = new Date();
-
 
         var datePengakuan = $("input[name=TGL_PENGAKUAN]").val();
         var dateBatasan =formatDateDepan(date);
@@ -230,13 +223,12 @@
             $('input[name=TGL_PENGAKUAN').datepicker('update', date);
         }
         else if(datePenerimaan > datePengakuan){
-            if(datePenerimaan!="" && datePengakuan!=""){
-                var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Penerimaan (DO/TUG) tidak boleh melebihi Tanggal Pengakuan Fisik</div>';
-                bootbox.alert(message, function() {});
-                $('input[name=TGL_PENERIMAAN').datepicker('update', datePengakuan);
-            }
+            var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Penerimaan (DO/TUG) tidak boleh melebihi Tanggal Pengakuan Fisik</div>';
+            bootbox.alert(message, function() {});
+            $('input[name=TGL_PENERIMAAN').datepicker('update', datePengakuan);
             
         }
+
 
     }
 
