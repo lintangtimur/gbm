@@ -18,10 +18,16 @@
 
                      <div class="well">
                         <div class="pull-left">
-                            <?php echo hgenerator::render_button_group($button_group); ?>
+                            <?php echo hgenerator::render_button_group($button_group_tutup); ?>
                         </div>
                     </div>
-                 <div class="well">
+
+                    <div id="content_table" data-source="<?php echo $data_sources; ?>" data-filter="#ffilter"></div> 
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                    <div><?php echo hgenerator::render_button_group($button_group_buka); ?></div>
+                    
+                    <div class="well">
                         <div class="well-content clearfix">
                             <?php echo form_open_multipart('', array('id' => 'ffilter')); ?>
                             <div class="form_row">
@@ -58,9 +64,7 @@
 						<?php echo form_close(); ?>
                         </div>
                     </div>  
-                    <div id="content_table" data-source="<?php echo $data_sources; ?>" data-filter="#ffilter"></div> 
-                    <div>&nbsp;</div>
-                    <div>&nbsp;</div>
+
                     <div>&nbsp;</div>
                     <div id="content_table_buka" data-source="<?php echo $data_sources_buka_mutasi; ?>" data-filter="#ffilter_buka_mutasi"></div>
                 </div>

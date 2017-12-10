@@ -118,8 +118,8 @@ class kontrak_transportir extends MX_Controller {
         $x = $this->input->post('JML_PASOKAN');
 
         if ($x>0){
-            if ($x>5){
-                $x=5;
+            if ($x>20){
+                $x=20;
             }
             for ($i=1; $i<=$x; $i++) {
                 $this->form_validation->set_rules('depo_ke'.$i, 'Depo ke '.$i, 'required');

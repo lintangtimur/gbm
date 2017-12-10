@@ -52,15 +52,15 @@ class tutup_mutasi_persediaan_model extends CI_Model {
         $this->db->join('MASTER_LEVEL1 M1', 'M1.COCODE = M2.COCODE','left');
         $this->db->join('MASTER_REGIONAL R', 'R.ID_REGIONAL = M1.ID_REGIONAL','left');
 
-        // if ($_POST['ID_REGIONAL'] !='') {
-        //     $this->db->where("R.ID_REGIONAL",$_POST['ID_REGIONAL']);   
-        // }
-        // if ($_POST['COCODE'] !='') {
-        //     $this->db->where("M1.COCODE",$_POST['COCODE']);   
-        // }
-        // if ($_POST['PLANT'] !='') {
-        //     $this->db->where("M2.PLANT",$_POST['PLANT']);   
-        // }
+        if ($_POST['ID_REGIONAL'] !='') {
+            $this->db->where("R.ID_REGIONAL",$_POST['ID_REGIONAL']);   
+        }
+        if ($_POST['COCODE'] !='') {
+            $this->db->where("M1.COCODE",$_POST['COCODE']);   
+        }
+        if ($_POST['PLANT'] !='') {
+            $this->db->where("M2.PLANT",$_POST['PLANT']);   
+        }
         
         if (!empty($key_buka) || is_array($key_buka))
         $this->db->where_condition($this->_key_buka($key_buka));
@@ -172,6 +172,7 @@ class tutup_mutasi_persediaan_model extends CI_Model {
             $rows[$id] = array(
                 'ID_MUTASI' => $no++,
                 'TGL_TUTUP' => $row->TGL_TUTUP,
+                'BLTH'=> $row->BLTH,
                 'NAME_SETTING'=> $row->NAME_SETTING,
                 'aksi' => $aksi
             );
@@ -213,6 +214,7 @@ class tutup_mutasi_persediaan_model extends CI_Model {
                 'NAMA_REGIONAL' => $row->NAMA_REGIONAL,
                 'TGL_BUKA' => $row->TGL_BUKA,
                 'TGL_TUTUP'=> $row->TGL_TUTUP,
+                'BLTH'=> $row->BLTH,
                 'aksi' => $aksi
             );
         }
@@ -221,7 +223,7 @@ class tutup_mutasi_persediaan_model extends CI_Model {
     }
 
 
-    public function options_status_mutasi($default = '--Pilih Status--') {
+    public function options_status_mutasi($default = 'TUTUP') {
         $this->db->from('DATA_SETTING');
         $this->db->where('KEY_SETTING','STATUS_MUTASI');
         $option = array();

@@ -39,9 +39,12 @@ class tutup_mutasi_persediaan extends MX_Controller {
         $this->asset->set_plugin(array('crud'));
         $data['button_group'] = array();
         if ($this->laccess->otoritas('add')) {
-        $data['button_group'] = array(
-            anchor(null, '<i class="icon-plus"></i> Tambah Data', array('class' => 'btn yellow', 'id' => 'button-add', 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($this->_module . '/add_buka')))
+        $data['button_group_buka'] = array(
+            anchor(null, '<i class="icon-plus"></i> Tambah Data Buka Mutasi', array('class' => 'btn yellow', 'id' => 'button-add-buka', 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($this->_module . '/add_buka')))
              );
+        $data['button_group_tutup'] = array(
+                anchor(null, '<i class="icon-plus"></i> Tambah Data Tutup Mutasi', array('class' => 'btn yellow', 'id' => 'button-add-tutup', 'onclick' => 'load_form_modal(this.id)', 'data-source' => base_url($this->_module . '/add')))
+            );
         }
         $data['reg_options'] = $this->tbl_get->options_reg(); 
         $data['lv1_options'] = $this->tbl_get->options_lv1('--Pilih Level 1--', '-', 1); 
@@ -80,13 +83,14 @@ class tutup_mutasi_persediaan extends MX_Controller {
         $table = new stdClass();
         $table->id = 'ID_MUTASI';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('ID_MUTASI' => 'center', 'TGL_TUTUP' => 'center', 'NAME_SETTING' => 'center', 'aksi' => 'center');
+        $table->align = array('ID_MUTASI' => 'center', 'TGL_TUTUP' => 'center', 'BLTH' => 'center', 'NAME_SETTING' => 'center', 'aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
         $table->jumlah_kolom = 4;
         $table->header[] = array(
             "No", 1, 1,
             "Tanggal Tutup", 1, 1,
+            "BLTH", 1, 1,
             "STATUS", 1, 1,
             "Aksi", 1, 1
         );
@@ -103,7 +107,7 @@ class tutup_mutasi_persediaan extends MX_Controller {
         $table = new stdClass();
         $table->id = 'ID_BUKA_MUTASI';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('ID_BUKA_MUTASI' => 'center', 'STATUS' => 'center', 'PLANT' => 'center','LEVEL2' => 'center', 'LEVEL1' => 'center', 'NAMA_REGIONAL' => 'center', 'TGL_BUKA' => 'center', 'TGL_TUTUP' => 'center', 'aksi' => 'center');
+        $table->align = array('ID_BUKA_MUTASI' => 'center', 'STATUS' => 'center', 'PLANT' => 'center','LEVEL2' => 'center', 'LEVEL1' => 'center', 'NAMA_REGIONAL' => 'center', 'TGL_BUKA' => 'center', 'TGL_TUTUP' => 'center','BLTH' => 'center','aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
         $table->jumlah_kolom = 9;
@@ -116,6 +120,7 @@ class tutup_mutasi_persediaan extends MX_Controller {
             "REGIONAL", 1, 1,
             "Tanggal Buka", 1, 1,
             "Tanggal Tutup", 1, 1,
+            "BLTH", 1, 1,
             "Aksi", 1, 1
         );
         $table->total = $data_table['total'];
@@ -175,7 +180,7 @@ class tutup_mutasi_persediaan extends MX_Controller {
             $data['PLANT']='0'; 
            
             if ($id == '') {
-                    $data['STATUS'] = $this->input->post('VALUE_SETTING');         
+                    $data['STATUS'] = "1";     
                     if ($this->tbl_get->save_as_new($data)) {
                         $message = array(true, 'Proses Berhasil', 'Proses penyimpanan data berhasil.', '#content_table');
                     }
