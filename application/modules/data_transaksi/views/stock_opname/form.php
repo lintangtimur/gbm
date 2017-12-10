@@ -135,17 +135,26 @@
 	// start
 	
     function formatDateBelakang(date) {
-        return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+      var tanggal =date.getDate();
+      var bulan = date.getMonth()+1;
+      var tahun = date.getFullYear();
+
+      if(tanggal<10){
+         tanggal='0'+tanggal;
+        } 
+
+      if(bulan<10){
+         bulan='0'+bulan;
+        } 
+
+      return tahun + "-" + bulan + "-" + tanggal;
 	}
 	
     function setDefaulthTglBa(){
         var date = new Date();
-        date.setDate(date.getDate() + 1);
-        var currentMonth = date.getMonth();
-        var currentDate = date.getDate();
-        var currentYear = date.getFullYear();
+        var tanggal = formatDateBelakang(date);
 		
-        $('input[name=TGL_BA_STOCKOPNAME]').datepicker('setEndDate', new Date(currentYear, currentMonth, currentDate));
+        $('input[name=TGL_BA_STOCKOPNAME]').datepicker('setEndDate', tanggal);
 	}
 	
     function checkDefaulthTglBa(){

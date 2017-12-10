@@ -176,10 +176,9 @@
     // end
 
     // start
-    function formatDateDepan() {
-      var date = new Date();
-      var tanggal =date.getDate()+1;
-      var bulan = date.getMonth();
+    function formatDateDepan(date) {
+      var tanggal =date.getDate();
+      var bulan = date.getMonth()+1;
       var tahun = date.getFullYear();
 
       if(tanggal<10){
@@ -195,16 +194,14 @@
 
     function setDefaulthTglCatat(){
         var date = new Date();
-        date.setDate(date.getDate() + 1);
-        var currentMonth = date.getMonth();
-        var currentDate = date.getDate();
-        var currentYear = date.getFullYear();
+        var tanggal = formatDateDepan(date);
 
-        $('input[name=TGL_CATAT]').datepicker('setEndDate', new Date(currentYear, currentMonth, currentDate));
+        $('input[name=TGL_CATAT]').datepicker('setEndDate', tanggal);
     }
 
     function checkDefaulthTglCatat(){
-        var dateBatasan =  formatDateDepan();
+        var date = new Date();
+        var dateBatasan =  formatDateDepan(date);
         var dateCatat = $("input[name=TGL_CATAT]").val();
 
         if (dateCatat > dateBatasan) {
