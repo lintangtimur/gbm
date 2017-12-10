@@ -135,9 +135,24 @@ class kontrak_pemasok extends MX_Controller {
         $this->load->view($this->_module . '/form_adendum', $data);
     }
 
-
     public function edit($id) {
         $this->add($id);
+    }
+
+    public function edit_view($id = '') {
+        $data['id'] = $id;
+        $data['id_dok'] = '';
+        $data['pemasok_options'] = $this->tbl_get->options_pemasok();
+        $data['jns_kontrak_options'] = $this->tbl_get->options_jns_kontrak();
+        $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
+        $data['form_action'] = base_url($this->_module . '/proses');
+        $data["url_getfile"] = $this->_urlgetfile;
+        $page_title = 'View '.$this->_title;
+        $get_data = $this->tbl_get->data($id);
+        $data['default'] = $get_data->get()->row();
+        $data['id_dok'] = $data['default']->PATH_DOC_PEMASOK; 
+        $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
+        $this->load->view($this->_module . '/form_edit', $data);
     }
 
     public function load($page = 1) {
@@ -260,33 +275,33 @@ class kontrak_pemasok extends MX_Controller {
                             $message = array(true, 'Proses Berhasil ', 'Proses penyimpanan data berhasil.', '#content_table');
 
                             // koding versi prod
-							//extract data from the post
-							//set POST variables
-							$url = $this->_url_movefile;
-							$fields = array(
-								'filename' => urlencode($nama_file),
-								'modul' => urlencode('KONTRAKPEMASOK')
-							);
-							$fields_string = '';
-							//url-ify the data for the POST
-							foreach($fields as $key=>$value) {
-								$fields_string .= $key.'='.$value.'&'; 
-							}
-							rtrim($fields_string, '&');
+							// //extract data from the post
+							// //set POST variables
+							// $url = $this->_url_movefile;
+							// $fields = array(
+							// 	'filename' => urlencode($nama_file),
+							// 	'modul' => urlencode('KONTRAKPEMASOK')
+							// );
+							// $fields_string = '';
+							// //url-ify the data for the POST
+							// foreach($fields as $key=>$value) {
+							// 	$fields_string .= $key.'='.$value.'&'; 
+							// }
+							// rtrim($fields_string, '&');
 
-							//open connection
-							$ch = curl_init();
+							// //open connection
+							// $ch = curl_init();
 
-							//set the url, number of POST vars, POST data
-							curl_setopt($ch,CURLOPT_URL, $url);
-							curl_setopt($ch,CURLOPT_POST, count($fields));
-							curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+							// //set the url, number of POST vars, POST data
+							// curl_setopt($ch,CURLOPT_URL, $url);
+							// curl_setopt($ch,CURLOPT_POST, count($fields));
+							// curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
 
-							//execute post
-							$result = curl_exec($ch);
+							// //execute post
+							// $result = curl_exec($ch);
 
-							//close connection
-							curl_close($ch);
+							// //close connection
+							// curl_close($ch);
                         }
                     }
                 }
@@ -314,32 +329,32 @@ class kontrak_pemasok extends MX_Controller {
                             $nama_file= $res['file_name'];
 
                                 // //extract data from the post
-                                //set POST variables
-                                $url = $this->_url_movefile;
-                                $fields = array(
-                                    'filename' => urlencode($nama_file),
-                                    'modul' => urlencode('KONTRAKPEMASOK')
-                                );
-                                $fields_string = '';
-                                //url-ify the data for the POST
-                                foreach($fields as $key=>$value) {
-                                    $fields_string .= $key.'='.$value.'&'; 
-                                }
-                                rtrim($fields_string, '&');
+                                // //set POST variables
+                                // $url = $this->_url_movefile;
+                                // $fields = array(
+                                //     'filename' => urlencode($nama_file),
+                                //     'modul' => urlencode('KONTRAKPEMASOK')
+                                // );
+                                // $fields_string = '';
+                                // //url-ify the data for the POST
+                                // foreach($fields as $key=>$value) {
+                                //     $fields_string .= $key.'='.$value.'&'; 
+                                // }
+                                // rtrim($fields_string, '&');
 
-                                //open connection
-                                $ch = curl_init();
+                                // //open connection
+                                // $ch = curl_init();
 
-                                //set the url, number of POST vars, POST data
-                                curl_setopt($ch,CURLOPT_URL, $url);
-                                curl_setopt($ch,CURLOPT_POST, count($fields));
-                                curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+                                // //set the url, number of POST vars, POST data
+                                // curl_setopt($ch,CURLOPT_URL, $url);
+                                // curl_setopt($ch,CURLOPT_POST, count($fields));
+                                // curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
 
-                                //execute post
-                                $result = curl_exec($ch);
+                                // //execute post
+                                // $result = curl_exec($ch);
 
-                                //close connection
-                                curl_close($ch);
+                                // //close connection
+                                // curl_close($ch);
                         }
                     }
                 }
@@ -421,33 +436,33 @@ class kontrak_pemasok extends MX_Controller {
 
                                 // koding versi prod
 
-								//extract data from the post
-								//set POST variables
-								$url = $this->_url_movefile;
-								$fields = array(
-									'filename' => urlencode($nama_file),
-									'modul' => urlencode('KONTRAKPEMASOK')
-								);
-								$fields_string = '';
-								//url-ify the data for the POST
-								foreach($fields as $key=>$value) {
-									$fields_string .= $key.'='.$value.'&'; 
-								}
-								rtrim($fields_string, '&');
+								// //extract data from the post
+								// //set POST variables
+								// $url = $this->_url_movefile;
+								// $fields = array(
+								// 	'filename' => urlencode($nama_file),
+								// 	'modul' => urlencode('KONTRAKPEMASOK')
+								// );
+								// $fields_string = '';
+								// //url-ify the data for the POST
+								// foreach($fields as $key=>$value) {
+								// 	$fields_string .= $key.'='.$value.'&'; 
+								// }
+								// rtrim($fields_string, '&');
 
-								//open connection
-								$ch = curl_init();
+								// //open connection
+								// $ch = curl_init();
 
-								//set the url, number of POST vars, POST data
-								curl_setopt($ch,CURLOPT_URL, $url);
-								curl_setopt($ch,CURLOPT_POST, count($fields));
-								curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+								// //set the url, number of POST vars, POST data
+								// curl_setopt($ch,CURLOPT_URL, $url);
+								// curl_setopt($ch,CURLOPT_POST, count($fields));
+								// curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
 
-								//execute post
-								$result = curl_exec($ch);
+								// //execute post
+								// $result = curl_exec($ch);
 
-								//close connection
-								curl_close($ch);
+								// //close connection
+								// curl_close($ch);
                             }
                         }
                     }
@@ -489,33 +504,33 @@ class kontrak_pemasok extends MX_Controller {
 
                     // koding versi prod
 
-					//extract data from the post
-					//set POST variables
-					$url = $this->_url_movefile;
-					$fields = array(
-						'filename' => urlencode($nama_file),
-						'modul' => urlencode('KONTRAKPEMASOK')
-					);
-					$fields_string = '';
-					//url-ify the data for the POST
-					foreach($fields as $key=>$value) {
-						$fields_string .= $key.'='.$value.'&'; 
-					}
-					rtrim($fields_string, '&');
+					// //extract data from the post
+					// //set POST variables
+					// $url = $this->_url_movefile;
+					// $fields = array(
+					// 	'filename' => urlencode($nama_file),
+					// 	'modul' => urlencode('KONTRAKPEMASOK')
+					// );
+					// $fields_string = '';
+					// //url-ify the data for the POST
+					// foreach($fields as $key=>$value) {
+					// 	$fields_string .= $key.'='.$value.'&'; 
+					// }
+					// rtrim($fields_string, '&');
 
-					//open connection
-					$ch = curl_init();
+					// //open connection
+					// $ch = curl_init();
 
-					//set the url, number of POST vars, POST data
-					curl_setopt($ch,CURLOPT_URL, $url);
-					curl_setopt($ch,CURLOPT_POST, count($fields));
-					curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+					// //set the url, number of POST vars, POST data
+					// curl_setopt($ch,CURLOPT_URL, $url);
+					// curl_setopt($ch,CURLOPT_POST, count($fields));
+					// curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
 
-					//execute post
-					$result = curl_exec($ch);
+					// //execute post
+					// $result = curl_exec($ch);
 
-					//close connection
-					curl_close($ch);
+					// //close connection
+					// curl_close($ch);
                 }
             }
         } else {
