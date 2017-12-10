@@ -387,4 +387,50 @@ $(document).ready(function(){
         });
     };
 
+    // start
+    function formatDateDepan(date) {
+      var tanggal =date.getDate();
+      var bulan = date.getMonth()+1;
+      var tahun = date.getFullYear();
+
+      if(tanggal<10){
+         tanggal='0'+tanggal;
+        } 
+
+      if(bulan<10){
+         bulan='0'+bulan;
+        } 
+
+      return tanggal + "-" + bulan + "-" + tahun;
+    }
+
+    function setDefaulthTglMts(){
+        var date = new Date();
+        var tanggal = formatDateDepan(date);
+
+        $('input[name=TGL_MTS_NOMINASI]').datepicker('setEndDate', tanggal);
+    }
+
+    function checkDefaulthTglmTS(){
+        var date = new Date();
+        var dateBatasan =  formatDateDepan(date);
+        var dateMts = $("input[name=TGL_MTS_NOMINASI]").val();
+
+        if (dateMts > dateBatasan) {
+            var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Nominasi tidak boleh melebihi Tanggal Hari ini</div>';
+            bootbox.alert(message, function() {});
+            $('input[name=TGL_MTS_NOMINASI').datepicker('update', date);
+         
+        }
+
+    }
+
+    $("input[name=TGL_MTS_NOMINASI]").focusout(checkDefaulthTglmTS);
+    
+    $(function() {
+        setDefaulthTglMts();
+    });
+
+    // end
+
 </script>
