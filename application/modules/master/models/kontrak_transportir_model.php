@@ -36,6 +36,16 @@
 			return $this->db;
 		}
 
+		public function dataEdit($key=''){
+			$this->db->from($this->_table1);
+			
+			if (!empty($key) || is_array($key))
+            $this->db->where_condition($this->_key($key));
+			
+			return $this->db;
+
+		}
+
 
 		public function save_as_new($data) {
 			$this->db->trans_begin();
