@@ -84,11 +84,43 @@ class permintaan extends MX_Controller
             $get_tbl = $this->tbl_get->data_detail($id);
             $data['default'] = $get_tbl->get()->row();
 
+            if ($data['default']->SLOC){
+                $data_lv = $this->tbl_get->get_level('4',$data['default']->SLOC);
+
+                $option_reg[$data_lv[0]->ID_REGIONAL] = $data_lv[0]->NAMA_REGIONAL;
+                $option_lv1[$data_lv[0]->COCODE] = $data_lv[0]->LEVEL1;
+                $option_lv2[$data_lv[0]->PLANT] = $data_lv[0]->LEVEL2;
+                $option_lv3[$data_lv[0]->STORE_SLOC] = $data_lv[0]->LEVEL3;
+                $option_lv4[$data_lv[0]->SLOC] = $data_lv[0]->LEVEL4; 
+
+                if ($level_user==3){
+                    $data['lv4_options'] = $option_lv4;     
+                } else if ($level_user==2){
+                    $data['lv3_options'] = $option_lv3;
+                    $data['lv4_options'] = $option_lv4;     
+                } else if ($level_user==1){
+                    $data['lv2_options'] = $option_lv2;
+                    $data['lv3_options'] = $option_lv3;
+                    $data['lv4_options'] = $option_lv4;     
+                } else if ($level_user==0){
+                    $data['lv1_options'] = $option_lv1;
+                    $data['lv2_options'] = $option_lv2;
+                    $data['lv3_options'] = $option_lv3;
+                    $data['lv4_options'] = $option_lv4;     
+                } else if ($level_user=='R'){
+                    $data['reg_options'] = $option_reg;
+                    $data['lv1_options'] = $option_lv1;
+                    $data['lv2_options'] = $option_lv2;
+                    $data['lv3_options'] = $option_lv3;
+                    $data['lv4_options'] = $option_lv4;     
+                }
+            }
+
             $tgl_catat = new DateTime($data['default']->TGL_MTS_NOMINASI);
 
-            if ($data['default']->STORE_SLOC){
-                $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Pembangkit--', $data['default']->STORE_SLOC, 1);    
-            }
+            // if ($data['default']->STORE_SLOC){
+            //     $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Pembangkit--', $data['default']->STORE_SLOC, 1);    
+            // }
 
             $data['default']->TGL_MTS_NOMINASI = $tgl_catat->format('d-m-Y');
 			$data['id_dok'] = $data['default']->PATH_FILE_NOMINASI; 
@@ -112,8 +144,19 @@ class permintaan extends MX_Controller
             $get_tbl = $this->tbl_get->data_detail($id);
             $data['default'] = $get_tbl->get()->row();
 
-            if ($data['default']->STORE_SLOC){
-                $data['lv4_options'] = $this->tbl_get->options_lv4('--Pilih Pembangkit--', $data['default']->STORE_SLOC, 1);    
+            if ($data['default']->SLOC){
+                $data_lv = $this->tbl_get->get_level('4',$data['default']->SLOC);
+
+                $option_reg[$data_lv[0]->ID_REGIONAL] = $data_lv[0]->NAMA_REGIONAL;
+                $option_lv1[$data_lv[0]->COCODE] = $data_lv[0]->LEVEL1;
+                $option_lv2[$data_lv[0]->PLANT] = $data_lv[0]->LEVEL2;
+                $option_lv3[$data_lv[0]->STORE_SLOC] = $data_lv[0]->LEVEL3;
+                $option_lv4[$data_lv[0]->SLOC] = $data_lv[0]->LEVEL4;
+                $data['reg_options'] = $option_reg;
+                $data['lv1_options'] = $option_lv1;
+                $data['lv2_options'] = $option_lv2;
+                $data['lv3_options'] = $option_lv3;
+                $data['lv4_options'] = $option_lv4;  
             }
 
             $tgl_catat = new DateTime($data['default']->TGL_MTS_NOMINASI);
@@ -207,6 +250,7 @@ class permintaan extends MX_Controller
 
             if (!empty($_FILES['PATH_FILE_NOMINASI']['name'])){
                 $new_name = str_replace(".","",$data['NO_NOMINASI']).'_'.date("YmdHis");
+                // $new_name = preg_replace("/[^A-Za-z0-9 ]/", '', $data['NO_NOMINASI'].'_'.date('YmdHis'));
                 $config['file_name'] = $new_name;
                 $config['upload_path'] = 'assets/upload/permintaan';
                 $config['allowed_types'] = 'jpg|jpeg|png|pdf';

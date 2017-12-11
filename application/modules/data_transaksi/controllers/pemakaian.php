@@ -83,10 +83,39 @@ class pemakaian extends MX_Controller
             $page_title = 'Edit Pemakaian';
             $get_tbl = $this->tbl_get->data_detail($id);
             $data['default'] = $get_tbl->get()->row();
-            $lv1 = $data['default']->ID_REGIONAL; 
-            $lv2 = $data['default']->COCODE;
-            $lv3 = $data['default']->PLANT;
-            $lv4 = $data['default']->STORE_SLOC;
+
+            if ($data['default']->SLOC){
+                $data_lv = $this->tbl_get->get_level('4',$data['default']->SLOC);
+
+                $option_reg[$data_lv[0]->ID_REGIONAL] = $data_lv[0]->NAMA_REGIONAL;
+                $option_lv1[$data_lv[0]->COCODE] = $data_lv[0]->LEVEL1;
+                $option_lv2[$data_lv[0]->PLANT] = $data_lv[0]->LEVEL2;
+                $option_lv3[$data_lv[0]->STORE_SLOC] = $data_lv[0]->LEVEL3;
+                $option_lv4[$data_lv[0]->SLOC] = $data_lv[0]->LEVEL4; 
+
+                if ($level_user==3){
+                    $data['lv4_options'] = $option_lv4;     
+                } else if ($level_user==2){
+                    $data['lv3_options'] = $option_lv3;
+                    $data['lv4_options'] = $option_lv4;     
+                } else if ($level_user==1){
+                    $data['lv2_options'] = $option_lv2;
+                    $data['lv3_options'] = $option_lv3;
+                    $data['lv4_options'] = $option_lv4;     
+                } else if ($level_user==0){
+                    $data['lv1_options'] = $option_lv1;
+                    $data['lv2_options'] = $option_lv2;
+                    $data['lv3_options'] = $option_lv3;
+                    $data['lv4_options'] = $option_lv4;     
+                } else if ($level_user=='R'){
+                    $data['reg_options'] = $option_reg;
+                    $data['lv1_options'] = $option_lv1;
+                    $data['lv2_options'] = $option_lv2;
+                    $data['lv3_options'] = $option_lv3;
+                    $data['lv4_options'] = $option_lv4;     
+                }
+            }
+
             $tgl_catat = new DateTime($data['default']->TGL_PENCATATAN);
             $tgl_mutasi = new DateTime($data['default']->TGL_MUTASI_PENGAKUAN);
 			$data['default']->TGL_PENCATATAN = $tgl_catat->format('d-m-Y');
@@ -110,10 +139,22 @@ class pemakaian extends MX_Controller
             $page_title = 'Detail Pemakaian';
             $get_tbl = $this->tbl_get->data_detail($id);
             $data['default'] = $get_tbl->get()->row();
-            $lv1 = $data['default']->ID_REGIONAL; 
-            $lv2 = $data['default']->COCODE;
-            $lv3 = $data['default']->PLANT;
-            $lv4 = $data['default']->STORE_SLOC;
+
+            if ($data['default']->SLOC){
+                $data_lv = $this->tbl_get->get_level('4',$data['default']->SLOC);
+
+                $option_reg[$data_lv[0]->ID_REGIONAL] = $data_lv[0]->NAMA_REGIONAL;
+                $option_lv1[$data_lv[0]->COCODE] = $data_lv[0]->LEVEL1;
+                $option_lv2[$data_lv[0]->PLANT] = $data_lv[0]->LEVEL2;
+                $option_lv3[$data_lv[0]->STORE_SLOC] = $data_lv[0]->LEVEL3;
+                $option_lv4[$data_lv[0]->SLOC] = $data_lv[0]->LEVEL4;
+                $data['reg_options'] = $option_reg;
+                $data['lv1_options'] = $option_lv1;
+                $data['lv2_options'] = $option_lv2;
+                $data['lv3_options'] = $option_lv3;
+                $data['lv4_options'] = $option_lv4;  
+            }
+            
             $tgl_catat = new DateTime($data['default']->TGL_PENCATATAN);
             $tgl_mutasi = new DateTime($data['default']->TGL_MUTASI_PENGAKUAN);
 
