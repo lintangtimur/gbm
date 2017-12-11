@@ -77,10 +77,10 @@
 			'value' => 'tolak','onclick' => "simpan_data(this.id, '#finput', '#button-back')")); ?>
 		</div> 
 		<div class="md-card-content">
-			<label for="password" class="control-label">Upload File (Maks 4 MB)<span class="required">*</span> : </label>
-			<div class="controls">
-                <?php echo form_upload('FILE_UPLOAD', !empty($default->PATH_STOCKOPNAME) ? $default->PATH_STOCKOPNAME : '', 'class="span3", disabled="true"'); ?>
-			</div>
+			<!-- <label for="password" class="control-label">Upload File (Maks 4 MB)<span class="required">*</span> : </label>
+			<div class="controls" style="display:none">
+                <?php //echo form_upload('FILE_UPLOAD', !empty($default->PATH_STOCKOPNAME) ? $default->PATH_STOCKOPNAME : '', 'class="span3", disabled="true"'); ?>
+			</div> -->
 			<div class="controls" id="dokumen">
 				<a href="javascript:void(0);" id="lihatdoc" onclick="lihat_dokumen(this.id)" data-modul="SO" data-url="<?php echo $url_getfile;?>" data-filename="<?php echo !empty($default->PATH_STOCKOPNAME) ? $default->PATH_STOCKOPNAME : '';?>"><b><?php echo (empty($id_dok)) ? $id_dok : 'Lihat Dokumen'; ?></b></a>
 			</div>
