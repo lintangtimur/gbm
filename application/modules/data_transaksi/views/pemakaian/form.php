@@ -28,7 +28,7 @@
                 <?php echo form_dropdown('VALUE_SETTING', $option_jenis_pemakaian, !empty($default->JENIS_PEMAKAIAN) ? $default->JENIS_PEMAKAIAN : '', 'class="span3"'); ?>
             </div>
         </div>
-		<div class="control-group">
+        <div class="control-group">
             <label class="control-label">NO Pemakaian<span class="required">*</span> : </label>
             <div class="controls">
                 <?php echo form_input('NO_TUG', !empty($default->NO_TUG) ? $default->NO_TUG : '', 'class="span4" placeholder="NO Pemakaian"'); ?>
@@ -58,19 +58,19 @@
                 <?php echo form_dropdown('COCODE', $lv1_options, !empty($default->COCODE) ? $default->COCODE : '', 'class="span6"'); ?>
             </div>
         </div>
-		<div class="control-group">
+        <div class="control-group">
             <label  class="control-label">Level 2<span class="required">*</span> : </label>
             <div class="controls">
                 <?php echo form_dropdown('PLANT', $lv2_options, !empty($default->PLANT) ? $default->PLANT : '', 'class="span6"'); ?>
             </div>
         </div>
-		<div class="control-group">
+        <div class="control-group">
             <label  class="control-label">Level 3<span class="required">*</span> : </label>
             <div class="controls">
                 <?php echo form_dropdown('STORE_SLOC', $lv3_options, !empty($default->STORE_SLOC) ? $default->STORE_SLOC : '', 'class="span6"'); ?>
             </div>
         </div>
-		<div class="control-group">
+        <div class="control-group">
             <label  class="control-label">Pembangkit<span class="required">*</span> : </label>
             <div class="controls">
                 <?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : '', 'class="span6" id="pembangkit"'); ?>
@@ -117,11 +117,11 @@
         pickerPosition: "bottom-left"
     });
 
-	$( "#pembangkit" ).change(function() {
-		var sloc = $(this).val();
-		load_jenis_bbm('<?php echo $urljnsbbm; ?>/' + sloc, "#jnsbbm");
-	});
-	
+    $( "#pembangkit" ).change(function() {
+        var sloc = $(this).val();
+        load_jenis_bbm('<?php echo $urljnsbbm; ?>/' + sloc, "#jnsbbm");
+    });
+    
     // start
     function cekTanggalCatat(){
         var strStart = $("input[name=TGL_CATAT]").val();
@@ -176,7 +176,8 @@
     // end
 
     // start
-    function formatDateDepan(date) {
+    function formatDateDepan() {
+    var date = new Date();
       var tanggal =date.getDate();
       var bulan = date.getMonth()+1;
       var tahun = date.getFullYear();
@@ -194,14 +195,13 @@
 
     function setDefaulthTglCatat(){
         var date = new Date();
-        var tanggal = formatDateDepan(date);
+        var tanggal = formatDateDepan();
 
         $('input[name=TGL_CATAT]').datepicker('setEndDate', tanggal);
     }
 
     function checkDefaulthTglCatat(){
-        var date = new Date();
-        var dateBatasan =  formatDateDepan(date);
+        var dateBatasan =  formatDateDepan();
         var dateCatat = $("input[name=TGL_CATAT]").val();
 
         if (dateCatat > dateBatasan) {
