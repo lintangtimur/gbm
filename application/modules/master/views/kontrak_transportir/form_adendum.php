@@ -232,7 +232,7 @@ for (i = 1; i <= 20; i++) {
 }
 
 if ($('input[name=id]').val()){
-    var str = $('input[name=NO_KONTRAK]').val();
+    var str = $('input[name=KD_KONTRAK_TRANS]').val();
     var res = str.replace("/", "~"); 
     var x = res.indexOf("/");
 
@@ -271,7 +271,7 @@ $('input[name=NILAI_KONTRAK]').inputmask("numeric", {radixPoint: ",",groupSepara
 
 
 function get_detail(vId) {
-    var vlink_url = '<?php echo base_url()?>master/kontrak_transportir/get_detail_kirim_adendum/'+vId;
+    var vlink_url = '<?php echo base_url()?>master/kontrak_transportir/get_detail_kirim/'+vId;
     var i=0;
     $.ajax({
         url: vlink_url,
