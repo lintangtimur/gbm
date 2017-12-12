@@ -174,14 +174,12 @@
 
         var vDateStart = yearStart + "" + monthStart + "" + dateStart;
 		
-        // if (vDateStart > dateBatasan) {
-        //     var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Berita Acara tidak boleh melebihi Tanggal Hari ini</div>';
-        //     bootbox.alert(message, function() {});
-        //     $('input[name=TGL_BA_STOCKOPNAME').datepicker('update', date);
+        if (vDateStart > dateBatasan) {
+            var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Berita Acara tidak boleh melebihi Tanggal Hari ini</div>';
+            bootbox.alert(message, function() {});
+            $('input[name=TGL_BA_STOCKOPNAME').datepicker('update', date);
 			
-		// }
-
-        alert(vDateStart);
+		}
 		
 	}
     $("input[name=TGL_BA_STOCKOPNAME]").click(cekTanggalBa);
