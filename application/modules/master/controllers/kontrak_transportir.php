@@ -419,8 +419,8 @@ class kontrak_transportir extends MX_Controller {
         $table->jumlah_kolom = 5;
         $table->header[] = array(
             "No", 1, 1,
-            "No Transportir", 1, 1,
-            "Tgl Transportir", 1, 1,
+            "No Kontrak", 1, 1,
+            "Tgl Kontrak", 1, 1,
             "Keterangan", 1, 1,
             "Aksi", 1, 1
         );

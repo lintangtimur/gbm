@@ -28,7 +28,7 @@
         <div class="control-group">
             <label for="password" class="control-label">Jumlah Pasokan <span class="required"> *</span> : </label>
             <div class="controls">
-                <?php echo form_input('JML_PASOKAN', !empty($default->JML_PASOKAN) ? $default->JML_PASOKAN : '', 'class="span2", id="JML_KIRIM", placeholder="Max 5" disabled'); ?>
+                <?php echo form_input('JML_PASOKAN', !empty($default->JML_PASOKAN) ? $default->JML_PASOKAN : '', 'class="span2", id="JML_KIRIM", placeholder="Max 20" disabled'); ?>
                 <?php echo anchor(null, 'Generate', array('id' => 'button-jml-kirim', 'class' => 'green btn', 'disabled' => 'True')); ?>
             </div>
         </div>
@@ -96,8 +96,8 @@ $(document).ready(function(){
 var counter = 1;
 
 $("#addButton").click(function () {
-    if(counter>5){
-            alert("Max 5 data yang diperbolehkan");
+    if(counter>20){
+            alert("Max 20 data yang diperbolehkan");
             return false;
     }
 
@@ -184,13 +184,13 @@ $("#getButtonValue").click(function () {
 $("#button-jml-kirim").click(function () {
     var x = $('#JML_KIRIM').val(); 
 
-    if(x>5){
-        var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i> Max 5 data jumlah pengiriman yang diperbolehkan</div>';
+    if(x>20){
+        var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i> Max 20 data jumlah pengiriman yang diperbolehkan</div>';
         bootbox.alert(message, function() {});
-        $('#JML_KIRIM').val('5');
+        $('#JML_KIRIM').val('20');
     }
 
-    for (i = 1; i <= 5; i++) {
+    for (i = 1; i <= 20; i++) {
         $("#TextBoxDiv"+i).hide();
     }
 
@@ -201,11 +201,11 @@ $("#button-jml-kirim").click(function () {
     
 });
 
-for (i = 0; i < 5; i++) {
+for (i = 0; i < 20; i++) {
     $("#addButton").click();
 }
 
-for (i = 1; i <= 5; i++) {
+for (i = 1; i <= 20; i++) {
     $("#TextBoxDiv"+i).hide();
 }
 
@@ -221,7 +221,7 @@ if ($('input[name=id]').val()){
     get_detail(res); 
 }
 
-for (i = 1; i <= 5; i++) {
+for (i = 1; i <= 20; i++) {
     var val_harga="input[name=harga_ke"+i+"]";
     
     $('input[name=harga_ke'+i+']').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
@@ -229,7 +229,7 @@ for (i = 1; i <= 5; i++) {
     });
 }
 
-for (i = 1; i <= 5; i++) {
+for (i = 1; i <= 20; i++) {
    var val_jarak="input[name=jarak_ke"+i+"]";
 
     $('input[name=jarak_ke'+i+']').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
