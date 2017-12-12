@@ -30,7 +30,9 @@ class kontrak_transportir_adendum_model extends CI_Model {
     public function data($key = '') {
         $idkontrak = $this->session->userdata('ID_KONTRAK_TRANS'); 
 
-        $this->db->select('a.*, (SELECT ID_TRANSPORTIR fROM DATA_KONTRAK_TRANSPORTIR b WHERE b.ID_KONTRAK_TRANS = a.ID_KONTRAK_TRANS) ID_TRANSPORTIR ');
+        $sumKirim = ', (select COUNT(ID_ADENDUM_TRANS) FROM DET_KONTRAK_TRANS_ADENDUM mk WHERE mk.ID_ADENDUM_TRANS=a.KD_KONTRAK_TRANS) AS JML_PASOKAN ';
+
+        $this->db->select('a.*, (SELECT ID_TRANSPORTIR fROM DATA_KONTRAK_TRANSPORTIR b WHERE b.ID_KONTRAK_TRANS = a.ID_KONTRAK_TRANS) ID_TRANSPORTIR '.$sumKirim);
         $this->db->from($this->_table1.' a');
         $this->db->where('ID_KONTRAK_TRANS',$idkontrak);
 
@@ -56,6 +58,16 @@ class kontrak_transportir_adendum_model extends CI_Model {
         
     }
 
+    public function dataEditFile($key=''){
+        $this->db->from($this->_table1);
+        
+        if (!empty($key) || is_array($key))
+        $this->db->where_condition($this->_key($key));
+        
+        return $this->db;
+
+    }
+
     public function save_as_new($data) {
         $this->db->trans_begin();
         $id = $this->db->set_id($this->_table1, 'ID_ADENDUM_TRANS', 'no_prefix', 11);
@@ -64,76 +76,39 @@ class kontrak_transportir_adendum_model extends CI_Model {
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
             return FALSE;
-            } else {
+        } else {
             $this->db->trans_commit();
-            $this->save_as_new2($id);
             return TRUE;
         }
     }
 
-    public function save_as_new2($id) {
-        // $jumlah = $this->input->post('JML_PASOKAN');
-        $data['ID_ADENDUM_TRANS'] = $id;
-        $data['CD_DET_KONTRAK_TRANS'] = date("Y/m/d");
-        $data['UD_DET_KONTRAK_TRANS'] = date("Y/m/d");
-        $data['CD_BY_DET_KONTRAK_TRANS'] = $this->session->userdata('user_name');
+    public function save_detail($data) {
+        $this->db->insert_batch('DET_KONTRAK_TRANS_ADENDUM', $data);
+    }
 
-        if ($this->input->post('option_depo1') != '') {
-            $data['ID_DEPO'] = $this->input->post('option_depo1');
-            $data['SLOC'] = $this->input->post('option_pembangkit1');
-            $data['TYPE_KONTRAK_TRANS'] = $this->input->post('option_jalur1');
-            $data['JARAK_DET_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('JARAK1'));
-            $data['HARGA_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('HARGA1'));
-            $this->db->trans_begin();
-            $this->db->set_id($this->_table5, 'ID_DET_KONTRAK_TRANS', 'no_prefix', 11);
-            $this->db->insert($this->_table5, $data);
-        }
+    public function save($data, $key) {
+        $this->db->trans_begin();
 
-        if ($this->input->post('option_depo2') != '') {
-            $data['ID_DEPO'] = $this->input->post('option_depo2');
-            $data['SLOC'] = $this->input->post('option_pembangkit2');
-            $data['TYPE_KONTRAK_TRANS'] = $this->input->post('option_jalur2');
-            $data['JARAK_DET_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('JARAK2'));
-            $data['HARGA_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('HARGA2'));
-               $this->db->trans_begin();
-            $this->db->set_id($this->_table5, 'ID_DET_KONTRAK_TRANS', 'no_prefix', 11);
-            $this->db->insert($this->_table5, $data);
-        }
-        if ($this->input->post('option_depo3') != '') {
-            $data['ID_DEPO'] = $this->input->post('option_depo3');
-            $data['SLOC'] = $this->input->post('option_pembangkit3');
-            $data['TYPE_KONTRAK_TRANS'] = $this->input->post('option_jalur3');
-            $data['JARAK_DET_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('JARAK3'));
-            $data['HARGA_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('HARGA3'));
-               $this->db->trans_begin();
-            $this->db->set_id($this->_table5, 'ID_DET_KONTRAK_TRANS', 'no_prefix', 11);
-            $this->db->insert($this->_table5, $data);
-        }
-        if ($this->input->post('option_depo4') != '') {
-            $data['SLOC'] = $this->input->post('option_pembangkit4');
-            $data['ID_DEPO'] = $this->input->post('option_depo4');
-            $data['TYPE_KONTRAK_TRANS'] = $this->input->post('option_jalur4');
-            $data['JARAK_DET_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('JARAK4'));
-            $data['HARGA_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('HARGA4'));
-               $this->db->trans_begin();
-            $this->db->set_id($this->_table5, 'ID_DET_KONTRAK_TRANS', 'no_prefix', 11);
-            $this->db->insert($this->_table5, $data);
-        }
-        if ($this->input->post('option_depo5') != '') {
-            $data['SLOC'] = $this->input->post('option_pembangkit5');
-            $data['ID_DEPO'] = $this->input->post('option_depo5');
-            $data['TYPE_KONTRAK_TRANS'] = $this->input->post('option_jalur5');
-            $data['JARAK_DET_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('JARAK5'));
-            $data['HARGA_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('HARGA5'));
-               $this->db->trans_begin();
-            $this->db->set_id($this->_table5, 'ID_DET_KONTRAK_TRANS', 'no_prefix', 11);
-            $this->db->insert($this->_table5, $data);
-        }
-        
+        $this->db->update($this->_table1, $data, $this->_key($key));
+
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
             return FALSE;
-            } else {
+        } else {
+            $this->db->trans_commit();
+            return TRUE;
+        }
+    }
+
+    public function delete_detail($key) {
+        $this->db->trans_begin();
+
+        $this->db->delete('DET_KONTRAK_TRANS_ADENDUM', array('ID_ADENDUM_TRANS' => $key)); 
+
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return FALSE;
+        } else {
             $this->db->trans_commit();
             return TRUE;
         }
@@ -186,7 +161,7 @@ class kontrak_transportir_adendum_model extends CI_Model {
             $aksi = '';
 
             if ($this->laccess->otoritas('edit')) {
-                $aksi .= anchor(null, '<i class="icon-zoom-in" title="Lihat Data"></i>', array('class' => 'btn transparant', 'id' => 'button-edit3-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadKontrakAdendum/' . $id)));
+                $aksi .= anchor(null, '<i class="icon-zoom-in" title="Lihat Data"></i>', array('class' => 'btn transparant', 'id' => 'button-edit3-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/view_adendum/' . $id)));
             }
             if ($this->laccess->otoritas('delete')) {
                 $aksi .= anchor(null, '<i class="icon-trash" title="Hapus Data"></i>', array('class' => 'btn transparant', 'id' => 'button-delete2-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete_adendum/' . $id)));
@@ -203,6 +178,16 @@ class kontrak_transportir_adendum_model extends CI_Model {
 
         return array('total' => $total, 'rows' => $rows);
     }  
+
+    public function get_detail_kirim($key) {
+        $q="SELECT a.HARGA_KONTRAK_TRANS, a.SLOC, a.ID_DEPO, a.JARAK_DET_KONTRAK_TRANS, a.TYPE_KONTRAK_TRANS
+            FROM  DET_KONTRAK_TRANS_ADENDUM a
+            WHERE a.ID_ADENDUM_TRANS='$key' ";
+
+        $query = $this->db->query($q);
+
+        return $query->result();  
+    }
      
 }
 

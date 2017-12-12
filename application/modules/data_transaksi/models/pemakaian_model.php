@@ -108,7 +108,9 @@ class pemakaian_model extends CI_Model
 
         if (!empty($kata_kunci))
         $filter["(a.LEVEL4 LIKE '%{$kata_kunci}%' OR a.BLTH LIKE '%{$kata_kunci}%' )"] = NULL;
-        $total = $this->data($filter)->count_all_results(); 
+        // $total = $this->data($filter)->count_all_results(); 
+        $total = $this->data($filter)->get();
+        $total = $total->num_rows();
         $this->db->limit($limit, ($offset * $limit) - $limit);
         $record = $this->data($filter)->get();
         $no=(($offset-1) * $limit) +1;

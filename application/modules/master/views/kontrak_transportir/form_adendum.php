@@ -10,13 +10,14 @@
         <div class="control-group">
             <label for="password" class="control-label">Pilih Transportir<span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_dropdown('ID_TRANSPORTIR', $option_transportir, !empty($default->ID_TRANSPORTIR) ? $default->ID_TRANSPORTIR : '', 'class="span6" disabled'); ?>
+                <?php echo form_dropdown('ID_TRANSPORTIR_VIEW', $option_transportir, !empty($default->ID_TRANSPORTIR) ? $default->ID_TRANSPORTIR : '', 'class="span6" disabled'); ?>
             </div>
         </div>
         <div class="control-group" style="display:none">
             <label for="password" class="control-label">Pilih Transportir<span class="required">*</span> : </label>
             <div class="controls">
             <?php echo form_input('KD_KONTRAK_TRANS', !empty($default->KD_KONTRAK_TRANS) ? $default->KD_KONTRAK_TRANS : '', 'class="span6" '); ?>
+            <?php echo form_dropdown('ID_TRANSPORTIR', $option_transportir, !empty($default->ID_TRANSPORTIR) ? $default->ID_TRANSPORTIR : '', 'class="span6"'); ?>
             </div>
         </div>
         <div class="controls" style="display:none">
@@ -24,10 +25,10 @@
         </div>
 
         <div class="control-group">
-        <label for="password" class="control-label">No Adendum <span class="required">*</span> : </label>
-        <div class="controls">
-            <?php echo form_input('NO_KONTRAK', !empty($default->KD_KONTRAK_TRANSS) ? $default->KD_KONTRAK_TRANSS : '', 'class="span6" '); ?>
-        </div>
+            <label for="password" class="control-label">No Adendum <span class="required">*</span> : </label>
+            <div class="controls">
+                <?php echo form_input('NO_KONTRAK', !empty($default->KD_KONTRAK_TRANSS) ? $default->KD_KONTRAK_TRANSS : '', 'class="span6" '); ?>
+            </div>
         </div>
         <div class="control-group">
         <label for="password" class="control-label">Keterangan Adendum <span class="required">*</span> : </label> 
@@ -62,7 +63,7 @@
         <div class="control-group">
             <label for="password" class="control-label">Jumlah Pasokan <span class="required"> *</span> : </label>
             <div class="controls">
-            <?php echo form_input('JML_PASOKAN', !empty($default->JML_PASOKAN) ? $default->JML_PASOKAN : '', 'class="span2", id="JML_KIRIM", placeholder="Max 5"'); ?>
+            <?php echo form_input('JML_PASOKAN', !empty($default->JML_PASOKAN) ? $default->JML_PASOKAN : '', 'class="span2", id="JML_KIRIM", placeholder="Max 20"'); ?>
             <?php echo anchor(null, 'Generate', array('id' => 'button-jml-kirim', 'class' => 'green btn')); ?>
         </div>
         </div>
@@ -85,12 +86,12 @@
                 <?php echo form_input('NILAI_KONTRAK', !empty($default->NILAI_KONTRAK_TRANS) ? $default->NILAI_KONTRAK_TRANS : '', 'class="span6"'); ?>
             </div>
         </div>
-        <div class="control-group">
+        <!-- <div class="control-group">
             <label for="password" class="control-label">Keterangan<span class="required">*</span> : </label>
             <div class="controls">
-                  <?php echo form_input('KETERANGAN', !empty($default->KET_KONTRAK_TRANS) ? $default->KET_KONTRAK_TRANS : '', 'class="span6"'); ?>
+                  <?php echo form_input('KETERANGAN_TRANS', !empty($default->KET_KONTRAK_TRANS) ? $default->KET_KONTRAK_TRANS : '', 'class="span6"'); ?>
             </div>
-        </div>
+        </div> -->
 
     <div class="form-actions">
         <?php echo anchor(null, '<i class="icon-save"></i> Simpan', array('id' => 'button-save', 'class' => 'blue btn', 'onclick' => "simpan_data(this.id, '#finput', '#button-back')")); ?>
@@ -117,8 +118,8 @@ $(document).ready(function(){
 var counter = 1;
 
 $("#addButton").click(function () {
-    if(counter>5){
-            alert("Max 5 data yang diperbolehkan");
+    if(counter>20){
+            alert("Max 20 data yang diperbolehkan");
             return false;
     }
 
@@ -126,7 +127,7 @@ $("#addButton").click(function () {
          .attr("id", 'TextBoxDiv' + counter);
 
 
-    var combo_depo ="<select class='form-control' id='depo_ke"+ counter + "'>"+
+    var combo_depo ="<select class='form-control' id='depo_ke"+ counter + "' name='depo_ke"+ counter + "'>"+
     "<option value='' disabled selected>--Pilih Depo--</option>"+
     <?php if ($option_depo != '')
         { foreach ($option_depo as $depo)
@@ -137,7 +138,7 @@ $("#addButton").click(function () {
         }?>
        "</select>";
 
-    var combo_pembangkit ="<select class='form-control' id='pembangkit_ke"+ counter + "'>"+
+    var combo_pembangkit ="<select class='form-control' id='pembangkit_ke"+ counter + "' name='pembangkit_ke"+ counter + "'>"+
     "<option value='' disabled selected>--Pilih Pembangkit--</option>"+
     <?php if ($option_pembangkit != '')
         { foreach ($option_pembangkit as $pembangkit)
@@ -148,7 +149,7 @@ $("#addButton").click(function () {
         }?>
        "</select>";
 
-    var combo_jalur ="<select class='form-control' id='jalur_ke"+ counter + "'>"+
+    var combo_jalur ="<select class='form-control' id='jalur_ke"+ counter + "' name='jalur_ke"+ counter + "'>"+
     "<option value='' disabled selected>--Pilih Jalur--</option>"+
     <?php if ($option_jalur != '')
         { foreach ($option_jalur as $jalur)
@@ -159,7 +160,7 @@ $("#addButton").click(function () {
         }?>
        "</select>";
 
-    var text_harga_kontrak="<input type='text' id='harga_ke"+ counter + "' name='harga_ke"+ counter + "' placeholder='Harga (Rp)'>";
+    var text_harga_kontrak="<input type='text' id='harga_ke"+ counter + "' name='harga_ke"+ counter + "' placeholder='Harga (Rp) / L'>";
     var text_jarak="<input type='text' id='jarak_ke"+ counter + "' name='jarak_ke"+ counter + "' placeholder='Jarak (KL / ML)'>";
    
     var visi = '<div class="form_row">'+
@@ -205,13 +206,13 @@ $("#getButtonValue").click(function () {
 $("#button-jml-kirim").click(function () {
     var x = $('#JML_KIRIM').val(); 
 
-    if(x>5){
-        var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i> Max 5 data jumlah pengiriman yang diperbolehkan</div>';
+    if(x>20){
+        var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i> Max 20 data jumlah pengiriman yang diperbolehkan</div>';
         bootbox.alert(message, function() {});
         $('#JML_KIRIM').val('5');
     }
 
-    for (i = 1; i <= 5; i++) {
+    for (i = 1; i <= 20; i++) {
         $("#TextBoxDiv"+i).hide();
     }
 
@@ -222,28 +223,30 @@ $("#button-jml-kirim").click(function () {
     
 });
 
-for (i = 0; i < 5; i++) {
+for (i = 0; i < 20; i++) {
     $("#addButton").click();
 }
 
-for (i = 1; i <= 5; i++) {
+for (i = 1; i <= 20; i++) {
     $("#TextBoxDiv"+i).hide();
 }
 
 if ($('input[name=id]').val()){
-    get_detail($('input[name=KD_KONTRAK_TRANS]').val());    
+    var str = $('input[name=NO_KONTRAK]').val();
+    var res = str.replace("/", "~"); 
+    var x = res.indexOf("/");
+
+    while (x > 0) {
+        res = res.replace("/", "~");
+        x = res.indexOf("/");
+    } 
+    get_detail(res); 
 }
 
-for (i = 1; i <= 5; i++) {
-    var val_harga="input[name=harga_ke"+i+"]";
-    
+for (i = 1; i <= 20; i++) {
     $('input[name=harga_ke'+i+']').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
 
     });
-}
-
-for (i = 1; i <= 5; i++) {
-   var val_jarak="input[name=jarak_ke"+i+"]";
 
     $('input[name=jarak_ke'+i+']').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
    
@@ -268,7 +271,7 @@ $('input[name=NILAI_KONTRAK]').inputmask("numeric", {radixPoint: ",",groupSepara
 
 
 function get_detail(vId) {
-    var vlink_url = '<?php echo base_url()?>master/kontrak_transportir/get_detail_kirim/'+vId;
+    var vlink_url = '<?php echo base_url()?>master/kontrak_transportir/get_detail_kirim_adendum/'+vId;
     var i=0;
     $.ajax({
         url: vlink_url,

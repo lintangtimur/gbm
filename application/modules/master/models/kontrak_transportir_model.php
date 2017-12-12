@@ -46,7 +46,6 @@
 
 		}
 
-
 		public function save_as_new($data) {
 			$this->db->trans_begin();
 			$id = $this->db->set_id($this->_table1, 'ID_KONTRAK_TRANS', 'no_prefix', 11);
