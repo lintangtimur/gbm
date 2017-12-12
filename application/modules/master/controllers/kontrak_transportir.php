@@ -252,7 +252,8 @@ class kontrak_transportir extends MX_Controller {
                     $dataa = $this->kontrak_transportir_model->dataEdit($id);
                     $hasil=$dataa->get()->row();
                     $file_name=$hasil->PATH_KONTRAK_TRANS;
-                    $target='assets/upload_kontrak_trans/'.$file_name;
+                    $target='assets/upload/kontrak_transportir/'.$file_name;
+                  
                                     
                     if ($file_name == '') {
                         if (empty($_FILES['FILE_UPLOAD']['name'])){
@@ -274,16 +275,17 @@ class kontrak_transportir extends MX_Controller {
                     else{
                         $res = $this->upload->data();
                         if ($res){
-                            $nama_file= $res['file_name'];
+                            $nama_file= $res['file_name'];  
                             $data['PATH_KONTRAK_TRANS'] = $nama_file;
+                            
                             if ($this->kontrak_transportir_model->save($data, $id)) {
-
-                                $simpan_data_detail = $this->tbl_get->delete_detail($data['KD_KONTRAK_TRANS']);
+                               
+                                $simpan_data_detail = $this->kontrak_transportir_model->delete_detail($data['KD_KONTRAK_TRANS']); 
                                 if ($x>0){
-                                    $simpan_data_detail = $this->tbl_get->save_detail($data_detail);    
+                                    $simpan_data_detail = $this->kontrak_transportir_model->save_detail($data_detail);    
                                 }
-
-                                $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+                                    
+                                $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table'); 
 
                                 // koding versi prod
 

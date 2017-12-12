@@ -111,7 +111,7 @@
 		public function delete($key) {
 			$this->db->trans_begin();
 			
-			$this->db->delete($this->_table5, $this->_key($key));
+			// $this->db->delete($this->_table5, $this->_key($key));
 			$this->db->delete($this->_table1, $this->_key($key));
 			
 			if ($this->db->trans_status() === FALSE) {
