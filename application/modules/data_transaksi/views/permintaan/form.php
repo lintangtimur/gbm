@@ -401,7 +401,7 @@ $(document).ready(function(){
          bulan='0'+bulan;
         } 
 
-      return tanggal + "-" + bulan + "-" + tahun;
+      return tahun + "" + bulan + "" + tanggal;
     }
 
     function setDefaulthTglMts(){
@@ -415,8 +415,14 @@ $(document).ready(function(){
         var date = new Date();
         var dateBatasan =  formatDateDepan(date);
         var dateMts = $("input[name=TGL_MTS_NOMINASI]").val();
+        var dateStart = dateMts.substring(0, 2);
+        var monthStart = dateMts.substring(3, 5);
+        var yearStart = dateMts.substring(6, 10);
 
-        if (dateMts > dateBatasan) {
+        var vDateStart = yearStart + "" + monthStart + "" + dateStart;
+
+
+        if (vDateStart > dateBatasan) {
             var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Nominasi tidak boleh melebihi Tanggal Hari ini</div>';
             bootbox.alert(message, function() {});
             $('input[name=TGL_MTS_NOMINASI').datepicker('update', date);
@@ -425,7 +431,7 @@ $(document).ready(function(){
 
     }
 
-    $("input[name=TGL_MTS_NOMINASI]").focusout(checkDefaulthTglmTS);
+    $("input[name=TGL_MTS_NOMINASI]").change(checkDefaulthTglmTS);
     
     $(function() {
         setDefaulthTglMts();

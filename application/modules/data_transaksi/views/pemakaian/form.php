@@ -135,8 +135,8 @@
         var monthEnd = strEnd.substring(3, 5);
         var yearEnd = strEnd.substring(6, 10);
 
-        var vDateStart = yearStart + "-" + monthStart + "-" + dateStart;
-        var vDateEnd = yearEnd + "-" + monthEnd + "-" + dateEnd;
+        var vDateStart = yearStart + "" + monthStart + "" + dateStart;
+        var vDateEnd = yearEnd + "" + monthEnd + "" + dateEnd;
 
         if (vDateEnd > vDateStart) {
             $('input[name=TGL_PENGAKUAN').datepicker('update', strStart);
@@ -158,8 +158,8 @@
         var monthEnd = strEnd.substring(3, 5);
         var yearEnd = strEnd.substring(6, 10);
 
-        var vDateStart = yearStart + "-" + monthStart + "-" + dateStart;
-        var vDateEnd = yearEnd + "-" + monthEnd + "-" + dateEnd;
+        var vDateStart = yearStart + "" + monthStart + "" + dateStart;
+        var vDateEnd = yearEnd + "" + monthEnd + "" + dateEnd;
 
         if (vDateEnd > vDateStart) {
             var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Pengakuan tidak boleh melebihi Tanggal Catat</div>';
@@ -168,10 +168,6 @@
         }
     }
 
-    $("input[name=TGL_CATAT]").change(cekTanggalCatat);
-    $("input[name=TGL_PENGAKUAN]").focusout(cekTanggalPengakuan);
-    $("input[name=TGL_PENGAKUAN]").click(cekTanggalCatat);
-    $("input[name=button-save]").click(cekTanggalPengakuan);
 
     // end
 
@@ -190,7 +186,7 @@
          bulan='0'+bulan;
         } 
 
-      return tanggal + "-" + bulan + "-" + tahun;
+      return tahun + "" + bulan + "" + tanggal;
     }
 
     function setDefaulthTglCatat(){
@@ -204,7 +200,14 @@
         var dateBatasan =  formatDateDepan();
         var dateCatat = $("input[name=TGL_CATAT]").val();
 
-        if (dateCatat > dateBatasan) {
+        var dateStart = dateCatat.substring(0, 2);
+        var monthStart = dateCatat.substring(3, 5);
+        var yearStart = dateCatat.substring(6, 10);
+
+        var vDateStart = yearStart + "" + monthStart + "" + dateStart;
+
+
+        if (vDateStart > dateBatasan) {
             var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Catat Pemakaian tidak boleh melebihi Tanggal Hari ini</div>';
             bootbox.alert(message, function() {});
             $('input[name=TGL_CATAT').datepicker('update', date);
@@ -212,8 +215,11 @@
         }
 
     }
+    $("input[name=TGL_CATAT]").click(cekTanggalCatat);
+    $("input[name=TGL_PENGAKUAN]").click(cekTanggalCatat);
+    $("input[name=TGL_CATAT]").change(checkDefaulthTglCatat);
 
-    $("input[name=TGL_CATAT]").focusout(checkDefaulthTglCatat);
+    $("input[name=button-save]").click(cekTanggalPengakuan);
     
     $(function() {
         setDefaulthTglCatat();

@@ -203,7 +203,7 @@
          bulan='0'+bulan;
         } 
 
-      return tahun + "-" + bulan + "-" + tanggal;
+      return tahun + "" + bulan + "" + tanggal;
       
    }
 
@@ -236,8 +236,8 @@
         var monthEnd = datePengakuan.substring(3, 5);
         var yearEnd = datePengakuan.substring(6, 10);
 
-        var vDateStart = yearStart + "-" + monthStart + "-" + dateStart;
-        var vDateEnd = yearEnd + "-" + monthEnd + "-" + dateEnd;
+        var vDateStart = yearStart + "" + monthStart + "" + dateStart;
+        var vDateEnd = yearEnd + "" + monthEnd + "" + dateEnd;
 
         if (vDateStart > dateBatasan) {
             var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Penerimaan (DO/TUG) tidak boleh melebihi Tanggal Hari ini</div>';
@@ -260,7 +260,6 @@
 
     }
 
-    $("input[name=TGL_PENERIMAAN]").focusout(checkDefaulthTglPenerimaan);
     $("input[name=TGL_PENERIMAAN]").change(checkDefaulthTglPenerimaan);
     $("input[name=TGL_PENGAKUAN]").change(checkDefaulthTglPenerimaan);
     $("input[name=button-save]").click(checkDefaulthTglPenerimaan);
