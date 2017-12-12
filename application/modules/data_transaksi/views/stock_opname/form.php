@@ -119,19 +119,24 @@
     function cekTanggalPengakuan(){
         var vDateStart = $("input[name=TGL_BA_STOCKOPNAME]").val();
         var vDateEnd = $("input[name=TGL_PENGAKUAN]").val();
+
+        var dateStart = vDateStart.substring(0, 2);
+        var monthStart = vDateStart.substring(3, 5);
+        var yearStart = vDateStart.substring(6, 10);
+
+        var dateEnd = vDateEnd.substring(0, 2);
+        var monthEnd = vDateEnd.substring(3, 5);
+        var yearEnd = vDateEnd.substring(6, 10);
+
+        var vDateStartHasil = yearStart + "" + monthStart + "" + dateStart;
+        var vDateEndHasil = yearEnd + "" + monthEnd + "" + dateEnd;
 		
-        if (vDateEnd > vDateStart) {
+        if (vDateEndHasil > vDateStartHasil) {
             var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Pengakuan tidak boleh melebihi Tanggal Berita Acara</div>';
             bootbox.alert(message, function() {});
             $('input[name=TGL_PENGAKUAN').datepicker('update', vDateStart);
 		}
 	}
-	
-    $("input[name=TGL_BA_STOCKOPNAME]").change(cekTanggalBa);
-    $("input[name=TGL_PENGAKUAN]").focusout(cekTanggalPengakuan);
-    $("input[name=TGL_PENGAKUAN]").click(cekTanggalBa);
-    $("input[name=button-save]").click(cekTanggalPengakuan);
-	
 	// start
 	
     function formatDateBelakang(date) {
@@ -147,7 +152,7 @@
          bulan='0'+bulan;
         } 
 
-      return tahun + "-" + bulan + "-" + tanggal;
+      return tahun + "" + bulan + "" + tanggal;
 	}
 	
     function setDefaulthTglBa(){
@@ -162,8 +167,14 @@
 		
         var dateBatasan =formatDateBelakang(date);
         var dateCatat = $("input[name=TGL_BA_STOCKOPNAME]").val();
+
+        var dateStart = dateCatat.substring(8, 10);
+        var monthStart = dateCatat.substring(5, 7);
+        var yearStart = dateCatat.substring(0, 4);
+
+        var vDateStart = yearStart + "" + monthStart + "" + dateStart;
 		
-        if (dateCatat > dateBatasan) {
+        if (vDateStart > dateBatasan) {
             var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Berita Acara tidak boleh melebihi Tanggal Hari ini</div>';
             bootbox.alert(message, function() {});
             $('input[name=TGL_BA_STOCKOPNAME').datepicker('update', date);
@@ -171,8 +182,11 @@
 		}
 		
 	}
-	
-    $("input[name=TGL_BA_STOCKOPNAME]").focusout(checkDefaulthTglBa);
+    $("input[name=TGL_BA_STOCKOPNAME]").click(cekTanggalBa);
+    $("input[name=TGL_PENGAKUAN]").click(cekTanggalBa);
+    $("input[name=TGL_BA_STOCKOPNAME]").change(checkDefaulthTglBa);
+    
+    $("input[name=button-save]").click(cekTanggalPengakuan);
     
     $(function() {
         setDefaulthTglBa();
