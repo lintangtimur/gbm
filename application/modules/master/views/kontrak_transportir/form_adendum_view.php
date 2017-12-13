@@ -13,38 +13,23 @@
                 <?php echo form_dropdown('ID_TRANSPORTIR_VIEW', $option_transportir, !empty($default->ID_TRANSPORTIR) ? $default->ID_TRANSPORTIR : '', 'class="span6" disabled'); ?>
             </div>
         </div>
-        <div class="control-group" style="display:none">
-            <label for="password" class="control-label">Pilih Transportir<span class="required">*</span> : </label>
-            <div class="controls">
-            <?php echo form_input('KD_KONTRAK_TRANS', !empty($default->KD_KONTRAK_TRANS) ? $default->KD_KONTRAK_TRANS : '', 'class="span6" '); ?>
-            <?php echo form_dropdown('ID_TRANSPORTIR', $option_transportir, !empty($default->ID_TRANSPORTIR) ? $default->ID_TRANSPORTIR : '', 'class="span6"'); ?>
-            </div>
-        </div>
-        <div class="controls" style="display:none">
-            <?php echo form_input('ID_KONTRAK_TRANS', !empty($default->ID_KONTRAK_TRANS) ? $default->ID_KONTRAK_TRANS : '', 'class="span6" '); ?>
-        </div>
-
         <div class="control-group">
             <label for="password" class="control-label">No Adendum <span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_input('NO_KONTRAK', !empty($default->KD_KONTRAK_TRANSS) ? $default->KD_KONTRAK_TRANSS : '', 'class="span6" '); ?>
+                <?php echo form_input('NO_KONTRAK', !empty($default->KD_KONTRAK_TRANS) ? $default->KD_KONTRAK_TRANS : '', 'class="span6" disabled'); ?>
             </div>
         </div>
         <div class="control-group">
         <label for="password" class="control-label">Keterangan Adendum <span class="required">*</span> : </label> 
         <div class="controls">
-            <?php echo form_input('KETERANGAN', !empty($default->KET_KONTRAK_TRANSS) ? $default->KET_KONTRAK_TRANSS : '', 'class="span6" '); ?>
+            <?php echo form_input('KETERANGAN', !empty($default->KET_KONTRAK_TRANS) ? $default->KET_KONTRAK_TRANS : '', 'class="span6" disabled'); ?>
         </div>
         </div>
 
         <div class="control-group">
-        <label for="password" class="control-label">Upload File (Max 10 MB)<span class="required">*</span> : </label>
-        <div class="controls">
-            <?php echo form_upload('FILE_UPLOAD', !empty($default->PATH_KONTRAK_TRANS) ? $default->PATH_KONTRAK_TRANS : '', 'class="span6"'); ?>
-        </div>
-        <div class="controls" id="dokumen">
-            <a href="<?php echo base_url().'assets/upload/kontrak_transportir/'.$id_dok;?>" target="_blank"><b><?php #echo (empty($id_dok)) ? $id_dok : 'Lihat Dokumen'; ?></b></a>
-        </div>
+            <div class="controls" id="dokumen">
+                <a href="<?php echo base_url().'assets/upload/kontrak_transportir/'.$id_dok;?>" target="_blank"><b><?php echo (empty($id_dok)) ? $id_dok : 'Lihat Dokumen'; ?></b></a>
+            </div>
 
        <!-- <div class="controls" id="dokumen">
 			<a href="javascript:void(0);" id="lihatdoc" onclick="lihat_dokumen(this.id)" data-modul="KONTRAKTRANSPORTIR" data-url="<?php echo $url_getfile;?>" data-filename="<?php echo !empty($default->PATH_KONTRAK_TRANS) ? $default->PATH_KONTRAK_TRANS : '';?>"><b><?php echo (empty($id_dok)) ? $id_dok : 'Lihat Dokumen'; ?></b></a>
@@ -56,15 +41,14 @@
         <div class="control-group">
             <label for="password" class="control-label">Tanggal Kontrak<span class="required">*</span> : </label>
             <div class="controls">
-            <?php echo form_input('TGL_KONTRAK_TRANS', !empty($default->TGL_KONTRAK_TRANS) ? $default->TGL_KONTRAK_TRANS : '', 'class="span3", id="TGL_KONTRAK_TRANS"'); ?>
+            <?php echo form_input('TGL_KONTRAK_TRANS', !empty($default->TGL_KONTRAK_TRANS) ? $default->TGL_KONTRAK_TRANS : '', 'class="span3", id="TGL_KONTRAK_TRANS" disabled'); ?>
             </div>
         </div>
 
         <div class="control-group">
             <label for="password" class="control-label">Jumlah Pasokan <span class="required"> *</span> : </label>
             <div class="controls">
-            <?php echo form_input('JML_PASOKAN', !empty($default->JML_PASOKAN) ? $default->JML_PASOKAN : '', 'class="span2", id="JML_KIRIM", placeholder="Max 20"'); ?>
-            <?php echo anchor(null, 'Generate', array('id' => 'button-jml-kirim', 'class' => 'green btn')); ?>
+            <?php echo form_input('JML_PASOKAN', !empty($default->JML_PASOKAN) ? $default->JML_PASOKAN : '', 'class="span2", id="JML_KIRIM", placeholder="Max 20" disabled'); ?>
         </div>
         </div>
         <div class="content_table">
@@ -83,7 +67,7 @@
         <div class="control-group">
             <label for="password" class="control-label">Nilai Kontrak (Rp)<span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_input('NILAI_KONTRAK', !empty($default->NILAI_KONTRAK_TRANS) ? $default->NILAI_KONTRAK_TRANS : '', 'class="span6"'); ?>
+                <?php echo form_input('NILAI_KONTRAK', !empty($default->NILAI_KONTRAK_TRANS) ? $default->NILAI_KONTRAK_TRANS : '', 'class="span6" disabled'); ?>
             </div>
         </div>
         <!-- <div class="control-group">
@@ -94,7 +78,6 @@
         </div> -->
 
     <div class="form-actions">
-        <?php echo anchor(null, '<i class="icon-save"></i> Simpan', array('id' => 'button-save', 'class' => 'blue btn', 'onclick' => "simpan_data(this.id, '#finput', '#button-back')")); ?>
         <?php echo anchor(null, '<i class="icon-circle-arrow-left"></i> Tutup', array('id' => 'button-back', 'class' => 'btn', 'onclick' => 'close_form(this.id)')); ?>
     </div>
     <?php echo form_close(); ?>
@@ -127,7 +110,7 @@ $("#addButton").click(function () {
          .attr("id", 'TextBoxDiv' + counter);
 
 
-    var combo_depo ="<select class='form-control' id='depo_ke"+ counter + "' name='depo_ke"+ counter + "'>"+
+    var combo_depo ="<select class='form-control' id='depo_ke"+ counter + "' name='depo_ke"+ counter + "' disabled>"+
     "<option value='' disabled selected>--Pilih Depo--</option>"+
     <?php if ($option_depo != '')
         { foreach ($option_depo as $depo)
@@ -138,7 +121,7 @@ $("#addButton").click(function () {
         }?>
        "</select>";
 
-    var combo_pembangkit ="<select class='form-control' id='pembangkit_ke"+ counter + "' name='pembangkit_ke"+ counter + "'>"+
+    var combo_pembangkit ="<select class='form-control' id='pembangkit_ke"+ counter + "' name='pembangkit_ke"+ counter + "' disabled>"+
     "<option value='' disabled selected>--Pilih Pembangkit--</option>"+
     <?php if ($option_pembangkit != '')
         { foreach ($option_pembangkit as $pembangkit)
@@ -149,7 +132,7 @@ $("#addButton").click(function () {
         }?>
        "</select>";
 
-    var combo_jalur ="<select class='form-control' id='jalur_ke"+ counter + "' name='jalur_ke"+ counter + "'>"+
+    var combo_jalur ="<select class='form-control' id='jalur_ke"+ counter + "' name='jalur_ke"+ counter + "' disabled>"+
     "<option value='' disabled selected>--Pilih Jalur--</option>"+
     <?php if ($option_jalur != '')
         { foreach ($option_jalur as $jalur)
@@ -160,8 +143,8 @@ $("#addButton").click(function () {
         }?>
        "</select>";
 
-    var text_harga_kontrak="<input type='text' id='harga_ke"+ counter + "' name='harga_ke"+ counter + "' placeholder='Harga (Rp) / L'>";
-    var text_jarak="<input type='text' id='jarak_ke"+ counter + "' name='jarak_ke"+ counter + "' placeholder='Jarak (KL / ML)'>";
+    var text_harga_kontrak="<input type='text' id='harga_ke"+ counter + "' name='harga_ke"+ counter + "' placeholder='Harga (Rp) / L' disabled>";
+    var text_jarak="<input type='text' id='jarak_ke"+ counter + "' name='jarak_ke"+ counter + "' placeholder='Jarak (KL / ML)' disabled>";
    
     var visi = '<div class="form_row">'+
     '<div class="pull-left"><label for="password" class="control-label">Depo ke : '+ counter + '</label>'+
@@ -231,8 +214,8 @@ for (i = 1; i <= 20; i++) {
     $("#TextBoxDiv"+i).hide();
 }
 
-if ($('input[name=KD_KONTRAK_TRANS]').val()){
-    var str = $('input[name=KD_KONTRAK_TRANS]').val();
+if ($('input[name=id]').val()){
+    var str = $('input[name=NO_KONTRAK]').val();
     var res = str.replace("/", "~"); 
     var x = res.indexOf("/");
 
@@ -271,7 +254,7 @@ $('input[name=NILAI_KONTRAK]').inputmask("numeric", {radixPoint: ",",groupSepara
 
 
 function get_detail(vId) {
-    var vlink_url = '<?php echo base_url()?>master/kontrak_transportir/get_detail_kirim/'+vId;
+    var vlink_url = '<?php echo base_url()?>master/kontrak_transportir/get_detail_kirim_adendum/'+vId;
     var i=0;
     $.ajax({
         url: vlink_url,
@@ -287,6 +270,7 @@ function get_detail(vId) {
                 $("#jarak_ke"+i).val(value.JARAK_DET_KONTRAK_TRANS);
                 $("#TextBoxDiv"+i).show();
             });
+            $("#JML_KIRIM").val(i);
         }
     });
 };

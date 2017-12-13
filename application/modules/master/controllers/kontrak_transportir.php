@@ -188,6 +188,12 @@ class kontrak_transportir extends MX_Controller {
             }
 
             if ($id == '') {
+                if ($this->kontrak_transportir_model->cek_no_kotrak($data['KD_KONTRAK_TRANS'])>0){
+                    $message = array(false, 'Proses gagal', 'No Kontrak '.$data['KD_KONTRAK_TRANS'].' sudah terdaftar', '');
+                    echo json_encode($message, true);
+                    exit();
+                }
+
                 if (!$this->upload->do_upload('FILE_UPLOAD')){
                     $err = $this->upload->display_errors('', '');
                     $message = array(false, 'Proses gagal', $err, '');
@@ -435,19 +441,36 @@ class kontrak_transportir extends MX_Controller {
         $page_title = 'Tambah Adendum';
         $data = $this->cekLevelUser();
         $data['id_dok'] = '';
-        $data['id'] = $id;
+        $data['id'] = '';
        
         $trans = $this->kontrak_transportir_model->data($id);
         $data['default'] = $trans->get()->row();
         $data['id_dok'] = $data['default']->PATH_KONTRAK_TRANS; 
 
-        
         $data['option_transportir'] = $this->kontrak_transportir_model->options('--Pilih Transportir--', array('master_transportir.ID_TRANSPORTIR' => NULL));
         $data['option_depo'] = $this->kontrak_transportir_model->getDepo();
         $data['option_jalur'] = $this->kontrak_transportir_model->getJalur();
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses_adendum');
         $this->load->view($this->_module . '/form_adendum', $data);
+    }
+
+    public function edit_adendum($id = '') {
+        $page_title = 'Edit Adendum';
+        $data = $this->cekLevelUser();
+        $data['id_dok'] = '';
+        $data['id'] = $id;
+       
+        $trans = $this->tbl_get_adendum->data($id);
+        $data['default'] = $trans->get()->row();
+        $data['id_dok'] = $data['default']->PATH_KONTRAK_TRANS; 
+        
+        $data['option_transportir'] = $this->kontrak_transportir_model->options('--Pilih Transportir--', array('master_transportir.ID_TRANSPORTIR' => NULL));
+        $data['option_depo'] = $this->kontrak_transportir_model->getDepo();
+        $data['option_jalur'] = $this->kontrak_transportir_model->getJalur();
+        $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
+        $data['form_action'] = base_url($this->_module . '/proses_adendum');
+        $this->load->view($this->_module . '/form_adendum_edit', $data);
     }
 
     public function view_adendum($id = ''){
@@ -477,7 +500,7 @@ class kontrak_transportir extends MX_Controller {
         $this->form_validation->set_rules('JML_PASOKAN', 'Pasokan', 'trim|required|');
         $pasokan = $this->input->post('JML_PASOKAN');
 
-        $id = $this->input->post('id_adendum');
+        $id = $this->input->post('id');
          if ($id == '') {
             if (empty($_FILES['FILE_UPLOAD']['name'])){
                 $this->form_validation->set_rules('FILE_UPLOAD', 'Upload Dokumen', 'required');
@@ -504,7 +527,7 @@ class kontrak_transportir extends MX_Controller {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
 
             $data = array();
-            $data['ID_KONTRAK_TRANS'] = $this->input->post('id');
+            $data['ID_KONTRAK_TRANS'] = $this->input->post('ID_KONTRAK_TRANS');
             $data['ID_TRANSPORTIR'] = $this->input->post('ID_TRANSPORTIR');
             $data['TGL_KONTRAK_TRANS'] = $this->input->post('TGL_KONTRAK_TRANS');
             $data['NILAI_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('NILAI_KONTRAK'));
@@ -546,6 +569,12 @@ class kontrak_transportir extends MX_Controller {
             }
 
             if ($id == '') {
+                if ($this->tbl_get_adendum->cek_no_kotrak($data['KD_KONTRAK_TRANS'])>0){
+                    $message = array(false, 'Proses gagal', 'No Adendum '.$data['KD_KONTRAK_TRANS'].' sudah terdaftar', '');
+                    echo json_encode($message, true);
+                    exit();
+                }
+
                 if (!$this->upload->do_upload('FILE_UPLOAD')){
                     $err = $this->upload->display_errors('', '');
                     $message = array(false, 'Proses gagal', $err, '');

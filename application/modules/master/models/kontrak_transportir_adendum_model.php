@@ -30,7 +30,7 @@ class kontrak_transportir_adendum_model extends CI_Model {
     public function data($key = '') {
         $idkontrak = $this->session->userdata('ID_KONTRAK_TRANS'); 
 
-        $sumKirim = ', (select COUNT(ID_ADENDUM_TRANS) FROM DET_KONTRAK_TRANS_ADENDUM mk WHERE mk.ID_ADENDUM_TRANS=a.KD_KONTRAK_TRANS) AS JML_PASOKAN ';
+        $sumKirim = ', (select COUNT(ID_ADENDUM_TRANS) FROM DET_KONTRAK_TRANS_ADENDUM mk WHERE mk.ID_ADENDUM_TRANS=a.ID_ADENDUM_TRANS) AS JML_PASOKAN ';
 
         $this->db->select('a.*, (SELECT ID_TRANSPORTIR fROM DATA_KONTRAK_TRANSPORTIR b WHERE b.ID_KONTRAK_TRANS = a.ID_KONTRAK_TRANS) ID_TRANSPORTIR '.$sumKirim);
         $this->db->from($this->_table1.' a');
@@ -66,6 +66,13 @@ class kontrak_transportir_adendum_model extends CI_Model {
         
         return $this->db;
 
+    }
+
+    public function cek_no_kotrak($key=''){
+        $this->db->from($this->_table1);
+        $this->db->where('KD_KONTRAK_TRANS',$key);
+        $query = $this->db->get();
+        return $query->num_rows();
     }
 
     public function save_as_new($data) {
@@ -162,6 +169,7 @@ class kontrak_transportir_adendum_model extends CI_Model {
 
             if ($this->laccess->otoritas('edit')) {
                 $aksi .= anchor(null, '<i class="icon-zoom-in" title="Lihat Data"></i>', array('class' => 'btn transparant', 'id' => 'button-edit3-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/view_adendum/' . $id)));
+                $aksi .= anchor(null, '<i class="icon-edit" title="Edit Kontrak Adendum"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit_adendum/' . $id)));
             }
             if ($this->laccess->otoritas('delete')) {
                 $aksi .= anchor(null, '<i class="icon-trash" title="Hapus Data"></i>', array('class' => 'btn transparant', 'id' => 'button-delete2-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete_adendum/' . $id)));
@@ -182,7 +190,8 @@ class kontrak_transportir_adendum_model extends CI_Model {
     public function get_detail_kirim($key) {
         $q="SELECT a.HARGA_KONTRAK_TRANS, a.SLOC, a.ID_DEPO, a.JARAK_DET_KONTRAK_TRANS, a.TYPE_KONTRAK_TRANS
             FROM  DET_KONTRAK_TRANS_ADENDUM a
-            WHERE a.ID_ADENDUM_TRANS='$key' ";
+            WHERE a.ID_ADENDUM_TRANS='$key' 
+            ORDER BY ID_DET_KONTRAK_TRANS ASC";
 
         $query = $this->db->query($q);
 
