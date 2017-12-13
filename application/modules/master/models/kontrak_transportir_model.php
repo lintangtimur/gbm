@@ -24,7 +24,7 @@
 		}
 		
 		public function data($key = '') {
-			$perubahan = ' ,(SELECT COUNT(*) FROM ADENDUM_KONTRAK_TRANSPORTIR b WHERE b.KD_KONTRAK_TRANS=a.KD_KONTRAK_TRANS) AS PERUBAHAN';
+			$perubahan = ' ,(SELECT COUNT(*) FROM ADENDUM_KONTRAK_TRANSPORTIR b WHERE b.ID_KONTRAK_TRANS=a.ID_KONTRAK_TRANS) AS PERUBAHAN';
 			$sumKirim = ', (select COUNT(KD_KONTRAK_TRANS) FROM DET_KONTRAK_TRANS mk WHERE mk.KD_KONTRAK_TRANS=a.KD_KONTRAK_TRANS) AS JML_PASOKAN ';
 			$this->db->select('a.*, b.NAMA_TRANSPORTIR '.$perubahan.$sumKirim);
 			$this->db->from($this->_table1 . ' a');

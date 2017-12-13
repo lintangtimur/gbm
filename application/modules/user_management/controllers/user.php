@@ -160,6 +160,8 @@ class user extends MX_Controller {
 				$pwd = 'icon123'; //$this->input->post("password");
 				$email = $this->input->post("email_user");
 				$isaktif = $this->input->post("user_status");
+
+                $kodelevel = trim($kodelevel);
 				
 				$data = $this->user_model->save_as_new($level[0], $kduser, $nama, $username, $pwd, $email, $level[1], $kodelevel, $isaktif, $id)->row();
 				$rc = $data->RCDB;
