@@ -95,7 +95,7 @@
 			<?php
                 $status= $default->STATUS_APPROVE_STOCKOPNAME;
                 $level=$this->session->userdata('level_user');
-                if(($status==1)&&($level==2)){
+                if(($status==1)&&($level==2)&&($this->laccess->otoritas('approve')){
 					
 				?>
 				<?php echo anchor(null, '<i class="icon-check"></i> Setujui', array('id' => 'button-approve', 'class' => 'blue btn',
