@@ -27,13 +27,13 @@
         <div class="control-group">
             <label for="password" class="control-label">No Adendum <span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_input('NO_KONTRAK', !empty($default->KD_KONTRAK_TRANSS) ? $default->KD_KONTRAK_TRANSS : '', 'class="span6" '); ?>
+                <?php echo form_input('NO_KONTRAK', !empty($default->KD_KONTRAK_TRANS) ? $default->KD_KONTRAK_TRANS : '', 'class="span6" '); ?>
             </div>
         </div>
         <div class="control-group">
         <label for="password" class="control-label">Keterangan Adendum <span class="required">*</span> : </label> 
         <div class="controls">
-            <?php echo form_input('KETERANGAN', !empty($default->KET_KONTRAK_TRANSS) ? $default->KET_KONTRAK_TRANSS : '', 'class="span6" '); ?>
+            <?php echo form_input('KETERANGAN', !empty($default->KET_KONTRAK_TRANS) ? $default->KET_KONTRAK_TRANS : '', 'class="span6" '); ?>
         </div>
         </div>
 
@@ -43,7 +43,7 @@
             <?php echo form_upload('FILE_UPLOAD', !empty($default->PATH_KONTRAK_TRANS) ? $default->PATH_KONTRAK_TRANS : '', 'class="span6"'); ?>
         </div>
         <div class="controls" id="dokumen">
-            <a href="<?php echo base_url().'assets/upload/kontrak_transportir/'.$id_dok;?>" target="_blank"><b><?php #echo (empty($id_dok)) ? $id_dok : 'Lihat Dokumen'; ?></b></a>
+            <a href="<?php echo base_url().'assets/upload/kontrak_transportir/'.$id_dok;?>" target="_blank"><b><?php echo (empty($id_dok)) ? $id_dok : 'Lihat Dokumen'; ?></b></a>
         </div>
 
        <!-- <div class="controls" id="dokumen">
@@ -231,8 +231,8 @@ for (i = 1; i <= 20; i++) {
     $("#TextBoxDiv"+i).hide();
 }
 
-if ($('input[name=KD_KONTRAK_TRANS]').val()){
-    var str = $('input[name=KD_KONTRAK_TRANS]').val();
+if ($('input[name=id]').val()){
+    var str = $('input[name=NO_KONTRAK]').val();
     var res = str.replace("/", "~"); 
     var x = res.indexOf("/");
 
@@ -271,7 +271,7 @@ $('input[name=NILAI_KONTRAK]').inputmask("numeric", {radixPoint: ",",groupSepara
 
 
 function get_detail(vId) {
-    var vlink_url = '<?php echo base_url()?>master/kontrak_transportir/get_detail_kirim/'+vId;
+    var vlink_url = '<?php echo base_url()?>master/kontrak_transportir/get_detail_kirim_adendum/'+vId;
     var i=0;
     $.ajax({
         url: vlink_url,
@@ -287,6 +287,8 @@ function get_detail(vId) {
                 $("#jarak_ke"+i).val(value.JARAK_DET_KONTRAK_TRANS);
                 $("#TextBoxDiv"+i).show();
             });
+            
+            $("#JML_KIRIM").val(i);
         }
     });
 };

@@ -24,7 +24,7 @@
 		}
 		
 		public function data($key = '') {
-			$perubahan = ' ,(SELECT COUNT(*) FROM ADENDUM_KONTRAK_TRANSPORTIR b WHERE b.KD_KONTRAK_TRANS=a.KD_KONTRAK_TRANS) AS PERUBAHAN';
+			$perubahan = ' ,(SELECT COUNT(*) FROM ADENDUM_KONTRAK_TRANSPORTIR b WHERE b.ID_KONTRAK_TRANS=a.ID_KONTRAK_TRANS) AS PERUBAHAN';
 			$sumKirim = ', (select COUNT(KD_KONTRAK_TRANS) FROM DET_KONTRAK_TRANS mk WHERE mk.KD_KONTRAK_TRANS=a.KD_KONTRAK_TRANS) AS JML_PASOKAN ';
 			$this->db->select('a.*, b.NAMA_TRANSPORTIR '.$perubahan.$sumKirim);
 			$this->db->from($this->_table1 . ' a');
@@ -46,6 +46,13 @@
 
 		}
 
+		public function cek_no_kotrak($key=''){
+			$this->db->from($this->_table1);
+			$this->db->where('KD_KONTRAK_TRANS',$key);
+			$query = $this->db->get();
+			return $query->num_rows();
+		}
+		
 		public function save_as_new($data) {
 			$this->db->trans_begin();
 			$id = $this->db->set_id($this->_table1, 'ID_KONTRAK_TRANS', 'no_prefix', 11);
@@ -246,7 +253,8 @@
 		public function get_detail_kirim($key) {
 			$q="SELECT a.HARGA_KONTRAK_TRANS, a.SLOC, a.ID_DEPO, a.JARAK_DET_KONTRAK_TRANS, a.TYPE_KONTRAK_TRANS
 				FROM  DET_KONTRAK_TRANS a
-				WHERE a.KD_KONTRAK_TRANS='$key' ";
+				WHERE a.KD_KONTRAK_TRANS='$key' 
+				ORDER BY ID_DET_KONTRAK_TRANS ASC";
 	
 			$query = $this->db->query($q);
 	
