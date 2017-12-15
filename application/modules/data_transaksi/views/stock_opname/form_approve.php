@@ -103,7 +103,7 @@
 				
                 <?php echo anchor(null, '<i class="icon-check"></i> Tolak', array('id' => 'button-tolak', 'class' => 'red btn',
 				'value' => 'tolak','onclick' => "simpan_datax(this.id, '#finput', '#button-back')")); ?>
-					<?php }}?>
+				<?php }}?>
 				
                 <?php echo anchor(null, '<i class="icon-circle-arrow-left"></i> Tutup', array('id' => 'button-back', 'class' => 'btn', 'onclick' => 'close_form(this.id)')); ?>
 			</div>
