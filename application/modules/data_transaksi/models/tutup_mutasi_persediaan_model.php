@@ -41,7 +41,9 @@ class tutup_mutasi_persediaan_model extends CI_Model {
         if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
 
-        return $this->db;
+        $rest = $this->db;
+        $this->db->close();
+        return $rest;
 
     }
 
@@ -65,7 +67,9 @@ class tutup_mutasi_persediaan_model extends CI_Model {
         if (!empty($key_buka) || is_array($key_buka))
         $this->db->where_condition($this->_key_buka($key_buka));
         
-        return $this->db;
+        $rest = $this->db;
+        $this->db->close();
+        return $rest;
     }
 
     public function save_as_new($data) {
@@ -75,11 +79,13 @@ class tutup_mutasi_persediaan_model extends CI_Model {
 
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
-            return FALSE;
+            $rest = FALSE;
         } else {
             $this->db->trans_commit();
-            return TRUE;
+            $rest = TRUE;
         }
+        $this->db->close();
+        return $rest;
     }
 
     public function save_as_new_log($data) {
@@ -89,11 +95,13 @@ class tutup_mutasi_persediaan_model extends CI_Model {
 
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
-            return FALSE;
+            $rest = FALSE;
         } else {
             $this->db->trans_commit();
-            return TRUE;
+            $rest = TRUE;
         }
+        $this->db->close();
+        return $rest;
     }
 
     public function save($data, $key) {
@@ -103,11 +111,13 @@ class tutup_mutasi_persediaan_model extends CI_Model {
 
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
-            return FALSE;
+            $rest = FALSE;
         } else {
             $this->db->trans_commit();
-            return TRUE;
+            $rest = TRUE;
         }
+        $this->db->close();
+        return $rest;
     }
 
     public function save_as_new_buka($data) {
@@ -117,11 +127,13 @@ class tutup_mutasi_persediaan_model extends CI_Model {
 
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
-            return FALSE;
+            $rest = FALSE;
         } else {
             $this->db->trans_commit();
-            return TRUE;
+            $rest = TRUE;
         }
+        $this->db->close();
+        return $rest;
     }
 
     public function save_as_new_buka_log($data) {
@@ -131,11 +143,13 @@ class tutup_mutasi_persediaan_model extends CI_Model {
 
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
-            return FALSE;
+            $rest = FALSE;
         } else {
             $this->db->trans_commit();
-            return TRUE;
+            $rest = TRUE;
         }
+        $this->db->close();
+        return $rest;
     }
 
     public function save_buka($data, $key_buka) {
@@ -145,11 +159,13 @@ class tutup_mutasi_persediaan_model extends CI_Model {
 
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
-            return FALSE;
+            $rest = FALSE;
         } else {
             $this->db->trans_commit();
-            return TRUE;
+            $rest = TRUE;
         }
+        $this->db->close();
+        return $rest;
     }
 
     public function data_table($module = '', $limit = 20, $offset = 1) {
@@ -236,9 +252,10 @@ class tutup_mutasi_persediaan_model extends CI_Model {
         foreach ($list->result() as $row) {
             $option[$row->VALUE_SETTING] = $row->NAME_SETTING;
         }
+        $this->db->close();
         return $option;
-
     }
+
     public function options_status_mutasi_buka($default = 'BUKA') {
         $this->db->from('DATA_SETTING');
         $this->db->where('KEY_SETTING','STATUS_MUTASI');
@@ -252,8 +269,8 @@ class tutup_mutasi_persediaan_model extends CI_Model {
         foreach ($list->result() as $row) {
             $option[$row->VALUE_SETTING] = $row->NAME_SETTING;
         }
+        $this->db->close();
         return $option;
-
     }
 
     public function options_reg($default = '--Pilih Regional--', $key = 'all') {
@@ -273,6 +290,7 @@ class tutup_mutasi_persediaan_model extends CI_Model {
         foreach ($list->result() as $row) {
             $option[$row->ID_REGIONAL] = $row->NAMA_REGIONAL;
         }
+        $this->db->close();
         return $option;
     }
 
@@ -283,7 +301,7 @@ class tutup_mutasi_persediaan_model extends CI_Model {
             $this->db->where('ID_REGIONAL',$key);
         }    
         if ($jenis==0){
-            return $this->db->get()->result(); 
+            $rest = $this->db->get()->result(); 
         } else {
             $option = array();
             $list = $this->db->get(); 
@@ -295,8 +313,10 @@ class tutup_mutasi_persediaan_model extends CI_Model {
             foreach ($list->result() as $row) {
                 $option[$row->COCODE] = $row->LEVEL1;
             }
-            return $option;    
+            $rest = $option;    
         }
+        $this->db->close();
+        return $rest;
     }
 
     public function options_lv2($default = '--Pilih Level 2--', $key = 'all', $jenis=0) {
@@ -306,7 +326,7 @@ class tutup_mutasi_persediaan_model extends CI_Model {
             $this->db->where('COCODE',$key);
         }    
         if ($jenis==0){
-            return $this->db->get()->result(); 
+            $rest = $this->db->get()->result(); 
         } else {
             $option = array();
             $list = $this->db->get(); 
@@ -318,8 +338,10 @@ class tutup_mutasi_persediaan_model extends CI_Model {
             foreach ($list->result() as $row) {
                 $option[$row->PLANT] = $row->LEVEL2;
             }
-            return $option;    
+            $rest = $option;    
         }
+        $this->db->close();
+        return $rest;
     }
 	 
 

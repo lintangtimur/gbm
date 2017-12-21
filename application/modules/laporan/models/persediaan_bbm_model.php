@@ -71,10 +71,10 @@ class persediaan_bbm_model extends CI_Model {
                 A.TGL_MUTASI_PERSEDIAAN,A.STOCK_AWAL,A.PENERIMAAN_REAL,A.PEMAKAIAN,
                 A.DEAD_STOCK,A.VOLUME_STOCKOPNAME,
                 A.STOCK_AKHIR_REAL,A.STOCK_AKHIR_EFEKTIF,A.STOCK_AKHIR_KOREKSI,A.SHO,A.REVISI_MUTASI_PERSEDIAAN
-				ORDER BY A.TGL_MUTASI_PERSEDIAAN DESC, LEVEL0 ASC, LEVEL1 ASC, LEVEL2 ASC, LEVEL3 ASC, LEVEL4 ASC, NAMA_JNS_BHN_BKR ASC ";
+				ORDER BY A.TGL_MUTASI_PERSEDIAAN DESC, LEVEL0 ASC, LEVEL1 ASC, LEVEL2 ASC, LEVEL3 ASC, LEVEL4 ASC, NAMA_JNS_BHN_BKR ASC ";     
 		
-         $query = $this->db->query($sql);
-
+        $query = $this->db->query($sql);
+        $this->db->close();
         return $query->result();
     }
 
@@ -95,6 +95,7 @@ class persediaan_bbm_model extends CI_Model {
         foreach ($list->result() as $row) {
             $option[$row->ID_REGIONAL] = $row->NAMA_REGIONAL;
         }
+        $this->db->close();
         return $option;
     }
 
@@ -105,7 +106,7 @@ class persediaan_bbm_model extends CI_Model {
             $this->db->where('ID_REGIONAL',$key);
         }    
         if ($jenis==0){
-            return $this->db->get()->result(); 
+            $rest = $this->db->get()->result(); 
         } else {
             $option = array();
             $list = $this->db->get(); 
@@ -114,11 +115,13 @@ class persediaan_bbm_model extends CI_Model {
                 $option[''] = $default;
             }
 
-foreach ($list->result() as $row) {
+            foreach ($list->result() as $row) {
                 $option[$row->COCODE] = $row->LEVEL1;
             }
-            return $option;    
+            $rest = $option;    
         }
+        $this->db->close();
+        return $rest;
     }
 
     public function options_lv2($default = '--Pilih Level 2--', $key = 'all', $jenis=0) {
@@ -128,7 +131,7 @@ foreach ($list->result() as $row) {
             $this->db->where('COCODE',$key);
         }    
         if ($jenis==0){
-            return $this->db->get()->result(); 
+            $rest = $this->db->get()->result(); 
         } else {
             $option = array();
             $list = $this->db->get(); 
@@ -140,8 +143,10 @@ foreach ($list->result() as $row) {
             foreach ($list->result() as $row) {
                 $option[$row->PLANT] = $row->LEVEL2;
             }
-            return $option;    
+            $rest = $option;    
         }
+        $this->db->close();
+        return $rest;
     }
 
     public function options_lv3($default = '--Pilih Level 3--', $key = 'all', $jenis=0) {
@@ -151,7 +156,7 @@ foreach ($list->result() as $row) {
             $this->db->where('PLANT',$key);
         }    
         if ($jenis==0){
-            return $this->db->get()->result(); 
+            $rest = $this->db->get()->result(); 
         } else {
             $option = array();
             $list = $this->db->get(); 
@@ -163,8 +168,10 @@ foreach ($list->result() as $row) {
             foreach ($list->result() as $row) {
                 $option[$row->STORE_SLOC] = $row->LEVEL3;
             }
-            return $option;    
+            $rest = $option;    
         }
+        $this->db->close();
+        return $rest;
     }
 
     public function options_lv4($default = '--Pilih Pembangkit--', $key = 'all', $jenis=0) {
@@ -174,7 +181,7 @@ foreach ($list->result() as $row) {
             $this->db->where('STORE_SLOC',$key);
         }    
         if ($jenis==0){
-            return $this->db->get()->result(); 
+            $rest = $this->db->get()->result(); 
         } else {
             $option = array();
             $list = $this->db->get(); 
@@ -186,8 +193,10 @@ foreach ($list->result() as $row) {
             foreach ($list->result() as $row) {
                 $option[$row->SLOC] = $row->LEVEL4;
             }
-            return $option;    
+            $rest = $option;    
         }
+        $this->db->close();
+        return $rest;
     }
 
     public function data_option($key = '') {
@@ -195,7 +204,8 @@ foreach ($list->result() as $row) {
             
             if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
-            
+
+            $this->db->close();    
             return $this->db;
         }
 
@@ -209,7 +219,8 @@ foreach ($list->result() as $row) {
             foreach ($list->result() as $row) {
                 $option[$row->ID_JNS_BHN_BKR] = $row->NAMA_JNS_BHN_BKR;
             }
-            
+
+            $this->db->close();
             return $option;
         }
 
@@ -282,7 +293,9 @@ foreach ($list->result() as $row) {
                 break;
         } 
 
-        return $this->db->get()->result();
+        $query =  $this->db->get()->result();
+        $this->db->close();
+        return $query;
     }
 
     public function get_level($lv='', $key=''){ 
@@ -330,6 +343,7 @@ foreach ($list->result() as $row) {
         } 
 
         $query = $this->db->query($q)->result();
+        $this->db->close();
         return $query;
     }
 }

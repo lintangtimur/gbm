@@ -89,13 +89,16 @@ class permintaan_model extends CI_Model
 
         $this->db->order_by($_POST['ORDER_BY'].' '.$_POST['ORDER_ASC']);
 
-        return $this->db;
+        $rest = $this->db;
+        $this->db->close();
+        return $rest;
     }
 
     public function data_edit($key){
         $this->db->from($this->_table2);
         $this->db->where('ID_PENERIMAAN',$key);
         $query=$this->db->get();
+        $this->db->close();
         return $query->result();
     }
 
@@ -114,7 +117,9 @@ class permintaan_model extends CI_Model
         if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key_edit($key));
 
-        return $this->db;
+        $rest = $this->db;
+        $this->db->close();
+        return $rest;
     }
 
     public function data_table($module = '', $limit = 20, $offset = 1) {
@@ -199,12 +204,13 @@ class permintaan_model extends CI_Model
         $this->db->order_by($_POST['ORDER_BY_D'].' '.$_POST['ORDER_ASC_D']);
 
         $data = $this->db->get();
-
+        $this->db->close();
         return $data->result();
     }
 
     function saveDetailPenerimaan($id, $status, $level_user, $kode_level, $user, $jumlah){
         $query = $this->db->query("call SP_NOMINASI('".$id."','".$status."','".$level_user."','".$kode_level."','".$user."',".$jumlah.")");
+        $this->db->close();
         return $query->result();
     }
 
@@ -222,6 +228,7 @@ class permintaan_model extends CI_Model
         foreach ($list->result() as $row) {
             $option[$row->ID_PEMASOK] = $row->NAMA_PEMASOK;
         }
+        $this->db->close();
         return $option;
     }
 
@@ -238,6 +245,7 @@ class permintaan_model extends CI_Model
         foreach ($list->result() as $row) {
             $option[$row->ID_JNS_BHN_BKR] = $row->NAMA_JNS_BHN_BKR;
         }
+        $this->db->close();
         return $option;
     }
 
@@ -311,6 +319,7 @@ class permintaan_model extends CI_Model
         foreach ($list->result() as $row) {
             $option[$row->ID_REGIONAL] = $row->NAMA_REGIONAL;
         }
+        $this->db->close();
         return $option;
     }
 
@@ -321,7 +330,7 @@ class permintaan_model extends CI_Model
             $this->db->where('ID_REGIONAL',$key);
         }    
         if ($jenis==0){
-            return $this->db->get()->result(); 
+            $rest = $this->db->get()->result(); 
         } else {
             $option = array();
             $list = $this->db->get(); 
@@ -333,8 +342,10 @@ class permintaan_model extends CI_Model
             foreach ($list->result() as $row) {
                 $option[$row->COCODE] = $row->LEVEL1;
             }
-            return $option;    
+            $rest = $option;    
         }
+        $this->db->close();
+        return $rest;
     }
 
     public function options_lv2($default = '--Pilih Level 2--', $key = 'all', $jenis=0) {
@@ -344,7 +355,7 @@ class permintaan_model extends CI_Model
             $this->db->where('COCODE',$key);
         }    
         if ($jenis==0){
-            return $this->db->get()->result(); 
+            $rest = $this->db->get()->result(); 
         } else {
             $option = array();
             $list = $this->db->get(); 
@@ -356,8 +367,10 @@ class permintaan_model extends CI_Model
             foreach ($list->result() as $row) {
                 $option[$row->PLANT] = $row->LEVEL2;
             }
-            return $option;    
+            $rest = $option;    
         }
+        $this->db->close();
+        return $rest;
     }
 
     public function options_lv3($default = '--Pilih Level 3--', $key = 'all', $jenis=0) {
@@ -367,7 +380,7 @@ class permintaan_model extends CI_Model
             $this->db->where('PLANT',$key);
         }    
         if ($jenis==0){
-            return $this->db->get()->result(); 
+            $rest = $this->db->get()->result(); 
         } else {
             $option = array();
             $list = $this->db->get(); 
@@ -379,8 +392,10 @@ class permintaan_model extends CI_Model
             foreach ($list->result() as $row) {
                 $option[$row->STORE_SLOC] = $row->LEVEL3;
             }
-            return $option;    
+            $rest = $option;    
         }
+        $this->db->close();
+        return $rest;
     }
 
     public function options_lv4($default = '--Pilih Pembangkit--', $key = 'all', $jenis=0) {
@@ -390,7 +405,7 @@ class permintaan_model extends CI_Model
             $this->db->where('STORE_SLOC',$key);
         }    
         if ($jenis==0){
-            return $this->db->get()->result(); 
+            $rest = $this->db->get()->result(); 
         } else {
             $option = array();
             $list = $this->db->get(); 
@@ -402,8 +417,10 @@ class permintaan_model extends CI_Model
             foreach ($list->result() as $row) {
                 $option[$row->SLOC] = $row->LEVEL4;
             }
-            return $option;    
+            $rest = $option;    
         }
+        $this->db->close();
+        return $rest;
     }
 
     public function get_detail_kirim($key) {
@@ -412,7 +429,7 @@ class permintaan_model extends CI_Model
             WHERE NO_NOMINASI='$key' ";
 
         $query = $this->db->query($q);
-
+        $this->db->close();
         return $query->result();  
     }
 
@@ -523,6 +540,7 @@ class permintaan_model extends CI_Model
         } 
 
         $query = $this->db->query($q)->result();
+        $this->db->close();
         return $query;
     }
 
@@ -561,6 +579,7 @@ class permintaan_model extends CI_Model
 
     public function save_detail($data) {
         $this->db->insert_batch('MUTASI_NOMINASI_KIRIM', $data);
+        $this->db->close();
     }
 
     public function delete_detail($key) {
@@ -570,11 +589,13 @@ class permintaan_model extends CI_Model
 
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
-            return FALSE;
+            $rest = FALSE;
         } else {
             $this->db->trans_commit();
-            return TRUE;
+            $rest = TRUE;
         }
+        $this->db->close();
+        return $rest;
     }
 
     public function options_status() {
@@ -589,6 +610,7 @@ class permintaan_model extends CI_Model
         foreach ($list->result() as $row) {
             $option[$row->VALUE_SETTING] = $row->NAME_SETTING;
         }
+        $this->db->close();
         return $option;    
     }
 
@@ -608,7 +630,7 @@ class permintaan_model extends CI_Model
             GROUP BY SLOC, TGL_PENGAKUAN ";
 
         $query = $this->db->query($q);
-
+        $this->db->close();
         return $query->result();       
     }
 }

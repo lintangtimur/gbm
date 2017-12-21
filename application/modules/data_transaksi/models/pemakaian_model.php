@@ -82,8 +82,9 @@ class pemakaian_model extends CI_Model
 
         $this->db->order_by($_POST['ORDER_BY'].' '.$_POST['ORDER_ASC']);
 
-        return $this->db;
-
+        $rest = $this->db;
+        $this->db->close();
+        return $rest;
     }
 
     public function data_detail($key = ''){
@@ -95,11 +96,12 @@ class pemakaian_model extends CI_Model
         $this->db->join('MASTER_LEVEL1 d', 'd.COCODE = c.COCODE','left');
         $this->db->join('MASTER_REGIONAL e', 'e.ID_REGIONAL = d.ID_REGIONAL','left');
 
-
         if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
 
-        return $this->db;
+        $rest = $this->db;
+        $this->db->close();
+        return $rest;
     }
 
     public function data_table($module = '', $limit = 20, $offset = 0) {
@@ -183,7 +185,7 @@ class pemakaian_model extends CI_Model
         $this->db->order_by($_POST['ORDER_BY_D'].' '.$_POST['ORDER_ASC_D']);
 		
         $data = $this->db->get();
-
+        $this->db->close();
         return $data->result();
     }
 
@@ -205,11 +207,13 @@ class pemakaian_model extends CI_Model
        $data->free_result(); // Does what it says.
 
         // return $data->result();
-		 return $res;
+       $this->db->close();
+	   return $res;
     }
 
     function saveDetailClossing($sloc,$idPenerimaan,$level_user,$statusPenerimaan,$kode_level,$user_name,$jumlah){
         $query = $this->db->query("call SP_TEMP_CLOSSING('".$sloc."','".$idPenerimaan."','".$level_user."','".$statusPenerimaan."','".$kode_level."','".$user_name."',".$jumlah.")");
+        $this->db->close();
         return $query->result();
     }
 
@@ -226,6 +230,7 @@ class pemakaian_model extends CI_Model
         foreach ($list->result() as $row) {
             $option[$row->ID_JNS_BHN_BKR] = $row->NAMA_JNS_BHN_BKR;
         }
+        $this->db->close();
         return $option;
     }
 
@@ -242,8 +247,8 @@ class pemakaian_model extends CI_Model
         foreach ($list->result() as $row) {
             $option[$row->VALUE_SETTING] = $row->NAME_SETTING;
         }
+        $this->db->close();
         return $option;
-
     }
 
     public function options_level($level_user,$kode_level) {
@@ -306,6 +311,7 @@ class pemakaian_model extends CI_Model
         foreach ($list->result() as $row) {
             $option[$row->KODE] = $row->NAMA;
         }
+        $this->db->close();
         return $option;
         // return $list->result();
     }
@@ -378,7 +384,7 @@ class pemakaian_model extends CI_Model
                 $list = $this->db->get();
                 break;
         }
-        
+        $this->db->close();
         return $list->result();
     }
     
@@ -437,6 +443,7 @@ print_debug($sql);
         foreach ($list->result() as $row) {
             $option[$row->ID_REGIONAL] = $row->NAMA_REGIONAL;
         }
+        $this->db->close();
         return $option;
     }
 
@@ -447,7 +454,7 @@ print_debug($sql);
             $this->db->where('ID_REGIONAL',$key);
         }    
         if ($jenis==0){
-            return $this->db->get()->result(); 
+            $rest = $this->db->get()->result(); 
         } else {
             $option = array();
             $list = $this->db->get(); 
@@ -459,8 +466,10 @@ print_debug($sql);
             foreach ($list->result() as $row) {
                 $option[$row->COCODE] = $row->LEVEL1;
             }
-            return $option;    
+            $rest = $option;    
         }
+        $this->db->close();
+        return $rest;
     }
 
     public function options_lv2($default = '--Pilih Level 2--', $key = 'all', $jenis=0) {
@@ -471,7 +480,7 @@ print_debug($sql);
             $this->db->where('COCODE',$key);
         }    
         if ($jenis==0){
-            return $this->db->get()->result(); 
+            $rest = $this->db->get()->result(); 
         } else {
             $option = array();
             $list = $this->db->get(); 
@@ -483,8 +492,10 @@ print_debug($sql);
             foreach ($list->result() as $row) {
                 $option[$row->PLANT] = $row->LEVEL2;
             }
-            return $option;    
+            $rest = $option;    
         }
+        $this->db->close();
+        return $rest;
     }
 
     public function options_lv3($default = '--Pilih Level 3--', $key = 'all', $jenis=0) {
@@ -494,7 +505,7 @@ print_debug($sql);
             $this->db->where('PLANT',$key);
         }    
         if ($jenis==0){
-            return $this->db->get()->result(); 
+            $rest = $this->db->get()->result(); 
         } else {
             $option = array();
             $list = $this->db->get(); 
@@ -506,8 +517,10 @@ print_debug($sql);
             foreach ($list->result() as $row) {
                 $option[$row->STORE_SLOC] = $row->LEVEL3;
             }
-            return $option;    
+            $rest = $option;    
         }
+        $this->db->close();
+        return $rest;
     }
 
     public function options_lv4($default = '--Pilih Pembangkit--', $key = 'all', $jenis=0) {
@@ -517,7 +530,7 @@ print_debug($sql);
             $this->db->where('STORE_SLOC',$key);
         }    
         if ($jenis==0){
-            return $this->db->get()->result(); 
+            $rest = $this->db->get()->result(); 
         } else {
             $option = array();
             $list = $this->db->get(); 
@@ -529,8 +542,10 @@ print_debug($sql);
             foreach ($list->result() as $row) {
                 $option[$row->SLOC] = $row->LEVEL4;
             }
-            return $option;    
+            $rest = $option;    
         }
+        $this->db->close();
+        return $rest;
     }
 
     public function options_bulan() {
@@ -639,6 +654,7 @@ print_debug($sql);
         } 
 
         $query = $this->db->query($q)->result();
+        $this->db->close();
         return $query;
     }
 
@@ -654,6 +670,7 @@ print_debug($sql);
         foreach ($list->result() as $row) {
             $option[$row->VALUE_SETTING] = $row->NAME_SETTING;
         }
+        $this->db->close();
         return $option;    
     }
 
@@ -672,9 +689,9 @@ print_debug($sql);
             WHERE SLOC='$SLOC' AND date_format(TGL_MUTASI_PENGAKUAN,'%m%Y') = '$TGL_PENGAKUAN'     
             GROUP BY SLOC, TGL_PENGAKUAN ";
 
-        $query = $this->db->query($q);
-
-        return $query->result();       
+        $query = $this->db->query($q)->result();
+        $this->db->close();
+        return $query;       
     }
 
 }

@@ -27,7 +27,9 @@ class perhitungan_harga_model extends CI_Model {
        if (!empty($key) || is_array($key))
        $this->db->where_condition($this->_key($key));
 
-       return $this->db;
+       $rest = $this->db;
+       $this->db->close();
+       return $rest;
 
     }
 
@@ -38,11 +40,14 @@ class perhitungan_harga_model extends CI_Model {
 
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
-            return FALSE;
+            $rest = FALSE;
         } else {
             $this->db->trans_commit();
-            return TRUE;
+            $rest = TRUE;
         }
+
+        $this->db->close();
+        return $rest;
     }
 
     public function save($data, $key) {
@@ -52,11 +57,13 @@ class perhitungan_harga_model extends CI_Model {
 
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
-            return FALSE;
+            $rest = FALSE;
         } else {
             $this->db->trans_commit();
-            return TRUE;
+            $rest = TRUE;
         }
+        $this->db->close();
+        return $rest;
     }
 
     public function delete($key) {
@@ -66,11 +73,13 @@ class perhitungan_harga_model extends CI_Model {
 
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
-            return FALSE;
+            $rest = FALSE;
         } else {
             $this->db->trans_commit();
-            return TRUE;
+            $rest = TRUE;
         }
+        $this->db->close();
+        return $rest;
     }
 
     public function data_table($module = '', $limit = 20, $offset = 1) {
@@ -113,8 +122,8 @@ class perhitungan_harga_model extends CI_Model {
         foreach ($list->result() as $row) {
             $option[$row->ID_PEMASOK] = $row->NAMA_PEMASOK;
         }
+        $this->db->close();
         return $option;    
-        
     }
 
     public function options_type($default = '--Pilih Type Pemasok--') {
@@ -125,8 +134,6 @@ class perhitungan_harga_model extends CI_Model {
         
     }
 	 
-
-
 }
 
 /* End of file unit_model.php */
