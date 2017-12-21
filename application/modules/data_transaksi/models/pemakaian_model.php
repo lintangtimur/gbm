@@ -419,7 +419,7 @@ class pemakaian_model extends CI_Model
             .$data['VALUE_SETTING']."','"
             .$data['KETERANGAN']."','"
             .$data['NO_TUG']."')";
-print_debug($sql);
+// print_debug($sql);
         $query = $this->db->query($sql);
         $this->db->close();
         return $query->result();
