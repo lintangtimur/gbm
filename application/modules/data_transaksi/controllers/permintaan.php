@@ -203,7 +203,6 @@ class permintaan extends MX_Controller
         echo $data;
     }
 
-
     public function proses(){
         $this->form_validation->set_rules('NO_NOMINASI', 'No Nominasi / Permintaan', 'required|max_length[60]');
         $this->form_validation->set_rules('TGL_MTS_NOMINASI', 'Tanggal Nominasi', 'required');

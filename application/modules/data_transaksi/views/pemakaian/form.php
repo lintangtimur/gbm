@@ -122,7 +122,6 @@
         load_jenis_bbm('<?php echo $urljnsbbm; ?>/' + sloc, "#jnsbbm");
     });
     
-    
     // start
     function formatDateDepan() {
     var date = new Date();
@@ -209,7 +208,6 @@
     $(function() {
         setDefaulthTanggalCatat();
     });
-
     // end
 
     // var vLevelUser = "<?php echo $this->session->userdata('level_user'); ?>";

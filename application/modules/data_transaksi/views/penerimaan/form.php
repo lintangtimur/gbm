@@ -143,7 +143,6 @@
         pickerPosition: "bottom-left"
     });
 
-
     // start
     function formatDateDepan(date) {
       var tanggal =date.getDate();
@@ -241,7 +240,6 @@
     setDefaulthTglPenerimaan();
     setDefaulthTglPengakuan();
   });
-  
     // end
 
     $('input[name=VOL_PENERIMAAN]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
