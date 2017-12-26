@@ -51,6 +51,7 @@
     }
 }
  </style>
+ 
  <div class="inner_content">
     <div class="statistic clearfix">
         <div class="current_page pull-left">
