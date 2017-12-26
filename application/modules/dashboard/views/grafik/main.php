@@ -259,11 +259,11 @@
 						<td>Unit</td>
 						<td>Jenis Bahan Bakar</td>
 						<td>Tanggal Stok Terakhir</td>
-						<td>Dead Stok (L)</td>
-						<td>Volume Stok Akhir Real (L)</td>
-						<td>Volume Stok Akhir Efektif (L)</td>
+						<td align="center">Dead Stok (L)</td>
+						<td align="center">Volume Stok Akhir Real (L)</td>
+						<td align="center">Volume Stok Akhir Efektif (L)</td>
 						<td>SHO</td>
-                        <td>MAX PEMAKAIAN</td>
+                        <td align="center">MAX PEMAKAIAN (L)</td>
 						</tr>
 						</thead>
 						<tbody>
