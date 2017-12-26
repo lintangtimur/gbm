@@ -217,7 +217,15 @@ $(document).ready(function(){
     }
     
     if ($('input[name=id]').val()){
-        get_detail($('input[name=NO_NOMINASI]').val());    
+        var str = $('input[name=NO_NOMINASI]').val();
+        var res = str.replace("/", "~"); 
+        var x = res.indexOf("/");
+
+        while (x > 0) {
+            res = res.replace("/", "~");
+            x = res.indexOf("/");
+        } 
+        get_detail(res); 
     }
 
     for (i = 1; i <= 31; i++) {
