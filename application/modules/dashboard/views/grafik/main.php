@@ -256,15 +256,15 @@
 					  <table id="dataTable" class="table table-bordered table-striped" style="max-height:600px; overflow-y:auto; display:block">
 						<thead>
 						<tr>
-						<td>No</td>
-						<td>Unit</td>
-						<td>Jenis Bahan Bakar</td>
-						<td>Tanggal Stok Terakhir</td>
+						<td align="center">No</td>
+                        <td align="center">Unit</td>
+						<td align="center">Jenis Bahan Bakar</td>
+						<td align="center">Tanggal Stok Terakhir</td>
 						<td align="center">Dead Stok (L)</td>
+                        <td align="center">Max Pemakaian (L)</td>
 						<td align="center">Volume Stok Akhir Real (L)</td>
 						<td align="center">Volume Stok Akhir Efektif (L)</td>
-						<td>SHO</td>
-                        <td align="center">MAX PEMAKAIAN (L)</td>
+						<td align="center">SHO (Hari)</td>
 						</tr>
 						</thead>
 						<tbody>
@@ -977,10 +977,10 @@
                                     '<td>' + NAMA_JNS_BHN_BKR + '</td>' +
                                     '<td>' + TGL_MUTASI_PERSEDIAAN + '</td>' +
                                     '<td align="right">' + convertToRupiah(DEAD_STOCK) + '</td>' +
+                                    '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
                                     '<td align="right">' + SHO1 + '</td>' +
-                                    '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
                                     '</tr>';
                             nomer++;
 
@@ -1042,10 +1042,10 @@
                                     '<td>' + NAMA_JNS_BHN_BKR + '</td>' +
                                     '<td>' + TGL_MUTASI_PERSEDIAAN + '</td>' +
                                     '<td align="right">' + convertToRupiah(DEAD_STOCK) + '</td>' +
+                                    '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
                                     '<td align="right">' + SHO1 + '</td>' +
-                                    '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
                                     '</tr>';
                             nomer++;
 
@@ -1107,10 +1107,10 @@
                                     '<td>' + NAMA_JNS_BHN_BKR + '</td>' +
                                     '<td>' + TGL_MUTASI_PERSEDIAAN + '</td>' +
                                     '<td align="right">' + convertToRupiah(DEAD_STOCK) + '</td>' +
+                                    '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
                                     '<td align="right">' + SHO1 + '</td>' +
-                                    '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
                                     '</tr>';
                             nomer++;
 
@@ -1172,10 +1172,10 @@
                                     '<td>' + NAMA_JNS_BHN_BKR + '</td>' +
                                     '<td>' + TGL_MUTASI_PERSEDIAAN + '</td>' +
                                     '<td align="right">' + convertToRupiah(DEAD_STOCK) + '</td>' +
+                                    '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
                                     '<td align="right">' + SHO1 + '</td>' +
-                                    '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
                                     '</tr>';
                             nomer++;
 
@@ -1237,10 +1237,10 @@
                                     '<td>' + NAMA_JNS_BHN_BKR + '</td>' +
                                     '<td>' + TGL_MUTASI_PERSEDIAAN + '</td>' +
                                     '<td align="right">' + convertToRupiah(DEAD_STOCK) + '</td>' +
+                                    '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
                                     '<td align="right">' + SHO1 + '</td>' +
-                                    '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
                                     '</tr>';
                             nomer++;
 
