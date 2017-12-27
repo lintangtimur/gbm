@@ -220,7 +220,7 @@ class kontrak_pemasok extends MX_Controller {
    
     public function proses() {
         $this->form_validation->set_rules('ID_PEMASOK', 'Pemasok', 'trim|required|max_length[20]');
-        $this->form_validation->set_rules('NOPJBBM_KONTRAK_PEMASOK', 'No PJBBM', 'trim|required|max_length[20]');
+        $this->form_validation->set_rules('NOPJBBM_KONTRAK_PEMASOK', 'No PJBBM', 'trim|required|max_length[50]');
         $this->form_validation->set_rules('TGL_KONTRAK_PEMASOK', 'Tgl Kontrak', 'required');
         $this->form_validation->set_rules('JUDUL_KONTRAK_PEMASOK', 'Judul Kontrak', 'required');
         $id = $this->input->post('id');
