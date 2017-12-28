@@ -88,10 +88,11 @@
                     <th colspan="2">Penerimaan (L)</th>
                     <th colspan="2">Pemakaian (L)</th>
                     <th rowspan="2">Volume Opname (L)</th>
-                    <th rowspan="2">Dead Stok (L)</th>
+                    <th rowspan="2">Dead Stok (L)</th> 
+                    <th rowspan="2">Max Pemakaian (L)</th>
                     <th colspan="2">Stok (L)</th>
                     <!-- <th rowspan="2">Stok Akhir Koreksi</th> -->
-                    <th rowspan="2">SHO</th>
+                    <th rowspan="2">SHO (Hari)</th>
                     <!--<th rowspan="2">REV</th>-->
                 </tr>
                 <tr>
@@ -206,6 +207,9 @@
                             var KIRIM = value.PEMAKAIAN_KIRIM == null ? "" : value.PEMAKAIAN_KIRIM;
                             var VOLUME = value.VOLUME_STOCKOPNAME == null ? "" : value.VOLUME_STOCKOPNAME;
                             var DEAD_STOCK = value.DEAD_STOCK == null ? "" : value.DEAD_STOCK;
+                            var MAX_PEMAKAIAN = value.MAX_PEMAKAIAN == null ? "" : value.MAX_PEMAKAIAN;
+
+                            
                             var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
                             var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
                             var SHO = value.SHO == null ? "" : value.SHO;
@@ -231,6 +235,7 @@
                                     '<td align="right">' + convertToRupiah(KIRIM) + '</td>' +
                                     '<td align="right">' + convertToRupiah(VOLUME) + '</td>' +
                                     '<td align="right">' + convertToRupiah(DEAD_STOCK) + '</td>' +
+                                    '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
                                     // '<td>' + value.STOCK_AKHIR_KOREKSI + '</td>' +
@@ -240,8 +245,9 @@
                             nomer++;
 
                             $("#dataTable tbody").append(strRow);
-                            bootbox.hideAll();
+                            
                           });
+                          bootbox.hideAll();
                         };
                     }
                 });

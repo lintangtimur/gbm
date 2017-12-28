@@ -104,8 +104,9 @@
         <th colspan="2">Pemakaian (L)</th>
         <th rowspan="2">Volume Opname (L)</th>
         <th rowspan="2">Dead Stok (L)</th>
+        <th rowspan="2">Max Pemakaian (L)</th>
         <th colspan="2">Stok (L)</th>
-        <th rowspan="2">SHO</th>
+        <th rowspan="2">SHO (Hari)</th>
     </tr>
     <tr>
         <?php
@@ -181,6 +182,7 @@
                 $PEMAKAIAN_KIRIM = !empty($row->PEMAKAIAN_KIRIM) ? number_format($row->PEMAKAIAN_KIRIM,0,',','.') : '0';
                 $VOLUME_STOCKOPNAME = !empty($row->VOLUME_STOCKOPNAME) ? number_format($row->VOLUME_STOCKOPNAME,0,',','.') : '0';
                 $DEAD_STOCK = !empty($row->DEAD_STOCK) ? number_format($row->DEAD_STOCK,0,',','.') : '0';
+                $MAX_PEMAKAIAN = !empty($row->MAX_PEMAKAIAN) ? number_format($row->MAX_PEMAKAIAN,0,',','.') : '0';
                 $STOCK_AKHIR_REAL = !empty($row->STOCK_AKHIR_REAL) ? number_format($row->STOCK_AKHIR_REAL,0,',','.') : '0';
                 $STOCK_AKHIR_EFEKTIF = !empty($row->STOCK_AKHIR_EFEKTIF) ? number_format($row->STOCK_AKHIR_EFEKTIF,0,',','.') : '0';
                 $SHO = !empty($row->SHO) ? number_format($row->SHO,2,',','.') : '0'; 
@@ -192,7 +194,8 @@
         <td style="text-align:right;"><?php echo $PEMAKAIAN_SENDIRI ?></td>
         <td style="text-align:right;"><?php echo $PEMAKAIAN_KIRIM ?></td>
         <td style="text-align:right;"><?php echo $VOLUME_STOCKOPNAME ?></td>
-        <td style="text-align:right;"><?php echo $DEAD_STOCK ?> </td>
+        <td style="text-align:right;"><?php echo $DEAD_STOCK ?> </td> 
+        <td style="text-align:right;"><?php echo $MAX_PEMAKAIAN ?> </td>
         <td style="text-align:right;"><?php echo $STOCK_AKHIR_REAL ?></td>
         <td style="text-align:right;"><?php echo $STOCK_AKHIR_EFEKTIF ?></td>
         <td style="text-align:right;"><?php echo $SHO ?></td>
