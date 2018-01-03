@@ -612,6 +612,21 @@
 </script> -->
 
 <script>
+    var today = new Date();
+    var year = today.getFullYear();  
+    var month = today.getMonth(); 
+    var strMonth;
+    month++;
+
+    if (month < 10) {
+        strMonth = '0'+month;
+    } else {
+        strMonth = month;
+    }
+
+    $('select[name="TAHUN"]').val(year);  
+    $('select[name="BULAN"]').val(strMonth); 
+    
     function setDefaultLv1(){
         $('select[name="COCODE"]').empty();
         $('select[name="COCODE"]').append('<option value="">--Pilih Level 1--</option>');
