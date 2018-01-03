@@ -569,6 +569,7 @@ class pemakaian_model extends CI_Model
     public function options_tahun() {
         $year = date("Y"); 
 
+        $option[$year - 1] = $year - 1;
         $option[$year] = $year;
         $option[$year + 1] = $year + 1;
 
@@ -684,6 +685,10 @@ class pemakaian_model extends CI_Model
             sum( if( STATUS_MUTASI_PEMAKAIAN = '1', 1, 0 ) ) AS BELUM_DISETUJUI, 
             sum( if( STATUS_MUTASI_PEMAKAIAN = '2', 1, 0 ) ) AS DISETUJUI,
             sum( if( STATUS_MUTASI_PEMAKAIAN = '3', 1, 0 ) ) AS DITOLAK,
+            sum( if( STATUS_MUTASI_PEMAKAIAN = '4', 1, 0 ) ) AS CLOSING,
+            sum( if( STATUS_MUTASI_PEMAKAIAN = '5', 1, 0 ) ) AS CLOSING_BELUM_DISETUJUI,
+            sum( if( STATUS_MUTASI_PEMAKAIAN = '6', 1, 0 ) ) AS CLOSING_DISETUJUI,
+            sum( if( STATUS_MUTASI_PEMAKAIAN = '7', 1, 0 ) ) AS CLOSING_DITOLAK,
             count(*) AS TOTAL 
             FROM  MUTASI_PEMAKAIAN
             WHERE SLOC='$SLOC' AND date_format(TGL_MUTASI_PENGAKUAN,'%m%Y') = '$TGL_PENGAKUAN'     

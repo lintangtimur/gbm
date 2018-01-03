@@ -99,25 +99,100 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="pull-left span5">
+                            <div class="pull-left span8">
                                 <div class="controls">
-                                    <table>
-                                        <tr>
-                                            <td><label>Total data</label></td><td><label>:</label></td><td><label><info id="TOTAL"></info></label></td>
-                                            <td><?php echo str_repeat("&nbsp;", 10); ?></td>
-                                            <td></td><td></td><td></td>
-                                        </tr>
-                                        <tr>
-                                            <td><label>Belum Kirim</label></td><td><label>:</label></td><td><label><info id="BELUM_KIRIM"></info></label></td>
-                                            <td></td>
-                                            <td><label>Disetujui</label></td><td><label>:</label></td><td><label><info id="DISETUJUI"></info></label></td>
-                                        </tr>
-                                        <tr>
-                                            <td><label>Belum Disetujui</label></td><td><label>:</label></td><td><label><info id="BELUM_DISETUJUI"></info></label></td>
-                                            <td></td>
-                                            <td><label>Ditolak</label></td><td><label>:</label></td><td><label><info id="DITOLAK"></info></label></td>
-                                        </tr>
-                                    </table>
+                                        <table>
+                                           <tr>
+                                              <td><label>Total data</label></td>
+                                              <td><label>:</label></td>
+                                              <td>
+                                                 <label>
+                                                    <info id="TOTAL"></info>
+                                                 </label>
+                                              </td>
+                                              <td><?php echo str_repeat("&nbsp;", 10); ?></td>
+                                              <td></td>
+                                              <td></td>
+                                              <td></td>
+                                              <td><?php echo str_repeat("&nbsp;", 10); ?></td>
+                                              <td></td>
+                                              <td></td>
+                                              <td></td>
+                                              <td></td>
+                                              <td><?php echo str_repeat("&nbsp;", 10); ?></td>
+                                              <td></td>
+                                              <td></td>
+                                              <td></td>
+                                           </tr>
+                                           <tr>
+                                              <td><label>Belum Kirim</label></td>
+                                              <td><label>:</label></td>
+                                              <td>
+                                                 <label>
+                                                    <info id="BELUM_KIRIM"></info>
+                                                 </label>
+                                              </td>
+                                              <td></td>
+                                              <td><label>Disetujui</label></td>
+                                              <td><label>:</label></td>
+                                              <td>
+                                                 <label>
+                                                    <info id="DISETUJUI"></info>
+                                                 </label>
+                                              </td>
+                                              <td><?php echo str_repeat("&nbsp;", 10); ?></td>
+                                              <td><label>Closing</label></td>
+                                              <td><label>:</label></td>
+                                              <td>
+                                                 <label>
+                                                    <info id="CLOSING"></info>
+                                                 </label>
+                                              </td>
+                                              <td></td>
+                                              <td><?php echo str_repeat("&nbsp;", 10); ?></td>
+                                              <td><label>Closing Disetujui</label></td>
+                                              <td><label>:</label></td>
+                                              <td>
+                                                 <label>
+                                                    <info id="CLOSING_DISETUJUI"></info>
+                                                 </label>
+                                              </td>
+                                           </tr>
+                                           <tr>
+                                              <td><label>Belum Disetujui</label></td>
+                                              <td><label>:</label></td>
+                                              <td>
+                                                 <label>
+                                                    <info id="BELUM_DISETUJUI"></info>
+                                                 </label>
+                                              </td>
+                                              <td></td>
+                                              <td><label>Ditolak</label></td>
+                                              <td><label>:</label></td>
+                                              <td>
+                                                 <label>
+                                                    <info id="DITOLAK"></info>
+                                                 </label>
+                                              </td>
+                                              <td><?php echo str_repeat("&nbsp;", 10); ?></td>
+                                              <td><label>Closing blm Disetujui</label></td>
+                                              <td><label>:</label></td>
+                                              <td>
+                                                 <label>
+                                                    <info id="CLOSING_BELUM_DISETUJUI"></info>
+                                                 </label>
+                                              </td>
+                                              <td></td>
+                                              <td><?php echo str_repeat("&nbsp;", 10); ?></td>
+                                              <td><label>Closing Ditolak</label></td>
+                                              <td><label>:</label></td>
+                                              <td>
+                                                 <label>
+                                                    <info id="CLOSING_DITOLAK"></info>
+                                                 </label>
+                                              </td>
+                                           </tr>
+                                        </table>
                                 </div>
                             </div>
                         </div>   
@@ -134,6 +209,11 @@
 
 
 <script type="text/javascript">
+    var today = new Date();
+    var year = today.getFullYear();   
+    
+    $('select[name="TAHUN"]').val(year); 
+    
     jQuery(function($) {
 
         load_table('#content_table', 1, '#ffilter');
@@ -282,17 +362,28 @@
     }
 
     function get_sum_detail() {
-        var data = $('#ffilter').serializeArray()
+        var vIsAdd = "<?php echo $this->laccess->otoritas('add'); ?>";
+        var data = $('#ffilter').serializeArray();
 
         $.post("<?php echo base_url()?>data_transaksi/stock_opname/get_sum_detail/", data, function (data) {
             var data_detail = (JSON.parse(data));
 
             for (i = 0; i < data_detail.length; i++) {
-                $('#TOTAL').html(formatNumber(data_detail[i].TOTAL));
-                $('#BELUM_KIRIM').html(formatNumber(data_detail[i].BELUM_KIRIM));
+                if (!vIsAdd){
+                    $('#TOTAL').html(formatNumber(data_detail[i].TOTAL - data_detail[i].BELUM_KIRIM));
+                    $('#BELUM_KIRIM').html(formatNumber(0));    
+                } else  {
+                    $('#TOTAL').html(formatNumber(data_detail[i].TOTAL));
+                    $('#BELUM_KIRIM').html(formatNumber(data_detail[i].BELUM_KIRIM));
+                }
                 $('#BELUM_DISETUJUI').html(formatNumber(data_detail[i].BELUM_DISETUJUI));
                 $('#DISETUJUI').html(formatNumber(data_detail[i].DISETUJUI));
                 $('#DITOLAK').html(formatNumber(data_detail[i].DITOLAK));
+
+                $('#CLOSING').html(formatNumber(data_detail[i].CLOSING));
+                $('#CLOSING_BELUM_DISETUJUI').html(formatNumber(data_detail[i].CLOSING_BELUM_DISETUJUI));
+                $('#CLOSING_DISETUJUI').html(formatNumber(data_detail[i].CLOSING_DISETUJUI));
+                $('#CLOSING_DITOLAK').html(formatNumber(data_detail[i].CLOSING_DITOLAK));
             }
         });
     }

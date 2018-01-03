@@ -521,6 +521,7 @@ class stock_opname_model extends CI_Model {
         $year = date("Y"); 
 
         $option = array();
+        $option[$year - 1] = $year - 1;
         $option[$year] = $year;
         $option[$year + 1] = $year + 1;
 
@@ -629,6 +630,10 @@ class stock_opname_model extends CI_Model {
         COALESCE(SUM( IF( A.STATUS_APPROVE_STOCKOPNAME = '1', 1, 0 ) ),0) AS BELUM_DISETUJUI, 
         COALESCE(SUM( IF( A.STATUS_APPROVE_STOCKOPNAME = '2', 1, 0 ) ),0) AS DISETUJUI,
         COALESCE(SUM( IF( A.STATUS_APPROVE_STOCKOPNAME = '3', 1, 0 ) ),0) AS DITOLAK,
+        COALESCE(sum( if( A.STATUS_APPROVE_STOCKOPNAME = '4', 1, 0 ) ),0) AS CLOSING,
+        COALESCE(sum( if( A.STATUS_APPROVE_STOCKOPNAME = '5', 1, 0 ) ),0) AS CLOSING_BELUM_DISETUJUI,
+        COALESCE(sum( if( A.STATUS_APPROVE_STOCKOPNAME = '6', 1, 0 ) ),0) AS CLOSING_DISETUJUI,
+        COALESCE(sum( if( A.STATUS_APPROVE_STOCKOPNAME = '7', 1, 0 ) ),0) AS CLOSING_DITOLAK,
         COUNT(*) AS TOTAL 
         FROM  STOCK_OPNAME A
         LEFT JOIN MASTER_LEVEL4 M4 ON M4.SLOC=A.SLOC

@@ -295,6 +295,7 @@ ORDER BY A.TGL_MUTASI_PERSEDIAAN DESC, LEVEL0 ASC, LEVEL1 ASC, LEVEL2 ASC, LEVEL
     public function options_tahun() {
         $year = date("Y"); 
 
+        $option[$year - 1] = $year - 1;
         $option[$year] = $year;
         $option[$year + 1] = $year + 1;
 
