@@ -142,7 +142,8 @@ class tutup_mutasi_persediaan extends MX_Controller {
             $lv2 = $data['default']->COCODE;
         }
         $data['parent_options_buka'] = $this->tbl_get->options_status_mutasi_buka(); 
-        $data['reg_options'] = $this->tbl_get->options_reg(); 
+        $data['reg_options'] = $this->tbl_get->options_reg();
+        $data['blth_options'] = $this->tbl_get->options_blth();  
         $data['lv1_options'] = $this->tbl_get->options_lv1('--Pilih Level 1--', $lv1, 1); 
         $data['lv2_options'] = $this->tbl_get->options_lv2('--Pilih Level 2--', $lv2, 1); 
 
@@ -207,6 +208,7 @@ class tutup_mutasi_persediaan extends MX_Controller {
         $this->form_validation->set_rules('PLANT', 'required');
         $this->form_validation->set_rules('TGL_BUKA', 'required');
         $this->form_validation->set_rules('TGL_TUTUP', 'required');
+        $this->form_validation->set_rules('BLTH', 'required');
         if ($this->form_validation->run($this)) {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
             $id = $this->input->post('id');
@@ -215,19 +217,7 @@ class tutup_mutasi_persediaan extends MX_Controller {
             $data['PLANT'] = $this->input->post('PLANT');
             $data['TGL_BUKA'] = $this->input->post('TGL_BUKA');
             $data['TGL_TUTUP'] = $this->input->post('TGL_TUTUP');
-            $tanggal = new DateTime($data['TGL_TUTUP']);
-            $tahun = $tanggal->format('Y');
-            $bulan = $tanggal->format('m');
-            if($bulan==1){
-                $bulan=12;
-            }else{
-                $bulan=$bulan-1;
-            }
-
-            if($bulan<10){
-                $bulan='0'.$bulan;
-            }
-            $data['BLTH']=$tahun.$bulan;
+            $data['BLTH']=$this->input->post('BLTH');;
            
             if ($id == '') {      
                     if ($this->tbl_get->save_as_new_buka($data)) {

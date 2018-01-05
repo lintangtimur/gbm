@@ -343,6 +343,22 @@ class tutup_mutasi_persediaan_model extends CI_Model {
         $this->db->close();
         return $rest;
     }
+
+    public function options_blth($default = '--Pilih BLTH') {
+        $this->db->from('TUTUP_MUTASI');
+        $option = array();
+        $list = $this->db->get();
+
+        if (!empty($default)) {
+            $option[''] = $default;
+        }
+
+        foreach ($list->result() as $row) {
+            $option[$row->BLTH] = $row->BLTH;
+        }
+        $this->db->close();
+        return $option;
+    }
 	 
 
 

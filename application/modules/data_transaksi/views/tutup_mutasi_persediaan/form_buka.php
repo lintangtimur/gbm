@@ -33,6 +33,12 @@
             </div>
         </div>
         <div class="control-group">
+            <label for="password" class="control-label">BLTH <span class="required">*</span> :  </label>
+            <div class="controls">
+            <?php echo form_dropdown('BLTH', $blth_options, !empty($default->BLTH) ? $default->BLTH : ''); ?>           
+            </div>
+        </div>
+        <div class="control-group">
         <label for="password" class="control-label">Regional : </label>
         <div class="controls">
         <?php echo form_dropdown('ID_REGIONAL', $reg_options, !empty($default->ID_REGIONAL) ? $default->ID_REGIONAL : ''); ?>
@@ -59,8 +65,9 @@
     </div>
 </div>
 <script>
-    $(".form_datetime").datepicker({
-        format: "yyyy-mm-dd",
+    $(".form_datetime").datetimepicker({
+        dateformat: "yyyy-mm-dd",
+        timeFormat:  "hh:mm:ss",
         autoclose: true,
         todayBtn: true,
         pickerPosition: "bottom-left"
