@@ -1,3 +1,30 @@
+<link href="<?php echo base_url();?>assets/css/cf/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+
+<script src="<?php echo base_url();?>assets/js/cf/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="<?php echo base_url();?>assets/js/cf/dataTables.fixedColumns.min.js" type="text/javascript"></script>
+
+<style>
+    tr {background-color: #CED8F6;}
+
+        table {
+            border-collapse: collapse;
+            width:100%;
+        }
+
+        /*td,  th {
+            border: 1px solid  #f4f6f6 ;  
+        }
+*/
+        /*table.tdetail thead {background-color: #CED8F6}*/
+
+/*    th, td { white-space: nowrap; }
+    div.dataTables_wrapper {
+        width: 800px;
+        margin: 0 auto;
+    }*/
+
+</style>
+
 <div class="inner_content">
     <div class="statistic clearfix">
         <div class="current_page pull-left">
@@ -76,8 +103,8 @@
             <?php echo form_close(); ?>
         </div>
         <div class="well-content no-search">
-            <table id="dataTable" class="table table-bordered table-striped" style="max-height:600px; overflow-y:auto; display:block">
-            <thead>
+            <table id="dataTable" class="table-striped" width="100%" cellspacing="0" style="max-height:1000px;">
+                <thead>
                 <tr>
                     <th rowspan="2">No</th>
                     <th colspan="4">Level</th>
@@ -91,16 +118,13 @@
                     <th rowspan="2">Dead Stok (L)</th> 
                     <th rowspan="2">Max Pemakaian (L)</th>
                     <th colspan="2">Stok (L)</th>
-                    <!-- <th rowspan="2">Stok Akhir Koreksi</th> -->
                     <th rowspan="2">SHO (Hari)</th>
-                    <!--<th rowspan="2">REV</th>-->
                 </tr>
                 <tr>
                     <th>0</th>
                     <th>1</th>
                     <th>2</th>
                     <th>3</th>
-                    <!-- <th>4</th> -->
                     <th>Terima Pemasok</th>
                     <th>Terima Unit Lain</th>
                     <th>Sendiri</th>
@@ -109,12 +133,7 @@
                     <th>Akhir Efektif</th>
                 </tr>
             </thead>
-            <tbody>
-            <tr>
-                <td colspan="19" align="center">Data Tidak Ditemukan</td>
-            </tr>
-
-            </tbody>
+                <tbody></tbody>
             </table>
         </div>
 
@@ -159,13 +178,51 @@
     
     $('select[name="TAHUN"]').val(year); 
     
-    function convertToRupiah(angka)
-        {
-            var rupiah = '';        
-            var angkarev = angka.toString().split('').reverse().join('');
-            for(var i = 0; i < angkarev.length; i++) if(i%3 == 0) rupiah += angkarev.substr(i,3)+'.';
-            return rupiah.split('',rupiah.length-1).reverse().join('');
+    function convertToRupiah(angka){
+        // var rupiah = '';        
+        // var angkarev = angka.toString().split('').reverse().join('');
+        // for(var i = 0; i < angkarev.length; i++) if(i%3 == 0) rupiah += angkarev.substr(i,3)+'.';
+        // return rupiah.split('',rupiah.length-1).reverse().join('');
+
+        var bilangan = angka.replace(".", ",");
+            
+        var number_string = bilangan.toString(),
+            split   = number_string.split(','),
+            sisa    = split[0].length % 3,
+            rupiah  = split[0].substr(0, sisa),
+            ribuan  = split[0].substr(sisa).match(/\d{1,3}/gi);
+                
+        if (ribuan) {
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
         }
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+
+        return rupiah;
+    }
+
+    $(document).ready(function() {
+        $('#dataTable').dataTable({
+            "scrollY": "450px",
+            "scrollX": true,
+            "scrollCollapse": false,
+            "bPaginate": true,
+            "bLengthChange": false,
+            "bFilter": false,
+            "bInfo": true,
+            "bAutoWidth": true,
+            "ordering": false,
+            "fixedColumns": {"leftColumns": 6},
+            "language": {
+                "decimal": ",",
+                "thousands": ".",
+                "emptyTable": "Tidak ada data untuk ditampilkan"
+            },
+            "columnDefs": [
+                 {"className": "dt-right", "targets": [8,9,10,11,12,13,14,15,16,17,18]}
+          ] 
+        });
+    } );
 
     $('#button-load').click(function(e) {
         var lvl0 = $('#lvl0').val();
@@ -187,15 +244,15 @@
                             "SLOC":lvl4, "ID_JNS_BHN_BKR": bbm, "BULAN":bln, "TAHUN": thn},
                     success:function(response) {
                         var obj = JSON.parse(response);
+
+                        var t = $('#dataTable').DataTable();
+                        t.clear().draw();
+
                         if (obj == "" || obj == null) {
-                            $('#dataTable tbody').empty();
-                            var str = '<tr><td colspan="18" align="center">Data Tidak Ditemukan</td></tr>';
-                            $("#dataTable tbody").append(str);
                             bootbox.hideAll();
                             bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Data Tidak ditemukan-- </div>', function() {});
                         } else {
                         
-                         $('#dataTable tbody').empty();
                          var nomer = 1;
                          $.each(obj, function (index, value) {
                             // var NAMA_REGIONAL = value.NAMA_REGIONAL == null ? "" : value.NAMA_REGIONAL;
@@ -223,33 +280,10 @@
 							var TERIMA_PEMASOK = value.TERIMA_PEMASOK == null ? "0" : value.TERIMA_PEMASOK;
 							var TERIMA_UNITLAIN = value.TERIMA_UNITLAIN == null ? "0" : value.TERIMA_UNITLAIN;
 
-                            var strRow =
-                                    '<tr>' +
-                                    '<td>' + nomer + '</td>' +
-                                    '<td>' + LEVEL0  + '</td>' +
-                                    '<td>' + LEVEL1 + '</td>' +
-                                    '<td>' + LEVEL2 + '</td>' +
-                                    '<td>' + LEVEL3 + '</td>' +
-                                    '<td>' + LEVEL4 + '</td>' +
-                                    '<td>' + NAMA_JNS_BHN_BKR + '</td>' +
-                                    '<td>' + TGL_MUTASI_PERSEDIAAN + '</td>' +
-                                    '<td align="right">' + convertToRupiah(STOCK_AWAL) + '</td>' +
-                                    '<td align="right">' + convertToRupiah(TERIMA_PEMASOK) + '</td>' +
-                                    '<td align="right">' + convertToRupiah(TERIMA_UNITLAIN) + '</td>' +
-                                    '<td align="right">' + convertToRupiah(PEMAKAIAN_SENDIRI) + '</td>' +
-                                    '<td align="right">' + convertToRupiah(KIRIM) + '</td>' +
-                                    '<td align="right">' + convertToRupiah(VOLUME) + '</td>' +
-                                    '<td align="right">' + convertToRupiah(DEAD_STOCK) + '</td>' +
-                                    '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
-                                    '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
-                                    '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
-                                    // '<td>' + value.STOCK_AKHIR_KOREKSI + '</td>' +
-                                    '<td align="right">' + SHO + '</td>' +
-                                    //'<td align="right">' +  REV + '</td>' +
-                                    '</tr>';
-                            nomer++;
+                            t.row.add( [nomer,LEVEL0,LEVEL1,LEVEL2,LEVEL3,LEVEL4,NAMA_JNS_BHN_BKR,TGL_MUTASI_PERSEDIAAN,convertToRupiah(STOCK_AWAL),convertToRupiah(TERIMA_PEMASOK),convertToRupiah(TERIMA_UNITLAIN),convertToRupiah(PEMAKAIAN_SENDIRI),convertToRupiah(KIRIM),convertToRupiah(VOLUME),convertToRupiah(DEAD_STOCK),convertToRupiah(MAX_PEMAKAIAN),convertToRupiah(STOK_REAL),convertToRupiah(STOK_EFEKTIF),SHO
+                            ] ).draw( false );
 
-                            $("#dataTable tbody").append(strRow);
+                            nomer++;
                             
                           });
                           bootbox.hideAll();
