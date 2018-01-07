@@ -180,6 +180,11 @@ class template extends MX_Controller {
         return $full_url;
     }
 
+    public function get_notif_kirim() {
+        $message = $this->template_model->get_notif_kirim();
+        echo json_encode($message);
+    }
+
 }
 
 /* End of file template.php */

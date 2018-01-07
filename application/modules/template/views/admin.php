@@ -28,18 +28,22 @@
                 <li><a class="app_name"></a></li>
             </ul>
             <ul class="header_actions">
-                <li rel="tooltip" style="display: none;" data-placement="bottom" title="2 new messages" class="messages">
-                    <a class="iconic" href="#"><i class="icon-warning-sign"></i> 1</a>
+                <!-- <li rel="tooltip" data-placement="bottom" title="Notifikasi" class="messages"> -->
+                <li id="nf_notif" style="display: none;" data-placement="bottom" title="Klik untuk detail notifikasi" class="messages">    
+                    <a class="iconic" href="#"><i id="nf_icon" class="icon-bell" style="color:orange;"></i><nf id="nf_total" style="color:orange; font-weight: bold">2</nf></a>
                     <ul class="dropdown-menu pull-right messages_dropdown">
                         <li>
-                            <a href="#">
-                                <div class="details">
-                                    <div class="name">Jane Doe</div>
-                                    <div class="message">
-                                        Lorem ipsum Commodo quis nisi...
-                                    </div>
-                                </div>
-                            </a>
+                            <div class="details">
+                                <div class="name"><b><u>Notifikasi</u></b></div>
+                                <a href="<?php echo base_url() ?>data_transaksi/permintaan"><div id="nf_permintaan" class="name"></div></a>
+                                <a href="<?php echo base_url() ?>data_transaksi/penerimaan"><div id="nf_penerimaan" class="name"></div></a>
+                                <a href="<?php echo base_url() ?>data_transaksi/pemakaian"><div id="nf_pemakaian" class="name"></div></a>
+                                <a href="<?php echo base_url() ?>data_transaksi/stock_opname"><div id="nf_stock_opname" class="name"></div></a>
+                                <!-- <div class="name">aaa</div>                                    
+                                <div class="message">
+                                    Lorem ipsum Commodo quis nisi...
+                                </div> -->
+                            </div>
                         </li>
                     </ul>
                 </li>
@@ -97,3 +101,69 @@
 
     </body>
 </html>
+
+<script type="text/javascript">
+
+    var vIsAdd = "<?php echo $this->laccess->otoritas('add'); ?>";
+    var vLevelUser = "<?php echo $this->session->userdata('level_user'); ?>";
+
+    function formatNumber (num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    }
+
+    function get_notif_kirim(vjenis) {
+        var data = {jenis: vjenis};
+        $.post("<?php echo base_url()?>template/template/get_notif_kirim/", data, function (data) {
+            var get_data = (JSON.parse(data));
+
+            for (i = 0; i < get_data.length; i++) {
+                var TOTAL = get_data[i].TOTAL; 
+                var PERMINTAAN = get_data[i].PERMINTAAN; 
+                var PEMAKAIAN  = get_data[i].PEMAKAIAN; 
+                var PENERIMAAN = get_data[i].PENERIMAAN; 
+                var STOCK_OPNAME = get_data[i].STOCK_OPNAME; 
+            }
+
+            var vNf = 'Approve';
+            if (vjenis=='kirim'){
+                vNf = 'Kirim';
+            } 
+            
+            if (TOTAL > 0) {
+                $('#nf_total').html(formatNumber(TOTAL));
+                if (PERMINTAAN>0){$('#nf_permintaan').html('Data Permintaan Belum '+vNf+' : '+formatNumber(PERMINTAAN));}
+                if (PEMAKAIAN>0){$('#nf_pemakaian').html('Data Pemakaian Belum '+vNf+' : '+formatNumber(PEMAKAIAN));}
+                if (PENERIMAAN>0){$('#nf_penerimaan').html('Data Penerimaan Belum '+vNf+' : '+formatNumber(PENERIMAAN));}
+                if (STOCK_OPNAME>0){$('#nf_stock_opname').html('Stock Opname Belum '+vNf+' : '+formatNumber(STOCK_OPNAME));}
+
+                $('#nf_notif').show();
+
+                // setNotif();
+                // setInterval(setNotif, 5000);
+            }
+            
+        });
+    }
+
+    // if ((vIsAdd) && (vLevelUser>=2)){
+        get_notif_kirim('kirim');
+        get_notif_kirim('approve');
+    // }
+
+function setNotif() {
+  // setTimeout(function () {
+  //     $('#nf_total').hide();
+  //   }, 1000);
+  // setTimeout(function () {
+  //     $('#nf_total').show();
+  //   }, 2000);
+  setTimeout(function () {
+      $('#nf_total').hide();
+    }, 3000);
+  setTimeout(function () {
+      $('#nf_total').show();
+    }, 4000);
+}
+
+    
+</script>
