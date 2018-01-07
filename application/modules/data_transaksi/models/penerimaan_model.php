@@ -239,6 +239,7 @@
 		
 		public function options_pemasok($default = '--Pilih Pemasok--') {
 			$this->db->from('MASTER_PEMASOK');
+            $this->db->order_by('REF_NAMA_TRANS, NAMA_PEMASOK');
 			
 			$option = array();
 			$list = $this->db->get();
@@ -256,9 +257,11 @@
 		
 		public function options_transpotir($default = '--Pilih Transportir--') {
 			$this->db->from('MASTER_TRANSPORTIR');
+            $this->db->order_by('REF_NAMA_TRANS, NAMA_TRANSPORTIR');
 			
 			$option = array();
 			$list = $this->db->get();
+
 			
 			if (!empty($default)) {
 				$option[''] = $default;

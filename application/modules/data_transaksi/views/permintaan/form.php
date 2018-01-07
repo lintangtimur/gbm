@@ -245,7 +245,10 @@ $(document).ready(function(){
             if($("#TextBoxDiv"+i).is(":visible")){
                 var vol = $("#vol_ke"+i).val();
                 var new_vol = vol.replace(/\./g, "");
-                new_vol = Number(new_vol);
+                new_vol = new_vol.replace(",", ".");
+                //new_vol = Number(new_vol);
+                if (new_vol==''){new_vol=0;}
+                new_vol = parseFloat(new_vol);
                 vSum += new_vol;     
             }
         }
@@ -267,7 +270,7 @@ $(document).ready(function(){
     $('input[name=VOLUME_NOMINASI]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
     });
 
-    $('input[name=JML_KIRIM]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    $('input[name=JML_KIRIM]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 0,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
     });
 
 
