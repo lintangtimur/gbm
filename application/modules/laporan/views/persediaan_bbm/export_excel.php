@@ -175,17 +175,17 @@
             //     $STOCK_AKHIR_EFEKTIF = !empty($row->STOCK_AKHIR_EFEKTIF) ? $row->STOCK_AKHIR_EFEKTIF : '0';
             //     $SHO = !empty($row->SHO) ? $row->SHO : '0'; 
             // } else {
-                $STOCK_AWAL = !empty($row->STOCK_AWAL) ? number_format($row->STOCK_AWAL,0,',','.') : '0';
-                $TERIMA_PEMASOK = !empty($row->TERIMA_PEMASOK) ? number_format($row->TERIMA_PEMASOK,0,',','.') : '0';
-                $TERIMA_UNITLAIN = !empty($row->TERIMA_UNITLAIN) ? number_format($row->TERIMA_UNITLAIN,0,',','.') : '0';
-                $PEMAKAIAN_SENDIRI = !empty($row->PEMAKAIAN_SENDIRI) ? number_format($row->PEMAKAIAN_SENDIRI,0,',','.') : '0';
-                $PEMAKAIAN_KIRIM = !empty($row->PEMAKAIAN_KIRIM) ? number_format($row->PEMAKAIAN_KIRIM,0,',','.') : '0';
-                $VOLUME_STOCKOPNAME = !empty($row->VOLUME_STOCKOPNAME) ? number_format($row->VOLUME_STOCKOPNAME,0,',','.') : '0';
-                $DEAD_STOCK = !empty($row->DEAD_STOCK) ? number_format($row->DEAD_STOCK,0,',','.') : '0';
-                $MAX_PEMAKAIAN = !empty($row->MAX_PEMAKAIAN) ? number_format($row->MAX_PEMAKAIAN,0,',','.') : '0';
-                $STOCK_AKHIR_REAL = !empty($row->STOCK_AKHIR_REAL) ? number_format($row->STOCK_AKHIR_REAL,0,',','.') : '0';
-                $STOCK_AKHIR_EFEKTIF = !empty($row->STOCK_AKHIR_EFEKTIF) ? number_format($row->STOCK_AKHIR_EFEKTIF,0,',','.') : '0';
-                $SHO = !empty($row->SHO) ? number_format($row->SHO,2,',','.') : '0'; 
+                $STOCK_AWAL = !empty($row->STOCK_AWAL) ? number_format($row->STOCK_AWAL,2,',','.') : '0,00';
+                $TERIMA_PEMASOK = !empty($row->TERIMA_PEMASOK) ? number_format($row->TERIMA_PEMASOK,2,',','.') : '0,00';
+                $TERIMA_UNITLAIN = !empty($row->TERIMA_UNITLAIN) ? number_format($row->TERIMA_UNITLAIN,2,',','.') : '0,00';
+                $PEMAKAIAN_SENDIRI = !empty($row->PEMAKAIAN_SENDIRI) ? number_format($row->PEMAKAIAN_SENDIRI,2,',','.') : '0,00';
+                $PEMAKAIAN_KIRIM = !empty($row->PEMAKAIAN_KIRIM) ? number_format($row->PEMAKAIAN_KIRIM,2,',','.') : '0,00';
+                $VOLUME_STOCKOPNAME = !empty($row->VOLUME_STOCKOPNAME) ? number_format($row->VOLUME_STOCKOPNAME,2,',','.') : '0,00';
+                $DEAD_STOCK = !empty($row->DEAD_STOCK) ? number_format($row->DEAD_STOCK,2,',','.') : '0,00';
+                $MAX_PEMAKAIAN = !empty($row->MAX_PEMAKAIAN) ? number_format($row->MAX_PEMAKAIAN,2,',','.') : '0,00';
+                $STOCK_AKHIR_REAL = !empty($row->STOCK_AKHIR_REAL) ? number_format($row->STOCK_AKHIR_REAL,2,',','.') : '0,00';
+                $STOCK_AKHIR_EFEKTIF = !empty($row->STOCK_AKHIR_EFEKTIF) ? number_format($row->STOCK_AKHIR_EFEKTIF,2,',','.') : '0,00';
+                $SHO = !empty($row->SHO) ? number_format($row->SHO,2,',','.') : '0,00'; 
             // }
         ?>
         <td style="text-align:right;"><?php echo $STOCK_AWAL ?></td>

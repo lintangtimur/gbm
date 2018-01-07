@@ -9,6 +9,7 @@
         table {
             border-collapse: collapse;
             width:100%;
+            /*font-size: 10px;*/
         }
 
         /*td,  th {
@@ -179,11 +180,6 @@
     $('select[name="TAHUN"]').val(year); 
     
     function convertToRupiah(angka){
-        // var rupiah = '';        
-        // var angkarev = angka.toString().split('').reverse().join('');
-        // for(var i = 0; i < angkarev.length; i++) if(i%3 == 0) rupiah += angkarev.substr(i,3)+'.';
-        // return rupiah.split('',rupiah.length-1).reverse().join('');
-
         var bilangan = angka.replace(".", ",");
             
         var number_string = bilangan.toString(),
@@ -197,6 +193,8 @@
             rupiah += separator + ribuan.join('.');
         }
         rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+
+        if ((rupiah=='') || (rupiah==0)) {rupiah='0,00'}
 
         return rupiah;
     }
@@ -276,6 +274,7 @@
                             var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
                             var SHO = value.SHO == null ? "" : value.SHO;
                             var SHO = SHO.toString().replace(/\./g, ',');  
+                            if ((SHO=='') || (SHO==0)) {SHO='0,00'}
                             var REV = value.REVISI_MUTASI_PERSEDIAAN == null ? "0" : value.REVISI_MUTASI_PERSEDIAAN;
 							var TERIMA_PEMASOK = value.TERIMA_PEMASOK == null ? "0" : value.TERIMA_PEMASOK;
 							var TERIMA_UNITLAIN = value.TERIMA_UNITLAIN == null ? "0" : value.TERIMA_UNITLAIN;
