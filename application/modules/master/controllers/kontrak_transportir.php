@@ -740,15 +740,16 @@ class kontrak_transportir extends MX_Controller {
         
      $level_user = $this->session->userdata('level_user');
      $kode_level = $this->session->userdata('kode_level');
+     $data['option_pembangkit'] = $this->kontrak_transportir_model->getPembangkitByLv(); 
         
-     $data_lv = $this->kontrak_transportir_model->get_level($level_user,$kode_level);
+     // $data_lv = $this->kontrak_transportir_model->get_level($level_user,$kode_level);
             
-        if ($level_user==2){
-            $data['option_pembangkit'] = $this->kontrak_transportir_model->getPembangkitFilter( $data_lv[0]->PLANT, 1); 
-        } else{
-            $data['option_pembangkit'] = $this->kontrak_transportir_model->getPembangkitAll(); 
+     //    if ($level_user==2){
+     //        $data['option_pembangkit'] = $this->kontrak_transportir_model->getPembangkitFilter( $data_lv[0]->PLANT, 1); 
+     //    } else{
+     //        $data['option_pembangkit'] = $this->kontrak_transportir_model->getPembangkitAll(); 
                     
-        } 
+     //    } 
         
      return $data;
     }

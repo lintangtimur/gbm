@@ -232,6 +232,38 @@
 			return $data;
 		}
 
+		function getPembangkitByLv($vLv4=null) {
+			$data = array();
+
+			if ($vLv4){
+				$aktif = ' AND (IS_AKTIF_LVL4=1) ';
+			} else {
+				$aktif = '';
+			}
+
+			$kode_level = $this->session->userdata('kode_level');
+
+			$sql = "select a.SLOC, a.LEVEL4, b.STORE_SLOC, c.PLANT, d.COCODE, e.ID_REGIONAL
+					from MASTER_LEVEL4 a 
+					left join MASTER_LEVEL3 b on b.STORE_SLOC = a.STORE_SLOC 
+					left join MASTER_LEVEL2 c on c.PLANT = b.PLANT
+					left join MASTER_LEVEL1 d on d.COCODE = c.COCODE
+					left join MASTER_REGIONAL e on e.ID_REGIONAL = d.ID_REGIONAL 
+					where ( a.SLOC='$kode_level' OR b.STORE_SLOC='$kode_level' OR c.PLANT='$kode_level' 
+					OR d.COCODE='$kode_level' OR e.ID_REGIONAL='$kode_level' ) $aktif ";
+
+	        $query = $this->db->query($sql);
+
+			if ($query->num_rows() > 0) {
+				foreach ($query->result_array() as $row){
+						$data[] = $row;
+					}
+			}
+
+			$this->db->close();
+			return $data;
+		}
+
 
 		public function getJalur() {
 			
