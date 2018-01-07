@@ -276,6 +276,7 @@ class stock_opname extends MX_Controller {
             $data['TGL_PENGAKUAN'] = $this->input->post('TGL_PENGAKUAN');
             $data['SLOC'] = $this->input->post('SLOC');
             $data['VOLUME_STOCKOPNAME'] = str_replace(".","",$this->input->post('VOLUME_STOCKOPNAME'));
+            $data['VOLUME_STOCKOPNAME'] = str_replace(",",".",$data['VOLUME_STOCKOPNAME']);
             $data['STATUS_APPROVE_STOCKOPNAME'] = $this->input->post('0');
 
             if ($id == '') {

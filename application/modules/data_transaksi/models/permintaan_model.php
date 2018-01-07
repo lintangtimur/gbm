@@ -147,8 +147,8 @@ class permintaan_model extends CI_Model
                     'BLTH' => $this->get_blth($row->BL,$row->TH),
                     'LEVEL4' => $row->LEVEL4,
 //                    'STATUS' => $row->STATUS_APPROVE,
-                    'TOTAL_VOLUME' => number_format($row->SUM_VOLUME,0,',','.'),
-                    'COUNT' => $row->COUNT_VOLUME,
+                    'TOTAL_VOLUME' => number_format($row->SUM_VOLUME,2,',','.'),
+                    'COUNT' => number_format($row->COUNT_VOLUME,0,',','.'),
                     'AKSI' => $aksi
                 );
                 $num++;

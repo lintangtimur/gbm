@@ -217,7 +217,7 @@ class stock_opname_model extends CI_Model {
                     'TGL_PENGAKUAN' => $row->TGL_PENGAKUAN,
                     'NAMA_JNS_BHN_BKR' => $row->NAMA_JNS_BHN_BKR,
                     'LEVEL4' => $row->LEVEL4,
-                    'VOLUME_STOCKOPNAME' => number_format($row->VOLUME_STOCKOPNAME,0,',','.'),
+                    'VOLUME_STOCKOPNAME' => number_format($row->VOLUME_STOCKOPNAME,2,',','.'),
                     'CD_BY_STOKOPNAME'=> $row->CD_BY_STOKOPNAME,
                     'CD_DATE_STOKOPNAME'=>$row->CD_DATE_STOKOPNAME,
                     'STATUS_APPROVE_STOCKOPNAME' => $row->NAME_SETTING,

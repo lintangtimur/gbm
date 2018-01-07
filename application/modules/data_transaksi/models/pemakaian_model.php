@@ -127,7 +127,7 @@ class pemakaian_model extends CI_Model
                     'NO' => $num,
                     'BLTH' =>  $this->get_blth($row->BL,$row->TH),
                     'LEVEL4' => $row->LEVEL4,
-                    'TOTAL_VOLUME' => number_format($row->JML_VOLUME,0,',','.'),
+                    'TOTAL_VOLUME' => number_format($row->JML_VOLUME,2,',','.'),
                     'COUNT' => number_format($row->JML,0,',','.'),
                     'AKSI' => $aksi
                 );
@@ -172,7 +172,8 @@ class pemakaian_model extends CI_Model
         }
 
         if (!$this->laccess->otoritas('add')){
-            $this->db->where('STATUS_PEMAKAIAN !=','Belum Dikirim');    
+            $this->db->where('STATUS_PEMAKAIAN !=','Belum Dikirim'); 
+            $this->db->where('STATUS_PEMAKAIAN !=','Closing');    
         }
 		
         if ($_POST['KATA_KUNCI_DETAIL'] !=''){

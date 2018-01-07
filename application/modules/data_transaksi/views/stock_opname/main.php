@@ -114,7 +114,7 @@
                                               <td></td>
                                               <td></td>
                                               <td></td>
-                                              <td><?php echo str_repeat("&nbsp;", 10); ?></td>
+                                              <!-- <td><?php echo str_repeat("&nbsp;", 10); ?></td>
                                               <td></td>
                                               <td></td>
                                               <td></td>
@@ -122,7 +122,7 @@
                                               <td><?php echo str_repeat("&nbsp;", 10); ?></td>
                                               <td></td>
                                               <td></td>
-                                              <td></td>
+                                              <td></td> -->
                                            </tr>
                                            <tr>
                                               <td><label>Belum Kirim</label></td>
@@ -140,7 +140,7 @@
                                                     <info id="DISETUJUI"></info>
                                                  </label>
                                               </td>
-                                              <td><?php echo str_repeat("&nbsp;", 10); ?></td>
+                                              <!-- <td><?php echo str_repeat("&nbsp;", 10); ?></td>
                                               <td><label>Closing</label></td>
                                               <td><label>:</label></td>
                                               <td>
@@ -156,7 +156,7 @@
                                                  <label>
                                                     <info id="CLOSING_DISETUJUI"></info>
                                                  </label>
-                                              </td>
+                                              </td> -->
                                            </tr>
                                            <tr>
                                               <td><label>Belum Disetujui</label></td>
@@ -174,7 +174,7 @@
                                                     <info id="DITOLAK"></info>
                                                  </label>
                                               </td>
-                                              <td><?php echo str_repeat("&nbsp;", 10); ?></td>
+                                              <!-- <td><?php echo str_repeat("&nbsp;", 10); ?></td>
                                               <td><label>Closing blm Disetujui</label></td>
                                               <td><label>:</label></td>
                                               <td>
@@ -191,7 +191,7 @@
                                                     <info id="CLOSING_DITOLAK"></info>
                                                  </label>
                                               </td>
-                                           </tr>
+                                           </tr> -->
                                         </table>
                                 </div>
                             </div>
