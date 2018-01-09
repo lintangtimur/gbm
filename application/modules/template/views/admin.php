@@ -39,6 +39,11 @@
                                 <a href="<?php echo base_url() ?>data_transaksi/penerimaan"><div id="nf_penerimaan" class="name"></div></a>
                                 <a href="<?php echo base_url() ?>data_transaksi/pemakaian"><div id="nf_pemakaian" class="name"></div></a>
                                 <a href="<?php echo base_url() ?>data_transaksi/stock_opname"><div id="nf_stock_opname" class="name"></div></a>
+
+                                <a href="<?php echo base_url() ?>data_transaksi/permintaan"><div id="nf_permintaan_c" class="name"></div></a>
+                                <a href="<?php echo base_url() ?>data_transaksi/penerimaan"><div id="nf_penerimaan_c" class="name"></div></a>
+                                <a href="<?php echo base_url() ?>data_transaksi/pemakaian"><div id="nf_pemakaian_c" class="name"></div></a>
+                                <a href="<?php echo base_url() ?>data_transaksi/stock_opname"><div id="nf_stock_opname_c" class="name"></div></a>
                                 <!-- <div class="name">aaa</div>                                    
                                 <div class="message">
                                     Lorem ipsum Commodo quis nisi...
@@ -122,19 +127,25 @@
                 var PEMAKAIAN  = get_data[i].PEMAKAIAN; 
                 var PENERIMAAN = get_data[i].PENERIMAAN; 
                 var STOCK_OPNAME = get_data[i].STOCK_OPNAME; 
+                var PERMINTAAN_CLOSING = get_data[i].PERMINTAAN_CLOSING; 
+                var PEMAKAIAN_CLOSING  = get_data[i].PEMAKAIAN_CLOSING; 
+                var PENERIMAAN_CLOSING = get_data[i].PENERIMAAN_CLOSING; 
+                var STOCK_OPNAME_CLOSING = get_data[i].STOCK_OPNAME_CLOSING; 
             }
-
-            var vNf = 'Approve';
-            if (vjenis=='kirim'){
-                vNf = 'Kirim';
-            } 
             
             if (TOTAL > 0) {
                 $('#nf_total').html(formatNumber(TOTAL));
-                if (PERMINTAAN>0){$('#nf_permintaan').html('Data Permintaan Belum '+vNf+' : '+formatNumber(PERMINTAAN));}
-                if (PEMAKAIAN>0){$('#nf_pemakaian').html('Data Pemakaian Belum '+vNf+' : '+formatNumber(PEMAKAIAN));}
-                if (PENERIMAAN>0){$('#nf_penerimaan').html('Data Penerimaan Belum '+vNf+' : '+formatNumber(PENERIMAAN));}
-                if (STOCK_OPNAME>0){$('#nf_stock_opname').html('Stock Opname Belum '+vNf+' : '+formatNumber(STOCK_OPNAME));}
+                if (PERMINTAAN>0){$('#nf_permintaan').html('Data Permintaan Belum '+vjenis+' : '+formatNumber(PERMINTAAN));}
+                if (PEMAKAIAN>0){$('#nf_pemakaian').html('Data Pemakaian Belum '+vjenis+' : '+formatNumber(PEMAKAIAN));}
+                if (PENERIMAAN>0){$('#nf_penerimaan').html('Data Penerimaan Belum '+vjenis+' : '+formatNumber(PENERIMAAN));}
+                if (STOCK_OPNAME>0){$('#nf_stock_opname').html('Stock Opname Belum '+vjenis+' : '+formatNumber(STOCK_OPNAME));}
+
+                if (vjenis=='Kirim'){
+                    if (PERMINTAAN_CLOSING>0){$('#nf_permintaan_c').html('Data Permintaan Closing : '+formatNumber(PERMINTAAN_CLOSING));}
+                    if (PEMAKAIAN_CLOSING>0){$('#nf_pemakaian_c').html('Data Pemakaian Closing : '+formatNumber(PEMAKAIAN_CLOSING));}
+                    if (PENERIMAAN_CLOSING>0){$('#nf_penerimaan_c').html('Data Penerimaan Closing : '+formatNumber(PENERIMAAN_CLOSING));}
+                    if (STOCK_OPNAME_CLOSING>0){$('#nf_stock_opname_c').html('Stock Opname Closing : '+formatNumber(STOCK_OPNAME_CLOSING));}                   
+                }
 
                 $('#nf_notif').show();
 
@@ -146,8 +157,8 @@
     }
 
     // if ((vIsAdd) && (vLevelUser>=2)){
-        get_notif_kirim('kirim');
-        get_notif_kirim('approve');
+        get_notif_kirim('Kirim');
+        get_notif_kirim('Approve');
     // }
 
 function setNotif() {
