@@ -23,7 +23,7 @@
         <div class="control-group">
             <label for="password" class="control-label">Nama Transportir <span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_input('NAMA_TRANSPORTIR', !empty($default->NAMA_TRANSPORTIR) ? $default->NAMA_TRANSPORTIR : '', 'class="span6"'); ?>
+                <?php echo form_input('NAMA_TRANSPORTIR', !empty($default->NAMA_TRANSPORTIR) ? $default->NAMA_TRANSPORTIR : '', 'class="span6" style="text-transform:uppercase"'); ?>
             </div>
         </div>
         <div class="control-group">

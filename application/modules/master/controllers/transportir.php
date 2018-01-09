@@ -99,7 +99,7 @@ class transportir extends MX_Controller {
 
             $data = array();
             $data['KD_TRANSPORTIR'] = $this->input->post('KD_TRANSPORTIR');
-            $data['NAMA_TRANSPORTIR'] = $this->input->post('NAMA_TRANSPORTIR');
+            $data['NAMA_TRANSPORTIR'] = strtoupper($this->input->post('NAMA_TRANSPORTIR'));
             $data['KET_TRANSPORTIR'] = $this->input->post('KET_TRANSPORTIR');
             $data['CD_BY_TRANSPORTIR'] = $this->session->userdata('user_name');
 
