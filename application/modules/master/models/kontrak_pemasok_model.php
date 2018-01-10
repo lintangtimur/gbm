@@ -127,9 +127,9 @@ class kontrak_pemasok_model extends CI_Model {
             $id = $row->ID_KONTRAK_PEMASOK;
             $aksi = '';
 
-            if ($this->laccess->otoritas('edit')) {
                 $aksi = anchor(null, '<i class="icon-zoom-in" title="Lihat Kontrak"></i>', array('class' => 'btn transparant', 'id' => 'button-view-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit_view/' . $id)));
 
+            if ($this->laccess->otoritas('edit')) {
                 $aksi .= anchor(null, '<i class="icon-edit" title="Edit Kontrak"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
             }
             if ($this->laccess->otoritas('add')) {

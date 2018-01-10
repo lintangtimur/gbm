@@ -155,6 +155,24 @@ class kontrak_pemasok extends MX_Controller {
         $this->load->view($this->_module . '/form_edit', $data);
     }
 
+
+    public function edit_adendum_view($id = '') {
+        $page_title = 'View ' . $this->_title.' (Adendum)';
+        $data['id'] = $id;
+        $data["url_getfile"] = $this->_urlgetfile;
+        $get_data = $this->tbl_get_adendum->data($id);
+        $data['default'] = $get_data->get()->row();
+        $data['id_dok'] =$data['default']->PATH_DOC_PEMASOK; 
+
+        // print_r($data['default']); die;
+
+        $data['pemasok_options'] = $this->tbl_get->options_pemasok();
+        $data['jns_kontrak_options'] = $this->tbl_get->options_jns_kontrak();
+        $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
+        $data['form_action'] = base_url($this->_module . '/proses_adendum');
+        $this->load->view($this->_module . '/form_adendum_edit', $data);
+    }
+
     public function load($page = 1) {
         $data_table = $this->tbl_get->data_table($this->_module, $this->_limit, $page);
         $this->load->library("ltable");
@@ -241,11 +259,15 @@ class kontrak_pemasok extends MX_Controller {
             $data['PERIODE_AKHIR_KONTRAK_PEMASOK'] = $this->input->post('PERIODE_AKHIR_KONTRAK_PEMASOK');
             $data['JENIS_KONTRAK_PEMASOK'] = $this->input->post('JENIS_KONTRAK_PEMASOK');
             $data['VOLUME_KONTRAK_PEMASOK'] = str_replace(".","",$this->input->post('VOLUME_KONTRAK_PEMASOK'));
+            $data['VOLUME_KONTRAK_PEMASOK'] = str_replace(",",".",$data['VOLUME_KONTRAK_PEMASOK']);
             $data['ALPHA_KONTRAK_PEMASOK'] = str_replace(".","",$this->input->post('ALPHA_KONTRAK_PEMASOK')); 
+            $data['ALPHA_KONTRAK_PEMASOK'] = str_replace(",",".",$data['ALPHA_KONTRAK_PEMASOK']); 
             $data['RUPIAH_KONTRAK_PEMASOK'] = str_replace(".","",$this->input->post('RUPIAH_KONTRAK_PEMASOK'));
+            $data['RUPIAH_KONTRAK_PEMASOK'] = str_replace(",",".",$data['RUPIAH_KONTRAK_PEMASOK']);
             $data['PENJAMIN_KONTRAK_PEMASOK'] = $this->input->post('PENJAMIN_KONTRAK_PEMASOK');
             $data['NO_PENJAMIN_KONTRAK_PEMASOK'] = $this->input->post('NO_PENJAMIN_KONTRAK_PEMASOK');
             $data['NOMINAL_JAMINAN_KONTRAK'] = str_replace(".","",$this->input->post('NOMINAL_JAMINAN_KONTRAK'));
+            $data['NOMINAL_JAMINAN_KONTRAK'] = str_replace(",",".",$data['NOMINAL_JAMINAN_KONTRAK']);
             $data['TGL_BERAKHIR_JAMINAN_KONTRAK'] = $this->input->post('TGL_BERAKHIR_JAMINAN_KONTRAK');
             $data['KET_KONTRAK_PEMASOK'] = $this->input->post('KET_KONTRAK_PEMASOK');
             // $data['ISAKTIF_KONTRAK_PEMASOK'] = $this->input->post('ID_REGIONAL');
@@ -399,11 +421,15 @@ class kontrak_pemasok extends MX_Controller {
             $data['PERIODE_AKHIR_ADENMDUM_PEMASOK'] = $this->input->post('PERIODE_AKHIR_ADENMDUM_PEMASOK');
             $data['JENIS_AKHIR_ADENDUM_PEMASOK'] = $this->input->post('JENIS_AKHIR_ADENDUM_PEMASOK');
             $data['VOL_AKHIR_ADENDUM_PEMASOK'] = str_replace(".","",$this->input->post('VOL_AKHIR_ADENDUM_PEMASOK'));
+            $data['VOL_AKHIR_ADENDUM_PEMASOK'] = str_replace(",",".",$data['VOL_AKHIR_ADENDUM_PEMASOK']);
             $data['ALPHA_ADENDUM_PEMASOK'] = str_replace(".","",$this->input->post('ALPHA_ADENDUM_PEMASOK'));
+            $data['ALPHA_ADENDUM_PEMASOK'] = str_replace(",",".",$data['ALPHA_ADENDUM_PEMASOK']);
             $data['RP_ADENDUM_PEMASOK'] = str_replace(".","",$this->input->post('RP_ADENDUM_PEMASOK')); 
+            $data['RP_ADENDUM_PEMASOK'] = str_replace(",",".",$data['RP_ADENDUM_PEMASOK']); 
             $data['PENJAMIN_ADENDUM_PEMASOK'] = $this->input->post('PENJAMIN_ADENDUM_PEMASOK');
             $data['NO_PENJAMIN_ADENDUM_PEMASOK'] = $this->input->post('NO_PENJAMIN_ADENDUM_PEMASOK');
             $data['NOMINAL_ADENDUM_PEMASOK'] = str_replace(".","",$this->input->post('NOMINAL_ADENDUM_PEMASOK'));
+            $data['NOMINAL_ADENDUM_PEMASOK'] = str_replace(",",".",$data['NOMINAL_ADENDUM_PEMASOK']);
             $data['TGL_AKHIR_ADENDUM_PEMASOK'] = $this->input->post('TGL_AKHIR_ADENDUM_PEMASOK');
             $data['KET_ADENDUM_PEMASOK'] = $this->input->post('KET_ADENDUM_PEMASOK');
             // $data['ISAKTIF_KONTRAK_PEMASOK'] = $this->input->post('ID_REGIONAL');

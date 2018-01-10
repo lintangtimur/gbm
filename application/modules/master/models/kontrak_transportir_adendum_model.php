@@ -167,8 +167,9 @@ class kontrak_transportir_adendum_model extends CI_Model {
             $id = $row->ID_ADENDUM_TRANS;
             $aksi = '';
 
-            if ($this->laccess->otoritas('edit')) {
                 $aksi .= anchor(null, '<i class="icon-zoom-in" title="Lihat Data"></i>', array('class' => 'btn transparant', 'id' => 'button-edit3-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/view_adendum/' . $id)));
+
+            if ($this->laccess->otoritas('edit')) {
                 $aksi .= anchor(null, '<i class="icon-edit" title="Edit Kontrak Adendum"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit_adendum/' . $id)));
             }
             if ($this->laccess->otoritas('delete')) {

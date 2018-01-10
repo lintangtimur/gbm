@@ -30,6 +30,7 @@ class kontrak_transportir extends MX_Controller {
     }
 
     public function index() {
+        $data = $this->get_level_user(); 
         // Load Modules
         $this->load->module("template/asset");
 
@@ -51,8 +52,8 @@ class kontrak_transportir extends MX_Controller {
 
 
     public function add($id = '') {
+        $data = $this->get_level_user();
         $page_title = 'Tambah Kontrak';
-        $data = $this->cekLevelUser();
         $data['id'] = $id;
 		$data['id_dok'] = '';
 		$data["url_getfile"] = $this->_urlgetfile;
@@ -63,8 +64,7 @@ class kontrak_transportir extends MX_Controller {
             $data['id_dok'] = $data['default']->PATH_KONTRAK_TRANS; 
             // $trans = $this->kontrak_transportir_model->dataEdit($id);
             // $data['detail'] = $trans->get()->result();
-        }
-        $data['option_transportir'] = $this->kontrak_transportir_model->options('--Pilih Transportir--', array('master_transportir.ID_TRANSPORTIR' => NULL));
+        } 
         $data['option_depo'] = $this->kontrak_transportir_model->getDepo();
         $data['option_jalur'] = $this->kontrak_transportir_model->getJalur();
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
@@ -90,7 +90,7 @@ class kontrak_transportir extends MX_Controller {
             "No Kontrak", 1, 1,
             "Transportir", 1, 1,
             "Periode", 1, 1,
-            "Harga", 1, 1,
+            "Nilai Kontrak", 1, 1,
             "Keterangan", 1, 1,
             "Perubahan", 1, 1,
             "Aksi", 1, 1
@@ -102,12 +102,17 @@ class kontrak_transportir extends MX_Controller {
     }
 
     public function proses() {
-        $this->form_validation->set_rules('KD_KONTRAK_TRANS', 'Nomor Kontrak Transportir', 'trim|required|max_length[30]');
+        $this->form_validation->set_rules('ID_REGIONAL', 'Regional', 'required');
+        $this->form_validation->set_rules('COCODE', 'Level l', 'required');
+        $this->form_validation->set_rules('PLANT', 'Level 2', 'required');
+        $this->form_validation->set_rules('KD_KONTRAK_TRANS', 'Nomor Kontrak Transportir', 'trim|required|max_length[50]');
         $this->form_validation->set_rules('ID_TRANSPORTIR', 'Transportir', 'trim|required');
+        $this->form_validation->set_rules('TGL_KONTRAK_TRANS', 'Tanggal Kontrak', 'trim|required');
         $this->form_validation->set_rules('NILAI_KONTRAK', 'Nilai Kontrak Transportir', 'trim|required|');
         $this->form_validation->set_rules('JML_PASOKAN', 'Pasokan', 'trim|required|');
         $pasokan = $this->input->post('JML_PASOKAN');
 
+        
         $id = $this->input->post('id');
          if ($id == '') {
             if (empty($_FILES['FILE_UPLOAD']['name'])){
@@ -122,7 +127,13 @@ class kontrak_transportir extends MX_Controller {
                 $x=20;
             }
             for ($i=1; $i<=$x; $i++) {
+
                 $this->form_validation->set_rules('depo_ke'.$i, 'Depo ke '.$i, 'required');
+                
+                // if ($this->input->post('depo_ke'.$i)=='000'){
+                //     $this->form_validation->set_rules('pembangkit_ke'.$i, 'Pembangkit ke '.$i, 'required');   
+                // }
+
                 $this->form_validation->set_rules('pembangkit_ke'.$i, 'Pembangkit ke '.$i, 'required');
 
                 $this->form_validation->set_rules('jalur_ke'.$i, 'Jalur ke '.$i, 'required');
@@ -139,21 +150,11 @@ class kontrak_transportir extends MX_Controller {
             $data['ID_TRANSPORTIR'] = $this->input->post('ID_TRANSPORTIR');
             $data['TGL_KONTRAK_TRANS'] = $this->input->post('TGL_KONTRAK_TRANS');
             $data['NILAI_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('NILAI_KONTRAK'));
+            $data['NILAI_KONTRAK_TRANS'] = str_replace(",",".",$data['NILAI_KONTRAK_TRANS']);
             $data['KET_KONTRAK_TRANS'] = $this->input->post('KETERANGAN');
             $data['KD_KONTRAK_TRANS'] = $this->input->post('KD_KONTRAK_TRANS');
             $data['CD_DET_KONTRAK_TRANS'] = date("Y/m/d");
             $data['CD_BY_DET_KONTRAK_TRANS'] = $this->session->userdata('user_name');
-            
-            $level_user = $this->session->userdata('level_user');
-            $kode_level = $this->session->userdata('kode_level');
-               
-            $data_lv = $this->kontrak_transportir_model->get_level($level_user,$kode_level);
-
-            if ($data_lv){
-                $data['PLANT'] = $data_lv[0]->PLANT;    
-            } else {
-                $data['PLANT'] = '';
-            }
             
 
             $data_detail = array();
@@ -164,8 +165,10 @@ class kontrak_transportir extends MX_Controller {
                 $jalur_ke = $this->input->post('jalur_ke'.$i);
                 $harga_ke = $this->input->post('harga_ke'.$i);
                 $harga_ke = str_replace(".","",$harga_ke);
+                $harga_ke = str_replace(",",".",$harga_ke);
                 $jarak_ke = $this->input->post('jarak_ke'.$i);
                 $jarak_ke = str_replace(".","",$jarak_ke);
+                $jarak_ke = str_replace(",",".",$jarak_ke);
                 $data_detail[$i] = array(
                     'KD_KONTRAK_TRANS' => $this->input->post('KD_KONTRAK_TRANS'),
                     'ID_DEPO' => $depo_ke,
@@ -531,6 +534,7 @@ class kontrak_transportir extends MX_Controller {
             $data['ID_TRANSPORTIR'] = $this->input->post('ID_TRANSPORTIR');
             $data['TGL_KONTRAK_TRANS'] = $this->input->post('TGL_KONTRAK_TRANS');
             $data['NILAI_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('NILAI_KONTRAK'));
+            $data['NILAI_KONTRAK_TRANS'] = str_replace(",",".",$data['NILAI_KONTRAK_TRANS']);
             $data['KET_KONTRAK_TRANS'] = $this->input->post('KETERANGAN');
             $data['KD_KONTRAK_TRANS'] = $this->input->post('NO_KONTRAK');
             $data['CD_DET_ADENDUM'] = date("Y/m/d");
@@ -544,8 +548,10 @@ class kontrak_transportir extends MX_Controller {
                 $jalur_ke = $this->input->post('jalur_ke'.$i);
                 $harga_ke = $this->input->post('harga_ke'.$i);
                 $harga_ke = str_replace(".","",$harga_ke);
+                $harga_ke = str_replace(",",".",$harga_ke);
                 $jarak_ke = $this->input->post('jarak_ke'.$i);
                 $jarak_ke = str_replace(".","",$jarak_ke);
+                $jarak_ke = str_replace(",",".",$jarak_ke);
                 $data_detail[$i] = array(
                     'ID_ADENDUM_TRANS' => $data['KD_KONTRAK_TRANS'],
                     'ID_DEPO' => $depo_ke,
@@ -752,6 +758,67 @@ class kontrak_transportir extends MX_Controller {
      //    } 
         
      return $data;
+    }
+
+    public function get_level_user(){
+        $data['option_transportir'] = $this->kontrak_transportir_model->options_transpotir();
+        $data['option_pembangkit'] = $this->kontrak_transportir_model->getPembangkitByLv(); 
+        $data['lv1_options'] = $this->kontrak_transportir_model->options_lv1('--Pilih Level 1--', '-', 1);
+        $data['lv2_options'] = $this->kontrak_transportir_model->options_lv2('--Pilih Level 2--', '-', 1);
+        $data['lv3_options'] = $this->kontrak_transportir_model->options_lv3('--Pilih Level 3--', '-', 1);
+        $data['lv4_options'] = $this->kontrak_transportir_model->options_lv4('--Pilih Pembangkit--', '-', 1);
+
+        $level_user = $this->session->userdata('level_user');
+        $kode_level = $this->session->userdata('kode_level');
+
+        $data_lv = $this->kontrak_transportir_model->get_level($level_user, $kode_level);
+
+        if ($level_user == 4) {
+            $option_reg[$data_lv[0]->ID_REGIONAL] = $data_lv[0]->NAMA_REGIONAL;
+            $option_lv1[$data_lv[0]->COCODE] = $data_lv[0]->LEVEL1;
+            $option_lv2[$data_lv[0]->PLANT] = $data_lv[0]->LEVEL2;
+            $option_lv3[$data_lv[0]->STORE_SLOC] = $data_lv[0]->LEVEL3;
+            $option_lv4[$data_lv[0]->SLOC] = $data_lv[0]->LEVEL4;
+            $data['reg_options'] = $option_reg;
+            $data['lv1_options'] = $option_lv1;
+            $data['lv2_options'] = $option_lv2;
+            $data['lv3_options'] = $option_lv3;
+            $data['lv4_options'] = $option_lv4;
+        } else if ($level_user == 3) {
+            $option_reg[$data_lv[0]->ID_REGIONAL] = $data_lv[0]->NAMA_REGIONAL;
+            $option_lv1[$data_lv[0]->COCODE] = $data_lv[0]->LEVEL1;
+            $option_lv2[$data_lv[0]->PLANT] = $data_lv[0]->LEVEL2;
+            $option_lv3[$data_lv[0]->STORE_SLOC] = $data_lv[0]->LEVEL3;
+            $data['reg_options'] = $option_reg;
+            $data['lv1_options'] = $option_lv1;
+            $data['lv2_options'] = $option_lv2;
+            $data['lv3_options'] = $option_lv3;
+            $data['lv4_options'] = $this->kontrak_transportir_model->options_lv4('--Pilih Pembangkit--', $data_lv[0]->STORE_SLOC, 1);
+        } else if ($level_user == 2) {
+            $option_reg[$data_lv[0]->ID_REGIONAL] = $data_lv[0]->NAMA_REGIONAL;
+            $option_lv1[$data_lv[0]->COCODE] = $data_lv[0]->LEVEL1;
+            $option_lv2[$data_lv[0]->PLANT] = $data_lv[0]->LEVEL2;
+            $data['reg_options'] = $option_reg;
+            $data['lv1_options'] = $option_lv1;
+            $data['lv2_options'] = $option_lv2;
+            $data['lv3_options'] = $this->kontrak_transportir_model->options_lv3('--Pilih Level 3--', $data_lv[0]->PLANT, 1);
+        } else if ($level_user == 1) {
+            $option_reg[$data_lv[0]->ID_REGIONAL] = $data_lv[0]->NAMA_REGIONAL;
+            $option_lv1[$data_lv[0]->COCODE] = $data_lv[0]->LEVEL1;
+            $data['reg_options'] = $option_reg;
+            $data['lv1_options'] = $option_lv1;
+            $data['lv2_options'] = $this->kontrak_transportir_model->options_lv2('--Pilih Level 2--', $data_lv[0]->COCODE, 1);
+        } else if ($level_user == 0) {
+            if ($kode_level == 00) {
+                $data['reg_options'] = $this->kontrak_transportir_model->options_reg();
+            } else {
+                $option_reg[$data_lv[0]->ID_REGIONAL] = $data_lv[0]->NAMA_REGIONAL;
+                $data['reg_options'] = $option_reg;
+                $data['lv1_options'] = $this->kontrak_transportir_model->options_lv1('--Pilih Level 1--', $data_lv[0]->ID_REGIONAL, 1);
+            }
+        }
+
+        return $data;
     }
 
 

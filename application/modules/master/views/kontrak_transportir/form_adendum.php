@@ -264,7 +264,7 @@ $("#button-save").click(function () {
     $("#button-jml-kirim").click();
 });
 
-$('input[name=JML_PASOKAN]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+$('input[name=JML_PASOKAN]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 0,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
 });
 $('input[name=NILAI_KONTRAK]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
 });
