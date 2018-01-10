@@ -232,23 +232,15 @@ for (i = 1; i <= 20; i++) {
 }
 
 if ($('input[name=id]').val()){
-    var str = $('input[name=NO_KONTRAK]').val();
-    var res = str.replace("/", "~"); 
-    var x = res.indexOf("/");
-
-    while (x > 0) {
-        res = res.replace("/", "~");
-        x = res.indexOf("/");
-    } 
-    get_detail(res); 
+    get_detail($('input[name=NO_KONTRAK]').val()); 
 }
 
 for (i = 1; i <= 20; i++) {
-    $('input[name=harga_ke'+i+']').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    $('input[name=harga_ke'+i+']').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,allowMinus: false, oncleared: function () { self.Value(''); }
 
     });
 
-    $('input[name=jarak_ke'+i+']').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    $('input[name=jarak_ke'+i+']').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,allowMinus: false, oncleared: function () { self.Value(''); }
    
     });
 }
@@ -264,34 +256,28 @@ $("#button-save").click(function () {
     $("#button-jml-kirim").click();
 });
 
-$('input[name=JML_PASOKAN]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+$('input[name=JML_PASOKAN]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,allowMinus: false, oncleared: function () { self.Value(''); }
 });
-$('input[name=NILAI_KONTRAK]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+$('input[name=NILAI_KONTRAK]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,allowMinus: false, oncleared: function () { self.Value(''); }
 });
-
 
 function get_detail(vId) {
-    var vlink_url = '<?php echo base_url()?>master/kontrak_transportir/get_detail_kirim_adendum/'+vId;
-    var i=0;
-    $.ajax({
-        url: vlink_url,
-        type: "GET",
-        dataType: "json",
-        success:function(data) {
-            $.each(data, function(key, value) {
-                i = i+1;
-                $("#depo_ke"+i).val(value.ID_DEPO);
-                $("#pembangkit_ke"+i).val(value.SLOC);
-                $("#jalur_ke"+i).val(value.TYPE_KONTRAK_TRANS);
-                $("#harga_ke"+i).val(value.HARGA_KONTRAK_TRANS);
-                $("#jarak_ke"+i).val(value.JARAK_DET_KONTRAK_TRANS);
-                $("#TextBoxDiv"+i).show();
-            });
-            
-            $("#JML_KIRIM").val(i);
+    var data = {idx: vId};
+
+    $.post("<?php echo base_url()?>master/kontrak_transportir/get_detail_kirim_adendum/", data, function (data) {
+        var rest = (JSON.parse(data));
+        var x=0;
+        for (i = 0; i < rest.length; i++) {
+            x++;
+            $("#depo_ke"+x).val(rest[i].ID_DEPO);
+            $("#pembangkit_ke"+x).val(rest[i].SLOC);
+            $("#jalur_ke"+x).val(rest[i].TYPE_KONTRAK_TRANS);
+            $("#harga_ke"+x).val(rest[i].HARGA_KONTRAK_TRANS);
+            $("#jarak_ke"+x).val(rest[i].JARAK_DET_KONTRAK_TRANS);
+            $("#TextBoxDiv"+x).show();
         }
     });
-};
+}
 
 
 </script>

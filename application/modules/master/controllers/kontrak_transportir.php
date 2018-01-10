@@ -730,14 +730,14 @@ class kontrak_transportir extends MX_Controller {
         echo json_encode($message);
     }
 
-    public function get_detail_kirim($key=null) {
-        $key = str_replace("~","/",$key);
+    public function get_detail_kirim() {
+        $key = $this->input->post('idx');
         $message = $this->kontrak_transportir_model->get_detail_kirim($key);
         echo json_encode($message);
     }
 
     public function get_detail_kirim_adendum($key=null) {
-        $key = str_replace("~","/",$key);
+        $key = $this->input->post('idx');
         $message = $this->tbl_get_adendum->get_detail_kirim($key);
         echo json_encode($message);
     }
