@@ -158,7 +158,9 @@
 
     // if ((vIsAdd) && (vLevelUser>=2)){
         get_notif_kirim('Kirim');
-        get_notif_kirim('Approve');
+        get_notif_kirim('Approve');    
+        
+        
     // }
 
 function setNotif() {

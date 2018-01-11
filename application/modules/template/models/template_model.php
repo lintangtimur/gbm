@@ -34,7 +34,7 @@ class template_model extends CI_Model {
         $user = $this->session->userdata('user_name');
         $jenis = $_POST['jenis'];
 
-        if ($jenis=='kirim'){
+        if (strtoupper($jenis)=='KIRIM'){
             $q="CALL GET_NOTIF_KIRIM ('$user') ";
         } else {
             $q="CALL GET_NOTIFIKASI ('$user') ";    
