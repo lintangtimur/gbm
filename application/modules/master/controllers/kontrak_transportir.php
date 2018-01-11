@@ -750,7 +750,7 @@ class kontrak_transportir extends MX_Controller {
         echo json_encode($message);
     }
 
-    public function get_detail_kirim_adendum($key=null) {
+    public function get_detail_kirim_adendum() {
         $key = $this->input->post('idx');
         $message = $this->tbl_get_adendum->get_detail_kirim($key);
         echo json_encode($message);
