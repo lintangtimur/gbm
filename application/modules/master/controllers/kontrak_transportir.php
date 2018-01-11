@@ -102,9 +102,9 @@ class kontrak_transportir extends MX_Controller {
     }
 
     public function proses() {
-        $this->form_validation->set_rules('ID_REGIONAL', 'Regional', 'required');
-        $this->form_validation->set_rules('COCODE', 'Level l', 'required');
-        $this->form_validation->set_rules('PLANT', 'Level 2', 'required');
+        // $this->form_validation->set_rules('ID_REGIONAL', 'Regional', 'required');
+        // $this->form_validation->set_rules('COCODE', 'Level l', 'required');
+        // $this->form_validation->set_rules('PLANT', 'Level 2', 'required');
         $this->form_validation->set_rules('KD_KONTRAK_TRANS', 'Nomor Kontrak Transportir', 'trim|required|max_length[50]');
         $this->form_validation->set_rules('ID_TRANSPORTIR', 'Transportir', 'trim|required');
         $this->form_validation->set_rules('TGL_KONTRAK_TRANS', 'Tanggal Kontrak', 'trim|required');
@@ -155,6 +155,17 @@ class kontrak_transportir extends MX_Controller {
             $data['KD_KONTRAK_TRANS'] = $this->input->post('KD_KONTRAK_TRANS');
             $data['CD_DET_KONTRAK_TRANS'] = date("Y/m/d");
             $data['CD_BY_DET_KONTRAK_TRANS'] = $this->session->userdata('user_name');
+
+            $level_user = $this->session->userdata('level_user');
+            $kode_level = $this->session->userdata('kode_level');
+               
+            $data_lv = $this->kontrak_transportir_model->get_level($level_user,$kode_level);
+
+            if ($data_lv){
+                $data['PLANT'] = $data_lv[0]->PLANT;    
+            } else {
+                $data['PLANT'] = '';
+            }
             
 
             $data_detail = array();
@@ -182,7 +193,9 @@ class kontrak_transportir extends MX_Controller {
             }
 
             if (!empty($_FILES['FILE_UPLOAD']['name'])){
-                $new_name = str_replace(".","",$data['KD_KONTRAK_TRANS']).'_'.date("YmdHis");
+                // $new_name = str_replace(".","",$data['KD_KONTRAK_TRANS']).'_'.date("YmdHis");
+                $new_name = preg_replace("/[^a-zA-Z]/", "", $data['KD_KONTRAK_TRANS']);
+                $new_name = $new_name.'_'.date("YmdHis");
                 $config['file_name'] = $new_name;
                 $config['upload_path'] = 'assets/upload/kontrak_transportir/';
                 $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
@@ -565,8 +578,9 @@ class kontrak_transportir extends MX_Controller {
             }
 
             if (!empty($_FILES['FILE_UPLOAD']['name'])){
-                $new_name = str_replace(".","",$data['KD_KONTRAK_TRANS']).'_'.date("YmdHis");
-                $new_name = 'AD_'.$new_name;
+                // $new_name = str_replace(".","",$data['KD_KONTRAK_TRANS']).'_'.date("YmdHis");
+                $new_name = preg_replace("/[^a-zA-Z]/", "", $data['KD_KONTRAK_TRANS']);
+                $new_name = 'AD_'.$new_name.'_'.date("YmdHis");
                 $config['file_name'] = $new_name;
                 $config['upload_path'] = 'assets/upload/kontrak_transportir/';
                 $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
