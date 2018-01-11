@@ -83,6 +83,7 @@
                 <?php echo form_input('KET_KONTRAK_PEMASOK', !empty($default->KET_KONTRAK_PEMASOK) ? $default->KET_KONTRAK_PEMASOK : '', 'class="span6" disabled'); ?>
             </div>
             <br>
+            <input type="hidden" name="PATH_FILE_EDIT" value="<?php echo !empty($default->PATH_DOC_PEMASOK) ? $default->PATH_DOC_PEMASOK : ''?>">
             <label for="password" class="control-label" id="up_nama">Upload Dokumen : </label> 
             <div class="controls" id="up_file">
                     <?php echo form_upload('ID_DOC_PEMASOK', !empty($default->ID_DOC_PEMASOK) ? $default->ID_DOC_PEMASOK : '', 'class="span6" disabled'); ?>

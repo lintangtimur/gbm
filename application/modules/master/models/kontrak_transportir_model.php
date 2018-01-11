@@ -51,10 +51,11 @@ class kontrak_transportir_model extends CI_Model {
         if ($_POST['PERIODE'] !='') {
             $this->db->where("a.TGL_KONTRAK_TRANS",$_POST['PERIODE']);   
         }
-    
-		
+	
 		if (!empty($key) || is_array($key))
         $this->db->where_condition($this->_key($key));
+
+   		$this->db->order_by('a.CD_DET_KONTRAK_TRANS DESC, ID_KONTRAK_TRANS DESC');
 		
 		return $this->db;
 	}

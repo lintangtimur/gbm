@@ -38,6 +38,7 @@
         </div>
 
         <div class="control-group">
+        <input type="hidden" name="PATH_FILE_EDIT" value="<?php echo !empty($default->PATH_KONTRAK_TRANS) ? $default->PATH_KONTRAK_TRANS : ''?>">
         <label for="password" class="control-label">Upload File (Max 10 MB)<span class="required">*</span> : </label>
         <div class="controls">
             <?php echo form_upload('FILE_UPLOAD', !empty($default->PATH_KONTRAK_TRANS) ? $default->PATH_KONTRAK_TRANS : '', 'class="span6"'); ?>

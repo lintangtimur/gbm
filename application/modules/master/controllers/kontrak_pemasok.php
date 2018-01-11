@@ -398,7 +398,7 @@ class kontrak_pemasok extends MX_Controller {
     }
 
     public function proses_adendum() {
-        $this->form_validation->set_rules('NO_ADENDUM_PEMASOK', 'No Adendum', 'trim|required|max_length[20]');
+        $this->form_validation->set_rules('NO_ADENDUM_PEMASOK', 'No Adendum', 'trim|required|max_length[50]');
         $this->form_validation->set_rules('KET_ADENDUM_PEMASOK', 'Keterangan Adendum', 'trim|required|max_length[100]');
         $this->form_validation->set_rules('TGL_ADENDUM_PEMASOK', 'Tanggal Kontrak', 'required');
         $this->form_validation->set_rules('JUDUL_ADENDUM_PEMASOK', 'Judul Kontrak', 'trim|required|max_length[100]');

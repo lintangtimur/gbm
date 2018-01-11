@@ -83,6 +83,7 @@
                 <?php echo form_input('KET_KONTRAK_PEMASOK', !empty($default->KET_KONTRAK_PEMASOK) ? $default->KET_KONTRAK_PEMASOK : '', 'class="span6"'); ?>
             </div>
             <br>
+            <input type="hidden" name="PATH_FILE_EDIT" value="<?php echo !empty($default->PATH_DOC_PEMASOK) ? $default->PATH_DOC_PEMASOK : ''?>">
             <label for="password" class="control-label" id="up_nama">Upload file (Max 10 MB): </label> 
             <div class="controls" id="up_file">
                     <?php echo form_upload('ID_DOC_PEMASOK', !empty($default->ID_DOC_PEMASOK) ? $default->ID_DOC_PEMASOK : '', 'class="span6"'); ?>
@@ -91,6 +92,7 @@
             <div class="controls" id="dokumen">
                 <a href="<?php echo base_url().'assets/upload/kontrak_pemasok/'.$id_dok;?>" target="_blank"><b><?php echo (empty($id_dok)) ? $id_dok : 'Lihat Dokumen'; ?></b></a>
             </div>
+
           <!-- <div class="controls" id="dokumen">
 				<a href="javascript:void(0);" id="lihatdoc" onclick="lihat_dokumen(this.id)" data-modul="KONTRAKPEMASOK" data-url="<?php //echo $url_getfile;?>" data-filename="<?php// echo !empty($default->PATH_DOC) ? $default->PATH_DOC : '';?>"><b><?php// echo (empty($id_dok)) ? $id_dok : 'Lihat Dokumen'; ?></b></a>
 			</div> -->

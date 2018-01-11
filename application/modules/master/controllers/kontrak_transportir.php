@@ -200,6 +200,13 @@ class kontrak_transportir extends MX_Controller {
                 $config['upload_path'] = 'assets/upload/kontrak_transportir/';
                 $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
                 $config['max_size'] = 1024 * 10; 
+
+                $target='assets/upload/kontrak_transportir/'.$this->input->post('PATH_FILE_EDIT');
+
+                if(file_exists($target)){
+                    unlink($target);
+                }
+
                 $this->load->library('upload', $config);
             }
 
@@ -283,10 +290,10 @@ class kontrak_transportir extends MX_Controller {
                             }
                     }
                             
-                    if($_FILES['FILE_UPLOAD']['name']!= $file_name || $_FILES['FILE_UPLOAD']['size']!= filesize($target)){
-                        if(file_exists($target)){
-                            unlink($target);
-                            }
+                    $target='assets/upload/kontrak_transportir/'.$this->input->post('PATH_FILE_EDIT');
+
+                    if(file_exists($target)){
+                        unlink($target);
                     }
                             
                    
@@ -585,6 +592,13 @@ class kontrak_transportir extends MX_Controller {
                 $config['upload_path'] = 'assets/upload/kontrak_transportir/';
                 $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
                 $config['max_size'] = 1024 * 10; 
+
+                $target='assets/upload/kontrak_transportir/'.$this->input->post('PATH_FILE_EDIT');
+
+                if(file_exists($target)){
+                    unlink($target);
+                }
+                
                 $this->load->library('upload', $config);
             }
 
@@ -656,21 +670,11 @@ class kontrak_transportir extends MX_Controller {
                     }
                 }
                 else{
-                    $dataa = $this->tbl_get_adendum->dataEditFile($id);
-                    $hasil=$dataa->get()->row();
-                    if ($hasil){
-                        $file_name=$hasil->PATH_KONTRAK_TRANS;
-                    } else {
-                        $file_name='';   
-                    }
-                    
-                    $target='assets/upload/kontrak_transportir/'.$file_name;
-                                 
-                    if ($file_name != '') {
-                        if(file_exists($target)){
-                            unlink($target);
-                        }
-                    }      
+                    $target='assets/upload/kontrak_transportir/'.$this->input->post('PATH_FILE_EDIT');
+
+                    if(file_exists($target)){
+                        unlink($target);
+                    }   
                    
                     if (!$this->upload->do_upload('FILE_UPLOAD')){
                         $err = $this->upload->display_errors('', '');
