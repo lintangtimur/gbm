@@ -276,6 +276,9 @@ function get_detail(vId) {
             $("#jarak_ke"+x).val(rest[i].JARAK_DET_KONTRAK_TRANS);
             $("#TextBoxDiv"+x).show();
         }
+        if (x>0){
+            $("#JML_KIRIM").val(x);
+        }
     });
 }
 
