@@ -181,6 +181,11 @@
     
     function convertToRupiah(angka){
         var bilangan = angka.replace(".", ",");
+        var isMinus = '';
+
+        if (bilangan.indexOf('-') > -1) {
+            isMinus = '-';
+        }
             
         var number_string = bilangan.toString(),
             split   = number_string.split(','),
@@ -195,6 +200,7 @@
         rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
 
         if ((rupiah=='') || (rupiah==0)) {rupiah='0,00'}
+        rupiah = isMinus+''+rupiah;
 
         return rupiah;
     }
