@@ -149,7 +149,7 @@
                 $id = $row->TANGGAL.'|'.$row->SLOC.'|'.$num;
                 $aksi = anchor(null, '<i class="icon-zoom-in" title="Lihat Detail Data"></i>', array('class' => 'btn transparant button-detail', 'id' => 'button-view-' . $id, 'onClick' => 'show_detail(\''.$id.'\')'));
                 $rows[$num] = array(
-                'NO' => $num,
+                'NO' => $no,
                 'BLTH' => $this->get_blth($row->BL,$row->TH),
                 'LEVEL4' => $row->LEVEL4,
                 //                    'STATUS' => $row->STATUS_APPROVE,
@@ -159,6 +159,7 @@
                 );
 
 				$num++;
+                $no++;
 				// }
 			}
 			return array('total' => $total, 'rows' => $rows);
@@ -218,7 +219,7 @@
 		function saveDetailPenerimaan($idPenerimaan, $statusPenerimaan,$level_user,$kode_level,$user,$jumlah){
 			// print_r("call SP_TEMP_PENERIMAAN('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$kode_level."','".$user."',".$jumlah.")"); die;
 			// print_debug("call SP_TEMP_PENERIMAAN('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$kode_level."','".$user."',".$jumlah.")");
-			$query = $this->db->query("call SP_TEMP_PENERIMAAN('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$kode_level."','".$user."',".$jumlah.")");
+			$query = $this->db->query("call PROSES_PENERIMAAN('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$kode_level."','".$user."',".$jumlah.")");
 			// return $query->result();
 			
 			$res = $query->result();
@@ -232,7 +233,7 @@
 		
 		function saveDetailClossing($sloc,$idPenerimaan,$level_user,$statusPenerimaan,$kode_level,$user_name,$jumlah){
 			// print_debug("call SP_TEMP_CLOSSING('".$sloc."','".$idPenerimaan."','".$level_user."','".$statusPenerimaan."','".$kode_level."','".$user_name."',".$jumlah.")");
-			$query = $this->db->query("call SP_TEMP_CLOSSING('".$sloc."','".$idPenerimaan."','".$level_user."','".$statusPenerimaan."','".$kode_level."','".$user_name."',".$jumlah.")");
+			$query = $this->db->query("call PROSES_CLOSSING('".$sloc."','".$idPenerimaan."','".$level_user."','".$statusPenerimaan."','".$kode_level."','".$user_name."',".$jumlah.")");
 			$this->db->close();
             return $query->result();
 		}

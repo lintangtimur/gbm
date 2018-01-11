@@ -143,7 +143,7 @@ class permintaan_model extends CI_Model
                 $id = $row->TANGGAL.'|'.$row->SLOC.'|'.$num;
                 $aksi = anchor(null, '<i class="icon-zoom-in" title="Lihat Detail Data"></i>', array('class' => 'btn transparant button-detail', 'id' => 'button-view-' . $id, 'onClick' => 'show_detail(\''.$id.'\')'));
                 $rows[$num] = array(
-                    'NO' => $num,
+                    'NO' => $no,
                     'BLTH' => $this->get_blth($row->BL,$row->TH),
                     'LEVEL4' => $row->LEVEL4,
 //                    'STATUS' => $row->STATUS_APPROVE,
@@ -152,6 +152,7 @@ class permintaan_model extends CI_Model
                     'AKSI' => $aksi
                 );
                 $num++;
+                $no++;
             // }
         }
         return array('total' => $total, 'rows' => $rows);

@@ -94,7 +94,7 @@ class stock_opname_model extends CI_Model {
         $myDate = new DateTime($TGL_PENGAKUAN);
         $TGL_PENGAKUAN = $myDate->format('dmY');
 
-        $query="CALL SP_TEMP_SO('$ID_STOCKOPNAME', '$SLOC', '$ID_JNS_BHN_BKR', '$TGL_PENGAKUAN', '$LEVEL_USER', '$STATUS', '$USER')";
+        $query="CALL PROSES_STOCK_OPNAME('$ID_STOCKOPNAME', '$SLOC', '$ID_JNS_BHN_BKR', '$TGL_PENGAKUAN', '$LEVEL_USER', '$STATUS', '$USER')";
         $data = $this->db->query($query);
         $this->db->close();
         return $data->result();
