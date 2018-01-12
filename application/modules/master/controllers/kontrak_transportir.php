@@ -194,7 +194,7 @@ class kontrak_transportir extends MX_Controller {
 
             if (!empty($_FILES['FILE_UPLOAD']['name'])){
                 // $new_name = str_replace(".","",$data['KD_KONTRAK_TRANS']).'_'.date("YmdHis");
-                $new_name = preg_replace("/[^a-zA-Z]/", "", $data['KD_KONTRAK_TRANS']);
+                $new_name = preg_replace("/[^a-zA-Z0-9]/", "", $data['KD_KONTRAK_TRANS']);
                 $new_name = $new_name.'_'.date("YmdHis");
                 $config['file_name'] = $new_name;
                 $config['upload_path'] = 'assets/upload/kontrak_transportir/';
@@ -586,7 +586,7 @@ class kontrak_transportir extends MX_Controller {
 
             if (!empty($_FILES['FILE_UPLOAD']['name'])){
                 // $new_name = str_replace(".","",$data['KD_KONTRAK_TRANS']).'_'.date("YmdHis");
-                $new_name = preg_replace("/[^a-zA-Z]/", "", $data['KD_KONTRAK_TRANS']);
+                $new_name = preg_replace("/[^a-zA-Z0-9]/", "", $data['KD_KONTRAK_TRANS']);
                 $new_name = 'AD_'.$new_name.'_'.date("YmdHis");
                 $config['file_name'] = $new_name;
                 $config['upload_path'] = 'assets/upload/kontrak_transportir/';

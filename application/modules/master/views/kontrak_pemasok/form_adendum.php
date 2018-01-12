@@ -26,7 +26,7 @@
                 <?php echo form_input('KET_ADENDUM_PEMASOK', !empty($default->KET_ADENDUM_PEMASOK) ? $default->KET_ADENDUM_PEMASOK : '', 'class="span6"'); ?>
             </div>
             <br>
-            <input type="hidden" name="PATH_FILE_EDIT" value="<?php echo !empty($default->PATH_DOC_PEMASOK) ? $default->PATH_DOC_PEMASOK : ''?>">
+            <input type="hidden" name="PATH_FILE_EDIT" value="<?php echo !empty($default->PATH_DOC) ? $default->PATH_DOC : ''?>">
             <label for="password" class="control-label" id="up_nama">Upload File (Max 10 MB) <span class="required">*</span> : </label> 
             <div class="controls" id="up_file">
                     <?php echo form_upload('PATH_DOC', !empty($default->PATH_DOC) ? $default->PATH_DOC : '', 'class="span6"'); ?>

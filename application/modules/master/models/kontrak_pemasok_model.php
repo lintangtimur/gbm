@@ -23,7 +23,7 @@ class kontrak_pemasok_model extends CI_Model {
     }
 
     public function data($key = '') {
-        $path = ' ,(SELECT c.PATH_DOC_PEMASOK FROM DOC_KONTRAK_PEMASOK c WHERE c.ID_KONTRAK_PEMASOK = a.ID_KONTRAK_PEMASOK ORDER BY CD_DOC_PEMASOK DESC LIMIT 1) PATH_DOC_PEMASOK ';
+        $path = ' ,(SELECT c.PATH_DOC_PEMASOK FROM DOC_KONTRAK_PEMASOK c WHERE c.ID_KONTRAK_PEMASOK = a.ID_KONTRAK_PEMASOK ORDER BY ID_DOC_PEMASOK DESC LIMIT 1) PATH_DOC_PEMASOK ';
 
         $perubahan = ' ,(SELECT COUNT(*) FROM ADENDUM_KONTRAK_PEMASOK b WHERE b.ID_KONTRAK_PEMASOK=a.ID_KONTRAK_PEMASOK) AS PERUBAHAN';
 
@@ -34,7 +34,7 @@ class kontrak_pemasok_model extends CI_Model {
         if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
 
-        $this->db->order_by('a.CD_KONTRAK_PEMASOK DESC');
+        $this->db->order_by('a.CD_KONTRAK_PEMASOK DESC, ID_KONTRAK_PEMASOK DESC');
 
         return $this->db;
     }

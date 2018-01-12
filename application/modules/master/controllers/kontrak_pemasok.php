@@ -124,7 +124,7 @@ class kontrak_pemasok extends MX_Controller {
 		$data["url_getfile"] = $this->_urlgetfile;
         $get_data = $this->tbl_get_adendum->data($id);
         $data['default'] = $get_data->get()->row();
-		$data['id_dok'] =$data['default']->PATH_DOC_PEMASOK; 
+		$data['id_dok'] =$data['default']->PATH_DOC; 
 
         // print_r($data['default']); die;
 
@@ -162,7 +162,7 @@ class kontrak_pemasok extends MX_Controller {
         $data["url_getfile"] = $this->_urlgetfile;
         $get_data = $this->tbl_get_adendum->data($id);
         $data['default'] = $get_data->get()->row();
-        $data['id_dok'] =$data['default']->PATH_DOC_PEMASOK; 
+        $data['id_dok'] =$data['default']->PATH_DOC; 
 
         // print_r($data['default']); die;
 
@@ -275,13 +275,19 @@ class kontrak_pemasok extends MX_Controller {
             if ($id == '') {
                 $data['CD_BY_KONTRAK_PEMASOK'] = $this->session->userdata('user_name');
                 $data['CD_KONTRAK_PEMASOK'] = date('Y-m-d');
-                $new_name = preg_replace("/[^a-zA-Z]/", "", $data['NOPJBBM_KONTRAK_PEMASOK']);
+                $new_name = preg_replace("/[^a-zA-Z0-9]/", "", $data['NOPJBBM_KONTRAK_PEMASOK']);
                 $new_name = $new_name.'_'.date("YmdHis");
                 $config['file_name'] = $new_name;
                 $config['upload_path'] = 'assets/upload/kontrak_pemasok/';
                 $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
                 $config['max_size'] = 1024 * 4; 
                 // $config['encrypt_name'] = TRUE;
+
+                $target='assets/upload/kontrak_pemasok/'.$this->input->post('PATH_FILE_EDIT');
+
+                if(file_exists($target)){
+                    unlink($target);
+                }
 
                 $this->load->library('upload', $config);
 
@@ -331,13 +337,19 @@ class kontrak_pemasok extends MX_Controller {
                 $nama_file='';
 
                 if (!empty($_FILES['ID_DOC_PEMASOK']['name'])){
-                    $new_name = preg_replace("/[^a-zA-Z]/", "", $data['NOPJBBM_KONTRAK_PEMASOK']);
+                    $new_name = preg_replace("/[^a-zA-Z0-9]/", "", $data['NOPJBBM_KONTRAK_PEMASOK']);
                     $new_name = $new_name.'_'.date("YmdHis");
                     $config['file_name'] = $new_name;
                     $config['upload_path'] = 'assets/upload/kontrak_pemasok/';
                     $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
                     $config['max_size'] = 1024 * 10; 
                     // $config['encrypt_name'] = TRUE;
+
+                    $target='assets/upload/kontrak_pemasok/'.$this->input->post('PATH_FILE_EDIT');
+
+                    if(file_exists($target)){
+                        unlink($target);
+                    }
 
                     $this->load->library('upload', $config);
 
@@ -438,14 +450,19 @@ class kontrak_pemasok extends MX_Controller {
                 $data['CD_ADENDUM_PEMASOK'] = date('Y-m-d');
 
                 if (!empty($_FILES['PATH_DOC']['name'])){
-                    $new_name = preg_replace("/[^a-zA-Z]/", "", $data['NO_ADENDUM_PEMASOK']);
+                    $new_name = preg_replace("/[^a-zA-Z0-9]/", "", $data['NO_ADENDUM_PEMASOK']);
                     $new_name = $new_name.'_'.date("YmdHis");
                     $config['file_name'] = $new_name;
                     $config['upload_path'] = 'assets/upload/kontrak_pemasok/';
                     $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
                     $config['max_size'] = 1024 * 10; 
                     // $config['encrypt_name'] = TRUE;
-                    $data['PATH_DOC'] = $new_name;
+
+                    $target='assets/upload/kontrak_pemasok/'.$this->input->post('PATH_FILE_EDIT');
+
+                    if(file_exists($target)){
+                        unlink($target);
+                    }
 
                     $this->load->library('upload', $config);
 
@@ -456,6 +473,7 @@ class kontrak_pemasok extends MX_Controller {
                         $res = $this->upload->data();
                         if ($res){
                             $nama_file= $res['file_name'];
+                            $data['PATH_DOC'] = $nama_file;
                             if ($this->tbl_get_adendum->save_as_new($data,$nama_file)) {
                                 $message = array(true, 'Proses Berhasil ', 'Proses penyimpanan data berhasil.', '#content_table');
 
@@ -498,14 +516,19 @@ class kontrak_pemasok extends MX_Controller {
                 // }
             } else {
                 if (!empty($_FILES['PATH_DOC']['name'])){
-                    $new_name = preg_replace("/[^a-zA-Z]/", "", $data['NO_ADENDUM_PEMASOK']);
+                    $new_name = preg_replace("/[^a-zA-Z0-9]/", "", $data['NO_ADENDUM_PEMASOK']);
                     $new_name = $new_name.'_'.date("YmdHis");
                     $config['file_name'] = $new_name;
                     $config['upload_path'] = 'assets/upload/kontrak_pemasok/';
                     $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
                     $config['max_size'] = 1024 * 10; 
                     // $config['encrypt_name'] = TRUE;
-                    $data['PATH_DOC'] = $new_name;
+
+                    $target='assets/upload/kontrak_pemasok/'.$this->input->post('PATH_FILE_EDIT');
+
+                    if(file_exists($target)){
+                        unlink($target);
+                    }
 
                     $this->load->library('upload', $config);
 
@@ -516,7 +539,7 @@ class kontrak_pemasok extends MX_Controller {
                         $res = $this->upload->data();
                         if ($res){
                             $nama_file= $res['file_name'];
-                            
+                            $data['PATH_DOC'] = $nama_file;
                         }
                     }                   
 
