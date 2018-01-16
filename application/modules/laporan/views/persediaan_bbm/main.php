@@ -88,13 +88,13 @@
                     </div>
                 </div> -->
                 <div class="pull-left span3">
-                    <label for="password" class="control-label">Tanggal Awal <span class="required">*</span> : </label>
-                    <label for="password" class="control-label" style="margin-left:38px">Tanggal Akhir <span class="required">*</span> : </label>
+                    <label for="password" class="control-label">Periode <span class="required">*</span> : </label>
+                    <label for="password" class="control-label" style="margin-left:38px"></label>
                     <div class="controls">
                         <?php 
-                            $TGL_DARI = date("Y-m");
-                            $TGL_DARI = $TGL_DARI.'-01';
-                            $TGL_SAMPAI = date("Y-m-d");
+                            // $TGL_DARI = date("Y-m");
+                            // $TGL_DARI = $TGL_DARI.'-01';
+                            // $TGL_SAMPAI = date("Y-m-d");
                         ?>
                         <?php echo form_input('TGL_DARI', !empty($TGL_DARI) ? $TGL_DARI : '', 'class="form_datetime" style="width: 115px;" placeholder="Tanggal awal" id="tglawal"'); ?>
                         <?php echo form_input('TGL_SAMPAI', !empty($TGL_SAMPAI) ? $TGL_SAMPAI : '', 'class="form_datetime" style="width: 115px;" placeholder="Tanggal akhir" id="tglakhir"'); ?>
