@@ -266,7 +266,8 @@ class kontrak_transportir_model extends CI_Model {
 				left join MASTER_LEVEL1 d on d.COCODE = c.COCODE
 				left join MASTER_REGIONAL e on e.ID_REGIONAL = d.ID_REGIONAL 
 				where ( a.SLOC='$kode_level' OR b.STORE_SLOC='$kode_level' OR c.PLANT='$kode_level' 
-				OR d.COCODE='$kode_level' OR e.ID_REGIONAL='$kode_level' ) $aktif ";
+				OR d.COCODE='$kode_level' OR e.ID_REGIONAL='$kode_level' ) $aktif 
+				order by a.LEVEL4 ";
 
         $query = $this->db->query($sql);
 
@@ -282,10 +283,11 @@ class kontrak_transportir_model extends CI_Model {
 
 
 	public function getJalur() {
-		
 	    $this->db->from('DATA_SETTING');
 		$key = 'TYPE_KONTRAK_TRANSPORTIR';
 		$this->db->where("KEY_SETTING",$key);
+		$this->db->order_by('NAME_SETTING');
+
 		$data = array();
 		$query = $this->db->get();
 		
@@ -301,10 +303,15 @@ class kontrak_transportir_model extends CI_Model {
 
 
     public function get_detail_kirim($key) {
-		$q="SELECT a.HARGA_KONTRAK_TRANS, a.SLOC, a.ID_DEPO, a.JARAK_DET_KONTRAK_TRANS, a.TYPE_KONTRAK_TRANS
+		$q="SELECT a.HARGA_KONTRAK_TRANS, a.SLOC, a.ID_DEPO, a.JARAK_DET_KONTRAK_TRANS, a.TYPE_KONTRAK_TRANS, 
+			a.SLOC_PEMASOK, m4.LEVEL4, m3.STORE_SLOC, m3.LEVEL3, m2.PLANT, m2.LEVEL2, m1.COCODE, m1.LEVEL1
 			FROM  DET_KONTRAK_TRANS a
+			LEFT JOIN MASTER_LEVEL4 m4 ON m4.SLOC=a.SLOC_PEMASOK 
+			LEFT JOIN MASTER_LEVEL3 m3 ON m3.STORE_SLOC=m4.STORE_SLOC 
+			LEFT JOIN MASTER_LEVEL2 m2 ON m2.PLANT=m3.PLANT 
+			LEFT JOIN MASTER_LEVEL1 m1 ON m1.COCODE=m2.COCODE 
 			WHERE a.KD_KONTRAK_TRANS='$key' 
-			ORDER BY ID_DET_KONTRAK_TRANS ASC ";	
+			ORDER BY a.ID_DET_KONTRAK_TRANS ASC ";	
 
         $query = $this->db->query($q);
         $this->db->close();
@@ -316,20 +323,20 @@ class kontrak_transportir_model extends CI_Model {
 			case "0":
 				$q = "SELECT  E.ID_REGIONAL, E.NAMA_REGIONAL 
 				FROM MASTER_REGIONAL E
-				WHERE ID_REGIONAL='$key' ";
+				WHERE ID_REGIONAL='$key' ORDER BY E.NAMA_REGIONAL ";
 				break;
 			case "1":
 				$q = "SELECT D.COCODE, D.LEVEL1, E.ID_REGIONAL, E.NAMA_REGIONAL 
 				FROM MASTER_LEVEL1 D 
 				LEFT JOIN MASTER_REGIONAL E ON E.ID_REGIONAL=D.ID_REGIONAL
-				WHERE COCODE='$key' ";
+				WHERE COCODE='$key' ORDER BY E.NAMA_REGIONAL ";
 				break;
 			case "2":
 				$q = "SELECT C.PLANT, C.LEVEL2,  D.COCODE,  D.LEVEL1, E.ID_REGIONAL, E.NAMA_REGIONAL
 				FROM MASTER_LEVEL2 C 
 				LEFT JOIN MASTER_LEVEL1 D ON D.COCODE=C.COCODE 
 				LEFT JOIN MASTER_REGIONAL E ON E.ID_REGIONAL=D.ID_REGIONAL
-				WHERE PLANT='$key' ";
+				WHERE PLANT='$key' ORDER BY C.LEVEL2 ";
 				break;
 			case "3":
 				$q = "SELECT B.STORE_SLOC, B.LEVEL3, C.PLANT, C.LEVEL2,  D.COCODE,  D.LEVEL1, E.ID_REGIONAL, E.NAMA_REGIONAL
@@ -337,7 +344,7 @@ class kontrak_transportir_model extends CI_Model {
 				LEFT JOIN MASTER_LEVEL2 C ON C.PLANT=B.PLANT 
 				LEFT JOIN MASTER_LEVEL1 D ON D.COCODE=C.COCODE 
 				LEFT JOIN MASTER_REGIONAL E ON E.ID_REGIONAL=D.ID_REGIONAL
-				WHERE STORE_SLOC='$key' ";
+				WHERE STORE_SLOC='$key' ORDER BY B.LEVEL3 ";
 				break;
 			case "4":
 				$q = "SELECT A.SLOC, A.LEVEL4, B.STORE_SLOC, B.LEVEL3, C.PLANT, C.LEVEL2,  D.COCODE,  D.LEVEL1, E.ID_REGIONAL, E.NAMA_REGIONAL
@@ -346,14 +353,15 @@ class kontrak_transportir_model extends CI_Model {
 				LEFT JOIN MASTER_LEVEL2 C ON C.PLANT=B.PLANT 
 				LEFT JOIN MASTER_LEVEL1 D ON D.COCODE=C.COCODE 
 				LEFT JOIN MASTER_REGIONAL E ON E.ID_REGIONAL=D.ID_REGIONAL
-				WHERE SLOC='$key' ";
+				WHERE SLOC='$key' ORDER BY A.LEVEL4 ";
 				break;
 			case "5":
 				$q = "SELECT a.LEVEL3, a.STORE_SLOC
 				FROM MASTER_LEVEL3 a
 				INNER JOIN MASTER_LEVEL2 b ON a.PLANT = b.PLANT
 				INNER JOIN MASTER_LEVEL4 c ON a.STORE_SLOC = c.STORE_SLOC AND a.PLANT = c.PLANT
-				WHERE c.STATUS_LVL2=1 AND a.PLANT = '$key' ";
+				WHERE c.STATUS_LVL2=1 AND a.PLANT = '$key' 
+				ORDER BY a.LEVEL3 ";
 				break;
 		} 
 
@@ -368,7 +376,9 @@ class kontrak_transportir_model extends CI_Model {
 	    $this->db->where('IS_AKTIF_REGIONAL','1');
 	    if ($key != 'all'){
 	        $this->db->where('ID_REGIONAL',$key);
-	    }   
+	    } 
+	    $this->db->order_by('NAMA_REGIONAL');  
+
 	    $list = $this->db->get(); 
 
 	    if (!empty($default)) {
@@ -388,6 +398,8 @@ class kontrak_transportir_model extends CI_Model {
 	    if ($key != 'all'){
 	        $this->db->where('ID_REGIONAL',$key);
 	    }    
+	    $this->db->order_by('LEVEL1'); 
+
 	    if ($jenis==0){
 	        $rest = $this->db->get()->result(); 
 	    } else {
@@ -413,7 +425,9 @@ class kontrak_transportir_model extends CI_Model {
 	    
 	    if ($key != 'all'){
 	        $this->db->where('COCODE',$key);
-	    }    
+	    }   
+	    $this->db->order_by('LEVEL2'); 
+
 	    if ($jenis==0){
 	        $rest = $this->db->get()->result(); 
 	    } else {
@@ -439,6 +453,8 @@ class kontrak_transportir_model extends CI_Model {
 	    if ($key != 'all'){
 	        $this->db->where('PLANT',$key);
 	    }    
+	    $this->db->order_by('LEVEL3'); 
+
 	    if ($jenis==0){
 	        $rest = $this->db->get()->result(); 
 	    } else {
@@ -464,6 +480,8 @@ class kontrak_transportir_model extends CI_Model {
 	    if ($key != 'all'){
 	        $this->db->where('STORE_SLOC',$key);
 	    }    
+	    $this->db->order_by('LEVEL4'); 
+
 	    if ($jenis==0){
 	        $rest = $this->db->get()->result(); 
 	    } else {

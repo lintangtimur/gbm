@@ -130,11 +130,11 @@ class kontrak_transportir extends MX_Controller {
 
                 $this->form_validation->set_rules('depo_ke'.$i, 'Depo ke '.$i, 'required');
                 
-                // if ($this->input->post('depo_ke'.$i)=='000'){
-                //     $this->form_validation->set_rules('pembangkit_ke'.$i, 'Pembangkit ke '.$i, 'required');   
-                // }
+                if ($this->input->post('depo_ke'.$i)=='000'){
+                    $this->form_validation->set_rules('cmblv4_ke'.$i, 'Pembangkit Pemasok ke '.$i, 'required');   
+                }
 
-                $this->form_validation->set_rules('pembangkit_ke'.$i, 'Pembangkit ke '.$i, 'required');
+                $this->form_validation->set_rules('pembangkit_ke'.$i, 'Pembangkit Penerima ke '.$i, 'required');
 
                 $this->form_validation->set_rules('jalur_ke'.$i, 'Jalur ke '.$i, 'required');
                 $this->form_validation->set_rules('harga_ke'.$i, 'Harga ke '.$i, 'required');
@@ -149,6 +149,7 @@ class kontrak_transportir extends MX_Controller {
             // $data['KD_KONTRAK_TRANS'] = $this->input->post('NO_KONTRAK');
             $data['ID_TRANSPORTIR'] = $this->input->post('ID_TRANSPORTIR');
             $data['TGL_KONTRAK_TRANS'] = $this->input->post('TGL_KONTRAK_TRANS');
+            $data['TGL_KONTRAK_TRANS_AKHIR'] = $this->input->post('TGL_KONTRAK_TRANS_AKHIR');
             $data['NILAI_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('NILAI_KONTRAK'));
             $data['NILAI_KONTRAK_TRANS'] = str_replace(",",".",$data['NILAI_KONTRAK_TRANS']);
             $data['KET_KONTRAK_TRANS'] = $this->input->post('KETERANGAN');
@@ -173,6 +174,10 @@ class kontrak_transportir extends MX_Controller {
             {
                 $depo_ke = $this->input->post('depo_ke'.$i);
                 $pembangkit_ke = $this->input->post('pembangkit_ke'.$i);
+                $pemasok_ke = $this->input->post('cmblv4_ke'.$i);
+                if ($depo_ke!='000'){
+                    $pemasok_ke ='';   
+                }
                 $jalur_ke = $this->input->post('jalur_ke'.$i);
                 $harga_ke = $this->input->post('harga_ke'.$i);
                 $harga_ke = str_replace(".","",$harga_ke);
@@ -184,6 +189,7 @@ class kontrak_transportir extends MX_Controller {
                     'KD_KONTRAK_TRANS' => $this->input->post('KD_KONTRAK_TRANS'),
                     'ID_DEPO' => $depo_ke,
                     'SLOC' => $pembangkit_ke,
+                    'SLOC_PEMASOK' => $pemasok_ke,
                     'TYPE_KONTRAK_TRANS' => $jalur_ke,
                     'HARGA_KONTRAK_TRANS' => $harga_ke,
                     'JARAK_DET_KONTRAK_TRANS' => $jarak_ke,
@@ -371,7 +377,7 @@ class kontrak_transportir extends MX_Controller {
 
     public function loadKontrakOriginal($id = ''){
         $page_title = 'View Kontrak';
-        $data = $this->cekLevelUser();
+        $data = $this->get_level_user();
         $data['id_dok'] = '';
         $data['id'] = $id;
 		$data["url_getfile"] = $this->_urlgetfile;
@@ -837,6 +843,26 @@ class kontrak_transportir extends MX_Controller {
         }
 
         return $data;
+    }
+
+    public function get_options_lv1($key=null) {
+        $message = $this->kontrak_transportir_model->options_lv1('--Pilih Level 1--', $key, 0);
+        echo json_encode($message);
+    }
+
+    public function get_options_lv2($key=null) {
+        $message = $this->kontrak_transportir_model->options_lv2('--Pilih Level 2--', $key, 0);
+        echo json_encode($message);
+    }
+
+    public function get_options_lv3($key=null) {
+        $message = $this->kontrak_transportir_model->options_lv3('--Pilih Level 3--', $key, 0);
+        echo json_encode($message);
+    }
+
+    public function get_options_lv4($key=null) {
+        $message = $this->kontrak_transportir_model->options_lv4('--Pilih Pembangkit--', $key, 0);
+        echo json_encode($message);
     }
 
 
