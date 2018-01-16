@@ -136,7 +136,9 @@ class kontrak_pemasok_model extends CI_Model {
                 $aksi = anchor(null, '<i class="icon-zoom-in" title="Lihat Kontrak"></i>', array('class' => 'btn transparant', 'id' => 'button-view-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit_view/' . $id)));
 
             if ($this->laccess->otoritas('edit')) {
-                $aksi .= anchor(null, '<i class="icon-edit" title="Edit Kontrak"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
+                if ($row->PERUBAHAN == 0){
+                    $aksi .= anchor(null, '<i class="icon-edit" title="Edit Kontrak"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
+                }
             }
             if ($this->laccess->otoritas('add')) {
                 $aksi .= anchor(null, '<i class="icon-copy" title="Lihat Adendum"></i>', array('class' => 'btn transparant', 'id' => 'button-adendum-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/adendum/' . $id)));
@@ -188,6 +190,8 @@ class kontrak_pemasok_model extends CI_Model {
         if ($key != 'all'){
             $this->db->where('ID_PEMASOK',$key);
         }   
+        $this->db->order_by('REF_NAMA_TRANS, NAMA_PEMASOK');
+        
         $list = $this->db->get(); 
 
         if (!empty($default)) {

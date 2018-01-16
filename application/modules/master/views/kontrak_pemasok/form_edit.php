@@ -7,12 +7,15 @@
         $hidden_form = array('id' => !empty($id) ? $id : '');
         echo form_open_multipart($form_action, array('id' => 'finput', 'class' => 'form-horizontal'), $hidden_form);
         ?>
+
         <div class="control-group">
-            <label for="password" class="control-label">Pemasok <span class="required">*</span> : </label>
+            <label  class="control-label">Pemasok<span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_dropdown('ID_PEMASOK', $pemasok_options, !empty($default->ID_PEMASOK) ? $default->ID_PEMASOK : '', 'class="span6" disabled'); ?>
+                <?php echo form_dropdown('ID_PEMASOK', $pemasok_options, !empty($default->ID_PEMASOK) ? $default->ID_PEMASOK : '', 'class="span6 chosen" disabled'); ?>
             </div>
-            <br>
+        </div>
+
+        <div class="control-group">
             <label for="password" class="control-label">Tgl Kontrak <span class="required">*</span> : </label>
             <div class="controls">
                 <?php echo form_input('TGL_KONTRAK_PEMASOK', !empty($default->TGL_KONTRAK_PEMASOK) ? $default->TGL_KONTRAK_PEMASOK : '', 'class="span2 input-append date form_datetime" disabled'); ?>
@@ -37,12 +40,16 @@
             <div class="controls">
                 <?php echo form_input('PERIODE_AKHIR_KONTRAK_PEMASOK', !empty($default->PERIODE_AKHIR_KONTRAK_PEMASOK) ? $default->PERIODE_AKHIR_KONTRAK_PEMASOK : '', 'class="span2 input-append date form_datetime" disabled'); ?>
             </div>
-            <br>
-            <label for="password" class="control-label">Jenis Kontrak : </label> 
+        </div>
+
+        <div class="control-group">
+            <label  class="control-label">Jenis Kontrak<span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_dropdown('JENIS_KONTRAK_PEMASOK', $jns_kontrak_options, !empty($default->JENIS_KONTRAK_PEMASOK) ? $default->JENIS_KONTRAK_PEMASOK : '', 'class="span2" disabled'); ?>
+                <?php echo form_dropdown('JENIS_KONTRAK_PEMASOK', $jns_kontrak_options, !empty($default->JENIS_KONTRAK_PEMASOK) ? $default->JENIS_KONTRAK_PEMASOK : '', 'class="span2 chosen" disabled'); ?>
             </div>
-            <br>
+        </div>
+        
+        <div class="control-group">
             <label for="password" class="control-label">Volume (L) : </label> 
             <div class="controls">
                 <?php echo form_input('VOLUME_KONTRAK_PEMASOK', !empty($default->VOLUME_KONTRAK_PEMASOK) ? $default->VOLUME_KONTRAK_PEMASOK : '', 'class="span3" disabled'); ?>
@@ -112,6 +119,7 @@
         todayBtn: true,
         pickerPosition: "bottom-left"
     });
+    $('.chosen').chosen();
 
     if( $('input[name=id]').val() != '') {
         $("#up_nama").hide();
