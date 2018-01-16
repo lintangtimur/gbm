@@ -75,11 +75,15 @@
             $jml_lv= $jml_lv-1;
             echo '<tr><td style="text-align:left;font-size: 12px;" colspan="5">RAYON '.$STORE_SLOC_NAMA.'</td></tr>';
         }
-        if ($BULAN){
-            echo '<tr><td style="text-align:left;font-size: 12px;" colspan="5">BLTH '.$TAHUN.''.$BULAN.'</td></tr>';
-        } else {
-            echo '<tr><td style="text-align:left;font-size: 12px;" colspan="5">Tahun '.$TAHUN.'</td></tr>';
-        }
+        if ($TGL_DARI){
+            echo '<tr><td style="text-align:left;font-size: 12px;" colspan="5">Periode '.$TGL_DARI.' s/d '.$TGL_SAMPAI.'</td></tr>';
+        } 
+        
+        // if ($BULAN){
+        //     echo '<tr><td style="text-align:left;font-size: 12px;" colspan="5">BLTH '.$TAHUN.''.$BULAN.'</td></tr>';
+        // } else {
+        //     echo '<tr><td style="text-align:left;font-size: 12px;" colspan="5">Tahun '.$TAHUN.'</td></tr>';
+        // }
     ?> 
     <tr><td></td><td></td><td></td><td></td><td></td></tr> 
 </table>

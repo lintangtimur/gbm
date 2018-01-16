@@ -109,7 +109,9 @@ class persediaan_bbm extends MX_Controller {
         $data['BBM'] = $this->input->post('ID_JNS_BHN_BKR');
         $data['BULAN'] = $this->input->post('BULAN');
         $data['TAHUN'] = $this->input->post('TAHUN');
-
+        $data['TGL_DARI'] = $this->input->post('TGL_DARI');
+        $data['TGL_SAMPAI'] = $this->input->post('TGL_SAMPAI');
+        
         $data = $this->tbl_get->getData_Model($data);
         echo json_encode($data);
     }
@@ -129,6 +131,8 @@ class persediaan_bbm extends MX_Controller {
         $data['BBM'] = $this->input->post('xbbm');
         $data['BULAN'] = $this->input->post('xbln');
         $data['TAHUN'] = $this->input->post('xthn');
+        $data['TGL_DARI'] = $this->input->post('xtglawal');
+        $data['TGL_SAMPAI'] = $this->input->post('xtglakhir');
         $data['JENIS'] = 'XLS'; 
 
         $data['data'] = $this->tbl_get->getData_Model($data);
@@ -151,6 +155,8 @@ class persediaan_bbm extends MX_Controller {
         $data['BBM'] = $this->input->post('pbbm');
         $data['BULAN'] = $this->input->post('pbln');
         $data['TAHUN'] = $this->input->post('pthn');
+        $data['TGL_DARI'] = $this->input->post('ptglawal');
+        $data['TGL_SAMPAI'] = $this->input->post('ptglakhir');
         $data['JENIS'] = 'PDF'; 
 
         $data['data'] = $this->tbl_get->getData_Model($data);
