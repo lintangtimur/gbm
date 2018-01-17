@@ -163,7 +163,7 @@
                "</select>";
 
             var text_harga_kontrak="<input type='text' id='harga_ke"+ counter + "' name='harga_ke"+ counter + "' placeholder='Harga (Rp) / L'> <sup>Termasuk PPN 10 %</sup>";
-            var text_jarak="<input type='text' id='jarak_ke"+ counter + "' name='jarak_ke"+ counter + "' placeholder='Jarak (KL / ML)' size='37'>";
+            var text_jarak="<input type='text' id='jarak_ke"+ counter + "' name='jarak_ke"+ counter + "' placeholder='Jarak (KM / ML)' size='37'>";
 
             var cmb_level1 = "<select class='form-control cls_lv1' id='cmblv1_ke"+ counter + "' name='cmblv1_ke"+ counter + "' disabled><option value='' disabled selected>--Pilih Level 1--</option></select>";
             var cmb_level2 = "<select class='form-control cls_lv2' id='cmblv2_ke"+ counter + "' name='cmblv2_ke"+ counter + "' disabled><option value='' disabled selected>--Pilih Level 2--</option></select>";
@@ -363,7 +363,7 @@
         setComboHapus(vid,3);
         setComboHapus(vid,4);
 
-        if(stateID) {
+        // if(stateID) {
             bootbox.modal('<div class="loading-progress"></div>');
             $.ajax({
                 url: vlink_url,
@@ -376,9 +376,9 @@
                     bootbox.hideAll();
                 }
             });
-        } else {
-            bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});    
-        }
+        // } else {
+        //     bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});    
+        // }
     };
 
     function getComboLv2(vid,val){

@@ -150,30 +150,45 @@ class kontrak_transportir_adendum_model extends CI_Model {
 		$no=(($offset-1) * $limit) +1;
         $rows = array();
 
-        //payung kontrak
-        $idkontrak = $this->session->userdata('ID_KONTRAK_TRANS'); 
-        $id=$idkontrak;
+        if ($no==1){
 
-        $aksi = anchor(null, '<i class="icon-zoom-in" title="Lihat Data"></i>', array('class' => 'btn transparant', 'id' => 'button-edit2-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadKontrakOriginal/' . $id)));
-        $rows['A'.$id] = array(
-            'NO' => $no++,
-            'KD_KONTRAK_TRANS' => '-',
-            'TGL_KONTRAK_TRANS' => '-',
-            'KET_KONTRAK_TRANS' => 'Awal Kontrak',
-            'aksi' => $aksi
-        );
+            //payung kontrak
+            $idkontrak = $this->session->userdata('ID_KONTRAK_TRANS'); 
+            $id=$idkontrak;
+
+            $aksi = anchor(null, '<i class="icon-zoom-in" title="Lihat Data"></i>', array('class' => 'btn transparant', 'id' => 'button-edit2-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadKontrakOriginal/' . $id)));
+            $rows['A'.$id] = array(
+                'NO' => $no++,
+                'KD_KONTRAK_TRANS' => '-',
+                'TGL_KONTRAK_TRANS' => '-',
+                'KET_KONTRAK_TRANS' => 'Awal Kontrak',
+                'aksi' => $aksi
+            );
+        }
 
         foreach ($record->result() as $row) {
             $id = $row->ID_ADENDUM_TRANS;
             $aksi = '';
 
-                $aksi .= anchor(null, '<i class="icon-zoom-in" title="Lihat Data"></i>', array('class' => 'btn transparant', 'id' => 'button-edit3-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/view_adendum/' . $id)));
+            $aksi .= anchor(null, '<i class="icon-zoom-in" title="Lihat Data"></i>', array('class' => 'btn transparant', 'id' => 'button-edit3-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/view_adendum/' . $id)));
 
-            if ($this->laccess->otoritas('edit')) {
-                $aksi .= anchor(null, '<i class="icon-edit" title="Edit Kontrak Adendum"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit_adendum/' . $id)));
+            $x=$no;
+
+            if ($total>=12){
+                if ($offset == 1){
+                    $x=$no;
+                } else {
+                    $x=$no+1;
+                }   
             }
-            if ($this->laccess->otoritas('delete')) {
-                $aksi .= anchor(null, '<i class="icon-trash" title="Hapus Data"></i>', array('class' => 'btn transparant', 'id' => 'button-delete2-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete_adendum/' . $id)));
+
+            if ($total==($x)){    
+                if ($this->laccess->otoritas('edit')) {
+                    $aksi .= anchor(null, '<i class="icon-edit" title="Edit Kontrak Adendum"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit_adendum/' . $id)));
+                }
+                if ($this->laccess->otoritas('delete')) {
+                    $aksi .= anchor(null, '<i class="icon-trash" title="Hapus Data"></i>', array('class' => 'btn transparant', 'id' => 'button-delete2-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete_adendum/' . $id)));
+                }
             }
 
             $rows[$id] = array(

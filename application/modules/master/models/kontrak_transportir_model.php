@@ -55,7 +55,7 @@ class kontrak_transportir_model extends CI_Model {
 		if (!empty($key) || is_array($key))
         $this->db->where_condition($this->_key($key));
 
-   		$this->db->order_by('a.CD_DET_KONTRAK_TRANS DESC, ID_KONTRAK_TRANS DESC');
+   		$this->db->order_by('a.ID_KONTRAK_TRANS DESC');
 		
 		return $this->db;
 	}
@@ -149,6 +149,7 @@ class kontrak_transportir_model extends CI_Model {
 		$record = $this->data($filter)->get();
 		$no=(($offset-1) * $limit) +1;
 		$rows = array();
+
 		foreach ($record->result() as $row) {
 			$aksi = '';
 			$id = $row->ID_KONTRAK_TRANS;
@@ -156,7 +157,9 @@ class kontrak_transportir_model extends CI_Model {
 				$aksi = anchor(null, '<i class="icon-zoom-in" title="Lihat Kontrak"></i>', array('class' => 'btn transparant', 'id' => 'button-original-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadKontrakOriginal/' . $id)));
 				
 			if ($this->laccess->otoritas('edit')) {
-				$aksi .= anchor(null, '<i class="icon-edit" title="Edit Kontrak"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
+				if ($row->PERUBAHAN == 0){
+					$aksi .= anchor(null, '<i class="icon-edit" title="Edit Kontrak"></i>', array('class' => 'btn 	transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
+				}
 			}
 			if ($this->laccess->otoritas('add')) {
 				$aksi .= anchor(null, '<i class="icon-copy" title="Lihat Adendum"></i>', array('class' => 'btn transparant', 'id' => 'button-adendum-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/adendum/' . $id)));
@@ -166,7 +169,8 @@ class kontrak_transportir_model extends CI_Model {
 				$aksi .= anchor(null, '<i class="icon-trash" title="Hapus Kontrak"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
 				}
 			}
-			$rows[$id] = array(
+			
+			$rows[$no++] = array(
             'no_kontrak' => $row->KD_KONTRAK_TRANS,
             'nama_transportir' => $row->NAMA_TRANSPORTIR,
             'periode' => $row->TGL_KONTRAK_TRANS,
@@ -176,6 +180,8 @@ class kontrak_transportir_model extends CI_Model {
             'aksi' => $aksi
 			);
 		}
+
+		// print_r($this->db->last_query()); die;
 		
 		return array('total' => $total, 'rows' => $rows);
 	}

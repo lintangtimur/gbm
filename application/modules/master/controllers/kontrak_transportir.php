@@ -425,7 +425,7 @@ class kontrak_transportir extends MX_Controller {
 
 
         $data['button_group'] = array();
-        if ($this->laccess->otoritas('edit')) {
+        if ($this->laccess->otoritas('add')) {
             $data['button_group'] = array(
                 anchor(null, '<i class="icon-plus"></i> Tambah Data', array('class' => 'btn yellow', 'id' => 'button-ad2', 'onclick' => 'load_form(this.id)', 'data-source' => base_url($this->_module . '/add_adendum/'.$id))),
                 anchor(null, '<i class="icon-circle-arrow-left"></i> Tutup', array('id' => 'button-back2', 'class' => 'btn', 'onclick' => 'close_form(this.id)'))
@@ -601,8 +601,14 @@ class kontrak_transportir extends MX_Controller {
 
                 $target='assets/upload/kontrak_transportir/'.$this->input->post('PATH_FILE_EDIT');
 
-                if(file_exists($target)){
-                    unlink($target);
+                $mystring = $this->input->post('PATH_FILE_EDIT');
+                $findme   = 'AD_';
+                $pos = strpos($mystring, $findme);
+
+                if ($pos !== false) {
+                    if(file_exists($target)){
+                        unlink($target);
+                    }
                 }
                 
                 $this->load->library('upload', $config);
@@ -846,7 +852,7 @@ class kontrak_transportir extends MX_Controller {
     }
 
     public function get_options_lv1($key=null) {
-        $message = $this->kontrak_transportir_model->options_lv1('--Pilih Level 1--', $key, 0);
+        $message = $this->kontrak_transportir_model->options_lv1('--Pilih Level 1--', 'all', 0);
         echo json_encode($message);
     }
 

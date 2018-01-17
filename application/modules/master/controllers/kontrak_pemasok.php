@@ -62,7 +62,7 @@ class kontrak_pemasok extends MX_Controller {
 
 
         $data['button_group'] = array();
-        if ($this->laccess->otoritas('edit')) {
+        if ($this->laccess->otoritas('add')) {
             $data['button_group'] = array(
                 anchor(null, '<i class="icon-plus"></i> Tambah Data', array('class' => 'btn yellow', 'id' => 'button-ad2', 'onclick' => 'load_form(this.id)', 'data-source' => base_url($this->_module . '/add_adendum/'.$id))),
                 anchor(null, '<i class="icon-circle-arrow-left"></i> Tutup', array('id' => 'button-back2', 'class' => 'btn', 'onclick' => 'close_form(this.id)'))
@@ -451,7 +451,7 @@ class kontrak_pemasok extends MX_Controller {
 
                 if (!empty($_FILES['PATH_DOC']['name'])){
                     $new_name = preg_replace("/[^a-zA-Z0-9]/", "", $data['NO_ADENDUM_PEMASOK']);
-                    $new_name = $new_name.'_'.date("YmdHis");
+                    $new_name = 'AD_'.$new_name.'_'.date("YmdHis");
                     $config['file_name'] = $new_name;
                     $config['upload_path'] = 'assets/upload/kontrak_pemasok/';
                     $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
@@ -460,9 +460,16 @@ class kontrak_pemasok extends MX_Controller {
 
                     $target='assets/upload/kontrak_pemasok/'.$this->input->post('PATH_FILE_EDIT');
 
-                    if(file_exists($target)){
-                        unlink($target);
+                    $mystring = $this->input->post('PATH_FILE_EDIT');
+                    $findme   = 'AD_';
+                    $pos = strpos($mystring, $findme);
+
+                    if ($pos !== false) {
+                        if(file_exists($target)){
+                            unlink($target);
+                        }
                     }
+
 
                     $this->load->library('upload', $config);
 
