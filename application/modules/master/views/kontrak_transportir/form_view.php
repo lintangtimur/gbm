@@ -156,26 +156,26 @@
             var visi = '<div class="form_row">'+
             '<div class="pull-left"><label for="password" class="control-label">Depo ke : '+ counter + '</label>'+
             '<div class="controls">'+combo_depo+'</div></div>'+
-            '<div class="pull-left span1"><label for="password" class="control-label">Level 1 Pemasok ke : '+ counter + '</label>'+
+            '<div class="pull-left span1"><label for="password" class="control-label" id="lblv1_ke'+ counter + '">Level 1 Pemasok ke : '+ counter + '</label>'+
             '<div class="controls">'+cmb_level1+'</div></div>'+
             '</div><br>'+
             '<div class="form_row">'+
             '<div class="pull-left"><label for="password" class="control-label">KIT Penerima ke : '+ counter + '</label>'+
             '<div class="controls">'+combo_pembangkit+'</div></div>'+
-            '<div class="pull-left span1"><label for="password" class="control-label">Level 2 Pemasok ke : '+ counter + '</label>'+
+            '<div class="pull-left span1"><label for="password" class="control-label" id="lblv2_ke'+ counter + '">Level 2 Pemasok ke : '+ counter + '</label>'+
             '<div class="controls">'+cmb_level2+'</div></div>'+
             '</div><br>'+
             '<div class="form_row">'+
             '<div class="pull-left"><label for="password" class="control-label">Jalur ke : '+ counter + '</label>'+
             '<div class="controls">'+combo_jalur+'</div></div>'+
-            '<div class="pull-left span1"><label for="password" class="control-label">Level 3 Pemasok ke : '+ counter + '</label>'+
+            '<div class="pull-left span1"><label for="password" class="control-label" id="lblv3_ke'+ counter + '">Level 3 Pemasok ke : '+ counter + '</label>'+
             '<div class="controls">'+cmb_level3+'</div></div>'+
             '</div><br>'+
 
             '<div class="form_row">'+
             '<div class="pull-left"><label for="password" class="control-label">Jarak (KM / ML) ke : '+ counter + '</label>'+
             '<div class="controls">'+text_jarak+'</div></div>'+
-            '<div class="pull-left span1"><label for="password" class="control-label">KIT Pemasok ke : '+ counter + '</label>'+
+            '<div class="pull-left span1"><label for="password" class="control-label" id="lblv4_ke'+ counter + '">KIT Pemasok ke : '+ counter + '</label>'+
             '<div class="controls">'+cmb_level4+'</div></div>'+
             '</div><br>'+
             '<div class="form_row">'+
@@ -278,6 +278,28 @@
         }
     }
 
+    function setVisibleLv(vid,vStatus){
+        if (vStatus){
+            $("#cmblv1_"+vid).show();
+            $("#cmblv2_"+vid).show();
+            $("#cmblv3_"+vid).show();
+            $("#cmblv4_"+vid).show();
+            $("#lblv1_"+vid).show();
+            $("#lblv2_"+vid).show();
+            $("#lblv3_"+vid).show();
+            $("#lblv4_"+vid).show();
+        } else {
+            $("#cmblv1_"+vid).hide();
+            $("#cmblv2_"+vid).hide();
+            $("#cmblv3_"+vid).hide();
+            $("#cmblv4_"+vid).hide();
+            $("#lblv1_"+vid).hide();
+            $("#lblv2_"+vid).hide();
+            $("#lblv3_"+vid).hide();
+            $("#lblv4_"+vid).hide();
+        }       
+    }
+
     function get_detail(vId) {
         var data = {idx: vId};
 
@@ -291,8 +313,10 @@
                 $("#jalur_ke"+x).val(rest[i].TYPE_KONTRAK_TRANS);
                 $("#harga_ke"+x).val(rest[i].HARGA_KONTRAK_TRANS);
                 $("#jarak_ke"+x).val(rest[i].JARAK_DET_KONTRAK_TRANS);
+                setVisibleLv('ke'+x,false);
 
                 if (rest[i].SLOC_PEMASOK){
+                    setVisibleLv('ke'+x,true);
                     setComboEdit('ke'+x,1,rest[i].COCODE,rest[i].LEVEL1);
                     setComboEdit('ke'+x,2,rest[i].PLANT,rest[i].LEVEL2);
                     setComboEdit('ke'+x,3,rest[i].STORE_SLOC,rest[i].LEVEL3);

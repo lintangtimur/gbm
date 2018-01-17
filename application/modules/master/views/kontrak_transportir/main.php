@@ -111,7 +111,7 @@
     }
 
     $('select[name="ID_REGIONAL"]').on('change', function() {
-        bootbox.modal('<div class="loading-progress"></div>');
+        
         var stateID = $(this).val();
         var vlink_url = '<?php echo base_url()?>data_transaksi/permintaan/get_options_lv1/'+stateID;
         setDefaultLv1();
@@ -119,6 +119,7 @@
         setDefaultLv3();
         setDefaultLv4();
         if(stateID) {
+            bootbox.modal('<div class="loading-progress"></div>');
             $.ajax({
                 url: vlink_url,
                 type: "GET",
@@ -134,13 +135,13 @@
     });
 
     $('select[name="COCODE"]').on('change', function() {
-        bootbox.modal('<div class="loading-progress"></div>');
         var stateID = $(this).val();
         var vlink_url = '<?php echo base_url()?>data_transaksi/permintaan/get_options_lv2/'+stateID;
         setDefaultLv2();
         setDefaultLv3();
         setDefaultLv4();
         if(stateID) {
+            bootbox.modal('<div class="loading-progress"></div>');
             $.ajax({
                 url: vlink_url,
                 type: "GET",
@@ -156,12 +157,12 @@
     });
 
     $('select[name="PLANT"]').on('change', function() {
-        bootbox.modal('<div class="loading-progress"></div>');
         var stateID = $(this).val();
         var vlink_url = '<?php echo base_url()?>data_transaksi/permintaan/get_options_lv3/'+stateID;
         setDefaultLv3();
         setDefaultLv4();
         if(stateID) {
+            bootbox.modal('<div class="loading-progress"></div>');
             $.ajax({
                 url: vlink_url,
                 type: "GET",
@@ -177,11 +178,11 @@
     });
 
     $('select[name="STORE_SLOC"]').on('change', function() {
-        bootbox.modal('<div class="loading-progress"></div>');
         var stateID = $(this).val();
         var vlink_url = '<?php echo base_url()?>data_transaksi/permintaan/get_options_lv4/'+stateID;
         setDefaultLv4();
         if(stateID) {
+            bootbox.modal('<div class="loading-progress"></div>');
             $.ajax({
                 url: vlink_url,
                 type: "GET",

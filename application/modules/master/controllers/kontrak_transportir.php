@@ -227,10 +227,10 @@ class kontrak_transportir extends MX_Controller {
                 $this->form_validation->set_rules('depo_ke'.$i, 'Depo ke '.$i, 'required');
                 
                 if ($this->input->post('depo_ke'.$i)=='000'){
-                    $this->form_validation->set_rules('cmblv4_ke'.$i, 'Pembangkit Pemasok ke '.$i, 'required');   
+                    $this->form_validation->set_rules('cmblv4_ke'.$i, 'KIT Pemasok ke '.$i, 'required');   
                 }
 
-                $this->form_validation->set_rules('pembangkit_ke'.$i, 'Pembangkit Penerima ke '.$i, 'required');
+                $this->form_validation->set_rules('pembangkit_ke'.$i, 'KIT Penerima ke '.$i, 'required');
 
                 $this->form_validation->set_rules('jalur_ke'.$i, 'Jalur ke '.$i, 'required');
                 $this->form_validation->set_rules('harga_ke'.$i, 'Harga ke '.$i, 'required');

@@ -130,7 +130,7 @@
                "</select>";
 
             var combo_pembangkit ="<select class='form-control' id='pembangkit_ke"+ counter + "' name='pembangkit_ke"+ counter + "' >"+
-            "<option value='' disabled selected>--Pilih Pembangkit--</option>"+
+            "<option value='' disabled selected>--Pilih KIT Penerima--</option>"+
             <?php if ($option_pembangkit != '')
                 { foreach ($option_pembangkit as $pembangkit)
                      { ?>
@@ -165,34 +165,35 @@
             var text_harga_kontrak="<input type='text' id='harga_ke"+ counter + "' name='harga_ke"+ counter + "' placeholder='Harga (Rp) / L'> <sup>Termasuk PPN 10 %</sup>";
             var text_jarak="<input type='text' id='jarak_ke"+ counter + "' name='jarak_ke"+ counter + "' placeholder='Jarak (KM / ML)' size='37'>";
 
-            var cmb_level1 = "<select class='form-control cls_lv1' id='cmblv1_ke"+ counter + "' name='cmblv1_ke"+ counter + "' disabled><option value='' disabled selected>--Pilih Level 1--</option></select>";
-            var cmb_level2 = "<select class='form-control cls_lv2' id='cmblv2_ke"+ counter + "' name='cmblv2_ke"+ counter + "' disabled><option value='' disabled selected>--Pilih Level 2--</option></select>";
-            var cmb_level3 = "<select class='form-control cls_lv3' id='cmblv3_ke"+ counter + "' name='cmblv3_ke"+ counter + "' disabled><option value='' disabled selected>--Pilih Level 3--</option></select>";
-            var cmb_level4 = "<select class='form-control' id='cmblv4_ke"+ counter + "' name='cmblv4_ke"+ counter + "' disabled><option value='' disabled selected>--Pilih Pembangkit--</option></select>";
+
+            var cmb_level1 = "<select class='form-control cls_lv1' id='cmblv1_ke"+ counter + "' name='cmblv1_ke"+ counter + "' ><option value='' disabled selected>--Pilih Level 1--</option></select>";
+            var cmb_level2 = "<select class='form-control cls_lv2' id='cmblv2_ke"+ counter + "' name='cmblv2_ke"+ counter + "' ><option value='' disabled selected>--Pilih Level 2--</option></select>";
+            var cmb_level3 = "<select class='form-control cls_lv3' id='cmblv3_ke"+ counter + "' name='cmblv3_ke"+ counter + "' ><option value='' disabled selected>--Pilih Level 3--</option></select>";
+            var cmb_level4 = "<select class='form-control' id='cmblv4_ke"+ counter + "' name='cmblv4_ke"+ counter + "' ><option value='' disabled selected>--Pilih KIT Pemasok--</option></select>";
            
             var visi = '<div class="form_row">'+
             '<div class="pull-left"><label for="password" class="control-label">Depo ke : '+ counter + '</label>'+
             '<div class="controls">'+combo_depo+'</div></div>'+
-            '<div class="pull-left span1"><label for="password" class="control-label">Level 1 Pemasok ke : '+ counter + '</label>'+
+            '<div class="pull-left span1"><label for="password" class="control-label" id="lblv1_ke'+ counter + '">Level 1 Pemasok ke : '+ counter + '</label>'+
             '<div class="controls">'+cmb_level1+'</div></div>'+
             '</div><br>'+
             '<div class="form_row">'+
             '<div class="pull-left"><label for="password" class="control-label">KIT Penerima ke : '+ counter + '</label>'+
             '<div class="controls">'+combo_pembangkit+'</div></div>'+
-            '<div class="pull-left span1"><label for="password" class="control-label">Level 2 Pemasok ke : '+ counter + '</label>'+
+            '<div class="pull-left span1"><label for="password" class="control-label" id="lblv2_ke'+ counter + '">Level 2 Pemasok ke : '+ counter + '</label>'+
             '<div class="controls">'+cmb_level2+'</div></div>'+
             '</div><br>'+
             '<div class="form_row">'+
             '<div class="pull-left"><label for="password" class="control-label">Jalur ke : '+ counter + '</label>'+
             '<div class="controls">'+combo_jalur+'</div></div>'+
-            '<div class="pull-left span1"><label for="password" class="control-label">Level 3 Pemasok ke : '+ counter + '</label>'+
+            '<div class="pull-left span1"><label for="password" class="control-label" id="lblv3_ke'+ counter + '">Level 3 Pemasok ke : '+ counter + '</label>'+
             '<div class="controls">'+cmb_level3+'</div></div>'+
             '</div><br>'+
 
             '<div class="form_row">'+
             '<div class="pull-left"><label for="password" class="control-label">Jarak (KM / ML) ke : '+ counter + '</label>'+
             '<div class="controls">'+text_jarak+'</div></div>'+
-            '<div class="pull-left span1"><label for="password" class="control-label">KIT Pemasok ke : '+ counter + '</label>'+
+            '<div class="pull-left span1"><label for="password" class="control-label" id="lblv4_ke'+ counter + '">KIT Pemasok ke : '+ counter + '</label>'+
             '<div class="controls">'+cmb_level4+'</div></div>'+
             '</div><br>'+
             '<div class="form_row">'+
@@ -202,6 +203,7 @@
 
             newTextBoxDiv.after().html(visi);
             newTextBoxDiv.appendTo("#TextBoxesGroup");
+            setVisibleLv('ke'+counter,false);
             counter++;
         });
 
@@ -328,19 +330,42 @@
         getComboLv4(vke[1],vcek);
     });
 
+    function setVisibleLv(vid,vStatus){
+        if (vStatus){
+            $("#cmblv1_"+vid).show();
+            $("#cmblv2_"+vid).show();
+            $("#cmblv3_"+vid).show();
+            $("#cmblv4_"+vid).show();
+            $("#lblv1_"+vid).show();
+            $("#lblv2_"+vid).show();
+            $("#lblv3_"+vid).show();
+            $("#lblv4_"+vid).show();
+        } else {
+            $("#cmblv1_"+vid).hide();
+            $("#cmblv2_"+vid).hide();
+            $("#cmblv3_"+vid).hide();
+            $("#cmblv4_"+vid).hide();
+            $("#lblv1_"+vid).hide();
+            $("#lblv2_"+vid).hide();
+            $("#lblv3_"+vid).hide();
+            $("#lblv4_"+vid).hide();
+        }       
+    }
 
     function setComboLevel(vid,vbool){
-        $("#cmblv1_"+vid).prop("disabled", vbool);
-        $("#cmblv2_"+vid).prop("disabled", vbool);
-        $("#cmblv3_"+vid).prop("disabled", vbool);
-        $("#cmblv4_"+vid).prop("disabled", vbool);
+        // $("#cmblv1_"+vid).prop("disabled", vbool);
+        // $("#cmblv2_"+vid).prop("disabled", vbool);
+        // $("#cmblv3_"+vid).prop("disabled", vbool);
+        // $("#cmblv4_"+vid).prop("disabled", vbool);
 
         if (vbool){
             setComboHapus(vid,1); 
             setComboHapus(vid,2);
             setComboHapus(vid,3);
             setComboHapus(vid,4);
+            setVisibleLv(vid,false);
         } else {
+            setVisibleLv(vid,true);
             getComboLv1(vid,$('#ID_REGIONAL').val());
         }
     }
@@ -348,7 +373,7 @@
     function setComboHapus(vid,vlv){
         $("#cmblv"+vlv+"_"+vid).empty();
         if (vlv==4){
-            $("#cmblv"+vlv+"_"+vid).append('<option value="">--Pilih Pembangkit--</option>');
+            $("#cmblv"+vlv+"_"+vid).append('<option value="">--Pilih KIT Pemasok--</option>');
         } else {
             $("#cmblv"+vlv+"_"+vid).append('<option value="">--Pilih Level '+vlv+'--</option>');    
         }
@@ -373,9 +398,10 @@
                     $.each(data, function(key, value) {
                         $("#cmblv1_"+vid).append('<option value="'+ value.COCODE +'">'+ value.LEVEL1 +'</option>');
                     });
-                    bootbox.hideAll();
+                    // bootbox.hideAll();
                 }
             });
+            bootbox.hideAll();
         // } else {
         //     bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});    
         // }
@@ -479,6 +505,7 @@
                 $("#jarak_ke"+x).val(rest[i].JARAK_DET_KONTRAK_TRANS);
 
                 if (rest[i].SLOC_PEMASOK){
+                    setVisibleLv('ke'+x,true);
                     setComboEdit('ke'+x,1,rest[i].COCODE,rest[i].LEVEL1);
                     setComboEdit('ke'+x,2,rest[i].PLANT,rest[i].LEVEL2);
                     setComboEdit('ke'+x,3,rest[i].STORE_SLOC,rest[i].LEVEL3);
@@ -502,12 +529,12 @@
 
 
     $('select[name="ID_REGIONAL"]').on('change', function() {
-        bootbox.modal('<div class="loading-progress"></div>'); 
         var stateID = $(this).val();
         var vlink_url = '<?php echo base_url()?>master/kontrak_transportir/get_options_lv1/'+stateID;
         setDefaultLv1();
         setDefaultLv2();
         if(stateID) {
+            bootbox.modal('<div class="loading-progress"></div>');
             $.ajax({
                 url: vlink_url,
                 type: "GET",
@@ -523,11 +550,11 @@
     });
 
     $('select[name="COCODE"]').on('change', function() {
-        bootbox.modal('<div class="loading-progress"></div>');
         var stateID = $(this).val();
         var vlink_url = '<?php echo base_url()?>master/kontrak_transportir/get_options_lv2/'+stateID;
         setDefaultLv2();
         if(stateID) {
+            bootbox.modal('<div class="loading-progress"></div>');
             $.ajax({
                 url: vlink_url,
                 type: "GET",

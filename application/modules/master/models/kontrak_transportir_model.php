@@ -33,6 +33,11 @@ class kontrak_transportir_model extends CI_Model {
         $this->db->join('MASTER_LEVEL1 d', 'd.COCODE = c.COCODE','left');
         $this->db->join('MASTER_REGIONAL e', 'e.ID_REGIONAL = d.ID_REGIONAL','left');
 
+
+		if (!empty($key) || is_array($key))
+        $this->db->where_condition($this->_key($key));
+
+
         if ($_POST['ID_REGIONAL'] !='') {
             $this->db->where('e.ID_REGIONAL',$_POST['ID_REGIONAL']);
         }
@@ -42,6 +47,11 @@ class kontrak_transportir_model extends CI_Model {
         if ($_POST['PLANT'] !='') {
             $this->db->where("a.PLANT",$_POST['PLANT']);   
         }
+
+        if ($_POST['ID_TRANSPORTIR'] !='') {
+            $this->db->where("a.ID_TRANSPORTIR",$_POST['ID_TRANSPORTIR']);   
+        }
+
         // if ($_POST['STORE_SLOC'] !='') {
         //     $this->db->where("STORE_SLOC",$_POST['STORE_SLOC']);   
         // }
@@ -51,9 +61,7 @@ class kontrak_transportir_model extends CI_Model {
         if ($_POST['PERIODE'] !='') {
             $this->db->where("a.TGL_KONTRAK_TRANS",$_POST['PERIODE']);   
         }
-	
-		if (!empty($key) || is_array($key))
-        $this->db->where_condition($this->_key($key));
+
 
    		$this->db->order_by('a.ID_KONTRAK_TRANS DESC');
 		
@@ -163,9 +171,9 @@ class kontrak_transportir_model extends CI_Model {
 					}
 				}
 			}
-			if ($this->laccess->otoritas('add')) {
+			// if ($this->laccess->otoritas('add')) {
 				$aksi .= anchor(null, '<i class="icon-copy" title="Lihat Adendum"></i>', array('class' => 'btn transparant', 'id' => 'button-adendum-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/adendum/' . $id)));
-			}
+			// }
 			if ($this->laccess->otoritas('delete')) {
 				if ($this->session->userdata('user_name')==$row->CD_BY_DET_KONTRAK_TRANS){
 					if ($row->PERUBAHAN == 0){
