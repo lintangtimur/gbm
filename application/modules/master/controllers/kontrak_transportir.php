@@ -62,6 +62,43 @@ class kontrak_transportir extends MX_Controller {
             $trans = $this->kontrak_transportir_model->data($id);
             $data['default'] = $trans->get()->row();
             $data['id_dok'] = $data['default']->PATH_KONTRAK_TRANS; 
+
+            if ($data['default']->PLANT){
+                $data_lv = $this->kontrak_transportir_model->get_level('2',$data['default']->PLANT);
+
+                $option_reg[$data_lv[0]->ID_REGIONAL] = $data_lv[0]->NAMA_REGIONAL;
+                $option_lv1[$data_lv[0]->COCODE] = $data_lv[0]->LEVEL1;
+                $option_lv2[$data_lv[0]->PLANT] = $data_lv[0]->LEVEL2;
+                $option_lv3[$data_lv[0]->STORE_SLOC] = $data_lv[0]->LEVEL3;
+                $option_lv4[$data_lv[0]->SLOC] = $data_lv[0]->LEVEL4; 
+
+                $level_user = $this->session->userdata('level_user');
+                $kode_level = $this->session->userdata('kode_level');
+
+                if ($level_user==3){
+                    $data['lv4_options'] = $option_lv4;     
+                } else if ($level_user==2){
+                    $data['lv3_options'] = $option_lv3;
+                    $data['lv4_options'] = $option_lv4;     
+                } else if ($level_user==1){
+                    $data['lv2_options'] = $option_lv2;
+                    $data['lv3_options'] = $option_lv3;
+                    $data['lv4_options'] = $option_lv4;     
+                } else if ($level_user==0){
+                    $data['reg_options'] = $option_reg; 
+                    $data['lv1_options'] = $option_lv1;
+                    $data['lv2_options'] = $option_lv2;
+                    $data['lv3_options'] = $option_lv3;
+                    $data['lv4_options'] = $option_lv4;     
+                } else if ($level_user=='R'){
+                    $data['reg_options'] = $option_reg;
+                    $data['lv1_options'] = $option_lv1;
+                    $data['lv2_options'] = $option_lv2;
+                    $data['lv3_options'] = $option_lv3;
+                    $data['lv4_options'] = $option_lv4;     
+                }
+            }
+
             // $trans = $this->kontrak_transportir_model->dataEdit($id);
             // $data['detail'] = $trans->get()->result();
         } 
@@ -74,6 +111,65 @@ class kontrak_transportir extends MX_Controller {
 
     public function edit($id) {
         $this->add($id);
+    }
+
+    public function loadKontrakOriginal($id = ''){
+        $page_title = 'View Kontrak';
+        $data = $this->get_level_user();
+        $data['id_dok'] = '';
+        $data['id'] = $id;
+        $data["url_getfile"] = $this->_urlgetfile;
+
+        $trans = $this->kontrak_transportir_model->data($id);
+        $data['default'] = $trans->get()->row();
+        $data['id_dok'] = $data['default']->PATH_KONTRAK_TRANS; 
+
+        $data['option_pembangkit'] = $this->kontrak_transportir_model->getPembangkitAll(); 
+
+        if ($data['default']->PLANT){
+            $data_lv = $this->kontrak_transportir_model->get_level('2',$data['default']->PLANT);
+
+            // print_r($data_lv); die;
+
+            $option_reg[$data_lv[0]->ID_REGIONAL] = $data_lv[0]->NAMA_REGIONAL;
+            $option_lv1[$data_lv[0]->COCODE] = $data_lv[0]->LEVEL1;
+            $option_lv2[$data_lv[0]->PLANT] = $data_lv[0]->LEVEL2;
+            $option_lv3[$data_lv[0]->STORE_SLOC] = $data_lv[0]->LEVEL3;
+            $option_lv4[$data_lv[0]->SLOC] = $data_lv[0]->LEVEL4; 
+            
+            $level_user = $this->session->userdata('level_user');
+            $kode_level = $this->session->userdata('kode_level');
+
+            if ($level_user==3){
+                $data['lv4_options'] = $option_lv4;     
+            } else if ($level_user==2){
+                $data['lv3_options'] = $option_lv3;
+                $data['lv4_options'] = $option_lv4;     
+            } else if ($level_user==1){
+                $data['lv2_options'] = $option_lv2;
+                $data['lv3_options'] = $option_lv3;
+                $data['lv4_options'] = $option_lv4;     
+            } else if ($level_user==0){
+                $data['lv1_options'] = $option_lv1;
+                $data['lv2_options'] = $option_lv2;
+                $data['lv3_options'] = $option_lv3;
+                $data['lv4_options'] = $option_lv4; 
+                $data['reg_options'] = $option_reg;    
+            } else if ($level_user=='R'){
+                $data['reg_options'] = $option_reg;
+                $data['lv1_options'] = $option_lv1;
+                $data['lv2_options'] = $option_lv2;
+                $data['lv3_options'] = $option_lv3;
+                $data['lv4_options'] = $option_lv4;     
+            }
+        }
+           
+        $data['option_transportir'] = $this->kontrak_transportir_model->options('--Pilih Transportir--', array('master_transportir.ID_TRANSPORTIR' => NULL));
+        $data['option_depo'] = $this->kontrak_transportir_model->getDepo();
+        $data['option_jalur'] = $this->kontrak_transportir_model->getJalur();
+        $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
+        $data['form_action'] = base_url($this->_module . '/proses');
+        $this->load->view($this->_module . '/form_view', $data);
     }
 
     public function load($page = 1) {
@@ -156,17 +252,18 @@ class kontrak_transportir extends MX_Controller {
             $data['KD_KONTRAK_TRANS'] = $this->input->post('KD_KONTRAK_TRANS');
             $data['CD_DET_KONTRAK_TRANS'] = date("Y/m/d");
             $data['CD_BY_DET_KONTRAK_TRANS'] = $this->session->userdata('user_name');
+            $data['PLANT'] = $this->input->post('PLANT');
 
-            $level_user = $this->session->userdata('level_user');
-            $kode_level = $this->session->userdata('kode_level');
+            // $level_user = $this->session->userdata('level_user');
+            // $kode_level = $this->session->userdata('kode_level');
                
-            $data_lv = $this->kontrak_transportir_model->get_level($level_user,$kode_level);
+            // $data_lv = $this->kontrak_transportir_model->get_level($level_user,$kode_level);
 
-            if ($data_lv){
-                $data['PLANT'] = $data_lv[0]->PLANT;    
-            } else {
-                $data['PLANT'] = '';
-            }
+            // if ($data_lv){
+            //     $data['PLANT'] = $data_lv[0]->PLANT;    
+            // } else {
+            //     $data['PLANT'] = '';
+            // }
             
 
             $data_detail = array();
@@ -373,25 +470,6 @@ class kontrak_transportir extends MX_Controller {
             $message = array(true, 'Proses Berhasil', 'Proses hapus data berhasil.', '#content_table');
         }
         echo json_encode($message);
-    }
-
-    public function loadKontrakOriginal($id = ''){
-        $page_title = 'View Kontrak';
-        $data = $this->get_level_user();
-        $data['id_dok'] = '';
-        $data['id'] = $id;
-		$data["url_getfile"] = $this->_urlgetfile;
-
-        $trans = $this->kontrak_transportir_model->data($id);
-        $data['default'] = $trans->get()->row();
-        $data['id_dok'] = $data['default']->PATH_KONTRAK_TRANS; 
-           
-        $data['option_transportir'] = $this->kontrak_transportir_model->options('--Pilih Transportir--', array('master_transportir.ID_TRANSPORTIR' => NULL));
-        $data['option_depo'] = $this->kontrak_transportir_model->getDepo();
-        $data['option_jalur'] = $this->kontrak_transportir_model->getJalur();
-        $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
-        $data['form_action'] = base_url($this->_module . '/proses');
-        $this->load->view($this->_module . '/form_view', $data);
     }
 
     public function loadKontrakAdendum($id = ''){

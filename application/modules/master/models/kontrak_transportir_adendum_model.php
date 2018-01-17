@@ -184,10 +184,14 @@ class kontrak_transportir_adendum_model extends CI_Model {
 
             if ($total==($x)){    
                 if ($this->laccess->otoritas('edit')) {
-                    $aksi .= anchor(null, '<i class="icon-edit" title="Edit Kontrak Adendum"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit_adendum/' . $id)));
+                    if ($this->session->userdata('user_name')==$row->CD_BY_ADENDUM){
+                        $aksi .= anchor(null, '<i class="icon-edit" title="Edit Kontrak Adendum"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit_adendum/' . $id)));
+                    }
                 }
                 if ($this->laccess->otoritas('delete')) {
-                    $aksi .= anchor(null, '<i class="icon-trash" title="Hapus Data"></i>', array('class' => 'btn transparant', 'id' => 'button-delete2-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete_adendum/' . $id)));
+                    if ($this->session->userdata('user_name')==$row->CD_BY_ADENDUM){
+                        $aksi .= anchor(null, '<i class="icon-trash" title="Hapus Data"></i>', array('class' => 'btn transparant', 'id' => 'button-delete2-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete_adendum/' . $id)));
+                    }
                 }
             }
 

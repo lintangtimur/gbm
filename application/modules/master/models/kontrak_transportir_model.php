@@ -157,16 +157,20 @@ class kontrak_transportir_model extends CI_Model {
 				$aksi = anchor(null, '<i class="icon-zoom-in" title="Lihat Kontrak"></i>', array('class' => 'btn transparant', 'id' => 'button-original-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadKontrakOriginal/' . $id)));
 				
 			if ($this->laccess->otoritas('edit')) {
-				if ($row->PERUBAHAN == 0){
-					$aksi .= anchor(null, '<i class="icon-edit" title="Edit Kontrak"></i>', array('class' => 'btn 	transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
+				if ($this->session->userdata('user_name')==$row->CD_BY_DET_KONTRAK_TRANS){
+					if ($row->PERUBAHAN == 0){
+						$aksi .= anchor(null, '<i class="icon-edit" title="Edit Kontrak"></i>', array('class' => 'btn 	transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
+					}
 				}
 			}
 			if ($this->laccess->otoritas('add')) {
 				$aksi .= anchor(null, '<i class="icon-copy" title="Lihat Adendum"></i>', array('class' => 'btn transparant', 'id' => 'button-adendum-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/adendum/' . $id)));
 			}
 			if ($this->laccess->otoritas('delete')) {
-				if ($row->PERUBAHAN == 0){
-				$aksi .= anchor(null, '<i class="icon-trash" title="Hapus Kontrak"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
+				if ($this->session->userdata('user_name')==$row->CD_BY_DET_KONTRAK_TRANS){
+					if ($row->PERUBAHAN == 0){
+					$aksi .= anchor(null, '<i class="icon-trash" title="Hapus Kontrak"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
+					}
 				}
 			}
 			

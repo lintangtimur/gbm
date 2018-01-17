@@ -160,7 +160,7 @@
             '<div class="controls">'+cmb_level1+'</div></div>'+
             '</div><br>'+
             '<div class="form_row">'+
-            '<div class="pull-left"><label for="password" class="control-label">Pemb. Penerima ke : '+ counter + '</label>'+
+            '<div class="pull-left"><label for="password" class="control-label">KIT Penerima ke : '+ counter + '</label>'+
             '<div class="controls">'+combo_pembangkit+'</div></div>'+
             '<div class="pull-left span1"><label for="password" class="control-label">Level 2 Pemasok ke : '+ counter + '</label>'+
             '<div class="controls">'+cmb_level2+'</div></div>'+
@@ -175,13 +175,13 @@
             '<div class="form_row">'+
             '<div class="pull-left"><label for="password" class="control-label">Jarak (KM / ML) ke : '+ counter + '</label>'+
             '<div class="controls">'+text_jarak+'</div></div>'+
-            '<div class="pull-left span1"><label for="password" class="control-label">Pemb. Pemasok ke : '+ counter + '</label>'+
+            '<div class="pull-left span1"><label for="password" class="control-label">KIT Pemasok ke : '+ counter + '</label>'+
             '<div class="controls">'+cmb_level4+'</div></div>'+
             '</div><br>'+
             '<div class="form_row">'+
             '<div class="pull-left"><label for="password" class="control-label">Harga (Rp) / L ke : '+ counter + '</label>'+
             '<div class="controls">'+text_harga_kontrak+'</div></div>'+
-            '</div><br><br>';
+            '</div><hr>';
 
             newTextBoxDiv.after().html(visi);
             newTextBoxDiv.appendTo("#TextBoxesGroup");
