@@ -7,7 +7,7 @@
 
 <style>
 .modal .modal-lg {
-    max-width: 120% !important;
+    max-width: 520% !important;
 }
 .detail-kosong{
     display: none;
@@ -89,10 +89,29 @@
                         <?php echo form_dropdown('BBM', $opsi_bbm, !empty($default->ID_JENIS_BHN_BKR) ? $default->ID_JENIS_BHN_BKR : '', 'id="bbm"'); ?>
                     </div>
                 </div>
-
-
-
-
+            </div><br/>
+            <div class="form_row">
+                <!-- Level 3 -->
+                <div class="pull-left span3">
+                    <label for="password" class="control-label">Tanggal Awal : </label>
+                    <label for="password" class="control-label" style="margin-left:38px">Tanggal Akhir : </label>
+                    <div class="controls">
+                        <?php echo form_input('TGL_DARI', !empty($default->TGL_DARI) ? $default->TGL_DARI : '', 'class="form_datetime" style="width: 115px;" placeholder="Tanggal awal" id="tglawal"'); ?>
+                        <?php echo form_input('TGL_SAMPAI', !empty($default->TGL_SAMPAI) ? $default->TGL_SAMPAI : '', 'class="form_datetime" style="width: 115px;" placeholder="Tanggal akhir" id="tglakhir"'); ?>
+                    </div>
+                </div>
+                <div class="pull-left span3">
+                  <label for="" class="control-label" style="margin-left:1px;">Tampil data</label>
+                  <div class="controls">
+                    <?php echo form_dropdown('tampilData', [
+                      '-Tampilkan Data-'=> 'Tampilkan Data',
+                      '25'              => '25 data',
+                      '50'              => '50 data',
+                      '100'             => '100 data',
+                      '200'             => '200 data'
+                    ], '', 'style="margin-left:1px;"') ?>
+                  </div>
+                </div>
             </div><br/>
             <div class="form_row">
                 <div class="pull-left span2">
@@ -109,7 +128,7 @@
                 </div>
             </div>
             <div class="form_row">
-                <div class="pull-left span3">
+                <!-- <div class="pull-left span3">
                     <label for="password" class="control-label">Bulan <span class="required">*</span> : </label>
                     <label for="password" class="control-label" style="margin-left:95px">Tahun <span class="required">*</span> : </label>
                     <div class="controls">
@@ -117,7 +136,7 @@
                         <?php echo form_dropdown('BULAN', $opsi_bulan, $bulan, 'style="width: 137px;", id="bln"'); ?>
                         <?php echo form_dropdown('TAHUN', $opsi_tahun, '', 'style="width: 80px;", id="thn"'); ?>
                     </div>
-                </div>
+                </div> -->
                 <div class="pull-left span2">
                     <label></label>
                     <div class="controls">
@@ -132,7 +151,7 @@
                 </div>
                 <!-- Tampilan modal detail -->
 
-                <div class="pull-left span4">
+                <div class="pull-left span3">
                     <label></label>
                     <div class="controls">
                     <?php echo anchor(null, "<i class='icon-download'></i> Download Excel", [
@@ -149,24 +168,32 @@
             <?php echo form_close(); ?>
         </div>
         <div class="well-content no-search">
-            <table id="dataTable" class="display" width="100%" cellspacing="0" style="max-height:1000px;">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>KODE Unit</th>
-                        <th>Unit</th>
-                        <th>ID BBM</th>
-                        <th>Jenis Bahan Bakar</th>
-                        <th>Tgl Awal Terima</th>
-                        <th>Tgl Akhir Terima</th>
-                        <th>Total Volume Terima DO (L)</th>
-                        <th>Total VOlume Terima Real (L)</th>
-                        <th>Devisiasi (L)</th>
-                        <th>AKSI</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+            <div class="table-responive">
+              <table id="dataTable" class="display dt-responsive" width="100%" cellspacing="0" style="max-height:1000px;">
+                  <thead>
+                      <tr>
+                          <th rowspan="2">No</th>
+                          <th rowspan="2">KODE Unit</th>
+                          <th rowspan="2">Unit</th>
+                          <th rowspan="2">ID BBM</th>
+                          <th rowspan="2">Jenis Bahan Bakar</th>
+                          <th rowspan="2">Tgl Awal Terima</th>
+                          <th rowspan="2">Tgl Akhir Terima</th>
+                          <th rowspan="2">Jumlah Terima</th>
+                          <th colspan="2">Total Volume Terima</th>
+                          <th colspan="2">Deviasi</th>
+                          <th rowspan="2">AKSI</th>
+                      </tr>
+                      <tr>
+                        <th>DO (L)</th>
+                        <th>Real (L)</th>
+                        <th>Deviasi (L)</th>
+                        <th>Deviasi (%)</th>
+                      </tr>
+                  </thead>
+                  <tbody></tbody>
+              </table>
+            </div>
         </div>
 
         <div id="form-content" class="modal fade modal-xlarge"></div>
@@ -191,15 +218,27 @@
               <table id="dataTable_detail" class="table-striped" width="100%" cellspacing="0" style="max-height:1000px;">
                   <thead>
                   <tr>
-                      <th>NO</th>
-                      <th>Unit Pembangkit</th>
-                      <th>No pengiriman</th>
-                      <th>Nama pemasok</th>
-                      <th>Nama transportir</th>
-                      <th>Tanggal terima fisik</th>
-                      <th>Volume Terima DO (L)</th>
-                      <th>Volume Terima Real (L)</th>
-                      <th>Deviasi (L)</th>
+                      <th rowspan="2">NO</th>
+                      <th colspan="4">Level</th>
+                      <th rowspan="2">Unit Pembangkit</th>
+                      <th rowspan="2">Bahan Bakar</th>
+                      <th rowspan="2">Jenis Penerimaan</th>
+                      <th rowspan="2">No Penerimaan</th>
+                      <th rowspan="2">Nama pemasok</th>
+                      <th rowspan="2">Nama transportir</th>
+                      <th rowspan="2">Tanggal DO</th>
+                      <th rowspan="2">Tanggal terima fisik</th>
+                      <th rowspan="2">Volume Terima DO (L)</th>
+                      <th rowspan="2">Volume Terima Real (L)</th>
+                      <th colspan="2">Deviasi</th>
+                  </tr>
+                  <tr>
+                    <th>0</th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>Deviasi (L)</th>
+                    <th>Deviasi (%)</th>
                   </tr>
                   </thead>
                   <tbody></tbody>
@@ -214,7 +253,7 @@
     </div>
 </div>
 
-<form id="export_excel" action="<?php echo base_url('laporan/persediaan_bbm/export_excel'); ?>" method="post">
+<form id="export_excel" action="<?php echo base_url('laporan/penerimaan/export_excel'); ?>" method="post">
     <input type="hidden" name="xlvl0">
     <input type="hidden" name="xlvl1">
     <input type="hidden" name="xlvl2">
@@ -227,6 +266,11 @@
     <input type="hidden" name="xbbm">
     <input type="hidden" name="xbln">
     <input type="hidden" name="xthn">
+    <input type="hidden" name="xlvlid">
+    <input type="hidden" name="xlvl">
+    <input type="hidden" name="xtglawal">
+    <input type="hidden" name="xtglakhir">
+
 </form>
 
 <form id="export_pdf" action="<?php echo base_url('laporan/persediaan_bbm/export_pdf'); ?>" method="post" >
@@ -247,6 +291,13 @@
 <script type="text/javascript">
 
     $(document).ready(function() {
+      $(".form_datetime").datepicker({
+        format: "dd-mm-yyyy",
+        autoclose: true,
+        todayBtn: true,
+        pickerPosition: "bottom-left"
+    });
+
         $('#button-detail').addClass('disabled');
         // $("#button-detail").attr("disabled", true);
     });
@@ -262,6 +313,7 @@
         if (bilangan.indexOf('-') > -1) {
             isMinus = '-';
         }
+
         bilangan = bilangan.replace("-", "");
             
         var number_string = bilangan.toString(),
@@ -286,7 +338,6 @@
         $('#dataTable_detail').dataTable({
             "scrollY": "450px",
             "scrollX": true,
-            "searching": false,
             "scrollCollapse": false,
             "bPaginate": true,
             "bLengthChange": false,
@@ -294,6 +345,7 @@
             "bInfo": true,
             "bAutoWidth": true,
             "ordering": false,
+            "searching": false,
             // "fixedColumns": {"leftColumns": 6},
             "language": {
                 "decimal": ",",
@@ -301,13 +353,22 @@
                 "emptyTable": "Tidak ada data untuk ditampilkan"
             },
             "columnDefs": [
-                 {"className": "dt-right", "targets": [6,7,8]}
+                 {
+                     "className": "dt-left",
+                     "targets": [1,2,3,4]
+                 },
+                 {
+                     "className": "dt-right",
+                     "targets": [-1,-2,-3,-4]
+                 }
           ]
         });
 
         $('#dataTable').dataTable({
             "scrollY": "450px",
             "searching": false,
+            'pageLength': 10,
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
             "scrollX": true,
             "scrollCollapse": false,
             "bPaginate": true,
@@ -316,7 +377,8 @@
             "bInfo": true,
             "bAutoWidth": true,
             "ordering": false,
-            // "fixedColumns": {"leftColumns": 6},
+            "fixedHeader": true,
+            // "fixedColumns": {"rightColumns": 2},
             "language": {
                 "decimal": ",",
                 "thousands": ".",
@@ -338,7 +400,7 @@
                 },
                 {
                         "className": "dt-right",
-                        "targets": [5,6,7,8,9]
+                        "targets": [5,6,7,8,9,10,11]
                 },
                 {
                         "className": "dt-center",
@@ -366,6 +428,8 @@
         var bbm = $('#bbm').val(); //bahanBakar dropdown
         var bln = $('#bln').val(); //bulan dropdown
         var thn = $('#thn').val(); //tahun dropdown
+        var tglAwal= $('#tglawal').val().replace(/-/g, '');//02-11-2018
+        var tglAkhir =$('#tglakhir').val().replace(/-/g, '');
 
         //check last filled vlevlid
 
@@ -377,6 +441,9 @@
             if (lvl0 !== "") {
                 lvl0 = 'Regional';
                 vlevelid = $('#lvl0').val();
+                if (vlevelid == "00") {
+                    lvl0 = "Pusat";
+                }
             }
             if (lvl1 !== "") {
                 lvl0 = 'Level 1';
@@ -412,31 +479,30 @@
                 bbm = '-';
             }
 
-            console.log("bbm: " + bbm + ' tahun: '+thn+' bulan: '+bln +' regional: '+ lvl0+' vlevlid: ' + vlevelid);
+            if (tglAwal == '' && tglAkhir == '') {
+              tglAwal = "-";
+              tglAkhir = '-';
+            }
+            console.log("bbm: " + bbm + ' tahun: '+thn+' bulan: '+bln +' regional: '+ lvl0+' vlevlid: ' + vlevelid+' TglAwal: '+ tglAwal+ ' TglAkhir: '+tglAkhir);
             bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
                 $.ajax({
                     type: "POST",
-                    // url: "<?php echo base_url('laporan/persediaan_bbm/getData'); ?>",
                     url : "<?php echo base_url('laporan/penerimaan/getData'); ?>",
+                    // url : "<?php echo base_url('laporan/penerimaan/testGetData'); ?>",
                     data: {
                         "JENIS_BBM": bbm,
-                        "BULAN":bln,
-                        "TAHUN": thn,
+                        // "BULAN":bln,
+                        // "TAHUN": thn,
+                        "TGLAWAL": tglAwal,
+                        "TGLAKHIR": tglAkhir,
                         "ID_REGIONAL": lvl0,
                         "VLEVELID":vlevelid
                         },
                     success:function(response) {
+                      console.log(response);
                         var obj = JSON.parse(response);
                         console.log(obj);
                         var t = $('#dataTable').DataTable();
-                        // console.log(t);
-                        // var buttons = t.buttons( ['.edit', '.delete'] );
-                        // buttons.disable();
-
-
-                        // $('button.bdet').click( function () {
-                        //     t.row('.selected').remove().draw( false );
-                        // } );
                         t.clear().draw();
 
                         if (obj == "" || obj == null) {
@@ -452,17 +518,19 @@
                             var NAMA_JNS_BHN_BKR = value.NAMA_JNS_BHN_BKR == null ? "" : value.NAMA_JNS_BHN_BKR;
                             var TGL_TERIMA_AWAL = value.TGL_TERIMA_AWAL == null ? "" : value.TGL_TERIMA_AWAL;
                             var TGL_TERIMA_AKHIR = value.TGL_TERIMA_AKHIR == null ? "" : value.TGL_TERIMA_AKHIR;
+                            var JML_TERIMA = value.JML_TERIMA == null ? "" : value.JML_TERIMA;
                             var VOL_TOTAL_TERIMA = value.VOL_TERIMA == null ? "" : value.VOL_TERIMA;
                             var VOL_TOTAL_TERIMA_REAL = value.VOL_TERIMA_REAL == null ? "" : value.VOL_TERIMA_REAL;
-                            var DEVISIASI = value.DEVISIASI == null ? "" : value.DEVISIASI;
+                            var DEVIASI = value.DEVIASI == null ? "" : value.DEVIASI;
+                            var DEVIASI_PERCENT = value.DEVIASI_PERCENT == null ? "" : value.DEVIASI_PERCENT;
 
 
                             t.row.add( [
                                 nomer, KODE_UNIT,
                                 UNIT, ID_BBM,
                                 NAMA_JNS_BHN_BKR, TGL_TERIMA_AWAL,
-                                TGL_TERIMA_AKHIR, convertToRupiah(VOL_TOTAL_TERIMA),
-                                convertToRupiah(VOL_TOTAL_TERIMA_REAL), convertToRupiah(DEVISIASI)
+                                TGL_TERIMA_AKHIR, convertToRupiah(JML_TERIMA), convertToRupiah(VOL_TOTAL_TERIMA),
+                                convertToRupiah(VOL_TOTAL_TERIMA_REAL), convertToRupiah(DEVIASI), convertToRupiah(DEVIASI_PERCENT)
                             ] ).draw( false );
                             nomer++;
                           });
@@ -488,82 +556,151 @@
         var t = $('#dataTable').DataTable();
         var tdetail = $('#dataTable_detail').DataTable();
         var selected_row= t.row($(this).parents('tr')).data();
-        // console.log(selected_row);
+        console.log(selected_row);
         clearDT_Detail();
         var bln = $('#bln').val(); //bulan dropdown
         var thn = $('#thn').val(); //tahun dropdown
 
         var kode_unit = selected_row[1];
         var id_bbm = selected_row[3];
+        var tglAwal= $('#tglawal').val().replace(/-/g, '');//02-11-2018
+        var tglAkhir =$('#tglakhir').val().replace(/-/g, '');
+
+        console.log("Bulan: "+bln+" Tahun: "+thn+" KodeUNIT: "+kode_unit+" ID_BBM: "+id_bbm);
+        $.ajax({
+            url : "<?php echo base_url('laporan/penerimaan/getDataDetail'); ?>",
+            type: 'POST',
+            data: {
+                "detail_id_bbm": id_bbm,
+                // "detail_bulan": bln,
+                // "detail_tahun": thn,
+                "detail_tgl_awal": tglAwal,
+                "detail_tgl_akhir":tglAkhir,
+                "detail_kode_unit": kode_unit
+            }
+        })
+        .done(function(data) {
+          console.log(data);
+            var detail_parser = JSON.parse(data);
+            var nomer = 1;
+            console.log(detail_parser);
+            $.each(detail_parser, function(index, el) {
+                // console.log(el.UNIT);
+
+                var level0 = el.LEVEL0 == null ? "" : el.LEVEL0;
+                var level1 = el.LEVEL1 == null ? "" : el.LEVEL1;
+                var level2 = el.LEVEL2 == null ? "" : el.LEVEL2;
+                var level3 = el.LEVEL3 == null ? "" : el.LEVEL3;
+                var UNIT_PEMBANGKIT = el.UNIT == null ? "" : el.UNIT;
+                var BHN_BAKAR = el.NAMA_JNS_BHN_BKR == null ? "" : el.NAMA_JNS_BHN_BKR;
+                var JENIS_PENERIMAAN = el.JENIS_PENERIMAAN == null ? "" : el.JENIS_PENERIMAAN;
+                var NOMER_PENERIMAAN = el.NO_PENERIMAAN == null ? "" : el.NO_PENERIMAAN;
+                var NAMA_PEMASOK = el.NAMA_PEMASOK == null ? "" : el.NAMA_PEMASOK;
+                var NAMA_TRANSPORTIR = el.NAMA_TRANSPORTIR == null ? "" : el.NAMA_TRANSPORTIR;
+                var TGL_DO = el.TGL_DO == null ? "" : el.TGL_DO;
+                var TGL_TERIMA_FISIK = el.TGL_TERIMA_FISIK == null ? "" : el.TGL_TERIMA_FISIK;
+                var VOL_DO = el.VOL_DO == null ? "" : el.VOL_DO;
+                var TERIMA_REAL = el.VOL_TERIMA_REAL == null ? "" : el.VOL_TERIMA_REAL;
+                var DEVIASI = el.DEVIASI == null ? "" : el.DEVIASI;
+                var DEVIASI_PERCENT = el.DEVIASI_PERCENT == null ? "" : el.DEVIASI_PERCENT;
+
+                tdetail.row.add( [
+                    nomer, level0, level1, level2, level3, UNIT_PEMBANGKIT, BHN_BAKAR,
+                    JENIS_PENERIMAAN, NOMER_PENERIMAAN,
+                    NAMA_PEMASOK, NAMA_TRANSPORTIR, TGL_DO,
+                    TGL_TERIMA_FISIK, VOL_DO,
+                    TERIMA_REAL, DEVIASI, DEVIASI_PERCENT
+                ] ).draw( false );
+                nomer++;
+            });
+        });
+
+        $('#exampleModal').modal('show');
 
         // check if #button-detail have disabled class
-        if ($('#button-detail').hasClass('disabled')) {
-            console.log($('#button-detail').hasClass('disabled'));
-            bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>Detail hanya bisa dilihat jika memilih sampai dengan --Level 4--</div>');
-        }else{
-            console.log("Bulan: "+bln+" Tahun: "+thn+" KodeUNIT: "+kode_unit+" ID_BBM: "+id_bbm);
-            $.ajax({
-                url : "<?php echo base_url('laporan/penerimaan/getDataDetail'); ?>",
-                type: 'POST',
-                data: {
-                    "detail_id_bbm": id_bbm,
-                    "detail_bulan": bln,
-                    "detail_tahun": thn,
-                    "detail_kode_unit": kode_unit
-                }
-            })
-            .done(function(data) {
-                var detail_parser = JSON.parse(data);
-                var nomer = 1;
-                console.log(detail_parser);
-                $.each(detail_parser, function(index, el) {
-                    console.log(el.UNIT);
-                    var UNIT_PEMBANGKIT = el.UNIT == null ? "" : el.UNIT;
-                    var NOMER_PENERIMAAN = el.NO_PENERIMAAN == null ? "" : el.NO_PENERIMAAN;
-                    var NAMA_PEMASOK = el.NAMA_PEMASOK == null ? "" : el.NAMA_PEMASOK;
-                    var NAMA_TRANSPORTIR = el.NAMA_TRANSPORTIR == null ? "" : el.NAMA_TRANSPORTIR;
-                    var TGL_TERIMA_FISIK = el.TGL_TERIMA_FISIK == null ? "" : el.TGL_TERIMA_FISIK;
-                    var VOL_DO = el.VOL_DO == null ? "" : el.VOL_DO;
-                    var TERIMA_REAL = el.VOL_TERIMA_REAL == null ? "" : el.VOL_TERIMA_REAL;
-                    var DEVISIASI_DETAIL = el.DEVISIASI == null ? "" : el.DEVISIASI;
-
-                    tdetail.row.add( [
-                        nomer, UNIT_PEMBANGKIT, NOMER_PENERIMAAN,
-                        NAMA_PEMASOK, NAMA_TRANSPORTIR,
-                        TGL_TERIMA_FISIK, convertToRupiah(VOL_DO),
-                        convertToRupiah(TERIMA_REAL), convertToRupiah(DEVISIASI_DETAIL)
-                    ] ).draw( false );
-                    nomer++;
-                });
-            });
-
-            $('#exampleModal').modal('show');
-        }
+        // if ($('#button-detail').hasClass('disabled')) {
+        //     console.log($('#button-detail').hasClass('disabled'));
+        //     bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>Detail hanya bisa dilihat jika memilih sampai dengan --Level 4--</div>');
+        // }else{
+        //     // code jika detail sampai level 4
+        // }
     } );
 
     $('#button-excel').click(function(e) {
-        bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Belum bisa diproses </div>', function() {});
-        return;
-        
-        var lvl0 = $('#lvl0').val();
+      var lvl0 = $('#lvl0').val(); //Regional dropdown
+      var lvl1 = $('#lvl1').val(); //level1 dropdown
+      var lvl2 = $('#lvl2').val(); //level2 dropdown
+      var lvl3 = $('#lvl3').val(); //level3 dropdown
+      var lvl4 = $('#lvl4').val(); //pembangkit dropdown
+      var bbm = $('#bbm').val(); //bahanBakar dropdown
+      var bln = $('#bln').val(); //bulan dropdown
+      var thn = $('#thn').val(); //tahun dropdown
+
         if (lvl0 == '') {
             bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
         } else {
-            $('input[name="xlvl0"]').val($('#lvl0').val());
-            $('input[name="xlvl1"]').val($('#lvl1').val());
-            $('input[name="xlvl2"]').val($('#lvl2').val());
-            $('input[name="xlvl3"]').val($('#lvl3').val());
+          if (lvl0 !== "") {
+              lvl0 = 'Regional';
+              vlevelid = $('#lvl0').val();
+              if (vlevelid == "00") {
+                  lvl0 = "Pusat";
+              }
+          }
+          if (lvl1 !== "") {
+              lvl0 = 'Level 1';
+              vlevelid = $('#lvl1').val();
+          }
+          if (lvl2 !== "") {
+              lvl0 = 'Level 2';
+              vlevelid = $('#lvl2').val();
+          }
+          if (lvl3 !== ""){
+              lvl0 = 'Level 3';
+              vlevelid = $('#lvl3').val();
+          }
+          if (lvl4 !== "") {
+              lvl0 = 'Level 4';
+              vlevelid = $('#lvl4').val();
+          }
+          if (bbm !== "") {
+              bbm = $('#bbm').val();
+              if (bbm =='001') {
+                  bbm = 'MFO';
+              }else if(bbm == '002'){
+                  bbm = 'IDO';
+              }else if(bbm == '003'){
+                  bbm = 'BIO';
+              }else if(bbm == '004'){
+                  bbm = 'HSD+BIO';
+              }else if(bbm == '005'){
+                  bbm = 'HSD';
+              }
+          }
+          if (bbm == '') {
+              bbm = '-';
+          }
+          $('input[name="xlvl0"]').val($('#lvl0').val()); // 01
+          $('input[name="xlvl1"]').val($('#lvl1').val()); //COCODE
+          $('input[name="xlvl2"]').val($('#lvl2').val());
+          $('input[name="xlvl3"]').val($('#lvl3').val());
 
-            $('input[name="xlvl0_nama"]').val($('#lvl0 option:selected').text());
-            $('input[name="xlvl1_nama"]').val($('#lvl1 option:selected').text());
-            $('input[name="xlvl2_nama"]').val($('#lvl2 option:selected').text());
-            $('input[name="xlvl3_nama"]').val($('#lvl3 option:selected').text());
+          $('input[name="xlvl0_nama"]').val($('#lvl0 option:selected').text()); // SUMATERA
+          $('input[name="xlvl1_nama"]').val($('#lvl1 option:selected').text());
+          $('input[name="xlvl2_nama"]').val($('#lvl2 option:selected').text());
+          $('input[name="xlvl3_nama"]').val($('#lvl3 option:selected').text());
 
-            $('input[name="xlvl4"]').val($('#lvl4').val());
-            $('input[name="xbbm"]').val($('#bbm').val());
-            $('input[name="xbln"]').val($('#bln').val());
-            $('input[name="xthn"]').val($('#thn').val());
+          $('input[name="xlvl4"]').val($('#lvl4').val());  // 183130
+          $('input[name="xbbm"]').val(bbm); // 001
+          $('input[name="xbln"]').val($('#bln').val()); // 1 -> Januari
+          $('input[name="xthn"]').val($('#thn').val()); // 2017
+          $('input[name="xthn"]').val($('#thn').val());
 
+          $('input[name="xlvlid"]').val(vlevelid);
+          $('input[name="xlvl"]').val(lvl0);
+          $('input[name="xtglawal"]').val($('#tglawal').val().replace(/-/g, ''));
+          $('input[name="xtglakhir"]').val($('#tglakhir').val().replace(/-/g, ''));
+
+          console.log(vlevelid);
             bootbox.confirm('Apakah yakin akan export data excel ?', "Tidak", "Ya", function(e) {
                 if(e){
                     $('#export_excel').submit();
@@ -573,9 +710,6 @@
     });
 
     $('#button-pdf').click(function(e) {
-        bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Belum bisa diproses </div>', function() {});
-        return;
-
         var lvl0 = $('#lvl0').val();
         if (lvl0 == '') {
             bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});

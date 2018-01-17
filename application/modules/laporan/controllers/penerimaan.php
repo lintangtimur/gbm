@@ -36,6 +36,7 @@ class Penerimaan extends MX_Controller
 
         $this->load->model('persediaan_bbm_model', 'tbl_get');
         $this->load->model('penerimaan_model', 'tbl_penerimaan_get');
+        // $this->load->helper('dd');
     }
 
     public function index()
@@ -121,13 +122,15 @@ class Penerimaan extends MX_Controller
      */
     public function getData()
     {
+        // header('Content-Type: application/json');
         $data['JENIS_BBM']     = $this->input->post('JENIS_BBM');
-        $data['BULAN']         = $this->input->post('BULAN');
-        $data['TAHUN']         = $this->input->post('TAHUN');
+        // $data['BULAN']         = $this->input->post('BULAN');
+        // $data['TAHUN']         = $this->input->post('TAHUN');
+        $data['TGLAWAL']       = $this->input->post('TGLAWAL');
+        $data['TGLAKHIR']      = $this->input->post('TGLAKHIR');
         $data['ID_REGIONAL']   = $this->input->post('ID_REGIONAL');
         $data['VLEVELID']      = $this->input->post('VLEVELID');
-        // $data                  = $this->tbl_get->getData_Model($data);
-        $data = $this->tbl_penerimaan_get->getData_Model($data);
+        $data                  = $this->tbl_penerimaan_get->getData_Model($data);
 
         echo json_encode($data);
     }
@@ -142,8 +145,10 @@ class Penerimaan extends MX_Controller
 
         $data = [
             'JENIS_BBM'   => $this->input->post('JENIS_BBM'),
-            'BULAN'       => $this->input->post('BULAN'),
-            'TAHUN'       => $this->input->post('TAHUN'),
+            // 'BULAN'       => $this->input->post('BULAN'),
+            // 'TAHUN'       => $this->input->post('TAHUN'),
+            'TGLAWAL'     => $this->input->post('TGLAWAL'),
+            'TGLAKHIR'    => $this->input->post('TGLAKHIR'),
             'ID_REGIONAL' => $this->input->post('ID_REGIONAL'),
             'VLEVELID'    => $this->input->post('VLEVELID')
         ];
@@ -160,18 +165,22 @@ class Penerimaan extends MX_Controller
     {
         $data = [
             'ID_BBM'    => $this->input->post('detail_id_bbm'),
-            'BULAN'     => $this->input->post('detail_bulan'),
-            'TAHUN'     => $this->input->post('detail_tahun'),
-            'KODE_UNIT' => $this->input->post('detail_kode_unit')
+            // 'BULAN'     => $this->input->post('detail_bulan'),
+            // 'TAHUN'     => $this->input->post('detail_tahun'),
+            'KODE_UNIT' => $this->input->post('detail_kode_unit'),
+            'TGL_AWAL'  => $this->input->post('detail_tgl_awal'),
+            'TGL_AKHIR' => $this->input->post('detail_tgl_akhir')
         ];
         $data = $this->tbl_penerimaan_get->getData_Model_Detail($data);
         echo json_encode($data);
     }
 
-    public function exportExcel()
+    public function export_excel()
     {
+        header('Content-Type: application/json');
         $data                = [
-            'ID_REGIONAL'      => $this->input->post('xlvl0'), // 01
+            // 'LVL0'             => $this->input->post('xlvl'),
+            'ID_REGIONAL'      => $this->input->post('xlvl'), // 01
             'COCODE'           => $this->input->post('xlvl1'),
             'PLANT'            => $this->input->post('xlvl2'),
             'STORE_SLOC'       => $this->input->post('xlvl3'),
@@ -183,12 +192,16 @@ class Penerimaan extends MX_Controller
 
             'SLOC'             => $this->input->post('xlvl4'), //183130
             'BBM'              => $this->input->post('xbbm'), //001
-            'BULAN'            => $this->input->post('xbln'), //1
-            'TAHUN'            => $this->input->post('xthn'), //2017
+            'JENIS_BBM'        => $this->input->post('xbbm'),
+            'VLEVELID'         => $this->input->post('xlvlid'),
+            // 'BULAN'            => $this->input->post('xbln'), //1
+            // 'TAHUN'            => $this->input->post('xthn'), //2017
+            'TGLAWAL'          => $this->input->post('xtglawal'),
+            'TGLAKHIR'         => $this->input->post('xtglakhir'),
             'JENIS'            => 'XLS'
         ];
 
-        $data['data'] = $this->tbl_get->getData_Model($data);
+        $data['data'] = $this->tbl_penerimaan_get->getData_Model($data);
         $this->load->view($this->_module . '/export_excel', $data);
     }
 }

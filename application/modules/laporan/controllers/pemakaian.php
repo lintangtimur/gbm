@@ -118,6 +118,9 @@ class pemakaian extends MX_Controller
             'vlevelId'   => $this->input->post('VLEVELID')
         ];
 
+        $data['TGLAWAL']       = $this->input->post('TGLAWAL');
+        $data['TGLAKHIR']      = $this->input->post('TGLAKHIR');
+
         $data = $this->tbl_pemakaian_get->getPemakaian($data);
 
         echo json_encode($data);
@@ -138,8 +141,36 @@ class pemakaian extends MX_Controller
 
     public function asd()
     {
-        // header('Content-Type: application/json');
+        header('Content-Type: application/json');
         $data = $this->tbl_pemakaian_get->testgetPemakaianDetail();
         echo json_encode($data);
+    }
+
+    public function export_excel()
+    {
+        header('Content-Type: application/json');
+        $data                = [
+            // 'LVL0'             => $this->input->post('xlvl'),
+            'ID_REGIONAL'      => $this->input->post('xlvl'), // 01
+            'COCODE'           => $this->input->post('xlvl1'),
+            'PLANT'            => $this->input->post('xlvl2'),
+            'STORE_SLOC'       => $this->input->post('xlvl3'),
+
+            'ID_REGIONAL_NAMA' => $this->input->post('xlvl0_nama'), //SUMATERA
+            'COCODE_NAMA'      => $this->input->post('xlvl1_nama'),
+            'PLANT_NAMA'       => $this->input->post('xlvl2_nama'),
+            'STORE_SLOC_NAMA'  => $this->input->post('xlvl3_nama'),
+
+            'SLOC'             => $this->input->post('xlvl4'), //183130
+            'BBM'              => $this->input->post('xbbm'), //001
+            'JENIS_BBM'        => $this->input->post('xbbm'),
+            'VLEVELID'         => $this->input->post('xlvlid'),
+            'BULAN'            => $this->input->post('xbln'), //1
+            'TAHUN'            => $this->input->post('xthn'), //2017
+            'JENIS'            => 'XLS'
+        ];
+
+        $data['data'] = $this->tbl_pemakaian_get->getPemakaian($data);
+        $this->load->view($this->_module . '/export_excel', $data);
     }
 }

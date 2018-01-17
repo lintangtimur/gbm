@@ -14,31 +14,23 @@ class penerimaan_model extends CI_Model
     {
         $VLEVEL_REGIONAL               = $data['ID_REGIONAL'];
         $VLEVELID                      = $data['VLEVELID'];
-        $BULAN                         = $data['BULAN'];
+        // $BULAN                         = $data['BULAN'];
         $JENIS_BBM                     = $data['JENIS_BBM'];
-        $TAHUN                         = $data['TAHUN'];
+        $TGLAWAL                       = $data['TGLAWAL'];
+        $TGLAKHIR                      = $data['TGLAKHIR'];
+        // $TAHUN                         = $data['TAHUN'];
 
-        //  $sql = "call PROCEDURE `lap_rekap_penerimaan`(
-        //     IN `$JENIS_BBM` VARCHAR(10) ,
-        //     IN `$BULAN` VARCHAR(2),
-        //     IN `$TAHUN` VARCHAR(4),
-        //     IN `$VLEVEL_REGIONAL` VARCHAR(10),
-        //     IN `$VLEVELID` VARCHAR(10)
-        // )";
+        // if ($VLEVELID == '' and $VLEVEL_REGIONAL == 'all') {
+        //     $VLEVELID        = '';
+        //     $VLEVEL_REGIONAL = 'all';
+        // }
         $sql = "call lap_rekap_penerimaan(
             '$JENIS_BBM',
-            '$BULAN' ,
-            '$TAHUN' ,
+            '$TGLAWAL' ,
+            '$TGLAKHIR' ,
             '$VLEVEL_REGIONAL',
             '$VLEVELID'
         )";
-        // $sql = "call lap_rekap_penerimaan(
-        //     'BIO',
-        //     '12',
-        //     '2017',
-        //     'Regional',
-        //     '04'
-        // )";
 
         $query = $this->db->query($sql);
 
@@ -48,11 +40,11 @@ class penerimaan_model extends CI_Model
     public function testGetDataModel($data)
     {
         $sql = "call lap_rekap_penerimaan(
-            'BIO',
-            '12',
-            '2017',
-            'Regional',
-            '04'
+            '-',
+            '03112017',
+            '27112017',
+            'Level 1',
+            '7700'
         )";
 
         $query = $this->db->query($sql);
@@ -69,15 +61,17 @@ class penerimaan_model extends CI_Model
     {
         $idBBM    = $data['ID_BBM'];
         $kodeUnit = $data['KODE_UNIT'];
-        $bulan    = $data['BULAN'];
-        $tahun    = $data['TAHUN'];
+        $tglAwal  = $data['TGL_AWAL'];
+        $tglAkhir = $data['TGL_AKHIR'];
+        // $bulan    = $data['BULAN'];
+        // $tahun    = $data['TAHUN'];
         // lap_detail_penerimaan(
         //     idbbm, bulan, tahun, kodeunit
         //     )
         $sql      = "call lap_detail_penerimaan(
             '$idBBM',
-            '$bulan',
-            '$tahun',
+            '$tglAwal',
+            '$tglAkhir',
             '$kodeUnit'
         )";
 

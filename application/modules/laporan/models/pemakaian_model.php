@@ -20,14 +20,25 @@ class pemakaian_model extends CI_Model
         $tahun      = $data['tahun'];
         $idRegional = $data['idRegional'];
         $vlevelId   = $data['vlevelId'];
+        $TGLAWAL    = $data['TGLAWAL'];
+        $TGLAKHIR   = $data['TGLAKHIR'];
 
+        // $sql = "call lap_rekap_pemakaian(
+        //     '$jenisbbm',
+        //     '$bulan',
+        //     '$tahun',
+        //     '$idRegional',
+        //     '$vlevelId'
+        // )";
+        
         $sql = "call lap_rekap_pemakaian(
             '$jenisbbm',
-            '$bulan',
-            '$tahun',
+            '$TGLAWAL' ,
+            '$TGLAKHIR' ,
             '$idRegional',
             '$vlevelId'
         )";
+
         $query = $this->db->query($sql);
 
         return $query->result();

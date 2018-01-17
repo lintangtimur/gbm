@@ -91,6 +91,26 @@
                 </div>
             </div><br/>
             <div class="form_row">
+              <div class="pull-left span3">
+                  <label for="password" class="control-label">Tanggal Awal : </label>
+                  <label for="password" class="control-label" style="margin-left:38px">Tanggal Akhir : </label>
+                  <div class="controls">
+                      <?php echo form_input('TGL_DARI', !empty($default->TGL_DARI) ? $default->TGL_DARI : '', 'class="form_datetime" style="width: 115px;" placeholder="Tanggal awal" id="tglawal"'); ?>
+                      <?php echo form_input('TGL_SAMPAI', !empty($default->TGL_SAMPAI) ? $default->TGL_SAMPAI : '', 'class="form_datetime" style="width: 115px;" placeholder="Tanggal akhir" id="tglakhir"'); ?>
+                  </div>
+              </div>
+              <div class="pull-left span3">
+                <label for="" class="control-label" style="margin-left:1px;">Tampil data</label>
+                <div class="controls">
+                  <?php echo form_dropdown('tampilData', [
+                    '-Tampilkan Data-'=> 'Tampilkan Data',
+                    '25'              => '25 data',
+                    '50'              => '50 data',
+                    '100'             => '100 data',
+                    '200'             => '200 data'
+                  ], '', 'style="margin-left:1px;"') ?>
+                </div>
+              </div>
                 <div class="pull-left span2">
                     <label for="password" class="control-label">Cari pembangkit<span class="required">*</span> : </label>
                     <div class="controls">
@@ -105,7 +125,7 @@
                 </div>
             </div>
             <div class="form_row">
-                <div class="pull-left span3">
+                <!-- <div class="pull-left span3">
                     <label for="password" class="control-label">Bulan <span class="required">*</span> : </label>
                     <label for="password" class="control-label" style="margin-left:95px">Tahun <span class="required">*</span> : </label>
                     <div class="controls">
@@ -113,7 +133,7 @@
                         <?php echo form_dropdown('BULAN', $opsi_bulan, $bulan, 'style="width: 137px;", id="bln"'); ?>
                         <?php echo form_dropdown('TAHUN', $opsi_tahun, '', 'style="width: 80px;", id="thn"'); ?>
                     </div>
-                </div>
+                </div> -->
                 <div class="pull-left span2">
                     <label></label>
                     <div class="controls">
@@ -204,7 +224,7 @@
     </div>
 </div>
 
-<form id="export_excel" action="<?php echo base_url('laporan/persediaan_bbm/export_excel'); ?>" method="post">
+<form id="export_excel" action="<?php echo base_url('laporan/pemakaian/export_excel'); ?>" method="post">
     <input type="hidden" name="xlvl0">
     <input type="hidden" name="xlvl1">
     <input type="hidden" name="xlvl2">
@@ -217,6 +237,8 @@
     <input type="hidden" name="xbbm">
     <input type="hidden" name="xbln">
     <input type="hidden" name="xthn">
+    <input type="hidden" name="xlvlid">
+    <input type="hidden" name="xlvl">
 </form>
 
 <form id="export_pdf" action="<?php echo base_url('laporan/persediaan_bbm/export_pdf'); ?>" method="post" >
@@ -239,6 +261,12 @@
     $(document).ready(function() {
         $('#button-detail').addClass('disabled');
         // $("#button-detail").attr("disabled", true);
+        $(".form_datetime").datepicker({
+          format: "dd-mm-yyyy",
+          autoclose: true,
+          todayBtn: true,
+          pickerPosition: "bottom-left"
+      });
     });
     var today = new Date();
     var year = today.getFullYear();
@@ -277,7 +305,6 @@
         $('#dataTable_detail').dataTable({
             "scrollY": "450px",
             "scrollX": true,
-            "searching": false,
             "scrollCollapse": false,
             "bPaginate": true,
             "bLengthChange": false,
@@ -285,6 +312,7 @@
             "bInfo": true,
             "bAutoWidth": true,
             "ordering": false,
+            "searching": false,
             // "fixedColumns": {"leftColumns": 6},
             "language": {
                 "decimal": ",",
@@ -357,17 +385,23 @@
         var bbm = $('#bbm').val(); //bahanBakar dropdown
         var bln = $('#bln').val(); //bulan dropdown
         var thn = $('#thn').val(); //tahun dropdown
+        var tglAwal= $('#tglawal').val().replace(/-/g, '');//02-11-2018
+        var tglAkhir =$('#tglakhir').val().replace(/-/g, '');
 
         //check last filled vlevlid
 
         if (lvl0=='') {
             bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
+
         } else {
             // lvl0 : jenis2 level -> Regional,Level 1, Level 2, Level 3
             // lvl3 : isi dari VLEVELID
             if (lvl0 !== "") {
                 lvl0 = 'Regional';
                 vlevelid = $('#lvl0').val();
+                if (vlevelid == "00") {
+                    lvl0 = "Pusat";
+                }
             }
             if (lvl1 !== "") {
                 lvl0 = 'Level 1';
@@ -403,30 +437,31 @@
                 bbm = '-';
             }
 
+            if (tglAwal == '' && tglAkhir == '') {
+              tglAwal = "-";
+              tglAkhir = '-';
+            }
+
             console.log("BBM: " + bbm + ' tahun: '+thn+' bulan: '+bln +' regional: '+ lvl0+' vlevlid: ' + vlevelid);
             bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
                 $.ajax({
                     type: "POST",
+                    // url: "<?php echo base_url('laporan/persediaan_bbm/getData'); ?>",
                     url : "<?php echo base_url('laporan/pemakaian/getPemakaian'); ?>",
                     data: {
                         "JENIS_BBM": bbm,
                         "BULAN":bln,
                         "TAHUN": thn,
                         "ID_REGIONAL": lvl0,
-                        "VLEVELID":vlevelid
+                        "VLEVELID":vlevelid,
+                        "TGLAWAL": tglAwal,
+                        "TGLAKHIR": tglAkhir,
                         },
                     success:function(response) {
                         var obj = JSON.parse(response);
                         console.log(obj);
                         var t = $('#dataTable').DataTable();
-                        // console.log(t);
-                        // var buttons = t.buttons( ['.edit', '.delete'] );
-                        // buttons.disable();
 
-
-                        // $('button.bdet').click( function () {
-                        //     t.row('.selected').remove().draw( false );
-                        // } );
                         t.clear().draw();
 
                         if (obj == "" || obj == null) {
@@ -517,7 +552,7 @@
 
                     tdetail.row.add( [
                         nomer, UNIT_PEMBANGKIT, NO_PEMAKAIAN,
-                        TGL_PENGAKUAN_PAKAI, convertToRupiah(VOL_PEMAKAIAN)
+                        TGL_PENGAKUAN_PAKAI, VOL_PEMAKAIAN
                     ] ).draw( false );
                     nomer++;
                 });
@@ -528,28 +563,77 @@
     } );
 
     $('#button-excel').click(function(e) {
-        bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Belum bisa diproses </div>', function() {});
-        return;
+      var lvl0 = $('#lvl0').val(); //Regional dropdown
+      var lvl1 = $('#lvl1').val(); //level1 dropdown
+      var lvl2 = $('#lvl2').val(); //level2 dropdown
+      var lvl3 = $('#lvl3').val(); //level3 dropdown
+      var lvl4 = $('#lvl4').val(); //pembangkit dropdown
+      var bbm = $('#bbm').val(); //bahanBakar dropdown
+      var bln = $('#bln').val(); //bulan dropdown
+      var thn = $('#thn').val(); //tahun dropdown
 
-        var lvl0 = $('#lvl0').val();
         if (lvl0 == '') {
             bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
         } else {
-            $('input[name="xlvl0"]').val($('#lvl0').val());
-            $('input[name="xlvl1"]').val($('#lvl1').val());
-            $('input[name="xlvl2"]').val($('#lvl2').val());
-            $('input[name="xlvl3"]').val($('#lvl3').val());
+          if (lvl0 !== "") {
+              lvl0 = 'Regional';
+              vlevelid = $('#lvl0').val();
+              if (vlevelid == "00") {
+                  lvl0 = "Pusat";
+              }
+          }
+          if (lvl1 !== "") {
+              lvl0 = 'Level 1';
+              vlevelid = $('#lvl1').val();
+          }
+          if (lvl2 !== "") {
+              lvl0 = 'Level 2';
+              vlevelid = $('#lvl2').val();
+          }
+          if (lvl3 !== ""){
+              lvl0 = 'Level 3';
+              vlevelid = $('#lvl3').val();
+          }
+          if (lvl4 !== "") {
+              lvl0 = 'Level 4';
+              vlevelid = $('#lvl4').val();
+          }
+          if (bbm !== "") {
+              bbm = $('#bbm').val();
+              if (bbm =='001') {
+                  bbm = 'MFO';
+              }else if(bbm == '002'){
+                  bbm = 'IDO';
+              }else if(bbm == '003'){
+                  bbm = 'BIO';
+              }else if(bbm == '004'){
+                  bbm = 'HSD+BIO';
+              }else if(bbm == '005'){
+                  bbm = 'HSD';
+              }
+          }
+          if (bbm == '') {
+              bbm = '-';
+          }
+          $('input[name="xlvl0"]').val($('#lvl0').val()); // 01
+          $('input[name="xlvl1"]').val($('#lvl1').val()); //COCODE
+          $('input[name="xlvl2"]').val($('#lvl2').val());
+          $('input[name="xlvl3"]').val($('#lvl3').val());
 
-            $('input[name="xlvl0_nama"]').val($('#lvl0 option:selected').text());
-            $('input[name="xlvl1_nama"]').val($('#lvl1 option:selected').text());
-            $('input[name="xlvl2_nama"]').val($('#lvl2 option:selected').text());
-            $('input[name="xlvl3_nama"]').val($('#lvl3 option:selected').text());
+          $('input[name="xlvl0_nama"]').val($('#lvl0 option:selected').text()); // SUMATERA
+          $('input[name="xlvl1_nama"]').val($('#lvl1 option:selected').text());
+          $('input[name="xlvl2_nama"]').val($('#lvl2 option:selected').text());
+          $('input[name="xlvl3_nama"]').val($('#lvl3 option:selected').text());
 
-            $('input[name="xlvl4"]').val($('#lvl4').val());
-            $('input[name="xbbm"]').val($('#bbm').val());
-            $('input[name="xbln"]').val($('#bln').val());
-            $('input[name="xthn"]').val($('#thn').val());
+          $('input[name="xlvl4"]').val($('#lvl4').val());  // 183130
+          $('input[name="xbbm"]').val(bbm); // 001
+          $('input[name="xbln"]').val($('#bln').val()); // 1 -> Januari
+          $('input[name="xthn"]').val($('#thn').val()); // 2017
+          $('input[name="xthn"]').val($('#thn').val());
 
+          $('input[name="xlvlid"]').val(vlevelid);
+          $('input[name="xlvl"]').val(lvl0);
+          console.log(vlevelid);
             bootbox.confirm('Apakah yakin akan export data excel ?', "Tidak", "Ya", function(e) {
                 if(e){
                     $('#export_excel').submit();
@@ -559,9 +643,6 @@
     });
 
     $('#button-pdf').click(function(e) {
-        bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Belum bisa diproses </div>', function() {});
-        return;
-        
         var lvl0 = $('#lvl0').val();
         if (lvl0 == '') {
             bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
