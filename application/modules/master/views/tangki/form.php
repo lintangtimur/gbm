@@ -1,172 +1,418 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: mrapry
+ * Date: 10/20/17
+ * Time: 10:51 PM
+ */ ?>
+
 <div class="row-fluid">
     <div class="box-title">
         <?php echo (isset($page_title)) ? $page_title : 'Untitle'; ?>
     </div>
     <div class="box-content">
+
         <?php
         $hidden_form = array('id' => !empty($id) ? $id : '');
         echo form_open_multipart($form_action, array('id' => 'finput', 'class' => 'form-horizontal'), $hidden_form);
-        ?>
-            <table class="table">
-                    <tr>
-                        <td>
-                            <div class="control-group">
-                                <label for="password" class="control-label">Pembangkits <span class="required">*</span> : </label>
-                                <div class="controls">
-                                    <?php echo form_dropdown('unit_pembangkit', $unit_pembangkit, !empty($default->SLOC) ? $default->SLOC : '', 'class="span10"'); ?>
-                                </div>
+            ?>
+            <div class="control-group">
+                <label  class="control-label">Regional <span class="required">*</span> : </label>
+                <div class="controls">
+                    <?php echo form_dropdown('ID_REGIONAL', $reg_options, !empty($default->ID_REGIONAL) ? $default->ID_REGIONAL : '', 'class="span6"'); ?>
+                </div>
+            </div>
+            <div class="control-group">
+                <label  class="control-label">Level 1<span class="required">*</span> : </label>
+                <div class="controls">
+                    <?php echo form_dropdown('COCODE', $lv1_options, !empty($default->COCODE) ? $default->COCODE : '', 'class="span6"'); ?>
+                </div>
+            </div>
+            <div class="control-group">
+                <label  class="control-label">Level 2<span class="required">*</span> : </label>
+                <div class="controls">
+                    <?php echo form_dropdown('PLANT', $lv2_options, !empty($default->PLANT) ? $default->PLANT : '', 'class="span6"'); ?>
+                </div>
+            </div>
+            <div class="control-group">
+                <label  class="control-label">Level 3<span class="required">*</span> : </label>
+                <div class="controls">
+                    <?php echo form_dropdown('STORE_SLOC', $lv3_options, !empty($default->STORE_SLOC) ? $default->STORE_SLOC : '', 'class="span6"'); ?>
+                </div>
+            </div>
+            <div class="control-group">
+                <label  class="control-label">Pembangkit<span class="required">*</span> : </label>
+                <div class="controls">
+                    <?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : '', 'class="span6" id="pembangkit"'); ?>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Jenis BBM<span class="required">*</span> : </label>
+                <div class="controls">
+                    <?php echo form_dropdown('ID_JNS_BHN_BKR', $option_jenis_bbm, !empty($default->ID_JNS_BHN_BKR) ? $default->ID_JNS_BHN_BKR : '', 'class="span3" id="jnsbbm"'); ?>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Total Kapasitas Terpasang (L) : </label>
+                <div class="controls">
+                    <?php echo form_input('VOLUME_TANGKI', !empty($default->VOLUME_TANGKI) ? $default->VOLUME_TANGKI : '', 'class="span3 rp" placeholder="Total Kapasitas Terpasang (L)" id="VOLUME_TANGKI" readonly'); ?>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Total Dead Stock (L) : </label>
+                <div class="controls">
+                    <?php echo form_input('DEADSTOCK_TANGKI', !empty($default->DEADSTOCK_TANGKI) ? $default->DEADSTOCK_TANGKI : '', 'class="span3 rp" placeholder="Total Dead Stock (L)" id="DEADSTOCK_TANGKI" readonly'); ?>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Total Kapasitas Mampu (L) : </label>
+                <div class="controls">
+                    <?php echo form_input('STOCKEFEKTIF_TANGKI', !empty($default->STOCKEFEKTIF_TANGKI) ? $default->STOCKEFEKTIF_TANGKI : '', 'class="span3 rp" placeholder="Total Kapasitas Mampu (L)" id="STOCKEFEKTIF_TANGKI" readonly'); ?>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Jumlah Tangki<span class="required">*</span> : </label>
+                <div class="controls">
+                    <?php echo form_input('JML_TANGKI', !empty($default->JML_TANGKI) ? $default->JML_TANGKI : '', 'class="span2 rp_num" placeholder="Max 30" id="JML_TANGKI" '); ?>
+                     <?php echo anchor(null, 'Generate', array('id' => 'button-jml-tangki', 'class' => 'green btn')); ?>
+                </div>
+            </div>
+            <br>           
+            <div class="content_table">
+                <div class="well-content clearfix">
+                        <div id='TextBoxesGroup'>
+                            <div id="TextBoxDiv0">
+                             
                             </div>
-                            <div class="control-group">
-                                <label for="password" class="control-label">Jenis BBM<span class="required">*</span> : </label>
-                                <div class="controls">
-                                    <?php echo form_dropdown('jenis_bbm', $jenis_bbm, !empty($default->ID_JNS_BHN_BKR) ? $default->ID_JNS_BHN_BKR : '', 'class="span10"'); ?>
-                                </div>
-                            </div>
-                            <div class="control-group" hidden>
-                                <label for="password" class="control-label">Nama Tangki<span class="required">*</span> : </label>
-                                <div class="controls">
-                                   <!-- <?php echo form_input('NAMA_TANGKI', !empty($default->NAMA_TANGKI) ? $default->NAMA_TANGKI : '', 'class="span10"'); ?> -->
-                                    <?php echo form_input('NAMA_TANGKI', 'TANGKI TIMBUN', 'class="span10"'); ?>
-                                </div>
-                        </td>
-                        <td>
-                            </div>
-                             <div class="control-group">
-                                <label for="password" class="control-label">Kapasitas (L)<span class="required">*</span> : </label>
-                                <div class="controls">
-                                    <?php echo form_input('KAPASITAS', !empty($default->VOLUME_TANGKI) ? $default->VOLUME_TANGKI : '', 'class="span10"'); ?>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label for="password" class="control-label">Dead Stock (L)<span class="required">*</span> : </label>
-                                <div class="controls">
-                                    <?php echo form_input('DEAD_STOCK', !empty($default->DEADSTOCK_TANGKI) ? $default->DEADSTOCK_TANGKI : '', 'class="span10"'); ?>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label for="password" class="control-label">Kapasitas Efektif (L)<span class="required">*</span> : </label>
-                                <div class="controls">
-                                    <?php echo form_input('STOCK_EFEKTIF', !empty($default->STOCKEFEKTIF_TANGKI) ? $default->STOCKEFEKTIF_TANGKI : '', 'class="span10"'); ?>
-                                </div>
-                            </div>
-                           
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="control-group">
-                                <label for="password" class="control-label">Tera<span class="required">*</span> : </label>
-                                <div class="controls">
-                                    <?php echo form_dropdown('TERA', $tera, !empty($default->ID_TERA) ? $default->ID_TERA : '', 'class="span8"'); ?>
-                                </div>
-                            </div>
-                             <div class="control-group">
-                                <label for="password" class="control-label">Tanggal Akhir Tera<span class="required">*</span> : </label>
-                                <div class="controls">
-                                <?php echo form_input('TGL_TERA', !empty($default->TGL_DET_TERA) ? $default->TGL_DET_TERA : '', 'class="span8", id="TGL_TERA"'); ?>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="control-group">
-                                <label for="password" class="control-label" id="up_nama">Upload Dokumen : </label> 
-                                <div class="controls" id="up_file">
-                                    <?php echo form_upload('FILE_UPLOAD', !empty($default->PATH_DET_TERA) ? $default->PATH_DET_TERA : '', 'class="span6"'); ?>
-                                </div>
-                            <div class="controls" id="dokumen">
-                                <a href="<?php echo base_url().'assets/upload/tangki/'.$id_dok;?>" target="_blank"><b><?php echo (empty($id_dok)) ? $id_dok : 'Lihat Dokumen'; ?></b></a>
-                            </div>
-								<!-- <div class="controls" id="dokumen">
-									<a href="javascript:void(0);" id="lihatdoc" onclick="lihat_dokumen(this.id)" data-modul="TANGKI" data-url="<?php// echo $url_getfile;?>" data-filename="<?php //echo !empty($default->PATH_DET_TERA) ? $default->PATH_DET_TERA : '';?>"><b><?php// echo (empty($id_dok)) ? $id_dok : 'Lihat Dokumen'; ?></b></a>
-								</div>  -->
-                            </div>
-                            <div class="control-group">
-                                <label for="password" class="control-label">Aktif <span class="required">*</span> : </label>
-                                <div class="controls">
-                                <?php echo form_checkbox('STATUS', '1',!empty($default->ISAKTIF_DET_TERA) ? $default->ISAKTIF_DET_TERA : '', 'class ="STATUS"' ); ?> 
-                                </div>
-                            </div>
-                            <!-- <div class="control-group">
-                                <div class="controls">
-                                    <?php #echo anchor(null, '<i class="icon-plus"></i> Tambah', array( 'id' => 'tambah', 'class' => 'blue btn')); ?>
-                                </div>
-                            </div> -->
-                        </td>
-                    </tr>
-            </table>
-            <!-- <div id="content_table" data-source="<?php #echo $data_detail; ?>" data-filter="#ffilter"></div> -->
-       <!--  <div class="well-content" id="content_table">
-            <table id="data_tera" class="table table-striped table-bordered table-hover datatable dataTable">
-                <thead>
-                    <tr>
-                        <th>Tera</th>
-                        <th>Path Tera</th>
-                        <th>Tanggal Detail Tera</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                    <tr>
-                        <td><?php #echo $data_detail->ID_TERA; ?></td>
-                        <td><?php #echo $data_detail->PATH_DET_TERA; ?></td>
-                        <td><?php #echo $data_detail->TGL_DET_TERA; ?></td>
-                        <td><?php #echo $data_detail->ISAKTIF_DET_TERA; ?></td>
-                    </tr>
-                    
-                </tbody>
-            </table>
-        </div>
- -->
-        <div class="form-actions">
-            <?php echo anchor(null, '<i class="icon-save"></i> Simpan', array('id' => 'button-save', 'class' => 'blue btn', 'onclick' => "simpan_data(this.id, '#finput', '#button-back')")); ?>
-             <?php echo anchor(null, '<i class="icon-circle-arrow-left"></i> Tutup', array('id' => 'button-back', 'class' => 'btn', 'onclick' => 'close_form(this.id)')); ?>
-        </div>
-        <?php echo form_close(); ?>
+                        </div>
+                        <input type='button' value='Add Button' id='addButton'>
+                        <input type='button' value='Remove Button' id='removeButton'>
+                        <input type='button' value='Get TextBox Value' id='getButtonValue'>                       
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <?php 
+                if ($this->laccess->otoritas('edit')) {
+                    echo anchor(null, '<i class="icon-save"></i> Simpan', array('id' => 'button-save', 'class' => 'blue btn', 'onclick' => "simpan_data(this.id, '#finput', '#button-back')"));
+                }?>
+                <?php echo anchor(null, '<i class="icon-circle-arrow-left"></i> Tutup', array('id' => 'button-back', 'class' => 'btn', 'onclick' => 'close_form(this.id)')); ?>
+            </div>
+            <?php
+        echo form_close(); ?>
     </div>
 </div>
 
 <script type="text/javascript">
-    jQuery(function($) {
+    $(document).ready(function(){
 
-        load_table('#content_table', 1, '#ffilter');
+        var counter = 1;
 
-        $('#button-filter').click(function() {
-            load_table('#content_table', 1, '#ffilter');
+        $("#addButton").click(function () {
+            if(counter>31){
+                    alert("Max 31 data yang diperbolehkan");
+                    return false;
+            }
+
+            var newTextBoxDiv = $(document.createElement('div'))
+                 .attr("id", 'TextBoxDiv' + counter);
+
+            var text_nama_tangki="<input type='text' id='NAMA_TANGKI"+ counter + "' name='NAMA_TANGKI"+ counter + "' placeholder='Nama Tangki' size='37'>";
+
+            var text_k_terpasang="<input type='text' id='VOLUME_TANGKI"+ counter + "' name='VOLUME_TANGKI"+ counter + "' placeholder='Terpasang (L)' size='37' class='rp' onChange='setHitungKirim()'>";
+
+            var text_dead_stock="<input type='text' id='DEADSTOCK_TANGKI"+ counter + "' name='DEADSTOCK_TANGKI"+ counter + "' placeholder='Dead Stock (L)' size='37' class='rp' onChange='setHitungKirim()'>";
+
+            var text_k_mampu="<input type='text' id='STOCKEFEKTIF_TANGKI"+ counter + "' name='STOCKEFEKTIF_TANGKI"+ counter + "' placeholder='Kapasitas Mampu (L)' size='37' class='rp' onChange='setHitungKirim()'>";
+
+            var text_ditera_oleh="<input type='text' id='DITERA_OLEH"+ counter + "' name='DITERA_OLEH"+ counter + "' placeholder='Ditera Oleh' size='37'>";
+
+            var text_tgl_awal="<input type='text' id='TGL_AWAL_TERA"+ counter + "' name='TGL_AWAL_TERA"+ counter + "' placeholder='Tgl Awal Tera' size='37' class='datepicker'>";
+
+            var text_tgl_akhir="<input type='text' id='TGL_AKHIR_TERA"+ counter + "' name='TGL_AKHIR_TERA"+ counter + "' placeholder='Tgl Akhir Tera' size='37' class='datepicker'>";
+
+            var text_status="<input type='checkbox' id='AKTIF"+ counter + "' name='AKTIF"+ counter + "' placeholder='Status Tangki' value='1' class='STATUS'>  Aktif";
+
+            var text_upload_doc="<input type='file' id='PATH_DET_TERA"+ counter + "' name='PATH_DET_TERA"+ counter + "' >";
+
+    
+           
+            var visi = '<div class="form_row">'+
+            '<div class="pull-left"><label for="password" class="control-label">Nama Tangki ke : '+ counter + '</label>'+
+            '<div class="controls">'+text_nama_tangki+'</div></div>'+
+            '<div class="pull-left span1"><label for="password" class="control-label">Ditera Oleh ke : '+ counter + '</label>'+
+            '<div class="controls">'+text_ditera_oleh+'</div></div>'+
+            '</div><br>'+
+            '<div class="form_row">'+
+            '<div class="pull-left"><label for="password" class="control-label">Kapasitas Terpasang (L) ke : '+ counter + '</label>'+
+            '<div class="controls">'+text_k_terpasang+'</div></div>'+
+            '<div class="pull-left span1"><label for="password" class="control-label">Tgl Awal Tera ke : '+ counter + '</label>'+
+            '<div class="controls">'+text_tgl_awal+'</div></div>'+
+            '</div><br>'+
+            '<div class="form_row">'+
+            '<div class="pull-left"><label for="password" class="control-label">Dead Stock ke : '+ counter + '</label>'+
+            '<div class="controls">'+text_dead_stock+'</div></div>'+
+            '<div class="pull-left span1"><label for="password" class="control-label">Tgl Akhir Tera ke : '+ counter + '</label>'+
+            '<div class="controls">'+text_tgl_akhir+'</div></div>'+
+            '</div><br>'+
+
+            '<div class="form_row">'+
+            '<div class="pull-left"><label for="password" class="control-label">Kapasitas Mampu (L) ke : '+ counter + '</label>'+
+            '<div class="controls">'+text_k_mampu+'</div></div>'+
+            '<div class="pull-left span1"><label for="password" class="control-label">Upload Doc Tera ke : '+ counter + '</label>'+
+            '<div class="controls">'+text_upload_doc+'</div></div>'+
+            '</div><br>'+
+            '<div class="form_row">'+
+            '<div class="pull-left"><label for="password" class="control-label">Status Tangki ke : '+ counter + '</label>'+
+            '<div class="controls">'+text_status+'</div></div>'+
+            '</div><hr>';   
+
+            newTextBoxDiv.after().html(visi);
+            newTextBoxDiv.appendTo("#TextBoxesGroup");
+            counter++;
         });
 
-    });
-</script>
+        $("#removeButton").click(function () {
+            if(counter==1){
+                //alert("No more textbox to remove");
+                return false;
+            }
 
-<script type="text/javascript">
-$("#TGL_TERA").datepicker({
-        format: "yyyy-mm-dd",
-        autoclose: true,
+            counter--;
+            $("#TextBoxDiv" + counter).remove();
+        });
+
+        $("#getButtonValue").click(function () {
+            var msg = '';
+            for(i=1; i<counter; i++){
+                msg += "\n Textbox #" + i + " : " + $('#tgl_ke' + i).val();
+            }
+            alert(msg);
+        });
+
+        $("#button-jml-tangki").click(function () {
+            var x = $('#JML_TANGKI').val(); 
+
+            if(x>30){
+                var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i> Max 30 data jumlah pengiriman yang diperbolehkan</div>';
+                bootbox.alert(message, function() {});
+                $('#JML_TANGKI').val('30');
+            }
+
+            for (i = 1; i <= 30; i++) {
+                $("#TextBoxDiv"+i).hide();
+            }
+
+            for (i = 1; i <= x; i++) {
+                $("#TextBoxDiv"+i).show();
+
+            }
+            setHitungKirim();
+        });
+
+        for (i = 0; i < 30; i++) {
+            $("#addButton").click();
+        }
+
+        for (i = 1; i <= 30; i++) {
+            $("#TextBoxDiv"+i).hide();
+        }
+        
+        if ($('input[name=id]').val()){
+            get_detail($('input[name=NO_NOMINASI]').val()); 
+        }
+
+
+        $("#addButton").hide();
+        $("#removeButton").hide();
+        $("#getButtonValue").hide();
+    });
+
+    function setHitungKirim(){
+        var vSumTerpasang=0;
+        var vSumDeadStock=0;
+        var vSumMampu=0;
+        var vol=0;
+        var new_vol=0;
+
+        for (i = 1; i <= 30; i++) {
+            if($("#TextBoxDiv"+i).is(":visible")){
+                //hitung vSumTerpasang
+                vol = $("#VOLUME_TANGKI"+i).val();
+                new_vol = vol.replace(/\./g, "");
+                new_vol = new_vol.replace(",", ".");
+                if (new_vol==''){new_vol=0;}
+                new_vol = parseFloat(new_vol);
+                vSumTerpasang += new_vol; 
+
+                //hitung vSumDeadStock
+                vol = $("#DEADSTOCK_TANGKI"+i).val();
+                new_vol = vol.replace(/\./g, "");
+                new_vol = new_vol.replace(",", ".");
+                if (new_vol==''){new_vol=0;}
+                new_vol = parseFloat(new_vol);
+                vSumDeadStock += new_vol; 
+
+                //hitung vSumMampu
+                vol = $("#STOCKEFEKTIF_TANGKI"+i).val();
+                new_vol = vol.replace(/\./g, "");
+                new_vol = new_vol.replace(",", ".");
+                if (new_vol==''){new_vol=0;}
+                new_vol = parseFloat(new_vol);
+                vSumMampu += new_vol;     
+            }
+        }
+        $("#VOLUME_TANGKI").val(vSumTerpasang);
+        $("#DEADSTOCK_TANGKI").val(vSumDeadStock);
+        $("#STOCKEFEKTIF_TANGKI").val(vSumMampu);
+    }
+
+    $("#button-save").click(function () {
+        $("#button-jml-tangki").click();
+    });
+
+    $(".datepicker").datepicker({
+        format: 'yyyy-mm-dd', 
+        autoclose:true,
         todayBtn: true,
         pickerPosition: "bottom-left"
     });
+
+    $(".rp").inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false, allowMinus: false,oncleared: function () { self.Value(''); }
+    });
+
+    $(".rp_num").inputmask("numeric", {radixPoint: ",",groupSeparator: "",digits: 0,autoGroup: true,prefix: '',rightAlign: false, allowMinus: false,oncleared: function () { self.Value(''); }
+    });
     
-    $('input[name=KAPASITAS]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
-    });
-    $('input[name=DEAD_STOCK]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
-    });
-    $('input[name=STOCK_EFEKTIF]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
-    });
-</script>
-<script type="text/javascript">
-     $("#tambah").click(function () {
-        var stat = '';
-        if ($('.STATUS').is(":checked"))
-        {
-            stat = 'AKTIF';
-        } else {
-            stat = 'TIDAK AKTIF';
+
+    // $( "#pembangkit" ).change(function() {
+    //     var sloc = $(this).val();
+    //     load_jenis_bbm('<?php echo $urljnsbbm; ?>/' + sloc, "#jnsbbm");
+    // });
+    
+    function setDefaultLv1(){
+        $('select[name="COCODE"]').empty();
+        $('select[name="COCODE"]').append('<option value="">--Pilih Level 1--</option>');
+    }
+
+    function setDefaultLv2(){
+        $('select[name="PLANT"]').empty();
+        $('select[name="PLANT"]').append('<option value="">--Pilih Level 2--</option>');
+    }
+
+    function setDefaultLv3(){
+        $('select[name="STORE_SLOC"]').empty();
+        $('select[name="STORE_SLOC"]').append('<option value="">--Pilih Level 3--</option>');
+    }
+
+    function setDefaultLv4(){
+        $('select[name="SLOC"]').empty();
+        $('select[name="SLOC"]').append('<option value="">--Pilih Pembangkit--</option>');
+    }
+
+    $('select[name="ID_REGIONAL"]').on('change', function() {
+        bootbox.modal('<div class="loading-progress"></div>');
+        var stateID = $(this).val();
+        var vlink_url = '<?php echo base_url()?>data_transaksi/permintaan/get_options_lv1/'+stateID;
+        setDefaultLv1();
+        setDefaultLv2();
+        setDefaultLv3();
+        setDefaultLv4();
+        if(stateID) {
+            $.ajax({
+                url: vlink_url,
+                type: "GET",
+                dataType: "json",
+                success:function(data) {
+                    $.each(data, function(key, value) {
+                        $('select[name="COCODE"]').append('<option value="'+ value.COCODE +'">'+ value.LEVEL1 +'</option>');
+                    });
+                    bootbox.hideAll();
+                }
+            });
         }
 
-        if ($('.tera').val() != '') {
-            $('#data_tera').append('<tr><td>'+ $('.tera').val()  +'</td><td>'+ $('.tera option:selected').text()  +'</td><td>'+ $('.filepath').val()  +'</td><td>'+ $('#TGL_TERA').val()  +'</td><td>'+ stat +'</td></tr>');
-        } else {
-            alert('Data Belum Lengkap');
-        };
-
     });
+
+    $('select[name="COCODE"]').on('change', function() {
+        bootbox.modal('<div class="loading-progress"></div>');
+        var stateID = $(this).val();
+        var vlink_url = '<?php echo base_url()?>data_transaksi/permintaan/get_options_lv2/'+stateID;
+        setDefaultLv2();
+        setDefaultLv3();
+        setDefaultLv4();
+        if(stateID) {
+            $.ajax({
+                url: vlink_url,
+                type: "GET",
+                dataType: "json",
+                success:function(data) {
+                    $.each(data, function(key, value) {
+                        $('select[name="PLANT"]').append('<option value="'+ value.PLANT +'">'+ value.LEVEL2 +'</option>');
+                    });
+                    bootbox.hideAll();
+                }
+            });
+        }
+    });
+
+    $('select[name="PLANT"]').on('change', function() {
+        bootbox.modal('<div class="loading-progress"></div>');
+        var stateID = $(this).val();
+        var vlink_url = '<?php echo base_url()?>data_transaksi/permintaan/get_options_lv3/'+stateID;
+        setDefaultLv3();
+        setDefaultLv4();
+        if(stateID) {
+            $.ajax({
+                url: vlink_url,
+                type: "GET",
+                dataType: "json",
+                success:function(data) {
+                    $.each(data, function(key, value) {
+                        $('select[name="STORE_SLOC"]').append('<option value="'+ value.STORE_SLOC +'">'+ value.LEVEL3 +'</option>');
+                    });
+                    bootbox.hideAll();
+                }
+            });
+        }
+    });
+
+    $('select[name="STORE_SLOC"]').on('change', function() {
+        bootbox.modal('<div class="loading-progress"></div>');
+        var stateID = $(this).val();
+        var vlink_url = '<?php echo base_url()?>data_transaksi/permintaan/get_options_lv4/'+stateID;
+        setDefaultLv4();
+        if(stateID) {
+            $.ajax({
+                url: vlink_url,
+                type: "GET",
+                dataType: "json",
+                success:function(data) {
+                    $.each(data, function(key, value) {
+                        $('select[name="SLOC"]').append('<option value="'+ value.SLOC +'">'+ value.LEVEL4 +'</option>');
+                    });
+                    bootbox.hideAll();
+                }
+            });
+        }
+    });
+
+    function get_detail(vId) {
+        var vlink_url = '<?php echo base_url()?>data_transaksi/permintaan/get_detail_kirim/'+vId;
+        var i=0;
+        $.ajax({
+            url: vlink_url,
+            type: "GET",
+            dataType: "json",
+            success:function(data) {
+                $.each(data, function(key, value) {
+                    i = i+1;
+                    $("#tgl_ke"+i).val(value.TGL_KIRIM);
+                    $("#vol_ke"+i).val(value.VOLUME_NOMINASI);
+                    $("#TextBoxDiv"+i).show();
+                });
+            }
+        });
+    };
 
 </script>

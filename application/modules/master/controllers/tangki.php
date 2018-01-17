@@ -49,7 +49,7 @@ class tangki extends MX_Controller {
 
     public function add($id = '') {
         $page_title = 'Tambah Tangki';
-        $data = $this->cekLevelUser();
+        $data = $this->get_level_user();
         $data['id_dok'] = $id;
         $data['id'] = $id;
 		$data['id_dok'] = '';
@@ -66,7 +66,7 @@ class tangki extends MX_Controller {
         }
        
         // $data['unit_pembangkit'] = $this->tangki_model->option_pembangkit_all('--Pilih Unit Pembangkit--', array('master_tangki.SLOC' => NULL));
-        $data['jenis_bbm'] = $this->tangki_model->option_jenisbbm('--Pilih Jenis BBM--', array('master_tangki.ID_JNS_BHN_BKR' => NULL));
+        $data['option_jenis_bbm'] = $this->tangki_model->option_jenisbbm('--Pilih Jenis BBM--', array('master_tangki.ID_JNS_BHN_BKR' => NULL));
         $data['tera'] = $this->tangki_model->option_tera();
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
         $data['form_action'] = base_url($this->_module . '/proses');
@@ -103,29 +103,78 @@ class tangki extends MX_Controller {
     }
 
     public function proses() {
-        $this->form_validation->set_rules('unit_pembangkit', 'Unit Pembangkit', 'trim|required');
-        $this->form_validation->set_rules('jenis_bbm', 'Jenis Bahan Bakar', 'trim|required');
-        // $this->form_validation->set_rules('TERA', 'Tera', 'trim|required');
-        $this->form_validation->set_rules('KAPASITAS', 'Kapasitas', 'trim|required');
-        $this->form_validation->set_rules('DEAD_STOCK', 'Dead Stok', 'trim|required');
-        $this->form_validation->set_rules('STOCK_EFEKTIF', 'Kapasitas Efektif', 'trim|required');
+        $this->form_validation->set_rules('SLOC', 'Pembangkit', 'trim|required');
+        $this->form_validation->set_rules('ID_JNS_BHN_BKR', 'Jenis Bahan Bakar', 'trim|required');
+        $this->form_validation->set_rules('JML_TANGKI', 'Jumlah Tangki', 'trim|required');
+        // $this->form_validation->set_rules('VOLUME_TANGKI', 'Kapasitas', 'trim|required');
+        // $this->form_validation->set_rules('DEAD_STOCK', 'Dead Stok', 'trim|required');
+        // $this->form_validation->set_rules('STOCK_EFEKTIF', 'Kapasitas Efektif', 'trim|required');
         $id = $this->input->post('id');
          if ($id == '') {
             if (empty($_FILES['FILE_UPLOAD']['name'])){
                 $this->form_validation->set_rules('FILE_UPLOAD', 'Upload Dokumen', 'required');
             }
         }
+
+        $x = $this->input->post('JML_TANGKI');
+
+        if ($x>0){
+            if ($x>30){
+                $x=30;
+            }
+            for ($i=1; $i<=$x; $i++) {
+                $this->form_validation->set_rules('NAMA_TANGKI'.$i, 'Nama Tangki ke '.$i, 'required');
+                $this->form_validation->set_rules('VOLUME_TANGKI'.$i, 'Kapasitas Terpasang (L) ke '.$i, 'required');
+            }
+        }
+
         if ($this->form_validation->run($this)) {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
 
             $data = array();
-            $data['SLOC'] = $this->input->post('unit_pembangkit');
-            $data['ID_JNS_BHN_BKR'] = $this->input->post('jenis_bbm');
-            $data['NAMA_TANGKI'] = $this->input->post('NAMA_TANGKI');
-            $data['VOLUME_TANGKI'] = str_replace(".","",$this->input->post('KAPASITAS'));
-            $data['DEADSTOCK_TANGKI'] = str_replace(".","",$this->input->post('DEAD_STOCK'));
-            $data['STOCKEFEKTIF_TANGKI'] = str_replace(".","",$this->input->post('STOCK_EFEKTIF'));
+            $data['SLOC'] = $this->input->post('SLOC');
+            $data['ID_JNS_BHN_BKR'] = $this->input->post('ID_JNS_BHN_BKR');
+            // $data['NAMA_TANGKI'] = $this->input->post('NAMA_TANGKI');
+            $data['VOLUME_TANGKI'] = str_replace(".","",$this->input->post('VOLUME_TANGKI'));
+            $data['VOLUME_TANGKI'] = str_replace(",",".",$data['VOLUME_TANGKI']);
+            $data['DEADSTOCK_TANGKI'] = str_replace(".","",$this->input->post('DEADSTOCK_TANGKI'));
+            $data['DEADSTOCK_TANGKI'] = str_replace(",",".",$data['DEADSTOCK_TANGKI']);
+            $data['STOCKEFEKTIF_TANGKI'] = str_replace(".","",$this->input->post('STOCKEFEKTIF_TANGKI'));
+            $data['STOCKEFEKTIF_TANGKI'] = str_replace(",",".",$data['STOCKEFEKTIF_TANGKI']);
             $data['UD_BY_TANGKI'] = $this->session->userdata('user_name');
+
+            $data_detail = array();
+            for ($i=1; $i<=$x; $i++)
+            {
+                $VOLUME_TANGKI = $this->input->post('VOLUME_TANGKI'.$i);
+                $VOLUME_TANGKI = str_replace(".","",$VOLUME_TANGKI);
+                $VOLUME_TANGKI = str_replace(",",".",$VOLUME_TANGKI);
+
+                $DEADSTOCK_TANGKI = $this->input->post('DEADSTOCK_TANGKI'.$i);
+                $DEADSTOCK_TANGKI = str_replace(".","",$DEADSTOCK_TANGKI);
+                $DEADSTOCK_TANGKI = str_replace(",",".",$DEADSTOCK_TANGKI);
+
+                $STOCKEFEKTIF_TANGKI = $this->input->post('STOCKEFEKTIF_TANGKI'.$i);
+                $STOCKEFEKTIF_TANGKI = str_replace(".","",$STOCKEFEKTIF_TANGKI);
+                $STOCKEFEKTIF_TANGKI = str_replace(",",".",$STOCKEFEKTIF_TANGKI);
+                $data_detail[$i] = array(
+                    'NAMA_TANGKI' => $this->input->post('NAMA_TANGKI'.$i),
+                    'ID_TANGKI' => '',
+                    'ID_JNS_BHN_BKR' => $this->input->post('ID_JNS_BHN_BKR'),
+                    'SLOC' => $this->input->post('SLOC'),
+                    'ID_TERA' => '',
+                    'DITERA_OLEH' => $this->input->post('DITERA_OLEH'.$i),
+                    'PATH_DET_TERA' => $this->input->post('PATH_DET_TERA'.$i),
+                    'TGL_AWAL_TERA' => $this->input->post('TGL_AWAL_TERA'.$i),
+                    'TGL_AKHIR_TERA' => $this->input->post('TGL_AKHIR_TERA'.$i),
+                    'VOLUME_TANGKI' => $VOLUME_TANGKI,
+                    'DEADSTOCK_TANGKI' => $DEADSTOCK_TANGKI,
+                    'STOCKEFEKTIF_TANGKI' => $STOCKEFEKTIF_TANGKI,
+                    'CREATE_DATE' => date('Y-m-d'),
+                    'CREATE_BY' => $this->session->userdata('user_name'),
+                    'AKTIF' => $this->input->post('AKTIF'.$i),
+                );
+            }
            
             if ($id == '') {
                 $data['CD_TANGKI'] = date("Y/m/d");
@@ -296,6 +345,86 @@ class tangki extends MX_Controller {
         } 
         
     return $data;
+    }
+
+    public function get_level_user(){
+        // $data['option_pembangkit'] = $this->tangki_model->getPembangkitByLv(); 
+        $data['lv1_options'] = $this->tangki_model->options_lv1('--Pilih Level 1--', '-', 1);
+        $data['lv2_options'] = $this->tangki_model->options_lv2('--Pilih Level 2--', '-', 1);
+        $data['lv3_options'] = $this->tangki_model->options_lv3('--Pilih Level 3--', '-', 1);
+        $data['lv4_options'] = $this->tangki_model->options_lv4('--Pilih Pembangkit--', '-', 1);
+
+        $level_user = $this->session->userdata('level_user');
+        $kode_level = $this->session->userdata('kode_level');
+
+        $data_lv = $this->tangki_model->get_level($level_user, $kode_level);
+
+        if ($level_user == 4) {
+            $option_reg[$data_lv[0]->ID_REGIONAL] = $data_lv[0]->NAMA_REGIONAL;
+            $option_lv1[$data_lv[0]->COCODE] = $data_lv[0]->LEVEL1;
+            $option_lv2[$data_lv[0]->PLANT] = $data_lv[0]->LEVEL2;
+            $option_lv3[$data_lv[0]->STORE_SLOC] = $data_lv[0]->LEVEL3;
+            $option_lv4[$data_lv[0]->SLOC] = $data_lv[0]->LEVEL4;
+            $data['reg_options'] = $option_reg;
+            $data['lv1_options'] = $option_lv1;
+            $data['lv2_options'] = $option_lv2;
+            $data['lv3_options'] = $option_lv3;
+            $data['lv4_options'] = $option_lv4;
+        } else if ($level_user == 3) {
+            $option_reg[$data_lv[0]->ID_REGIONAL] = $data_lv[0]->NAMA_REGIONAL;
+            $option_lv1[$data_lv[0]->COCODE] = $data_lv[0]->LEVEL1;
+            $option_lv2[$data_lv[0]->PLANT] = $data_lv[0]->LEVEL2;
+            $option_lv3[$data_lv[0]->STORE_SLOC] = $data_lv[0]->LEVEL3;
+            $data['reg_options'] = $option_reg;
+            $data['lv1_options'] = $option_lv1;
+            $data['lv2_options'] = $option_lv2;
+            $data['lv3_options'] = $option_lv3;
+            $data['lv4_options'] = $this->tangki_model->options_lv4('--Pilih Pembangkit--', $data_lv[0]->STORE_SLOC, 1);
+        } else if ($level_user == 2) {
+            $option_reg[$data_lv[0]->ID_REGIONAL] = $data_lv[0]->NAMA_REGIONAL;
+            $option_lv1[$data_lv[0]->COCODE] = $data_lv[0]->LEVEL1;
+            $option_lv2[$data_lv[0]->PLANT] = $data_lv[0]->LEVEL2;
+            $data['reg_options'] = $option_reg;
+            $data['lv1_options'] = $option_lv1;
+            $data['lv2_options'] = $option_lv2;
+            $data['lv3_options'] = $this->tangki_model->options_lv3('--Pilih Level 3--', $data_lv[0]->PLANT, 1);
+        } else if ($level_user == 1) {
+            $option_reg[$data_lv[0]->ID_REGIONAL] = $data_lv[0]->NAMA_REGIONAL;
+            $option_lv1[$data_lv[0]->COCODE] = $data_lv[0]->LEVEL1;
+            $data['reg_options'] = $option_reg;
+            $data['lv1_options'] = $option_lv1;
+            $data['lv2_options'] = $this->tangki_model->options_lv2('--Pilih Level 2--', $data_lv[0]->COCODE, 1);
+        } else if ($level_user == 0) {
+            if ($kode_level == 00) {
+                $data['reg_options'] = $this->tangki_model->options_reg();
+            } else {
+                $option_reg[$data_lv[0]->ID_REGIONAL] = $data_lv[0]->NAMA_REGIONAL;
+                $data['reg_options'] = $option_reg;
+                $data['lv1_options'] = $this->tangki_model->options_lv1('--Pilih Level 1--', $data_lv[0]->ID_REGIONAL, 1);
+            }
+        }
+
+        return $data;
+    }
+
+    public function get_options_lv1($key=null) {
+        $message = $this->tangki_model->options_lv1('--Pilih Level 1--', 'all', 0);
+        echo json_encode($message);
+    }
+
+    public function get_options_lv2($key=null) {
+        $message = $this->tangki_model->options_lv2('--Pilih Level 2--', $key, 0);
+        echo json_encode($message);
+    }
+
+    public function get_options_lv3($key=null) {
+        $message = $this->tangki_model->options_lv3('--Pilih Level 3--', $key, 0);
+        echo json_encode($message);
+    }
+
+    public function get_options_lv4($key=null) {
+        $message = $this->tangki_model->options_lv4('--Pilih Pembangkit--', $key, 0);
+        echo json_encode($message);
     }
 
 }
