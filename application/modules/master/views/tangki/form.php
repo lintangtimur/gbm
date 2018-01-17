@@ -131,7 +131,7 @@
 
             var text_tgl_akhir="<input type='text' id='TGL_AKHIR_TERA"+ counter + "' name='TGL_AKHIR_TERA"+ counter + "' placeholder='Tgl Akhir Tera' size='37' class='datepicker'>";
 
-            var text_status="<input type='checkbox' id='AKTIF"+ counter + "' name='AKTIF"+ counter + "' placeholder='Status Tangki' value='1' class='STATUS'>  Aktif";
+            var text_status="<input type='checkbox' id='AKTIF"+ counter + "' name='AKTIF"+ counter + "' placeholder='Status Tangki' value='1' class='STATUS' checked>  Aktif";
 
             var text_upload_doc="<input type='file' id='PATH_DET_TERA"+ counter + "' name='PATH_DET_TERA"+ counter + "' >";
 
@@ -284,11 +284,6 @@
     $(".rp_num").inputmask("numeric", {radixPoint: ",",groupSeparator: "",digits: 0,autoGroup: true,prefix: '',rightAlign: false, allowMinus: false,oncleared: function () { self.Value(''); }
     });
     
-
-    // $( "#pembangkit" ).change(function() {
-    //     var sloc = $(this).val();
-    //     load_jenis_bbm('<?php echo $urljnsbbm; ?>/' + sloc, "#jnsbbm");
-    // });
     
     function setDefaultLv1(){
         $('select[name="COCODE"]').empty();
