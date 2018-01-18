@@ -15,13 +15,13 @@
                 </div>
             </div>
             <div class="control-group">
-                <label  class="control-label">Level 1<span class="required">*</span> : </label>
+                <label  class="control-label">Level 1 <span class="required">*</span> : </label>
                 <div class="controls">
                     <?php echo form_dropdown('COCODE', $lv1_options, !empty($default->COCODE) ? $default->COCODE : '', 'class="span6" disabled'); ?>
                 </div>
             </div>
             <div class="control-group">
-                <label  class="control-label">Level 2<span class="required">*</span> : </label>
+                <label  class="control-label">Level 2 <span class="required">*</span> : </label>
                 <div class="controls">
                     <?php echo form_dropdown('PLANT', $lv2_options, !empty($default->PLANT) ? $default->PLANT : '', 'class="span6" disabled'); ?>
                 </div>
@@ -33,19 +33,19 @@
                 </div>
             </div>
             <div class="control-group">
-                <label for="password" class="control-label">Pilih Transportir<span class="required">*</span> : </label>
+                <label for="password" class="control-label">Pilih Transportir <span class="required">*</span> : </label>
                 <div class="controls">
                     <?php echo form_dropdown('ID_TRANSPORTIR', $option_transportir, !empty($default->ID_TRANSPORTIR) ? $default->ID_TRANSPORTIR : '', 'class="span6" disabled'); ?>
                 </div>
             </div>
             <div class="control-group">
-                <label for="password" class="control-label">Periode Awal<span class="required">*</span> : </label>
+                <label for="password" class="control-label">Periode Awal <span class="required">*</span> : </label>
                 <div class="controls">
                 <?php echo form_input('TGL_KONTRAK_TRANS', !empty($default->TGL_KONTRAK_TRANS) ? $default->TGL_KONTRAK_TRANS : '', 'class="span3 datepicker", id="TGL_KONTRAK_TRANS" disabled'); ?>
                 </div>
             </div>
             <div class="control-group">
-                <label for="password" class="control-label">Periode Akhir<span class="required">*</span> : </label>
+                <label for="password" class="control-label">Periode Akhir <span class="required">*</span> : </label>
                 <div class="controls">
                 <?php echo form_input('TGL_KONTRAK_TRANS_AKHIR', !empty($default->TGL_KONTRAK_TRANS_AKHIR) ? $default->TGL_KONTRAK_TRANS_AKHIR : '', 'class="span3 datepicker", id="TGL_KONTRAK_TRANS_AKHIR" disabled'); ?>
                 </div>
@@ -70,13 +70,13 @@
             </div>
             </br>
             <div class="control-group">
-                <label for="password" class="control-label">Nilai Kontrak (Rp)<span class="required">*</span> : </label>
+                <label for="password" class="control-label">Nilai Kontrak (Rp) <span class="required">*</span> : </label>
                 <div class="controls">
                     <?php echo form_input('NILAI_KONTRAK', !empty($default->NILAI_KONTRAK_TRANS) ? $default->NILAI_KONTRAK_TRANS : '', 'class="span6" disabled'); ?>
                 </div>
             </div>
             <div class="control-group">
-                <label for="password" class="control-label">Keterangan<span class="required">*</span> : </label>
+                <label for="password" class="control-label">Keterangan : </label>
                 <div class="controls">
                       <?php echo form_input('KETERANGAN', !empty($default->KET_KONTRAK_TRANS) ? $default->KET_KONTRAK_TRANS : '', 'class="span6" disabled'); ?>
                 </div>
@@ -146,7 +146,7 @@
                "</select>";
 
             var text_harga_kontrak="<input type='text' id='harga_ke"+ counter + "' name='harga_ke"+ counter + "' placeholder='Harga (Rp) / L' disabled> <sup>Termasuk PPN 10 %</sup>";
-            var text_jarak="<input type='text' id='jarak_ke"+ counter + "' name='jarak_ke"+ counter + "' placeholder='Jarak (KL / ML)' size='37' disabled>";
+            var text_jarak="<input type='text' id='jarak_ke"+ counter + "' name='jarak_ke"+ counter + "' placeholder='Jarak (KM aau ML)' size='37' disabled>";
 
             var cmb_level1 = "<select class='form-control cls_lv1' id='cmblv1_ke"+ counter + "' name='cmblv1_ke"+ counter + "' disabled><option value='' disabled selected>--Pilih Level 1--</option></select>";
             var cmb_level2 = "<select class='form-control cls_lv2' id='cmblv2_ke"+ counter + "' name='cmblv2_ke"+ counter + "' disabled><option value='' disabled selected>--Pilih Level 2--</option></select>";
@@ -173,7 +173,7 @@
             '</div><br>'+
 
             '<div class="form_row">'+
-            '<div class="pull-left"><label for="password" class="control-label">Jarak (KM / ML) ke : '+ counter + '</label>'+
+            '<div class="pull-left"><label for="password" class="control-label">Jarak (KM atau ML) ke : '+ counter + '</label>'+
             '<div class="controls">'+text_jarak+'</div></div>'+
             '<div class="pull-left span1"><label for="password" class="control-label" id="lblv4_ke'+ counter + '">KIT Pemasok ke : '+ counter + '</label>'+
             '<div class="controls">'+cmb_level4+'</div></div>'+

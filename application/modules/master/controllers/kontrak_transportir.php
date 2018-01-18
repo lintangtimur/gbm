@@ -178,14 +178,15 @@ class kontrak_transportir extends MX_Controller {
         $table = new stdClass();
         $table->id = 'ID_KONTRAK_TRANS';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('no_kontrak' => 'center','nama_transportir' => 'center','periode' => 'center','nilai_kontrak' => 'right','keterangan' => 'center', 'perubahan' => 'center', 'aksi' => 'center');
+        $table->align = array('no_kontrak' => 'left','nama_transportir' => 'left','periode' => 'center', 'periode_akhir' => 'center','nilai_kontrak' => 'right','keterangan' => 'left', 'perubahan' => 'center', 'aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
         $table->jumlah_kolom = 6;
         $table->header[] = array(
             "No Kontrak", 1, 1,
             "Transportir", 1, 1,
-            "Periode", 1, 1,
+            "Periode Awal", 1, 1,
+            "Periode Akhir", 1, 1,
             "Nilai Kontrak", 1, 1,
             "Keterangan", 1, 1,
             "Perubahan", 1, 1,
@@ -198,14 +199,15 @@ class kontrak_transportir extends MX_Controller {
     }
 
     public function proses() {
-        // $this->form_validation->set_rules('ID_REGIONAL', 'Regional', 'required');
-        // $this->form_validation->set_rules('COCODE', 'Level l', 'required');
-        // $this->form_validation->set_rules('PLANT', 'Level 2', 'required');
+        $this->form_validation->set_rules('ID_REGIONAL', 'Regional', 'required');
+        $this->form_validation->set_rules('COCODE', 'Level l', 'required');
+        $this->form_validation->set_rules('PLANT', 'Level 2', 'required');
         $this->form_validation->set_rules('KD_KONTRAK_TRANS', 'Nomor Kontrak Transportir', 'trim|required|max_length[50]');
         $this->form_validation->set_rules('ID_TRANSPORTIR', 'Transportir', 'trim|required');
-        $this->form_validation->set_rules('TGL_KONTRAK_TRANS', 'Tanggal Kontrak', 'trim|required');
+        $this->form_validation->set_rules('TGL_KONTRAK_TRANS', 'Periode Awal', 'trim|required');
+        $this->form_validation->set_rules('TGL_KONTRAK_TRANS_AKHIR', 'Periode Akhir', 'trim|required');
         $this->form_validation->set_rules('NILAI_KONTRAK', 'Nilai Kontrak Transportir', 'trim|required|');
-        $this->form_validation->set_rules('JML_PASOKAN', 'Pasokan', 'trim|required|');
+        $this->form_validation->set_rules('JML_PASOKAN', 'Jumlah Pasokan', 'trim|required|');
         $pasokan = $this->input->post('JML_PASOKAN');
 
         

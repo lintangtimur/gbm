@@ -55,11 +55,11 @@
                 <?php echo form_input('VOLUME_KONTRAK_PEMASOK', !empty($default->VOLUME_KONTRAK_PEMASOK) ? $default->VOLUME_KONTRAK_PEMASOK : '', 'class="span3" disabled'); ?>
             </div>
             <br>
-            <label for="password" class="control-label">Alpha : </label> 
+            <!-- <label for="password" class="control-label">Alpha : </label> 
             <div class="controls">
                 <?php echo form_input('ALPHA_KONTRAK_PEMASOK', !empty($default->ALPHA_KONTRAK_PEMASOK) ? $default->ALPHA_KONTRAK_PEMASOK : '', 'class="span3" disabled'); ?>
             </div>
-            <br>
+            <br> -->
             <label for="password" class="control-label">Nilai Kontrak (Rp): </label> 
             <div class="controls">
                 <?php echo form_input('RUPIAH_KONTRAK_PEMASOK', !empty($default->RUPIAH_KONTRAK_PEMASOK) ? $default->RUPIAH_KONTRAK_PEMASOK : '', 'class="span3" disabled'); ?>

@@ -51,7 +51,6 @@ class kontrak_transportir_model extends CI_Model {
         if ($_POST['ID_TRANSPORTIR'] !='') {
             $this->db->where("a.ID_TRANSPORTIR",$_POST['ID_TRANSPORTIR']);   
         }
-
         // if ($_POST['STORE_SLOC'] !='') {
         //     $this->db->where("STORE_SLOC",$_POST['STORE_SLOC']);   
         // }
@@ -59,7 +58,10 @@ class kontrak_transportir_model extends CI_Model {
         //     $this->db->where("SLOC",$_POST['SLOC']);   
         // }
         if ($_POST['PERIODE'] !='') {
-            $this->db->where("a.TGL_KONTRAK_TRANS",$_POST['PERIODE']);   
+            $this->db->where("a.TGL_KONTRAK_TRANS >= ",$_POST['PERIODE']);   
+        }
+        if ($_POST['PERIODE_AKHIR'] !='') {
+            $this->db->where("a.TGL_KONTRAK_TRANS_AKHIR <= ",$_POST['PERIODE_AKHIR']);   
         }
 
 
@@ -186,6 +188,7 @@ class kontrak_transportir_model extends CI_Model {
             'no_kontrak' => $row->KD_KONTRAK_TRANS,
             'nama_transportir' => $row->NAMA_TRANSPORTIR,
             'periode' => $row->TGL_KONTRAK_TRANS,
+            'periode_akhir' => $row->TGL_KONTRAK_TRANS_AKHIR,
             'nilai_kontrak' => number_format($row->NILAI_KONTRAK_TRANS,2,',','.'),
 			'keterangan' => $row->KET_KONTRAK_TRANS,
 			'perubahan' => $row->PERUBAHAN,

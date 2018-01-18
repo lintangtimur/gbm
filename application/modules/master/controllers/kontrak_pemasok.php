@@ -260,8 +260,8 @@ class kontrak_pemasok extends MX_Controller {
             $data['JENIS_KONTRAK_PEMASOK'] = $this->input->post('JENIS_KONTRAK_PEMASOK');
             $data['VOLUME_KONTRAK_PEMASOK'] = str_replace(".","",$this->input->post('VOLUME_KONTRAK_PEMASOK'));
             $data['VOLUME_KONTRAK_PEMASOK'] = str_replace(",",".",$data['VOLUME_KONTRAK_PEMASOK']);
-            $data['ALPHA_KONTRAK_PEMASOK'] = str_replace(".","",$this->input->post('ALPHA_KONTRAK_PEMASOK')); 
-            $data['ALPHA_KONTRAK_PEMASOK'] = str_replace(",",".",$data['ALPHA_KONTRAK_PEMASOK']); 
+            // $data['ALPHA_KONTRAK_PEMASOK'] = str_replace(".","",$this->input->post('ALPHA_KONTRAK_PEMASOK')); 
+            // $data['ALPHA_KONTRAK_PEMASOK'] = str_replace(",",".",$data['ALPHA_KONTRAK_PEMASOK']); 
             $data['RUPIAH_KONTRAK_PEMASOK'] = str_replace(".","",$this->input->post('RUPIAH_KONTRAK_PEMASOK'));
             $data['RUPIAH_KONTRAK_PEMASOK'] = str_replace(",",".",$data['RUPIAH_KONTRAK_PEMASOK']);
             $data['PENJAMIN_KONTRAK_PEMASOK'] = $this->input->post('PENJAMIN_KONTRAK_PEMASOK');
@@ -433,8 +433,8 @@ class kontrak_pemasok extends MX_Controller {
             $data['JENIS_AKHIR_ADENDUM_PEMASOK'] = $this->input->post('JENIS_AKHIR_ADENDUM_PEMASOK');
             $data['VOL_AKHIR_ADENDUM_PEMASOK'] = str_replace(".","",$this->input->post('VOL_AKHIR_ADENDUM_PEMASOK'));
             $data['VOL_AKHIR_ADENDUM_PEMASOK'] = str_replace(",",".",$data['VOL_AKHIR_ADENDUM_PEMASOK']);
-            $data['ALPHA_ADENDUM_PEMASOK'] = str_replace(".","",$this->input->post('ALPHA_ADENDUM_PEMASOK'));
-            $data['ALPHA_ADENDUM_PEMASOK'] = str_replace(",",".",$data['ALPHA_ADENDUM_PEMASOK']);
+            // $data['ALPHA_ADENDUM_PEMASOK'] = str_replace(".","",$this->input->post('ALPHA_ADENDUM_PEMASOK'));
+            // $data['ALPHA_ADENDUM_PEMASOK'] = str_replace(",",".",$data['ALPHA_ADENDUM_PEMASOK']);
             $data['RP_ADENDUM_PEMASOK'] = str_replace(".","",$this->input->post('RP_ADENDUM_PEMASOK')); 
             $data['RP_ADENDUM_PEMASOK'] = str_replace(",",".",$data['RP_ADENDUM_PEMASOK']); 
             $data['PENJAMIN_ADENDUM_PEMASOK'] = $this->input->post('PENJAMIN_ADENDUM_PEMASOK');
