@@ -39,13 +39,13 @@
                 </div>
             </div>
             <div class="control-group">
-                <label for="password" class="control-label">Periode Awal <span class="required">*</span> : </label>
+                <label for="password" class="control-label">Tgl Awal Kontrak <span class="required">*</span> : </label>
                 <div class="controls">
                 <?php echo form_input('TGL_KONTRAK_TRANS', !empty($default->TGL_KONTRAK_TRANS) ? $default->TGL_KONTRAK_TRANS : '', 'class="span3 datepicker", id="TGL_KONTRAK_TRANS" disabled'); ?>
                 </div>
             </div>
             <div class="control-group">
-                <label for="password" class="control-label">Periode Akhir <span class="required">*</span> : </label>
+                <label for="password" class="control-label">Tgl Akhir Kontrak <span class="required">*</span> : </label>
                 <div class="controls">
                 <?php echo form_input('TGL_KONTRAK_TRANS_AKHIR', !empty($default->TGL_KONTRAK_TRANS_AKHIR) ? $default->TGL_KONTRAK_TRANS_AKHIR : '', 'class="span3 datepicker", id="TGL_KONTRAK_TRANS_AKHIR" disabled'); ?>
                 </div>
@@ -56,6 +56,7 @@
                     <?php echo form_input('JML_PASOKAN', !empty($default->JML_PASOKAN) ? $default->JML_PASOKAN : '', 'class="span2", id="JML_KIRIM", placeholder="Max 20" disabled'); ?>
                 </div>
             </div>
+            <br>
             <div class="content_table">
                 <div class="well-content clearfix">
                         <div id='TextBoxesGroup'>

@@ -76,7 +76,7 @@
 <script type="text/javascript">
     jQuery(function($) {
 
-        load_table('#content_table', 1, '#ffilter');
+        // load_table('#content_table', 1, '#ffilter');
 
         $('#button-filter').click(function() {
             load_table('#content_table', 1, '#ffilter');
@@ -89,6 +89,25 @@
         autoclose: true,
         todayBtn: true,
         pickerPosition: "bottom-left"
+    });
+
+    function setCekTgl(){
+        var dateStart = $('#PERIODE').val(); 
+        var dateEnd = $('#PERIODE_AKHIR').val(); 
+
+        if (dateEnd < dateStart){
+            $('#PERIODE_AKHIR').datepicker('update', dateStart);
+        }       
+    }
+
+    $('#PERIODE').on('change', function() {
+        var dateStart = $(this).val(); 
+        $('#PERIODE_AKHIR').datepicker('setStartDate', dateStart);
+        setCekTgl();
+    });
+
+    $('#PERIODE_AKHIR').on('change', function() {
+        setCekTgl();
     });
 
     function setDefaultLv1(){

@@ -208,13 +208,18 @@ class kontrak_transportir_adendum_model extends CI_Model {
     }  
 
     public function get_detail_kirim($key) {
-        $q="SELECT a.HARGA_KONTRAK_TRANS, a.SLOC, a.ID_DEPO, a.JARAK_DET_KONTRAK_TRANS, a.TYPE_KONTRAK_TRANS
+        $q="SELECT a.HARGA_KONTRAK_TRANS, a.SLOC, a.ID_DEPO, a.JARAK_DET_KONTRAK_TRANS, a.TYPE_KONTRAK_TRANS, 
+            a.SLOC_PEMASOK, m4.LEVEL4, m3.STORE_SLOC, m3.LEVEL3, m2.PLANT, m2.LEVEL2, m1.COCODE, m1.LEVEL1
             FROM  DET_KONTRAK_TRANS_ADENDUM a
+            LEFT JOIN MASTER_LEVEL4 m4 ON m4.SLOC=a.SLOC_PEMASOK 
+            LEFT JOIN MASTER_LEVEL3 m3 ON m3.STORE_SLOC=m4.STORE_SLOC 
+            LEFT JOIN MASTER_LEVEL2 m2 ON m2.PLANT=m3.PLANT 
+            LEFT JOIN MASTER_LEVEL1 m1 ON m1.COCODE=m2.COCODE 
             WHERE a.ID_ADENDUM_TRANS='$key' 
-            ORDER BY ID_DET_KONTRAK_TRANS ASC";
+            ORDER BY a.ID_DET_KONTRAK_TRANS ASC ";  
 
         $query = $this->db->query($q);
-
+        $this->db->close();
         return $query->result();  
     }
      

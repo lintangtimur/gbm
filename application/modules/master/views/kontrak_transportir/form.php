@@ -39,15 +39,15 @@
                 </div>
             </div>
             <div class="control-group">
-                <label for="password" class="control-label">Periode Awal <span class="required">*</span> : </label>
+                <label for="password" class="control-label">Tgl Awal Kontrak <span class="required">*</span> : </label>
                 <div class="controls">
-                <?php echo form_input('TGL_KONTRAK_TRANS', !empty($default->TGL_KONTRAK_TRANS) ? $default->TGL_KONTRAK_TRANS : '', 'class="span3 datepicker", id="TGL_KONTRAK_TRANS"'); ?>
+                <?php echo form_input('TGL_KONTRAK_TRANS', !empty($default->TGL_KONTRAK_TRANS) ? $default->TGL_KONTRAK_TRANS : '', 'class="span3 datepicker" id="TGL_KONTRAK_TRANS"'); ?>
                 </div>
             </div>
             <div class="control-group">
-                <label for="password" class="control-label">Periode Akhir <span class="required">*</span> : </label>
+                <label for="password" class="control-label">Tgl Akhir Kontrak <span class="required">*</span> : </label>
                 <div class="controls">
-                <?php echo form_input('TGL_KONTRAK_TRANS_AKHIR', !empty($default->TGL_KONTRAK_TRANS_AKHIR) ? $default->TGL_KONTRAK_TRANS_AKHIR : '', 'class="span3 datepicker", id="TGL_KONTRAK_TRANS_AKHIR"'); ?>
+                <?php echo form_input('TGL_KONTRAK_TRANS_AKHIR', !empty($default->TGL_KONTRAK_TRANS_AKHIR) ? $default->TGL_KONTRAK_TRANS_AKHIR : '', 'class="span3 datepicker" id="TGL_KONTRAK_TRANS_AKHIR"'); ?>
                 </div>
             </div>
             <div class="control-group">
@@ -57,6 +57,7 @@
                     <?php echo anchor(null, 'Generate', array('id' => 'button-jml-kirim', 'class' => 'green btn')); ?>
                 </div>
             </div>
+            <br>
             <div class="content_table">
                 <div class="well-content clearfix">
                         <div id='TextBoxesGroup'>
@@ -131,17 +132,6 @@
 
             var combo_pembangkit ="<select class='form-control' id='pembangkit_ke"+ counter + "' name='pembangkit_ke"+ counter + "' >"+
             "<option value='' disabled selected>--Pilih KIT Penerima--</option>"+
-            <?php if ($option_pembangkit != '')
-                { foreach ($option_pembangkit as $pembangkit)
-                     { ?>
-                     "<option value='<?php echo $pembangkit['SLOC']?>'> <?php echo $pembangkit['LEVEL4'] ?></option>"+
-                     <?php
-                      }
-                }?>
-               "</select>";
-
-            var combo_pembangkit_terima ="<select class='form-control' id='pembangkit_t_ke"+ counter + "' name='pembangkit_t_ke"+ counter + "'>"+
-            "<option value='' disabled selected>--Pilih Pembangkit--</option>"+
             <?php if ($option_pembangkit != '')
                 { foreach ($option_pembangkit as $pembangkit)
                      { ?>
@@ -281,6 +271,25 @@
         pickerPosition: "bottom-left"
     });
 
+    function setCekTgl(){
+        var dateStart = $('#TGL_KONTRAK_TRANS').val(); 
+        var dateEnd = $('#TGL_KONTRAK_TRANS_AKHIR').val(); 
+
+        if (dateEnd < dateStart){
+            $('#TGL_KONTRAK_TRANS_AKHIR').datepicker('update', dateStart);
+        }       
+    }
+
+    $('#TGL_KONTRAK_TRANS').on('change', function() {
+        var dateStart = $(this).val(); 
+        $('#TGL_KONTRAK_TRANS_AKHIR').datepicker('setStartDate', dateStart);
+        setCekTgl();
+    });
+
+    $('#TGL_KONTRAK_TRANS_AKHIR').on('change', function() {
+        setCekTgl();
+    });
+
     $("#button-save").click(function () {
         $("#button-jml-kirim").click();
     });
@@ -310,6 +319,10 @@
         var cmb_lv = e.target.id;
         var vke = cmb_lv.split('_');
         var vcek = $( "#"+cmb_lv).val();
+
+        if (vcek==''){
+            getComboLv1(vke[1],'');   
+        }
 
         getComboLv2(vke[1],vcek);
     });
@@ -424,7 +437,6 @@
                 success:function(data) {
                     $.each(data, function(key, value) {
                         $("#cmblv2_"+vid).append('<option value="'+ value.PLANT +'">'+ value.LEVEL2 +'</option>');
-                        console.log("masuukkkk "+vid);
                     });
                     bootbox.hideAll();
                 }

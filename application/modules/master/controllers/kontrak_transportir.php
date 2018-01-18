@@ -178,15 +178,15 @@ class kontrak_transportir extends MX_Controller {
         $table = new stdClass();
         $table->id = 'ID_KONTRAK_TRANS';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('no_kontrak' => 'left','nama_transportir' => 'left','periode' => 'center', 'periode_akhir' => 'center','nilai_kontrak' => 'right','keterangan' => 'left', 'perubahan' => 'center', 'aksi' => 'center');
+        $table->align = array('no_kontrak' => 'left','nama_transportir' => 'left','periode' => 'left', 'periode_akhir' => 'left','nilai_kontrak' => 'right','keterangan' => 'left', 'perubahan' => 'center', 'aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
         $table->jumlah_kolom = 6;
         $table->header[] = array(
             "No Kontrak", 1, 1,
             "Transportir", 1, 1,
-            "Periode Awal", 1, 1,
-            "Periode Akhir", 1, 1,
+            "Tgl Awal Kontrak", 1, 1,
+            "Tgl Akhir Kontrak", 1, 1,
             "Nilai Kontrak", 1, 1,
             "Keterangan", 1, 1,
             "Perubahan", 1, 1,
@@ -204,8 +204,8 @@ class kontrak_transportir extends MX_Controller {
         $this->form_validation->set_rules('PLANT', 'Level 2', 'required');
         $this->form_validation->set_rules('KD_KONTRAK_TRANS', 'Nomor Kontrak Transportir', 'trim|required|max_length[50]');
         $this->form_validation->set_rules('ID_TRANSPORTIR', 'Transportir', 'trim|required');
-        $this->form_validation->set_rules('TGL_KONTRAK_TRANS', 'Periode Awal', 'trim|required');
-        $this->form_validation->set_rules('TGL_KONTRAK_TRANS_AKHIR', 'Periode Akhir', 'trim|required');
+        $this->form_validation->set_rules('TGL_KONTRAK_TRANS', 'Tgl Awal Kontrak', 'trim|required');
+        $this->form_validation->set_rules('TGL_KONTRAK_TRANS_AKHIR', 'Tgl Akhir Kontrak', 'trim|required');
         $this->form_validation->set_rules('NILAI_KONTRAK', 'Nilai Kontrak Transportir', 'trim|required|');
         $this->form_validation->set_rules('JML_PASOKAN', 'Jumlah Pasokan', 'trim|required|');
         $pasokan = $this->input->post('JML_PASOKAN');
@@ -254,19 +254,7 @@ class kontrak_transportir extends MX_Controller {
             $data['KD_KONTRAK_TRANS'] = $this->input->post('KD_KONTRAK_TRANS');
             $data['CD_DET_KONTRAK_TRANS'] = date("Y/m/d");
             $data['CD_BY_DET_KONTRAK_TRANS'] = $this->session->userdata('user_name');
-            $data['PLANT'] = $this->input->post('PLANT');
-
-            // $level_user = $this->session->userdata('level_user');
-            // $kode_level = $this->session->userdata('kode_level');
-               
-            // $data_lv = $this->kontrak_transportir_model->get_level($level_user,$kode_level);
-
-            // if ($data_lv){
-            //     $data['PLANT'] = $data_lv[0]->PLANT;    
-            // } else {
-            //     $data['PLANT'] = '';
-            // }
-            
+            $data['PLANT'] = $this->input->post('PLANT');            
 
             $data_detail = array();
             for ($i=1; $i<=$x; $i++)
@@ -528,7 +516,7 @@ class kontrak_transportir extends MX_Controller {
         $table = new stdClass();
         $table->id = 'ID_ADENDUM_TRANSPORTIR';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('NO' => 'center', 'KD_KONTRAK_TRANS' => 'center', 'TGL_KONTRAK_TRANS' => 'center', 'KET_KONTRAK_TRANS' => 'left', 'aksi' => 'center');
+        $table->align = array('NO' => 'center', 'KD_KONTRAK_TRANS' => 'left', 'TGL_KONTRAK_TRANS' => 'left', 'KET_KONTRAK_TRANS' => 'left', 'aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
         $table->jumlah_kolom = 5;
@@ -603,8 +591,10 @@ class kontrak_transportir extends MX_Controller {
 
     public function proses_adendum() {
         $this->form_validation->set_rules('ID_TRANSPORTIR', 'Transportir', 'trim|required');
-        $this->form_validation->set_rules('NO_KONTRAK', 'Nomor Adendum Kontrak Transportir', 'trim|required|max_length[30]');
+        $this->form_validation->set_rules('NO_KONTRAK', 'Nomor Adendum Kontrak Transportir', 'trim|required|max_length[50]');
         $this->form_validation->set_rules('KETERANGAN', 'Keterangan adendum', 'trim|required');
+        $this->form_validation->set_rules('TGL_KONTRAK_TRANS', 'Tgl Awal Kontrak', 'trim|required');
+        $this->form_validation->set_rules('TGL_KONTRAK_TRANS_AKHIR', 'Tgl Akhir Kontrak', 'trim|required');
         $this->form_validation->set_rules('NILAI_KONTRAK', 'Nilai Kontrak Transportir', 'trim|required|');
         $this->form_validation->set_rules('JML_PASOKAN', 'Pasokan', 'trim|required|');
         $pasokan = $this->input->post('JML_PASOKAN');
@@ -624,7 +614,12 @@ class kontrak_transportir extends MX_Controller {
             }
             for ($i=1; $i<=$x; $i++) {
                 $this->form_validation->set_rules('depo_ke'.$i, 'Depo ke '.$i, 'required');
-                $this->form_validation->set_rules('pembangkit_ke'.$i, 'Pembangkit ke '.$i, 'required');
+                
+                if ($this->input->post('depo_ke'.$i)=='000'){
+                    $this->form_validation->set_rules('cmblv4_ke'.$i, 'KIT Pemasok ke '.$i, 'required');   
+                }
+
+                $this->form_validation->set_rules('pembangkit_ke'.$i, 'KIT Penerima ke '.$i, 'required');
 
                 $this->form_validation->set_rules('jalur_ke'.$i, 'Jalur ke '.$i, 'required');
                 $this->form_validation->set_rules('harga_ke'.$i, 'Harga ke '.$i, 'required');
@@ -639,6 +634,7 @@ class kontrak_transportir extends MX_Controller {
             $data['ID_KONTRAK_TRANS'] = $this->input->post('ID_KONTRAK_TRANS');
             $data['ID_TRANSPORTIR'] = $this->input->post('ID_TRANSPORTIR');
             $data['TGL_KONTRAK_TRANS'] = $this->input->post('TGL_KONTRAK_TRANS');
+            $data['TGL_KONTRAK_TRANS_AKHIR'] = $this->input->post('TGL_KONTRAK_TRANS_AKHIR');
             $data['NILAI_KONTRAK_TRANS'] = str_replace(".","",$this->input->post('NILAI_KONTRAK'));
             $data['NILAI_KONTRAK_TRANS'] = str_replace(",",".",$data['NILAI_KONTRAK_TRANS']);
             $data['KET_KONTRAK_TRANS'] = $this->input->post('KETERANGAN');
@@ -651,6 +647,11 @@ class kontrak_transportir extends MX_Controller {
             {
                 $depo_ke = $this->input->post('depo_ke'.$i);
                 $pembangkit_ke = $this->input->post('pembangkit_ke'.$i);
+                $pemasok_ke = $this->input->post('cmblv4_ke'.$i);
+                if ($depo_ke!='000'){
+                    $pemasok_ke ='';   
+                }
+
                 $jalur_ke = $this->input->post('jalur_ke'.$i);
                 $harga_ke = $this->input->post('harga_ke'.$i);
                 $harga_ke = str_replace(".","",$harga_ke);
@@ -658,10 +659,12 @@ class kontrak_transportir extends MX_Controller {
                 $jarak_ke = $this->input->post('jarak_ke'.$i);
                 $jarak_ke = str_replace(".","",$jarak_ke);
                 $jarak_ke = str_replace(",",".",$jarak_ke);
+
                 $data_detail[$i] = array(
                     'ID_ADENDUM_TRANS' => $data['KD_KONTRAK_TRANS'],
                     'ID_DEPO' => $depo_ke,
                     'SLOC' => $pembangkit_ke,
+                    'SLOC_PEMASOK' => $pemasok_ke,
                     'TYPE_KONTRAK_TRANS' => $jalur_ke,
                     'HARGA_KONTRAK_TRANS' => $harga_ke,
                     'JARAK_DET_KONTRAK_TRANS' => $jarak_ke,
