@@ -187,7 +187,7 @@ class kontrak_transportir extends MX_Controller {
             "Transportir", 1, 1,
             "Tgl Awal Kontrak", 1, 1,
             "Tgl Akhir Kontrak", 1, 1,
-            "Nilai Kontrak", 1, 1,
+            "Nilai Kontrak (Rp)", 1, 1,
             "Keterangan", 1, 1,
             "Perubahan", 1, 1,
             "Aksi", 1, 1

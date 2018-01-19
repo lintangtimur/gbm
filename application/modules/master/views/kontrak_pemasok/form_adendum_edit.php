@@ -80,6 +80,7 @@
             <label for="password" class="control-label">Nilai Kontrak (Rp): </label> 
             <div class="controls">
                 <?php echo form_input('RP_ADENDUM_PEMASOK', !empty($default->RP_ADENDUM_PEMASOK) ? $default->RP_ADENDUM_PEMASOK : '', 'class="span3" disabled'); ?>
+                <sup>Termasuk PPN 10 %</sup>
             </div>
             <br>
             <label for="password" class="control-label">Penjamin Kontrak : </label> 

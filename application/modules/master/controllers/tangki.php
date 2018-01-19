@@ -497,7 +497,7 @@ class tangki extends MX_Controller {
     }
 
     public function get_options_lv1($key=null) {
-        $message = $this->tangki_model->options_lv1('--Pilih Level 1--', 'all', 0);
+        $message = $this->tangki_model->options_lv1('--Pilih Level 1--', $key, 0);
         echo json_encode($message);
     }
 

@@ -73,7 +73,8 @@
             <div class="control-group">
                 <label for="password" class="control-label">Nilai Kontrak (Rp) <span class="required">*</span> : </label>
                 <div class="controls">
-                    <?php echo form_input('NILAI_KONTRAK', !empty($default->NILAI_KONTRAK_TRANS) ? $default->NILAI_KONTRAK_TRANS : '', 'class="span6" disabled'); ?>
+                    <?php echo form_input('NILAI_KONTRAK', !empty($default->NILAI_KONTRAK_TRANS) ? $default->NILAI_KONTRAK_TRANS : '', 'class="span3" disabled'); ?>
+                    <sup>Termasuk PPN 10 %</sup>
                 </div>
             </div>
             <div class="control-group">

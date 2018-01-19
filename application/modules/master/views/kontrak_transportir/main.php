@@ -47,8 +47,9 @@
                             <div class="pull-left span3">
                                 <label for="password" class="control-label">Periode : </label>
                                 <div class="controls">
-                                    <?php echo form_input('PERIODE', '', 'class="span6 input-append date form_datetime" placeholder="Tanggal Awal" id="PERIODE"'); ?>
-                                    <?php echo form_input('PERIODE_AKHIR', '', 'class="span6 input-append date form_datetime" placeholder="Tanggal Akhir" id="PERIODE_AKHIR"'); ?>
+                                    <?php echo form_input('PERIODE', '', 'class="span5 input-append date form_datetime" placeholder="Tanggal Awal" id="PERIODE"'); ?>
+                                     s/d
+                                    <?php echo form_input('PERIODE_AKHIR', '', 'class="span5 input-append date form_datetime" placeholder="Tanggal Akhir" id="PERIODE_AKHIR"'); ?>
                                 </div>
                             </div>
                             <div class="pull-left span5">
