@@ -219,7 +219,7 @@
         }
         
         if ($('input[name=id]').val()){
-            get_detail($('input[name=NO_NOMINASI]').val()); 
+            get_detail($('input[name=id]').val()); 
         }
 
 
@@ -306,14 +306,14 @@
     }
 
     $('select[name="ID_REGIONAL"]').on('change', function() {
-        bootbox.modal('<div class="loading-progress"></div>');
         var stateID = $(this).val();
-        var vlink_url = '<?php echo base_url()?>data_transaksi/permintaan/get_options_lv1/'+stateID;
+        var vlink_url = '<?php echo base_url()?>master/tangki/get_options_lv1/'+stateID;
         setDefaultLv1();
         setDefaultLv2();
         setDefaultLv3();
         setDefaultLv4();
         if(stateID) {
+            bootbox.modal('<div class="loading-progress"></div>');
             $.ajax({
                 url: vlink_url,
                 type: "GET",
@@ -330,13 +330,13 @@
     });
 
     $('select[name="COCODE"]').on('change', function() {
-        bootbox.modal('<div class="loading-progress"></div>');
         var stateID = $(this).val();
-        var vlink_url = '<?php echo base_url()?>data_transaksi/permintaan/get_options_lv2/'+stateID;
+        var vlink_url = '<?php echo base_url()?>master/tangki/get_options_lv2/'+stateID;
         setDefaultLv2();
         setDefaultLv3();
         setDefaultLv4();
         if(stateID) {
+            bootbox.modal('<div class="loading-progress"></div>');
             $.ajax({
                 url: vlink_url,
                 type: "GET",
@@ -352,12 +352,12 @@
     });
 
     $('select[name="PLANT"]').on('change', function() {
-        bootbox.modal('<div class="loading-progress"></div>');
         var stateID = $(this).val();
-        var vlink_url = '<?php echo base_url()?>data_transaksi/permintaan/get_options_lv3/'+stateID;
+        var vlink_url = '<?php echo base_url()?>master/tangki/get_options_lv3/'+stateID;
         setDefaultLv3();
         setDefaultLv4();
         if(stateID) {
+            bootbox.modal('<div class="loading-progress"></div>');
             $.ajax({
                 url: vlink_url,
                 type: "GET",
@@ -373,11 +373,11 @@
     });
 
     $('select[name="STORE_SLOC"]').on('change', function() {
-        bootbox.modal('<div class="loading-progress"></div>');
         var stateID = $(this).val();
-        var vlink_url = '<?php echo base_url()?>data_transaksi/permintaan/get_options_lv4/'+stateID;
+        var vlink_url = '<?php echo base_url()?>master/tangki/get_options_lv4/'+stateID;
         setDefaultLv4();
         if(stateID) {
+            bootbox.modal('<div class="loading-progress"></div>');
             $.ajax({
                 url: vlink_url,
                 type: "GET",
@@ -393,21 +393,32 @@
     });
 
     function get_detail(vId) {
-        var vlink_url = '<?php echo base_url()?>data_transaksi/permintaan/get_detail_kirim/'+vId;
-        var i=0;
-        $.ajax({
-            url: vlink_url,
-            type: "GET",
-            dataType: "json",
-            success:function(data) {
-                $.each(data, function(key, value) {
-                    i = i+1;
-                    $("#tgl_ke"+i).val(value.TGL_KIRIM);
-                    $("#vol_ke"+i).val(value.VOLUME_NOMINASI);
-                    $("#TextBoxDiv"+i).show();
-                });
+        var data = {idx: vId};
+
+        $.post("<?php echo base_url()?>master/tangki/get_detail_kirim/", data, function (data) {
+            var rest = (JSON.parse(data));
+            var x=0;
+            for (i = 0; i < rest.length; i++) {
+                x++;
+                $("#NAMA_TANGKI"+x).val(rest[i].NAMA_TANGKI);
+                $("#VOLUME_TANGKI"+x).val(rest[i].VOLUME_TANGKI);
+                $("#DEADSTOCK_TANGKI"+x).val(rest[i].DEADSTOCK_TANGKI);
+                $("#STOCKEFEKTIF_TANGKI"+x).val(rest[i].STOCKEFEKTIF_TANGKI);
+                $("#DITERA_OLEH"+x).val(rest[i].DITERA_OLEH);
+                $("#TGL_AWAL_TERA"+x).val(rest[i].TGL_AWAL_TERA);
+                $("#TGL_AKHIR_TERA"+x).val(rest[i].TGL_AKHIR_TERA);
+                
+                if (rest[i].AKTIF==1){
+                    $("#AKTIF"+x).prop('checked', true);
+                } else {
+                    $("#AKTIF"+x).prop('checked', false);
+                }
+                // $("#PATH_DET_TERA"+x).val(rest[i].PATH_DET_TERA);
+
+                $("#TextBoxDiv"+x).show();
             }
+            $("#JML_TANGKI").val(x);
         });
-    };
+    }
 
 </script>

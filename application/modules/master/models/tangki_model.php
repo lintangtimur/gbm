@@ -23,28 +23,41 @@ class tangki_model extends CI_Model {
 	}
 	
 	public function data($key = '') {
-		$level_user = $this->session->userdata('level_user');
-		$kode_level = $this->session->userdata('kode_level');
-
+		$this->db->select('a.*, b.LEVEL4, c.NAMA_JNS_BHN_BKR');
 		$this->db->from($this->_table1 . ' a');
 		$this->db->join($this->_table2 . ' b', 'b.SLOC = a.SLOC');
 		$this->db->join($this->_table3 . ' c', 'c.ID_JNS_BHN_BKR = a.ID_JNS_BHN_BKR');
 		$this->db->join($this->_table5 . ' d', 'd.ID_TANGKI = a.ID_TANGKI', 'left');
-		   
+        $this->db->join('MASTER_LEVEL3 m3', 'm3.STORE_SLOC = b.STORE_SLOC','left');
+        $this->db->join('MASTER_LEVEL2 m2', 'm2.PLANT = m3.PLANT','left');
+        $this->db->join('MASTER_LEVEL1 m1', 'm1.COCODE = m2.COCODE','left');
+        $this->db->join('MASTER_REGIONAL r', 'r.ID_REGIONAL = m1.ID_REGIONAL','left');
 
-		$data_lv = $this->get_level($level_user,$kode_level);
-		// print_debug($data_lv);
-		if ($level_user==3 || $level_user==4){
-			 $this->db->where("b.STORE_SLOC",$data_lv[0]->STORE_SLOC);
+		if (!empty($key) || is_array($key)){
+			$this->db->where_condition($this->_key($key));	
 		}
-
-		if (!empty($key) || is_array($key))
-        $this->db->where_condition($this->_key($key));
+        
+        if ($_POST['ID_REGIONAL'] !='') {
+            $this->db->where('r.ID_REGIONAL',$_POST['ID_REGIONAL']);
+        }
+        if ($_POST['COCODE'] !='') {
+            $this->db->where("m1.COCODE",$_POST['COCODE']);
+        }
+        if ($_POST['PLANT'] !='') {
+            $this->db->where("m2.PLANT",$_POST['PLANT']);
+        }
+        if ($_POST['STORE_SLOC'] !='') {
+            $this->db->where("m3.STORE_SLOC",$_POST['STORE_SLOC']);
+        }
+        if ($_POST['SLOC'] !='') {
+            $this->db->where("a.SLOC",$_POST['SLOC']);
+        }
 		
 		return $this->db;
 	}
 
 	public function dataEdit($key = '') {
+		$this->db->select('a.*');
 		$this->db->from($this->_table1 . ' a');
 		$this->db->join($this->_table2 . ' b', 'b.SLOC = a.SLOC');
 		$this->db->join($this->_table3 . ' c', 'c.ID_JNS_BHN_BKR = a.ID_JNS_BHN_BKR');
@@ -58,17 +71,25 @@ class tangki_model extends CI_Model {
 		return $this->db;
 	}
 	
-	public function save_as_new($data, $nama_file) {
+	public function save_as_new($data, $nama_file, $data_detail) {
 		$this->db->trans_begin();
-		$id = $this->db->set_id($this->_table1, 'ID_TANGKI', 'no_prefix', 4);
+		$id = $this->db->set_id($this->_table1, 'ID_TANGKI', 'no_prefix', 12);
 		$this->db->insert($this->_table1, $data);
 		
 		if ($this->db->trans_status() === FALSE) {
 			$this->db->trans_rollback();
 			return FALSE;
 			} else {
+			// $this->save_as_new2($id, $nama_file);
+
+			foreach($data_detail as $key => $value){
+			  $data_detail[$key]['ID_TANGKI'] = $id;
+			}
+
+			$this->db->insert_batch('DETAIL_TANGKI', $data_detail);
+
 			$this->db->trans_commit();
-			$this->save_as_new2($id, $nama_file);
+
 			return TRUE;
 		}
 	}
@@ -108,7 +129,7 @@ class tangki_model extends CI_Model {
 			return FALSE;
 			} else {
 			$this->db->trans_commit();
-			$this->save2($id, $nama_file);
+			// $this->save2($id, $nama_file);
 			return TRUE;
 		}
 	}
@@ -134,6 +155,11 @@ class tangki_model extends CI_Model {
 		}
 	}
 
+    public function save_detail($data) {
+        $this->db->insert_batch('DETAIL_TANGKI', $data);
+        return TRUE;
+    }
+
 	
 	public function delete($key) {
 		$this->db->trans_begin();
@@ -149,6 +175,20 @@ class tangki_model extends CI_Model {
 			return TRUE;
 		}
 	}
+
+    public function delete_detail($key) {
+        $this->db->trans_begin();
+
+        $this->db->delete('DETAIL_TANGKI', array('ID_TANGKI' => $key)); 
+
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return FALSE;
+        } else {
+            $this->db->trans_commit();
+            return TRUE;
+        }
+    }
 	
 	public function data_table($module = '', $limit = 20, $offset = 1) {
 		$filter = array();
@@ -165,12 +205,17 @@ class tangki_model extends CI_Model {
 		foreach ($record->result() as $row) {
 			$aksi = '';
 			$id = $row->ID_TANGKI;
+
+			// print_r($this->db->last_query()); die;
+
 			if ($this->laccess->otoritas('edit')) {
 			$aksi = anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
 			}
+
 			if ($this->laccess->otoritas('delete')) {
 			$aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
 			}
+
 			$rows[$no] = array(
             'number' => $no++,
             'unit_pembangkit' => $row->LEVEL4,
@@ -199,10 +244,15 @@ class tangki_model extends CI_Model {
 		$aksi = '';
 		foreach ($record->result() as $row) {
 			$id = $row->ID_TANGKI;
+
+			print_r($id); die;
+
 			// if ($this->laccess->otoritas('edit')) {
 			$aksi = anchor(null, '<i class="icon-edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
 			// }
+
 			$aksi .= anchor(null, '<i class="icon-trash"></i>', array('class' => 'btn transparant', 'id' => 'button-delete-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete/' . $id)));
+
 			$rows[$id] = array(
             'number' => $no++,
             'unit_pembangkit' => $row->LEVEL4,
@@ -319,6 +369,18 @@ class tangki_model extends CI_Model {
 		
 		return $option;
 	}
+
+    public function get_detail_kirim($key) {
+		$q="SELECT a.*
+			FROM  DETAIL_TANGKI a
+			WHERE a.ID_TANGKI='$key' 
+			ORDER BY a.ID_DET_TANGKI ASC ";	
+
+        $query = $this->db->query($q);
+        $this->db->close();
+        return $query->result();  
+    }
+
 	public function get_level($lv='', $key=''){ 
 		switch ($lv) {
 			case "0":
