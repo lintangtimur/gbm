@@ -2,9 +2,9 @@
 <?php
     if ($JENIS == 'XLS') {
         header('Cache-Control: no-cache, no-store, must-revalidate');
-        header('Content-Type: text/html');
-        // header('Content-Type: application/vnd.ms-excel');
-        // header('Content-Disposition: attachment; filename=Laporan_Penerimaan_BBM.xls');
+        // header('Content-Type: text/html');
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment; filename=Laporan_Penerimaan_BBM.xls');
 
         echo '
         <style>
@@ -82,7 +82,20 @@
         //     echo '<tr><td style="text-align:left;font-size: 12px;" colspan="5">Tahun ' . $TAHUN . '</td></tr>';
         // }
         if ($TGLAWAL) {
-            echo '<tr><td style="text-align:left;font-size: 12px;" colspan="5">TGL AWAL/ TGL AKHIR ' . $TGLAWAL . '/' . $TGLAKHIR . '</td></tr>';
+            $tAwal       = substr($TGLAWAL, 0, 2);
+            $taunAwal    = substr($TGLAWAL, 4, 7);
+            $blnAwal     = substr($TGLAWAL, 2, 2);
+            $tglAwal     = $taunAwal . '-' . $blnAwal . '-' . $tAwal;
+
+            $tAkhir       = substr($TGLAKHIR, 0, 2);
+            $taunAkhir    = substr($TGLAKHIR, 4, 7);
+            $blnAkhir     = substr($TGLAKHIR, 2, 2);
+            $tglAkhir     = $taunAkhir . '-' . $blnAkhir . '-' . $tAkhir;
+            if ($TGLAWAL == '-' and $TGLAKHIR == '-') {
+                $tglAwal  = 'Awal';
+                $tglAkhir = 'Akhir';
+            }
+            echo '<tr><td style="text-align:left;font-size: 12px;" colspan="5">Periode ' . $tglAwal . ' s/d ' . $tglAkhir . '</td></tr>';
         } else {
             echo '<tr><td style="text-align:left;font-size: 12px;" colspan="5">Tahun ' . $TGLAKHIR . '</td></tr>';
         }
@@ -100,13 +113,10 @@
         <th rowspan="2">Tgl Akhir Terima</th>
         <th rowspan="2">Jumlah Terima</th>
         <th colspan="2">Total Volume Terima</th>
-        <th colspan="2">Deviasi</th>
     </tr>
     <tr>
       <th>Total Volume Terima DO (L)</th>
       <th>Total Volume Terima Real (L)</th>
-      <th>Deviasi (L)</th>
-      <th>Deviasi (%)</th>
     </tr>
 
     </thead>
@@ -126,8 +136,8 @@
               $JML_TERIMA                   = !empty($row->JML_TERIMA) ? $row->JML_TERIMA : '-';
               $VOL_TERIMA                   = !empty($row->VOL_TERIMA) ? number_format($row->VOL_TERIMA, 0, ',', '.') : '0';
               $VOL_TERIMA_REAL              = !empty($row->VOL_TERIMA_REAL) ? number_format($row->VOL_TERIMA_REAL, 0, ',', '.') : '0';
-              $DEVIASI                      = !empty($row->DEVIASI) ? number_format($row->DEVIASI, 0, ',', '.') : '0';
-              $DEVIASI_PERCENT              = !empty($row->DEVIASI_PERCENT) ? number_format($row->DEVIASI_PERCENT, 0, ',', '.') : '0';
+              // $DEVIASI                      = !empty($row->DEVIASI) ? number_format($row->DEVIASI, 0, ',', '.') : '0';
+              // $DEVIASI_PERCENT              = !empty($row->DEVIASI_PERCENT) ? number_format($row->DEVIASI_PERCENT, 0, ',', '.') : '0';
       ?>
         <td style="text-align:center;"><?php echo $x ?></td>
         <td style="text-align:left;"><?php echo $UNIT ?></td>
@@ -137,8 +147,8 @@
         <td style="text-align:center;"><?php echo $JML_TERIMA ?></td>
         <td style="text-align:right;"><?php echo $VOL_TERIMA ?></td>
         <td style="text-align:right;"><?php echo $VOL_TERIMA_REAL ?></td>
-        <td style="text-align:right;"><?php echo $DEVIASI ?> </td>
-        <td style="text-align:right;"><?php echo $DEVIASI_PERCENT ?> </td>
+        <!-- <td style="text-align:right;"><?php echo $DEVIASI ?> </td>
+        <td style="text-align:right;"><?php echo $DEVIASI_PERCENT ?> </td> -->
     </tr>
     <?php
         endforeach;

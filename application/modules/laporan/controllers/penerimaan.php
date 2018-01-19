@@ -36,7 +36,6 @@ class Penerimaan extends MX_Controller
 
         $this->load->model('persediaan_bbm_model', 'tbl_get');
         $this->load->model('penerimaan_model', 'tbl_penerimaan_get');
-        // $this->load->helper('dd');
     }
 
     public function index()
@@ -175,6 +174,21 @@ class Penerimaan extends MX_Controller
         echo json_encode($data);
     }
 
+    public function testDetail()
+    {
+        header('Content-Type: application/json');
+        $data = [
+          'ID_BBM'    => $this->input->post('detail_id_bbm'),
+          // 'BULAN'     => $this->input->post('detail_bulan'),
+          // 'TAHUN'     => $this->input->post('detail_tahun'),
+          'KODE_UNIT' => $this->input->post('detail_kode_unit'),
+          'TGL_AWAL'  => $this->input->post('detail_tgl_awal'),
+          'TGL_AKHIR' => $this->input->post('detail_tgl_akhir')
+      ];
+        $data = $this->tbl_penerimaan_get->testDetail();
+        echo json_encode($data);
+    }
+
     public function export_excel()
     {
         header('Content-Type: application/json');
@@ -203,5 +217,39 @@ class Penerimaan extends MX_Controller
 
         $data['data'] = $this->tbl_penerimaan_get->getData_Model($data);
         $this->load->view($this->_module . '/export_excel', $data);
+    }
+
+    /**
+     * export detail from modal detail
+     * @return mixed
+     */
+    public function export_excel_detail()
+    {
+        header('Content-Type: application/json');
+        $data                = [
+            // 'LVL0'             => $this->input->post('xlvl'),
+            'ID_REGIONAL'      => $this->input->post('xlvl'), // 01
+            'COCODE'           => $this->input->post('xlvl1'),
+            'PLANT'            => $this->input->post('xlvl2'),
+            'STORE_SLOC'       => $this->input->post('xlvl3'),
+
+            'ID_REGIONAL_NAMA' => $this->input->post('xlvl0_nama'), //SUMATERA
+            'COCODE_NAMA'      => $this->input->post('xlvl1_nama'),
+            'PLANT_NAMA'       => $this->input->post('xlvl2_nama'),
+            'STORE_SLOC_NAMA'  => $this->input->post('xlvl3_nama'),
+
+            'SLOC'             => $this->input->post('xlvl4'), //183130
+            'BBM'              => $this->input->post('xbbm'), //001
+            'JENIS_BBM'        => $this->input->post('xbbm'),
+            'VLEVELID'         => $this->input->post('xlvlid'),
+            // 'BULAN'            => $this->input->post('xbln'), //1
+            // 'TAHUN'            => $this->input->post('xthn'), //2017
+            'TGLAWAL'          => $this->input->post('xtglawal'),
+            'TGLAKHIR'         => $this->input->post('xtglakhir'),
+            'JENIS'            => 'XLS'
+        ];
+
+        $data['data'] = $this->tbl_penerimaan_get->getData_Model($data);
+        $this->load->view($this->_module . '/export_excel_detail', $data);
     }
 }

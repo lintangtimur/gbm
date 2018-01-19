@@ -13,7 +13,7 @@
         }
 
         /*td,  th {
-            border: 1px solid  #f4f6f6 ;  
+            border: 1px solid  #f4f6f6 ;
         }
 */
         /*table.tdetail thead {background-color: #CED8F6}*/
@@ -34,7 +34,7 @@
     </div>
     <div class="widgets_area">
         <div class="well-content no-search">
-            <?php echo form_open_multipart('', array('id' => 'ffilter')); ?>
+            <?php echo form_open_multipart('', ['id' => 'ffilter']); ?>
             <div class="form_row">
                 <div class="pull-left span3">
                     <label for="password" class="control-label">Regional <span class="required">*</span> : </label>
@@ -54,7 +54,7 @@
                         <?php echo form_dropdown('PLANT', $lv2_options, !empty($default->PLANT) ? $default->PLANT : '', 'id="lvl2"'); ?>
                     </div>
 
-                   
+
                 </div>
             </div><br/>
             <div class="form_row">
@@ -82,16 +82,16 @@
                     <label for="password" class="control-label">Bulan <span class="required">*</span> : </label>
                     <label for="password" class="control-label" style="margin-left:95px">Tahun <span class="required">*</span> : </label>
                     <div class="controls">
-                        <?php $now = strtotime(date("Y-m-d")); $bulan = date("m",$now); ?>
-                        <?php echo form_dropdown('BULAN', $opsi_bulan, $bulan,'style="width: 137px;", id="bln"'); ?>
-                        <?php echo form_dropdown('TAHUN', $opsi_tahun, '','style="width: 80px;", id="thn"'); ?>
+                        <?php $now = strtotime(date('Y-m-d')); $bulan = date('m', $now); ?>
+                        <?php echo form_dropdown('BULAN', $opsi_bulan, $bulan, 'style="width: 137px;", id="bln"'); ?>
+                        <?php echo form_dropdown('TAHUN', $opsi_tahun, '', 'style="width: 80px;", id="thn"'); ?>
                     </div>
                 </div> -->
                 <div class="pull-left span3">
                     <label for="password" class="control-label">Periode <span class="required">*</span> : </label>
                     <label for="password" class="control-label" style="margin-left:38px"></label>
                     <div class="controls">
-                        <?php 
+                        <?php
                             // $TGL_DARI = date("Y-m");
                             // $TGL_DARI = $TGL_DARI.'-01';
                             // $TGL_SAMPAI = date("Y-m-d");
@@ -103,14 +103,14 @@
                 <div class="pull-left span1">
                     <label></label>
                     <div class="controls">
-                    <?php echo anchor(NULL, "<i class='icon-search'></i> Load", array('class' => 'btn', 'id' => 'button-load')); ?>
+                    <?php echo anchor(null, "<i class='icon-search'></i> Load", ['class' => 'btn', 'id' => 'button-load']); ?>
                     </div>
                 </div>
                 <div class="pull-left span4">
                     <label></label>
                     <div class="controls">
-                    <?php echo anchor(NULL, "<i class='icon-download'></i> Download Excel", array('class' => 'btn', 'id' => 'button-excel')); ?>
-                    <?php echo anchor(NULL, "<i class='icon-download'></i> Download PDF", array('class' => 'btn', 'id' => 'button-pdf')); ?>
+                    <?php echo anchor(null, "<i class='icon-download'></i> Download Excel", ['class' => 'btn', 'id' => 'button-excel']); ?>
+                    <?php echo anchor(null, "<i class='icon-download'></i> Download PDF", ['class' => 'btn', 'id' => 'button-pdf']); ?>
                     </div>
                 </div>
             </div>
@@ -129,7 +129,7 @@
                     <th colspan="2">Penerimaan (L)</th>
                     <th colspan="2">Pemakaian (L)</th>
                     <th rowspan="2">Volume Opname (L)</th>
-                    <th rowspan="2">Dead Stok (L)</th> 
+                    <th rowspan="2">Dead Stok (L)</th>
                     <th rowspan="2">Max Pemakaian (L)</th>
                     <th colspan="2">Stok (L)</th>
                     <th rowspan="2">SHO (Hari)</th>
@@ -192,9 +192,9 @@
 
 <script type="text/javascript">
     var today = new Date();
-    var year = today.getFullYear();   
-    
-    $('select[name="TAHUN"]').val(year); 
+    var year = today.getFullYear();
+
+    $('select[name="TAHUN"]').val(year);
 
     $(".form_datetime").datepicker({
         format: "yyyy-mm-dd",
@@ -202,7 +202,29 @@
         todayBtn: true,
         pickerPosition: "bottom-left"
     });
-    
+    function setCekTgl(){
+         var dateStart = $('#tglawal').val();
+         var dateEnd = $('#tglakhir').val();
+
+         if (dateEnd < dateStart){
+             $('#tglakhir').datepicker('update', dateStart);
+         }
+     }
+
+     $('#tglawal').on('change', function() {
+         var dateStart = $(this).val();
+         $('#tglakhir').datepicker('setStartDate', dateStart);
+         if ($('#tglakhir').val() == '') {
+
+         }else{
+           setCekTgl();
+         }
+     });
+
+     $('#tglakhir').on('change', function() {
+         setCekTgl();
+     });
+
     function convertToRupiah(angka){
         var bilangan = angka.replace(".", ",");
         var isMinus = '';
@@ -210,13 +232,13 @@
         if (bilangan.indexOf('-') > -1) {
             isMinus = '-';
         }
-            
+
         var number_string = bilangan.toString(),
             split   = number_string.split(','),
             sisa    = split[0].length % 3,
             rupiah  = split[0].substr(0, sisa),
             ribuan  = split[0].substr(sisa).match(/\d{1,3}/gi);
-                
+
         if (ribuan) {
             separator = sisa ? '.' : '';
             rupiah += separator + ribuan.join('.');
@@ -248,7 +270,7 @@
             },
             "columnDefs": [
                  {"className": "dt-right", "targets": [8,9,10,11,12,13,14,15,16,17,18]}
-          ] 
+          ]
         });
     } );
 
@@ -288,7 +310,7 @@
                             bootbox.hideAll();
                             bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Data Tidak ditemukan-- </div>', function() {});
                         } else {
-                        
+
                          var nomer = 1;
                          $.each(obj, function (index, value) {
                             // var NAMA_REGIONAL = value.NAMA_REGIONAL == null ? "" : value.NAMA_REGIONAL;
@@ -307,11 +329,11 @@
                             var DEAD_STOCK = value.DEAD_STOCK == null ? "" : value.DEAD_STOCK;
                             var MAX_PEMAKAIAN = value.MAX_PEMAKAIAN == null ? "" : value.MAX_PEMAKAIAN;
 
-                            
+
                             var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
                             var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
                             var SHO = value.SHO == null ? "" : value.SHO;
-                            var SHO = SHO.toString().replace(/\./g, ',');  
+                            var SHO = SHO.toString().replace(/\./g, ',');
                             if ((SHO=='') || (SHO==0)) {SHO='0,00'}
                             var REV = value.REVISI_MUTASI_PERSEDIAAN == null ? "0" : value.REVISI_MUTASI_PERSEDIAAN;
                             var TERIMA_PEMASOK = value.TERIMA_PEMASOK == null ? "0" : value.TERIMA_PEMASOK;
@@ -321,7 +343,7 @@
                             ] ).draw( false );
 
                             nomer++;
-                            
+
                           });
                           bootbox.hideAll();
                         };
@@ -348,10 +370,10 @@
             $('input[name="xlvl2"]').val($('#lvl2').val());
             $('input[name="xlvl3"]').val($('#lvl3').val());
 
-            $('input[name="xlvl0_nama"]').val($('#lvl0 option:selected').text()); 
-            $('input[name="xlvl1_nama"]').val($('#lvl1 option:selected').text()); 
-            $('input[name="xlvl2_nama"]').val($('#lvl2 option:selected').text()); 
-            $('input[name="xlvl3_nama"]').val($('#lvl3 option:selected').text()); 
+            $('input[name="xlvl0_nama"]').val($('#lvl0 option:selected').text());
+            $('input[name="xlvl1_nama"]').val($('#lvl1 option:selected').text());
+            $('input[name="xlvl2_nama"]').val($('#lvl2 option:selected').text());
+            $('input[name="xlvl3_nama"]').val($('#lvl3 option:selected').text());
 
             $('input[name="xlvl4"]').val($('#lvl4').val());
             $('input[name="xbbm"]').val($('#bbm').val());
@@ -385,10 +407,10 @@
             $('input[name="plvl2"]').val($('#lvl2').val());
             $('input[name="plvl3"]').val($('#lvl3').val());
 
-            $('input[name="plvl0_nama"]').val($('#lvl0 option:selected').text()); 
-            $('input[name="plvl1_nama"]').val($('#lvl1 option:selected').text()); 
-            $('input[name="plvl2_nama"]').val($('#lvl2 option:selected').text()); 
-            $('input[name="plvl3_nama"]').val($('#lvl3 option:selected').text()); 
+            $('input[name="plvl0_nama"]').val($('#lvl0 option:selected').text());
+            $('input[name="plvl1_nama"]').val($('#lvl1 option:selected').text());
+            $('input[name="plvl2_nama"]').val($('#lvl2 option:selected').text());
+            $('input[name="plvl3_nama"]').val($('#lvl3 option:selected').text());
 
             $('input[name="plvl4"]').val($('#lvl4').val());
             $('input[name="pbbm"]').val($('#bbm').val());

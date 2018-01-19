@@ -91,6 +91,7 @@
         <th>No</th>
         <th>Unit</th>
         <th>Jenis Bahan Bakar</th>
+        <th>Jumlah Pkai</th>
         <th>Tgl Awal Pakai</th>
         <th>Tgl Akhir Pakai</th>
         <th>Total Volume Pemakaian (L)</th>

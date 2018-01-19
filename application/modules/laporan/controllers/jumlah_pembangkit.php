@@ -109,10 +109,24 @@ class jumlah_pembangkit extends MX_Controller
         echo Modules::run('template/admin', $data);
     }
 
+    /**
+     * for testing data
+     * @return object
+     */
     public function testPembangkit()
     {
-        header('Content-Type: application/json');
+        header('Content-type: application/json');
         $data = $this->jumlah_pembangkit->testPembangkit();
+        echo json_encode($data);
+    }
+
+    public function getDataPembangkit()
+    {
+        $data = [
+        'regional' => $this->input->post('ID_REGIONAL'),
+        'level'    => $this->input->post('VLEVELID')
+      ];
+        $data = $this->jumlah_pembangkit->getDataPembangkit($data);
 
         echo json_encode($data);
     }

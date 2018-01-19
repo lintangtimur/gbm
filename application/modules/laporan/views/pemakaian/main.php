@@ -6,8 +6,9 @@
 
 
 <style>
-.modal .modal-lg {
-    max-width: 120% !important;
+#exampleModal{
+    width: 90%;
+    left: 30%;
 }
 .detail-kosong{
     display: none;
@@ -92,11 +93,12 @@
             </div><br/>
             <div class="form_row">
               <div class="pull-left span3">
-                  <label for="password" class="control-label">Tanggal Awal : </label>
-                  <label for="password" class="control-label" style="margin-left:38px">Tanggal Akhir : </label>
+                  <label for="password" class="control-label">Periode <span class="required">*</span> : </label>
+                  <label for="password" class="control-label" style="margin-left:38px"></label>
                   <div class="controls">
                       <?php echo form_input('TGL_DARI', !empty($default->TGL_DARI) ? $default->TGL_DARI : '', 'class="form_datetime" style="width: 115px;" placeholder="Tanggal awal" id="tglawal"'); ?>
-                      <?php echo form_input('TGL_SAMPAI', !empty($default->TGL_SAMPAI) ? $default->TGL_SAMPAI : '', 'class="form_datetime" style="width: 115px;" placeholder="Tanggal akhir" id="tglakhir"'); ?>
+                      <label for="">s/d</label>
+                      <?php echo form_input('TGL_SAMPAI', !empty($default->TGL_SAMPAI) ? $default->TGL_SAMPAI : '', 'class="form_datetime tglakhir" style="width: 115px;" placeholder="Tanggal akhir" id="tglakhir"'); ?>
                   </div>
               </div>
               <div class="pull-left span3">
@@ -112,7 +114,7 @@
                 </div>
               </div>
                 <div class="pull-left span2">
-                    <label for="password" class="control-label">Cari pembangkit<span class="required">*</span> : </label>
+                    <label for="password" class="control-label">Cari: </label>
                     <div class="controls">
                         <input type="text" id="cariPembangkit" name="" value="">
                     </div>
@@ -147,7 +149,12 @@
                     </div>
                 </div>
                 <!-- Tampilan modal detail -->
+                <div class="pull-left span2">
 
+                </div>
+                <div class="pull-left span2">
+
+                </div>
                 <div class="pull-left span4">
                     <label></label>
                     <div class="controls">
@@ -173,6 +180,7 @@
                         <th>Unit</th>
                         <th>ID BBM</th>
                         <th>Jenis Bahan Bakar</th>
+                        <th>Jumlah Pakai</th>
                         <th>Tgl Awal Pakai</th>
                         <th>Tgl Akhir Pakai</th>
                         <th>Total Volume Pemakaian(L)</th>
@@ -205,11 +213,22 @@
                   <table id="dataTable_detail" class="table-striped" width="100%" cellspacing="0" style="max-height:1000px;">
                       <thead>
                       <tr>
-                          <th>NO</th>
-                          <th>Unit Pembangkit</th>
-                          <th>No Pemakaian</th>
-                          <th>Tanggal Pengakuan</th>
-                          <th>Volume Pemakaian</th>
+                          <th rowspan="2">NO</th>
+                          <th colspan="4">Level</th>
+                          <th rowspan="2">Unit Pembangkit</th>
+                          <th rowspan="2">Jenis BBM</th>
+                          <th rowspan="2">Jenis Pemakaian</th>
+                          <th rowspan="2">No Pemakaian</th>
+                          <th rowspan="2">Tanggal Catat</th>
+                          <th rowspan="2">Tanggal Pengakuan</th>
+                          <th rowspan="2" style="text-align: center;">Volume Pemakaian (L)</th>
+                          <th rowspan="2">Keterangan</th>
+                      </tr>
+                      <tr>
+                        <th>0</th>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
                       </tr>
                       </thead>
                       <tbody></tbody>
@@ -267,6 +286,117 @@
           todayBtn: true,
           pickerPosition: "bottom-left"
       });
+     //  function formatDateDepan(date) {
+     //    var tanggal =date.getDate();
+     //    var bulan = date.getMonth()+1;
+     //    var tahun = date.getFullYear();
+     //
+     //    if(tanggal<10){
+     //       tanggal='0'+tanggal;
+     //      }
+     //
+     //    if(bulan<10){
+     //       bulan='0'+bulan;
+     //      }
+     //
+     //    return tanggal + "-" + bulan + "-" + tahun;
+     //  }
+     //
+     // function formatDateBelakang(date) {
+     //    var tanggal =date.getDate();
+     //    var bulan = date.getMonth()+1;
+     //    var tahun = date.getFullYear();
+     //
+     //    if(tanggal<10){
+     //       tanggal='0'+tanggal;
+     //      }
+     //
+     //    if(bulan<10){
+     //       bulan='0'+bulan;
+     //      }
+     //
+     //    return tahun + "" + bulan + "" + tanggal;
+     //
+     // }
+     //  function checkDefaulthTglDari(){
+     //      var date = new Date();
+     //
+     //      var datePengakuan = $("input[name=TGL_SAMPAI]").val();
+     //      var dateBatasan =formatDateBelakang(date);
+     //      var datePenerimaan = $("input[name=TGL_DARI]").val();
+     //
+     //      var dateStart = datePenerimaan.substring(0, 2);
+     //      var monthStart = datePenerimaan.substring(3, 5);
+     //      var yearStart = datePenerimaan.substring(6, 10);
+     //
+     //      var dateEnd = datePengakuan.substring(0, 2);
+     //      var monthEnd = datePengakuan.substring(3, 5);
+     //      var yearEnd = datePengakuan.substring(6, 10);
+     //
+     //      var vDateStart = yearStart + "" + monthStart + "" + dateStart;
+     //      var vDateEnd = yearEnd + "" + monthEnd + "" + dateEnd;
+     //
+     //      if (vDateStart > dateBatasan) {
+     //          var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Awal tidak boleh melebihi Tanggal Hari ini</div>';
+     //          bootbox.alert(message, function() {});
+     //          $('input[name=TGL_DARI').datepicker('update', date);
+     //
+     //      }
+     //      else if(vDateEnd > dateBatasan){
+     //          var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Akhir tidak boleh melebihi Tanggal Hari ini</div>';
+     //          bootbox.alert(message, function() {});
+     //          $('input[name=TGL_SAMPAI').datepicker('update', date);
+     //      }
+     //      else if(vDateStart > vDateEnd){
+     //          if(datePenerimaan!=""&&datePengakuan!=""){
+     //              var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal awal tidak boleh melebihi Tanggal akhir</div>';
+     //              bootbox.alert(message, function() {});
+     //              $('input[name=TGL_DARI').datepicker('update', datePengakuan);
+     //          }
+     //      }
+     //
+     //  }
+     //  function setDefaulthTglDari(){
+     //      var date = new Date();
+     //      var tanggal = formatDateDepan(date);
+     //
+     //      $('input[name=TGL_DARI]').datepicker('setEndDate', tanggal);
+     //  }
+     //
+     //   function setDefaulthTglSampai(){
+     //      var date = new Date();
+     //      var tanggal = formatDateDepan(date);
+     //
+     //      $('input[name=TGL_SAMPAI]').datepicker('setEndDate', tanggal);
+     //    }
+     //  $("input[name=TGL_DARI]").change(checkDefaulthTglDari);
+     //  $("input[name=TGL_SAMPAI]").change(checkDefaulthTglDari);
+     //  $(function() {
+     //    setDefaulthTglDari();
+     //    setDefaulthTglSampai();
+     //  });
+     function setCekTgl(){
+          var dateStart = $('#tglawal').val();
+          var dateEnd = $('#tglakhir').val();
+
+          if (dateEnd < dateStart){
+              $('#tglakhir').datepicker('update', dateStart);
+          }
+      }
+
+      $('#tglawal').on('change', function() {
+          var dateStart = $(this).val();
+          $('#tglakhir').datepicker('setStartDate', dateStart);
+          if ($('#tglakhir').val() == '') {
+
+          }else{
+            setCekTgl();
+          }
+      });
+
+      $('#tglakhir').on('change', function() {
+          setCekTgl();
+      });
     });
     var today = new Date();
     var year = today.getFullYear();
@@ -282,13 +412,13 @@
         }
 
         bilangan = bilangan.replace("-", "");
-            
+
         var number_string = bilangan.toString(),
             split   = number_string.split(','),
             sisa    = split[0].length % 3,
             rupiah  = split[0].substr(0, sisa),
             ribuan  = split[0].substr(sisa).match(/\d{1,3}/gi);
-                
+
         if (ribuan) {
             separator = sisa ? '.' : '';
             rupiah += separator + ribuan.join('.');
@@ -302,27 +432,36 @@
     }
 
     $(document).ready(function() {
-        $('#dataTable_detail').dataTable({
-            "scrollY": "450px",
-            "scrollX": true,
-            "scrollCollapse": false,
-            "bPaginate": true,
-            "bLengthChange": false,
-            "bFilter": false,
-            "bInfo": true,
-            "bAutoWidth": true,
-            "ordering": false,
-            "searching": false,
-            // "fixedColumns": {"leftColumns": 6},
-            "language": {
-                "decimal": ",",
-                "thousands": ".",
-                "emptyTable": "Tidak ada data untuk ditampilkan"
-            },
-            "columnDefs": [
-                 {"className": "dt-right", "targets": [4]}
-          ]
-        });
+        // $('#dataTable_detail').dataTable({
+        //     "scrollY": "450px",
+        //     responsive : true,
+        //     "scrollX": true,
+        //     "scrollCollapse": false,
+        //     "bPaginate": true,
+        //     // "bLengthChange": false,
+        //     // "pageLength" : 50,
+        //     // "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        //     "bFilter": false,
+        //     "bInfo": false,
+        //     "bAutoWidth": true,
+        //     // "ordering": false,
+        //     "searching": false,
+        //     // "fixedColumns": {"leftColumns": 6},
+        //     "language": {
+        //         "decimal": ",",
+        //         "thousands": ".",
+        //         "emptyTable": "Tidak ada data untuk ditampilkan"
+        //     },
+        //     "columnDefs": [
+        //          {
+        //            "className": "dt-right", "targets": [4]
+        //          }
+        //          // {
+        //          //   "orderable" : false,
+        //          //   "targets" : [-1]
+        //          // },
+        //   ]
+        // });
 
         $('#dataTable').dataTable({
             "scrollY": "450px",
@@ -332,9 +471,8 @@
             "bPaginate": true,
             "bLengthChange": false,
             "bFilter": false,
-            "bInfo": true,
+            "bInfo": false,
             "bAutoWidth": true,
-            "ordering": false,
             // "fixedColumns": {"leftColumns": 6},
             "language": {
                 "decimal": ",",
@@ -342,6 +480,11 @@
                 "emptyTable": "Tidak ada data untuk ditampilkan"
             },
             "columnDefs": [
+              {
+                "orderable" : false,
+                // "targets" : [0,1,3,5,7,8,9]
+                "targets" : [-1]
+              },
                 {
                     "targets" : [1],
                     "visible" : false
@@ -389,8 +532,11 @@
         var tglAkhir =$('#tglakhir').val().replace(/-/g, '');
 
         //check last filled vlevlid
-
-        if (lvl0=='') {
+        if (tglAwal == '') {
+          bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Tanggal awal tidak boleh kosong-- </div>', function() {});
+        }else if(tglAkhir == ''){
+          bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Tanggal akhir tidak boleh kosong-- </div>', function() {});
+        }else if (lvl0=='') {
             bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
 
         } else {
@@ -442,7 +588,8 @@
               tglAkhir = '-';
             }
 
-            console.log("BBM: " + bbm + ' tahun: '+thn+' bulan: '+bln +' regional: '+ lvl0+' vlevlid: ' + vlevelid);
+            // console.log("BBM: " + bbm + ' tahun: '+thn+' bulan: '+bln +' regional: '+ lvl0+' vlevlid: ' + vlevelid);
+            console.log("BBM: " + bbm + ' Tglakhir: '+tglAkhir+' Tglawal: '+tglAwal +' regional: '+ lvl0+' vlevlid: ' + vlevelid);
             bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
                 $.ajax({
                     type: "POST",
@@ -450,8 +597,8 @@
                     url : "<?php echo base_url('laporan/pemakaian/getPemakaian'); ?>",
                     data: {
                         "JENIS_BBM": bbm,
-                        "BULAN":bln,
-                        "TAHUN": thn,
+                        // "BULAN":bln,
+                        // "TAHUN": thn,
                         "ID_REGIONAL": lvl0,
                         "VLEVELID":vlevelid,
                         "TGLAWAL": tglAwal,
@@ -475,6 +622,7 @@
                             var KODE_UNIT = value.KODE == null ? "" : value.KODE;
                             var ID_BBM = value.ID_BBM == null ? "" : value.ID_BBM;
                             var NAMA_JNS_BHN_BKR = value.NAMA_JNS_BHN_BKR == null ? "" : value.NAMA_JNS_BHN_BKR;
+                            var JUMLAH_PAKAI = value.JMLH_PAKAI == null ? "" : value.JMLH_PAKAI;
                             var TGL_AWAL_PAKAI = value.TGL_AWAL_PAKAI == null ? "" : value.TGL_AWAL_PAKAI;
                             var TGL_AKHIR_PAKAI = value.TGL_AKHIR_PAKAI == null ? "" : value.TGL_AKHIR_PAKAI;
                             var VOLUME_PEMAKAIAN = value.VOLUME_PEMAKAIAN == null ? "" : value.VOLUME_PEMAKAIAN;
@@ -485,7 +633,7 @@
                             t.row.add( [
                                 nomer, KODE_UNIT,
                                 UNIT, ID_BBM,
-                                NAMA_JNS_BHN_BKR,
+                                NAMA_JNS_BHN_BKR, JUMLAH_PAKAI,
                                 TGL_AWAL_PAKAI, TGL_AKHIR_PAKAI,
                                 convertToRupiah(VOLUME_PEMAKAIAN)
                             ] ).draw( false );
@@ -499,7 +647,6 @@
     });
 
     $('#cariPembangkit').on( 'keyup', function () {
-        console.log(this.value);
         var table = $('#dataTable').DataTable();
         table.search( this.value ).draw();
     } );
@@ -513,53 +660,104 @@
     $('#dataTable tbody').on( 'click', 'button', function () {
         clearDT_Detail();
         var t = $('#dataTable').DataTable();
-        var tdetail = $('#dataTable_detail').DataTable();
+        var tdetail = $('#dataTable_detail').DataTable({
+          destroy : true,
+          "bLengthChange": false,
+          fixedHeader: {
+            header: true,
+            footer: true
+          },
+          // "scrollY": 500,
+          // "scrollX": true,
+          "bPaginate": true,
+          "bFilter": false,
+          "bInfo": false,
+          "bAutoWidth": true,
+          // "ordering": false,
+          // fixedHeader: true,
+          // "fixedColumns": {"leftColumns": 6},
+          "language": {
+              "decimal": ",",
+              "thousands": ".",
+              "emptyTable": "Tidak ada data untuk ditampilkan"
+          },
+          "columnDefs":[
+            {
+              "className" : "dt-right",
+              "targets" : [-1, -2]
+            }
+          ]
+        });
         var selected_row= t.row($(this).parents('tr')).data();
         console.log(selected_row);
-        var bln = $('#bln').val(); //bulan dropdown
-        var thn = $('#thn').val(); //tahun dropdown
+        // var bln = $('#bln').val(); //bulan dropdown
+        // var thn = $('#thn').val(); //tahun dropdown
 
         var kode_unit = selected_row[1];
         var id_bbm = selected_row[3];
+        var tglAwal= selected_row[6].replace(/-/g, '');//02-11-2018
+        var tglAwal_tahun = tglAwal.substring(0,4);
+        var tglAwal_bulan = tglAwal.substring(4,6);
+        var tglAwal_hari = tglAwal.substring(6,8);
+        var parsed_tglawal = tglAwal_hari.concat(tglAwal_bulan, tglAwal_tahun);
+
+        var tglAkhir =selected_row[7].replace(/-/g, '');
+        var tglAkhir_tahun = tglAkhir.substring(0,4);
+        var tglAkhir_bulan = tglAkhir.substring(4,6);
+        var tglAkhir_hari = tglAkhir.substring(6,8);
+        var parsed_tglakhir = tglAkhir_hari.concat(tglAkhir_bulan, tglAkhir_tahun);
+
+        // console.log("Bulan: "+bln+" Tahun: "+thn+" KodeUNIT: "+kode_unit+" ID_BBM: "+id_bbm);
+        console.log(" KodeUNIT: "+kode_unit+" ID_BBM: "+id_bbm+" TglAwal:"+parsed_tglawal+" TglAkhir: "+parsed_tglakhir);
+        $.ajax({
+            url : "<?php echo base_url('laporan/pemakaian/getPemakaianDetail'); ?>",
+            type: 'POST',
+            data: {
+                "detail_id_bbm": id_bbm,
+                // "detail_bulan": bln,
+                // "detail_tahun": thn,
+                "detail_tgl_awal": parsed_tglawal,
+                "detail_tgl_akhir":parsed_tglakhir,
+                "detail_kode_unit": kode_unit
+            }
+        })
+        .done(function(data) {
+            var detail_parser = JSON.parse(data);
+            var nomer = 1;
+            console.log(detail_parser);
+            $.each(detail_parser, function(index, el) {
+                var LEVEL0 = el.LEVEL0 == null ? "" : el.LEVEL0;
+                var LEVEL1 = el.LEVEL1 == null ? "" : el.LEVEL1;
+                var LEVEL2 = el.LEVEL2 == null ? "" : el.LEVEL2;
+                var LEVEL3 = el.LEVEL3 == null ? "" : el.LEVEL3;
+                var UNIT_PEMBANGKIT = el.UNIT == null ? "" : el.UNIT;
+                var NAMA_JNS_BHN_BKR = el.NAMA_JNS_BHN_BKR == null ? "" : el.NAMA_JNS_BHN_BKR;
+                var JENIS_PEMAKAIAN = el.JENIS_PEMAKAIAN == null ? "" : el.JENIS_PEMAKAIAN;
+                var NO_PEMAKAIAN = el.NO_PEMAKAIAN == null ? "" : el.NO_PEMAKAIAN;
+                var TGL_CATAT = el.TGL_CATAT == null ? "" : el.TGL_CATAT;
+
+                var TGL_PENGAKUAN_PAKAI = el.TGL_PENGAKUAN_PAKAI == null ? "" : el.TGL_PENGAKUAN_PAKAI;
+                var VOL_PEMAKAIAN = el.VOLUME_PEMAKAIAN == null ? "" : el.VOLUME_PEMAKAIAN;
+                var KETERANGAN = el.KETERANGAN == null ? "" : el.KETERANGAN;
+
+                tdetail.row.add( [
+                    nomer, LEVEL0, LEVEL1, LEVEL2, LEVEL3,
+                    UNIT_PEMBANGKIT, NAMA_JNS_BHN_BKR, JENIS_PEMAKAIAN, NO_PEMAKAIAN,
+                    TGL_CATAT,TGL_PENGAKUAN_PAKAI, VOL_PEMAKAIAN, KETERANGAN
+                ] ).draw( false );
+                nomer++;
+            });
+        });
+
+        $('#exampleModal').modal('show');
 
         // check if #button-detail have disabled class
-        if ($('#button-detail').hasClass('disabled')) {
-            console.log($('#button-detail').hasClass('disabled'));
-            bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>Detail hanya bisa dilihat jika memilih sampai dengan --Level 4--</div>');
-        }else{
-            console.log("Bulan: "+bln+" Tahun: "+thn+" KodeUNIT: "+kode_unit+" ID_BBM: "+id_bbm);
-            $.ajax({
-                url : "<?php echo base_url('laporan/pemakaian/getPemakaianDetail'); ?>",
-                type: 'POST',
-                data: {
-                    "detail_id_bbm": id_bbm,
-                    "detail_bulan": bln,
-                    "detail_tahun": thn,
-                    "detail_kode_unit": kode_unit
-                }
-            })
-            .done(function(data) {
-                var detail_parser = JSON.parse(data);
-                var nomer = 1;
-                console.log(detail_parser);
-                $.each(detail_parser, function(index, el) {
-                    console.log(el.UNIT);
-                    var UNIT_PEMBANGKIT = el.UNIT == null ? "" : el.UNIT;
-                    var NO_PEMAKAIAN = el.NO_PEMAKAIAN == null ? "" : el.NO_PEMAKAIAN;
-                    var TGL_PENGAKUAN_PAKAI = el.TGL_PENGAKUAN_PAKAI == null ? "" : el.TGL_PENGAKUAN_PAKAI;
-                    var JENIS_BAHAN_BAKAR = el.NAMA_JNS_BHN_BKR == null ? "" : el.NAMA_JNS_BHN_BKR;
-                    var VOL_PEMAKAIAN = el.VOLUME_PEMAKAIAN == null ? "" : el.VOLUME_PEMAKAIAN;
-
-                    tdetail.row.add( [
-                        nomer, UNIT_PEMBANGKIT, NO_PEMAKAIAN,
-                        TGL_PENGAKUAN_PAKAI, VOL_PEMAKAIAN
-                    ] ).draw( false );
-                    nomer++;
-                });
-            });
-
-            $('#exampleModal').modal('show');
-        }
+        // if ($('#button-detail').hasClass('disabled')) {
+        //     console.log($('#button-detail').hasClass('disabled'));
+        //     bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>Detail hanya bisa dilihat jika memilih sampai dengan --Level 4--</div>');
+        // }else{
+        //
+        // }
     } );
 
     $('#button-excel').click(function(e) {

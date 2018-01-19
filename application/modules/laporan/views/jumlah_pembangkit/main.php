@@ -152,17 +152,11 @@
             <table id="dataTable" class="display" width="100%" cellspacing="0" style="max-height:1000px;">
                 <thead>
                     <tr>
-                        <th>No</th>
-                        <th>KODE Unit</th>
-                        <th>Unit</th>
-                        <th>ID BBM</th>
-                        <th>Jenis Bahan Bakar</th>
-                        <th>Tgl Awal Terima</th>
-                        <th>Tgl Akhir Terima</th>
-                        <th>Total Volume Terima DO (L)</th>
-                        <th>Total VOlume Terima Real (L)</th>
-                        <th>Devisiasi (L)</th>
-                        <th>AKSI</th>
+                        <th width="10px">No</th>
+                        <th width="300px">Unit</th>
+                        <th>Jumlah Pembangkit</th>
+                        <th>Pembangkit Aktif</th>
+                        <th>Pembangkit Non-Aktif</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -188,22 +182,7 @@
                   'class' => 'btn',
                   'id'    => 'button-pdf-detail'
               ]); ?>
-              <table id="dataTable_detail" class="table-striped" width="100%" cellspacing="0" style="max-height:1000px;">
-                  <thead>
-                  <tr>
-                      <th>NO</th>
-                      <th>Unit Pembangkit</th>
-                      <th>No pengiriman</th>
-                      <th>Nama pemasok</th>
-                      <th>Nama transportir</th>
-                      <th>Tanggal terima fisik</th>
-                      <th>Volume Terima DO (L)</th>
-                      <th>Volume Terima Real (L)</th>
-                      <th>Deviasi (L)</th>
-                  </tr>
-                  </thead>
-                  <tbody></tbody>
-              </table>
+
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -274,32 +253,11 @@
     }
 
     $(document).ready(function() {
-        $('#dataTable_detail').dataTable({
-            "scrollY": "450px",
-            "scrollX": true,
-            "searching": false,
-            "scrollCollapse": false,
-            "bPaginate": true,
-            "bLengthChange": false,
-            "bFilter": false,
-            "bInfo": true,
-            "bAutoWidth": true,
-            "ordering": false,
-            // "fixedColumns": {"leftColumns": 6},
-            "language": {
-                "decimal": ",",
-                "thousands": ".",
-                "emptyTable": "Tidak ada data untuk ditampilkan"
-            }
-          //   "columnDefs": [
-          //        {"className": "dt-right", "targets": [8,9,10,11,12,13,14,15]}
-          // ]
-        });
-
+      disableBtn();
         $('#dataTable').dataTable({
             "scrollY": "450px",
+            "searching": true,
             "scrollX": true,
-            "searching": false,
             "scrollCollapse": false,
             "bPaginate": true,
             "bLengthChange": false,
@@ -315,25 +273,12 @@
             },
             "columnDefs": [
                 {
-                    "targets" : [1],
-                    "visible" : false
-                },
-                {
-                    "targets": -1,
-                    "data": null,
-                    "defaultContent": "<button class='btn btn-primary bdet'>DETAIL</button>"
-                },
-                {
-                    "targets" : [3],
-                    "visible" : false
-                },
-                {
-                        "className": "dt-right",
-                        "targets": [7,8,9]
+                        "className": "dt-left",
+                        "targets": [1]
                 },
                 {
                         "className": "dt-center",
-                        "targets": [1,2,3,4]
+                        "targets": [0,2,3,4]
                 }
             ]
           //   "columnDefs": [
@@ -403,27 +348,14 @@
             bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
                 $.ajax({
                     type: "POST",
-                    // url: "<?php echo base_url('laporan/persediaan_bbm/getData'); ?>",
-                    url : "<?php echo base_url('laporan/penerimaan/getData'); ?>",
+                    url : "<?php echo base_url('laporan/jumlah_pembangkit/getDataPembangkit'); ?>",
                     data: {
-                        "JENIS_BBM": bbm,
-                        "BULAN":bln,
-                        "TAHUN": thn,
                         "ID_REGIONAL": lvl0,
                         "VLEVELID":vlevelid
                         },
                     success:function(response) {
                         var obj = JSON.parse(response);
-                        console.log(obj);
                         var t = $('#dataTable').DataTable();
-                        // console.log(t);
-                        // var buttons = t.buttons( ['.edit', '.delete'] );
-                        // buttons.disable();
-
-
-                        // $('button.bdet').click( function () {
-                        //     t.row('.selected').remove().draw( false );
-                        // } );
                         t.clear().draw();
 
                         if (obj == "" || obj == null) {
@@ -434,22 +366,12 @@
                          var nomer = 1;
                          $.each(obj, function (index, value) {
                             var UNIT = value.UNIT == null ? "" : value.UNIT;
-                            var KODE_UNIT = value.KODE == null ? "" : value.KODE;
-                            var ID_BBM = value.ID_BBM == null ? "" : value.ID_BBM;
-                            var NAMA_JNS_BHN_BKR = value.NAMA_JNS_BHN_BKR == null ? "" : value.NAMA_JNS_BHN_BKR;
-                            var TGL_TERIMA_AWAL = value.TGL_TERIMA_AWAL == null ? "" : value.TGL_TERIMA_AWAL;
-                            var TGL_TERIMA_AKHIR = value.TGL_TERIMA_AKHIR == null ? "" : value.TGL_TERIMA_AKHIR;
-                            var VOL_TOTAL_TERIMA = value.VOL_TERIMA == null ? "" : value.VOL_TERIMA;
-                            var VOL_TOTAL_TERIMA_REAL = value.VOL_TERIMA_REAL == null ? "" : value.VOL_TERIMA_REAL;
-                            var DEVISIASI = value.DEVISIASI == null ? "" : value.DEVISIASI;
-
+                            var totalPembangkit = value.TOTAL_PEMBANGKIT == null ? "" : value.TOTAL_PEMBANGKIT;
+                            var pembangkitAktif = value.PEMBANGKIT_AKTIF == null ? "" : value.PEMBANGKIT_AKTIF;
+                            var pembangkitNonAktif = value.PEMBANGKIT_NON_AKTIF == null ? "" : value.PEMBANGKIT_NON_AKTIF;
 
                             t.row.add( [
-                                nomer, KODE_UNIT,
-                                UNIT, ID_BBM,
-                                NAMA_JNS_BHN_BKR, TGL_TERIMA_AWAL,
-                                TGL_TERIMA_AKHIR, VOL_TOTAL_TERIMA,
-                                VOL_TOTAL_TERIMA_REAL, DEVISIASI
+                                nomer, UNIT, totalPembangkit, pembangkitAktif, pembangkitNonAktif
                             ] ).draw( false );
                             nomer++;
                           });
@@ -471,67 +393,70 @@
         var t = $('#dataTable_detail').DataTable();
         t.clear().draw();
     }
-    $('#dataTable tbody').on( 'click', 'button', function () {
-        var t = $('#dataTable').DataTable();
-        var tdetail = $('#dataTable_detail').DataTable();
-        var selected_row= t.row($(this).parents('tr')).data();
-        // console.log(selected_row);
-        clearDT_Detail();
-        var bln = $('#bln').val(); //bulan dropdown
-        var thn = $('#thn').val(); //tahun dropdown
 
-        var kode_unit = selected_row[1];
-        var id_bbm = selected_row[3];
-
-        // check if #button-detail have disabled class
-        if ($('#button-detail').hasClass('disabled')) {
-            console.log($('#button-detail').hasClass('disabled'));
-            bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>Detail hanya bisa dilihat jika memilih sampai dengan --Level 4--</div>');
-        }else{
-            console.log("Bulan: "+bln+" Tahun: "+thn+" KodeUNIT: "+kode_unit+" ID_BBM: "+id_bbm);
-            $.ajax({
-                url : "<?php echo base_url('laporan/penerimaan/getDataDetail'); ?>",
-                type: 'POST',
-                data: {
-                    "detail_id_bbm": id_bbm,
-                    "detail_bulan": bln,
-                    "detail_tahun": thn,
-                    "detail_kode_unit": kode_unit
-                }
-            })
-            .done(function(data) {
-                var detail_parser = JSON.parse(data);
-                var nomer = 1;
-                console.log(detail_parser);
-                $.each(detail_parser, function(index, el) {
-                    console.log(el.UNIT);
-                    var UNIT_PEMBANGKIT = el.UNIT == null ? "" : el.UNIT;
-                    var NOMER_PENERIMAAN = el.NO_PENERIMAAN == null ? "" : el.NO_PENERIMAAN;
-                    var NAMA_PEMASOK = el.NAMA_PEMASOK == null ? "" : el.NAMA_PEMASOK;
-                    var NAMA_TRANSPORTIR = el.NAMA_TRANSPORTIR == null ? "" : el.NAMA_TRANSPORTIR;
-                    var TGL_TERIMA_FISIK = el.TGL_TERIMA_FISIK == null ? "" : el.TGL_TERIMA_FISIK;
-                    var VOL_DO = el.VOL_DO == null ? "" : el.VOL_DO;
-                    var TERIMA_REAL = el.VOL_TERIMA_REAL == null ? "" : el.VOL_TERIMA_REAL;
-                    var DEVISIASI_DETAIL = el.DEVISIASI == null ? "" : el.DEVISIASI;
-
-                    tdetail.row.add( [
-                        nomer, UNIT_PEMBANGKIT, NOMER_PENERIMAAN,
-                        NAMA_PEMASOK, NAMA_TRANSPORTIR,
-                        TGL_TERIMA_FISIK, VOL_DO,
-                        TERIMA_REAL, DEVISIASI_DETAIL
-                    ] ).draw( false );
-                    nomer++;
-                });
-            });
-
-            $('#exampleModal').modal('show');
-        }
-    } );
+    function disableBtn() {
+        document.getElementById("bln").disabled = true;
+        document.getElementById("thn").disabled = true;
+        document.getElementById("bbm").disabled = true;
+    }
+    // $('#dataTable tbody').on( 'click', 'button', function () {
+    //     var t = $('#dataTable').DataTable();
+    //     var tdetail = $('#dataTable_detail').DataTable();
+    //     var selected_row= t.row($(this).parents('tr')).data();
+    //     // console.log(selected_row);
+    //     clearDT_Detail();
+    //     var bln = $('#bln').val(); //bulan dropdown
+    //     var thn = $('#thn').val(); //tahun dropdown
+    //
+    //     var kode_unit = selected_row[1];
+    //     var id_bbm = selected_row[3];
+    //
+    //     // check if #button-detail have disabled class
+    //     if ($('#button-detail').hasClass('disabled')) {
+    //         console.log($('#button-detail').hasClass('disabled'));
+    //         bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>Detail hanya bisa dilihat jika memilih sampai dengan --Level 4--</div>');
+    //     }else{
+    //         console.log("Bulan: "+bln+" Tahun: "+thn+" KodeUNIT: "+kode_unit+" ID_BBM: "+id_bbm);
+    //         $.ajax({
+    //             url : "<?php echo base_url('laporan/penerimaan/getDataDetail'); ?>",
+    //             type: 'POST',
+    //             data: {
+    //                 "detail_id_bbm": id_bbm,
+    //                 "detail_bulan": bln,
+    //                 "detail_tahun": thn,
+    //                 "detail_kode_unit": kode_unit
+    //             }
+    //         })
+    //         .done(function(data) {
+    //             var detail_parser = JSON.parse(data);
+    //             var nomer = 1;
+    //             console.log(detail_parser);
+    //             $.each(detail_parser, function(index, el) {
+    //                 console.log(el.UNIT);
+    //                 var UNIT_PEMBANGKIT = el.UNIT == null ? "" : el.UNIT;
+    //                 var NOMER_PENERIMAAN = el.NO_PENERIMAAN == null ? "" : el.NO_PENERIMAAN;
+    //                 var NAMA_PEMASOK = el.NAMA_PEMASOK == null ? "" : el.NAMA_PEMASOK;
+    //                 var NAMA_TRANSPORTIR = el.NAMA_TRANSPORTIR == null ? "" : el.NAMA_TRANSPORTIR;
+    //                 var TGL_TERIMA_FISIK = el.TGL_TERIMA_FISIK == null ? "" : el.TGL_TERIMA_FISIK;
+    //                 var VOL_DO = el.VOL_DO == null ? "" : el.VOL_DO;
+    //                 var TERIMA_REAL = el.VOL_TERIMA_REAL == null ? "" : el.VOL_TERIMA_REAL;
+    //                 var DEVISIASI_DETAIL = el.DEVISIASI == null ? "" : el.DEVISIASI;
+    //
+    //                 tdetail.row.add( [
+    //                     nomer, UNIT_PEMBANGKIT, NOMER_PENERIMAAN,
+    //                     NAMA_PEMASOK, NAMA_TRANSPORTIR,
+    //                     TGL_TERIMA_FISIK, VOL_DO,
+    //                     TERIMA_REAL, DEVISIASI_DETAIL
+    //                 ] ).draw( false );
+    //                 nomer++;
+    //             });
+    //         });
+    //
+    //         $('#exampleModal').modal('show');
+    //     }
+    // } );
 
     $('#button-excel').click(function(e) {
-        bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Belum bisa diproses </div>', function() {});
-        return;
-
         var lvl0 = $('#lvl0').val();
         if (lvl0 == '') {
             bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
@@ -560,9 +485,6 @@
     });
 
     $('#button-pdf').click(function(e) {
-        bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Belum bisa diproses </div>', function() {});
-        return;
-        
         var lvl0 = $('#lvl0').val();
         if (lvl0 == '') {
             bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});

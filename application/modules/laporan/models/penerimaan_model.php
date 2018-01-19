@@ -52,6 +52,20 @@ class penerimaan_model extends CI_Model
         return $query->result();
     }
 
+    public function testDetail()
+    {
+        $sql = "call lap_detail_penerimaan(
+          '001',
+          '01012018',
+          '09012018',
+          '01 '
+      )";
+
+        $query = $this->db->query($sql);
+
+        return $query->result();
+    }
+
     /**
      * getData_Model_Detail
      * @param  array $data from controller

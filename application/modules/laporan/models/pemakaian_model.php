@@ -16,8 +16,8 @@ class pemakaian_model extends CI_Model
     public function getPemakaian(array $data)
     {
         $jenisbbm   = $data['jenisbbm'];
-        $bulan      = $data['bulan'];
-        $tahun      = $data['tahun'];
+        // $bulan      = $data['bulan'];
+        // $tahun      = $data['tahun'];
         $idRegional = $data['idRegional'];
         $vlevelId   = $data['vlevelId'];
         $TGLAWAL    = $data['TGLAWAL'];
@@ -30,7 +30,7 @@ class pemakaian_model extends CI_Model
         //     '$idRegional',
         //     '$vlevelId'
         // )";
-        
+
         $sql = "call lap_rekap_pemakaian(
             '$jenisbbm',
             '$TGLAWAL' ,
@@ -51,18 +51,20 @@ class pemakaian_model extends CI_Model
      */
     public function getPemakaianDetail($data)
     {
-        $idbbm    = $data['detail_id_bbm'];
-        $kodeunit = $data['detail_kode_unit'];
-        $bulan    = $data['detail_bulan'];
-        $tahun    = $data['detail_tahun'];
+        $idbbm    = $data['ID_BBM'];
+        $kodeunit = $data['KODE_UNIT'];
+        // $bulan    = $data['detail_bulan'];
+        // $tahun    = $data['detail_tahun'];
+        $tglAwal  = $data['TGL_AWAL'];
+        $tglAkhir = $data['TGL_AKHIR'];
 
         // lap_detail_pemakaian(
         //     idbbm, bulan, tahun, kodeunit
         //     )
         $sql = "call lap_detail_pemakaian(
             '$idbbm',
-            '$bulan',
-            '$tahun',
+            '$tglAwal',
+            '$tglAkhir',
             '$kodeunit'
             )";
         //
@@ -72,13 +74,13 @@ class pemakaian_model extends CI_Model
         return $query->result();
     }
 
-    public function testgetPemakaianDetail()
+    public function testDetailPemakaian()
     {
         $sql = "call lap_detail_pemakaian(
-            '003',
-            '12',
-            '2017',
-            '3040'
+            '001',
+            '05012018',
+            '08012018',
+            '06'
             )";
 
         $query = $this->db->query($sql);

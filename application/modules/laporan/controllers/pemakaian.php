@@ -112,8 +112,8 @@ class pemakaian extends MX_Controller
     {
         $data = [
             'jenisbbm'   => $this->input->post('JENIS_BBM'),
-            'bulan'      => $this->input->post('BULAN'),
-            'tahun'      => $this->input->post('TAHUN'),
+            // 'bulan'      => $this->input->post('BULAN'),
+            // 'tahun'      => $this->input->post('TAHUN'),
             'idRegional' => $this->input->post('ID_REGIONAL'),
             'vlevelId'   => $this->input->post('VLEVELID')
         ];
@@ -126,13 +126,22 @@ class pemakaian extends MX_Controller
         echo json_encode($data);
     }
 
+    public function testDetailPemakaian()
+    {
+        header('Content-Type: application/json');
+        $data = $this->tbl_pemakaian_get->testDetailPemakaian();
+        echo json_encode($data);
+    }
+
     public function getPemakaianDetail()
     {
         $data = [
-            'detail_id_bbm'    => $this->input->post('detail_id_bbm'),
-            'detail_bulan'     => $this->input->post('detail_bulan'),
-            'detail_tahun'     => $this->input->post('detail_tahun'),
-            'detail_kode_unit' => $this->input->post('detail_kode_unit')
+            'ID_BBM'    => $this->input->post('detail_id_bbm'),
+            // 'detail_bulan'     => $this->input->post('detail_bulan'),
+            // 'detail_tahun'     => $this->input->post('detail_tahun'),
+            'TGL_AWAL'  => $this->input->post('detail_tgl_awal'),
+            'TGL_AKHIR' => $this->input->post('detail_tgl_akhir'),
+            'KODE_UNIT' => $this->input->post('detail_kode_unit')
         ];
 
         $data = $this->tbl_pemakaian_get->getPemakaianDetail($data);
