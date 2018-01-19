@@ -36,7 +36,6 @@ class Penerimaan extends MX_Controller
 
         $this->load->model('persediaan_bbm_model', 'tbl_get');
         $this->load->model('penerimaan_model', 'tbl_penerimaan_get');
-        $this->load->helper('dd');
     }
 
     public function index()

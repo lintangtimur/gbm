@@ -51,11 +51,18 @@ class persediaan_bbm_model extends CI_Model {
             $JENIS_BBM = "AND G.ID_JNS_BHN_BKR = '$BBM'";
         }
 
-        if ($TGL_DARI== ''){
-            $SETTGL = " LIKE '%%'";
-        }else{
-            $SETTGL = " BETWEEN '$TGL_DARI' AND '$TGL_SAMPAI' ";
+        if (($TGL_DARI== '') && ($TGL_SAMPAI== '')){
+            // $SETTGL = " LIKE '%%'";
+            $TGL_DARI = date("Y-m");
+            $TGL_DARI = $TGL_DARI."-01";
+            $TGL_SAMPAI = date("Y-m");
+            $TGL_SAMPAI = $TGL_SAMPAI."-31";
         }
+        // }else{
+        //     $SETTGL = " BETWEEN '$TGL_DARI' AND '$TGL_SAMPAI' ";
+        // }
+
+        $SETTGL = " BETWEEN '$TGL_DARI' AND '$TGL_SAMPAI' ";
         
         $sql = "SELECT F.NAMA_REGIONAL LEVEL0, E.LEVEL1,D.LEVEL2,C.LEVEL3,B.LEVEL4,G.NAMA_JNS_BHN_BKR,
 A.TGL_MUTASI_PERSEDIAAN,A.STOCK_AWAL,A.PENERIMAAN_REAL,A.PEMAKAIAN,PK1.PEMAKAIAN_SENDIRI

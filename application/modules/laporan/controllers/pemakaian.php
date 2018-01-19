@@ -29,7 +29,6 @@ class pemakaian extends MX_Controller
         parent::__construct();
         $this->load->model('persediaan_bbm_model', 'tbl_get');
         $this->load->model('pemakaian_model', 'tbl_pemakaian_get');
-        // $this->load->helper('dd');
     }
 
     public function index()

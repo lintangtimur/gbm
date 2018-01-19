@@ -97,6 +97,7 @@
                             // $TGL_SAMPAI = date("Y-m-d");
                         ?>
                         <?php echo form_input('TGL_DARI', !empty($TGL_DARI) ? $TGL_DARI : '', 'class="form_datetime" style="width: 115px;" placeholder="Tanggal awal" id="tglawal"'); ?>
+                        s/d
                         <?php echo form_input('TGL_SAMPAI', !empty($TGL_SAMPAI) ? $TGL_SAMPAI : '', 'class="form_datetime" style="width: 115px;" placeholder="Tanggal akhir" id="tglakhir"'); ?>
                     </div>
                 </div>
@@ -287,10 +288,10 @@
         var tglakhir = $('#tglakhir').val();
 
 
-        if (tglawal == '') {
-            bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Silahkan Pilih Tanggal Awal-- </div>', function() {});
-        } else if (tglakhir == '') {
-            bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Silahkan Pilih Tanggal Akhir-- </div>', function() {});
+        if (tglawal == '' && tglakhir != '') {
+          bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Tanggal awal tidak boleh kosong-- </div>', function() {});
+        } else if(tglawal == '' && tglakhir != ''){
+          bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Tanggal akhir tidak boleh kosong-- </div>', function() {});
         } else if (lvl0 == '') {
             bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Silahkan Pilih Regional-- </div>', function() {});
         } else {
@@ -358,10 +359,10 @@
         var tglawal = $('#tglawal').val();
         var tglakhir = $('#tglakhir').val();
 
-        if (tglawal == '') {
-            bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Silahkan Pilih Tanggal Awal-- </div>', function() {});
-        } else if (tglakhir == '') {
-            bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Silahkan Pilih Tanggal Akhir-- </div>', function() {});
+        if (tglawal == '' && tglakhir != '') {
+          bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Tanggal awal tidak boleh kosong-- </div>', function() {});
+        } else if(tglawal == '' && tglakhir != ''){
+          bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Tanggal akhir tidak boleh kosong-- </div>', function() {});
         } else if (lvl0 == '') {
             bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Silahkan Pilih Regional-- </div>', function() {});
         } else {
@@ -395,10 +396,10 @@
         var tglawal = $('#tglawal').val();
         var tglakhir = $('#tglakhir').val();
 
-        if (tglawal == '') {
-            bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Silahkan Pilih Tanggal Awal-- </div>', function() {});
-        } else if (tglakhir == '') {
-            bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Silahkan Pilih Tanggal Akhir-- </div>', function() {});
+        if (tglawal == '' && tglakhir != '') {
+          bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Tanggal awal tidak boleh kosong-- </div>', function() {});
+        } else if(tglawal == '' && tglakhir != ''){
+          bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Tanggal akhir tidak boleh kosong-- </div>', function() {});
         } else if (lvl0 == '') {
             bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Silahkan Pilih Regional-- </div>', function() {});
         } else {
