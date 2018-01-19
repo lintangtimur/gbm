@@ -258,6 +258,8 @@
     <input type="hidden" name="xthn">
     <input type="hidden" name="xlvlid">
     <input type="hidden" name="xlvl">
+    <input type="hidden" name="xtglawal">
+    <input type="hidden" name="xtglakhir">
 </form>
 
 <form id="export_pdf" action="<?php echo base_url('laporan/persediaan_bbm/export_pdf'); ?>" method="post" >
@@ -532,13 +534,12 @@
         var tglAkhir =$('#tglakhir').val().replace(/-/g, '');
 
         //check last filled vlevlid
-        if (tglAwal == '') {
-          bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Tanggal awal tidak boleh kosong-- </div>', function() {});
-        }else if(tglAkhir == ''){
-          bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Tanggal akhir tidak boleh kosong-- </div>', function() {});
-        }else if (lvl0=='') {
+        if (lvl0=='') {
             bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
-
+        }else if (tglAwal == '' && tglAkhir != '') {
+          bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Tanggal awal tidak boleh kosong-- </div>', function() {});
+        }else if(tglAkhir == '' && tglAwal != ''){
+          bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Tanggal akhir tidak boleh kosong-- </div>', function() {});
         } else {
             // lvl0 : jenis2 level -> Regional,Level 1, Level 2, Level 3
             // lvl3 : isi dari VLEVELID
@@ -743,7 +744,7 @@
                 tdetail.row.add( [
                     nomer, LEVEL0, LEVEL1, LEVEL2, LEVEL3,
                     UNIT_PEMBANGKIT, NAMA_JNS_BHN_BKR, JENIS_PEMAKAIAN, NO_PEMAKAIAN,
-                    TGL_CATAT,TGL_PENGAKUAN_PAKAI, VOL_PEMAKAIAN, KETERANGAN
+                    TGL_CATAT,TGL_PENGAKUAN_PAKAI, convertToRupiah(VOL_PEMAKAIAN), KETERANGAN
                 ] ).draw( false );
                 nomer++;
             });
@@ -828,7 +829,17 @@
           $('input[name="xbln"]').val($('#bln').val()); // 1 -> Januari
           $('input[name="xthn"]').val($('#thn').val()); // 2017
           $('input[name="xthn"]').val($('#thn').val());
-
+          var tglAwal = $('#tglawal').val().replace(/-/g, '');
+          var tglAkhir = $('#tglakhir').val().replace(/-/g, '');
+          if (tglAwal == '' && tglAkhir == '') {
+            tglAwal = "-";
+            tglAkhir = '-';
+            $('input[name="xtglawal"]').val(tglAwal);
+            $('input[name="xtglakhir"]').val(tglAkhir);
+          }else{
+            $('input[name="xtglawal"]').val(tglAwal);
+            $('input[name="xtglakhir"]').val(tglAkhir);
+          }
           $('input[name="xlvlid"]').val(vlevelid);
           $('input[name="xlvl"]').val(lvl0);
           console.log(vlevelid);

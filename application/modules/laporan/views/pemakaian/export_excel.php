@@ -2,9 +2,9 @@
 <?php
     if ($JENIS == 'XLS') {
         header('Cache-Control: no-cache, no-store, must-revalidate');
-        header('Content-Type: text/html');
-        // header('Content-Type: application/vnd.ms-excel');
-        // header('Content-Disposition: attachment; filename=Laporan_Penerimaan_BBM.xls');
+        // header('Content-Type: text/html');
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment; filename=Laporan_Penerimaan_BBM.xls');
 
         echo '
         <style>
@@ -76,11 +76,29 @@
             $jml_lv= $jml_lv - 1; //0
             echo '<tr><td style="text-align:left;font-size: 12px;" colspan="5">RAYON ' . $STORE_SLOC_NAMA . '</td></tr>';
         }
-        if ($BULAN) {
-            echo '<tr><td style="text-align:left;font-size: 12px;" colspan="5">BLTH ' . $TAHUN . '' . $BULAN . '</td></tr>';
+        if ($TGLAWAL) {
+            $tAwal       = substr($TGLAWAL, 0, 2);
+            $taunAwal    = substr($TGLAWAL, 4, 7);
+            $blnAwal     = substr($TGLAWAL, 2, 2);
+            $tglAwal     = $taunAwal . '-' . $blnAwal . '-' . $tAwal;
+
+            $tAkhir       = substr($TGLAKHIR, 0, 2);
+            $taunAkhir    = substr($TGLAKHIR, 4, 7);
+            $blnAkhir     = substr($TGLAKHIR, 2, 2);
+            $tglAkhir     = $taunAkhir . '-' . $blnAkhir . '-' . $tAkhir;
+            if ($TGLAWAL == '-' and $TGLAKHIR == '-') {
+                $tglAwal  = 'Awal';
+                $tglAkhir = 'Akhir';
+            }
+            echo '<tr><td style="text-align:left;font-size: 12px;" colspan="5">Periode ' . $tglAwal . ' s/d ' . $tglAkhir . '</td></tr>';
         } else {
-            echo '<tr><td style="text-align:left;font-size: 12px;" colspan="5">Tahun ' . $TAHUN . '</td></tr>';
+            echo '<tr><td style="text-align:left;font-size: 12px;" colspan="5">Tahun ' . $TGLAKHIR . '</td></tr>';
         }
+        // if ($BULAN) {
+        //     echo '<tr><td style="text-align:left;font-size: 12px;" colspan="5">BLTH ' . $TAHUN . '' . $BULAN . '</td></tr>';
+        // } else {
+        //     echo '<tr><td style="text-align:left;font-size: 12px;" colspan="5">Tahun ' . $TAHUN . '</td></tr>';
+        // }
     ?>
     <tr><td></td><td></td><td></td><td></td><td></td></tr>
 </table>
@@ -91,7 +109,7 @@
         <th>No</th>
         <th>Unit</th>
         <th>Jenis Bahan Bakar</th>
-        <th>Jumlah Pkai</th>
+        <th>Jumlah Pakai</th>
         <th>Tgl Awal Pakai</th>
         <th>Tgl Akhir Pakai</th>
         <th>Total Volume Pemakaian (L)</th>
@@ -109,6 +127,7 @@
       <?php
               $UNIT                        = !empty($row->UNIT) ? $row->UNIT : '-';
               $NAMA_JNS_BHN_BKR            = !empty($row->NAMA_JNS_BHN_BKR) ? $row->NAMA_JNS_BHN_BKR : '-';
+              $JMLH_PAKAI                  = !empty($row->JMLH_PAKAI) ? $row->JMLH_PAKAI : '-';
               $TGL_AWAL_PAKAI              = !empty($row->TGL_AWAL_PAKAI) ? $row->TGL_AWAL_PAKAI : '-';
               $TGL_AKHIR_PAKAI             = !empty($row->TGL_AKHIR_PAKAI) ? $row->TGL_AKHIR_PAKAI : '-';
               $VOLUME_PEMAKAIAN            = !empty($row->VOLUME_PEMAKAIAN) ? number_format($row->VOLUME_PEMAKAIAN, 0, ',', '.') : '0';
@@ -116,6 +135,7 @@
         <td style="text-align:center;"><?php echo $x ?></td>
         <td style="text-align:left;"><?php echo $UNIT ?></td>
         <td style="text-align:center;"><?php echo $NAMA_JNS_BHN_BKR ?></td>
+        <td style="text-align:center;"><?php echo $JMLH_PAKAI ?></td>
         <td style="text-align:center;"><?php echo $TGL_AWAL_PAKAI ?></td>
         <td style="text-align:center;"><?php echo $TGL_AKHIR_PAKAI ?></td>
         <td style="text-align:right;"><?php echo $VOLUME_PEMAKAIAN ?></td>

@@ -161,6 +161,7 @@ class pemakaian extends MX_Controller
         $data                = [
             // 'LVL0'             => $this->input->post('xlvl'),
             'ID_REGIONAL'      => $this->input->post('xlvl'), // 01
+            'idRegional'       => $this->input->post('xlvl'), // 01
             'COCODE'           => $this->input->post('xlvl1'),
             'PLANT'            => $this->input->post('xlvl2'),
             'STORE_SLOC'       => $this->input->post('xlvl3'),
@@ -172,10 +173,13 @@ class pemakaian extends MX_Controller
 
             'SLOC'             => $this->input->post('xlvl4'), //183130
             'BBM'              => $this->input->post('xbbm'), //001
-            'JENIS_BBM'        => $this->input->post('xbbm'),
+            'jenisbbm'         => $this->input->post('xbbm'),
             'VLEVELID'         => $this->input->post('xlvlid'),
-            'BULAN'            => $this->input->post('xbln'), //1
-            'TAHUN'            => $this->input->post('xthn'), //2017
+            'vlevelId'         => $this->input->post('xlvlid'),
+            // 'BULAN'            => $this->input->post('xbln'), //1
+            // 'TAHUN'            => $this->input->post('xthn'), //2017
+            'TGLAWAL'          => $this->input->post('xtglawal'),
+            'TGLAKHIR'         => $this->input->post('xtglakhir'),
             'JENIS'            => 'XLS'
         ];
 

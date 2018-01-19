@@ -327,6 +327,7 @@
     <input type="hidden" name="xlvl_detail">
     <input type="hidden" name="xtglawal_detail">
     <input type="hidden" name="xtglakhir_detail">
+    <input type="hidden" name="xkodeUnit_detail">
 </form>
 <script type="text/javascript">
     $(document).ready(function() {
@@ -485,7 +486,7 @@
 
         $('#dataTable').dataTable({
             "scrollY": "450px",
-            "searching": true,
+            "searching": false,
             "scrollX": true,
             "scrollCollapse": false,
             "bPaginate": true,
@@ -628,6 +629,7 @@
         var thn = $('#thn').val(); //tahun dropdown
 
         var kode_unit = selected_row[1];
+        $('input[name="xkodeUnit_detail"]').val(kode_unit);
         var id_bbm = selected_row[3];
         var tglAwal= selected_row[5].replace(/-/g, '');
         var tglAwal_tahun = tglAwal.substring(0,4);
@@ -726,15 +728,15 @@
         var tglAkhir =$('#tglakhir').val().replace(/-/g, '');
 
         //check last filled vlevlid
-        if (tglAwal == '') {
-          bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Tanggal awal tidak boleh kosong-- </div>', function() {});
-        }else if(tglAkhir == ''){
-          bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Tanggal akhir tidak boleh kosong-- </div>', function() {});
-        }else if (lvl0=='') {
+
+
+        if (lvl0=='') {
             bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
+        }else if (tglAwal == '' && tglAkhir != '') {
+          bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Tanggal awal tidak boleh kosong-- </div>', function() {});
+        }else if(tglAkhir == '' && tglAwal != ''){
+          bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Tanggal akhir tidak boleh kosong-- </div>', function() {});
         } else {
-            // lvl0 : jenis2 level -> Regional,Level 1, Level 2, Level 3
-            // lvl3 : isi dari VLEVELID
             if (lvl0 !== "") {
                 lvl0 = 'Regional';
                 vlevelid = $('#lvl0').val();
@@ -1047,6 +1049,9 @@
 
           $('input[name="xlvlid"]').val(vlevelid);
           $('input[name="xlvl"]').val(lvl0);
+          var kodeUnit_detail = $('input[name="xkodeUnit_detail"]').val();
+          $('input[name="xkodeUnit_detail"]').val(kodeUnit_detail);
+          
           var tglAwal = $('#tglawal').val().replace(/-/g, '');
           var tglAkhir = $('#tglakhir').val().replace(/-/g, '');
           if (tglAwal == '' && tglAkhir == '') {
@@ -1058,7 +1063,6 @@
             $('input[name="xtglawal"]').val(tglAwal);
             $('input[name="xtglakhir"]').val(tglAkhir);
           }
-
 
           console.log(vlevelid);
             bootbox.confirm('Apakah yakin akan export data excel ?', "Tidak", "Ya", function(e) {
