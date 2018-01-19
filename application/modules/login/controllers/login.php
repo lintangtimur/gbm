@@ -104,7 +104,7 @@ class login extends MX_Controller {
                         'login_status' => TRUE,
                         'user_id' => $user->ID_USER,
                         'roles_id' => $user->ROLES_ID,
-                        'user_name' => $username, //$user->NAMA_USER,
+                        'user_name' => $user->USERNAME,
 						'level_user' => $user->LEVEL_USER,
 						'kode_level' =>$user->KODE_LEVEL,
                         'ldap_cek' =>$ldap_cek,

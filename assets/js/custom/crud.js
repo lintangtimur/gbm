@@ -429,8 +429,109 @@ function simpan_data(button, form, disable, content) {
             }
         });
     }
-	
-	
+}
+
+function reset_session(button, form, disable, content) {
+    if (typeof $('#' + button).attr('disabled') === 'undefined') {
+
+        bootbox.setBtnClasses({
+            CANCEL: '',
+            CONFIRM: 'blue'
+        });
+
+        var source = $(form).attr('data-source');
+        var conf = $(form).attr('data-confirm');
+        var conf_message = conf;
+        var conf_tinymce = $(form).attr('data-tinymce');
+
+        if (typeof conf === 'undefined') {
+            conf_message = 'Anda yakin akan mereset session?';
+        }
+
+        bootbox.confirm(conf_message, "Tidak", "Ya", function(e) {
+            if (e) {
+
+                var disabled_list = disable.split('|');
+                disabled_list.push('#' + button);
+                disabled_html(disabled_list, true);
+
+                bootbox.modal('<div class="loading-progress"></div>');
+
+                if (typeof conf_tinymce !== 'undefined' && conf_tinymce === 'true') {
+                    tinyMCE.triggerSave();
+                }
+
+                $(form).ajaxSubmit({
+                    beforeSubmit: function(a, f, o) {
+                        o.dataType = 'json';
+                    },
+                    success: function(res) {
+                        
+                        var message = '';
+                        var icon = 'icon-remove-sign';
+                        var color = '#ac193d;';
+                        var content_id = res[3];
+
+                        if (res[0]) {
+                            icon = 'icon-ok-sign';
+                            color = '#0072c6;';
+                            if ("#login")
+                                $("#closeforgot").click();
+                        }
+
+                        message += '<div class="box-title" style="color:' + color + '"><i class="' + icon + '"></i> ' + res[1] + '</div>';
+                        message += res[2];
+
+                        $(".bootbox").modal("hide");
+                        disabled_html(disabled_list, false);
+                        bootbox.alert(message, function() {
+
+                            if (isValidURL(content_id)) {
+                                window.location = content_id;
+                            } else {
+                                if (typeof content_id !== 'undefined' && content_id !== '') {
+                                    var patt = /^#/;
+
+                                    if (patt.test(content_id)) {
+
+                                        if (window.status_modal) {
+                                            var form_content_id = window.form_content_modal;
+
+                                            if (typeof content !== 'undefined')
+                                                form_content_id = content;
+
+                                            close_form_modal('', form_content_id);
+                                        } else {
+                                            close_form();
+                                            //if (res[0]){
+                                            //    window.location = source;
+                                            //}
+                                        }
+
+                                        load_table(content_id, 1);
+                                    } else {
+
+                                        if (window.status_modal) {
+                                            var form_content_id = window.form_content_modal;
+
+                                            if (typeof content !== 'undefined')
+                                                form_content_id = content;
+
+                                            close_form_modal('', form_content_id);
+                                        } else {
+                                            close_form();
+                                        }
+
+                                        eval('(' + content_id + ')');
+                                    }
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
 }
 
 /*
