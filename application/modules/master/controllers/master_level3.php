@@ -99,7 +99,7 @@ class master_level3 extends MX_Controller {
         $this->form_validation->set_rules('ID_REGIONAL', 'Regional','required');
         $this->form_validation->set_rules('COCODE', 'Level 1','required');
         $this->form_validation->set_rules('PLANT', 'Level 2', 'required');
-        $this->form_validation->set_rules('LEVEL3', 'Level 3', 'trim|required|max_length[10]');
+        $this->form_validation->set_rules('LEVEL3', 'Level 3', 'trim|required|max_length[50]');
         $this->form_validation->set_rules('STORE_SLOC', 'Store Sloc', 'trim|required|max_length[10]');
         if ($this->form_validation->run($this)) {
             $message = array(false, 'Proses gagal', 'Proses penyimpanan data gagal.', '');
