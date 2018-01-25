@@ -17,9 +17,9 @@
         echo form_open_multipart($form_action, array('id' => 'finput', 'class' => 'form-horizontal'), $hidden_form);
             ?>
             <div class="control-group">
-                <label class="control-label">Tanggal Penerimaan (DO/TUG)<span class="required">*</span> : </label>
+                <label class="control-label">Tanggal Penerimaan (DO/BA)<span class="required">*</span> : </label>
                 <div class="controls">
-                    <?php echo form_input('TGL_PENERIMAAN', !empty($default->TGL_PENERIMAAN) ? $default->TGL_PENERIMAAN : '', 'class="span12 input-append date form_datetime" placeholder="Tanggal Penerimaan (DO/TUG)" id="TGL_PENERIMAAN" disabled'); ?>
+                    <?php echo form_input('TGL_PENERIMAAN', !empty($default->TGL_PENERIMAAN) ? $default->TGL_PENERIMAAN : '', 'class="span12 input-append date form_datetime" placeholder="Tanggal Penerimaan (DO/BA)" id="TGL_PENERIMAAN" disabled'); ?>
                 </div>
             </div>
             <div class="control-group">
@@ -98,9 +98,9 @@
             </div>
 
             <div class="control-group">
-                <label class="control-label">Volume DO/TUG (L)<span class="required">*</span> : </label>
+                <label class="control-label">Volume DO/BA (L)<span class="required">*</span> : </label>
                 <div class="controls">
-                    <?php echo form_input('VOL_PENERIMAAN', !empty($default->VOL_TERIMA) ? $default->VOL_TERIMA : '', 'class="span4" placeholder="Volume DO / TUG" disabled'); ?>
+                    <?php echo form_input('VOL_PENERIMAAN', !empty($default->VOL_TERIMA) ? $default->VOL_TERIMA : '', 'class="span4" placeholder="Volume DO / BA" disabled'); ?>
                 </div>
             </div>
             <div class="control-group">

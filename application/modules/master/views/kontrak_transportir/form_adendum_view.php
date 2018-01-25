@@ -8,7 +8,7 @@
     echo form_open_multipart($form_action, array('id' => 'finput', 'class' => 'form-horizontal'), $hidden_form);
     ?>
         <div class="control-group">
-            <label for="password" class="control-label">Pilih Transportir<span class="required">*</span> : </label>
+            <label for="password" class="control-label">Nama Transportir<span class="required">*</span> : </label>
             <div class="controls">
                 <?php echo form_dropdown('ID_TRANSPORTIR_VIEW', $option_transportir, !empty($default->ID_TRANSPORTIR) ? $default->ID_TRANSPORTIR : '', 'class="span6" disabled'); ?>
             </div>
