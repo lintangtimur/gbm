@@ -110,11 +110,67 @@ class persediaan_bbm extends MX_Controller {
         $data['BULAN'] = $this->input->post('BULAN');
         $data['TAHUN'] = $this->input->post('TAHUN');
         $data['TGL_DARI'] = $this->input->post('TGL_DARI');
-        $data['TGL_SAMPAI'] = $this->input->post('TGL_SAMPAI');
+        $data['TGL_SAMPAI'] = $this->input->post('TGL_SAMPAI'); 
+        $data['CARI'] = $this->input->post('CARI');
         
         $data = $this->tbl_get->getData_Model($data);
         echo json_encode($data);
     }
+
+    public function ajax_list(){
+        $data['ID_REGIONAL'] = $this->input->post('ID_REGIONAL');
+        $data['COCODE'] = $this->input->post('COCODE');
+        $data['PLANT'] = $this->input->post('PLANT');
+        $data['STORE_SLOC'] = $this->input->post('STORE_SLOC');
+        $data['SLOC'] = $this->input->post('SLOC');
+        $data['BBM'] = $this->input->post('ID_JNS_BHN_BKR');
+        $data['BULAN'] = $this->input->post('BULAN');
+        $data['TAHUN'] = $this->input->post('TAHUN');
+        $data['TGL_DARI'] = $this->input->post('TGL_DARI');
+        $data['TGL_SAMPAI'] = $this->input->post('TGL_SAMPAI');
+
+        $list = $this->tbl_get->get_datatables($data);
+
+        // print_r($list); die;
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($list as $table) {
+            $no++;
+
+            $row = array();
+
+            $row[] = $no;
+            $row[] = $table->LEVEL0;
+            $row[] = $table->LEVEL1;
+            $row[] = $table->LEVEL2;
+            $row[] = $table->LEVEL3;
+            $row[] = $table->LEVEL4;
+            $row[] = $table->NAMA_JNS_BHN_BKR;
+            $row[] = $table->TGL_MUTASI_PERSEDIAAN;
+            $row[] = number_format($table->STOCK_AWAL,2,',','.');
+            $row[] = number_format($table->TERIMA_PEMASOK,2,',','.');
+            $row[] = number_format($table->TERIMA_UNITLAIN,2,',','.');
+            $row[] = number_format($table->PEMAKAIAN_SENDIRI,2,',','.');
+            $row[] = number_format($table->PEMAKAIAN_KIRIM,2,',','.');
+            $row[] = number_format($table->VOLUME_STOCKOPNAME,2,',','.');
+            $row[] = number_format($table->DEAD_STOCK,2,',','.');
+            $row[] = number_format($table->MAX_PEMAKAIAN,2,',','.');
+            $row[] = number_format($table->STOCK_AKHIR_REAL,2,',','.');
+            $row[] = number_format($table->STOCK_AKHIR_EFEKTIF,2,',','.');
+            $row[] = number_format($table->SHO,2,',','.');
+
+            $data[] = $row;
+        }
+
+        $output = array(
+                        "draw" => $_POST['draw'],
+                        "recordsTotal" => $this->tbl_get->count_filtered(), //"10",  //$this->tbl_get->count_all(),
+                        "recordsFiltered" => $this->tbl_get->count_all(),  //$this->tbl_get->count_filtered(),
+                        "data" => $data,
+                );
+        echo json_encode($output);
+    }
+
 
     public function export_excel(){
         $data['ID_REGIONAL'] = $this->input->post('xlvl0');

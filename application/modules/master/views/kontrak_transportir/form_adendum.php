@@ -320,6 +320,10 @@
         var cmb_lv = e.target.id;
         var vke = cmb_lv.split('_');
         var vcek = $( "#"+cmb_lv).val();
+		
+        if (vcek==''){
+            getComboLv1(vke[1],'');   
+        }
 
         getComboLv2(vke[1],vcek);
     });

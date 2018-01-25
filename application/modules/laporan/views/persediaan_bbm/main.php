@@ -11,14 +11,16 @@
             width:100%;
             /*font-size: 10px;*/
         }
-
+        /*.dataTables_filter, .dataTables_info {
+           display: none;
+         }*/
         /*td,  th {
             border: 1px solid  #f4f6f6 ;
         }
-*/
+    */
         /*table.tdetail thead {background-color: #CED8F6}*/
 
-/*    th, td { white-space: nowrap; }
+    /*    th, td { white-space: nowrap; }
     div.dataTables_wrapper {
         width: 800px;
         margin: 0 auto;
@@ -34,7 +36,7 @@
     </div>
     <div class="widgets_area">
         <div class="well-content no-search">
-            <?php echo form_open_multipart('', ['id' => 'ffilter']); ?>
+            <?php echo form_open_multipart('', array('id' => 'ffilter')); ?>
             <div class="form_row">
                 <div class="pull-left span3">
                     <label for="password" class="control-label">Regional <span class="required">*</span> : </label>
@@ -97,26 +99,48 @@
                             // $TGL_SAMPAI = date("Y-m-d");
                         ?>
                         <?php echo form_input('TGL_DARI', !empty($TGL_DARI) ? $TGL_DARI : '', 'class="form_datetime" style="width: 115px;" placeholder="Tanggal awal" id="tglawal"'); ?>
-                        s/d
+                        <label for="">s/d</label>
                         <?php echo form_input('TGL_SAMPAI', !empty($TGL_SAMPAI) ? $TGL_SAMPAI : '', 'class="form_datetime" style="width: 115px;" placeholder="Tanggal akhir" id="tglakhir"'); ?>
                     </div>
                 </div>
-                <div class="pull-left span1">
-                    <label></label>
+                <!-- <div class="pull-left span3">
+                  <label for="" class="control-label" style="margin-left:1px;">Tampil data</label>
+                  <div class="controls">
+                    <?php echo form_dropdown('tampilData', array(
+                      '-Tampilkan Data-'=> 'Tampilkan Data',
+                      '25'              => '25 data',
+                      '50'              => '50 data',
+                      '100'             => '100 data',
+                      '200'             => '200 data'
+                    ), '', 'style="margin-left:1px;"') ?>
+                  </div>
+                </div> -->
+                <div class="pull-left span3">
+                    <label for="password" class="control-label">Cari: </label>
                     <div class="controls">
-                    <?php echo anchor(null, "<i class='icon-search'></i> Load", ['class' => 'btn', 'id' => 'button-load']); ?>
+                        <input type="text" id="CARI" name="CARI" value="" class="span2">
+                        <?php echo anchor(null, "<i class='icon-search'></i> Load", array('class' => 'btn', 'id' => 'button-load')); ?>
                     </div>
                 </div>
-                <div class="pull-left span4">
+                <!-- <div class="pull-left span1">
                     <label></label>
                     <div class="controls">
-                    <?php echo anchor(null, "<i class='icon-download'></i> Download Excel", ['class' => 'btn', 'id' => 'button-excel']); ?>
-                    <?php echo anchor(null, "<i class='icon-download'></i> Download PDF", ['class' => 'btn', 'id' => 'button-pdf']); ?>
+                    <?php echo anchor(null, "<i class='icon-search'></i> Load", array('class' => 'btn', 'id' => 'button-load')); ?>
                     </div>
-                </div>
+                </div> -->
+            </div>
+            <div class="form_row">
+              <div class="pull-left span4">
+                  <label></label>
+                  <div class="controls">
+                  <?php echo anchor(null, "<i class='icon-download'></i> Download Excel", array('class' => 'btn', 'id' => 'button-excel')); ?>
+                  <?php echo anchor(null, "<i class='icon-download'></i> Download PDF", array('class' => 'btn', 'id' => 'button-pdf')); ?>
+                  </div>
+              </div>
             </div>
             <?php echo form_close(); ?>
         </div>
+        <br>
         <div class="well-content no-search">
             <table id="dataTable" class="table-striped" width="100%" cellspacing="0" style="max-height:1000px;">
                 <thead>
@@ -194,8 +218,14 @@
 <script type="text/javascript">
     var today = new Date();
     var year = today.getFullYear();
+    var table;
 
     $('select[name="TAHUN"]').val(year);
+
+    // $('#cariPembangkit').on( 'keyup', function () {
+    //     var tablex = $('#dataTable').DataTable();
+    //     tablex.search( this.value ).draw();
+    // } );
 
     $(".form_datetime").datepicker({
         format: "yyyy-mm-dd",
@@ -203,6 +233,7 @@
         todayBtn: true,
         pickerPosition: "bottom-left"
     });
+
     function setCekTgl(){
          var dateStart = $('#tglawal').val();
          var dateEnd = $('#tglakhir').val();
@@ -252,30 +283,31 @@
         return rupiah;
     }
 
-    $(document).ready(function() {
-        $('#dataTable').dataTable({
-            "scrollY": "450px",
-            "scrollX": true,
-            "scrollCollapse": false,
-            "bPaginate": true,
-            "bLengthChange": false,
-            "bFilter": false,
-            "bInfo": true,
-            "bAutoWidth": true,
-            "ordering": false,
-            "fixedColumns": {"leftColumns": 6},
-            "language": {
-                "decimal": ",",
-                "thousands": ".",
-                "emptyTable": "Tidak ada data untuk ditampilkan"
-            },
-            "columnDefs": [
-                 {"className": "dt-right", "targets": [8,9,10,11,12,13,14,15,16,17,18]}
-          ]
-        });
-    } );
+    // $(document).ready(function() {
+    //     $('#dataTable').dataTable({
+    //         "scrollY": "450px",
+    //         "scrollX": true,
+    //         "scrollCollapse": false,
+    //         "bPaginate": true,
+    //         "searching":true,
+    //         "bLengthChange": false,
+    //         "bFilter": false,
+    //         "bInfo": true,
+    //         "bAutoWidth": true,
+    //         "ordering": false,
+    //         "fixedColumns": {"leftColumns": 6},
+    //         "language": {
+    //             "decimal": ",",
+    //             "thousands": ".",
+    //             "emptyTable": "Tidak ada data untuk ditampilkan"
+    //         },
+    //         "columnDefs": [
+    //              {"className": "dt-right", "targets": [8,9,10,11,12,13,14,15,16,17,18]}
+    //       ]
+    //     });
+    // } );
 
-    $('#button-load').click(function(e) {
+    function get_data(){
         var lvl0 = $('#lvl0').val();
         var lvl1 = $('#lvl1').val();
         var lvl2 = $('#lvl2').val();
@@ -284,17 +316,99 @@
         var bbm = $('#bbm').val();
         var bln = $('#bln').val();
         var thn = $('#thn').val();
-        var tglawal = $('#tglawal').val();
-        var tglakhir = $('#tglakhir').val();
+        var tglawal = $('#tglawal').val().replace(/-/g, '');//02-11-2018
+        var tglakhir = $('#tglakhir').val().replace(/-/g, '');
+        var CARI = $('#CARI').val();
 
-
-        if (tglawal == '' && tglakhir != '') {
+        if (lvl0=='') {
+            bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
+        }else if (tglawal == '' && tglakhir != '') {
           bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Tanggal awal tidak boleh kosong-- </div>', function() {});
-        } else if(tglawal == '' && tglakhir != ''){
+        }else if(tglakhir == '' && tglawal != ''){
           bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Tanggal akhir tidak boleh kosong-- </div>', function() {});
-        } else if (lvl0 == '') {
-            bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Silahkan Pilih Regional-- </div>', function() {});
-        } else {
+        }  else {        
+
+            if (table != null){
+                table.destroy();
+            }
+
+            bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
+        
+            table = $('#dataTable').DataTable({ 
+                "processing": true, 
+                "serverSide": true, 
+                "order": [],
+                "scrollY": "450px",
+                "scrollX": true,
+                "scrollCollapse": false,
+                "bPaginate": true,
+                "searching":false,
+                "bLengthChange": true,
+                "bFilter": true,
+                "bInfo": true,
+                "bAutoWidth": true,
+                "ordering": false,
+                "fixedColumns": {"leftColumns": 6},
+                "language": {
+                    "decimal": ",",
+                    "thousands": ".",
+                    "emptyTable": "Tidak ada data untuk ditampilkan",
+                    "lengthMenu": "Tampil data _MENU_ per page",
+                    "processing": "<div class='loading-progress' style='color:#ac193d;'></div>"
+                },
+
+                "ajax": {
+                    "url": "<?php echo site_url('laporan/persediaan_bbm/ajax_list/')?>",
+                    "type": "POST",
+                    "data": {"ID_REGIONAL": lvl0, 
+                             "COCODE":lvl1,
+                             "PLANT":lvl2,
+                             "STORE_SLOC":lvl3,
+                             "SLOC":lvl4, 
+                             "ID_JNS_BHN_BKR": bbm, 
+                             "BULAN":bln, 
+                             "TAHUN": thn, 
+                             "TGL_DARI":tglawal, 
+                             "TGL_SAMPAI":tglakhir,
+                             "CARI":CARI}
+                },
+
+                "columnDefs": [
+                     {"className": "dt-right", "targets": [8,9,10,11,12,13,14,15,16,17,18]}
+              ],
+
+            });
+
+            bootbox.hideAll();
+        }
+    };
+
+    $('#button-load').click(function(e) {
+        get_data();
+
+        return;
+
+
+
+        var lvl0 = $('#lvl0').val();
+        var lvl1 = $('#lvl1').val();
+        var lvl2 = $('#lvl2').val();
+        var lvl3 = $('#lvl3').val();
+        var lvl4 = $('#lvl4').val();
+        var bbm = $('#bbm').val();
+        var bln = $('#bln').val();
+        var thn = $('#thn').val();
+        var tglawal = $('#tglawal').val().replace(/-/g, '');//02-11-2018
+        var tglakhir = $('#tglakhir').val().replace(/-/g, '');
+
+
+        if (lvl0=='') {
+            bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
+        }else if (tglawal == '' && tglakhir != '') {
+          bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Tanggal awal tidak boleh kosong-- </div>', function() {});
+        }else if(tglakhir == '' && tglawal != ''){
+          bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Tanggal akhir tidak boleh kosong-- </div>', function() {});
+        }  else {
             bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
                 $.ajax({
                     type: "POST",
@@ -359,10 +473,10 @@
         var tglawal = $('#tglawal').val();
         var tglakhir = $('#tglakhir').val();
 
-        if (tglawal == '' && tglakhir != '') {
-          bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Tanggal awal tidak boleh kosong-- </div>', function() {});
-        } else if(tglawal == '' && tglakhir != ''){
-          bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Tanggal akhir tidak boleh kosong-- </div>', function() {});
+        if (tglawal == '') {
+            bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Silahkan Pilih Tanggal Awal-- </div>', function() {});
+        } else if (tglakhir == '') {
+            bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Silahkan Pilih Tanggal Akhir-- </div>', function() {});
         } else if (lvl0 == '') {
             bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Silahkan Pilih Regional-- </div>', function() {});
         } else {
@@ -396,10 +510,10 @@
         var tglawal = $('#tglawal').val();
         var tglakhir = $('#tglakhir').val();
 
-        if (tglawal == '' && tglakhir != '') {
-          bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Tanggal awal tidak boleh kosong-- </div>', function() {});
-        } else if(tglawal == '' && tglakhir != ''){
-          bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Tanggal akhir tidak boleh kosong-- </div>', function() {});
+        if (tglawal == '') {
+            bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Silahkan Pilih Tanggal Awal-- </div>', function() {});
+        } else if (tglakhir == '') {
+            bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Silahkan Pilih Tanggal Akhir-- </div>', function() {});
         } else if (lvl0 == '') {
             bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --Silahkan Pilih Regional-- </div>', function() {});
         } else {

@@ -472,6 +472,7 @@ class kontrak_transportir extends MX_Controller {
         $data['default'] = $trans->get()->row();
         $data['id_dok'] = $data['default']->PATH_KONTRAK_TRANS; 
 
+        $data['url_getfile'] = $this->_urlgetfile;
 
         $data['option_transportir'] = $this->kontrak_transportir_model->options('--Pilih Transportir--', array('master_transportir.ID_TRANSPORTIR' => NULL));
         $data['option_depo'] = $this->kontrak_transportir_model->getDepo();
@@ -504,6 +505,7 @@ class kontrak_transportir extends MX_Controller {
             );            
         }
 
+        $data['url_getfile'] = $this->_urlgetfile;
         $data['page_title'] = '<i class="icon-laptop"></i> ' . $this->_title.' (Adendum)';
         $data['page_content'] = $this->_module . '/main';
         $data['data_sources2'] = base_url($this->_module . '/load_adendum');
@@ -544,6 +546,8 @@ class kontrak_transportir extends MX_Controller {
         $data['default'] = $trans->get()->row();
         $data['id_dok'] = $data['default']->PATH_KONTRAK_TRANS; 
 
+        $data['url_getfile'] = $this->_urlgetfile;
+
         $data['option_transportir'] = $this->kontrak_transportir_model->options('--Pilih Transportir--', array('master_transportir.ID_TRANSPORTIR' => NULL));
         $data['option_depo'] = $this->kontrak_transportir_model->getDepo();
         $data['option_jalur'] = $this->kontrak_transportir_model->getJalur();
@@ -561,6 +565,8 @@ class kontrak_transportir extends MX_Controller {
         $trans = $this->tbl_get_adendum->data($id);
         $data['default'] = $trans->get()->row();
         $data['id_dok'] = $data['default']->PATH_KONTRAK_TRANS; 
+
+        $data['url_getfile'] = $this->_urlgetfile;
         
         $data['option_transportir'] = $this->kontrak_transportir_model->options('--Pilih Transportir--', array('master_transportir.ID_TRANSPORTIR' => NULL));
         $data['option_depo'] = $this->kontrak_transportir_model->getDepo();
@@ -579,6 +585,8 @@ class kontrak_transportir extends MX_Controller {
         $trans = $this->tbl_get_adendum->data($id);
         $data['default'] = $trans->get()->row();
         $data['id_dok'] = $data['default']->PATH_KONTRAK_TRANS; 
+
+        $data['url_getfile'] = $this->_urlgetfile;
 
 
         $data['option_transportir'] = $this->kontrak_transportir_model->options('--Pilih Transportir--', array('master_transportir.ID_TRANSPORTIR' => NULL));

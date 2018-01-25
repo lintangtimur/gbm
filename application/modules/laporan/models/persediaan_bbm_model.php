@@ -122,6 +122,161 @@ ORDER BY A.TGL_MUTASI_PERSEDIAAN DESC, LEVEL0 ASC, LEVEL1 ASC, LEVEL2 ASC, LEVEL
         return $query->result();
     }
 
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public function get_datatables($data){
+        $ID = $data['ID_REGIONAL'];
+        $COCODE = $data['COCODE']; 
+        $PLANT = $data['PLANT'];
+        $STORE_SLOC = $data['STORE_SLOC'];
+        $SLOC = $data['SLOC'];
+        $BBM = $data['BBM'];   
+        $BULAN = $data['BULAN'];   
+        $TAHUN = $data['TAHUN'];   
+        $TGL_DARI = $data['TGL_DARI'];   
+        $TGL_SAMPAI = $data['TGL_SAMPAI'];   
+        $JENIS_BBM = '';
+        $PARAM = '';
+        $SETTGL = '';
+
+        if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == ''&& $ID=='00') {
+            $PARAM = "F.ID_REGIONAL != '$PARAM'";
+        }
+        else if ($COCODE == '' && $PLANT == '' && $STORE_SLOC == '' &&  $SLOC == '') {
+            $PARAM = "F.ID_REGIONAL = '$ID'";
+        } elseif ($PLANT == '' && $STORE_SLOC == '' && $SLOC == '') {
+            $PARAM = "E.COCODE  = '$COCODE'";
+        } elseif ($STORE_SLOC == '' && $SLOC == '') {
+            $PARAM = "D.PLANT = '$PLANT'";
+        } elseif ($SLOC == '') {
+            $PARAM = "C.STORE_SLOC = '$STORE_SLOC'";
+        } else {
+           $PARAM = "B.SLOC = '$SLOC'";
+        }
+
+        if ($BBM == '') {
+           $JENIS_BBM = "OR G.ID_JNS_BHN_BKR = '$BBM'";
+        } else {
+            $JENIS_BBM = "AND G.ID_JNS_BHN_BKR = '$BBM'";
+        }
+
+        if (($TGL_DARI== '') && ($TGL_SAMPAI== '')){
+            // $SETTGL = " LIKE '%%'";
+            $TGL_DARI = date("Y-m");
+            $TGL_DARI = $TGL_DARI."-01";
+            $TGL_SAMPAI = date("Y-m");
+            $TGL_SAMPAI = $TGL_SAMPAI."-31";
+        }
+        // }else{
+        //     $SETTGL = " BETWEEN '$TGL_DARI' AND '$TGL_SAMPAI' ";
+        // }    
+
+        $SETTGL = " BETWEEN '$TGL_DARI' AND '$TGL_SAMPAI' ";
+        $cari = "";
+
+        if($_POST['CARI']) {
+            $x = $_POST['CARI'];
+            $cari = " AND (NAMA_REGIONAL LIKE '%$x%' OR LEVEL1 LIKE '%$x%' OR LEVEL2 LIKE '%$x%' OR LEVEL3 LIKE '%$x%' OR LEVEL4 LIKE '%$x%'  OR NAMA_JNS_BHN_BKR LIKE '%$x%')" ;
+        } else {
+            $cari = "";
+        }
+
+        
+        $sql = "SELECT F.NAMA_REGIONAL LEVEL0, E.LEVEL1,D.LEVEL2,C.LEVEL3,B.LEVEL4,G.NAMA_JNS_BHN_BKR,
+A.TGL_MUTASI_PERSEDIAAN,A.STOCK_AWAL,A.PENERIMAAN_REAL,A.PEMAKAIAN,PK1.PEMAKAIAN_SENDIRI
+,PK2.PEMAKAIAN_KIRIM,PN2.TERIMA_PEMASOK,PN1.TERIMA_UNITLAIN,
+A.DEAD_STOCK,A.VOLUME_STOCKOPNAME,A.STOCK_AKHIR_REAL,A.STOCK_AKHIR_EFEKTIF,A.STOCK_AKHIR_KOREKSI,
+ROUND(A.SHO, 2) SHO,A.REVISI_MUTASI_PERSEDIAAN,
+CASE WHEN MP.VOLUME_MAX_PAKAI IS NULL
+THEN (  SELECT VOLUME_MAX_PAKAI
+   FROM MAX_PEMAKAIAN D
+ WHERE D.THBL_MAX_PAKAI < DATE_FORMAT (A.TGL_MUTASI_PERSEDIAAN,'%Y%m') - 1
+AND D.SLOC = A.SLOC
+AND D.ID_JNS_BHN_BKR = A.ID_JNS_BHN_BKR 
+ORDER BY D.THBL_MAX_PAKAI DESC LIMIT 1) ELSE MP.VOLUME_MAX_PAKAI END MAX_PEMAKAIAN
+FROM (
+SELECT * FROM REKAP_MUTASI_PERSEDIAAN
+WHERE IS_AKTIF_MUTASI_PERSEDIAAN='1' AND TGL_MUTASI_PERSEDIAAN $SETTGL)
+A 
+LEFT OUTER JOIN
+(
+SELECT SLOC,ID_JNS_BHN_BKR,TGL_PENGAKUAN,SUM(VOL_TERIMA_REAL) TERIMA_UNITLAIN FROM MUTASI_PENERIMAAN
+WHERE STATUS_MUTASI_TERIMA IN ('2','6') AND JNS_PENERIMAAN='1' AND TGL_PENGAKUAN $SETTGL GROUP BY SLOC,ID_JNS_BHN_BKR,TGL_PENGAKUAN) PN1 
+ON PN1.SLOC = A.SLOC AND PN1.ID_JNS_BHN_BKR=A.ID_JNS_BHN_BKR AND PN1.TGL_PENGAKUAN=A.TGL_MUTASI_PERSEDIAAN
+LEFT OUTER JOIN
+(
+SELECT SLOC,ID_JNS_BHN_BKR,TGL_PENGAKUAN,SUM(VOL_TERIMA_REAL) TERIMA_PEMASOK FROM MUTASI_PENERIMAAN
+WHERE STATUS_MUTASI_TERIMA IN ('2','6') AND JNS_PENERIMAAN='2' AND TGL_PENGAKUAN $SETTGL GROUP BY SLOC,ID_JNS_BHN_BKR,TGL_PENGAKUAN) PN2
+ON PN2.SLOC = A.SLOC AND PN2.ID_JNS_BHN_BKR=A.ID_JNS_BHN_BKR AND PN2.TGL_PENGAKUAN=A.TGL_MUTASI_PERSEDIAAN
+LEFT OUTER JOIN
+(
+SELECT SLOC,ID_JNS_BHN_BKR,TGL_MUTASI_PENGAKUAN,SUM(VOLUME_PEMAKAIAN) PEMAKAIAN_SENDIRI FROM MUTASI_PEMAKAIAN
+WHERE STATUS_MUTASI_PEMAKAIAN IN ('2','6') AND JENIS_PEMAKAIAN='1' AND TGL_MUTASI_PENGAKUAN $SETTGL GROUP BY SLOC,ID_JNS_BHN_BKR,TGL_MUTASI_PENGAKUAN) PK1
+ON PK1.SLOC = A.SLOC AND PK1.ID_JNS_BHN_BKR=A.ID_JNS_BHN_BKR AND PK1.TGL_MUTASI_PENGAKUAN=A.TGL_MUTASI_PERSEDIAAN
+LEFT OUTER JOIN
+(
+SELECT SLOC,ID_JNS_BHN_BKR,TGL_MUTASI_PENGAKUAN,SUM(VOLUME_PEMAKAIAN) PEMAKAIAN_KIRIM FROM MUTASI_PEMAKAIAN
+WHERE STATUS_MUTASI_PEMAKAIAN IN ('2','6') AND JENIS_PEMAKAIAN='2' AND TGL_MUTASI_PENGAKUAN $SETTGL GROUP BY SLOC,ID_JNS_BHN_BKR,TGL_MUTASI_PENGAKUAN ) PK2
+ON PK2.SLOC = A.SLOC AND PK2.ID_JNS_BHN_BKR=A.ID_JNS_BHN_BKR AND PK2.TGL_MUTASI_PENGAKUAN=A.TGL_MUTASI_PERSEDIAAN
+LEFT OUTER JOIN (
+     SELECT SLOC,ID_JNS_BHN_BKR,THBL_MAX_PAKAI,VOLUME_MAX_PAKAI FROM `MAX_PEMAKAIAN`
+) MP
+ON MP.SLOC = A.SLOC AND MP.ID_JNS_BHN_BKR=A.ID_JNS_BHN_BKR AND MP.THBL_MAX_PAKAI = DATE_FORMAT(A.TGL_MUTASI_PERSEDIAAN,'%Y%m') - 1
+INNER JOIN MASTER_LEVEL4 B ON B.SLOC=A.SLOC 
+INNER JOIN MASTER_LEVEL3 C ON C.STORE_SLOC = B.STORE_SLOC
+INNER JOIN MASTER_LEVEL2 D ON D.PLANT = B.PLANT
+INNER JOIN MASTER_LEVEL1 E ON E.COCODE=D.COCODE
+INNER JOIN MASTER_REGIONAL F ON F.ID_REGIONAL=E.ID_REGIONAL
+INNER JOIN M_JNS_BHN_BKR G ON G.ID_JNS_BHN_BKR=A.ID_JNS_BHN_BKR
+WHERE ($PARAM $JENIS_BBM) $cari  
+GROUP BY F.NAMA_REGIONAL, E.LEVEL1,D.LEVEL2,C.LEVEL3,B.LEVEL4,G.NAMA_JNS_BHN_BKR,
+A.TGL_MUTASI_PERSEDIAAN,A.STOCK_AWAL,A.PENERIMAAN_REAL,A.PEMAKAIAN,
+A.DEAD_STOCK,A.VOLUME_STOCKOPNAME,
+A.STOCK_AKHIR_REAL,A.STOCK_AKHIR_EFEKTIF,A.STOCK_AKHIR_KOREKSI,A.SHO,A.REVISI_MUTASI_PERSEDIAAN
+ORDER BY A.TGL_MUTASI_PERSEDIAAN DESC, LEVEL0 ASC, LEVEL1 ASC, LEVEL2 ASC, LEVEL3 ASC, LEVEL4 ASC, NAMA_JNS_BHN_BKR ASC ";     
+
+        $this->session->set_userdata('SQL_LAP_PEMAKAIAN', $sql);
+        // $SQL_LAP_PEMAKAIAN = $this->session->userdata('SQL_LAP_PEMAKAIAN');
+
+        $limit='';
+        if($_POST['length'] != -1){
+            $limit=' LIMIT '.$_POST['start'].','.$_POST['length'];  
+            // $limit=' LIMIT 100';      
+        }    
+        
+        $sql.=$limit;
+        // print_r($sql); die;
+
+        $query = $this->db->query($sql);
+        $this->db->close();
+        return $query->result();
+    }
+
+    public function count_filtered(){
+        // $query = $this->db->last_query();
+
+        $SQL_LAP_PEMAKAIAN = $this->session->userdata('SQL_LAP_PEMAKAIAN');
+
+        $query = $this->db->query($SQL_LAP_PEMAKAIAN);
+        $this->db->close();
+
+        return $query->num_rows();
+    }
+
+    public function count_all(){
+        // $this->session->set_userdata('SQL_LAP_PEMAKAIAN', $sql);
+        $SQL_LAP_PEMAKAIAN = $this->session->userdata('SQL_LAP_PEMAKAIAN');
+
+        $sql = "SELECT COUNT(*) AS NUM FROM ($SQL_LAP_PEMAKAIAN) AS NUM ";
+
+        $query = $this->db->query($sql);
+        $this->db->close();
+        $row = $query->row();
+
+        // print_r($row->NUM); die;
+        return $row->NUM;
+    }    
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
     public function options_reg($default = '--Pilih Regional--', $key = 'all') {
         $option = array();
 
