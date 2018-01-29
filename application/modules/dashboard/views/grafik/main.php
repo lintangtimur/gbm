@@ -737,20 +737,29 @@
         }
     });    
 
-	function convertToRupiah(angka){
-        var bilangan = angka.replace(".", ",");
-            
+    function convertToRupiah(angka){
+        console.log();
+        var bilangan = parseFloat(Math.round(angka * 100) / 100).toFixed(2);
+        bilangan = bilangan.replace(".", ",");
+        var isMinus = '';
+
+        if (bilangan.indexOf('-') > -1) {
+            isMinus = '-';
+        }
         var number_string = bilangan.toString(),
             split   = number_string.split(','),
             sisa    = split[0].length % 3,
             rupiah  = split[0].substr(0, sisa),
             ribuan  = split[0].substr(sisa).match(/\d{1,3}/gi);
-                
+
         if (ribuan) {
             separator = sisa ? '.' : '';
             rupiah += separator + ribuan.join('.');
         }
         rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+
+        if ((rupiah=='') || (rupiah==0)) {rupiah='0,00'}
+        rupiah = isMinus+''+rupiah;
 
         return rupiah;
     }
@@ -1002,7 +1011,7 @@
                             var SHO = value.SHO == null ? "" : value.SHO;
                             var MAX_PEMAKAIAN = value.MAX_PEMAKAIAN == null ? "" : value.MAX_PEMAKAIAN;
                             // var SHO = SHO.toString().replace(/\./g, ',');  
-                            var SHO1 = Number(SHO).toFixed(2);  
+                            // var SHO1 = Number(SHO).toFixed(2);  
                             
                             
 
@@ -1016,7 +1025,7 @@
                                     '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
-                                    '<td align="right">' + SHO1 + '</td>' +
+                                    '<td align="right">' + convertToRupiah(SHO) + '</td>' +
                                     '</tr>';
                             nomer++;
 
@@ -1067,7 +1076,7 @@
                         var SHO = value.SHO == null ? "" : value.SHO;
                         var MAX_PEMAKAIAN = value.MAX_PEMAKAIAN == null ? "" : value.MAX_PEMAKAIAN;
                         // var SHO = SHO.toString().replace(/\./g, ',');  
-                        var SHO1 = Number(SHO).toFixed(2);  
+                        // var SHO1 = Number(SHO).toFixed(2);  
                         
                         
 
@@ -1081,7 +1090,7 @@
                                 '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
                                 '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
                                 '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
-                                '<td align="right">' + SHO1 + '</td>' +
+                                '<td align="right">' + convertToRupiah(SHO) + '</td>' +
                                 '</tr>';
                         nomer++;
 
@@ -1132,7 +1141,7 @@
                         var SHO = value.SHO == null ? "" : value.SHO;
                         var MAX_PEMAKAIAN = value.MAX_PEMAKAIAN == null ? "" : value.MAX_PEMAKAIAN;
                         // var SHO = SHO.toString().replace(/\./g, ',');  
-                        var SHO1 = Number(SHO).toFixed(2);  
+                        // var SHO1 = Number(SHO).toFixed(2);  
                         
                         
 
@@ -1146,7 +1155,7 @@
                                 '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
                                 '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
                                 '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
-                                '<td align="right">' + SHO1 + '</td>' +
+                                '<td align="right">' + convertToRupiah(SHO) + '</td>' +
                                 '</tr>';
                         nomer++;
 
@@ -1197,7 +1206,7 @@
                         var SHO = value.SHO == null ? "" : value.SHO;
                         var MAX_PEMAKAIAN = value.MAX_PEMAKAIAN == null ? "" : value.MAX_PEMAKAIAN;
                         // var SHO = SHO.toString().replace(/\./g, ',');  
-                        var SHO1 = Number(SHO).toFixed(2);  
+                        // var SHO1 = Number(SHO).toFixed(2);  
                         
                         
 
@@ -1211,7 +1220,7 @@
                                 '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
                                 '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
                                 '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
-                                '<td align="right">' + SHO1 + '</td>' +
+                                '<td align="right">' + convertToRupiah(SHO) + '</td>' +
                                 '</tr>';
                         nomer++;
 
@@ -1262,7 +1271,7 @@
                         var SHO = value.SHO == null ? "" : value.SHO;
                         var MAX_PEMAKAIAN = value.MAX_PEMAKAIAN == null ? "" : value.MAX_PEMAKAIAN;
                         // var SHO = SHO.toString().replace(/\./g, ',');  
-                        var SHO1 = Number(SHO).toFixed(2);  
+                        // var SHO1 = Number(SHO).toFixed(2);  
                         
                         
 
@@ -1276,7 +1285,7 @@
                                 '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
                                 '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
                                 '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
-                                '<td align="right">' + SHO1 + '</td>' +
+                                '<td align="right">' + convertToRupiah(SHO) + '</td>' +
                                 '</tr>';
                         nomer++;
 

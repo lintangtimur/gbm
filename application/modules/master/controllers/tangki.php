@@ -183,6 +183,11 @@ class tangki extends MX_Controller {
             $data['STOCKEFEKTIF_TANGKI'] = str_replace(",",".",$data['STOCKEFEKTIF_TANGKI']);
 
             $data_detail = array();
+            $data_detail_nama = array();
+            $berhasil=0;
+            $gagal=0;
+            $err='';
+
             for ($i=1; $i<=$x; $i++)
             {
                 $VOLUME_TANGKI = $this->input->post('VOLUME_TANGKI'.$i);
@@ -197,6 +202,35 @@ class tangki extends MX_Controller {
                 $STOCKEFEKTIF_TANGKI = str_replace(".","",$STOCKEFEKTIF_TANGKI);
                 $STOCKEFEKTIF_TANGKI = str_replace(",",".",$STOCKEFEKTIF_TANGKI);
 
+                $new_name = $this->input->post('SLOC').'_'.$this->input->post('NAMA_TANGKI'.$i);
+                $new_name = preg_replace("/[^a-zA-Z0-9]/", "", $new_name);
+                $new_name = $new_name.'_'.date("YmdHis").'_'.rand(1000,9999);
+
+                if (!empty($_FILES['PATH_DET_TERA'.$i]['name'])){
+
+                    $config['file_name'] = $new_name;
+                    $config['upload_path'] = 'assets/upload/tangki';
+                    $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+                    $config['max_size'] = 1024 * 4; 
+                    $config['permitted_uri_chars'] = 'a-z 0-9~%.:&_\-'; 
+                    $this->load->library('upload', $config);                            
+                    $this->upload->initialize($config);
+
+                    $nama_file = '';
+                    if (!$this->upload->do_upload('PATH_DET_TERA'.$i)){
+                        $gagal++;
+                        $err = $this->upload->display_errors('', '');
+                        // $message = array(false, 'Proses gagal', $err, '');
+                    } else {
+                        $berhasil++;
+                        //$final_files_data[] = $this->upload->data();
+
+                        $res = $this->upload->data();
+                        // if ($res){
+                        $nama_file = $res['file_name'];
+                    }
+                }
+
                 $data_detail[$i] = array(
                     'NAMA_TANGKI' => $this->input->post('NAMA_TANGKI'.$i),
                     'ID_TANGKI' => $id,
@@ -204,7 +238,7 @@ class tangki extends MX_Controller {
                     'SLOC' => $this->input->post('SLOC'),
                     'ID_TERA' => '-',
                     'DITERA_OLEH' => $this->input->post('DITERA_OLEH'.$i),
-                    'PATH_DET_TERA' => $this->input->post('PATH_DET_TERA'.$i),
+                    'PATH_DET_TERA' => $nama_file,  //$this->input->post('PATH_DET_TERA'.$i),
                     'TGL_AWAL_TERA' => $this->input->post('TGL_AWAL_TERA'.$i),
                     'TGL_AKHIR_TERA' => $this->input->post('TGL_AKHIR_TERA'.$i),
                     'VOLUME_TANGKI' => $VOLUME_TANGKI,
@@ -222,25 +256,50 @@ class tangki extends MX_Controller {
 
                 $nama_file='';
                 if ($this->tangki_model->save_as_new($data, $nama_file, $data_detail)) {
-
-                    // $this->load->library('upload', $config);
+                    
                     // for ($i=1; $i<=$x; $i++){
 
                     //     if (!empty($_FILES['PATH_DET_TERA'.$i]['name'])){
-                    //         // $new_name = str_replace(".","",$data['NO_NOMINASI']).'_'.date("YmdHis");
-                    //         $new_name = preg_replace("/[^a-zA-Z0-9]/", "", $data['NO_NOMINASI']);
-                    //         $new_name = $new_name.'_'.date("YmdHis");
-                    //         $config['file_name'] = $new_name;
-                    //         $config['upload_path'] = 'assets/upload/tangki/';
+                    //         // $new_name = $this->input->post('SLOC').'_'.$this->input->post('NAMA_TANGKI'.$i);
+                    //         // $new_name = preg_replace("/[^a-zA-Z0-9]/", "", $new_name);
+                    //         // $new_name = $new_name.'_'.date("YmdHis");
+                    //         // $nama_file = $data_detail[$i]['PATH_DET_TERA'];
+
+                    //         $config['file_name'] = $data_detail_nama[$i];
+                    //         $config['upload_path'] = 'assets/upload/tangki';
                     //         $config['allowed_types'] = 'jpg|jpeg|png|pdf';
                     //         $config['max_size'] = 1024 * 4; 
-                    //         $config['permitted_uri_chars'] = 'a-z 0-9~%.:&_\-'; 
+                    //         // $config['overwrite'] = 1; 
+                    //         // $config['permitted_uri_chars'] = 'a-z 0-9~%.:&_\-'; 
+                    //         $this->load->library('upload', $config);                            
+ 
                     //         // $config['encrypt_name'] = TRUE;
+
+                    //         $this->upload->initialize($config);
+
+
+                    //         if (!$this->upload->do_upload('PATH_DET_TERA'.$i)){
+                    //             $gagal++;
+                    //             $err = $this->upload->display_errors('', '');
+                    //             // $message = array(false, 'Proses gagal', $err, '');
+                    //         } else {
+                    //             $berhasil++;
+                    //             //$final_files_data[] = $this->upload->data();
+
+                    //             // $res = $this->upload->data();
+                    //             // if ($res){
+                    //         }
                     //     }
 
                     // }
 
-                    $message = array(true, 'Proses Berhasil ', 'Proses penyimpanan data berhasil.', '#content_table');
+                    $message = array(true, 'Proses Berhasil ', 'Proses penyimpanan data berhasil. 
+                        <br>
+                        Upload File :
+                        <br> 
+                        - Berhasil ['.$berhasil. '] 
+                        <br>
+                        - Gagal ['.$gagal.'] <br> '.$err, '#content_table');
                 }
 
         //         $new_name = str_replace(".","",$data['NAMA_TANGKI']).'_'.date("YmdHis");

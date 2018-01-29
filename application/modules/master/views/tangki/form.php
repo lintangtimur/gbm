@@ -133,9 +133,13 @@
 
             var text_status="<input type='checkbox' id='AKTIF"+ counter + "' name='AKTIF"+ counter + "' placeholder='Status Tangki' value='1' class='STATUS' checked>  Aktif";
 
-            var text_upload_doc="<input type='file' id='PATH_DET_TERA"+ counter + "' name='PATH_DET_TERA"+ counter + "' >";
+            var path = "<?php echo !empty($default->PATH_FILE_NOMINASI) ? $default->PATH_FILE_NOMINASI : ''?>";
 
-    
+            var link_doc = "<a href='#' target='_blank'><b>Lihat Dokumen</b></a>";
+
+            '<input type="hidden" name="PATH_FILE_EDIT'+ counter + '" id="PATH_FILE_EDIT'+ counter +'" >';
+
+            var text_upload_doc="<input type='file' id='PATH_DET_TERA"+ counter + "' name='PATH_DET_TERA"+ counter + "' >";
            
             var visi = '<div class="form_row">'+
             '<div class="pull-left"><label for="password" class="control-label">Nama Tangki ke : '+ counter + '</label>'+
@@ -162,10 +166,21 @@
             '<div class="pull-left span1"><label for="password" class="control-label">Upload Doc Tera ke : '+ counter + '</label>'+
             '<div class="controls">'+text_upload_doc+'</div></div>'+
             '</div><br>'+
+
+
             '<div class="form_row">'+
-            '<div class="pull-left"><label for="password" class="control-label">Status Tangki ke : '+ counter + '</label>'+
+            '<div class="pull-left span5"><label for="password" class="control-label">Status Tangki ke : '+ counter + '</label>'+
             '<div class="controls">'+text_status+'</div></div>'+
-            '</div><hr>';   
+            '<div class="pull-left span5"><label for="password" class="control-label"></label>'+
+            '<div class="controls">'+link_doc+'</div></div>'+
+            '</div><hr>';
+
+
+
+            // '<div class="form_row">'+
+            // '<div class="pull-left"><label for="password" class="control-label">Status Tangki ke : '+ counter + '</label>'+
+            // '<div class="controls">'+text_status+'</div></div>'+
+            // '</div><hr>';   
 
             newTextBoxDiv.after().html(visi);
             newTextBoxDiv.appendTo("#TextBoxesGroup");
