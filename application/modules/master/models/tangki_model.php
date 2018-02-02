@@ -74,6 +74,7 @@ class tangki_model extends CI_Model {
 	public function save_as_new($data, $nama_file, $data_detail) {
 		$this->db->trans_begin();
 		$id = $this->db->set_id($this->_table1, 'ID_TANGKI', 'no_prefix', 12);
+
 		$this->db->insert($this->_table1, $data);
 		
 		if ($this->db->trans_status() === FALSE) {
@@ -561,6 +562,16 @@ class tangki_model extends CI_Model {
 	    }
 	    $this->db->close();
 	    return $rest;
+	}
+
+	public function cek_jns_bbm($val) {
+	    $this->db->from('MASTER_TANGKI');
+	    $this->db->where('ID_JNS_BHN_BKR',$val['ID_JNS_BHN_BKR']);
+	    $this->db->where('SLOC',$val['SLOC']);
+
+		$query = $this->db->get();
+		$this->db->close();
+		return $query->num_rows();
 	}
 
 }

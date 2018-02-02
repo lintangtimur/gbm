@@ -5,6 +5,7 @@ if (!defined('BASEPATH')) {
 }
 /**
  * penerimaan bbm controller
+ * @author stelin
  */
 class Penerimaan extends MX_Controller
 {
@@ -26,6 +27,9 @@ class Penerimaan extends MX_Controller
      */
     private $_module = 'laporan/penerimaan';
 
+    /**
+     * load persediaan bbm model, penerimaan model
+     */
     public function __construct()
     {
         parent::__construct();
@@ -44,7 +48,7 @@ class Penerimaan extends MX_Controller
         $this->load->module('template/asset');
 
         // Memanggil plugin JS Crud
-        $this->asset->set_plugin(['crud']);
+        $this->asset->set_plugin(array('crud', 'format_number'));
         // $this->asset->set_plugin(array('bootstrap-rakhmat'));
         // $data['data_penerimaan'] = $this->tbl_get->getData_Model();
         $data['lv1_options']     = $this->tbl_get->options_lv1('--Pilih Level 1--', '-', 1);
@@ -117,7 +121,7 @@ class Penerimaan extends MX_Controller
 
     /**
      * get data
-     * @return mixed
+     * @return string json encode
      */
     public function getData()
     {
@@ -136,13 +140,13 @@ class Penerimaan extends MX_Controller
 
     /**
      * JUST FOR TESTING getData
-     * @return mixed
+     * @return string json encode
      */
     public function testGetData()
     {
         // header('Content-Type: application/json');
 
-        $data = [
+        $data = array(
             'JENIS_BBM'   => $this->input->post('JENIS_BBM'),
             // 'BULAN'       => $this->input->post('BULAN'),
             // 'TAHUN'       => $this->input->post('TAHUN'),
@@ -150,7 +154,7 @@ class Penerimaan extends MX_Controller
             'TGLAKHIR'    => $this->input->post('TGLAKHIR'),
             'ID_REGIONAL' => $this->input->post('ID_REGIONAL'),
             'VLEVELID'    => $this->input->post('VLEVELID')
-        ];
+        );
         $data = $this->tbl_penerimaan_get->testGetDataModel($data);
 
         echo json_encode($data);
@@ -158,41 +162,49 @@ class Penerimaan extends MX_Controller
 
     /**
      * get detail result
-     * @return mixed
+     * @return string json encode
      */
     public function getDataDetail()
     {
-        $data = [
+        $data = array(
             'ID_BBM'    => $this->input->post('detail_id_bbm'),
             // 'BULAN'     => $this->input->post('detail_bulan'),
             // 'TAHUN'     => $this->input->post('detail_tahun'),
             'KODE_UNIT' => $this->input->post('detail_kode_unit'),
             'TGL_AWAL'  => $this->input->post('detail_tgl_awal'),
             'TGL_AKHIR' => $this->input->post('detail_tgl_akhir')
-        ];
+        );
         $data = $this->tbl_penerimaan_get->getData_Model_Detail($data);
         echo json_encode($data);
     }
 
+    /**
+     * For testing detaio output
+     * @return string json encode
+     */
     public function testDetail()
     {
         header('Content-Type: application/json');
-        $data = [
+        $data = array(
           'ID_BBM'    => $this->input->post('detail_id_bbm'),
           // 'BULAN'     => $this->input->post('detail_bulan'),
           // 'TAHUN'     => $this->input->post('detail_tahun'),
           'KODE_UNIT' => $this->input->post('detail_kode_unit'),
           'TGL_AWAL'  => $this->input->post('detail_tgl_awal'),
           'TGL_AKHIR' => $this->input->post('detail_tgl_akhir')
-      ];
+      );
         $data = $this->tbl_penerimaan_get->testDetail();
         echo json_encode($data);
     }
 
+    /**
+     * export excel
+     * @return mixed load into view
+     */
     public function export_excel()
     {
         header('Content-Type: application/json');
-        $data                = [
+        $data                = array(
             // 'LVL0'             => $this->input->post('xlvl'),
             'ID_REGIONAL'      => $this->input->post('xlvl'), // 01
             'COCODE'           => $this->input->post('xlvl1'),
@@ -213,7 +225,7 @@ class Penerimaan extends MX_Controller
             'TGLAWAL'          => $this->input->post('xtglawal'),
             'TGLAKHIR'         => $this->input->post('xtglakhir'),
             'JENIS'            => 'XLS'
-        ];
+        );
 
         $data['data'] = $this->tbl_penerimaan_get->getData_Model($data);
         $this->load->view($this->_module . '/export_excel', $data);
@@ -221,44 +233,105 @@ class Penerimaan extends MX_Controller
 
     /**
      * export detail from modal detail
-     * @return mixed
+     * @return mixed loadi nto view
      */
     public function export_excel_detail()
     {
         header('Content-Type: application/json');
-        $data                = [
+        $data                = array(
             // 'LVL0'             => $this->input->post('xlvl'),
-            'ID_REGIONAL'      => $this->input->post('xlvl'), // 01
-            'COCODE'           => $this->input->post('xlvl1'),
-            'PLANT'            => $this->input->post('xlvl2'),
-            'STORE_SLOC'       => $this->input->post('xlvl3'),
+            'ID_REGIONAL'      => $this->input->post('xlvl_detail'), // 01
+            'COCODE'           => $this->input->post('xlvl1_detail'),
+            'PLANT'            => $this->input->post('xlvl2_detail'),
+            'STORE_SLOC'       => $this->input->post('xlvl3_detail'),
 
-            'ID_REGIONAL_NAMA' => $this->input->post('xlvl0_nama'), //SUMATERA
-            'COCODE_NAMA'      => $this->input->post('xlvl1_nama'),
-            'PLANT_NAMA'       => $this->input->post('xlvl2_nama'),
-            'STORE_SLOC_NAMA'  => $this->input->post('xlvl3_nama'),
-
+            'ID_REGIONAL_NAMA'  => $this->input->post('xlvl0_nama_detail'), //SUMATERA
+            'COCODE_NAMA'       => $this->input->post('xlvl1_nama_detail'),
+            'PLANT_NAMA'        => $this->input->post('xlvl2_nama_detail'),
+            'STORE_SLOC_NAMA'   => $this->input->post('xlvl3_nama_detail'),
             'SLOC'              => $this->input->post('xlvl4'), //183130
-            'BBM'               => $this->input->post('xbbm'), //001
-            // 'ID_BBM'            => $this->input->post('xbbm'),
-            'ID_BBM'            => '001',
-            'VLEVELID'          => $this->input->post('xlvlid'),
-            // 'KODE_UNIT'         => $this->input->post('xkodeUnit_detail'),
-            'KODE_UNIT'         => '1',
-            // 'BULAN'            => $this->input->post('xbln'), //1
-            // 'TAHUN'            => $this->input->post('xthn'), //2017
-            // 'TGLAWAL'           => $this->input->post('xtglawal'),
-            // 'TGLAKHIR'          => $this->input->post('xtglakhir'),
-            'TGLAWAL'           => '01012018',
-            'TGLAKHIR'          => '16012018',
-            // 'TGL_AWAL'          => $this->input->post('xtglawal'),
-            // 'TGL_AKHIR'         => $this->input->post('xtglakhir'),
-            'TGL_AWAL'          => '01012018',
-            'TGL_AKHIR'         => '16012018',
+
+            'ID_BBM'            => $this->input->post('xidbbm_detail'),
+            'KODE_UNIT'         => $this->input->post('xkodeUnit_detail'),
+            'TGL_AWAL'          => $this->input->post('xtglawal_detail'),
+            'TGL_AKHIR'         => $this->input->post('xtglakhir_detail'),
             'JENIS'             => 'XLS'
-        ];
+        );
 
         $data['data'] = $this->tbl_penerimaan_get->getData_Model_Detail($data);
         $this->load->view($this->_module . '/export_excel_detail', $data);
+    }
+
+    /**
+     * For Button rekap PDF
+     * @return mixed load into view
+     */
+    public function export_pdf()
+    {
+        $data = array(
+        'ID_REGIONAL' => $this->input->post('plvl'),
+        'COCODE'      => $this->input->post('plvl1'),
+        'PLANT'       => $this->input->post('plvl2'),
+        'STORE_SLOC'  => $this->input->post('plvl3'),
+
+        'ID_REGIONAL_NAMA' => $this->input->post('plvl0_nama'),
+        'COCODE_NAMA'      => $this->input->post('plvl1_nama'),
+        'PLANT_NAMA'       => $this->input->post('plvl2_nama'),
+        'STORE_SLOC_NAMA'  => $this->input->post('plvl3_nama'),
+
+        'SLOC'             => $this->input->post('plvl4'),
+        'BBM'              => $this->input->post('pbbm'),
+        'JENIS_BBM'        => $this->input->post('pbbm'),
+        'VLEVELID'         => $this->input->post('plvlid'),
+        // 'BULAN'      => $this->input->post('pbln'),
+        // 'TAHUN'      => $this->input->post('pthn'),
+        'TGLAWAL'    => $this->input->post('ptglawal'),
+        'TGLAKHIR'   => $this->input->post('ptglakhir'),
+        'JENIS'      => $this->input->post('PDF')
+      );
+
+        $data['data'] = $this->tbl_penerimaan_get->getData_Model($data);
+        $this->load->view($this->_module . '/export_excel', $data);
+
+        $this->load->library('pdf');
+        $this->pdf->load_view($this->_module . '/export_excel', $data);
+        $this->pdf->set_paper('a4', 'landscape');
+        $this->pdf->render();
+        $this->pdf->stream('Laporan_Penerimaan_BBM.pdf');
+    }
+
+    /**
+     * For Button rekap PDF detail
+     * @return mixed load into view
+     */
+    public function export_pdf_detail()
+    {
+        $data = array(
+        'ID_REGIONAL' => $this->input->post('plvl'),
+        'COCODE'      => $this->input->post('plvl1'),
+        'PLANT'       => $this->input->post('plvl2'),
+        'STORE_SLOC'  => $this->input->post('plvl3'),
+
+        'ID_REGIONAL_NAMA' => $this->input->post('plvl0_nama'),
+        'COCODE_NAMA'      => $this->input->post('plvl1_nama'),
+        'PLANT_NAMA'       => $this->input->post('plvl2_nama'),
+        'STORE_SLOC_NAMA'  => $this->input->post('plvl3_nama'),
+
+        'SLOC'              => $this->input->post('plvl4'),
+        'ID_BBM'            => $this->input->post('pidbbm_detail'),
+        'KODE_UNIT'         => $this->input->post('pkodeUnit_detail'),
+        'TGL_AWAL'          => $this->input->post('ptglawal_detail'),
+        'TGL_AKHIR'         => $this->input->post('ptglakhir_detail'),
+        'JENIS'             => $this->input->post('PDF')
+      );
+
+        $data['data'] = $this->tbl_penerimaan_get->getData_Model_Detail($data);
+        $this->load->view($this->_module . '/export_excel_detail', $data);
+
+        $this->load->library('pdf');
+        $this->pdf->load_view($this->_module . '/export_excel_detail', $data);
+        $this->pdf->set_paper('a4', 'landscape');
+        $this->pdf->render();
+        $this->pdf->stream('Detail_Laporan_Penerimaan_BBM.pdf');
     }
 }

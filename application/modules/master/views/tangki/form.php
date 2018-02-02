@@ -44,6 +44,7 @@
                 <label  class="control-label">Pembangkit<span class="required">*</span> : </label>
                 <div class="controls">
                     <?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : '', 'class="span6" id="pembangkit"'); ?>
+                    <input type="hidden" name="pembangkit_e" id="pembangkit_e" value="<?php echo !empty($default->SLOC) ? $default->SLOC : '' ?>">
                 </div>
             </div>
             <div class="control-group">
@@ -117,13 +118,13 @@
             var newTextBoxDiv = $(document.createElement('div'))
                  .attr("id", 'TextBoxDiv' + counter);
 
-            var text_nama_tangki="<input type='text' id='NAMA_TANGKI"+ counter + "' name='NAMA_TANGKI"+ counter + "' placeholder='Nama Tangki' size='37'>";
+            var text_nama_tangki="<input type='text' id='NAMA_TANGKI"+ counter + "' name='NAMA_TANGKI"+ counter + "' placeholder='Nama Tangki' size='37' value='TANGKI "+ counter + "' >";
 
-            var text_k_terpasang="<input type='text' id='VOLUME_TANGKI"+ counter + "' name='VOLUME_TANGKI"+ counter + "' placeholder='Terpasang (L)' size='37' class='rp' onChange='setHitungKirim()'>";
+            var text_k_terpasang="<input type='text' id='VOLUME_TANGKI"+ counter + "' name='VOLUME_TANGKI"+ counter + "' placeholder='Terpasang (L)' size='37' class='rp cls_sum' onChange='setHitungKirim()'>";
 
-            var text_dead_stock="<input type='text' id='DEADSTOCK_TANGKI"+ counter + "' name='DEADSTOCK_TANGKI"+ counter + "' placeholder='Dead Stock (L)' size='37' class='rp' onChange='setHitungKirim()'>";
+            var text_dead_stock="<input type='text' id='DEADSTOCK_TANGKI"+ counter + "' name='DEADSTOCK_TANGKI"+ counter + "' placeholder='Dead Stock (L)' size='37' class='rp cls_sum' onChange='setHitungKirim()'>";
 
-            var text_k_mampu="<input type='text' id='STOCKEFEKTIF_TANGKI"+ counter + "' name='STOCKEFEKTIF_TANGKI"+ counter + "' placeholder='Kapasitas Mampu (L)' size='37' class='rp' onChange='setHitungKirim()'>";
+            var text_k_mampu="<input type='text' id='STOCKEFEKTIF_TANGKI"+ counter + "' name='STOCKEFEKTIF_TANGKI"+ counter + "' placeholder='Kapasitas Mampu (L)' size='37' class='rp cls_sum' onChange='setHitungKirim()'>";
 
             var text_ditera_oleh="<input type='text' id='DITERA_OLEH"+ counter + "' name='DITERA_OLEH"+ counter + "' placeholder='Ditera Oleh' size='37'>";
 
@@ -135,11 +136,11 @@
 
             var path = "<?php echo !empty($default->PATH_FILE_NOMINASI) ? $default->PATH_FILE_NOMINASI : ''?>";
 
-            var link_doc = "<a href='#' target='_blank'><b>Lihat Dokumen</b></a>";
+            var link_doc = "<a href='#' id='LINK_FILE"+ counter + "' target='_blank' style='display: none;'><b>Lihat Dokumen</b></a>";
 
-            '<input type="hidden" name="PATH_FILE_EDIT'+ counter + '" id="PATH_FILE_EDIT'+ counter +'" >';
+            var path_edit = '<input type="hidden" name="PATH_FILE_EDIT'+ counter + '" id="PATH_FILE_EDIT'+ counter +'" >';
 
-            var text_upload_doc="<input type='file' id='PATH_DET_TERA"+ counter + "' name='PATH_DET_TERA"+ counter + "' >";
+            var text_upload_doc="<input type='file' id='PATH_DET_TERA"+ counter + "' name='PATH_DET_TERA"+ counter + "' > "+path_edit;
            
             var visi = '<div class="form_row">'+
             '<div class="pull-left"><label for="password" class="control-label">Nama Tangki ke : '+ counter + '</label>'+
@@ -154,7 +155,7 @@
             '<div class="controls">'+text_tgl_awal+'</div></div>'+
             '</div><br>'+
             '<div class="form_row">'+
-            '<div class="pull-left"><label for="password" class="control-label">Dead Stock ke : '+ counter + '</label>'+
+            '<div class="pull-left"><label for="password" class="control-label">Dead Stock (L) ke : '+ counter + '</label>'+
             '<div class="controls">'+text_dead_stock+'</div></div>'+
             '<div class="pull-left span1"><label for="password" class="control-label">Tgl Akhir Tera ke : '+ counter + '</label>'+
             '<div class="controls">'+text_tgl_akhir+'</div></div>'+
@@ -163,7 +164,7 @@
             '<div class="form_row">'+
             '<div class="pull-left"><label for="password" class="control-label">Kapasitas Mampu (L) ke : '+ counter + '</label>'+
             '<div class="controls">'+text_k_mampu+'</div></div>'+
-            '<div class="pull-left span1"><label for="password" class="control-label">Upload Doc Tera ke : '+ counter + '</label>'+
+            '<div class="pull-left span1"><label for="password" class="control-label">Upload File (Max 4 MB) ke : '+ counter + '</label>'+
             '<div class="controls">'+text_upload_doc+'</div></div>'+
             '</div><br>'+
 
@@ -237,10 +238,49 @@
             get_detail($('input[name=id]').val()); 
         }
 
-
         $("#addButton").hide();
         $("#removeButton").hide();
         $("#getButtonValue").hide();
+    });
+
+    function getRp(vNilai){
+        var x = vNilai.replace(/\./g, "");
+        x = x.replace(",", ".");
+        if (x==''){x=0};
+        x = parseFloat(x);
+        return x;
+    }
+
+    $(".cls_sum").change(function (e) {
+        var text_sum = e.target.id;
+        var vke = text_sum.split('_');
+        var vcek = $("#"+text_sum).val();
+
+        // console.log(text_sum+' -> '+vcek);
+        var vol_volume = $("#VOLUME_"+vke[1]).val();
+        var vol_deadstk = $("#DEADSTOCK_"+vke[1]).val();
+        var vol_stkefektif = $("#STOCKEFEKTIF_"+vke[1]).val();
+
+        vol_volume = getRp(vol_volume);
+        vol_deadstk = getRp(vol_deadstk);
+        vol_stkefektif = getRp(vol_stkefektif);
+
+        if (vol_deadstk > vol_volume){
+            var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i> Dead Stock tidak boleh lebih besar dari Kapasitas Terpasang</div>';
+                bootbox.alert(message, function() {});
+            $("#DEADSTOCK_"+vke[1]).val(vol_volume);
+            vol_deadstk = vol_volume;
+        }
+
+        if (vke[0]!='STOCKEFEKTIF'){
+            vol_stkefektif = vol_volume - vol_deadstk;   
+        } else {
+            vol_volume = vol_stkefektif + vol_deadstk;
+        }
+
+        $("#VOLUME_"+vke[1]).val(vol_volume);
+        $("#DEADSTOCK_"+vke[1]).val(vol_deadstk);
+        $("#STOCKEFEKTIF_"+vke[1]).val(vol_stkefektif); 
     });
 
     function setHitungKirim(){
@@ -407,6 +447,41 @@
         }
     });
 
+    $('select[name="ID_JNS_BHN_BKR"]').on('change', function() {
+        var ID_JNS_BHN_BKR = $(this).val();
+        var SLOC = $('#pembangkit').val();
+        var SLOC_E = $('#pembangkit_e').val();
+        var vlink_url = '<?php echo base_url()?>master/tangki/cek_jns_bbm/';
+        if ((ID_JNS_BHN_BKR) && (SLOC)) {
+            bootbox.modal('<div class="loading-progress"></div>');
+            if (SLOC==SLOC_E){SLOC='-'}
+
+            $.ajax({
+                url: vlink_url,
+                type: "POST",
+                dataType: "json",
+                data: {"ID_JNS_BHN_BKR": ID_JNS_BHN_BKR,
+                        "SLOC":SLOC,
+                        },
+                success:function(data) {
+                    bootbox.hideAll();
+                    if(data.status){
+                        var x = 'Pembangkit '+$('#pembangkit option:selected').text()+' dgn Jenis BBM '+$('#jnsbbm option:selected').text()+' sudah terdaftar ';
+                        var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i> '+x+'</div>';
+                         bootbox.alert(message, function() {});
+                         $('select[name="ID_JNS_BHN_BKR"]').val('');
+                    }
+                }
+            });
+        } else {
+            if (SLOC==''){
+                $('select[name="ID_JNS_BHN_BKR"]').val('');
+                var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i> Silahkan pilih pembangkit</div>';
+                bootbox.alert(message, function() {});
+            }
+        }
+    });
+
     function get_detail(vId) {
         var data = {idx: vId};
 
@@ -428,8 +503,15 @@
                 } else {
                     $("#AKTIF"+x).prop('checked', false);
                 }
-                // $("#PATH_DET_TERA"+x).val(rest[i].PATH_DET_TERA);
 
+                if (rest[i].PATH_DET_TERA){
+                    var url = "<?php echo base_url() ?>assets/upload/tangki/"+rest[i].PATH_DET_TERA;
+
+                    $("#PATH_FILE_EDIT"+x).val(rest[i].PATH_DET_TERA);
+                    $("#LINK_FILE"+x).attr("href", url);
+                    $("#LINK_FILE"+x).show();
+                } 
+                
                 $("#TextBoxDiv"+x).show();
             }
             $("#JML_TANGKI").val(x);

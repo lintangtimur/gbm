@@ -146,15 +146,6 @@ class tangki extends MX_Controller {
         $this->form_validation->set_rules('SLOC', 'Pembangkit', 'trim|required');
         $this->form_validation->set_rules('ID_JNS_BHN_BKR', 'Jenis Bahan Bakar', 'trim|required');
         $this->form_validation->set_rules('JML_TANGKI', 'Jumlah Tangki', 'trim|required');
-        // $this->form_validation->set_rules('VOLUME_TANGKI', 'Kapasitas', 'trim|required');
-        // $this->form_validation->set_rules('DEAD_STOCK', 'Dead Stok', 'trim|required');
-        // $this->form_validation->set_rules('STOCK_EFEKTIF', 'Kapasitas Efektif', 'trim|required');
-        // $id = $this->input->post('id');
-        //  if ($id == '') {
-        //     if (empty($_FILES['FILE_UPLOAD']['name'])){
-        //         $this->form_validation->set_rules('FILE_UPLOAD', 'Upload Dokumen', 'required');
-        //     }
-        // }
 
         $x = $this->input->post('JML_TANGKI');
 
@@ -165,6 +156,8 @@ class tangki extends MX_Controller {
             for ($i=1; $i<=$x; $i++) {
                 $this->form_validation->set_rules('NAMA_TANGKI'.$i, 'Nama Tangki ke '.$i, 'required');
                 $this->form_validation->set_rules('VOLUME_TANGKI'.$i, 'Kapasitas Terpasang (L) ke '.$i, 'required');
+                $this->form_validation->set_rules('DEADSTOCK_TANGKI'.$i, 'Dead Stock (L) ke '.$i, 'required');
+                $this->form_validation->set_rules('STOCKEFEKTIF_TANGKI'.$i, 'Kapasitas Mampu (L) ke '.$i, 'required');
             }
         }
 
@@ -174,7 +167,6 @@ class tangki extends MX_Controller {
             $data = array();
             $data['SLOC'] = $this->input->post('SLOC');
             $data['ID_JNS_BHN_BKR'] = $this->input->post('ID_JNS_BHN_BKR');
-            // $data['NAMA_TANGKI'] = $this->input->post('NAMA_TANGKI');
             $data['VOLUME_TANGKI'] = str_replace(".","",$this->input->post('VOLUME_TANGKI'));
             $data['VOLUME_TANGKI'] = str_replace(",",".",$data['VOLUME_TANGKI']);
             $data['DEADSTOCK_TANGKI'] = str_replace(".","",$this->input->post('DEADSTOCK_TANGKI'));
@@ -183,13 +175,11 @@ class tangki extends MX_Controller {
             $data['STOCKEFEKTIF_TANGKI'] = str_replace(",",".",$data['STOCKEFEKTIF_TANGKI']);
 
             $data_detail = array();
-            $data_detail_nama = array();
             $berhasil=0;
             $gagal=0;
             $err='';
 
-            for ($i=1; $i<=$x; $i++)
-            {
+            for ($i=1; $i<=$x; $i++){
                 $VOLUME_TANGKI = $this->input->post('VOLUME_TANGKI'.$i);
                 $VOLUME_TANGKI = str_replace(".","",$VOLUME_TANGKI);
                 $VOLUME_TANGKI = str_replace(",",".",$VOLUME_TANGKI);
@@ -202,11 +192,22 @@ class tangki extends MX_Controller {
                 $STOCKEFEKTIF_TANGKI = str_replace(".","",$STOCKEFEKTIF_TANGKI);
                 $STOCKEFEKTIF_TANGKI = str_replace(",",".",$STOCKEFEKTIF_TANGKI);
 
+                $old_name = $this->input->post('PATH_FILE_EDIT'.$i);
+
                 $new_name = $this->input->post('SLOC').'_'.$this->input->post('NAMA_TANGKI'.$i);
                 $new_name = preg_replace("/[^a-zA-Z0-9]/", "", $new_name);
                 $new_name = $new_name.'_'.date("YmdHis").'_'.rand(1000,9999);
+                $nama_file = '';
 
                 if (!empty($_FILES['PATH_DET_TERA'.$i]['name'])){
+
+                    if ($old_name!=''){
+                        $target='assets/upload/tangki/'.$old_name;
+
+                        if(file_exists($target)){
+                            unlink($target);
+                        }
+                    }
 
                     $config['file_name'] = $new_name;
                     $config['upload_path'] = 'assets/upload/tangki';
@@ -228,6 +229,44 @@ class tangki extends MX_Controller {
                         $res = $this->upload->data();
                         // if ($res){
                         $nama_file = $res['file_name'];
+
+
+                        // ////---->>>> koding versi prod
+
+                        // //extract data from the post
+                        // //set POST variables
+                        // $url = $this->_url_movefile;
+                        // $fields = array(
+                        //   'filename' => urlencode($nama_file),
+                        //   'modul' => urlencode('TANGKI')
+                        // );
+                        // $fields_string = '';
+                        // //url-ify the data for the POST
+                        // foreach($fields as $key=>$value) {
+                        //   $fields_string .= $key.'='.$value.'&'; 
+                        // }
+                        // rtrim($fields_string, '&');
+
+                        // //open connection
+                        // $ch = curl_init();
+
+                        // //set the url, number of POST vars, POST data
+                        // curl_setopt($ch,CURLOPT_URL, $url);
+                        // curl_setopt($ch,CURLOPT_POST, count($fields));
+                        // curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+
+                        // //execute post
+                        // $result = curl_exec($ch);
+
+                        // //close connection
+                        // curl_close($ch);
+
+                        // ////----<<<< koding versi prod
+
+                    }
+                } else {
+                    if ($old_name!=''){
+                        $nama_file = $old_name;    
                     }
                 }
 
@@ -256,43 +295,7 @@ class tangki extends MX_Controller {
 
                 $nama_file='';
                 if ($this->tangki_model->save_as_new($data, $nama_file, $data_detail)) {
-                    
-                    // for ($i=1; $i<=$x; $i++){
-
-                    //     if (!empty($_FILES['PATH_DET_TERA'.$i]['name'])){
-                    //         // $new_name = $this->input->post('SLOC').'_'.$this->input->post('NAMA_TANGKI'.$i);
-                    //         // $new_name = preg_replace("/[^a-zA-Z0-9]/", "", $new_name);
-                    //         // $new_name = $new_name.'_'.date("YmdHis");
-                    //         // $nama_file = $data_detail[$i]['PATH_DET_TERA'];
-
-                    //         $config['file_name'] = $data_detail_nama[$i];
-                    //         $config['upload_path'] = 'assets/upload/tangki';
-                    //         $config['allowed_types'] = 'jpg|jpeg|png|pdf';
-                    //         $config['max_size'] = 1024 * 4; 
-                    //         // $config['overwrite'] = 1; 
-                    //         // $config['permitted_uri_chars'] = 'a-z 0-9~%.:&_\-'; 
-                    //         $this->load->library('upload', $config);                            
- 
-                    //         // $config['encrypt_name'] = TRUE;
-
-                    //         $this->upload->initialize($config);
-
-
-                    //         if (!$this->upload->do_upload('PATH_DET_TERA'.$i)){
-                    //             $gagal++;
-                    //             $err = $this->upload->display_errors('', '');
-                    //             // $message = array(false, 'Proses gagal', $err, '');
-                    //         } else {
-                    //             $berhasil++;
-                    //             //$final_files_data[] = $this->upload->data();
-
-                    //             // $res = $this->upload->data();
-                    //             // if ($res){
-                    //         }
-                    //     }
-
-                    // }
-
+                   
                     $message = array(true, 'Proses Berhasil ', 'Proses penyimpanan data berhasil. 
                         <br>
                         Upload File :
@@ -300,61 +303,10 @@ class tangki extends MX_Controller {
                         - Berhasil ['.$berhasil. '] 
                         <br>
                         - Gagal ['.$gagal.'] <br> '.$err, '#content_table');
+                } else {
+                    $message = array(false, 'Proses gagal','', '');
                 }
 
-        //         $new_name = str_replace(".","",$data['NAMA_TANGKI']).'_'.date("YmdHis");
-        //         $new_name = str_replace(" ","_",$new_name);
-        //         $config['file_name'] = $new_name;
-        //         $config['upload_path'] = 'assets/upload/tangki/';
-        //         $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
-        //         $config['max_size'] = 1024 * 4; 
-
-        //         // print_r($config);
-
-        //         $this->load->library('upload', $config);
-
-        //             if (!$this->upload->do_upload('FILE_UPLOAD')){
-        //                 $err = $this->upload->display_errors('', '');
-        //                 $message = array(false, 'Proses gagal', $err, '');
-        //             } else {
-        //                 $res = $this->upload->data();
-        //                 if ($res){
-        //                     $nama_file= $res['file_name'];
-        //                     if ($this->tangki_model->save_as_new($data, $nama_file, $data_detail)) {
-        //                         $message = array(true, 'Proses Berhasil ', 'Proses penyimpanan data berhasil.', '#content_table');
-
-        //                         // koding versi prod
-
-								// // //extract data from the post
-								// // //set POST variables
-								// // $url = $this->_url_movefile;
-								// // $fields = array(
-								// // 	'filename' => urlencode($nama_file),
-								// // 	'modul' => urlencode('TANGKI')
-								// // );
-								// // $fields_string = '';
-								// // //url-ify the data for the POST
-								// // foreach($fields as $key=>$value) {
-								// // 	$fields_string .= $key.'='.$value.'&'; 
-								// // }
-								// // rtrim($fields_string, '&');
-
-								// // //open connection
-								// // $ch = curl_init();
-
-								// // //set the url, number of POST vars, POST data
-								// // curl_setopt($ch,CURLOPT_URL, $url);
-								// // curl_setopt($ch,CURLOPT_POST, count($fields));
-								// // curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
-
-								// // //execute post
-								// // $result = curl_exec($ch);
-
-								// // //close connection
-								// // curl_close($ch);
-        //                     }
-        //             }
-        //         }
             } else {
                 $nama_file='';
                 $data['UD_TANGKI'] = date("Y/m/d");
@@ -365,97 +317,19 @@ class tangki extends MX_Controller {
                         $simpan_data_detail = $this->tangki_model->save_detail($data_detail);    
                     }  
 
-                    $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
+                    $message = array(true, 'Proses Berhasil ', 'Proses update data berhasil. 
+                        <br>
+                        Upload File :
+                        <br> 
+                        - Berhasil ['.$berhasil. '] 
+                        <br>
+                        - Gagal ['.$gagal.'] <br> '.$err, '#content_table');
+
                 } else {
                     $message = array(false, 'Proses gagal','', '');
                 }
 
-                echo json_encode($message, true);
-                exit();                 
-
-
-
-
-                    $dataa = $this->tangki_model->dataEdit($id);
-                    $hasil=$dataa->get()->row();
-                    $file_name=$hasil->PATH_DET_TERA;
-                    $target='assets/upload_tangki/'.$file_name;
-
-                if (empty($_FILES['FILE_UPLOAD']['name'])){
-                    $nama_file = $file_name;
-                    $data['UD_TANGKI'] = date('Y-m-d');
-                    if ($this->tangki_model->save($data, $id, $nama_file)) {
-                        $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
-                    }
-                }
-                else{
-                                    
-                    if ($file_name == '') {
-                        if (empty($_FILES['FILE_UPLOAD']['name'])){
-                            $this->form_validation->set_rules('FILE_UPLOAD', 'Upload Dokumen', 'required');
-                            }
-                    }
-                            
-                    if($_FILES['FILE_UPLOAD']['name']!= $file_name || $_FILES['FILE_UPLOAD']['size']!= filesize($target)){
-                        if(file_exists($target)){
-                            unlink($target);
-                            }
-                    }
-                            
-                    $tera['TGL_TERA'] = $this->input->post('TGL_TERA');
-                    $new_name = $tera['TGL_TERA'].'_'.date("YmdHis");
-                    $config['file_name'] = $new_name;
-                    $config['upload_path'] = 'assets/upload/tangki/';
-                    $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
-                    $config['max_size'] = 1024 * 4; 
-                    $config['permitted_uri_chars'] = 'a-z 0-9~%.:&_\-'; 
-                
-                    $this->load->library('upload', $config);
-                    if (!$this->upload->do_upload('FILE_UPLOAD')){
-                        $err = $this->upload->display_errors('', '');
-                        $message = array(false, 'Proses gagal', $err, '');
-                    }
-                    else{
-                        $res = $this->upload->data();
-                        if ($res){
-                            $nama_file= $res['file_name'];
-                            if ($this->tangki_model->save($data, $id, $nama_file)) {
-                                    $message = array(true, 'Proses Berhasil', 'Proses update data berhasil.', '#content_table');
-                                    
-                                    // koding versi prod
-
-									// //extract data from the post
-									// //set POST variables
-									// $url = $this->_url_movefile;
-									// $fields = array(
-									// 	'filename' => urlencode($nama_file),
-									// 	'modul' => urlencode('TANGKI')
-									// );
-									// $fields_string = '';
-									// //url-ify the data for the POST
-									// foreach($fields as $key=>$value) {
-									// 	$fields_string .= $key.'='.$value.'&'; 
-									// }
-									// rtrim($fields_string, '&');
-
-									// //open connection
-									// $ch = curl_init();
-
-									// //set the url, number of POST vars, POST data
-									// curl_setopt($ch,CURLOPT_URL, $url);
-									// curl_setopt($ch,CURLOPT_POST, count($fields));
-									// curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
-
-									// //execute post
-									// $result = curl_exec($ch);
-
-									// //close connection
-									// curl_close($ch);
-                                }
-                            }
-                        }
-            
-                    }
+                // echo json_encode($message, true);
             }
         } else {
             $message = array(false, 'Proses gagal', validation_errors(), '');
@@ -574,6 +448,18 @@ class tangki extends MX_Controller {
         $message = $this->tangki_model->options_lv4('--Pilih Pembangkit--', $key, 0);
         echo json_encode($message);
     }
+
+    public function cek_jns_bbm() {
+        $val = array(
+            'ID_JNS_BHN_BKR' => $this->input->post('ID_JNS_BHN_BKR'),
+            'SLOC' => $this->input->post('SLOC'),
+        );
+
+        $message = $this->tangki_model->cek_jns_bbm($val);
+        echo json_encode(array("status" => $message));
+    }
+
+    
 
 }
 

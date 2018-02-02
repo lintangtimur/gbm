@@ -84,12 +84,13 @@ class role extends MX_Controller {
         $table = new stdClass();
         $table->id = 'roles_id';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('no' => 'center', 'aksi' => 'center');
+        $table->align = array('no' => 'center', 'ROLES_ID' => 'center', 'aksi' => 'center');
         $table->page = $page;
         $table->limit = $this->_limit;
         $table->jumlah_kolom = 4;
         $table->header[] = array(
             "No", 1, 1,
+            "Role ID", 1, 1,
             "Nama Role", 1, 1,
             "Keterangan Role", 1, 1,
             "Aksi", 1, 1

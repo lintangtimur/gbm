@@ -241,6 +241,7 @@ class penerimaan extends MX_Controller
             $data['CREATE_BY'] = $this->session->userdata('user_name');
 			$data['IS_MIX'] = $this->input->post("ismix");
 			$data['ID_KOMPONEN'] = $this->input->post("KOMPONEN");
+            $data['KET_MUTASI_TERIMA'] = $this->input->post("KET_MUTASI_TERIMA");   
 
             $id = $this->input->post('id');
 

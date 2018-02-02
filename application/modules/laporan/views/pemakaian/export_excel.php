@@ -4,7 +4,7 @@
         header('Cache-Control: no-cache, no-store, must-revalidate');
         // header('Content-Type: text/html');
         header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment; filename=Laporan_Penerimaan_BBM.xls');
+        header('Content-Disposition: attachment; filename=Laporan_Pemakaian_BBM.xls');
 
         echo '
         <style>

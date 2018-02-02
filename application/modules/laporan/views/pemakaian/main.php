@@ -1,5 +1,4 @@
 <link href="<?php echo base_url();?>assets/css/cf/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
-<link href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css" rel="stylesheet"></script>
 <!-- <link rel="stylesheet" href="<?php echo base_url();?>assets/css/bootstrap.css"> -->
 <script src="<?php echo base_url();?>assets/js/cf/jquery.dataTables.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url();?>assets/js/cf/dataTables.fixedColumns.min.js" type="text/javascript"></script>
@@ -13,6 +12,9 @@
 .detail-kosong{
     display: none;
 }
+.dataTables_filter, .dataTables_info {
+   display: none;
+ }
     tr {background-color: #CED8F6;}
 
         table {
@@ -42,7 +44,7 @@
     </div>
     <div class="widgets_area">
         <div class="well-content no-search">
-            <?php echo form_open_multipart('', ['id' => 'ffilter']); ?>
+            <?php echo form_open_multipart('', array('id' => 'ffilter')); ?>
             <div class="form_row">
                 <!-- Regional -->
                 <div class="pull-left span3">
@@ -104,13 +106,13 @@
               <div class="pull-left span3">
                 <label for="" class="control-label" style="margin-left:1px;">Tampil data</label>
                 <div class="controls">
-                  <?php echo form_dropdown('tampilData', [
+                  <?php echo form_dropdown('tampilData', array(
                     '-Tampilkan Data-'=> 'Tampilkan Data',
                     '25'              => '25 data',
                     '50'              => '50 data',
                     '100'             => '100 data',
                     '200'             => '200 data'
-                  ], '', 'style="margin-left:1px;"') ?>
+                  ), '', 'style="margin-left:1px;" id="tampilData"') ?>
                 </div>
               </div>
                 <div class="pull-left span2">
@@ -122,7 +124,7 @@
                 <div class="pull-left span1">
                     <label></label>
                     <div class="controls">
-                    <?php echo anchor(null, "<i class='icon-search'></i> Load", ['class' => 'btn', 'id' => 'button-load']); ?>
+                    <?php echo anchor(null, "<i class='icon-search'></i> Load", array('class' => 'btn', 'id' => 'button-load')); ?>
                     </div>
                 </div>
             </div>
@@ -140,12 +142,12 @@
                     <label></label>
                     <div class="controls">
                         <!-- <button type="button" class="btn btn-primary" data-toggle='modal' data-target='#exampleModal' name="button">TSest</button> -->
-                    <?php echo anchor(null, "<i class='icon'></i> Detail", [
+                    <?php echo anchor(null, "<i class='icon'></i> Detail", array(
                         'class'       => 'btn green detail-kosong',
                         'id'          => 'button-detail'
                         // 'data-toggle' => 'modal',
                         // 'data-target' => '#exampleModal'
-                    ]); ?>
+                    )); ?>
                     </div>
                 </div>
                 <!-- Tampilan modal detail -->
@@ -158,14 +160,14 @@
                 <div class="pull-left span4">
                     <label></label>
                     <div class="controls">
-                    <?php echo anchor(null, "<i class='icon-download'></i> Download Excel", [
+                    <?php echo anchor(null, "<i class='icon-download'></i> Download Excel", array(
                         'class' => 'btn',
                         'id'    => 'button-excel'
-                    ]); ?>
-                    <?php echo anchor(null, "<i class='icon-download'></i> Download PDF", [
+                    )); ?>
+                    <?php echo anchor(null, "<i class='icon-download'></i> Download PDF", array(
                         'class' => 'btn',
                         'id'    => 'button-pdf'
-                    ]); ?>
+                    )); ?>
                     </div>
                 </div>
             </div>
@@ -202,14 +204,21 @@
                 </button>
               </div>
               <div class="modal-body">
-                  <?php echo anchor(null, "<i class='icon-download'></i> Download Excel", [
+                  <?php echo anchor(null, "<i class='icon-download'></i> Download Excel", array(
                       'class' => 'btn',
                       'id'    => 'button-excel-detail'
-                  ]); ?>
-                  <?php echo anchor(null, "<i class='icon-download'></i> Download PDF", [
+                  )); ?>
+                  <?php echo anchor(null, "<i class='icon-download'></i> Download PDF", array(
                       'class' => 'btn',
                       'id'    => 'button-pdf-detail'
-                  ]); ?>
+                  )); ?>
+                  <?php echo form_dropdown('tampilData', array(
+                    '-Tampilkan Data-'=> 'Tampilkan Data',
+                    '25'              => '25 data',
+                    '50'              => '50 data',
+                    '100'             => '100 data',
+                    '200'             => '200 data'
+                  ), '', 'style="margin-left:1px;" id="tampilData_detail"') ?>
                   <table id="dataTable_detail" class="table-striped" width="100%" cellspacing="0" style="max-height:1000px;">
                       <thead>
                       <tr>
@@ -262,8 +271,10 @@
     <input type="hidden" name="xtglakhir">
 </form>
 
-<form id="export_pdf" action="<?php echo base_url('laporan/persediaan_bbm/export_pdf'); ?>" method="post" >
+<form id="export_pdf" action="<?php echo base_url('laporan/pemakaian/export_pdf'); ?>" method="post" >
     <input type="hidden" name="plvl0">
+    <input type="hidden" name="plvl">
+    <input type="hidden" name="plvlid">
     <input type="hidden" name="plvl1">
     <input type="hidden" name="plvl2">
     <input type="hidden" name="plvl3">
@@ -275,8 +286,54 @@
     <input type="hidden" name="pbbm">
     <input type="hidden" name="pbln">
     <input type="hidden" name="pthn">
+    <input type="hidden" name="ptglawal">
+    <input type="hidden" name="ptglakhir">
 </form>
 
+<form id="export_excel_detail" action="<?php echo base_url('laporan/pemakaian/export_excel_detail'); ?>" method="post">
+    <input type="hidden" name="xlvl0">
+    <input type="hidden" name="xlvl1">
+    <input type="hidden" name="xlvl2">
+    <input type="hidden" name="xlvl3">
+    <input type="hidden" name="xlvl0_nama">
+    <input type="hidden" name="xlvl1_nama">
+    <input type="hidden" name="xlvl2_nama">
+    <input type="hidden" name="xlvl3_nama">
+    <input type="hidden" name="xlvl4">
+    <input type="hidden" name="xbbm">
+    <input type="hidden" name="xbln">
+    <input type="hidden" name="xthn">
+    <input type="hidden" name="xlvlid">
+    <input type="hidden" name="xlvl">
+
+    <input type="hidden" name="xtglawal_detail">
+    <input type="hidden" name="xtglakhir_detail">
+    <input type="hidden" name="xkodeUnit_detail">
+    <input type="hidden" name="xidbbm_detail">
+</form>
+<form id="export_pdf_detail" action="<?php echo base_url('laporan/pemakaian/export_pdf_detail'); ?>" method="post" >
+    <input type="hidden" name="plvl0">
+    <input type="hidden" name="plvl">
+    <input type="hidden" name="plvlid">
+    <input type="hidden" name="plvl1">
+    <input type="hidden" name="plvl2">
+    <input type="hidden" name="plvl3">
+    <input type="hidden" name="plvl0_nama">
+    <input type="hidden" name="plvl1_nama">
+    <input type="hidden" name="plvl2_nama">
+    <input type="hidden" name="plvl3_nama">
+    <input type="hidden" name="plvl4">
+    <input type="hidden" name="pbbm">
+    <input type="hidden" name="pbln">
+    <input type="hidden" name="pthn">
+    <input type="hidden" name="ptglawal">
+    <input type="hidden" name="ptglakhir">
+
+    <input type="hidden" name="ptglawal_detail">
+    <input type="hidden" name="ptglakhir_detail">
+    <input type="hidden" name="pkodeUnit_detail">
+    <input type="hidden" name="pidbbm_detail">
+</form>
 <script type="text/javascript">
 
     $(document).ready(function() {
@@ -467,7 +524,7 @@
 
         $('#dataTable').dataTable({
             "scrollY": "450px",
-            "searching": false,
+            "searching": true,
             "scrollX": true,
             "scrollCollapse": false,
             "bPaginate": true,
@@ -502,11 +559,11 @@
                 },
                 {
                         "className": "dt-right",
-                        "targets": [5,6,7]
+                        "targets": [5]
                 },
                 {
                         "className": "dt-center",
-                        "targets": [0,3,4,8]
+                        "targets": [0,3,4,8,2,6,7,9]
                 },
                 {
                         "className": "dt-left",
@@ -652,13 +709,34 @@
         table.search( this.value ).draw();
     } );
 
+    $('#tampilData').on('change', function () {
+      oTable = $('#dataTable').dataTable();
+      var oSettings = oTable.fnSettings();
+      oSettings._iDisplayLength = this.value;
+      oTable.fnDraw();
+    });
+
+    $('#tampilData_detail').on('change', function () {
+      oTable = $('#dataTable_detail').dataTable();
+      var oSettings = oTable.fnSettings();
+      oSettings._iDisplayLength = this.value;
+      oTable.fnDraw();
+    });
+
     function clearDT_Detail()
     {
         var t = $('#dataTable_detail').DataTable();
         t.clear().draw();
     }
+
+    function tampilData_default()
+    {
+      $('#tampilData').val('-Tampilkan Data-');
+      $('#tampilData_detail').val('-Tampilkan Data-');
+    }
     //when datatable detailButton clicked
     $('#dataTable tbody').on( 'click', 'button', function () {
+      tampilData_default();
         clearDT_Detail();
         var t = $('#dataTable').DataTable();
         var tdetail = $('#dataTable_detail').DataTable({
@@ -686,6 +764,14 @@
             {
               "className" : "dt-right",
               "targets" : [-1, -2]
+            },
+            {
+              "className" : "dt-center",
+              "targets" : [0,5,6,9,10]
+            },
+            {
+              "className" : "dt-left",
+              "targets" : [1,2,3,4]
             }
           ]
         });
@@ -708,7 +794,18 @@
         var tglAkhir_hari = tglAkhir.substring(6,8);
         var parsed_tglakhir = tglAkhir_hari.concat(tglAkhir_bulan, tglAkhir_tahun);
 
-        // console.log("Bulan: "+bln+" Tahun: "+thn+" KodeUNIT: "+kode_unit+" ID_BBM: "+id_bbm);
+        //Untuk Trigger button excel detail
+        $('input[name="xkodeUnit_detail"]').val(kode_unit);
+        $('input[name="xtglawal_detail"]').val(parsed_tglawal);
+        $('input[name="xtglakhir_detail"]').val(parsed_tglakhir);
+        $('input[name="xidbbm_detail"]').val(id_bbm);
+
+        //Untuk Trigger button pdf detail
+        $('input[name="pkodeUnit_detail"]').val(kode_unit);
+        $('input[name="ptglawal_detail"]').val(parsed_tglawal);
+        $('input[name="ptglakhir_detail"]').val(parsed_tglakhir);
+        $('input[name="pidbbm_detail"]').val(id_bbm);
+
         console.log(" KodeUNIT: "+kode_unit+" ID_BBM: "+id_bbm+" TglAwal:"+parsed_tglawal+" TglAkhir: "+parsed_tglakhir);
         $.ajax({
             url : "<?php echo base_url('laporan/pemakaian/getPemakaianDetail'); ?>",
@@ -853,9 +950,57 @@
 
     $('#button-pdf').click(function(e) {
         var lvl0 = $('#lvl0').val();
+        var lvl1 = $('#lvl1').val(); //level1 dropdown
+        var lvl2 = $('#lvl2').val(); //level2 dropdown
+        var lvl3 = $('#lvl3').val(); //level3 dropdown
+        var lvl4 = $('#lvl4').val(); //pembangkit dropdown
+        var bbm = $('#bbm').val(); //bahanBakar dropdown
+        var bln = $('#bln').val(); //bulan dropdown
+        var thn = $('#thn').val(); //tahun dropdown
+
         if (lvl0 == '') {
             bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
         } else {
+          if (lvl0 !== "") {
+              lvl0 = 'Regional';
+              vlevelid = $('#lvl0').val();
+              if (vlevelid == "00") {
+                  lvl0 = "Pusat";
+              }
+          }
+          if (lvl1 !== "") {
+              lvl0 = 'Level 1';
+              vlevelid = $('#lvl1').val();
+          }
+          if (lvl2 !== "") {
+              lvl0 = 'Level 2';
+              vlevelid = $('#lvl2').val();
+          }
+          if (lvl3 !== ""){
+              lvl0 = 'Level 3';
+              vlevelid = $('#lvl3').val();
+          }
+          if (lvl4 !== "") {
+              lvl0 = 'Level 4';
+              vlevelid = $('#lvl4').val();
+          }
+          if (bbm !== "") {
+              bbm = $('#bbm').val();
+              if (bbm =='001') {
+                  bbm = 'MFO';
+              }else if(bbm == '002'){
+                  bbm = 'IDO';
+              }else if(bbm == '003'){
+                  bbm = 'BIO';
+              }else if(bbm == '004'){
+                  bbm = 'HSD+BIO';
+              }else if(bbm == '005'){
+                  bbm = 'HSD';
+              }
+          }
+          if (bbm == '') {
+              bbm = '-';
+          }
             $('input[name="plvl0"]').val($('#lvl0').val());
             $('input[name="plvl1"]').val($('#lvl1').val());
             $('input[name="plvl2"]').val($('#lvl2').val());
@@ -867,9 +1012,25 @@
             $('input[name="plvl3_nama"]').val($('#lvl3 option:selected').text());
 
             $('input[name="plvl4"]').val($('#lvl4').val());
-            $('input[name="pbbm"]').val($('#bbm').val());
-            $('input[name="pbln"]').val($('#bln').val());
-            $('input[name="pthn"]').val($('#thn').val());
+
+            $('input[name="plvlid"]').val(vlevelid);
+            $('input[name="pbbm"]').val(bbm);
+            $('input[name="plvl"]').val(lvl0);
+
+            var tglAwal = $('#tglawal').val().replace(/-/g, '');
+            var tglAkhir = $('#tglakhir').val().replace(/-/g, '');
+            if (tglAwal == '' && tglAkhir == '') {
+              tglAwal = "-";
+              tglAkhir = '-';
+              $('input[name="ptglawal"]').val(tglAwal);
+              $('input[name="ptglakhir"]').val(tglAkhir);
+            }else{
+              $('input[name="ptglawal"]').val(tglAwal);
+              $('input[name="ptglakhir"]').val(tglAkhir);
+            }
+            console.log("PDF: tglawal "+tglAwal+ "tglakhir: "+tglAkhir+"vlevelid: "+vlevelid+"bbm: "+bbm);
+            // $('input[name="pbln"]').val($('#bln').val());
+            // $('input[name="pthn"]').val($('#thn').val());
 
             bootbox.confirm('Apakah yakin akan export data pdf ?', "Tidak", "Ya", function(e) {
                 if(e){
@@ -879,6 +1040,172 @@
         }
     });
 
+    // DETAIL EXCEL AND PDF
+    $('#button-excel-detail').click(function(e) {
+      var lvl0 = $('#lvl0').val(); //Regional dropdown
+      var lvl1 = $('#lvl1').val(); //level1 dropdown
+      var lvl2 = $('#lvl2').val(); //level2 dropdown
+      var lvl3 = $('#lvl3').val(); //level3 dropdown
+      var lvl4 = $('#lvl4').val(); //pembangkit dropdown
+      var bbm = $('#bbm').val(); //bahanBakar dropdown
+      var bln = $('#bln').val(); //bulan dropdown
+      var thn = $('#thn').val(); //tahun dropdown
+
+      if (lvl0 == '') {
+            bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
+        } else {
+          if (lvl0 !== "") {
+              lvl0 = 'Regional';
+              vlevelid = $('#lvl0').val();
+              if (vlevelid == "00") {
+                  lvl0 = "Pusat";
+              }
+          }
+          if (lvl1 !== "") {
+              lvl0 = 'Level 1';
+              vlevelid = $('#lvl1').val();
+          }
+          if (lvl2 !== "") {
+              lvl0 = 'Level 2';
+              vlevelid = $('#lvl2').val();
+          }
+          if (lvl3 !== ""){
+              lvl0 = 'Level 3';
+              vlevelid = $('#lvl3').val();
+          }
+          if (lvl4 !== "") {
+              lvl0 = 'Level 4';
+              vlevelid = $('#lvl4').val();
+          }
+          if (bbm !== "") {
+              bbm = $('#bbm').val();
+              if (bbm =='001') {
+                  bbm = 'MFO';
+              }else if(bbm == '002'){
+                  bbm = 'IDO';
+              }else if(bbm == '003'){
+                  bbm = 'BIO';
+              }else if(bbm == '004'){
+                  bbm = 'HSD+BIO';
+              }else if(bbm == '005'){
+                  bbm = 'HSD';
+              }
+          }
+          if (bbm == '') {
+              bbm = '-';
+          }
+          $('input[name="xlvl0"]').val($('#lvl0').val()); // 01
+          $('input[name="xlvl1"]').val($('#lvl1').val()); //COCODE
+          $('input[name="xlvl2"]').val($('#lvl2').val());
+          $('input[name="xlvl3"]').val($('#lvl3').val());
+
+          $('input[name="xlvl0_nama"]').val($('#lvl0 option:selected').text()); // SUMATERA
+          $('input[name="xlvl1_nama"]').val($('#lvl1 option:selected').text());
+          $('input[name="xlvl2_nama"]').val($('#lvl2 option:selected').text());
+          $('input[name="xlvl3_nama"]').val($('#lvl3 option:selected').text());
+
+          $('input[name="xlvl4"]').val($('#lvl4').val());  // 183130
+          $('input[name="xbbm"]').val(bbm); // 001
+          $('input[name="xlvl"]').val(lvl0); // 001
+          console.log(vlevelid);
+            bootbox.confirm('Apakah yakin akan export data excel ?', "Tidak", "Ya", function(e) {
+                if(e){
+                    $('#export_excel_detail').submit();
+                }
+            });
+        }
+    });
+    $('#button-pdf-detail').click(function(e) {
+        var lvl0 = $('#lvl0').val();
+        var lvl1 = $('#lvl1').val(); //level1 dropdown
+        var lvl2 = $('#lvl2').val(); //level2 dropdown
+        var lvl3 = $('#lvl3').val(); //level3 dropdown
+        var lvl4 = $('#lvl4').val(); //pembangkit dropdown
+        var bbm = $('#bbm').val(); //bahanBakar dropdown
+        var bln = $('#bln').val(); //bulan dropdown
+        var thn = $('#thn').val(); //tahun dropdown
+
+        if (lvl0 == '') {
+            bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
+        } else {
+          if (lvl0 !== "") {
+              lvl0 = 'Regional';
+              vlevelid = $('#lvl0').val();
+              if (vlevelid == "00") {
+                  lvl0 = "Pusat";
+              }
+          }
+          if (lvl1 !== "") {
+              lvl0 = 'Level 1';
+              vlevelid = $('#lvl1').val();
+          }
+          if (lvl2 !== "") {
+              lvl0 = 'Level 2';
+              vlevelid = $('#lvl2').val();
+          }
+          if (lvl3 !== ""){
+              lvl0 = 'Level 3';
+              vlevelid = $('#lvl3').val();
+          }
+          if (lvl4 !== "") {
+              lvl0 = 'Level 4';
+              vlevelid = $('#lvl4').val();
+          }
+          if (bbm !== "") {
+              bbm = $('#bbm').val();
+              if (bbm =='001') {
+                  bbm = 'MFO';
+              }else if(bbm == '002'){
+                  bbm = 'IDO';
+              }else if(bbm == '003'){
+                  bbm = 'BIO';
+              }else if(bbm == '004'){
+                  bbm = 'HSD+BIO';
+              }else if(bbm == '005'){
+                  bbm = 'HSD';
+              }
+          }
+          if (bbm == '') {
+              bbm = '-';
+          }
+            $('input[name="plvl0"]').val($('#lvl0').val());
+            $('input[name="plvl1"]').val($('#lvl1').val());
+            $('input[name="plvl2"]').val($('#lvl2').val());
+            $('input[name="plvl3"]').val($('#lvl3').val());
+
+            $('input[name="plvl0_nama"]').val($('#lvl0 option:selected').text());
+            $('input[name="plvl1_nama"]').val($('#lvl1 option:selected').text());
+            $('input[name="plvl2_nama"]').val($('#lvl2 option:selected').text());
+            $('input[name="plvl3_nama"]').val($('#lvl3 option:selected').text());
+
+            $('input[name="plvl4"]').val($('#lvl4').val());
+
+            $('input[name="plvlid"]').val(vlevelid);
+            $('input[name="pbbm"]').val(bbm);
+            $('input[name="plvl"]').val(lvl0);
+
+            var tglAwal = $('#tglawal').val().replace(/-/g, '');
+            var tglAkhir = $('#tglakhir').val().replace(/-/g, '');
+            if (tglAwal == '' && tglAkhir == '') {
+              tglAwal = "-";
+              tglAkhir = '-';
+              $('input[name="ptglawal"]').val(tglAwal);
+              $('input[name="ptglakhir"]').val(tglAkhir);
+            }else{
+              $('input[name="ptglawal"]').val(tglAwal);
+              $('input[name="ptglakhir"]').val(tglAkhir);
+            }
+            console.log("PDF: tglawal "+tglAwal+ "tglakhir: "+tglAkhir+"vlevelid: "+vlevelid+"bbm: "+bbm);
+            // $('input[name="pbln"]').val($('#bln').val());
+            // $('input[name="pthn"]').val($('#thn').val());
+
+            bootbox.confirm('Apakah yakin akan export data pdf ?', "Tidak", "Ya", function(e) {
+                if(e){
+                    $('#export_pdf_detail').submit();
+                }
+            });
+        }
+    });
 </script>
 
 <script type="text/javascript">

@@ -112,6 +112,12 @@
                     <?php echo form_input('STATUS_MUTASI_TERIMA', !empty($default->STATUS_MUTASI_TERIMA) ? $default->STATUS_MUTASI_TERIMA : '0'); ?>
                 </div> 
             </div>
+            <div class="control-group">
+                <label class="control-label">Keterangan : </label>
+                <div class="controls">
+                    <?php echo form_input('KET_MUTASI_TERIMA', !empty($default->KET_MUTASI_TERIMA) ? $default->KET_MUTASI_TERIMA : '', 'class="span4" placeholder="Keterangan Penerimaan"'); ?>
+                </div>
+            </div>
             <div class="form-actions">
                 <?php 
                 if ($this->laccess->otoritas('edit')) {

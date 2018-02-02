@@ -1,6 +1,9 @@
 <?php
 
-
+/**
+ * pemakaian model
+ * @author stelin
+ */
 class pemakaian_model extends CI_Model
 {
     public function __construct()
@@ -10,8 +13,8 @@ class pemakaian_model extends CI_Model
 
     /**
      * getPemakaian by array
-     * @param  array $data passing from controller
-     * @return mixed
+     * @param  array  $data passing from controller
+     * @return object
      */
     public function getPemakaian(array $data)
     {
@@ -46,8 +49,8 @@ class pemakaian_model extends CI_Model
 
     /**
      * get pemakaian detail usage
-     * @param  array $data data from controller
-     * @return mixed
+     * @param  array  $data data from controller
+     * @return object
      */
     public function getPemakaianDetail($data)
     {
@@ -74,6 +77,10 @@ class pemakaian_model extends CI_Model
         return $query->result();
     }
 
+    /**
+     * TESTING
+     * @return object
+     */
     public function testDetailPemakaian()
     {
         $sql = "call lap_detail_pemakaian(

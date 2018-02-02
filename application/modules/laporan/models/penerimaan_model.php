@@ -2,6 +2,7 @@
 
 /**
  * penerimaan bbm model
+ * @author stelin
  */
 class penerimaan_model extends CI_Model
 {
@@ -10,6 +11,11 @@ class penerimaan_model extends CI_Model
         parent::__construct();
     }
 
+    /**
+     * get data model
+     * @param  array  $data passing from controller
+     * @return object
+     */
     public function getData_Model($data)
     {
         $VLEVEL_REGIONAL               = $data['ID_REGIONAL'];
@@ -20,10 +26,6 @@ class penerimaan_model extends CI_Model
         $TGLAKHIR                      = $data['TGLAKHIR'];
         // $TAHUN                         = $data['TAHUN'];
 
-        // if ($VLEVELID == '' and $VLEVEL_REGIONAL == 'all') {
-        //     $VLEVELID        = '';
-        //     $VLEVEL_REGIONAL = 'all';
-        // }
         $sql = "call lap_rekap_penerimaan(
             '$JENIS_BBM',
             '$TGLAWAL' ,
@@ -37,6 +39,11 @@ class penerimaan_model extends CI_Model
         return $query->result();
     }
 
+    /**
+     * TESTING
+     * @param  array  $data passing from controller
+     * @return object
+     */
     public function testGetDataModel($data)
     {
         $sql = "call lap_rekap_penerimaan(
@@ -52,6 +59,10 @@ class penerimaan_model extends CI_Model
         return $query->result();
     }
 
+    /**
+     * TESTING
+     * @return object
+     */
     public function testDetail()
     {
         $sql = "call lap_detail_penerimaan(
@@ -68,8 +79,8 @@ class penerimaan_model extends CI_Model
 
     /**
      * getData_Model_Detail
-     * @param  array $data from controller
-     * @return mixed
+     * @param  array  $data from controller
+     * @return object
      */
     public function getData_Model_Detail($data)
     {
@@ -107,9 +118,14 @@ class penerimaan_model extends CI_Model
         return $this->db;
     }
 
+    /**
+     * option jenis bbm ini menghilangkan list HSD+BIO
+     * @param  string $default --Pilih Jenis BBM--
+     * @return array
+     */
     public function option_jenisbbm($default = '--Pilih Jenis BBM--')
     {
-        $option = [];
+        $option = array();
         $list   = $this->data_option()->get();
 
         if (!empty($default)) {

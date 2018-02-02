@@ -86,7 +86,7 @@ class role_model extends CI_Model {
         $filter = array();
         $kata_kunci = $this->input->post('kata_kunci');
         if (!empty($kata_kunci))
-            $filter[$this->_table1 . ".ROLES_NAMA LIKE '%{$kata_kunci}%' "] = NULL;
+            $filter["ROLES.ROLES_NAMA LIKE '%{$kata_kunci}%' OR ROLES.ROLES_ID LIKE '%{$kata_kunci}%'"] = NULL;
         $total = $this->data($filter)->count_all_results();
         $this->db->limit($limit, ($offset * $limit) - $limit);
         $record = $this->data($filter)->get();
@@ -103,6 +103,7 @@ class role_model extends CI_Model {
             }
             $rows[$no] = array(
                 'no' => $no,
+                'ROLES_ID' => $row->ROLES_ID,
                 'roles_nama' => $row->ROLES_NAMA,
                 'roles_keterangan' => $row->ROLES_KETERANGAN,
                 'aksi' => !empty($aksi) ? $aksi : '<i class="icon-lock denied-color" title="Acces Denied"></i>'

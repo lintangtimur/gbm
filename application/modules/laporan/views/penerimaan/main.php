@@ -1,5 +1,4 @@
 <link href="<?php echo base_url();?>assets/css/cf/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
-<link href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css" rel="stylesheet"></script>
 <!-- <link rel="stylesheet" href="<?php echo base_url();?>assets/css/bootstrap.css"> -->
 <script src="<?php echo base_url();?>assets/js/cf/jquery.dataTables.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url();?>assets/js/cf/dataTables.fixedColumns.min.js" type="text/javascript"></script>
@@ -14,17 +13,19 @@
   .detail-kosong{
       display: none;
   }
-      tr {
-        background-color: #CED8F6;
-      }
-
-          table {
-              border-collapse: collapse;
-              width:100%;
-          }
-          .auto{
-            width: 100%;
-          }
+  .dataTables_filter, .dataTables_info {
+     display: none;
+   }
+  tr {
+    background-color: #CED8F6;
+  }
+  table {
+    border-collapse: collapse;
+    width:100%;
+  }
+  .auto{
+    width: 100%;
+  }
 
           /*td,  th {
               border: 1px solid  #f4f6f6 ;
@@ -48,7 +49,7 @@
     </div>
     <div class="widgets_area">
         <div class="well-content no-search">
-            <?php echo form_open_multipart('', ['id' => 'ffilter']); ?>
+            <?php echo form_open_multipart('', array('id' => 'ffilter')); ?>
             <div class="form_row">
                 <!-- Regional -->
                 <div class="pull-left span3">
@@ -91,7 +92,7 @@
                 </div>
                 <!-- jenis bahan bakar -->
                 <div class="pull-left span3">
-                    <label for="password" class="control-label">Bahan Bakar <span class="required">*</span> : </label>
+                    <label for="password" class="control-label">Jenis Bahan Bakar <span class="required">*</span> : </label>
                     <div class="controls">
                         <?php echo form_dropdown('BBM', $opsi_bbm, !empty($default->ID_JENIS_BHN_BKR) ? $default->ID_JENIS_BHN_BKR : '', 'id="bbm"'); ?>
                     </div>
@@ -111,13 +112,13 @@
                 <div class="pull-left span3">
                   <label for="" class="control-label" style="margin-left:1px;">Tampil data</label>
                   <div class="controls">
-                    <?php echo form_dropdown('tampilData', [
+                    <?php echo form_dropdown('tampilData', array(
                       '-Tampilkan Data-'=> 'Tampilkan Data',
                       '25'              => '25 data',
                       '50'              => '50 data',
                       '100'             => '100 data',
                       '200'             => '200 data'
-                    ], '', 'style="margin-left:1px;"') ?>
+                    ), '', 'style="margin-left:1px;" id="tampilData"') ?>
                   </div>
                 </div>
                 <div class="pull-left span2">
@@ -129,7 +130,7 @@
                 <div class="pull-left span1">
                     <label></label>
                     <div class="controls">
-                    <?php echo anchor(null, "<i class='icon-search'></i> Load", ['class' => 'btn', 'id' => 'button-load']); ?>
+                    <?php echo anchor(null, "<i class='icon-search'></i> Load", array('class' => 'btn', 'id' => 'button-load')); ?>
                     </div>
                 </div>
             </div>
@@ -147,14 +148,14 @@
                     <label></label>
                     <div class="controls">
 
-                    <?php echo anchor(null, "<i class='icon-download'></i> Download Excel", [
+                    <?php echo anchor(null, "<i class='icon-download'></i> Download Excel", array(
                         'class' => 'btn',
                         'id'    => 'button-excel'
-                    ]); ?>
-                    <?php echo anchor(null, "<i class='icon-download'></i> Download PDF", [
+                    )); ?>
+                    <?php echo anchor(null, "<i class='icon-download'></i> Download PDF", array(
                         'class' => 'btn',
                         'id'    => 'button-pdf'
-                    ]); ?>
+                    )); ?>
                     </div>
                 </div>
             </div>
@@ -172,26 +173,26 @@
                     <label></label>
                     <div class="controls">
                         <!-- <button type="button" class="btn btn-primary" data-toggle='modal' data-target='#exampleModal' name="button">TSest</button> -->
-                    <?php echo anchor(null, "<i class='icon'></i> Detail", [
+                    <?php echo anchor(null, "<i class='icon'></i> Detail", array(
                         'class'       => 'btn green detail-kosong',
                         'id'          => 'button-detail'
                         // 'data-toggle' => 'modal',
                         // 'data-target' => '#exampleModal'
-                    ]); ?>
+                    )); ?>
                     </div>
                 </div>
                 <!-- Tampilan modal detail -->
                 <div class="pull-left span3">
                     <label></label>
                     <div class="controls">
-                    <!-- <?php echo anchor(null, "<i class='icon-download'></i> Download Excel", [
+                    <!-- <?php echo anchor(null, "<i class='icon-download'></i> Download Excel", array(
                         'class' => 'btn',
                         'id'    => 'button-excel'
-                    ]); ?>
-                    <?php echo anchor(null, "<i class='icon-download'></i> Download PDF", [
+                    )); ?>
+                    <?php echo anchor(null, "<i class='icon-download'></i> Download PDF", array(
                         'class' => 'btn',
                         'id'    => 'button-pdf'
-                    ]); ?> -->
+                    )); ?> -->
                     </div>
                 </div>
             </div>
@@ -213,8 +214,8 @@
                           <th rowspan="2">AKSI</th>
                       </tr>
                       <tr>
-                        <th>DO (L)</th>
-                        <th>Real (L)</th>
+                        <th style="text-align:center;">DO (L)</th>
+                        <th style="text-align:center;">Real (L)</th>
                       </tr>
                   </thead>
                   <tbody></tbody>
@@ -232,29 +233,36 @@
                 </button>
               </div>
               <div class="modal-body">
-                  <?php echo anchor(null, "<i class='icon-download'></i> Download Excel", [
+                  <?php echo anchor(null, "<i class='icon-download'></i> Download Excel", array(
                       'class' => 'btn',
                       'id'    => 'button-excel-detail'
-                  ]); ?>
-                  <?php echo anchor(null, "<i class='icon-download'></i> Download PDF", [
+                  )); ?>
+                  <?php echo anchor(null, "<i class='icon-download'></i> Download PDF", array(
                       'class' => 'btn',
                       'id'    => 'button-pdf-detail'
-                  ]); ?>
+                  )); ?>
+                  <?php echo form_dropdown('tampilData', array(
+                    '-Tampilkan Data-'=> 'Tampilkan Data',
+                    '25'              => '25 data',
+                    '50'              => '50 data',
+                    '100'             => '100 data',
+                    '200'             => '200 data'
+                  ), '', 'style="margin-left:1px;" id="tampilData_detail"') ?>
                     <table id="dataTable_detail" class="table-striped" width="100%" cellspacing="0" style="max-height:1000px;">
                       <thead>
                       <tr>
                           <th rowspan="2">NO</th>
                           <th colspan="4">Level</th>
-                          <th rowspan="2">Unit Pembangkit</th>
-                          <th rowspan="2">Bahan Bakar</th>
+                          <th rowspan="2" style="text-align:center;">Unit Pembangkit</th>
+                          <th rowspan="2" style="text-align:center;">Bahan Bakar</th>
                           <!-- <th rowspan="2">Jenis Penerimaan</th> -->
                           <th rowspan="2">No Penerimaan</th>
                           <th rowspan="2">Asal Pasokan</th>
-                          <th rowspan="2">Nama Transportir</th>
-                          <th rowspan="2">Tanggal DO</th>
-                          <th rowspan="2">Tanggal Terima Fisik</th>
-                          <th rowspan="2">Volume Terima DO (L)</th>
-                          <th rowspan="2">Volume Terima Real (L)</th>
+                          <th rowspan="2" style="text-align:center;">Nama Transportir</th>
+                          <th rowspan="2" style="text-align:center;">Tanggal DO</th>
+                          <th rowspan="2" style="text-align:center;">Tanggal Terima Fisik</th>
+                          <th rowspan="2"style="text-align:center;">Volume Terima DO (L)</th>
+                          <th rowspan="2"style="text-align:center;">Volume Terima Real (L)</th>
                       </tr>
                       <tr>
                         <th>0</th>
@@ -294,7 +302,7 @@
     <input type="hidden" name="xtglakhir">
 
 </form>
-<form id="export_pdf" action="<?php echo base_url('laporan/persediaan_bbm/export_pdf'); ?>" method="post" >
+<form id="export_pdf" action="<?php echo base_url('laporan/penerimaan/export_pdf'); ?>" method="post" >
     <input type="hidden" name="plvl0">
     <input type="hidden" name="plvl1">
     <input type="hidden" name="plvl2">
@@ -307,6 +315,11 @@
     <input type="hidden" name="pbbm">
     <input type="hidden" name="pbln">
     <input type="hidden" name="pthn">
+
+    <input type="hidden" name="plvlid">
+    <input type="hidden" name="plvl">
+    <input type="hidden" name="ptglawal">
+    <input type="hidden" name="ptglakhir">
 </form>
 
 <!-- Tombol Excel dan PDF - Modal DETAIL -->
@@ -325,9 +338,34 @@
     <input type="hidden" name="xthn_detail">
     <input type="hidden" name="xlvlid_detail">
     <input type="hidden" name="xlvl_detail">
+
     <input type="hidden" name="xtglawal_detail">
     <input type="hidden" name="xtglakhir_detail">
     <input type="hidden" name="xkodeUnit_detail">
+    <input type="hidden" name="xidbbm_detail">
+</form>
+<form id="export_pdf_detail" action="<?php echo base_url('laporan/penerimaan/export_pdf_detail'); ?>" method="post" >
+    <input type="hidden" name="plvl0">
+    <input type="hidden" name="plvl1">
+    <input type="hidden" name="plvl2">
+    <input type="hidden" name="plvl3">
+    <input type="hidden" name="plvl0_nama">
+    <input type="hidden" name="plvl1_nama">
+    <input type="hidden" name="plvl2_nama">
+    <input type="hidden" name="plvl3_nama">
+    <input type="hidden" name="plvl4">
+    <input type="hidden" name="pbbm">
+    <input type="hidden" name="pbln">
+    <input type="hidden" name="pthn">
+
+    <input type="hidden" name="plvlid">
+    <input type="hidden" name="plvl">
+    <input type="hidden" name="ptglawal">
+    <input type="hidden" name="ptglakhir">
+    <input type="hidden" name="ptglawal_detail">
+    <input type="hidden" name="ptglakhir_detail">
+    <input type="hidden" name="pkodeUnit_detail">
+    <input type="hidden" name="pidbbm_detail">
 </form>
 <script type="text/javascript">
     $(document).ready(function() {
@@ -437,6 +475,7 @@
         }
     }
 
+
     $('#tglawal').on('change', function() {
         var dateStart = $(this).val();
         $('#tglakhir').datepicker('setStartDate', dateStart);
@@ -445,7 +484,6 @@
         }else{
           setCekTgl();
         }
-
     });
 
     $('#tglakhir').on('change', function() {
@@ -482,14 +520,14 @@
     //     $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();
     // });
     $(document).ready(function() {
-
-
         $('#dataTable').dataTable({
             "scrollY": "450px",
-            "searching": false,
+            "searching": true,
             "scrollX": true,
             "scrollCollapse": false,
             "bPaginate": true,
+
+            // show display records datatable
             "bLengthChange": false,
             "pageLength" : 10,
             "bFilter": false,
@@ -497,6 +535,7 @@
             "bAutoWidth": true,
             // "ordering": false,
             "fixedHeader": true,
+            "lengthMenu": [ 10, 1000, 50, 75, 100 ],
             // "fixedColumns": {"rightColumns": 2},
             "language": {
                 "decimal": ",",
@@ -523,15 +562,15 @@
                 },
                 {
                         "className": "dt-right",
-                        "targets": [5,6,7,8,9]
+                        "targets": [7,8]
                 },
                 {
                         "className": "dt-center",
-                        "targets": [0,3,4]
+                        "targets": [0,1,2,3,4,5,6,9,-1]
                 },
                 {
                         "className": "dt-left",
-                        "targets": [1,2]
+                        "targets": []
                 },
             ]
           //   "columnDefs": [
@@ -577,15 +616,23 @@
         ]
       });
     }
-
+    function tampilData_default()
+    {
+      $('#tampilData').val('-Tampilkan Data-');
+      $('#tampilData_detail').val('-Tampilkan Data-');
+    }
     $('#dataTable tbody').on( 'click', 'button', function () {
+      tampilData_default();
       clearDT_Detail();
+      // document.body.style.zoom = "100%"?
       bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
         var t = $('#dataTable').DataTable();
         var tdetail = $('#dataTable_detail').DataTable({
-          // "scrollY": "450px",
           destroy : true,
           "bLengthChange": false,
+          "scrollY": "450px",
+          "scrollX": true,
+          "scrollCollapse": false,
           fixedHeader: {
             header: true,
             footer: true
@@ -595,7 +642,7 @@
           "bPaginate": true,
           "bFilter": false,
           "bInfo": false,
-          "bAutoWidth": true,
+          "autoWidth": true,
           // "ordering": false,
           // fixedHeader: true,
           // "fixedColumns": {"leftColumns": 6},
@@ -608,6 +655,10 @@
                {
                    "className": "dt-left",
                    "targets": [1,2,3,4]
+               },
+               {
+                 "className": "dt-center",
+                 "targets": [0,5,6]
                },
                {
                    "className": "dt-right",
@@ -629,7 +680,6 @@
         var thn = $('#thn').val(); //tahun dropdown
 
         var kode_unit = selected_row[1];
-        $('input[name="xkodeUnit_detail"]').val(kode_unit);
         var id_bbm = selected_row[3];
         var tglAwal= selected_row[5].replace(/-/g, '');
         var tglAwal_tahun = tglAwal.substring(0,4);
@@ -642,6 +692,16 @@
         var tglAkhir_bulan = tglAkhir.substring(4,6);
         var tglAkhir_hari = tglAkhir.substring(6,8);
         var parsed_tglakhir = tglAkhir_hari.concat(tglAkhir_bulan, tglAkhir_tahun);
+
+        $('input[name="xkodeUnit_detail"]').val(kode_unit);
+        $('input[name="xtglawal_detail"]').val(parsed_tglawal);
+        $('input[name="xtglakhir_detail"]').val(parsed_tglakhir);
+        $('input[name="xidbbm_detail"]').val(id_bbm);
+
+        $('input[name="pkodeUnit_detail"]').val(kode_unit);
+        $('input[name="ptglawal_detail"]').val(parsed_tglawal);
+        $('input[name="ptglakhir_detail"]').val(parsed_tglakhir);
+        $('input[name="pidbbm_detail"]').val(id_bbm);
 
         // if (tglAwal == '' && tglAkhir == '') {
         //   tglAwal = "-";
@@ -839,12 +899,33 @@
                 });
         };
     });
+    /**
+     * check is numeric or not
+     */
+    function isNumeric(n) {
+      return !isNaN(parseFloat(n)) && isFinite(n);
+    }
+
 
     $('#cariPembangkit').on( 'keyup', function () {
-        console.log(this.value);
-        var table = $('#dataTable').DataTable();
+      var table = $('#dataTable').DataTable();
         table.search( this.value ).draw();
-    } );
+    });
+
+    //Untuk button tampilkan data
+    $('#tampilData').on('change', function () {
+      oTable = $('#dataTable').dataTable();
+      var oSettings = oTable.fnSettings();
+      oSettings._iDisplayLength = this.value;
+      oTable.fnDraw();
+    });
+
+    $('#tampilData_detail').on('change', function () {
+      oTable = $('#dataTable_detail').dataTable();
+      var oSettings = oTable.fnSettings();
+      oSettings._iDisplayLength = this.value;
+      oTable.fnDraw();
+    });
     //when datatable detailButton clicked
     function clearDT_Detail()
     {
@@ -861,8 +942,8 @@
       var lvl3 = $('#lvl3').val(); //level3 dropdown
       var lvl4 = $('#lvl4').val(); //pembangkit dropdown
       var bbm = $('#bbm').val(); //bahanBakar dropdown
-      var bln = $('#bln').val(); //bulan dropdown
-      var thn = $('#thn').val(); //tahun dropdown
+      // var bln = $('#bln').val(); //bulan dropdown
+      // var thn = $('#thn').val(); //tahun dropdown
 
         if (lvl0 == '') {
             bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
@@ -908,21 +989,18 @@
               bbm = '-';
           }
 
-          $('input[name="xlvl0"]').val($('#lvl0').val()); // 01
-          $('input[name="xlvl1"]').val($('#lvl1').val()); //COCODE
+          $('input[name="xlvl0"]').val($('#lvl0').val());
+          $('input[name="xlvl1"]').val($('#lvl1').val());
           $('input[name="xlvl2"]').val($('#lvl2').val());
           $('input[name="xlvl3"]').val($('#lvl3').val());
 
-          $('input[name="xlvl0_nama"]').val($('#lvl0 option:selected').text()); // SUMATERA
+          $('input[name="xlvl0_nama"]').val($('#lvl0 option:selected').text());
           $('input[name="xlvl1_nama"]').val($('#lvl1 option:selected').text());
           $('input[name="xlvl2_nama"]').val($('#lvl2 option:selected').text());
           $('input[name="xlvl3_nama"]').val($('#lvl3 option:selected').text());
 
           $('input[name="xlvl4"]').val($('#lvl4').val());  // 183130
           $('input[name="xbbm"]').val(bbm); // 001
-          $('input[name="xbln"]').val($('#bln').val()); // 1 -> Januari
-          $('input[name="xthn"]').val($('#thn').val()); // 2017
-          $('input[name="xthn"]').val($('#thn').val());
 
           $('input[name="xlvlid"]').val(vlevelid);
           $('input[name="xlvl"]').val(lvl0);
@@ -938,8 +1016,7 @@
             $('input[name="xtglakhir"]').val(tglAkhir);
           }
 
-
-          console.log(vlevelid);
+          console.log("Vlevelid: "+vlevelid);
             bootbox.confirm('Apakah yakin akan export data excel ?', "Tidak", "Ya", function(e) {
                 if(e){
                     $('#export_excel').submit();
@@ -950,9 +1027,56 @@
 
     $('#button-pdf').click(function(e) {
         var lvl0 = $('#lvl0').val();
+        var lvl1 = $('#lvl1').val(); //level1 dropdown
+        var lvl2 = $('#lvl2').val(); //level2 dropdown
+        var lvl3 = $('#lvl3').val(); //level3 dropdown
+        var lvl4 = $('#lvl4').val(); //pembangkit dropdown
+        var bbm = $('#bbm').val(); //bahanBakar dropdown
+
         if (lvl0 == '') {
             bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
         } else {
+          if (lvl0 !== "") {
+              lvl0 = 'Regional';
+              vlevelid = $('#lvl0').val();
+              if (vlevelid == "00") {
+                  lvl0 = "Pusat";
+              }
+          }
+          if (lvl1 !== "") {
+              lvl0 = 'Level 1';
+              vlevelid = $('#lvl1').val();
+          }
+          if (lvl2 !== "") {
+              lvl0 = 'Level 2';
+              vlevelid = $('#lvl2').val();
+          }
+          if (lvl3 !== ""){
+              lvl0 = 'Level 3';
+              vlevelid = $('#lvl3').val();
+          }
+          if (lvl4 !== "") {
+              lvl0 = 'Level 4';
+              vlevelid = $('#lvl4').val();
+          }
+          if (bbm !== "") {
+              bbm = $('#bbm').val();
+              if (bbm =='001') {
+                  bbm = 'MFO';
+              }else if(bbm == '002'){
+                  bbm = 'IDO';
+              }else if(bbm == '003'){
+                  bbm = 'BIO';
+              }else if(bbm == '004'){
+                  bbm = 'HSD+BIO';
+              }else if(bbm == '005'){
+                  bbm = 'HSD';
+              }
+          }
+          if (bbm == '') {
+              bbm = '-';
+          }
+
             $('input[name="plvl0"]').val($('#lvl0').val());
             $('input[name="plvl1"]').val($('#lvl1').val());
             $('input[name="plvl2"]').val($('#lvl2').val());
@@ -964,10 +1088,24 @@
             $('input[name="plvl3_nama"]').val($('#lvl3 option:selected').text());
 
             $('input[name="plvl4"]').val($('#lvl4').val());
-            $('input[name="pbbm"]').val($('#bbm').val());
-            $('input[name="pbln"]').val($('#bln').val());
-            $('input[name="pthn"]').val($('#thn').val());
+            $('input[name="pbbm"]').val(bbm);
+            // $('input[name="pbln"]').val($('#bln').val());
+            // $('input[name="pthn"]').val($('#thn').val());
 
+            $('input[name="plvlid"]').val(vlevelid);
+            $('input[name="plvl"]').val(lvl0);
+            var tglAwal = $('#tglawal').val().replace(/-/g, '');
+            var tglAkhir = $('#tglakhir').val().replace(/-/g, '');
+            if (tglAwal == '' && tglAkhir == '') {
+              tglAwal = "-";
+              tglAkhir = '-';
+              $('input[name="ptglawal"]').val(tglAwal);
+              $('input[name="ptglakhir"]').val(tglAkhir);
+            }else{
+              $('input[name="ptglawal"]').val(tglAwal);
+              $('input[name="ptglakhir"]').val(tglAkhir);
+            }
+            console.log("PDF tglawal: "+tglAwal + "tglaakhir: "+tglAkhir+"bbm: "+bbm+" vlevlid: "+vlevelid);
             bootbox.confirm('Apakah yakin akan export data pdf ?', "Tidak", "Ya", function(e) {
                 if(e){
                     $('#export_pdf').submit();
@@ -1031,15 +1169,15 @@
               bbm = '-';
           }
 
-          $('input[name="xlvl0"]').val($('#lvl0').val()); // 01
-          $('input[name="xlvl1"]').val($('#lvl1').val()); //COCODE
-          $('input[name="xlvl2"]').val($('#lvl2').val());
-          $('input[name="xlvl3"]').val($('#lvl3').val());
+          $('input[name="xlvl0_detail"]').val($('#lvl0').val()); // 01
+          $('input[name="xlvl1_detail"]').val($('#lvl1').val()); //COCODE
+          $('input[name="xlvl2_detail"]').val($('#lvl2').val());
+          $('input[name="xlvl3_detail"]').val($('#lvl3').val());
 
-          $('input[name="xlvl0_nama"]').val($('#lvl0 option:selected').text()); // SUMATERA
-          $('input[name="xlvl1_nama"]').val($('#lvl1 option:selected').text());
-          $('input[name="xlvl2_nama"]').val($('#lvl2 option:selected').text());
-          $('input[name="xlvl3_nama"]').val($('#lvl3 option:selected').text());
+          $('input[name="xlvl0_nama_detail"]').val($('#lvl0 option:selected').text()); // SUMATERA
+          $('input[name="xlvl1_nama_detail"]').val($('#lvl1 option:selected').text());
+          $('input[name="xlvl2_nama_detail"]').val($('#lvl2 option:selected').text());
+          $('input[name="xlvl3_nama_detail"]').val($('#lvl3 option:selected').text());
 
           $('input[name="xlvl4"]').val($('#lvl4').val());  // 183130
           $('input[name="xbbm"]').val(bbm); // 001
@@ -1047,27 +1185,102 @@
           $('input[name="xthn"]').val($('#thn').val()); // 2017
           $('input[name="xthn"]').val($('#thn').val());
 
-          $('input[name="xlvlid"]').val(vlevelid);
-          $('input[name="xlvl"]').val(lvl0);
-          var kodeUnit_detail = $('input[name="xkodeUnit_detail"]').val();
-          $('input[name="xkodeUnit_detail"]').val(kodeUnit_detail);
-          
-          var tglAwal = $('#tglawal').val().replace(/-/g, '');
-          var tglAkhir = $('#tglakhir').val().replace(/-/g, '');
-          if (tglAwal == '' && tglAkhir == '') {
-            tglAwal = "-";
-            tglAkhir = '-';
-            $('input[name="xtglawal"]').val(tglAwal);
-            $('input[name="xtglakhir"]').val(tglAkhir);
-          }else{
-            $('input[name="xtglawal"]').val(tglAwal);
-            $('input[name="xtglakhir"]').val(tglAkhir);
-          }
+          $('input[name="xlvl_detail"]').val(vlevelid);
+          // $('input[name="xlvl"]').val(lvl0);
+
 
           console.log(vlevelid);
             bootbox.confirm('Apakah yakin akan export data excel ?', "Tidak", "Ya", function(e) {
                 if(e){
                     $('#export_excel_detail').submit();
+                }
+            });
+        }
+    });
+    $('#button-pdf-detail').click(function(e) {
+        var lvl0 = $('#lvl0').val();
+        var lvl1 = $('#lvl1').val(); //level1 dropdown
+        var lvl2 = $('#lvl2').val(); //level2 dropdown
+        var lvl3 = $('#lvl3').val(); //level3 dropdown
+        var lvl4 = $('#lvl4').val(); //pembangkit dropdown
+        var bbm = $('#bbm').val(); //bahanBakar dropdown
+
+        if (lvl0 == '') {
+            bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
+        } else {
+          if (lvl0 !== "") {
+              lvl0 = 'Regional';
+              vlevelid = $('#lvl0').val();
+              if (vlevelid == "00") {
+                  lvl0 = "Pusat";
+              }
+          }
+          if (lvl1 !== "") {
+              lvl0 = 'Level 1';
+              vlevelid = $('#lvl1').val();
+          }
+          if (lvl2 !== "") {
+              lvl0 = 'Level 2';
+              vlevelid = $('#lvl2').val();
+          }
+          if (lvl3 !== ""){
+              lvl0 = 'Level 3';
+              vlevelid = $('#lvl3').val();
+          }
+          if (lvl4 !== "") {
+              lvl0 = 'Level 4';
+              vlevelid = $('#lvl4').val();
+          }
+          if (bbm !== "") {
+              bbm = $('#bbm').val();
+              if (bbm =='001') {
+                  bbm = 'MFO';
+              }else if(bbm == '002'){
+                  bbm = 'IDO';
+              }else if(bbm == '003'){
+                  bbm = 'BIO';
+              }else if(bbm == '004'){
+                  bbm = 'HSD+BIO';
+              }else if(bbm == '005'){
+                  bbm = 'HSD';
+              }
+          }
+          if (bbm == '') {
+              bbm = '-';
+          }
+
+            $('input[name="plvl0"]').val($('#lvl0').val());
+            $('input[name="plvl1"]').val($('#lvl1').val());
+            $('input[name="plvl2"]').val($('#lvl2').val());
+            $('input[name="plvl3"]').val($('#lvl3').val());
+
+            $('input[name="plvl0_nama"]').val($('#lvl0 option:selected').text());
+            $('input[name="plvl1_nama"]').val($('#lvl1 option:selected').text());
+            $('input[name="plvl2_nama"]').val($('#lvl2 option:selected').text());
+            $('input[name="plvl3_nama"]').val($('#lvl3 option:selected').text());
+
+            $('input[name="plvl4"]').val($('#lvl4').val());
+            $('input[name="pbbm"]').val(bbm);
+            // $('input[name="pbln"]').val($('#bln').val());
+            // $('input[name="pthn"]').val($('#thn').val());
+
+            $('input[name="plvlid"]').val(vlevelid);
+            $('input[name="plvl"]').val(lvl0);
+            var tglAwal = $('#tglawal').val().replace(/-/g, '');
+            var tglAkhir = $('#tglakhir').val().replace(/-/g, '');
+            if (tglAwal == '' && tglAkhir == '') {
+              tglAwal = "-";
+              tglAkhir = '-';
+              $('input[name="ptglawal"]').val(tglAwal);
+              $('input[name="ptglakhir"]').val(tglAkhir);
+            }else{
+              $('input[name="ptglawal"]').val(tglAwal);
+              $('input[name="ptglakhir"]').val(tglAkhir);
+            }
+            console.log("PDF tglawal: "+tglAwal + "tglaakhir: "+tglAkhir+"bbm: "+bbm+" vlevlid: "+vlevelid);
+            bootbox.confirm('Apakah yakin akan export data pdf ?', "Tidak", "Ya", function(e) {
+                if(e){
+                    $('#export_pdf_detail').submit();
                 }
             });
         }

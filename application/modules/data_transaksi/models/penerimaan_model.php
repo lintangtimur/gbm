@@ -536,7 +536,8 @@
             .$data['TGL_PENERIMAAN']."','"
             .$data['VALUE_SETTING']."',"
             .$data['VOL_PENERIMAAN'].","
-            .$data['VOL_PENERIMAAN_REAL'].",'','0','"
+            .$data['VOL_PENERIMAAN_REAL'].",'"
+            .$data['KET_MUTASI_TERIMA']."','0','"
             .$data['CREATE_BY']."','"
             .$data['NO_PENERIMAAN']."','"
             .$data['ID_JNS_BHN_BKR']."',
@@ -563,7 +564,7 @@
             '".$data['TGL_PENGAKUAN']."',
             '".$data['TGL_PENERIMAAN']."',
             '".$data['VALUE_SETTING']."',
-            '',
+            '".$data['KET_MUTASI_TERIMA']."',
             '".$data['ID_JNS_BHN_BKR']."',
             '".$data['NO_PENERIMAAN']."',
             '".$data['IS_MIX']."',
