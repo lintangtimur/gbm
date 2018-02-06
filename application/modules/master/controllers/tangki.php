@@ -112,6 +112,62 @@ class tangki extends MX_Controller {
         $this->load->view($this->_module . '/form', $data);
     }
 
+    public function add_view($id = '') {
+        $data = $this->get_level_user();
+        $data['id_dok'] = $id;
+        $data['id'] = $id;
+        $data['id_dok'] = '';
+        $data["url_getfile"] = $this->_urlgetfile;
+
+        if ($id != '') {
+            $page_title = 'View Tangki';
+            $tangki = $this->tangki_model->data(array("a.ID_TANGKI = '$id'" => null));
+            $data['default'] = $tangki->get()->row();
+
+            if ($data['default']->SLOC){
+                $data_lv = $this->tangki_model->get_level('4',$data['default']->SLOC);
+
+                $option_reg[$data_lv[0]->ID_REGIONAL] = $data_lv[0]->NAMA_REGIONAL;
+                $option_lv1[$data_lv[0]->COCODE] = $data_lv[0]->LEVEL1;
+                $option_lv2[$data_lv[0]->PLANT] = $data_lv[0]->LEVEL2;
+                $option_lv3[$data_lv[0]->STORE_SLOC] = $data_lv[0]->LEVEL3;
+                $option_lv4[$data_lv[0]->SLOC] = $data_lv[0]->LEVEL4; 
+
+                $level_user = $this->session->userdata('level_user');
+                $kode_level = $this->session->userdata('kode_level');
+
+                if ($level_user==3){
+                    $data['lv4_options'] = $option_lv4;     
+                } else if ($level_user==2){
+                    $data['lv3_options'] = $option_lv3;
+                    $data['lv4_options'] = $option_lv4;     
+                } else if ($level_user==1){
+                    $data['lv2_options'] = $option_lv2;
+                    $data['lv3_options'] = $option_lv3;
+                    $data['lv4_options'] = $option_lv4;     
+                } else if ($level_user==0){
+                    $data['reg_options'] = $option_reg; 
+                    $data['lv1_options'] = $option_lv1;
+                    $data['lv2_options'] = $option_lv2;
+                    $data['lv3_options'] = $option_lv3;
+                    $data['lv4_options'] = $option_lv4;     
+                } else if ($level_user=='R'){
+                    $data['reg_options'] = $option_reg;
+                    $data['lv1_options'] = $option_lv1;
+                    $data['lv2_options'] = $option_lv2;
+                    $data['lv3_options'] = $option_lv3;
+                    $data['lv4_options'] = $option_lv4;     
+                }
+            }
+        }
+       
+        $data['option_jenis_bbm'] = $this->tangki_model->option_jenisbbm('--Pilih Jenis BBM--', array('master_tangki.ID_JNS_BHN_BKR' => NULL));
+        $data['tera'] = $this->tangki_model->option_tera();
+        $data['page_title'] = '<i class="icon-laptop"></i> ' . $page_title;
+        $data['form_action'] = base_url($this->_module . '/proses');
+        $this->load->view($this->_module . '/form_view', $data);
+    }
+
     public function edit($id) {
         $this->add($id);
     }

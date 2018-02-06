@@ -394,7 +394,7 @@
     }
 
     function getComboLv1(vid,val){
-        var stateID = val;
+        var stateID = 'all';
         var vlink_url = '<?php echo base_url()?>master/kontrak_transportir/get_options_lv1/'+stateID;
 
         setComboHapus(vid,1);
