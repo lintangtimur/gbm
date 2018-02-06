@@ -26,6 +26,9 @@
         margin: 0 auto;
     }*/
 
+    td.tengah {text-align: center;}
+    td.kanan {text-align: right;}
+
 </style>
 
 <div class="inner_content">
@@ -372,10 +375,18 @@
                              "TGL_SAMPAI":tglakhir,
                              "CARI":CARI}
                 },
-
                 "columnDefs": [
-                     {"className": "dt-right", "targets": [8,9,10,11,12,13,14,15,16,17,18]}
-              ],
+                     {"className": "dt-right", "targets": [8,9,10,11,12,13,14,15,16,17]},
+                ],
+
+                "createdRow": function ( row, data, index ) {
+                    if ( data[18] != '<font size="5">~</font>') {
+                        $('td', row).eq(18).addClass('kanan');
+                    } 
+                    else {
+                        $('td', row).eq(18).addClass('tengah');
+                    }
+                }, 
 
             });
 

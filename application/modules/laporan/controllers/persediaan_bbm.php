@@ -157,8 +157,12 @@ class persediaan_bbm extends MX_Controller {
             $row[] = number_format($table->MAX_PEMAKAIAN,2,',','.');
             $row[] = number_format($table->STOCK_AKHIR_REAL,2,',','.');
             $row[] = number_format($table->STOCK_AKHIR_EFEKTIF,2,',','.');
-            $row[] = number_format($table->SHO,2,',','.');
-
+            if ($table->SHO!=null){
+                $row[] = number_format($table->SHO,2,',','.');
+            } else {
+                $row[] = '<font size="5">~</font>';
+            }
+            
             $data[] = $row;
         }
 
@@ -218,11 +222,11 @@ class persediaan_bbm extends MX_Controller {
         $data['data'] = $this->tbl_get->getData_Model($data);
         $this->load->view($this->_module . '/export_excel', $data);
 
-        $this->load->library('pdf');
-        $this->pdf->load_view($this->_module . '/export_excel', $data);
-        $this->pdf->set_paper('a4', 'landscape');
-        $this->pdf->render();
-        $this->pdf->stream("Laporan_Persediaan_BBM.pdf");
+        // $this->load->library('pdf');
+        // $this->pdf->load_view($this->_module . '/export_excel', $data);
+        // $this->pdf->set_paper('a4', 'landscape');
+        // $this->pdf->render();
+        // $this->pdf->stream("Laporan_Persediaan_BBM.pdf");
     }
 
     public function get_options_lv1($key=null) {

@@ -1008,12 +1008,13 @@
                             var DEAD_STOCK = value.DEAD_STOCK == null ? "" : value.DEAD_STOCK;
                             var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
                             var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
-                            var SHO = value.SHO == null ? "" : value.SHO;
+                            // var SHO = value.SHO == null ? "" : value.SHO;
+                            var SHO ='<td align="center"><font size="5">~</font></td>';
+                            if (value.SHO != null){
+                                SHO = '<td align="right">' + convertToRupiah(value.SHO) + '</td>';
+                            }
+
                             var MAX_PEMAKAIAN = value.MAX_PEMAKAIAN == null ? "" : value.MAX_PEMAKAIAN;
-                            // var SHO = SHO.toString().replace(/\./g, ',');  
-                            // var SHO1 = Number(SHO).toFixed(2);  
-                            
-                            
 
                             var strRow =
                                     '<tr>' +
@@ -1025,7 +1026,7 @@
                                     '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
-                                    '<td align="right">' + convertToRupiah(SHO) + '</td>' +
+                                    SHO +
                                     '</tr>';
                             nomer++;
 
@@ -1073,12 +1074,13 @@
                         var DEAD_STOCK = value.DEAD_STOCK == null ? "" : value.DEAD_STOCK;
                         var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
                         var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
-                        var SHO = value.SHO == null ? "" : value.SHO;
+                        //var SHO = value.SHO == null ? "" : value.SHO;
+                        var SHO ='<td align="center"><font size="5">~</font></td>';
+                            if (value.SHO != null){
+                                SHO = '<td align="right">' + convertToRupiah(value.SHO) + '</td>';
+                            }
+
                         var MAX_PEMAKAIAN = value.MAX_PEMAKAIAN == null ? "" : value.MAX_PEMAKAIAN;
-                        // var SHO = SHO.toString().replace(/\./g, ',');  
-                        // var SHO1 = Number(SHO).toFixed(2);  
-                        
-                        
 
                         var strRow =
                                 '<tr>' +
@@ -1090,7 +1092,7 @@
                                 '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
                                 '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
                                 '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
-                                '<td align="right">' + convertToRupiah(SHO) + '</td>' +
+                                SHO +
                                 '</tr>';
                         nomer++;
 
@@ -1138,12 +1140,13 @@
                         var DEAD_STOCK = value.DEAD_STOCK == null ? "" : value.DEAD_STOCK;
                         var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
                         var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
-                        var SHO = value.SHO == null ? "" : value.SHO;
+                        // var SHO = value.SHO == null ? "" : value.SHO;
+                        var SHO ='<td align="center"><font size="5">~</font></td>';
+                            if (value.SHO != null){
+                                SHO = '<td align="right">' + convertToRupiah(value.SHO) + '</td>';
+                            }
+
                         var MAX_PEMAKAIAN = value.MAX_PEMAKAIAN == null ? "" : value.MAX_PEMAKAIAN;
-                        // var SHO = SHO.toString().replace(/\./g, ',');  
-                        // var SHO1 = Number(SHO).toFixed(2);  
-                        
-                        
 
                         var strRow =
                                 '<tr>' +
@@ -1155,7 +1158,7 @@
                                 '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
                                 '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
                                 '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
-                                '<td align="right">' + convertToRupiah(SHO) + '</td>' +
+                                SHO +
                                 '</tr>';
                         nomer++;
 
@@ -1203,12 +1206,13 @@
                         var DEAD_STOCK = value.DEAD_STOCK == null ? "" : value.DEAD_STOCK;
                         var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
                         var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
-                        var SHO = value.SHO == null ? "" : value.SHO;
+                        // var SHO = value.SHO == null ? "" : value.SHO;
+                        var SHO ='<td align="center"><font size="5">~</font></td>';
+                            if (value.SHO != null){
+                                SHO = '<td align="right">' + convertToRupiah(value.SHO) + '</td>';
+                            }
+
                         var MAX_PEMAKAIAN = value.MAX_PEMAKAIAN == null ? "" : value.MAX_PEMAKAIAN;
-                        // var SHO = SHO.toString().replace(/\./g, ',');  
-                        // var SHO1 = Number(SHO).toFixed(2);  
-                        
-                        
 
                         var strRow =
                                 '<tr>' +
@@ -1220,7 +1224,7 @@
                                 '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
                                 '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
                                 '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
-                                '<td align="right">' + convertToRupiah(SHO) + '</td>' +
+                                SHO +
                                 '</tr>';
                         nomer++;
 
@@ -1268,13 +1272,13 @@
                         var DEAD_STOCK = value.DEAD_STOCK == null ? "" : value.DEAD_STOCK;
                         var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
                         var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
-                        var SHO = value.SHO == null ? "" : value.SHO;
-                        var MAX_PEMAKAIAN = value.MAX_PEMAKAIAN == null ? "" : value.MAX_PEMAKAIAN;
-                        // var SHO = SHO.toString().replace(/\./g, ',');  
-                        // var SHO1 = Number(SHO).toFixed(2);  
-                        
-                        
+                        // var SHO = value.SHO == null ? "" : value.SHO;
+                        var SHO ='<td align="center"><font size="5">~</font></td>';
+                            if (value.SHO != null){
+                                SHO = '<td align="right">' + convertToRupiah(value.SHO) + '</td>';
+                            }
 
+                        var MAX_PEMAKAIAN = value.MAX_PEMAKAIAN == null ? "" : value.MAX_PEMAKAIAN;                    
                         var strRow =
                                 '<tr>' +
                                 '<td>' + nomer + '</td>' +
@@ -1285,7 +1289,7 @@
                                 '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
                                 '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
                                 '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
-                                '<td align="right">' + convertToRupiah(SHO) + '</td>' +
+                                SHO +
                                 '</tr>';
                         nomer++;
 
