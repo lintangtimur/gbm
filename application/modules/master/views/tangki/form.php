@@ -138,6 +138,9 @@
 
             var link_doc = "<a href='#' id='LINK_FILE"+ counter + "' target='_blank' style='display: none;'><b>Lihat Dokumen</b></a>";
 
+            //prod
+            // var link_doc = '<a href="javascript:void(0);" id="LINK_FILE'+ counter + '" onclick="lihat_dokumen(this.id)" data-modul="TANGKI" data-url="<?php #echo $url_getfile;?>" data-filename="" style="display: none;"><b>Lihat Dokumen</b></a>';
+
             var path_edit = '<input type="hidden" name="PATH_FILE_EDIT'+ counter + '" id="PATH_FILE_EDIT'+ counter +'" >';
 
             var text_upload_doc="<input type='file' id='PATH_DET_TERA"+ counter + "' name='PATH_DET_TERA"+ counter + "' > "+path_edit;
@@ -175,8 +178,6 @@
             '<div class="pull-left span5"><label for="password" class="control-label"></label>'+
             '<div class="controls">'+link_doc+'</div></div>'+
             '</div><hr>';
-
-
 
             // '<div class="form_row">'+
             // '<div class="pull-left"><label for="password" class="control-label">Status Tangki ke : '+ counter + '</label>'+
@@ -509,6 +510,8 @@
 
                     $("#PATH_FILE_EDIT"+x).val(rest[i].PATH_DET_TERA);
                     $("#LINK_FILE"+x).attr("href", url);
+                    //prod
+                    // $("#LINK_FILE"+x).attr("data-filename", rest[i].PATH_DET_TERA);
                     $("#LINK_FILE"+x).show();
                 } 
                 
