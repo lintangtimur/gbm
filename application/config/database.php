@@ -58,10 +58,10 @@ $active_record = true;
 // $db['default']['password'] = '';
 // $db['default']['database'] = 'gbm_new_dev';
 
-$db['default']['hostname'] = '10.14.152.87';
-$db['default']['username'] = 'gbmon';
-$db['default']['password'] = 'J4N64NLUP4L461';
-$db['default']['database'] = 'gbm_new_dev';
+$db['default']['hostname'] = 'secret';
+$db['default']['username'] = 'secret';
+$db['default']['password'] = 'secret';
+$db['default']['database'] = 'secret';
 
 $db['default']['dbdriver'] = 'mysqli';
 $db['default']['dbprefix'] = '';
