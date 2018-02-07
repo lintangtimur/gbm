@@ -350,7 +350,7 @@
     <input type="hidden" name="xkodeUnit_detail">
     <input type="hidden" name="xidbbm_detail">
 </form>
-<form id="export_pdf_detail" action="<?php echo base_url('laporan/penerimaan/contoh'); ?>" method="post" >
+<form id="export_pdf_detail" action="<?php echo base_url('laporan/penerimaan/export_pdf_detail_newVersion'); ?>" method="post" >
     <input type="hidden" name="plvl0">
     <input type="hidden" name="plvl1">
     <input type="hidden" name="plvl2">
@@ -956,7 +956,7 @@
             if (tglAwal == '' && tglAkhir == '') {
               awalParsed = "-";
               akhirParsed = '-';
-            }            
+            }
             console.log("bbm: " + bbm + ' tahun: '+thn+' bulan: '+bln +' regional: '+ lvl0+' vlevlid: ' + vlevelid+' TglAwal: '+ awalParsed+ ' TglAkhir: '+akhirParsed);
             bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
                 $.ajax({

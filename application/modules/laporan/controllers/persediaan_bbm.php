@@ -174,7 +174,7 @@ class persediaan_bbm extends MX_Controller
         $this->pdf->stream('Laporan_Persediaan_BBM.pdf');
     }
 
-    public function export_pdf_nextLevel()
+    public function export_pdf_newVersion()
     {
         $data['ID_REGIONAL'] = $this->input->post('plvl0');
         $data['COCODE']      = $this->input->post('plvl1');
@@ -205,10 +205,10 @@ class persediaan_bbm extends MX_Controller
         $pdf->setOptions(array(
         'orientation'=> 'landscape'
       ));
-        if (!$pdf->saveAs('wkhtmltopdf.pdf')) {
-            echo $pdf->getError();
-        }
-        $pdf->send();
+        // if (!$pdf->saveAs('wkhtmltopdf.pdf')) {
+        //     echo $pdf->getError();
+        // }
+        $pdf->send('Laporan_Persediaan_BBM.pdf');
     }
 
     public function get_options_lv1($key=null)

@@ -205,7 +205,7 @@
     <input type="hidden" name="xtglakhir">
 </form>
 
-<form id="export_pdf" action="<?php echo base_url('laporan/persediaan_bbm/export_pdf_nextLevel'); ?>" method="post" >
+<form id="export_pdf" action="<?php echo base_url('laporan/persediaan_bbm/export_pdf_newVersion'); ?>" method="post" >
     <input type="hidden" name="plvl0">
     <input type="hidden" name="plvl1">
     <input type="hidden" name="plvl2">

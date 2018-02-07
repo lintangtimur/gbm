@@ -446,13 +446,21 @@ class Penerimaan extends MX_Controller
       );
 
         $data['data'] = $this->tbl_penerimaan_get->getData_Model($data);
-        $this->load->view($this->_module . '/export_excel', $data);
+        $html_source  = $this->load->view($this->_module . '/export_excel', $data, true);
 
-        $this->load->library('pdf');
-        $this->pdf->load_view($this->_module . '/export_excel', $data);
-        $this->pdf->set_paper('a4', 'landscape');
-        $this->pdf->render();
-        $this->pdf->stream('Laporan_Penerimaan_BBM.pdf');
+        // OLD VERSION
+        // $this->load->library('pdf');
+        // $this->pdf->load_view($this->_module . '/export_excel', $data);
+        // $this->pdf->set_paper('a4', 'landscape');
+        // $this->pdf->render();
+        // $this->pdf->stream('Laporan_Penerimaan_BBM.pdf');
+
+        $wkhtml_conf = array(
+          'fileName'    => 'Laporan_Penerimaan_BBM.pdf',
+          'html'        => $html_source,
+          'orientation' => 'landscape'
+        );
+        $this->wkhtmltopdf($wkhtml_conf);
     }
 
     /**
@@ -494,7 +502,7 @@ class Penerimaan extends MX_Controller
     // Percobaan mpdf 5februari
     // Percobaan fpdf 5februari
     // Percobaan wkhtmltopdf 6februari
-    public function contoh()
+    public function export_pdf_detail_newVersion()
     {
         $data = array(
           'ID_REGIONAL' => $this->input->post('plvl'),
@@ -516,19 +524,34 @@ class Penerimaan extends MX_Controller
         );
 
         $data['data']   = $this->tbl_penerimaan_get->getData_Model_Detail($data);
-        $html_source    = $this->load->view($this->_module . '/contoh', $data, true);
+        $html_source    = $this->load->view($this->_module . '/export_excel_detail', $data, true);
         // You can pass a filename, a HTML string, an URL or an options array to the constructor
-        $pdf = new Pdf($html_source, array(
-            'commandOptions' => array(
-              'useExec' => true
-            )
+        $wkhtml_conf = array(
+          'fileName'    => 'Detail_Laporan_Penerimaan_BBM.pdf',
+          'html'        => $html_source,
+          'orientation' => 'landscape'
+        );
+        $this->wkhtmltopdf($wkhtml_conf);
+    }
+
+    /**
+     * export html to pdf with wkhtmltopdf
+     * @param  array $conf array configuration
+     * @return void
+     */
+    private function wkhtmltopdf(array $conf)
+    {
+        $pdf = new Pdf($conf['html'], array(
+          'commandOptions' => array(
+            'useExec' => true
+          )
         ));
         $pdf->setOptions(array(
-          'orientation'=> 'landscape'
-        ));
+        'orientation'=> $conf['orientation']
+      ));
         // if (!$pdf->saveAs('wkhtmltopdf.pdf')) {
         //     echo $pdf->getError();
         // }
-        $pdf->send('Detil_laporan_penerimaan.pdf');
+        $pdf->send($conf['fileName']);
     }
 }

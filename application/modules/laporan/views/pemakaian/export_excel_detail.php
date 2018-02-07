@@ -28,7 +28,12 @@
     } else {
         header('Content-Type: text/html');
         echo '
+        <!DOCTYPE html>
+        <html>
         <style>
+        thead { display: table-header-group }
+tfoot { display: table-row-group }
+tr { page-break-inside: avoid }
         table.tdetail {
             border-collapse: collapse;
             width:100%;
@@ -175,3 +180,4 @@
     <tr><td></td></tr>
     <tr><td style="text-align:left;font-size: 10px;"><?php echo date('d M Y '); ?></td></tr>
 </table><br>
+</html>

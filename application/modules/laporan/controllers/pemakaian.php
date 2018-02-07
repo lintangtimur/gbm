@@ -3,6 +3,8 @@
 if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
+use mikehaertl\wkhtmlto\Pdf;
+
 /**
  * pemakaian
  * @author stelin
@@ -277,13 +279,20 @@ class pemakaian extends MX_Controller
         );
 
         $data['data'] = $this->tbl_pemakaian_get->getPemakaian($data);
-        $this->load->view($this->_module . '/export_excel', $data);
+        $html_source  = $this->load->view($this->_module . '/export_excel', $data, true);
 
-        $this->load->library('pdf');
-        $this->pdf->load_view($this->_module . '/export_excel', $data);
-        $this->pdf->set_paper('a4', 'landscape');
-        $this->pdf->render();
-        $this->pdf->stream('Laporan_Pemakaian_BBM.pdf');
+        // $this->load->library('pdf');
+        // $this->pdf->load_view($this->_module . '/export_excel', $data);
+        // $this->pdf->set_paper('a4', 'landscape');
+        // $this->pdf->render();
+        // $this->pdf->stream('Laporan_Pemakaian_BBM.pdf');
+
+        $wkhtml_conf = array(
+          'fileName'    => 'Laporan_Pemakaian_BBM.pdf',
+          'html'        => $html_source,
+          'orientation' => 'landscape'
+        );
+        $this->wkhtmltopdf($wkhtml_conf);
     }
 
     /**
@@ -315,11 +324,38 @@ class pemakaian extends MX_Controller
       );
 
         $data['data'] = $this->tbl_pemakaian_get->getPemakaianDetail($data);
-        $this->load->view($this->_module . '/export_excel_detail', $data);
-        $this->load->library('pdf');
-        $this->pdf->load_view($this->_module . '/export_excel_detail', $data);
-        $this->pdf->set_paper('a4', 'landscape');
-        $this->pdf->render();
-        $this->pdf->stream('Detail_Laporan_Pemakaian_BBM.pdf');
+        $html_source  = $this->load->view($this->_module . '/export_excel_detail', $data, true);
+        // $this->load->library('pdf');
+        // $this->pdf->load_view($this->_module . '/export_excel_detail', $data);
+        // $this->pdf->set_paper('a4', 'landscape');
+        // $this->pdf->render();
+        // $this->pdf->stream('Detail_Laporan_Pemakaian_BBM.pdf');
+        $wkhtml_conf = array(
+          'fileName'    => 'Detail_Laporan_Pemakaian_BBM.pdf',
+          'html'        => $html_source,
+          'orientation' => 'landscape'
+        );
+        $this->wkhtmltopdf($wkhtml_conf);
+    }
+
+    /**
+     * export html to pdf with wkhtmltopdf
+     * @param  array $conf array configuration
+     * @return void
+     */
+    private function wkhtmltopdf(array $conf)
+    {
+        $pdf = new Pdf($conf['html'], array(
+          'commandOptions' => array(
+            'useExec' => true
+          )
+        ));
+        $pdf->setOptions(array(
+        'orientation'=> $conf['orientation']
+      ));
+        // if (!$pdf->saveAs('wkhtmltopdf.pdf')) {
+        //     echo $pdf->getError();
+        // }
+        $pdf->send($conf['fileName']);
     }
 }
