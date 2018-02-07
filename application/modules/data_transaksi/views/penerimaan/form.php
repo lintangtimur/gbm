@@ -13,8 +13,8 @@
     <div class="box-content">
 
         <?php
-        $hidden_form = array('id' => !empty($id) ? $id : '');
-        echo form_open_multipart($form_action, array('id' => 'finput', 'class' => 'form-horizontal'), $hidden_form);
+        $hidden_form = ['id' => !empty($id) ? $id : ''];
+        echo form_open_multipart($form_action, ['id' => 'finput', 'class' => 'form-horizontal'], $hidden_form);
             ?>
             <div class="control-group">
                 <label class="control-label">Tanggal Penerimaan (DO/TUG)<span class="required">*</span> : </label>
@@ -88,7 +88,7 @@
                     <?php echo form_dropdown('ID_JNS_BHN_BKR', $option_jenis_bbm, !empty($default->ID_JNS_BHN_BKR) ? $default->ID_JNS_BHN_BKR : '', 'class="span3" id="jnsbbm"'); ?>
                 </div>
             </div>
-			
+
 			<div class="control-group" id="komponen" style="<?php echo !empty($default->IS_MIX_BBM) ? '' : 'display:none;' ;?>">
                 <label class="control-label">Komponen BBM<span class="required">*</span> : </label>
                 <div class="controls">
@@ -110,14 +110,14 @@
                 </div>
                 <div style="display:none">
                     <?php echo form_input('STATUS_MUTASI_TERIMA', !empty($default->STATUS_MUTASI_TERIMA) ? $default->STATUS_MUTASI_TERIMA : '0'); ?>
-                </div> 
+                </div>
             </div>
             <div class="form-actions">
-                <?php 
+                <?php
                 if ($this->laccess->otoritas('edit')) {
-                    echo anchor(null, '<i class="icon-save"></i> Simpan', array('id' => 'button-save', 'class' => 'blue btn', 'onclick' => "simpan_data(this.id, '#finput', '#button-back');"));
+                    echo anchor(null, '<i class="icon-save"></i> Simpan', ['id' => 'button-save', 'class' => 'blue btn', 'onclick' => "simpan_data(this.id, '#finput', '#button-back');"]);
                 }?>
-                <?php echo anchor(null, '<i class="icon-circle-arrow-left"></i> Tutup', array('id' => 'button-back', 'class' => 'btn', 'onclick' => 'close_form(this.id)')); ?>
+                <?php echo anchor(null, '<i class="icon-circle-arrow-left"></i> Tutup', ['id' => 'button-back', 'class' => 'btn', 'onclick' => 'close_form(this.id)']); ?>
             </div>
             <?php
         echo form_close(); ?>
@@ -130,12 +130,12 @@
 		var sloc = $(this).val();
 		load_jenis_bbm('<?php echo $urljnsbbm; ?>/' + sloc, "#jnsbbm");
 	});
-	
+
 	$("#jnsbbm").change(function(){
 		var id  = $(this).val();
 		check_jenis_bbm('<?php echo $urlcheckjnsbbm;?>/' + id, "#komponen", "#cbokomponen");
 	});
-	
+
     $(".form_datetime").datepicker({
         format: "dd-mm-yyyy",
         autoclose: true,
@@ -151,14 +151,14 @@
 
       if(tanggal<10){
          tanggal='0'+tanggal;
-        } 
+        }
 
       if(bulan<10){
          bulan='0'+bulan;
-        } 
+        }
 
       return tanggal + "-" + bulan + "-" + tahun;
-      
+
    }
 
    function formatDateBelakang(date) {
@@ -168,14 +168,14 @@
 
       if(tanggal<10){
          tanggal='0'+tanggal;
-        } 
+        }
 
       if(bulan<10){
          bulan='0'+bulan;
-        } 
+        }
 
       return tahun + "" + bulan + "" + tanggal;
-      
+
    }
 
     function setDefaulthTglPenerimaan(){
@@ -214,7 +214,7 @@
             var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Penerimaan (DO/TUG) tidak boleh melebihi Tanggal Hari ini</div>';
             bootbox.alert(message, function() {});
             $('input[name=TGL_PENERIMAAN').datepicker('update', date);
-         
+
         }
         else if(vDateEnd > dateBatasan){
             var message = '<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  Tanggal Pengakuan Fisik tidak boleh melebihi Tanggal Hari ini</div>';
@@ -242,11 +242,22 @@
   });
     // end
 
-    $('input[name=VOL_PENERIMAAN]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    $('input[name=VOL_PENERIMAAN]').inputmask("numeric", {
+      radixPoint: ",",
+      groupSeparator: ".",
+      digits: 2,
+      autoGroup: true,
+      prefix: '',
+      rightAlign: false,
+      oncleared: function ()
+      {
+        $(this).val('');
+        // self.Value();        
+      }
     });
     $('input[name=VOL_PENERIMAAN_REAL]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
     });
-    
+
     function setDefaultLv1(){
         $('select[name="COCODE"]').empty();
         $('select[name="COCODE"]').append('<option value="">--Pilih Level 1--</option>');
@@ -346,6 +357,3 @@
     });
 
 </script>
-
-
-

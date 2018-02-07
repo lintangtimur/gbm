@@ -28,18 +28,22 @@
                 <li><a class="app_name"></a></li>
             </ul>
             <ul class="header_actions">
-                <li rel="tooltip" style="display: none;" data-placement="bottom" title="2 new messages" class="messages">
+                <!-- <li rel="tooltip" data-placement="bottom" title="Notifikasi" class="messages"> -->
+                <li data-placement="bottom" title="Klik untuk detail notifikasi" class="messages">    
                     <a class="iconic" href="#"><i class="icon-warning-sign"></i> 1</a>
                     <ul class="dropdown-menu pull-right messages_dropdown">
                         <li>
-                            <a href="#">
-                                <div class="details">
-                                    <div class="name">Jane Doe</div>
-                                    <div class="message">
-                                        Lorem ipsum Commodo quis nisi...
-                                    </div>
-                                </div>
-                            </a>
+                            <div class="details">
+                                <div class="name"><b><u>Notifikasi</u></b></div>
+                                <a href="<?php echo base_url() ?>data_transaksi/permintaan"><div class="name">Kirim Permintaan 4</div></a>
+                                <a href="<?php echo base_url() ?>data_transaksi/penerimaan"><div class="name">Kirim Penerimaan 2</div></a>
+                                <a href="<?php echo base_url() ?>data_transaksi/pemakaian"><div class="name">Kirim Pemakaian 7</div></a>
+                                <a href="<?php echo base_url() ?>data_transaksi/stock_opname"><div class="name">Kirim Stock Opname 2</div></a>
+                                <!-- <div class="name">aaa</div>                                    
+                                <div class="message">
+                                    Lorem ipsum Commodo quis nisi...
+                                </div> -->
+                            </div>
                         </li>
                     </ul>
                 </li>
@@ -97,3 +101,7 @@
 
     </body>
 </html>
+
+<script type="text/javascript">
+
+</script>
