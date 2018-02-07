@@ -1,34 +1,37 @@
 <?php
 
-if (!defined("BASEPATH"))
-    exit("No direct script access allowed");
+if (!defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 
 /**
  * @package Template
  */
-class asset extends MX_Controller {
-
+class asset extends MX_Controller
+{
     private $path_asset;
     private $favicon;
-    private $plugin_list = array();
-    private $temp_plugin = array();
-    private $list_plugin_js = array();
+    private $plugin_list     = array();
+    private $temp_plugin     = array();
+    private $list_plugin_js  = array();
     private $list_plugin_css = array();
-    private $list_js = array();
-    private $list_css = array();
+    private $list_js         = array();
+    private $list_css        = array();
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->config();
     }
 
-    private function config() {
-        $this->path_asset = base_url() . "assets/";
+    private function config()
+    {
+        $this->path_asset = base_url() . 'assets/';
 
         /*
          * Daftar Plugin
          * Format untuk mendaftarkan plugin
-         * array( 
+         * array(
          * 	  'nama_plugin' => array(
          * 			'js' => array(
          * 				'nama_file_js1',
@@ -44,6 +47,12 @@ class asset extends MX_Controller {
         $this->plugin_list = array(
             'jquery' => array(
                 'js' => array('jquery-1.10.2')
+            ),
+
+            //Datatable
+            'datatable' => array(
+              'css' => array('cf/jquery.dataTables.min'),
+              'js'  => array('cf/jquery.dataTables.min')
             ),
             'jquery.ui' => array(
                 'js' => array('jquery-ui-1.10.3')
@@ -124,8 +133,8 @@ class asset extends MX_Controller {
                 'js' => array('library/tinymce/tinymce.min')
             ),
             'crud' => array(
-					'js' => array('jquery.form', 'library/bootstrap-modal', 'library/bootstrap-modalmanager', 'library/jquery.easyui.pagination', 'custom/crud','custom/custom'),
-                'css' => array('library/easyui/themes/default/pagination')
+                    'js' => array('jquery.form', 'library/bootstrap-modal', 'library/bootstrap-modalmanager', 'library/jquery.easyui.pagination', 'custom/crud', 'custom/custom'),
+                'css'    => array('library/easyui/themes/default/pagination')
             ),
             'msgbox' => array(
                 'js' => array('library/bootbox/jquery.bootbox')
@@ -134,66 +143,69 @@ class asset extends MX_Controller {
                 'js' => array('canvasjs.min')
             ),
             'select2' => array(
-                'js' => array('library/select2/select2.min'),
+                'js'  => array('library/select2/select2.min'),
                 'css' => array('library/select2/select2')
             ),
             'treegrid' => array(
-                'js' => array('treegrid'),
+                'js'  => array('treegrid'),
                 'css' => array('library/treegrid')
             ),
             'aciTree' => array(
-                'js' => array('library/aciTrese/jquery.min', 'library/aciTree/jquery.aciPlugin.min', 'library/aciTree/jquery.aciTree.dom', 'library/aciTree/jquery.aciTree.core', 'library/aciTree/jquery.aciTree.selectable', 'library/aciTree/jquery.aciTree.checkbox', 'library/aciTree/jquery.aciTree.radio'),
+                'js'  => array('library/aciTrese/jquery.min', 'library/aciTree/jquery.aciPlugin.min', 'library/aciTree/jquery.aciTree.dom', 'library/aciTree/jquery.aciTree.core', 'library/aciTree/jquery.aciTree.selectable', 'library/aciTree/jquery.aciTree.checkbox', 'library/aciTree/jquery.aciTree.radio'),
                 'css' => array('library/aciTree/aciTree', 'library/aciTree/demo')
             ),
             'highchart' => array(
                 'js' => array('library/highchart/js/highcharts', 'library/highchart/js/modules/exporting')
             ),
-			'raty' => array(
-				'js' => array('library/raty/jquery.raty','library/raty/jquery.raty.min'),
-				'css' => array('library/raty/demo')
-			),
-			'tooltips' => array(
-				'js' => array('library/tooltips/jquery.tools.min')
-					),
-			'upload' => array(
-				'js' => array('library/file_upload/jquery.uploadfile','library/file_upload/jquery.uploadfile.min'),
-				'css' => array('library/file_upload/uploadfile')
-					),
-			'hadi' => array(
-				'js' => array('custom/hadi')
-			        ),
-            "bootstrap-rakhmat" => array(
-                'css'=> array('bootstrap-rakhmat/bootstrap'),
-                'js'=> array('bootstrap-rakhmat/bootstrap')
+            'chartjs' => array(
+              'js' => array('library/chartjs/chart')
             ),
-             "bootstrap-column" => array(
+            'raty' => array(
+                'js'  => array('library/raty/jquery.raty', 'library/raty/jquery.raty.min'),
+                'css' => array('library/raty/demo')
+            ),
+            'tooltips' => array(
+                'js' => array('library/tooltips/jquery.tools.min')
+                    ),
+            'upload' => array(
+                'js'  => array('library/file_upload/jquery.uploadfile', 'library/file_upload/jquery.uploadfile.min'),
+                'css' => array('library/file_upload/uploadfile')
+                    ),
+            'hadi' => array(
+                'js' => array('custom/hadi')
+                    ),
+            'bootstrap-rakhmat' => array(
+                'css'=> array('bootstrap-rakhmat/bootstrap'),
+                'js' => array('bootstrap-rakhmat/bootstrap')
+            ),
+             'bootstrap-column' => array(
                 'css'=> array('bootstrap-rakhmat/bootstrap-column')
             ),
-             "bootstrap-dashboard" => array(
+             'bootstrap-dashboard' => array(
                 'css'=> array('bootstrap-rakhmat/bootstrap-dashboard')
             ),
-            "bootstrap-panel" => array(
+            'bootstrap-panel' => array(
                 'css'=> array('bootstrap-rakhmat/bootstrap-panel')
             ),
-            "font-awesome" => array(
+            'font-awesome' => array(
                 'css'=> array('bootstrap-rakhmat/font-awesome.min')
             ),
-            "jui" => array(
+            'jui' => array(
             'css'=> array('library/jui/jquery-ui'),
-            'js'=> array('library/jui/jquery-ui')
+            'js' => array('library/jui/jquery-ui')
             ),
-            "file-upload" => array(
-            'js'=> array('library/file-upload/dropify'),
+            'file-upload' => array(
+            'js' => array('library/file-upload/dropify'),
             'css'=> array('library/file-upload/dropify')
             ),
-            "format_number" => array(
+            'format_number' => array(
             'js'=> array('cf/jquery.inputmask.bundle')
             )
-	   );
+       );
     }
-	
 
-    private function reg_plugin($plugin_name) {
+    private function reg_plugin($plugin_name)
+    {
         /*
          * Me'looping daftar plugin untuk mencocokan nama plugin yang dipanggil
          */
@@ -208,7 +220,7 @@ class asset extends MX_Controller {
                         $idx = 0;
                         foreach ($value['js'] as $js) {
                             if (!empty($js)) {
-                                $index = str_pad($alpha, 4, "0", STR_PAD_LEFT) . str_pad($idx, 4, "0", STR_PAD_LEFT);
+                                $index                        = str_pad($alpha, 4, '0', STR_PAD_LEFT) . str_pad($idx, 4, '0', STR_PAD_LEFT);
                                 $this->list_plugin_js[$index] = $js . '.js';
                                 $idx++;
                             }
@@ -222,7 +234,7 @@ class asset extends MX_Controller {
                         $idx = 0;
                         foreach ($value['css'] as $css) {
                             if (!empty($css)) {
-                                $index = str_pad($alpha, 4, "0", STR_PAD_LEFT) . str_pad($idx, 4, "0", STR_PAD_LEFT);
+                                $index                         = str_pad($alpha, 4, '0', STR_PAD_LEFT) . str_pad($idx, 4, '0', STR_PAD_LEFT);
                                 $this->list_plugin_css[$index] = $css . '.css';
                                 $idx++;
                             }
@@ -244,7 +256,8 @@ class asset extends MX_Controller {
         }
     }
 
-    public function set_plugin($plugin = array()) {
+    public function set_plugin($plugin = array())
+    {
         if (is_array($plugin)) {
             foreach ($plugin as $value) {
                 $this->reg_plugin($value);
@@ -260,9 +273,10 @@ class asset extends MX_Controller {
         }
     }
 
-    public function get_js() {
-        $js_path = $this->path_asset . "js/";
-        $list = "";
+    public function get_js()
+    {
+        $js_path = $this->path_asset . 'js/';
+        $list    = '';
 
         $list_plugin = $this->list_plugin_js;
         ksort($list_plugin);
@@ -276,12 +290,13 @@ class asset extends MX_Controller {
             $list .= "<script src='" . $js_path . $value . "'></script>";
         }
 
-        return "<!-- Begin : Javacript -->" . $list . "<!-- End : Javacript -->";
+        return '<!-- Begin : Javacript -->' . $list . '<!-- End : Javacript -->';
     }
 
-    public function get_css() {
-        $css_path = $this->path_asset . "css/";
-        $list = "";
+    public function get_css()
+    {
+        $css_path = $this->path_asset . 'css/';
+        $list     = '';
 
         $list_plugin = $this->list_plugin_css;
         ksort($list_plugin);
@@ -295,10 +310,11 @@ class asset extends MX_Controller {
             $list .= "<link href='" . $css_path . $value . "' rel='stylesheet'>";
         }
 
-        return "<!-- Begin : CSS -->" . $list . "<!-- End : CSS -->";
+        return '<!-- Begin : CSS -->' . $list . '<!-- End : CSS -->';
     }
 
-    public function set_css($css = array()) {
+    public function set_css($css = array())
+    {
         if (is_array($css)) {
             foreach ($css as $value) {
                 $this->list_css[] = $value . '.css';
@@ -308,7 +324,8 @@ class asset extends MX_Controller {
         }
     }
 
-    public function set_js($js = array()) {
+    public function set_js($js = array())
+    {
         if (is_array($js)) {
             foreach ($js as $value) {
                 $this->list_js[] = $value . '.js';
@@ -318,18 +335,20 @@ class asset extends MX_Controller {
         }
     }
 
-    public function set_favicon($favicon) {
+    public function set_favicon($favicon)
+    {
         $this->favicon = $favicon;
     }
 
-    public function get_favicon() {
+    public function get_favicon()
+    {
         return "<link rel='shortcut icon' href='" . $this->path_asset . $this->favicon . "'>";
     }
 
-    public function image($name, $attribut = '') {
-        return "<img src='" . $this->path_asset . 'img/' . $name . "' " . $attribut . "/>";
+    public function image($name, $attribut = '')
+    {
+        return "<img src='" . $this->path_asset . 'img/' . $name . "' " . $attribut . '/>';
     }
-
 }
 
 /* End of file asset.php */
