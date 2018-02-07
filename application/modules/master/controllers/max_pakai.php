@@ -68,7 +68,7 @@ class max_pakai extends MX_Controller {
         $table = new stdClass();
         $table->id = 'ID_PROGRAM';
         $table->style = "table table-striped table-bordered table-hover datatable dataTable";
-        $table->align = array('no' => 'center', 'periode' => 'center', 'aksi' => 'center', 'volume' => 'center');
+        $table->align = array('no' => 'center', 'periode' => 'center', 'aksi' => 'center', 'volume' => 'right');
         $table->page = $page;
         $table->limit = $this->_limit;
         $table->jumlah_kolom = 3;
@@ -99,7 +99,9 @@ class max_pakai extends MX_Controller {
             $thbl_input = $this->input->post('THBL_MAX_PAKAI');
             $date = new DateTime($thbl_input);
             $thbl = $date->format('Ym');
-			$vol = $this->input->post('VOLUME_MAX_PAKAI');
+			// $vol = $this->input->post('VOLUME_MAX_PAKAI');
+            $vol = str_replace(".","",$this->input->post('VOLUME_MAX_PAKAI'));
+            $vol = str_replace(",",".",$vol);
 			$sloc = $this->input->post('SLOC');
 			$idjnsbbm = $this->input->post('ID_JNS_BHN_BKR');
 

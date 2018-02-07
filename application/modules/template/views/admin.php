@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-	
+
         <meta charset="utf-8">
         <title><?php echo $app_parameter['nama_aplikasi'];?></title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,7 +29,7 @@
             </ul>
             <ul class="header_actions">
                 <!-- <li rel="tooltip" data-placement="bottom" title="Notifikasi" class="messages"> -->
-                <li data-placement="bottom" title="Klik untuk detail notifikasi" class="messages">    
+                <li data-placement="bottom" title="Klik untuk detail notifikasi" class="messages">
                     <a class="iconic" href="#"><i class="icon-warning-sign"></i> 1</a>
                     <ul class="dropdown-menu pull-right messages_dropdown">
                         <li>
@@ -39,7 +39,7 @@
                                 <a href="<?php echo base_url() ?>data_transaksi/penerimaan"><div class="name">Kirim Penerimaan 2</div></a>
                                 <a href="<?php echo base_url() ?>data_transaksi/pemakaian"><div class="name">Kirim Pemakaian 7</div></a>
                                 <a href="<?php echo base_url() ?>data_transaksi/stock_opname"><div class="name">Kirim Stock Opname 2</div></a>
-                                <!-- <div class="name">aaa</div>                                    
+                                <!-- <div class="name">aaa</div>
                                 <div class="message">
                                     Lorem ipsum Commodo quis nisi...
                                 </div> -->
@@ -49,12 +49,12 @@
                 </li>
                 <li class="dropdown">
                     <a href="#" style="min-width: 110px;display: block;">
-                        <span style="float: left;"> <?php echo $this->session->userdata('user_name'); ?></span> 
+                        <span style="float: left;"> <?php echo $this->session->userdata('user_name'); ?></span>
                         <span style="float: right"><i style="padding-left: 20px;"></i> <i class="icon-angle-down"></i></span>
                     </a>
                     <ul>
                         <li><a href="<?php echo base_url() ?>user_management/user/profil"><i class="icon-user"></i> User Profil</a></li>
-                        
+
                         <li><a href="<?php echo base_url() ?>user_management/user/ganti_password"><i class="icon-key"></i> Ganti Password</a></li>
                         <li><a href="<?php echo base_url() ?>document/documentsop"><i class="icon-info-sign"></i> Bantuan</a></li>
                         <li><a href="<?php echo base_url() ?>login/stop"><i class="icon-signout"></i> Logout</a></li>
@@ -90,9 +90,9 @@
             <div class="inner_navigation">
                 <?php echo $main_menu; ?>
             </div>
-        </div>  
+        </div>
 
-        <div id="content" <?php echo isset($sidebar_content)? "class='sidebar'" :"";?>> 
+        <div id="content" <?php echo isset($sidebar_content) ? "class='sidebar'" : '';?>>
             <?php isset($page_content) ? $this->load->view($page_content) : 'Silahkan set $data["page_content"] = ""; '; ?>
         </div>
         <footer style="display: none;">

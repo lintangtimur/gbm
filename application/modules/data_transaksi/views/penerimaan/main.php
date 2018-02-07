@@ -254,18 +254,19 @@
                                                 <td>
                                                     <?php if (($this->laccess->otoritas('add') == true) && ($this->session->userdata('level_user') >= "2")) {?>
                                                             <button class="btn btn-primary" type="button" onclick="saveDetailKirim(this)" id="btn_kirim">Kirim</button>
-                                                            <button class="btn btn-primary" type="button" onclick="saveDetailKirimClossing(this)" id="btn_kirim_cls">Kirim Clossing</button>
+                                                            <button class="btn btn-primary" type="button" onclick="saveDetailKirimClossing(this)" id="btn_kirim_cls">Kirim Closing</button>
                                                     <?php }?>
                                                 </td>
                                                 <td>
                                                     <?php if (($this->laccess->otoritas('approve') == true) && ($this->session->userdata('level_user') == "2")) {?>
                                                             <button class="btn btn-primary" type="button" onclick="saveDetailApprove(this)" id="btn_approve">Approve</button>
-                                                            <button class="btn btn-primary" type="button" onclick="saveDetailApproveClossing(this)" id="btn_approve_cls">Approve Clossing</button>
+                                                            <button class="btn btn-primary" type="button" onclick="saveDetailApproveClossing(this)" id="btn_approve_cls">Approve Closing</button>
                                                     <?php }?>
                                                 </td>
                                                 <td>
                                                     <?php if (($this->laccess->otoritas('approve') == true) && ($this->session->userdata('level_user') == "2")) {?>
                                                             <button class="btn btn-primary" type="button" onclick="saveDetailTolak(this)" id="btn_tolak">Tolak</button>
+                                                            <button class="btn btn-primary" type="button" onclick="saveDetailTolakClossing(this)" id="btn_tolak_cls">Tolak Closing</button>
                                                     <?php }?>
                                                 </td>
                                             </tr>
@@ -307,7 +308,7 @@
 
 <script type="text/javascript">
     var icon = 'icon-remove-sign';
-	var color = '#ac193d;';
+	  var color = '#ac193d;';
     var offset = -100;
     var today = new Date();
     var year = today.getFullYear();   
@@ -315,10 +316,20 @@
     $('select[name="TAHUN"]').val(year); 
 
     function toRupiah(angka){
-        var rupiah = '';        
-        var angkarev = angka.toString().split('').reverse().join('');
-        for(var i = 0; i < angkarev.length; i++) if(i%3 == 0) rupiah += angkarev.substr(i,3)+'.';
-        return rupiah.split('',rupiah.length-1).reverse().join('');
+        var bilangan = angka.replace(".", ",");
+        var number_string = bilangan.toString(),
+            split   = number_string.split(','),
+            sisa    = split[0].length % 3,
+            rupiah  = split[0].substr(0, sisa),
+            ribuan  = split[0].substr(sisa).match(/\d{1,3}/gi);
+                
+        if (ribuan) {
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+
+        return rupiah;
     }
 
     function pageScroll() {
@@ -441,7 +452,7 @@
                             if ((data_detail[i].KODE_STATUS !== "0") && (data_detail[i].KODE_STATUS !== "4")){
                                 cekbox = '';
                             } 
-                            if(data_detail[i].KODE_STATUS == "0"){
+                            if ((data_detail[i].KODE_STATUS == "0") || (data_detail[i].KODE_STATUS == "4")){
                                 if(data_detail[i].CREATED_BY==vUserName){
                                         vSetEdit = vEdit;     
                                     }
@@ -646,8 +657,8 @@
     }
     
     function saveDetailTolak(obj) {
-        if (cekChekBoxPilih('tolak')){return;}
-		bootbox.confirm('Yakin data ini akan ditolak ?', "Tidak", "Ya", function(e) {
+      if (cekChekBoxPilih('tolak')){return;}
+		  bootbox.confirm('Yakin data ini akan ditolak ?', "Tidak", "Ya", function(e) {
 			if(e){
 				var url = "<?php echo base_url() ?>data_transaksi/penerimaan/saveKiriman/tolak";
 				bootbox.modal('<div class="loading-progress"></div>');
@@ -675,6 +686,38 @@
 				});
 			}
 		});
+    }
+
+      function saveDetailTolakClossing(obj) {
+      if (cekChekBoxPilih('tolak')){return;}
+      bootbox.confirm('Yakin data ini akan ditolak ?', "Tidak", "Ya", function(e) {
+      if(e){
+        var url = "<?php echo base_url() ?>data_transaksi/penerimaan/saveKirimanClossing/tolak";
+        bootbox.modal('<div class="loading-progress"></div>');
+        $.ajax({
+          type: "POST",
+          url: url,
+          data: $('#formKirimDetail').serializeArray(),
+          dataType:"json",
+          success: function (data) {
+            $(".bootbox").modal("hide");
+            var message = '';
+            var content_id = data[3];
+            if (data[0]) {
+              icon = 'icon-ok-sign';
+              color = '#0072c6;';
+            }
+            message += '<div class="box-title" style="color:' + color + '"><i class="' + icon + '"></i> ' + data[1] + '</div>';
+            message += data[2];
+            bootbox.alert(message, function() {
+              load_table("#content_table", 1);
+              $('#detailPenerimaan tbody tr').detach();
+              $('#table_detail').hide();
+            });
+          }
+        });
+      }
+    });
     }
 
     $('#button-add').click(function(e) {
@@ -809,17 +852,18 @@
 
             for (i = 0; i < data_detail.length; i++) {
                 if (!vIsAdd){
-                    $('#TOTAL').html(formatNumber(data_detail[i].TOTAL - data_detail[i].BELUM_KIRIM));
-                    $('#BELUM_KIRIM').html(formatNumber(0));    
+                    $('#TOTAL').html(formatNumber(data_detail[i].TOTAL - data_detail[i].BELUM_KIRIM - data_detail[i].CLOSING));
+                    $('#BELUM_KIRIM').html(formatNumber(0));  
+                    $('#CLOSING').html(formatNumber(0));  
                 } else  {
                     $('#TOTAL').html(formatNumber(data_detail[i].TOTAL));
                     $('#BELUM_KIRIM').html(formatNumber(data_detail[i].BELUM_KIRIM));
+                    $('#CLOSING').html(formatNumber(data_detail[i].CLOSING));
                 }
                 $('#BELUM_DISETUJUI').html(formatNumber(data_detail[i].BELUM_DISETUJUI));
                 $('#DISETUJUI').html(formatNumber(data_detail[i].DISETUJUI));
                 $('#DITOLAK').html(formatNumber(data_detail[i].DITOLAK));
 
-                $('#CLOSING').html(formatNumber(data_detail[i].CLOSING));
                 $('#CLOSING_BELUM_DISETUJUI').html(formatNumber(data_detail[i].CLOSING_BELUM_DISETUJUI));
                 $('#CLOSING_DISETUJUI').html(formatNumber(data_detail[i].CLOSING_DISETUJUI));
                 $('#CLOSING_DITOLAK').html(formatNumber(data_detail[i].CLOSING_DITOLAK));
@@ -846,7 +890,9 @@
 
         if (vIsApprove){
             $("#btn_approve").show(); 
-            $("#btn_approve_cls").hide();  
+            $("#btn_approve_cls").hide(); 
+            $("#btn_tolak").show(); 
+            $("#btn_tolak_cls").hide(); 
         } 
         if (vIsAdd){
             $("#btn_kirim").show(); 
@@ -863,7 +909,9 @@
         } else if (stat==5){
              if (vIsApprove){
                 $("#btn_approve").hide(); 
-                $("#btn_approve_cls").show();  
+                $("#btn_approve_cls").show(); 
+                $("#btn_tolak").hide(); 
+                $("#btn_tolak_cls").show();  
             }            
         }
     }

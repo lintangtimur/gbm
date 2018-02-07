@@ -6209,3 +6209,7 @@ to {
 .affix {
     position: fixed;
 }
+
+th {background-color: #CED8F6;
+    border-bottom:1pt solid black;
+    height:30px}

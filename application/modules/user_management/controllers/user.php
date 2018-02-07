@@ -62,6 +62,10 @@ class user extends MX_Controller {
             $data['default'] = $user[0];
 			$data['bindlevel'] = array($user[0]->KODE_LEVEL => $user[0]->KODE_LEVEL);
 			$data['disabled'] = 'readonly';
+        } else {
+            $user = $this->user_model->data('x-x')->get()->result();
+            $data['default'] = $user[0];
+            $data['default']->ISAKTIF_USER = 1; 
         }
         $data['loker_options'] = array();//$this->loker_model->options();
         $data['unit_options'] = array();//$this->unit_model->options();

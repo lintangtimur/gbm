@@ -13,13 +13,13 @@
     <div class="box-content">
 
         <?php
-        $hidden_form = ['id' => !empty($id) ? $id : ''];
-        echo form_open_multipart($form_action, ['id' => 'finput', 'class' => 'form-horizontal'], $hidden_form);
+        $hidden_form = array('id' => !empty($id) ? $id : '');
+        echo form_open_multipart($form_action, array('id' => 'finput', 'class' => 'form-horizontal'), $hidden_form);
             ?>
             <div class="control-group">
-                <label class="control-label">Tanggal Penerimaan (DO/TUG)<span class="required">*</span> : </label>
+                <label class="control-label">Tanggal Penerimaan (DO/BA)<span class="required">*</span> : </label>
                 <div class="controls">
-                    <?php echo form_input('TGL_PENERIMAAN', !empty($default->TGL_PENERIMAAN) ? $default->TGL_PENERIMAAN : '', 'class="span12 input-append date form_datetime" placeholder="Tanggal Penerimaan (DO/TUG)" id="TGL_PENERIMAAN"'); ?>
+                    <?php echo form_input('TGL_PENERIMAAN', !empty($default->TGL_PENERIMAAN) ? $default->TGL_PENERIMAAN : '', 'class="span12 input-append date form_datetime" placeholder="Tanggal Penerimaan (DO/BA)" id="TGL_PENERIMAAN"'); ?>
                 </div>
             </div>
             <div class="control-group">
@@ -98,9 +98,9 @@
             </div>
 
             <div class="control-group">
-                <label class="control-label">Volume DO/TUG (L)<span class="required">*</span> : </label>
+                <label class="control-label">Volume DO/BA (L)<span class="required">*</span> : </label>
                 <div class="controls">
-                    <?php echo form_input('VOL_PENERIMAAN', !empty($default->VOL_TERIMA) ? $default->VOL_TERIMA : '', 'class="span4" placeholder="Volume DO / TUG"'); ?>
+                    <?php echo form_input('VOL_PENERIMAAN', !empty($default->VOL_TERIMA) ? $default->VOL_TERIMA : '', 'class="span4" placeholder="Volume DO / BA"'); ?>
                 </div>
             </div>
             <div class="control-group">
@@ -112,12 +112,18 @@
                     <?php echo form_input('STATUS_MUTASI_TERIMA', !empty($default->STATUS_MUTASI_TERIMA) ? $default->STATUS_MUTASI_TERIMA : '0'); ?>
                 </div>
             </div>
+            <div class="control-group">
+                <label class="control-label">Keterangan : </label>
+                <div class="controls">
+                    <?php echo form_input('KET_MUTASI_TERIMA', !empty($default->KET_MUTASI_TERIMA) ? $default->KET_MUTASI_TERIMA : '', 'class="span4" placeholder="Keterangan Penerimaan"'); ?>
+                </div>
+            </div>
             <div class="form-actions">
                 <?php
                 if ($this->laccess->otoritas('edit')) {
-                    echo anchor(null, '<i class="icon-save"></i> Simpan', ['id' => 'button-save', 'class' => 'blue btn', 'onclick' => "simpan_data(this.id, '#finput', '#button-back');"]);
+                    echo anchor(null, '<i class="icon-save"></i> Simpan', array('id' => 'button-save', 'class' => 'blue btn', 'onclick' => "simpan_data(this.id, '#finput', '#button-back');"));
                 }?>
-                <?php echo anchor(null, '<i class="icon-circle-arrow-left"></i> Tutup', ['id' => 'button-back', 'class' => 'btn', 'onclick' => 'close_form(this.id)']); ?>
+                <?php echo anchor(null, '<i class="icon-circle-arrow-left"></i> Tutup', array('id' => 'button-back', 'class' => 'btn', 'onclick' => 'close_form(this.id)')); ?>
             </div>
             <?php
         echo form_close(); ?>
@@ -252,10 +258,10 @@
       oncleared: function ()
       {
         $(this).val('');
-        // self.Value();        
+        // self.Value();
       }
     });
-    $('input[name=VOL_PENERIMAAN_REAL]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    $('input[name=VOL_PENERIMAAN_REAL]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,allowMinus: false, oncleared: function () { self.Value(''); }
     });
 
     function setDefaultLv1(){

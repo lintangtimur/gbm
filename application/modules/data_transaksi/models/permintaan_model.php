@@ -143,15 +143,16 @@ class permintaan_model extends CI_Model
                 $id = $row->TANGGAL.'|'.$row->SLOC.'|'.$num;
                 $aksi = anchor(null, '<i class="icon-zoom-in" title="Lihat Detail Data"></i>', array('class' => 'btn transparant button-detail', 'id' => 'button-view-' . $id, 'onClick' => 'show_detail(\''.$id.'\')'));
                 $rows[$num] = array(
-                    'NO' => $num,
+                    'NO' => $no,
                     'BLTH' => $this->get_blth($row->BL,$row->TH),
                     'LEVEL4' => $row->LEVEL4,
 //                    'STATUS' => $row->STATUS_APPROVE,
-                    'TOTAL_VOLUME' => number_format($row->SUM_VOLUME,0,',','.'),
-                    'COUNT' => $row->COUNT_VOLUME,
+                    'TOTAL_VOLUME' => number_format($row->SUM_VOLUME,2,',','.'),
+                    'COUNT' => number_format($row->COUNT_VOLUME,0,',','.'),
                     'AKSI' => $aksi
                 );
                 $num++;
+                $no++;
             // }
         }
         return array('total' => $total, 'rows' => $rows);

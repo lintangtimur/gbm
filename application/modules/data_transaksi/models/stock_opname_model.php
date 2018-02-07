@@ -94,7 +94,7 @@ class stock_opname_model extends CI_Model {
         $myDate = new DateTime($TGL_PENGAKUAN);
         $TGL_PENGAKUAN = $myDate->format('dmY');
 
-        $query="CALL SP_TEMP_SO('$ID_STOCKOPNAME', '$SLOC', '$ID_JNS_BHN_BKR', '$TGL_PENGAKUAN', '$LEVEL_USER', '$STATUS', '$USER')";
+        $query="CALL PROSES_STOCK_OPNAME('$ID_STOCKOPNAME', '$SLOC', '$ID_JNS_BHN_BKR', '$TGL_PENGAKUAN', '$LEVEL_USER', '$STATUS', '$USER')";
         $data = $this->db->query($query);
         $this->db->close();
         return $data->result();
@@ -174,7 +174,8 @@ class stock_opname_model extends CI_Model {
                             if ($status == 0) {
                                 $aksi .= anchor(null, '<i class="icon-share" title="Kirim"></i>', array('class' => 'btn transparant', 'id' => 'button-kirim-' . $id, 'onclick' => 'kirim_row(this.id)', 'data-source' => base_url($module . '/sendAction/' . $id)));
                                 $aksi .= anchor(null, '<i class="icon-edit" title="Edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
-                            }else if(($status==2)||($status==1)||($status == 3) ){
+                            }
+                            else if(($status==2)||($status==1)||($status == 3) ){
                                 $aksi .= anchor(null, '<i class="icon-zoom-in" title="View"></i>', array('class' => 'btn transparant', 'id' => 'button-load-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadView/' . $id)));
                             }
                         }                               
@@ -193,12 +194,21 @@ class stock_opname_model extends CI_Model {
                             if ($status == 0) {
                                 $aksi .= anchor(null, '<i class="icon-share" title="Kirim"></i>', array('class' => 'btn transparant', 'id' => 'button-kirim-' . $id, 'onclick' => 'kirim_row(this.id)', 'data-source' => base_url($module . '/sendAction/' . $id)));
                                 $aksi .= anchor(null, '<i class="icon-edit" title="Edit"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
-                            }else if(($status==2)||($status==1) || ($status == 3)){
+                            }
+                            else if(($status==2)||($status==1) || ($status == 3)){
                                 $aksi .= anchor(null, '<i class="icon-zoom-in" title="View"></i>', array('class' => 'btn transparant', 'id' => 'button-load-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadView/' . $id)));
                             }
                         }
                     }
+                } 
+                else {
+                    if ($status!=0){
+                        $aksi .= anchor(null, '<i class="icon-zoom-in" title="View"></i>', array('class' => 'btn transparant', 'id' => 'button-load-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/loadView/' . $id)));
+                    }
+
                 }
+
+                
 
                 if($status==0){
                    $status_hasil="Belum Dikirim";
@@ -217,7 +227,7 @@ class stock_opname_model extends CI_Model {
                     'TGL_PENGAKUAN' => $row->TGL_PENGAKUAN,
                     'NAMA_JNS_BHN_BKR' => $row->NAMA_JNS_BHN_BKR,
                     'LEVEL4' => $row->LEVEL4,
-                    'VOLUME_STOCKOPNAME' => number_format($row->VOLUME_STOCKOPNAME,0,',','.'),
+                    'VOLUME_STOCKOPNAME' => number_format($row->VOLUME_STOCKOPNAME,2,',','.'),
                     'CD_BY_STOKOPNAME'=> $row->CD_BY_STOKOPNAME,
                     'CD_DATE_STOKOPNAME'=>$row->CD_DATE_STOKOPNAME,
                     'STATUS_APPROVE_STOCKOPNAME' => $row->NAME_SETTING,

@@ -34,6 +34,23 @@ class template_model extends CI_Model
         return $param;//->row();
     }
 
+    public function get_notif_kirim()
+    {
+        $user  = $this->session->userdata('user_name');
+        $jenis = $_POST['jenis'];
+
+        if (strtoupper($jenis) == 'KIRIM') {
+            $q="CALL GET_NOTIF_KIRIM ('$user') ";
+        } else {
+            $q="CALL GET_NOTIFIKASI ('$user') ";
+        }
+
+        $query = $this->db->query($q)->result();
+        $this->db->close();
+
+        return $query;
+    }
+
     public function get_notif()
     {
         $SLOC          = $_POST['SLOC'];

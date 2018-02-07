@@ -23,14 +23,18 @@ class kontrak_pemasok_model extends CI_Model {
     }
 
     public function data($key = '') {
+        $path = ' ,(SELECT c.PATH_DOC_PEMASOK FROM DOC_KONTRAK_PEMASOK c WHERE c.ID_KONTRAK_PEMASOK = a.ID_KONTRAK_PEMASOK ORDER BY ID_DOC_PEMASOK DESC LIMIT 1) PATH_DOC_PEMASOK ';
+
         $perubahan = ' ,(SELECT COUNT(*) FROM ADENDUM_KONTRAK_PEMASOK b WHERE b.ID_KONTRAK_PEMASOK=a.ID_KONTRAK_PEMASOK) AS PERUBAHAN';
-        $this->db->select('a.*, b.NAMA_PEMASOK, c.PATH_DOC_PEMASOK '.$perubahan);
+
+        $this->db->select('a.*, b.NAMA_PEMASOK '.$perubahan.$path);
         $this->db->from($this->_table1.' a');
         $this->db->join('MASTER_PEMASOK b', 'b.ID_PEMASOK = a.ID_PEMASOK','left');
-        $this->db->join('DOC_KONTRAK_PEMASOK c', 'c.ID_KONTRAK_PEMASOK = a.ID_KONTRAK_PEMASOK','left');
 
         if (!empty($key) || is_array($key))
             $this->db->where_condition($this->_key($key));
+
+        $this->db->order_by('a.CD_KONTRAK_PEMASOK DESC, ID_KONTRAK_PEMASOK DESC');
 
         return $this->db;
     }
@@ -85,8 +89,9 @@ class kontrak_pemasok_model extends CI_Model {
 
     public function delete($key) {
         $this->db->trans_begin();
+        $this->db->where("ID_KONTRAK_PEMASOK",$key);
 
-        $this->db->delete($this->_table1, $this->_key($key));
+        $this->db->delete($this->_table1);
 
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
@@ -101,7 +106,8 @@ class kontrak_pemasok_model extends CI_Model {
     public function deleteDocumen($key) {
         $this->db->trans_begin();
 
-        $this->db->delete($this->_table2, $this->_key($key));
+        $this->db->where("ID_KONTRAK_PEMASOK",$key);  
+        $this->db->delete($this->_table2);
 
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
@@ -127,10 +133,12 @@ class kontrak_pemasok_model extends CI_Model {
             $id = $row->ID_KONTRAK_PEMASOK;
             $aksi = '';
 
-            if ($this->laccess->otoritas('edit')) {
                 $aksi = anchor(null, '<i class="icon-zoom-in" title="Lihat Kontrak"></i>', array('class' => 'btn transparant', 'id' => 'button-view-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit_view/' . $id)));
 
-                $aksi .= anchor(null, '<i class="icon-edit" title="Edit Kontrak"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
+            if ($this->laccess->otoritas('edit')) {
+                if ($row->PERUBAHAN == 0){
+                    $aksi .= anchor(null, '<i class="icon-edit" title="Edit Kontrak"></i>', array('class' => 'btn transparant', 'id' => 'button-edit-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
+                }
             }
             if ($this->laccess->otoritas('add')) {
                 $aksi .= anchor(null, '<i class="icon-copy" title="Lihat Adendum"></i>', array('class' => 'btn transparant', 'id' => 'button-adendum-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/adendum/' . $id)));
@@ -141,8 +149,8 @@ class kontrak_pemasok_model extends CI_Model {
                 }
             }
             
-            $rows[$id] = array(
-                'NO' => $no++,
+            $rows[$id.$no] = array(
+                'NO' => $no,
                 'NAMA_PEMASOK' => $row->NAMA_PEMASOK,
                 'NOPJBBM_KONTRAK_PEMASOK' => $row->NOPJBBM_KONTRAK_PEMASOK,
                 'TGL_KONTRAK_PEMASOK' => $row->TGL_KONTRAK_PEMASOK,
@@ -161,6 +169,7 @@ class kontrak_pemasok_model extends CI_Model {
                 // 'KET_KONTRAK_PEMASOK' => $row->KET_KONTRAK_PEMASOK,
                 'aksi' => $aksi
             );
+            $no++;
         }
 
         return array('total' => $total, 'rows' => $rows);
@@ -181,6 +190,8 @@ class kontrak_pemasok_model extends CI_Model {
         if ($key != 'all'){
             $this->db->where('ID_PEMASOK',$key);
         }   
+        $this->db->order_by('REF_NAMA_TRANS, NAMA_PEMASOK');
+        
         $list = $this->db->get(); 
 
         if (!empty($default)) {

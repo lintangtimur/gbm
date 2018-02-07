@@ -276,10 +276,13 @@ class stock_opname extends MX_Controller {
             $data['TGL_PENGAKUAN'] = $this->input->post('TGL_PENGAKUAN');
             $data['SLOC'] = $this->input->post('SLOC');
             $data['VOLUME_STOCKOPNAME'] = str_replace(".","",$this->input->post('VOLUME_STOCKOPNAME'));
+            $data['VOLUME_STOCKOPNAME'] = str_replace(",",".",$data['VOLUME_STOCKOPNAME']);
             $data['STATUS_APPROVE_STOCKOPNAME'] = $this->input->post('0');
 
             if ($id == '') {
-                $new_name = str_replace(".","",$data['NO_STOCKOPNAME']).'_'.date("YmdHis");
+                $new_name = preg_replace("/[^a-zA-Z0-9]/", "", $data['NO_STOCKOPNAME']);
+                $new_name = $new_name.'_'.date("YmdHis");
+
                 $config['file_name'] = $new_name;
                 $config['upload_path'] = 'assets/upload/stockopname/';
                 $config['allowed_types'] = 'jpg|jpeg|png|pdf';
@@ -360,7 +363,8 @@ class stock_opname extends MX_Controller {
                             }
                     }
                             
-                    $new_name = str_replace(".","",$data['NO_STOCKOPNAME']).'_'.date("YmdHis");
+                    $new_name = preg_replace("/[^a-zA-Z0-9]/", "", $data['NO_STOCKOPNAME']);
+                    $new_name = $new_name.'_'.date("YmdHis");
                     $config['file_name'] = $new_name;
                     $config['upload_path'] = 'assets/upload/stockopname/';
                     $config['allowed_types'] = 'jpg|jpeg|png|pdf';

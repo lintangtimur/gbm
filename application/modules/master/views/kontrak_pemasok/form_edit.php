@@ -7,12 +7,15 @@
         $hidden_form = array('id' => !empty($id) ? $id : '');
         echo form_open_multipart($form_action, array('id' => 'finput', 'class' => 'form-horizontal'), $hidden_form);
         ?>
+
         <div class="control-group">
-            <label for="password" class="control-label">Pemasok <span class="required">*</span> : </label>
+            <label  class="control-label">Pemasok<span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_dropdown('ID_PEMASOK', $pemasok_options, !empty($default->ID_PEMASOK) ? $default->ID_PEMASOK : '', 'class="span6" disabled'); ?>
+                <?php echo form_dropdown('ID_PEMASOK', $pemasok_options, !empty($default->ID_PEMASOK) ? $default->ID_PEMASOK : '', 'class="span6 chosen" disabled'); ?>
             </div>
-            <br>
+        </div>
+
+        <div class="control-group">
             <label for="password" class="control-label">Tgl Kontrak <span class="required">*</span> : </label>
             <div class="controls">
                 <?php echo form_input('TGL_KONTRAK_PEMASOK', !empty($default->TGL_KONTRAK_PEMASOK) ? $default->TGL_KONTRAK_PEMASOK : '', 'class="span2 input-append date form_datetime" disabled'); ?>
@@ -37,25 +40,30 @@
             <div class="controls">
                 <?php echo form_input('PERIODE_AKHIR_KONTRAK_PEMASOK', !empty($default->PERIODE_AKHIR_KONTRAK_PEMASOK) ? $default->PERIODE_AKHIR_KONTRAK_PEMASOK : '', 'class="span2 input-append date form_datetime" disabled'); ?>
             </div>
-            <br>
-            <label for="password" class="control-label">Jenis Kontrak : </label> 
+        </div>
+
+        <div class="control-group">
+            <label  class="control-label">Jenis Kontrak<span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_dropdown('JENIS_KONTRAK_PEMASOK', $jns_kontrak_options, !empty($default->JENIS_KONTRAK_PEMASOK) ? $default->JENIS_KONTRAK_PEMASOK : '', 'class="span2" disabled'); ?>
+                <?php echo form_dropdown('JENIS_KONTRAK_PEMASOK', $jns_kontrak_options, !empty($default->JENIS_KONTRAK_PEMASOK) ? $default->JENIS_KONTRAK_PEMASOK : '', 'class="span2 chosen" disabled'); ?>
             </div>
-            <br>
+        </div>
+        
+        <div class="control-group">
             <label for="password" class="control-label">Volume (L) : </label> 
             <div class="controls">
                 <?php echo form_input('VOLUME_KONTRAK_PEMASOK', !empty($default->VOLUME_KONTRAK_PEMASOK) ? $default->VOLUME_KONTRAK_PEMASOK : '', 'class="span3" disabled'); ?>
             </div>
             <br>
-            <label for="password" class="control-label">Alpha : </label> 
+            <!-- <label for="password" class="control-label">Alpha : </label> 
             <div class="controls">
                 <?php echo form_input('ALPHA_KONTRAK_PEMASOK', !empty($default->ALPHA_KONTRAK_PEMASOK) ? $default->ALPHA_KONTRAK_PEMASOK : '', 'class="span3" disabled'); ?>
             </div>
-            <br>
+            <br> -->
             <label for="password" class="control-label">Nilai Kontrak (Rp): </label> 
             <div class="controls">
                 <?php echo form_input('RUPIAH_KONTRAK_PEMASOK', !empty($default->RUPIAH_KONTRAK_PEMASOK) ? $default->RUPIAH_KONTRAK_PEMASOK : '', 'class="span3" disabled'); ?>
+                <sup>Termasuk PPN 10 %</sup>
             </div>
             <br>
             <label for="password" class="control-label">Penjamin Kontrak : </label> 
@@ -83,6 +91,7 @@
                 <?php echo form_input('KET_KONTRAK_PEMASOK', !empty($default->KET_KONTRAK_PEMASOK) ? $default->KET_KONTRAK_PEMASOK : '', 'class="span6" disabled'); ?>
             </div>
             <br>
+            <input type="hidden" name="PATH_FILE_EDIT" value="<?php echo !empty($default->PATH_DOC_PEMASOK) ? $default->PATH_DOC_PEMASOK : ''?>">
             <label for="password" class="control-label" id="up_nama">Upload Dokumen : </label> 
             <div class="controls" id="up_file">
                     <?php echo form_upload('ID_DOC_PEMASOK', !empty($default->ID_DOC_PEMASOK) ? $default->ID_DOC_PEMASOK : '', 'class="span6" disabled'); ?>
@@ -111,6 +120,7 @@
         todayBtn: true,
         pickerPosition: "bottom-left"
     });
+    $('.chosen').chosen();
 
     if( $('input[name=id]').val() != '') {
         $("#up_nama").hide();

@@ -7,15 +7,18 @@
         $hidden_form = array('id' => !empty($id) ? $id : '');
         echo form_open_multipart($form_action, array('id' => 'finput', 'class' => 'form-horizontal'), $hidden_form);
         ?>
+
         <div class="control-group">
-            <label for="password" class="control-label">Pemasok <span class="required">*</span> : </label>
+            <label  class="control-label">Pemasok<span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_dropdown('ID_PEMASOK', $pemasok_options, !empty($default->ID_PEMASOK) ? $default->ID_PEMASOK : '', 'class="span6"'); ?>
+                <?php echo form_dropdown('ID_PEMASOK', $pemasok_options, !empty($default->ID_PEMASOK) ? $default->ID_PEMASOK : '', 'class="span6 chosen" disabled'); ?>
             </div>
+        </div>
+
+        <div class="control-group">
             <div class="controls" style="display:none">
                 <?php echo form_input('ID_KONTRAK_PEMASOK', !empty($default->ID_KONTRAK_PEMASOK) ? $default->ID_KONTRAK_PEMASOK : '', 'class="span6"'); ?>
             </div>
-            <br>
             <label for="password" class="control-label">No Adendum <span class="required">*</span> : </label>
             <div class="controls">
                 <?php echo form_input('NO_ADENDUM_PEMASOK', !empty($default->NO_ADENDUM_PEMASOK) ? $default->NO_ADENDUM_PEMASOK : '', 'class="span6"'); ?>
@@ -26,6 +29,7 @@
                 <?php echo form_input('KET_ADENDUM_PEMASOK', !empty($default->KET_ADENDUM_PEMASOK) ? $default->KET_ADENDUM_PEMASOK : '', 'class="span6"'); ?>
             </div>
             <br>
+            <input type="hidden" name="PATH_FILE_EDIT" value="<?php echo !empty($default->PATH_DOC) ? $default->PATH_DOC : ''?>">
             <label for="password" class="control-label" id="up_nama">Upload File (Max 10 MB) <span class="required">*</span> : </label> 
             <div class="controls" id="up_file">
                     <?php echo form_upload('PATH_DOC', !empty($default->PATH_DOC) ? $default->PATH_DOC : '', 'class="span6"'); ?>
@@ -58,25 +62,30 @@
             <div class="controls">
                 <?php echo form_input('PERIODE_AKHIR_ADENMDUM_PEMASOK', !empty($default->PERIODE_AKHIR_ADENMDUM_PEMASOK) ? $default->PERIODE_AKHIR_ADENMDUM_PEMASOK : '', 'class="span2 input-append date form_datetime"'); ?>
             </div>
-            <br>
-            <label for="password" class="control-label">Jenis Kontrak : </label> 
+        </div>
+
+        <div class="control-group">
+            <label  class="control-label">Jenis Kontrak<span class="required">*</span> : </label>
             <div class="controls">
-                <?php echo form_dropdown('JENIS_AKHIR_ADENDUM_PEMASOK', $jns_kontrak_options, !empty($default->JENIS_AKHIR_ADENDUM_PEMASOK) ? $default->JENIS_AKHIR_ADENDUM_PEMASOK : '', 'class="span2"'); ?>
+                <?php echo form_dropdown('JENIS_AKHIR_ADENDUM_PEMASOK', $jns_kontrak_options, !empty($default->JENIS_AKHIR_ADENDUM_PEMASOK) ? $default->JENIS_AKHIR_ADENDUM_PEMASOK : '', 'class="span2 chosen"'); ?>
             </div>
-            <br>
+        </div>
+        
+        <div class="control-group">
             <label for="password" class="control-label">Volume (L): </label> 
             <div class="controls">
                 <?php echo form_input('VOL_AKHIR_ADENDUM_PEMASOK', !empty($default->VOL_AKHIR_ADENDUM_PEMASOK) ? $default->VOL_AKHIR_ADENDUM_PEMASOK : '', 'class="span3"'); ?>
             </div>
             <br>
-            <label for="password" class="control-label">Alpha : </label> 
+            <!-- <label for="password" class="control-label">Alpha : </label> 
             <div class="controls">
                 <?php echo form_input('ALPHA_ADENDUM_PEMASOK', !empty($default->ALPHA_ADENDUM_PEMASOK) ? $default->ALPHA_ADENDUM_PEMASOK : '', 'class="span3"'); ?>
             </div>
-            <br>
+            <br> -->
             <label for="password" class="control-label">Nilai Kontrak (Rp): </label> 
             <div class="controls">
                 <?php echo form_input('RP_ADENDUM_PEMASOK', !empty($default->RP_ADENDUM_PEMASOK) ? $default->RP_ADENDUM_PEMASOK : '', 'class="span3"'); ?>
+                <sup>Termasuk PPN 10 %</sup>
             </div>
             <br>
             <label for="password" class="control-label">Penjamin Kontrak : </label> 
@@ -122,15 +131,17 @@
         todayBtn: true,
         pickerPosition: "bottom-left"
     });
+    $('.chosen').chosen();
+
     $('select[name="ID_PEMASOK"]').attr("disabled", true);
 
-    $('input[name=VOL_AKHIR_ADENDUM_PEMASOK]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    $('input[name=VOL_AKHIR_ADENDUM_PEMASOK]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false, allowMinus: false, oncleared: function () { self.Value(''); }
     });
-    $('input[name=ALPHA_ADENDUM_PEMASOK]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    $('input[name=ALPHA_ADENDUM_PEMASOK]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false, allowMinus: false, oncleared: function () { self.Value(''); }
     });
-    $('input[name=RP_ADENDUM_PEMASOK]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    $('input[name=RP_ADENDUM_PEMASOK]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false, allowMinus: false, oncleared: function () { self.Value(''); }
     });
-    $('input[name=NOMINAL_ADENDUM_PEMASOK]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false,oncleared: function () { self.Value(''); }
+    $('input[name=NOMINAL_ADENDUM_PEMASOK]').inputmask("numeric", {radixPoint: ",",groupSeparator: ".",digits: 2,autoGroup: true,prefix: '',rightAlign: false, allowMinus: false, oncleared: function () { self.Value(''); }
     });
     
 </script>            

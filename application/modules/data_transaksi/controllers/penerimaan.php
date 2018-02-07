@@ -235,10 +235,13 @@ class penerimaan extends MX_Controller
             $data['NO_PENERIMAAN'] = $this->input->post('NO_PENERIMAAN');
             $data['ID_JNS_BHN_BKR'] = $this->input->post('ID_JNS_BHN_BKR');
             $data['VOL_PENERIMAAN'] =  str_replace(".","",$this->input->post('VOL_PENERIMAAN'));
-            $data['VOL_PENERIMAAN_REAL'] = str_replace(".","",$this->input->post('VOL_PENERIMAAN_REAL')); ;
+            $data['VOL_PENERIMAAN'] =  str_replace(",",".",$data['VOL_PENERIMAAN']);
+            $data['VOL_PENERIMAAN_REAL'] = str_replace(".","",$this->input->post('VOL_PENERIMAAN_REAL'));
+            $data['VOL_PENERIMAAN_REAL'] = str_replace(",",".",$data['VOL_PENERIMAAN_REAL']);
             $data['CREATE_BY'] = $this->session->userdata('user_name');
 			$data['IS_MIX'] = $this->input->post("ismix");
 			$data['ID_KOMPONEN'] = $this->input->post("KOMPONEN");
+            $data['KET_MUTASI_TERIMA'] = $this->input->post("KET_MUTASI_TERIMA");   
 
             $id = $this->input->post('id');
 
@@ -346,6 +349,8 @@ class penerimaan extends MX_Controller
                     $s = $s . "5" . "#";
                 } else if ($statusKirim == 'approve') {
                     $s = $s . "6" . "#";
+                } else {
+                    $s = "7". "#";
                 }
             }
         }

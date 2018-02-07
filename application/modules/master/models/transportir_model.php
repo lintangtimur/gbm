@@ -116,8 +116,6 @@ class transportir_model extends CI_Model {
 
         return array('total' => $total, 'rows' => $rows);
     }
-	 
-
 }
 
 /* End of file unit_model.php */

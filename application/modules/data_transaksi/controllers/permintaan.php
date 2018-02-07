@@ -243,13 +243,15 @@ class permintaan extends MX_Controller
             $data['NO_NOMINASI'] = $this->input->post('NO_NOMINASI');
             $data['ID_JNS_BHN_BKR'] = $this->input->post('ID_JNS_BHN_BKR');
             $data['VOLUME_NOMINASI'] =  str_replace(".","",$this->input->post('VOLUME_NOMINASI'));
+            $data['VOLUME_NOMINASI'] =  str_replace(",",".",$data['VOLUME_NOMINASI']);
             $data['CREATE_BY'] = $this->session->userdata('user_name');
             $data['PATH_FILE_NOMINASI'] = $this->input->post('PATH_FILE_NOMINASI');
             $data['PATH_NAMA'] = '';
 
             if (!empty($_FILES['PATH_FILE_NOMINASI']['name'])){
-                $new_name = str_replace(".","",$data['NO_NOMINASI']).'_'.date("YmdHis");
-                // $new_name = preg_replace("/[^A-Za-z0-9 ]/", '', $data['NO_NOMINASI'].'_'.date('YmdHis'));
+                // $new_name = str_replace(".","",$data['NO_NOMINASI']).'_'.date("YmdHis");
+                $new_name = preg_replace("/[^a-zA-Z0-9]/", "", $data['NO_NOMINASI']);
+                $new_name = $new_name.'_'.date("YmdHis");
                 $config['file_name'] = $new_name;
                 $config['upload_path'] = 'assets/upload/permintaan';
                 $config['allowed_types'] = 'jpg|jpeg|png|pdf';
@@ -264,6 +266,7 @@ class permintaan extends MX_Controller
             {
                 $vol_ke = $this->input->post('vol_ke'.$i);
                 $vol_ke = str_replace(".","",$vol_ke);
+                $vol_ke = str_replace(",",".",$vol_ke);
                 $data_detail[$i] = array(
                     'NO_NOMINASI' => $this->input->post('NO_NOMINASI'),
                     'TGL_KIRIM' => date('Y-m-d', strtotime($this->input->post('tgl_ke'.$i))),

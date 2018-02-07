@@ -228,6 +228,7 @@ class pemakaian extends MX_Controller
         $data['ID_JNS_BHN_BKR'] = $this->input->post('ID_JNS_BHN_BKR');
         $data['NO_TUG'] = $this->input->post('NO_TUG');
         $data['VOL_PEMAKAIAN'] = str_replace(".","",$this->input->post('VOL_PEMAKAIAN'));
+        $data['VOL_PEMAKAIAN'] = str_replace(",",".",$data['VOL_PEMAKAIAN']);
         $data['CREATE_BY'] = $this->session->userdata('user_name');
         $data['KETERANGAN'] = $this->input->post('KETERANGAN');
         $data['NO_PEMAKAIAN'] = $this->input->post('NO_PEMAKAIAN');
@@ -310,10 +311,10 @@ class pemakaian extends MX_Controller
 
         // $simpan = $this->tbl_get->saveDetailPenerimaan($idPenerimaan, $statusPenerimaan, $level_user, $user_name, $jumlah);
 		// print_debug($simpan);
-        if ($simpan[0]->RCDB == "RC01") {
+        if ($simpan[0]->RCDB == "RC00") {
             $message = array(true, 'Proses Berhasil', $simpan[0]->PESANDB, '#content_table');
         } else {
-            $message = array(false, 'Proses Gagals', $simpan[0]->PESANDB, '');
+            $message = array(false, 'Proses Gagal', $simpan[0]->PESANDB, '');
         }
         echo json_encode($message, true);
     }
@@ -335,6 +336,8 @@ class pemakaian extends MX_Controller
                     $s = $s . "5" . "#";
                 } else if ($statusKirim == 'approve') {
                     $s = $s . "6" . "#";
+                } else {
+                    $s = "7". "#";
                 }
             }
         }

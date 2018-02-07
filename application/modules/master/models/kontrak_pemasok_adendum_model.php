@@ -109,29 +109,45 @@ class kontrak_pemasok_adendum_model extends CI_Model {
 		$no=(($offset-1) * $limit) +1;
         $rows = array();
 
-        //payung kontrak
-        $idkontrak = $this->session->userdata('ID_KONTRAK_PEMASOK'); 
-        $id=$idkontrak;
+        if ($no==1){
+            //payung kontrak
+            $idkontrak = $this->session->userdata('ID_KONTRAK_PEMASOK'); 
+            $id=$idkontrak;
 
-        $aksi = anchor(null, '<i class="icon-edit" title="Edit Data"></i>', array('class' => 'btn transparant', 'id' => 'button-edit2-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit/' . $id)));
-        $rows['A'.$id] = array(
-            'NO' => $no++,
-            'NO_ADENDUM_PEMASOK' => '-',
-            'TGL_ADENDUM_PEMASOK' => '-',
-            'KET_ADENDUM_PEMASOK' => 'Awal Kontrak (PJBBBM)',
-            'aksi' => $aksi
-        );
+            $aksi = anchor(null, '<i class="icon-zoom-in" title="Lihat Kontrak"></i>', array('class' => 'btn transparant', 'id' => 'button-view-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit_view/' . $id)));
+
+            $rows['A'.$id] = array(
+                'NO' => $no++,
+                'NO_ADENDUM_PEMASOK' => '-',
+                'TGL_ADENDUM_PEMASOK' => '-',
+                'KET_ADENDUM_PEMASOK' => 'Awal Kontrak (PJBBBM)',
+                'aksi' => $aksi
+            );
+        }
 
         foreach ($record->result() as $row) {
             $id = $row->ID_ADENDUM_PEMASOK;
             $aksi = '';
 
-            if ($this->laccess->otoritas('edit')) {
-                $aksi .= anchor(null, '<i class="icon-edit" title="Edit Data"></i>', array('class' => 'btn transparant', 'id' => 'button-edit3-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit_adendum/' . $id)));
+            $aksi = anchor(null, '<i class="icon-zoom-in" title="Lihat Kontrak"></i>', array('class' => 'btn transparant', 'id' => 'button-view-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit_adendum_view/' . $id)));
+            $x=$no;
+
+            if ($total>=12){
+                if ($offset == 1){
+                    $x=$no;
+                } else {
+                    $x=$no+1;
+                }   
             }
-            if ($this->laccess->otoritas('delete')) {
-                $aksi .= anchor(null, '<i class="icon-trash" title="Hapus Data"></i>', array('class' => 'btn transparant', 'id' => 'button-delete2-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete_adendum/' . $id)));
-            }
+
+            if ($total==($x)){
+                if ($this->laccess->otoritas('edit')) {
+                    $aksi .= anchor(null, '<i class="icon-edit" title="Edit Data"></i>', array('class' => 'btn transparant', 'id' => 'button-edit3-' . $id, 'onclick' => 'load_form(this.id)', 'data-source' => base_url($module . '/edit_adendum/' . $id)));
+                }
+                if ($this->laccess->otoritas('delete')) {
+                    $aksi .= anchor(null, '<i class="icon-trash" title="Hapus Data"></i>', array('class' => 'btn transparant', 'id' => 'button-delete2-' . $id, 'onclick' => 'delete_row(this.id)', 'data-source' => base_url($module . '/delete_adendum/' . $id)));
+                }
+            }    
 
             $rows[$id] = array(
                 'NO' => $no++,

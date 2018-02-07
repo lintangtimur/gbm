@@ -170,6 +170,7 @@ class tutup_mutasi_persediaan extends MX_Controller {
             $bulan = $tanggal->format('m');
             if($bulan==1){
                 $bulan=12;
+				$tahun=$tahun-1;
             }else{
                 $bulan=$bulan-1;
             }

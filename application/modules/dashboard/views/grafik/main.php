@@ -128,7 +128,7 @@
                     <div class="well">
 
                             <div class="row">
-                                <div class="col-md-2 col-md-6">
+                                <div class="col-md-2 col-md-6" id="pnl_hsd"><br>
                                     <div class="panel panel-primary">
                                         <div class="panel-heading">
                                             <div class="row">
@@ -143,7 +143,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <a onclick="loadTableHsd();showTable();" href="javascript:void(0);">
+                                        <a onclick="loadTableHsd();showTable('pnl_hsd');" href="javascript:void(0);">
                                             <div class="panel-footer" style="background-color:#337ab7">
                                                 <span class="pull-left" style="color:#fff">View Details</span>
                                                 <span class="pull-right" style="color:#fff"><i class="fa fa-arrow-circle-right"></i></span>
@@ -152,7 +152,7 @@
                                         </a>
                                     </div>
                                 </div>
-                                <div class="col-lg-2 col-md-6">
+                                <div class="col-lg-2 col-md-6" id="pnl_mfo"><br>
                                     <div class="panel panel-info">
                                         <div class="panel-heading" style="background-color:#ffc107">
                                             <div class="row" style="color:#fff">
@@ -167,7 +167,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                         <a onclick="loadTableMfo();showTable();" href="javascript:void(0);">
+                                         <a onclick="loadTableMfo();showTable('pnl_mfo');" href="javascript:void(0);">
                                             <div class="panel-footer" style="background-color:#ffc107">
                                                 <span class="pull-left" style="color:#fff">View Details</span>
                                                 <span class="pull-right" style="color:#fff"><i class="fa fa-arrow-circle-right"></i></span>
@@ -176,7 +176,7 @@
                                         </a>
                                     </div>
                                 </div>
-                                <div class="col-lg-2 col-md-6">
+                                <div class="col-lg-2 col-md-6" id="pnl_bio"><br>
                                     <div class="panel panel-danger">
                                         <div class="panel-heading" style="background-color:#28a745">
                                             <div class="row" style="color:#fff">
@@ -191,7 +191,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                         <a onclick="loadTableBio();showTable();" href="javascript:void(0);">
+                                         <a onclick="loadTableBio();showTable('pnl_bio');" href="javascript:void(0);">
                                             <div class="panel-footer" style="background-color:#28a745">
                                                 <span class="pull-left" style="color:#fff">View Details</span>
                                                 <span class="pull-right" style="color:#fff"><i class="fa fa-arrow-circle-right"></i></span>
@@ -200,7 +200,7 @@
                                         </a>
                                     </div>
                                 </div>
-                                <div class="col-lg-2 col-md-6">
+                                <div class="col-lg-2 col-md-6" id="pnl_hsdbio"><br>
                                     <div class="panel panel-success">
                                         <div class="panel-heading" style="background-color:#dc3545">
                                             <div class="row" style="color:#fff">
@@ -214,7 +214,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                       <a onclick="loadTableHsdBio();showTable();" href="javascript:void(0);">
+                                       <a onclick="loadTableHsdBio();showTable('pnl_hsdbio');" href="javascript:void(0);">
                                             <div class="panel-footer" style="background-color:#dc3545">
                                                 <span class="pull-left" style="color:#fff">View Details</span>
                                                 <span class="pull-right" style="color:#fff"><i class="fa fa-arrow-circle-right"></i></span>
@@ -223,7 +223,7 @@
                                         </a>
                                     </div>
                                 </div>
-								 <div class="col-lg-2 col-md-6">
+								 <div class="col-lg-2 col-md-6" id="pnl_ido"><br>
                                     <div class="panel panel-primary">
                                         <div class="panel-heading" style="background-color:#04B4AE">
                                             <div class="row" style="color:#fff">
@@ -238,7 +238,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                          <a onclick="loadTableIdo();showTable();" href="javascript:void(0);">
+                                          <a onclick="loadTableIdo();showTable('pnl_ido');" href="javascript:void(0);">
                                             <div class="panel-footer" style="background-color:#04B4AE">
                                                 <span class="pull-left" style="color:#fff">View Details</span>
                                                 <span class="pull-right" style="color:#fff"><i class="fa fa-arrow-circle-right"></i></span>
@@ -626,6 +626,18 @@
 
     $('select[name="TAHUN"]').val(year);  
     $('select[name="BULAN"]').val(strMonth); 
+
+
+    function setPilihPanel(vPanel){
+        document.getElementById("pnl_hsd").removeAttribute("style");
+        document.getElementById("pnl_mfo").removeAttribute("style");
+        document.getElementById("pnl_bio").removeAttribute("style");
+        document.getElementById("pnl_hsdbio").removeAttribute("style");
+        document.getElementById("pnl_ido").removeAttribute("style");
+
+        document.getElementById(vPanel).style.backgroundColor  = "#B0C4DE";
+        document.getElementById(vPanel).style.opacity = "0.7";
+    }
     
     function setDefaultLv1(){
         $('select[name="COCODE"]').empty();
@@ -725,14 +737,33 @@
         }
     });    
 
-	function convertToRupiah(angka){
-            var rupiah = '';        
-            var angkarev = angka.toString().split('').reverse().join('');
-            for(var i = 0; i < angkarev.length; i++) if(i%3 == 0) rupiah += angkarev.substr(i,3)+'.';
-            return rupiah.split('',rupiah.length-1).reverse().join('');
+    function convertToRupiah(angka){
+        console.log();
+        var bilangan = parseFloat(Math.round(angka * 100) / 100).toFixed(2);
+        bilangan = bilangan.replace(".", ",");
+        var isMinus = '';
+
+        if (bilangan.indexOf('-') > -1) {
+            isMinus = '-';
+        }
+        var number_string = bilangan.toString(),
+            split   = number_string.split(','),
+            sisa    = split[0].length % 3,
+            rupiah  = split[0].substr(0, sisa),
+            ribuan  = split[0].substr(sisa).match(/\d{1,3}/gi);
+
+        if (ribuan) {
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+
+        if ((rupiah=='') || (rupiah==0)) {rupiah='0,00'}
+        rupiah = isMinus+''+rupiah;
+
+        return rupiah;
     }
 		
-
 	function loadDataBio(){
 		var lvl0 = $('#lvl0').val();
         var lvl1 = $('#lvl1').val();
@@ -927,21 +958,20 @@
     document.getElementById("divTable").style.visibility = "hidden";
     }
   
-	function showTable(){
+	function showTable(vPanel){
 		 document.getElementById("divTable").style.visibility = "visible";
+         setPilihPanel(vPanel);
 	}
 
-  $(function() {
-   loadDataIdo();
-   loadDataMfo();
-   loadDataHsd();
-   loadDataHsdBio();
-   loadDataBio();
-   hiddenTable();
-   
-  });
+    $(function() {
+        loadDataIdo();
+        loadDataMfo();
+        loadDataHsd();
+        loadDataHsdBio();
+        loadDataBio();
+        hiddenTable();
+    });
 
-   
 
 	function loadTableHsdBio(){
 			var lvl0 = $('#lvl0').val();
@@ -978,12 +1008,13 @@
                             var DEAD_STOCK = value.DEAD_STOCK == null ? "" : value.DEAD_STOCK;
                             var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
                             var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
-                            var SHO = value.SHO == null ? "" : value.SHO;
+                            // var SHO = value.SHO == null ? "" : value.SHO;
+                            var SHO ='<td align="center"><font size="5">~</font></td>';
+                            if (value.SHO != null){
+                                SHO = '<td align="right">' + convertToRupiah(value.SHO) + '</td>';
+                            }
+
                             var MAX_PEMAKAIAN = value.MAX_PEMAKAIAN == null ? "" : value.MAX_PEMAKAIAN;
-                            // var SHO = SHO.toString().replace(/\./g, ',');  
-                            var SHO1 = Number(SHO).toFixed(2);  
-                            
-                            
 
                             var strRow =
                                     '<tr>' +
@@ -995,7 +1026,7 @@
                                     '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
                                     '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
-                                    '<td align="right">' + SHO1 + '</td>' +
+                                    SHO +
                                     '</tr>';
                             nomer++;
 
@@ -1006,268 +1037,270 @@
 						}
 					});
 			// };
-		}
+	}
 
-		function loadTableHsd(){
-			var lvl0 = $('#lvl0').val();
-			var lvl1 = $('#lvl1').val();
-			var lvl2 = $('#lvl2').val();
-			var lvl3 = $('#lvl3').val();
-			var lvl4 = $('#lvl4').val();
-			var bln = $('#bln').val();
-			var thn = $('#thn').val();
-			// if (lvl0 == '') {
-			// 	bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
-			// } else {
-				bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
-					$.ajax({
-						type: "POST",
-						url: "<?php echo base_url('dashboard/grafik/getTableHsd'); ?>",
-						data: {"ID_REGIONAL": lvl0,"COCODE":lvl1, "PLANT":lvl2, "STORE_SLOC":lvl3,
-								"SLOC":lvl4, "BULAN":bln, "TAHUN": thn},
-						success:function(response) {
-							var obj = JSON.parse(response);
-							if (obj == "" || obj == null) {
-								$('#dataTable tbody').empty();
-                                var str = '<tr><td colspan="18" align="center">Data Tidak Ditemukan</td></tr>';
-                                $("#dataTable tbody").append(str);
-								  bootbox.hideAll();
-								 } else {
+	function loadTableHsd(){
+		var lvl0 = $('#lvl0').val();
+		var lvl1 = $('#lvl1').val();
+		var lvl2 = $('#lvl2').val();
+		var lvl3 = $('#lvl3').val();
+		var lvl4 = $('#lvl4').val();
+		var bln = $('#bln').val();
+		var thn = $('#thn').val();
+		// if (lvl0 == '') {
+		// 	bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
+		// } else {
+			bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
+				$.ajax({
+					type: "POST",
+					url: "<?php echo base_url('dashboard/grafik/getTableHsd'); ?>",
+					data: {"ID_REGIONAL": lvl0,"COCODE":lvl1, "PLANT":lvl2, "STORE_SLOC":lvl3,
+							"SLOC":lvl4, "BULAN":bln, "TAHUN": thn},
+					success:function(response) {
+						var obj = JSON.parse(response);
+						if (obj == "" || obj == null) {
 							$('#dataTable tbody').empty();
-                         var nomer = 1;
-                         $.each(obj, function (index, value) {
-                           
-                            var UNIT = value.UNIT == null ? "" : value.UNIT;
-                            var NAMA_JNS_BHN_BKR = value.NAMA_JNS_BHN_BKR == null ? "" : value.NAMA_JNS_BHN_BKR;
-                            var TGL_MUTASI_PERSEDIAAN = value.TGL_MUTASI_PERSEDIAAN == null ? "" : value.TGL_MUTASI_PERSEDIAAN;
-                            var DEAD_STOCK = value.DEAD_STOCK == null ? "" : value.DEAD_STOCK;
-                            var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
-                            var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
-                            var SHO = value.SHO == null ? "" : value.SHO;
-                            var MAX_PEMAKAIAN = value.MAX_PEMAKAIAN == null ? "" : value.MAX_PEMAKAIAN;
-                            // var SHO = SHO.toString().replace(/\./g, ',');  
-                            var SHO1 = Number(SHO).toFixed(2);  
-                            
-                            
+                            var str = '<tr><td colspan="18" align="center">Data Tidak Ditemukan</td></tr>';
+                            $("#dataTable tbody").append(str);
+							  bootbox.hideAll();
+							 } else {
+						$('#dataTable tbody').empty();
+                     var nomer = 1;
+                     $.each(obj, function (index, value) {
+                       
+                        var UNIT = value.UNIT == null ? "" : value.UNIT;
+                        var NAMA_JNS_BHN_BKR = value.NAMA_JNS_BHN_BKR == null ? "" : value.NAMA_JNS_BHN_BKR;
+                        var TGL_MUTASI_PERSEDIAAN = value.TGL_MUTASI_PERSEDIAAN == null ? "" : value.TGL_MUTASI_PERSEDIAAN;
+                        var DEAD_STOCK = value.DEAD_STOCK == null ? "" : value.DEAD_STOCK;
+                        var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
+                        var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
+                        //var SHO = value.SHO == null ? "" : value.SHO;
+                        var SHO ='<td align="center"><font size="5">~</font></td>';
+                            if (value.SHO != null){
+                                SHO = '<td align="right">' + convertToRupiah(value.SHO) + '</td>';
+                            }
 
-                            var strRow =
-                                    '<tr>' +
-                                    '<td>' + nomer + '</td>' +
-                                    '<td>' + UNIT + '</td>' +
-                                    '<td>' + NAMA_JNS_BHN_BKR + '</td>' +
-                                    '<td>' + TGL_MUTASI_PERSEDIAAN + '</td>' +
-                                    '<td align="right">' + convertToRupiah(DEAD_STOCK) + '</td>' +
-                                    '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
-                                    '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
-                                    '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
-                                    '<td align="right">' + SHO1 + '</td>' +
-                                    '</tr>';
-                            nomer++;
+                        var MAX_PEMAKAIAN = value.MAX_PEMAKAIAN == null ? "" : value.MAX_PEMAKAIAN;
 
-                            $("#dataTable tbody").append(strRow);
-                            bootbox.hideAll();
-							  });
-							};
-						}
-					});
-			// };
-		}
+                        var strRow =
+                                '<tr>' +
+                                '<td>' + nomer + '</td>' +
+                                '<td>' + UNIT + '</td>' +
+                                '<td>' + NAMA_JNS_BHN_BKR + '</td>' +
+                                '<td>' + TGL_MUTASI_PERSEDIAAN + '</td>' +
+                                '<td align="right">' + convertToRupiah(DEAD_STOCK) + '</td>' +
+                                '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
+                                '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
+                                '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
+                                SHO +
+                                '</tr>';
+                        nomer++;
 
-		function loadTableBio(){
-			var lvl0 = $('#lvl0').val();
-			var lvl1 = $('#lvl1').val();
-			var lvl2 = $('#lvl2').val();
-			var lvl3 = $('#lvl3').val();
-			var lvl4 = $('#lvl4').val();
-			var bln = $('#bln').val();
-			var thn = $('#thn').val();
-			// if (lvl0 == '') {
-			// 	bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
-			// } else {
-				bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
-					$.ajax({
-						type: "POST",
-						url: "<?php echo base_url('dashboard/grafik/getTableBio'); ?>",
-						data: {"ID_REGIONAL": lvl0,"COCODE":lvl1, "PLANT":lvl2, "STORE_SLOC":lvl3,
-								"SLOC":lvl4, "BULAN":bln, "TAHUN": thn},
-						success:function(response) {
-							var obj = JSON.parse(response);
-							if (obj == "" || obj == null) {
-								$('#dataTable tbody').empty();
-                                var str = '<tr><td colspan="18" align="center">Data Tidak Ditemukan</td></tr>';
-                                $("#dataTable tbody").append(str);
-								  bootbox.hideAll();
-								 } else {
+                        $("#dataTable tbody").append(strRow);
+                        bootbox.hideAll();
+						  });
+						};
+					}
+				});
+		// };
+	}
+
+	function loadTableBio(){
+		var lvl0 = $('#lvl0').val();
+		var lvl1 = $('#lvl1').val();
+		var lvl2 = $('#lvl2').val();
+		var lvl3 = $('#lvl3').val();
+		var lvl4 = $('#lvl4').val();
+		var bln = $('#bln').val();
+		var thn = $('#thn').val();
+		// if (lvl0 == '') {
+		// 	bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
+		// } else {
+			bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
+				$.ajax({
+					type: "POST",
+					url: "<?php echo base_url('dashboard/grafik/getTableBio'); ?>",
+					data: {"ID_REGIONAL": lvl0,"COCODE":lvl1, "PLANT":lvl2, "STORE_SLOC":lvl3,
+							"SLOC":lvl4, "BULAN":bln, "TAHUN": thn},
+					success:function(response) {
+						var obj = JSON.parse(response);
+						if (obj == "" || obj == null) {
 							$('#dataTable tbody').empty();
-                         var nomer = 1;
-                         $.each(obj, function (index, value) {
-                           
-                            var UNIT = value.UNIT == null ? "" : value.UNIT;
-                            var NAMA_JNS_BHN_BKR = value.NAMA_JNS_BHN_BKR == null ? "" : value.NAMA_JNS_BHN_BKR;
-                            var TGL_MUTASI_PERSEDIAAN = value.TGL_MUTASI_PERSEDIAAN == null ? "" : value.TGL_MUTASI_PERSEDIAAN;
-                            var DEAD_STOCK = value.DEAD_STOCK == null ? "" : value.DEAD_STOCK;
-                            var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
-                            var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
-                            var SHO = value.SHO == null ? "" : value.SHO;
-                            var MAX_PEMAKAIAN = value.MAX_PEMAKAIAN == null ? "" : value.MAX_PEMAKAIAN;
-                            // var SHO = SHO.toString().replace(/\./g, ',');  
-                            var SHO1 = Number(SHO).toFixed(2);  
-                            
-                            
+                            var str = '<tr><td colspan="18" align="center">Data Tidak Ditemukan</td></tr>';
+                            $("#dataTable tbody").append(str);
+							  bootbox.hideAll();
+							 } else {
+						$('#dataTable tbody').empty();
+                     var nomer = 1;
+                     $.each(obj, function (index, value) {
+                       
+                        var UNIT = value.UNIT == null ? "" : value.UNIT;
+                        var NAMA_JNS_BHN_BKR = value.NAMA_JNS_BHN_BKR == null ? "" : value.NAMA_JNS_BHN_BKR;
+                        var TGL_MUTASI_PERSEDIAAN = value.TGL_MUTASI_PERSEDIAAN == null ? "" : value.TGL_MUTASI_PERSEDIAAN;
+                        var DEAD_STOCK = value.DEAD_STOCK == null ? "" : value.DEAD_STOCK;
+                        var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
+                        var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
+                        // var SHO = value.SHO == null ? "" : value.SHO;
+                        var SHO ='<td align="center"><font size="5">~</font></td>';
+                            if (value.SHO != null){
+                                SHO = '<td align="right">' + convertToRupiah(value.SHO) + '</td>';
+                            }
 
-                            var strRow =
-                                    '<tr>' +
-                                    '<td>' + nomer + '</td>' +
-                                    '<td>' + UNIT + '</td>' +
-                                    '<td>' + NAMA_JNS_BHN_BKR + '</td>' +
-                                    '<td>' + TGL_MUTASI_PERSEDIAAN + '</td>' +
-                                    '<td align="right">' + convertToRupiah(DEAD_STOCK) + '</td>' +
-                                    '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
-                                    '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
-                                    '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
-                                    '<td align="right">' + SHO1 + '</td>' +
-                                    '</tr>';
-                            nomer++;
+                        var MAX_PEMAKAIAN = value.MAX_PEMAKAIAN == null ? "" : value.MAX_PEMAKAIAN;
 
-                            $("#dataTable tbody").append(strRow);
-                            bootbox.hideAll();
-							  });
-							};
-						}
-					});
-			// };
-		}
+                        var strRow =
+                                '<tr>' +
+                                '<td>' + nomer + '</td>' +
+                                '<td>' + UNIT + '</td>' +
+                                '<td>' + NAMA_JNS_BHN_BKR + '</td>' +
+                                '<td>' + TGL_MUTASI_PERSEDIAAN + '</td>' +
+                                '<td align="right">' + convertToRupiah(DEAD_STOCK) + '</td>' +
+                                '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
+                                '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
+                                '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
+                                SHO +
+                                '</tr>';
+                        nomer++;
 
-		function loadTableMfo(){
-			var lvl0 = $('#lvl0').val();
-			var lvl1 = $('#lvl1').val();
-			var lvl2 = $('#lvl2').val();
-			var lvl3 = $('#lvl3').val();
-			var lvl4 = $('#lvl4').val();
-			var bln = $('#bln').val();
-			var thn = $('#thn').val();
-			// if (lvl0 == '') {
-			// 	bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
-			// } else {
-				bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
-					$.ajax({
-						type: "POST",
-						url: "<?php echo base_url('dashboard/grafik/getTableMfo'); ?>",
-						data: {"ID_REGIONAL": lvl0,"COCODE":lvl1, "PLANT":lvl2, "STORE_SLOC":lvl3,
-								"SLOC":lvl4, "BULAN":bln, "TAHUN": thn},
-						success:function(response) {
-							var obj = JSON.parse(response);
-							if (obj == "" || obj == null) {
-								$('#dataTable tbody').empty();
-                                var str = '<tr><td colspan="18" align="center">Data Tidak Ditemukan</td></tr>';
-                                $("#dataTable tbody").append(str);
-								  bootbox.hideAll();
-								 } else {
+                        $("#dataTable tbody").append(strRow);
+                        bootbox.hideAll();
+						  });
+						};
+					}
+				});
+		// };
+	}
+
+	function loadTableMfo(){
+		var lvl0 = $('#lvl0').val();
+		var lvl1 = $('#lvl1').val();
+		var lvl2 = $('#lvl2').val();
+		var lvl3 = $('#lvl3').val();
+		var lvl4 = $('#lvl4').val();
+		var bln = $('#bln').val();
+		var thn = $('#thn').val();
+		// if (lvl0 == '') {
+		// 	bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
+		// } else {
+			bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
+				$.ajax({
+					type: "POST",
+					url: "<?php echo base_url('dashboard/grafik/getTableMfo'); ?>",
+					data: {"ID_REGIONAL": lvl0,"COCODE":lvl1, "PLANT":lvl2, "STORE_SLOC":lvl3,
+							"SLOC":lvl4, "BULAN":bln, "TAHUN": thn},
+					success:function(response) {
+						var obj = JSON.parse(response);
+						if (obj == "" || obj == null) {
 							$('#dataTable tbody').empty();
-                         var nomer = 1;
-                         $.each(obj, function (index, value) {
-                           
-                            var UNIT = value.UNIT == null ? "" : value.UNIT;
-                            var NAMA_JNS_BHN_BKR = value.NAMA_JNS_BHN_BKR == null ? "" : value.NAMA_JNS_BHN_BKR;
-                            var TGL_MUTASI_PERSEDIAAN = value.TGL_MUTASI_PERSEDIAAN == null ? "" : value.TGL_MUTASI_PERSEDIAAN;
-                            var DEAD_STOCK = value.DEAD_STOCK == null ? "" : value.DEAD_STOCK;
-                            var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
-                            var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
-                            var SHO = value.SHO == null ? "" : value.SHO;
-                            var MAX_PEMAKAIAN = value.MAX_PEMAKAIAN == null ? "" : value.MAX_PEMAKAIAN;
-                            // var SHO = SHO.toString().replace(/\./g, ',');  
-                            var SHO1 = Number(SHO).toFixed(2);  
-                            
-                            
+                            var str = '<tr><td colspan="18" align="center">Data Tidak Ditemukan</td></tr>';
+                            $("#dataTable tbody").append(str);
+							  bootbox.hideAll();
+							 } else {
+						$('#dataTable tbody').empty();
+                     var nomer = 1;
+                     $.each(obj, function (index, value) {
+                       
+                        var UNIT = value.UNIT == null ? "" : value.UNIT;
+                        var NAMA_JNS_BHN_BKR = value.NAMA_JNS_BHN_BKR == null ? "" : value.NAMA_JNS_BHN_BKR;
+                        var TGL_MUTASI_PERSEDIAAN = value.TGL_MUTASI_PERSEDIAAN == null ? "" : value.TGL_MUTASI_PERSEDIAAN;
+                        var DEAD_STOCK = value.DEAD_STOCK == null ? "" : value.DEAD_STOCK;
+                        var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
+                        var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
+                        // var SHO = value.SHO == null ? "" : value.SHO;
+                        var SHO ='<td align="center"><font size="5">~</font></td>';
+                            if (value.SHO != null){
+                                SHO = '<td align="right">' + convertToRupiah(value.SHO) + '</td>';
+                            }
 
-                            var strRow =
-                                    '<tr>' +
-                                    '<td>' + nomer + '</td>' +
-                                    '<td>' + UNIT + '</td>' +
-                                    '<td>' + NAMA_JNS_BHN_BKR + '</td>' +
-                                    '<td>' + TGL_MUTASI_PERSEDIAAN + '</td>' +
-                                    '<td align="right">' + convertToRupiah(DEAD_STOCK) + '</td>' +
-                                    '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
-                                    '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
-                                    '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
-                                    '<td align="right">' + SHO1 + '</td>' +
-                                    '</tr>';
-                            nomer++;
+                        var MAX_PEMAKAIAN = value.MAX_PEMAKAIAN == null ? "" : value.MAX_PEMAKAIAN;
 
-                            $("#dataTable tbody").append(strRow);
-                            bootbox.hideAll();
-							  });
-							};
-						}
-					});
-			// };
-		}
-		
-		function loadTableIdo(){
-			var lvl0 = $('#lvl0').val();
-			var lvl1 = $('#lvl1').val();
-			var lvl2 = $('#lvl2').val();
-			var lvl3 = $('#lvl3').val();
-			var lvl4 = $('#lvl4').val();
-			var bln = $('#bln').val();
-			var thn = $('#thn').val();
-			// if (lvl0 == '') {
-			// 	bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
-			// } else {
-				bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
-					$.ajax({
-						type: "POST",
-						url: "<?php echo base_url('dashboard/grafik/getTableIdo'); ?>",
-						data: {"ID_REGIONAL": lvl0,"COCODE":lvl1, "PLANT":lvl2, "STORE_SLOC":lvl3,
-								"SLOC":lvl4, "BULAN":bln, "TAHUN": thn},
-						success:function(response) {
-							var obj = JSON.parse(response);
-							if (obj == "" || obj == null) {
-								$('#dataTable tbody').empty();
-                                var str = '<tr><td colspan="18" align="center">Data Tidak Ditemukan</td></tr>';
-                                $("#dataTable tbody").append(str);
-								  bootbox.hideAll();
-								 } else {
+                        var strRow =
+                                '<tr>' +
+                                '<td>' + nomer + '</td>' +
+                                '<td>' + UNIT + '</td>' +
+                                '<td>' + NAMA_JNS_BHN_BKR + '</td>' +
+                                '<td>' + TGL_MUTASI_PERSEDIAAN + '</td>' +
+                                '<td align="right">' + convertToRupiah(DEAD_STOCK) + '</td>' +
+                                '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
+                                '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
+                                '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
+                                SHO +
+                                '</tr>';
+                        nomer++;
+
+                        $("#dataTable tbody").append(strRow);
+                        bootbox.hideAll();
+						  });
+						};
+					}
+				});
+		// };
+	}
+	
+	function loadTableIdo(){
+		var lvl0 = $('#lvl0').val();
+		var lvl1 = $('#lvl1').val();
+		var lvl2 = $('#lvl2').val();
+		var lvl3 = $('#lvl3').val();
+		var lvl4 = $('#lvl4').val();
+		var bln = $('#bln').val();
+		var thn = $('#thn').val();
+		// if (lvl0 == '') {
+		// 	bootbox.alert('<div class="box-title" style="color:#ac193d;"><i class="icon-remove-sign"></i>  --PILIH REGIONAL-- </div>', function() {});
+		// } else {
+			bootbox.dialog('<div class="loading-progress" style="color:#ac193d;"></div>');
+				$.ajax({
+					type: "POST",
+					url: "<?php echo base_url('dashboard/grafik/getTableIdo'); ?>",
+					data: {"ID_REGIONAL": lvl0,"COCODE":lvl1, "PLANT":lvl2, "STORE_SLOC":lvl3,
+							"SLOC":lvl4, "BULAN":bln, "TAHUN": thn},
+					success:function(response) {
+						var obj = JSON.parse(response);
+						if (obj == "" || obj == null) {
 							$('#dataTable tbody').empty();
-                         var nomer = 1;
-                         $.each(obj, function (index, value) {
-                           
-                            var UNIT = value.UNIT == null ? "" : value.UNIT;
-                            var NAMA_JNS_BHN_BKR = value.NAMA_JNS_BHN_BKR == null ? "" : value.NAMA_JNS_BHN_BKR;
-                            var TGL_MUTASI_PERSEDIAAN = value.TGL_MUTASI_PERSEDIAAN == null ? "" : value.TGL_MUTASI_PERSEDIAAN;
-                            var DEAD_STOCK = value.DEAD_STOCK == null ? "" : value.DEAD_STOCK;
-                            var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
-                            var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
-                            var SHO = value.SHO == null ? "" : value.SHO;
-                            var MAX_PEMAKAIAN = value.MAX_PEMAKAIAN == null ? "" : value.MAX_PEMAKAIAN;
-                            // var SHO = SHO.toString().replace(/\./g, ',');  
-                            var SHO1 = Number(SHO).toFixed(2);  
-                            
-                            
+                            var str = '<tr><td colspan="18" align="center">Data Tidak Ditemukan</td></tr>';
+                            $("#dataTable tbody").append(str);
+							  bootbox.hideAll();
+							 } else {
+						$('#dataTable tbody').empty();
+                     var nomer = 1;
+                     $.each(obj, function (index, value) {
+                       
+                        var UNIT = value.UNIT == null ? "" : value.UNIT;
+                        var NAMA_JNS_BHN_BKR = value.NAMA_JNS_BHN_BKR == null ? "" : value.NAMA_JNS_BHN_BKR;
+                        var TGL_MUTASI_PERSEDIAAN = value.TGL_MUTASI_PERSEDIAAN == null ? "" : value.TGL_MUTASI_PERSEDIAAN;
+                        var DEAD_STOCK = value.DEAD_STOCK == null ? "" : value.DEAD_STOCK;
+                        var STOK_REAL = value.STOCK_AKHIR_REAL == null ? "" : value.STOCK_AKHIR_REAL;
+                        var STOK_EFEKTIF = value.STOCK_AKHIR_EFEKTIF == null ? "" : value.STOCK_AKHIR_EFEKTIF;
+                        // var SHO = value.SHO == null ? "" : value.SHO;
+                        var SHO ='<td align="center"><font size="5">~</font></td>';
+                            if (value.SHO != null){
+                                SHO = '<td align="right">' + convertToRupiah(value.SHO) + '</td>';
+                            }
 
-                            var strRow =
-                                    '<tr>' +
-                                    '<td>' + nomer + '</td>' +
-                                    '<td>' + UNIT + '</td>' +
-                                    '<td>' + NAMA_JNS_BHN_BKR + '</td>' +
-                                    '<td>' + TGL_MUTASI_PERSEDIAAN + '</td>' +
-                                    '<td align="right">' + convertToRupiah(DEAD_STOCK) + '</td>' +
-                                    '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
-                                    '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
-                                    '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
-                                    '<td align="right">' + SHO1 + '</td>' +
-                                    '</tr>';
-                            nomer++;
+                        var MAX_PEMAKAIAN = value.MAX_PEMAKAIAN == null ? "" : value.MAX_PEMAKAIAN;                    
+                        var strRow =
+                                '<tr>' +
+                                '<td>' + nomer + '</td>' +
+                                '<td>' + UNIT + '</td>' +
+                                '<td>' + NAMA_JNS_BHN_BKR + '</td>' +
+                                '<td>' + TGL_MUTASI_PERSEDIAAN + '</td>' +
+                                '<td align="right">' + convertToRupiah(DEAD_STOCK) + '</td>' +
+                                '<td align="right">' + convertToRupiah(MAX_PEMAKAIAN) + '</td>' +
+                                '<td align="right">' + convertToRupiah(STOK_REAL) + '</td>' +
+                                '<td align="right">' + convertToRupiah(STOK_EFEKTIF) + '</td>' +
+                                SHO +
+                                '</tr>';
+                        nomer++;
 
-                            $("#dataTable tbody").append(strRow);
-                            bootbox.hideAll();
-							  });
-							};
-						}
-					});
-			// };
-		}
-
+                        $("#dataTable tbody").append(strRow);
+                        bootbox.hideAll();
+						  });
+						};
+					}
+				});
+		// };
+	}
 
 </script>
 

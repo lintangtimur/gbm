@@ -127,7 +127,7 @@
                                               <td></td>
                                               <td></td>
                                               <td></td>
-                                              <td><?php echo str_repeat("&nbsp;", 10); ?></td>
+                                              <!-- <td><?php echo str_repeat("&nbsp;", 10); ?></td>
                                               <td></td>
                                               <td></td>
                                               <td></td>
@@ -135,7 +135,7 @@
                                               <td><?php echo str_repeat("&nbsp;", 10); ?></td>
                                               <td></td>
                                               <td></td>
-                                              <td></td>
+                                              <td></td> -->
                                            </tr>
                                            <tr>
                                               <td><label>Belum Kirim</label></td>
@@ -153,7 +153,7 @@
                                                     <info id="DISETUJUI"></info>
                                                  </label>
                                               </td>
-                                              <td><?php echo str_repeat("&nbsp;", 10); ?></td>
+                                              <!-- <td><?php echo str_repeat("&nbsp;", 10); ?></td>
                                               <td><label>Closing</label></td>
                                               <td><label>:</label></td>
                                               <td>
@@ -169,7 +169,7 @@
                                                  <label>
                                                     <info id="CLOSING_DISETUJUI"></info>
                                                  </label>
-                                              </td>
+                                              </td> -->
                                            </tr>
                                            <tr>
                                               <td><label>Belum Disetujui</label></td>
@@ -187,7 +187,7 @@
                                                     <info id="DITOLAK"></info>
                                                  </label>
                                               </td>
-                                              <td><?php echo str_repeat("&nbsp;", 10); ?></td>
+                                 <!--              <td><?php echo str_repeat("&nbsp;", 10); ?></td>
                                               <td><label>Closing blm Disetujui</label></td>
                                               <td><label>:</label></td>
                                               <td>
@@ -203,7 +203,7 @@
                                                  <label>
                                                     <info id="CLOSING_DITOLAK"></info>
                                                  </label>
-                                              </td>
+                                              </td> -->
                                            </tr>
                                         </table>
                                     </div>
@@ -290,7 +290,7 @@
 </div>
 <script type="text/javascript">
     var icon = 'icon-remove-sign';
-	var color = '#ac193d;';
+	  var color = '#ac193d;';
     var offset = -100;
     var today = new Date();
     var year = today.getFullYear();   
@@ -298,10 +298,20 @@
     $('select[name="TAHUN"]').val(year); 
 
     function toRupiah(angka){
-        var rupiah = '';        
-        var angkarev = angka.toString().split('').reverse().join('');
-        for(var i = 0; i < angkarev.length; i++) if(i%3 == 0) rupiah += angkarev.substr(i,3)+'.';
-        return rupiah.split('',rupiah.length-1).reverse().join('');
+        var bilangan = angka.replace(".", ",");
+        var number_string = bilangan.toString(),
+            split   = number_string.split(','),
+            sisa    = split[0].length % 3,
+            rupiah  = split[0].substr(0, sisa),
+            ribuan  = split[0].substr(sisa).match(/\d{1,3}/gi);
+                
+        if (ribuan) {
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+
+        return rupiah;
     }
 
     function pageScroll() {

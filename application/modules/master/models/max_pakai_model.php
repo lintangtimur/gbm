@@ -101,7 +101,7 @@
 				'level4' => $row->LEVEL4,
 				'jenis_bbm' => $row->NAMA_JNS_BHN_BKR,
                 'periode' => $row->THBL_MAX_PAKAI,
-                'volume' => number_format($row->VOLUME_MAX_PAKAI,0,"",".")
+                'volume' => number_format($row->VOLUME_MAX_PAKAI,2,',','.')
 				);
 			}
 			

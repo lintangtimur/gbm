@@ -149,16 +149,17 @@
                 $id = $row->TANGGAL.'|'.$row->SLOC.'|'.$num;
                 $aksi = anchor(null, '<i class="icon-zoom-in" title="Lihat Detail Data"></i>', array('class' => 'btn transparant button-detail', 'id' => 'button-view-' . $id, 'onClick' => 'show_detail(\''.$id.'\')'));
                 $rows[$num] = array(
-                'NO' => $num,
+                'NO' => $no,
                 'BLTH' => $this->get_blth($row->BL,$row->TH),
                 'LEVEL4' => $row->LEVEL4,
                 //                    'STATUS' => $row->STATUS_APPROVE,
-                'TOTAL_VOLUME' => number_format($row->SUM_VOLUME,0,',','.'),
-                'COUNT' => $row->COUNT_VOLUME,
+                'TOTAL_VOLUME' => number_format($row->SUM_VOLUME,2,',','.'),
+                'COUNT' => number_format($row->COUNT_VOLUME,0,',','.'),
                 'AKSI' => $aksi
                 );
 
 				$num++;
+                $no++;
 				// }
 			}
 			return array('total' => $total, 'rows' => $rows);
@@ -197,7 +198,8 @@
 			}
 			
 			if (!$this->laccess->otoritas('add')){
-				$this->db->where("STATUS !=","Belum Dikirim");    
+				$this->db->where("STATUS !=","Belum Dikirim"); 
+                $this->db->where("STATUS !=","Closing");   
 			}
 			
 			if ($_POST['KATA_KUNCI_DETAIL'] !=''){
@@ -217,7 +219,7 @@
 		function saveDetailPenerimaan($idPenerimaan, $statusPenerimaan,$level_user,$kode_level,$user,$jumlah){
 			// print_r("call SP_TEMP_PENERIMAAN('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$kode_level."','".$user."',".$jumlah.")"); die;
 			// print_debug("call SP_TEMP_PENERIMAAN('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$kode_level."','".$user."',".$jumlah.")");
-			$query = $this->db->query("call SP_TEMP_PENERIMAAN('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$kode_level."','".$user."',".$jumlah.")");
+			$query = $this->db->query("call PROSES_PENERIMAAN('".$idPenerimaan."','".$statusPenerimaan."','".$level_user."','".$kode_level."','".$user."',".$jumlah.")");
 			// return $query->result();
 			
 			$res = $query->result();
@@ -231,13 +233,14 @@
 		
 		function saveDetailClossing($sloc,$idPenerimaan,$level_user,$statusPenerimaan,$kode_level,$user_name,$jumlah){
 			// print_debug("call SP_TEMP_CLOSSING('".$sloc."','".$idPenerimaan."','".$level_user."','".$statusPenerimaan."','".$kode_level."','".$user_name."',".$jumlah.")");
-			$query = $this->db->query("call SP_TEMP_CLOSSING('".$sloc."','".$idPenerimaan."','".$level_user."','".$statusPenerimaan."','".$kode_level."','".$user_name."',".$jumlah.")");
+			$query = $this->db->query("call PROSES_CLOSSING('".$sloc."','".$idPenerimaan."','".$level_user."','".$statusPenerimaan."','".$kode_level."','".$user_name."',".$jumlah.")");
 			$this->db->close();
             return $query->result();
 		}
 		
 		public function options_pemasok($default = '--Pilih Pemasok--') {
 			$this->db->from('MASTER_PEMASOK');
+            $this->db->order_by('REF_NAMA_TRANS, NAMA_PEMASOK');
 			
 			$option = array();
 			$list = $this->db->get();
@@ -255,9 +258,11 @@
 		
 		public function options_transpotir($default = '--Pilih Transportir--') {
 			$this->db->from('MASTER_TRANSPORTIR');
+            $this->db->order_by('REF_NAMA_TRANS, NAMA_TRANSPORTIR');
 			
 			$option = array();
 			$list = $this->db->get();
+
 			
 			if (!empty($default)) {
 				$option[''] = $default;
@@ -531,7 +536,8 @@
             .$data['TGL_PENERIMAAN']."','"
             .$data['VALUE_SETTING']."',"
             .$data['VOL_PENERIMAAN'].","
-            .$data['VOL_PENERIMAAN_REAL'].",'','0','"
+            .$data['VOL_PENERIMAAN_REAL'].",'"
+            .$data['KET_MUTASI_TERIMA']."','0','"
             .$data['CREATE_BY']."','"
             .$data['NO_PENERIMAAN']."','"
             .$data['ID_JNS_BHN_BKR']."',
@@ -558,7 +564,7 @@
             '".$data['TGL_PENGAKUAN']."',
             '".$data['TGL_PENERIMAAN']."',
             '".$data['VALUE_SETTING']."',
-            '',
+            '".$data['KET_MUTASI_TERIMA']."',
             '".$data['ID_JNS_BHN_BKR']."',
             '".$data['NO_PENERIMAAN']."',
             '".$data['IS_MIX']."',

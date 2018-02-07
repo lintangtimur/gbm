@@ -19,63 +19,62 @@
             <div class="control-group">
                 <label  class="control-label">Regional <span class="required">*</span> : </label>
                 <div class="controls">
-                    <?php echo form_dropdown('ID_REGIONAL', $reg_options, !empty($default->ID_REGIONAL) ? $default->ID_REGIONAL : '', 'class="span6"'); ?>
+                    <?php echo form_dropdown('ID_REGIONAL', $reg_options, !empty($default->ID_REGIONAL) ? $default->ID_REGIONAL : '', 'class="span6" disabled'); ?>
                 </div>
             </div>
             <div class="control-group">
                 <label  class="control-label">Level 1<span class="required">*</span> : </label>
                 <div class="controls">
-                    <?php echo form_dropdown('COCODE', $lv1_options, !empty($default->COCODE) ? $default->COCODE : '', 'class="span6"'); ?>
+                    <?php echo form_dropdown('COCODE', $lv1_options, !empty($default->COCODE) ? $default->COCODE : '', 'class="span6" disabled'); ?>
                 </div>
             </div>
             <div class="control-group">
                 <label  class="control-label">Level 2<span class="required">*</span> : </label>
                 <div class="controls">
-                    <?php echo form_dropdown('PLANT', $lv2_options, !empty($default->PLANT) ? $default->PLANT : '', 'class="span6"'); ?>
+                    <?php echo form_dropdown('PLANT', $lv2_options, !empty($default->PLANT) ? $default->PLANT : '', 'class="span6" disabled'); ?>
                 </div>
             </div>
             <div class="control-group">
                 <label  class="control-label">Level 3<span class="required">*</span> : </label>
                 <div class="controls">
-                    <?php echo form_dropdown('STORE_SLOC', $lv3_options, !empty($default->STORE_SLOC) ? $default->STORE_SLOC : '', 'class="span6"'); ?>
+                    <?php echo form_dropdown('STORE_SLOC', $lv3_options, !empty($default->STORE_SLOC) ? $default->STORE_SLOC : '', 'class="span6" disabled'); ?>
                 </div>
             </div>
             <div class="control-group">
                 <label  class="control-label">Pembangkit<span class="required">*</span> : </label>
                 <div class="controls">
-                    <?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : '', 'class="span6" id="pembangkit"'); ?>
+                    <?php echo form_dropdown('SLOC', $lv4_options, !empty($default->SLOC) ? $default->SLOC : '', 'class="span6" id="pembangkit" disabled'); ?>
                     <input type="hidden" name="pembangkit_e" id="pembangkit_e" value="<?php echo !empty($default->SLOC) ? $default->SLOC : '' ?>">
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">Jenis BBM<span class="required">*</span> : </label>
                 <div class="controls">
-                    <?php echo form_dropdown('ID_JNS_BHN_BKR', $option_jenis_bbm, !empty($default->ID_JNS_BHN_BKR) ? $default->ID_JNS_BHN_BKR : '', 'class="span3" id="jnsbbm"'); ?>
+                    <?php echo form_dropdown('ID_JNS_BHN_BKR', $option_jenis_bbm, !empty($default->ID_JNS_BHN_BKR) ? $default->ID_JNS_BHN_BKR : '', 'class="span3" id="jnsbbm" disabled'); ?>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">Total Kapasitas Terpasang (L) : </label>
                 <div class="controls">
-                    <?php echo form_input('VOLUME_TANGKI', !empty($default->VOLUME_TANGKI) ? $default->VOLUME_TANGKI : '', 'class="span3 rp" placeholder="Total Kapasitas Terpasang (L)" id="VOLUME_TANGKI" readonly'); ?>
+                    <?php echo form_input('VOLUME_TANGKI', !empty($default->VOLUME_TANGKI) ? $default->VOLUME_TANGKI : '', 'class="span3 rp" placeholder="Total Kapasitas Terpasang (L)" id="VOLUME_TANGKI" disabled'); ?>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">Total Dead Stock (L) : </label>
                 <div class="controls">
-                    <?php echo form_input('DEADSTOCK_TANGKI', !empty($default->DEADSTOCK_TANGKI) ? $default->DEADSTOCK_TANGKI : '', 'class="span3 rp" placeholder="Total Dead Stock (L)" id="DEADSTOCK_TANGKI" readonly'); ?>
+                    <?php echo form_input('DEADSTOCK_TANGKI', !empty($default->DEADSTOCK_TANGKI) ? $default->DEADSTOCK_TANGKI : '', 'class="span3 rp" placeholder="Total Dead Stock (L)" id="DEADSTOCK_TANGKI" disabled'); ?>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">Total Kapasitas Mampu (L) : </label>
                 <div class="controls">
-                    <?php echo form_input('STOCKEFEKTIF_TANGKI', !empty($default->STOCKEFEKTIF_TANGKI) ? $default->STOCKEFEKTIF_TANGKI : '', 'class="span3 rp" placeholder="Total Kapasitas Mampu (L)" id="STOCKEFEKTIF_TANGKI" readonly'); ?>
+                    <?php echo form_input('STOCKEFEKTIF_TANGKI', !empty($default->STOCKEFEKTIF_TANGKI) ? $default->STOCKEFEKTIF_TANGKI : '', 'class="span3 rp" placeholder="Total Kapasitas Mampu (L)" id="STOCKEFEKTIF_TANGKI" disabled'); ?>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">Jumlah Tangki<span class="required">*</span> : </label>
                 <div class="controls">
-                    <?php echo form_input('JML_TANGKI', !empty($default->JML_TANGKI) ? $default->JML_TANGKI : '', 'class="span2 rp_num" placeholder="Max 30" id="JML_TANGKI" '); ?>
-                     <?php echo anchor(null, 'Generate', array('id' => 'button-jml-tangki', 'class' => 'green btn')); ?>
+                    <?php echo form_input('JML_TANGKI', !empty($default->JML_TANGKI) ? $default->JML_TANGKI : '', 'class="span2 rp_num" placeholder="Max 30" id="JML_TANGKI" disabled'); ?>
                 </div>
             </div>
             <br>           
@@ -93,10 +92,6 @@
             </div>
 
             <div class="form-actions">
-                <?php 
-                if ($this->laccess->otoritas('edit')) {
-                    echo anchor(null, '<i class="icon-save"></i> Simpan', array('id' => 'button-save', 'class' => 'blue btn', 'onclick' => "simpan_data(this.id, '#finput', '#button-back')"));
-                }?>
                 <?php echo anchor(null, '<i class="icon-circle-arrow-left"></i> Tutup', array('id' => 'button-back', 'class' => 'btn', 'onclick' => 'close_form(this.id)')); ?>
             </div>
             <?php
@@ -118,21 +113,21 @@
             var newTextBoxDiv = $(document.createElement('div'))
                  .attr("id", 'TextBoxDiv' + counter);
 
-            var text_nama_tangki="<input type='text' id='NAMA_TANGKI"+ counter + "' name='NAMA_TANGKI"+ counter + "' placeholder='Nama Tangki' size='37' value='TANGKI "+ counter + "' >";
+            var text_nama_tangki="<input type='text' id='NAMA_TANGKI"+ counter + "' name='NAMA_TANGKI"+ counter + "' placeholder='Nama Tangki' size='37' value='TANGKI "+ counter + "' disabled>";
 
-            var text_k_terpasang="<input type='text' id='VOLUME_TANGKI"+ counter + "' name='VOLUME_TANGKI"+ counter + "' placeholder='Terpasang (L)' size='37' class='rp cls_sum' onChange='setHitungKirim()'>";
+            var text_k_terpasang="<input type='text' id='VOLUME_TANGKI"+ counter + "' name='VOLUME_TANGKI"+ counter + "' placeholder='Terpasang (L)' size='37' class='rp cls_sum' onChange='setHitungKirim()' disabled>";
 
-            var text_dead_stock="<input type='text' id='DEADSTOCK_TANGKI"+ counter + "' name='DEADSTOCK_TANGKI"+ counter + "' placeholder='Dead Stock (L)' size='37' class='rp cls_sum' onChange='setHitungKirim()'>";
+            var text_dead_stock="<input type='text' id='DEADSTOCK_TANGKI"+ counter + "' name='DEADSTOCK_TANGKI"+ counter + "' placeholder='Dead Stock (L)' size='37' class='rp cls_sum' onChange='setHitungKirim()' disabled>";
 
-            var text_k_mampu="<input type='text' id='STOCKEFEKTIF_TANGKI"+ counter + "' name='STOCKEFEKTIF_TANGKI"+ counter + "' placeholder='Kapasitas Mampu (L)' size='37' class='rp cls_sum' onChange='setHitungKirim()'>";
+            var text_k_mampu="<input type='text' id='STOCKEFEKTIF_TANGKI"+ counter + "' name='STOCKEFEKTIF_TANGKI"+ counter + "' placeholder='Kapasitas Mampu (L)' size='37' class='rp cls_sum' onChange='setHitungKirim()' disabled>";
 
-            var text_ditera_oleh="<input type='text' id='DITERA_OLEH"+ counter + "' name='DITERA_OLEH"+ counter + "' placeholder='Ditera Oleh' size='37'>";
+            var text_ditera_oleh="<input type='text' id='DITERA_OLEH"+ counter + "' name='DITERA_OLEH"+ counter + "' placeholder='Ditera Oleh' size='37' disabled>";
 
-            var text_tgl_awal="<input type='text' id='TGL_AWAL_TERA"+ counter + "' name='TGL_AWAL_TERA"+ counter + "' placeholder='Tgl Awal Tera' size='37' class='datepicker'>";
+            var text_tgl_awal="<input type='text' id='TGL_AWAL_TERA"+ counter + "' name='TGL_AWAL_TERA"+ counter + "' placeholder='Tgl Awal Tera' size='37' class='datepicker' disabled>";
 
-            var text_tgl_akhir="<input type='text' id='TGL_AKHIR_TERA"+ counter + "' name='TGL_AKHIR_TERA"+ counter + "' placeholder='Tgl Akhir Tera' size='37' class='datepicker'>";
+            var text_tgl_akhir="<input type='text' id='TGL_AKHIR_TERA"+ counter + "' name='TGL_AKHIR_TERA"+ counter + "' placeholder='Tgl Akhir Tera' size='37' class='datepicker' disabled>";
 
-            var text_status="<input type='checkbox' id='AKTIF"+ counter + "' name='AKTIF"+ counter + "' placeholder='Status Tangki' value='1' class='STATUS' checked>  Aktif";
+            var text_status="<input type='checkbox' id='AKTIF"+ counter + "' name='AKTIF"+ counter + "' placeholder='Status Tangki' value='1' class='STATUS' checked disabled>  Aktif";
 
             var path = "<?php echo !empty($default->PATH_FILE_NOMINASI) ? $default->PATH_FILE_NOMINASI : ''?>";
 
@@ -143,7 +138,7 @@
 
             var path_edit = '<input type="hidden" name="PATH_FILE_EDIT'+ counter + '" id="PATH_FILE_EDIT'+ counter +'" >';
 
-            var text_upload_doc="<input type='file' id='PATH_DET_TERA"+ counter + "' name='PATH_DET_TERA"+ counter + "' > "+path_edit;
+            var text_upload_doc="<input type='file' id='PATH_DET_TERA"+ counter + "' name='PATH_DET_TERA"+ counter + "' disabled> "+path_edit;
            
             var visi = '<div class="form_row">'+
             '<div class="pull-left"><label for="password" class="control-label">Nama Tangki ke : '+ counter + '</label>'+
@@ -178,6 +173,8 @@
             '<div class="pull-left span5"><label for="password" class="control-label"></label>'+
             '<div class="controls">'+link_doc+'</div></div>'+
             '</div><hr>';
+
+
 
             // '<div class="form_row">'+
             // '<div class="pull-left"><label for="password" class="control-label">Status Tangki ke : '+ counter + '</label>'+
